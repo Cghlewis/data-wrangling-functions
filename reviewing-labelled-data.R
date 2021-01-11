@@ -19,7 +19,7 @@ d <- d %>%
   
   ## Review all labelled information in a data dictionary format
 
-dictionary <- labelled::look_for(d, details = TRUE)
+dictionary <- look_for(d, details = TRUE)
 
 
 # labelled::var_label -----------------------------------------------------
@@ -28,7 +28,7 @@ dictionary <- labelled::look_for(d, details = TRUE)
 
 d %>% var_label()
 
-d %>% var_label()
+var_label(d)
 
 var_label(d$Var3)
 
@@ -39,9 +39,15 @@ var_label(d$Var3)
 
 d %>% val_labels()
 
-val_labels()
+val_labels(d)
 
 val_labels(d$Var3)
+
+# labelled::na_values ----------------------------------------------------
+
+  ## Check for just na values
+
+d %>% na_values()
 
 
 

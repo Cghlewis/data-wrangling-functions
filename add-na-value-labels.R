@@ -10,6 +10,12 @@ d <- tibble::tribble(
 )
 
 
+### Note: When using the `labelled` package, when missing value labels are added, the variable's class
+### becomes *haven_labelled_spss*
+
+### Note: These values will not be treated as NA in R
+
+
 # labelled::set_na_values -------------------------------------------------
 
 d <- d %>% set_na_values(Var3=-999)
@@ -26,3 +32,5 @@ na_values(d$Var2 ) <- 0
   ## View labels
 
 val_labels(d$Var2)
+
+na_values(d$Var2)

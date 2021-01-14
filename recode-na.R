@@ -11,14 +11,14 @@ d <- tibble::tribble(
 
 # tidyr::replace_na -------------------------------------------------------
 
-## For one variable
+  ## For one variable
 
-d <- d %>% mutate(Var3 = replace_na(Var3, 0))
+d <- d %>% dplyr::mutate(Var3 = tidyr::replace_na(Var3, 0))
 
-## For more than one variables
+  ## For more than one variables
 
-d <- d %>% mutate_at(vars(Var2:Var3), replace_na , 0)
+d <- d %>% dplyr::mutate_at(vars(Var2:Var3), tidyr::replace_na , 0)
 
-## For all numeric variables
+  ## For all numeric variables
 
-d <- d %>% mutate_if(is.numeric , replace_na, replace = -999)
+d <- d %>% dplyr::mutate_if(is.numeric , tidyr::replace_na, replace = -999)

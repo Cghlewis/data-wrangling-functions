@@ -48,14 +48,13 @@ d %>% labelled::val_labels()
 
 # labelled::add_value_labels ----------------------------------------------
 
-  ## Add or update just one value in a variable
+  ## Update or add one or more values without replacing/removing the other value labels
 
   ## Original labels
 
 d <- d %>% labelled::set_value_labels(
   Var3=c("none"=1, "reduced-price"=2, "free"=3))
 
-  ## Update one value without replacing/removing the other value labels
 
 d <- d %>% labelled::add_value_labels(Var3=c(paid=1))
 

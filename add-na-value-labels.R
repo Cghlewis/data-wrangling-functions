@@ -1,12 +1,14 @@
 
 # library(tidyverse)
 
+
 d <- tibble::tribble(
   ~Var1, ~Var2, ~Var3,
-  1, 0, 1,
-  -999, 1, 1,
-  3, 0, -999,
+  "a", 1, 2,
+  "b", -999, 0,
+  "c", 3, -999,
 )
+
 
 ### Note: These values will not be treated as NA in R
 
@@ -27,19 +29,14 @@ d <- d %>% labelled::set_na_values(Var3=c(-999,0))
 labelled::na_values(d$Var3)
 
 
-# labelled::na_values -----------------------------------------------------
+# labelled::labelled_spss -------------------------------------------------
 
-labelled::na_values(d$Var2 ) <- 0
+  ## labelled na values for multiple variables that have the same na values
 
-  ## View labels
+d <- d %>% 
+  mutate_at(vars(Var2:Var3), 
+            ~labelled::labelled_spss(., na_values=-999))
 
-labelled::na_values(d$Var2)
 
-#### How does this work??
-
-d3 <- d %>% mutate_at(vars(Var1:Var3), ~(`na_values<-`(., -999)))
-
-d3 <- d %>% mutate_at(vars(Var1:Var3), ~labelled::set_na_values(-999))
-
-labelled::na_values(d3)
+labelled::na_values(d)
 

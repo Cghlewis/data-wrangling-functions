@@ -13,7 +13,18 @@ d <- tibble::tribble(
 
   ## For one variable
 
+  ## Values before recode
+
+d %>% janitor::tabyl(Var3, show_na=TRUE)
+
+  ## Recode na
+
 d <- d %>% dplyr::mutate(Var3 = tidyr::replace_na(Var3, 0))
+
+  ## Values after recode
+
+d %>% janitor::tabyl(Var3, show_na=TRUE)
+
 
   ## For more than one variables
 

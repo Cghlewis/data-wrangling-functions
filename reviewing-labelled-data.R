@@ -1,17 +1,22 @@
 
 # library(tidyverse)
 
+
 d <- tibble::tribble(
   ~Var1, ~Var2, ~Var3,
-  "a", 1, 0,
-  "b", NA, 1,
-  "c", 3, 1,
+  "a", 0, 3,
+  "b", -999, 1,
+  "c", 2, -999,
 )
+
+  ## Create a labelled dataset
 
 d <- d %>%
   labelled::set_variable_labels (Var1 = "Name", Var2="Interest in Homework", Var3 ="Lunch Status") %>%
-  labelled::set_value_labels(Var3=c("none"=1, "reduced-price"=2, "free"=3)) %>%
-  labelled::set_na_values(Var2=-999)
+  labelled::set_value_labels(Var2= c("not interested"=1, "mildly interested"=2, "very interested"=3),
+                             Var3=c("none"=1, "reduced-price"=2, "free"=3)) %>%
+  labelled::set_na_values(Var2=-999, Var3=-999)
+
 
 
 # labelled::look_for ------------------------------------------------------
@@ -27,10 +32,6 @@ dictionary <- labelled::look_for(d, details = TRUE)
 
 d %>% labelled::var_label()
 
-labelled::var_label(d)
-
-labelled::var_label(d$Var3)
-
 
 # labelled::val_labels ----------------------------------------------------
 
@@ -38,9 +39,6 @@ labelled::var_label(d$Var3)
 
 d %>% labelled::val_labels()
 
-labelled::val_labels(d)
-
-labelled::val_labels(d$Var3)
 
 # labelled::na_values ----------------------------------------------------
 

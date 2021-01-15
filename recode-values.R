@@ -31,6 +31,12 @@ d %>% dplyr::select(Var2:Var3) %>% psych::describe(skew=FALSE)
 
   ## Recode single variable (reverse code)
 
+  ## Check values before recode
+
+d %>% janitor::tabyl(Var2)
+
+  ## Recode
+
 d <- d %>% dplyr::mutate(Var2 = dplyr::case_when(
   Var2 == 1 ~ 5,
   Var2 == 2 ~ 4,
@@ -38,6 +44,10 @@ d <- d %>% dplyr::mutate(Var2 = dplyr::case_when(
   Var2 == 4 ~ 2,
   Var2 == 5 ~ 1,
   TRUE ~ NA_real_))
+
+  ## Check values after recode
+
+d %>% janitor::tabyl(Var2)
 
   ## Turn into a function to use for multiple variables (Data Science in Education Using R example)
 

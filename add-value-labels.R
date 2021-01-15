@@ -48,7 +48,7 @@ d %>% labelled::val_labels()
 
 # labelled::add_value_labels ----------------------------------------------
 
-  ## Update or add one or more values without replacing/removing the other value labels
+  ## Update or add one or more value labels without replacing/removing the other value labels
 
   ## Original labels
 

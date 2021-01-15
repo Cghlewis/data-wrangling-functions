@@ -23,3 +23,16 @@ d <- haven::read_sav("file.sav", user_na=TRUE)
   ## To write SPSS files
 
 haven::write_sav(d, "name-of-export.sav")
+
+
+
+# rio::characterize -------------------------------------------------------
+
+  ## Export the value labels rather than the values
+  ## If you export to SPSS, SAS, or Stata you will lose the variable labels for the characterized variables
+
+haven::write_sav(rio::characterize(d), "name-of-export.sav")
+
+readr::write_csv(rio::characterize(d), "name-of-export.csv")
+
+

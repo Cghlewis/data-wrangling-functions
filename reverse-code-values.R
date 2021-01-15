@@ -18,16 +18,18 @@ d <- tibble::tribble(
 
 d %>% dplyr::select(Var2:Var3) %>% psych::describe(skew=FALSE)
 
-  ## Recode
+  ## Recode (old name/value=new name/value), this is opposite of dplyr::rename
+  ## Note: In order to use a number as a name, you have to surround it with backticks (``)
 
 d <- d %>% dplyr::mutate_at(vars(Var2:Var3), ~dplyr::recode(.,`1`=5, `2`=4, `3`=3, `4`=2, `5`=1))
 
   ## Check values after recode
+  ## Unmatched values will be replaced with NA
 
 d %>% dplyr::select(Var2:Var3) %>% psych::describe(skew=FALSE)
 
 
-# dplyr:: case_when -------------------------------------------------------
+# dplyr::case_when --------------------------------------------------------
 
   ## Recode single variable (reverse code)
 
@@ -72,4 +74,23 @@ d <- d %>%
   ## Or use function this way
 
 d <- d %>% dplyr::mutate_at(vars(Var2:Var3), reverse_scale)
+
+
+# dplyr::if_else ---------------------------------------------------------
+
+  ## Check values before recode
+
+d %>% janitor::tabyl(Var2)
+
+## Recode
+
+d <- d %>% mutate(Var2R = dplyr::if_else(Var2 == 1, 5,
+                  if_else(Var2==2, 4,
+                          if_else(Var2==4, 2,
+                                  if_else(Var2==5, 1, Var2)))))
+
+  ## Check values after recode (crosstab)
+
+d %>% janitor::tabyl(Var2, Var2R)
+
 

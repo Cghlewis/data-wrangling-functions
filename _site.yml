@@ -7,7 +7,7 @@ navbar:
   - text: "Add NA value labels"
     href: labelling-data/add-na-value-labels.html
   - text: "Add value labels"
-    href: labelling-data/add-na-value-labels.html
+    href: labelling-data/add-value-labels.html
   - text: "Add variable labels"
     href: labelling-data/add-variable-labels.html
   - text: "Review labelled data"

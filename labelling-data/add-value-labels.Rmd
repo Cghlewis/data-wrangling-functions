@@ -1,0 +1,137 @@
+---
+title: "Add value labels"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: labelled
+
+---
+
+#### Function: `labelled::set_value_labels()`
+
+---
+
+**1\. Add value labels for one or more variables**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+Add value labels
+
+```{r}
+
+d3 <- d3 %>% labelled::set_value_labels(
+  Var2= c("not interested"=1, "mildly interested"=2,"very interested"=3),
+                                      Var3=c("none"=1, "reduced-price"=2, "free"=3))
+
+labelled::val_labels(d3)
+
+```
+
+**2\. Create label, then add label to vars**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+Add value labels
+
+```{r}
+
+lab <- c("disagree"=1, "neutral"=2, "agree"=3)
+
+d3 <- d3 %>% labelled::set_value_labels(Var2=lab, Var3=lab)
+
+d3 %>% labelled::val_labels()
+
+```
+
+---
+
+#### Function: `labelled::add_value_labels()`
+
+---
+
+**1\. Update or add one or more value labels without replacing/removing the other value labels**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+View current labels for Var3
+
+```{r, echo=FALSE}
+
+d3 <- d3 %>% labelled::set_value_labels(
+  Var3=c("none"=1, "reduced-price"=2, "free"=3))
+
+d3 %>% labelled::val_labels()
+
+```
+
+Update the label for *1* in Var3
+
+```{r}
+
+d3 <- d3 %>% labelled::add_value_labels(Var3=c(paid=1))
+
+d3 %>% labelled::val_labels()
+
+```
+
+---
+
+#### Function: `labelled::labelled()`
+
+---
+
+**1\. Add the same value labels to multiple variables**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+Add value labels
+
+```{r}
+
+d3 <- d3 %>% 
+  dplyr::mutate_at(vars(starts_with('Var')), 
+            ~labelled::labelled(., labels = c("disagree"=1, "neutral"=2, "agree"=3)))
+
+d3 %>% labelled::val_labels()
+
+```
+
+

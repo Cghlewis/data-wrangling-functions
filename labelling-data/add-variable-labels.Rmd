@@ -1,0 +1,300 @@
+---
+title: "Add variable labels"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+
+### Package: labelled
+
+---
+
+#### Function: `labelled::set_variable_labels()`
+
+---
+
+**1\. Set labels for one or more variables**
+
+Review the data (d4)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d4
+
+```
+
+Add variable labels
+
+```{r}
+
+d4 <- d4 %>%
+  labelled::set_variable_labels (Var1 = "Name", Var2="Interest in Homework", 
+                                 Var3 ="Interest in School")
+
+labelled::var_label(d4)
+
+```
+
+**2\. Derive variable labels from variable names (simple example)**
+
+Review the data (d7)
+
+```{r}
+
+d7
+
+```
+
+Set variable labels
+
+```{r}
+
+d7 <- d7 %>% 
+  labelled::set_variable_labels(.labels=names(d7))
+
+d7 %>% labelled::var_label()
+
+```
+
+**3\. Derive variable labels from variable names (add sentence case)**
+
+Review the data (d7)
+
+```{r}
+
+d7
+
+```
+
+Set variable labels
+
+```{r}
+
+d7 <- d7 %>% 
+  labelled::set_variable_labels(.labels=snakecase::to_sentence_case(names(d7)))
+
+
+d7 %>% labelled::var_label()
+
+
+```
+
+**4\. Derive variable labels from variable names (add additional info to labels)**
+
+Review the data (d7)
+
+```{r}
+
+d7
+
+```
+
+Set variable labels
+
+```{r}
+
+d7 <- d7 %>% 
+  labelled::set_variable_labels(
+    .labels = stringr::str_replace_all(names(.),c("_"=" ", 
+                                         "map"="map score",
+                                         "math"="in mathematics",
+                                         "ela"= "in english language arts",
+                                         "20"="19-20 school year")))
+
+d7 %>% labelled::var_label()
+
+```
+
+**5\. Derive variable labels from variable names (add additional info to labels and use sentence case)**
+
+Review the data (d7)
+
+```{r}
+
+d7
+
+```
+
+Set variable labels
+
+```{r}
+
+d7 <- d7 %>% 
+  labelled::set_variable_labels(
+    .labels = snakecase::to_sentence_case(stringr::str_replace_all(names(.),c("_"=" ", 
+                                         "map"="map score",
+                                         "math"="in mathematics",
+                                         "ela"= "in english language arts",
+                                         "20"="19-20 school year"))))
+
+d7 %>% labelled::var_label()
+
+
+```
+
+
+---
+
+#### Function: `labelled::copy_labels_from()`
+
+---
+
+**1\. Copy labels from another dataset that has all the same variables**
+
+Review the new data (d5)
+
+```{r}
+
+d5
+
+```
+
+Review the labelled dataset with the same variables (d4)
+
+```{r}
+
+d4
+
+```
+
+
+View the missing labels for the new data (d5)
+
+```{r}
+
+labelled::var_label(d5)
+
+```
+
+View the labels for the labelled data (d4)
+
+```{r}
+
+labelled::var_label(d4)
+
+```
+
+
+Copy labels from d4 to d5
+
+```{r}
+
+d5 <- d5 %>% labelled::copy_labels_from(d4)
+
+d5 %>% labelled::var_label()
+
+```
+
+
+**2\. Copy labels from another dataset that only has some of the same variables**
+
+This function also works if not all of the same variables exist in both datasets
+
+Review the new dataset d6 that has some of the same variables as d4 but with no labels
+
+```{r}
+
+d6
+
+```
+
+Review the labelled dataset with some of the same variables (d4)
+
+```{r}
+
+d4
+
+```
+
+
+View the missing labels for d6
+
+```{r}
+
+labelled::var_label(d6)
+
+```
+
+
+View the labels for the labelled data (d4)
+
+```{r}
+
+labelled::var_label(d4)
+
+```
+
+
+Copy labels from d4 to d6
+
+```{r}
+
+d6 <- d6 %>% labelled::copy_labels_from(d4)
+
+d6 %>% labelled::var_label()
+
+```
+
+
+---
+
+#### Function: `labelled::copy_labels()`
+
+---
+
+**1\. Similar to `copy_labels_from`, this function copies labels from one dataset to another**
+
+**Note:** With this function, remember that the dataset you are copying **from** goes first.
+
+Review the new data (d5)
+
+```{r}
+
+d5
+
+```
+
+Review the labelled dataset with the same variables (d4)
+
+```{r}
+
+d4
+
+```
+
+
+View the missing labels for the new data (d5)
+
+```{r}
+
+labelled::var_label(d5)
+
+```
+
+View the labels for the labelled data (d4)
+
+```{r}
+
+labelled::var_label(d4)
+
+```
+
+Copy labels from d4 to d5
+
+```{r}
+
+d5 <- labelled::copy_labels(d4, d5)
+
+d5 %>% labelled::var_label()
+
+```

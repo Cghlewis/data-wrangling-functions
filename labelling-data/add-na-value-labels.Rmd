@@ -1,0 +1,96 @@
+---
+title: "Add NA value labels"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+
+### Package: labelled
+
+**Note**: Using the `labelled` package, adding NA label values will not allow these values to be treated as NA in R. However, they will be labelled as NA when you export to a file type such as .sav and will be treated as NA in those files.
+
+---
+
+#### Function: `labelled::set_na_values()`
+
+---
+
+**1\.Add a label for one variable, one NA value**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Add NA label
+
+```{r}
+
+d1 <- d1 %>% labelled::set_na_values(Var3=-999)
+
+labelled::na_values(d1$Var3)
+
+```
+
+
+**2\. Add a label for one variable, multiple NA values**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Add NA labels
+
+```{r}
+
+d1 <- d1 %>% labelled::set_na_values(Var3=c(-999,0))
+
+labelled::na_values(d1$Var3)
+
+```
+
+
+---
+
+#### Function: `labelled::labelled_spss()`
+
+---
+
+**1\. Label NA values for multiple variables that have the same NA values**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Add NA labels
+
+```{r}
+
+d1 <- d1 %>% 
+  dplyr::mutate_at(vars(Var2:Var3), 
+            ~labelled::labelled_spss(., na_values=-999))
+
+labelled::na_values(d1)
+
+```

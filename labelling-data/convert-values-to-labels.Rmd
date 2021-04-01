@@ -1,0 +1,201 @@
+---
+title: "Converting values to labels"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+
+### Package: labelled
+
+---
+
+#### Function: `labelled::to_factor()`
+
+---
+
+**1\. Convert a labelled numeric variable to a factor variable (exchange the numeric values for the labels)**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+
+Add labels
+
+```{r}
+
+d3 <- d3 %>% labelled::set_value_labels(
+  Var2= c("not interested"=1, "mildly interested"=2,"very interested"=3),
+  Var3=c("none"=1, "reduced-price"=2, "free"=3))
+
+```
+
+Convert to factor
+
+```{r}
+
+d3 %>% labelled::to_factor()
+
+
+```
+
+**2\. If one of your values is not labelled, turn that value to NA**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+
+Add value labels to only some values in Var3
+
+```{r}
+
+d3 <- d3 %>% labelled::set_value_labels(
+  Var2= c("not interested"=1, "mildly interested"=2,"very interested"=3),
+  Var3=c("none"=1, "free"=3))
+
+```
+
+Convert to factor
+
+```{r}
+
+d3 %>% labelled::to_factor(nolabel_to_na=TRUE)
+
+```
+
+
+### Package: rio
+
+---
+
+#### Function: `rio::factorize()`
+
+---
+
+**1\. Convert a labelled numeric variable to a factor variable (exchange the numeric values for the labels)**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+
+Add labels
+
+```{r}
+
+d3 <- d3 %>% labelled::set_value_labels(
+  Var2= c("not interested"=1, "mildly interested"=2,"very interested"=3),
+  Var3=c("none"=1, "reduced-price"=2, "free"=3))
+
+```
+
+Convert to factor
+
+```{r}
+
+d3 %>% rio::factorize()
+
+
+```
+
+---
+
+#### Function: `rio::characterize()`
+
+---
+
+**1\. Convert a labelled numeric variable to a character variable (exchange the numeric values for the labels)**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+
+Add labels
+
+```{r}
+
+d3 <- d3 %>% labelled::set_value_labels(
+  Var2= c("not interested"=1, "mildly interested"=2,"very interested"=3),
+  Var3=c("none"=1, "reduced-price"=2, "free"=3))
+
+```
+
+Convert to character
+
+```{r}
+
+d3 %>% rio::characterize()
+
+```
+
+
+
+### Package: haven
+
+---
+
+#### Function: `haven::as_factor()`
+
+---
+
+**1\. Convert a labelled numeric variable to a factor variable (exchange the numeric values for the labels)**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+
+Add labels
+
+```{r}
+
+d3 <- d3 %>% labelled::set_value_labels(
+  Var2= c("not interested"=1, "mildly interested"=2,"very interested"=3),
+  Var3=c("none"=1, "reduced-price"=2, "free"=3))
+
+```
+
+Convert to factor
+
+```{r}
+
+d3 %>% haven::as_factor()
+
+
+```

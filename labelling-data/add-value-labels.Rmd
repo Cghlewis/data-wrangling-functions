@@ -1,8 +1,6 @@
 ---
 title: "Add value labels"
-output: 
-  html_document:
-    anchor_sections: FALSE
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}

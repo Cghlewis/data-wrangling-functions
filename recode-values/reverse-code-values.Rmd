@@ -1,0 +1,242 @@
+---
+title: "Reverse code values"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `dplyr::recode()`
+
+---
+
+**1\. Reverse code multiple variables in the same way**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+Check the values of Var2 and Var3
+
+```{r}
+
+lapply(d2, table, useNA="always")
+
+```
+
+Reverse code Var2 and Var3 and rename them with *_r* at the end
+
+**Note:**  The dplyr::recode formula is: old value=new value, this is opposite of dplyr::rename
+
+**Note:**  The dplyr::recode function considers the old value as a *name* and therefore, in order to use a number as a name, you have to surround it with backticks (``)
+
+
+```{r}
+
+d2_new <- d2 %>% 
+  dplyr::mutate(across(c(Var2:Var3), ~dplyr::recode(.,`1`=5, `2`=4, `3`=3, `4`=2, `5`=1))) %>%
+  dplyr::rename_at(vars(Var2:Var3), ~paste0(., "_r"))
+
+```
+
+Check that your reverse code worked correctly
+
+```{r}
+
+table(d2$Var2, d2_new$Var2_r)
+
+table(d2$Var3, d2_new$Var3_r)
+
+```
+
+---
+
+#### Function: `dplyr::case_when()`
+
+---
+
+**1\. Reverse code a single variable**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+Check the values of Var2
+
+```{r}
+
+d2 %>% janitor::tabyl(Var2)
+
+```
+
+Reverse code Var2 rename it with *_r* at the end
+
+```{r}
+
+d2 <- d2 %>% dplyr::mutate(Var2_r = dplyr::case_when(
+  Var2 == 1 ~ 5,
+  Var2 == 2 ~ 4,
+  Var2 == 3 ~ 3, 
+  Var2 == 4 ~ 2,
+  Var2 == 5 ~ 1,
+  TRUE ~ NA_real_))
+
+```
+
+Check that your reverse code worked correctly
+
+```{r}
+
+d2 %>% janitor::tabyl(Var2, Var2_r)
+
+```
+
+
+**2\. Turn your reverse scale into a function to use for multiple variables (Data Science in Education Using R example)**
+
+Create your function
+
+```{r}
+
+reverse_scale <- function(Var) {
+  x <- dplyr::case_when(
+    Var == 1 ~ 5,
+    Var == 2 ~ 4,
+    Var == 3 ~ 3, 
+    Var == 4 ~ 2,
+    Var == 5 ~ 1,
+    TRUE ~ NA_real_
+  )
+  x
+}
+
+```
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+Check the values of Var2 and Var3
+
+```{r}
+
+d2 %>% janitor::tabyl(Var2)
+
+d2 %>% janitor::tabyl(Var3)
+
+```
+
+Reverse code Var2 and Var3 using your function and rename it with *_r* at the end
+
+```{r}
+
+d2 <- d2 %>%
+  dplyr::mutate(Var2_r = reverse_scale(Var2),
+         Var3_r = reverse_scale(Var3))
+
+```
+
+Check that the recode worked
+
+```{r}
+
+d2 %>% janitor::tabyl(Var2, Var2_r)
+
+d2 %>% janitor::tabyl(Var3, Var3_r)
+
+```
+
+You can also use your function this way
+
+```{r, echo=FALSE}
+source("data.R")
+d2
+
+```
+
+```{r}
+
+d2_new <- d2 %>% dplyr::mutate_at(vars(Var2:Var3), reverse_scale) %>%
+  dplyr::rename_at(vars(Var2:Var3), ~paste0(., "_r"))
+
+```
+
+Check that the recode worked
+
+```{r}
+
+table(d2$Var2, d2_new$Var2_r)
+
+table(d2$Var3, d2_new$Var3_r)
+
+```
+
+---
+
+#### Function: `dplyr::if_else()`
+
+---
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+
+Check the values of Var2
+
+```{r}
+
+d2 %>% janitor::tabyl(Var2)
+
+```
+
+Reverse code Var2 rename it with *_r* at the end
+
+```{r}
+
+d2 <- d2 %>% dplyr::mutate(Var2_r = dplyr::if_else(Var2 == 1, 5,
+                  if_else(Var2==2, 4,
+                          if_else(Var2==4, 2,
+                                  if_else(Var2==5, 1, Var2)))))
+
+```
+
+
+Check that your reverse code worked correctly
+
+```{r}
+
+d2 %>% janitor::tabyl(Var2, Var2_r)
+
+```

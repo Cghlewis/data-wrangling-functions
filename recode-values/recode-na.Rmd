@@ -1,0 +1,208 @@
+---
+title: "Recode NA"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: tidyr
+
+---
+
+#### Function: `tidyr::replace_na()`
+
+---
+
+**1\. Replace NA for one variable**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Check the values
+
+```{r}
+
+d1 %>% janitor::tabyl(Var3, show_na=TRUE)
+
+```
+
+Recode NA
+
+```{r}
+
+d1 <- d1 %>% dplyr::mutate(Var3 = tidyr::replace_na(Var3, 0))
+
+```
+
+Check that the recode worked
+
+```{r}
+
+d1 %>% janitor::tabyl(Var3, show_na=TRUE)
+
+```
+
+**2\. Replace NA for multiple variables with the same NA value**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Check the values
+
+```{r}
+
+lapply(d1, table, useNA="always")
+
+```
+
+Recode NA for Var2 and Var3
+
+```{r}
+
+d1 <- d1 %>% dplyr::mutate_at(vars(Var2:Var3), tidyr::replace_na , 0)
+
+```
+
+Check the values after the recode
+
+```{r}
+
+lapply(d1, table, useNA="always") 
+
+```
+
+**3\. Replace NA for multiple variables of the same class with the same NA value**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Check the values
+
+```{r}
+
+lapply(d1, table, useNA="always") 
+
+```
+
+Recode NA for Var2 and Var3
+
+```{r}
+
+d1 <- d1 %>% dplyr::mutate_if(is.numeric , tidyr::replace_na, replace = -999)
+
+```
+
+Check the values after the recode
+
+```{r}
+
+lapply(d1, table, useNA="always") 
+
+```
+
+
+### Package: dplyr
+
+---
+
+#### Function: `dplyr::na_if()`
+
+---
+
+**1\. Replace a value for the entire dataset with NA**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+Replace -999 for the entire dataset with NA
+
+```{r}
+
+d3 %>% dplyr::na_if(-999)
+
+```
+
+
+**2\. Replace a value for select variables with NA**
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+Replace -999 for for Var2 and Var3 with NA
+
+```{r}
+
+d3 %>% dplyr::mutate_at(vars(Var2:Var3), dplyr::na_if, -999) 
+
+```
+
+**3\. Replace a value for multiple variables of the same class with NA**
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+Replace -999 for numeric variables with NA
+
+```{r}
+
+d3 %>% dplyr::mutate(across(where(is.numeric), dplyr::na_if, -999))
+
+```
+
+You can also apply `dplyr::na_if` with `dplyr::mutate_if` or `dplyr::mutate_at`
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d3
+
+```
+
+```{r}
+
+d3 %>% mutate_if(is.numeric, na_if, -999)
+
+```
+
+

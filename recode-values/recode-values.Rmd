@@ -1,0 +1,112 @@
+---
+title: "Recode values"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `dplyr::recode()`
+
+---
+
+**1\. Recode a character variable into a character variable**
+
+**Note:** formula is old value = new value
+
+Review the data (d4)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d4
+
+```
+
+Recode gender
+
+```{r}
+
+d4 %>% dplyr::mutate(gender=dplyr::recode(gender, m="male", f="female", n="nonbinary"))
+
+```
+
+**2\. Recode a character variable into a factor**
+
+Review the data (d4)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d4
+
+```
+
+Recode lunch status
+
+```{r}
+
+d4 <- d4 %>% dplyr::mutate(lunch=dplyr::recode_factor(lunch, p="paid", r="reduced", f="free"))
+
+d4
+
+```
+
+Review the factor levels
+
+```{r}
+
+levels(d4$lunch)
+
+```
+
+**3\. Recode a character variable into a numeric variable**
+
+Review the data (d4)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d4
+
+```
+
+Recode gender
+
+```{r}
+
+d4 %>% dplyr::mutate(gender=dplyr::recode(gender, m=1, f=2, n=3))
+
+```
+
+
+**4\. Recode just one value in a variable**
+
+Review the data (d5)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d5
+
+```
+
+Recode `16` to `4` in Var2
+
+```{r}
+
+d5 %>% dplyr::mutate(Var2=dplyr::recode(Var2, `16`=4))
+
+```
+

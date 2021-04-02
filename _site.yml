@@ -1,4 +1,4 @@
-name: "mpsi-data-training"
+name: "wrangling-functions"
 output_dir: "."
 navbar:
   left:
@@ -16,6 +16,12 @@ navbar:
     href: labelling-data/convert-values-to-labels.html
   - text: "Import or export labelled data"
     href: labelling-data/import-export-labelled-data.html
+  - text: "Recode values"
+    href: recode-values/recode-values.html
+  - text: "Reverse code values"
+    href: recode-values/reverse-code-values.html
+  - text: "Recode NA"
+    href: recode-values/recode-na.html
 output:
   html_document:
     theme: readable

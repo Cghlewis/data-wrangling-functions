@@ -1,0 +1,32 @@
+---
+title: "Collapse categories"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `dplyr::if_else()`
+
+---
+
+
+```{r}
+
+df4 %>%  
+  mutate(schooldistrict_7=ifelse(
+  str_detect(schooldistrict_9_TEXT, c("ollis|catholic|tolton")), 1, schooldistrict_7))
+
+```
+

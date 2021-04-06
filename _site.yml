@@ -5,23 +5,25 @@ navbar:
   - text: "Data Wrangling Functions"
     href: index.html
   - text: "Add NA value labels"
-    href: labelling-data/add-na-value-labels.html
+    href: labelling-data\add-na-value-labels.html
   - text: "Add value labels"
-    href: labelling-data/add-value-labels.html
+    href: labelling-data\add-value-labels.html
   - text: "Add variable labels"
-    href: labelling-data/add-variable-labels.html
+    href: labelling-data\add-variable-labels.html
   - text: "Review labelled data"
-    href: labelling-data/reviewing-labelled-data.html
+    href: labelling-data\reviewing-labelled-data.html
   - text: "Convert values to labels"
-    href: labelling-data/convert-values-to-labels.html
+    href: labelling-data\convert-values-to-labels.html
   - text: "Import or export labelled data"
-    href: labelling-data/import-export-labelled-data.html
+    href: labelling-data\import-export-labelled-data.html
   - text: "Recode values"
-    href: recode-values/recode-values.html
+    href: recode-values\recode-values.html
   - text: "Reverse code values"
-    href: recode-values/reverse-code-values.html
+    href: recode-values\reverse-code-values.html
   - text: "Recode NA"
-    href: recode-values/recode-na.html
+    href: recode-values\recode-na.html
+  - text: "Collapse categories"
+    href: recode-values\collapse-categories.html
 output:
   html_document:
     theme: readable

@@ -21,12 +21,90 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
+**1\. Collapse all "Google Meet" into one category**
+
+Review the data (d6)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d6
+
+```
+
+Collapse all spellings of Google Meet into one uniform category
 
 ```{r}
 
-df4 %>%  
-  mutate(schooldistrict_7=ifelse(
-  str_detect(schooldistrict_9_TEXT, c("ollis|catholic|tolton")), 1, schooldistrict_7))
+d6 %>%  
+  dplyr::mutate(online_platform_new=dplyr::if_else(
+  stringr::str_detect(online_platform,c("google|meet")), "Google Meet", online_platform))
+
+```
+
+Can also do this using %in% instead of stringr::str_detect()
+
+```{r}
+
+d6 %>%  
+  dplyr::mutate(online_platform_new=dplyr::if_else(
+  online_platform %in% c("google","meet", "Google Meet"), "Google Meet", online_platform))
+
+```
+
+
+---
+
+#### Function: `dplyr::case_when()`
+
+---
+
+**1\. Collapse all "Google Meet" into one category**
+
+Review the data (d6)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d6
+
+```
+
+Collapse all spellings of Google Meet into one uniform category
+
+```{r}
+
+d6 %>%  
+  dplyr::mutate(online_platform_new = dplyr::case_when(
+  stringr::str_detect(online_platform,"google") ~ "Google Meet", 
+  stringr::str_detect(online_platform,"meet") ~ "Google Meet", 
+  TRUE ~ online_platform))
+
+```
+
+
+#### Function: `dplyr::recode()`
+
+---
+
+**1\. Collapse all "Google Meet" into one category**
+
+Review the data (d6)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d6
+
+```
+
+Collapse all spellings of Google Meet into one uniform category
+
+```{r}
+
+d6 %>%  
+  dplyr::mutate(online_platform_new=dplyr::recode(
+  online_platform, google = "Google Meet", meet = "Google Meet"))
 
 ```
 

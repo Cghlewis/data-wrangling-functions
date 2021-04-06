@@ -38,3 +38,13 @@ d5 <- tibble::tribble(
 )
 
 
+d6 <- tibble::tribble(
+  ~tch_id, ~online_platform,
+  105, "google",
+  106, "meet",
+  107, "Zoom",
+  108, "Zoom",
+  109, "Google Meet",
+  112, "Microsoft Teams")
+
+

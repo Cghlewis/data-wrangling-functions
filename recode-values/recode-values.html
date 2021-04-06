@@ -383,7 +383,7 @@ summary {
 <h4>Function: <code>dplyr::recode()</code></h4>
 <hr />
 <p><strong>1. Recode a character variable into a character variable</strong></p>
-<p><strong>Note:</strong> formula is old value = new value</p>
+<p><strong>Note:</strong> The dplyr::recode formula is: old value=new value, this is opposite of dplyr::rename</p>
 <p>Review the data (d4)</p>
 <pre><code># A tibble: 3 x 3
   id    gender lunch
@@ -437,6 +437,7 @@ d4</code></pre>
 2 b          2 r    
 3 c          3 p    </code></pre>
 <p><strong>4. Recode just one value in a variable</strong></p>
+<p><strong>Note:</strong> The dplyr::recode function considers the old value as a <em>name</em> and therefore, in order to use a number as a name, you have to surround it with backticks (``)</p>
 <p>Review the data (d5)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3

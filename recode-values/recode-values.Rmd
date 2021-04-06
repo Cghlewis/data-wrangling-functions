@@ -2,6 +2,7 @@
 title: "Recode values"
 output: 
   html_document:
+    toc: false
     anchor_sections: FALSE
 ---
 
@@ -23,7 +24,7 @@ knitr::opts_chunk$set(comment = NA,
 
 **1\. Recode a character variable into a character variable**
 
-**Note:** formula is old value = new value
+**Note:**  The dplyr::recode formula is: old value=new value, this is opposite of dplyr::rename
 
 Review the data (d4)
 
@@ -92,6 +93,8 @@ d4 %>% dplyr::mutate(gender=dplyr::recode(gender, m=1, f=2, n=3))
 
 
 **4\. Recode just one value in a variable**
+
+**Note:**  The dplyr::recode function considers the old value as a *name* and therefore, in order to use a number as a name, you have to surround it with backticks (``)
 
 Review the data (d5)
 

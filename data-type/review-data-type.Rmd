@@ -1,5 +1,5 @@
 ---
-title: "Reviewing data types"
+title: "Review data types"
 output: 
   html_document:
     anchor_sections: FALSE

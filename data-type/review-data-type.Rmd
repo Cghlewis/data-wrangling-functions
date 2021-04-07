@@ -1,0 +1,116 @@
+---
+title: "Reviewing data types"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: base
+
+---
+
+#### Function: `class()`
+
+---
+
+**1\. Review the class for each variable**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+View the class for each variable
+
+```{r}
+
+class(d1$Var1)
+class(d1$Var2)
+class(d1$Var3)
+class(d1$Var4)
+
+```
+
+You could also view class for each variable using a function like lapply (or sapply) as well
+
+```{r}
+
+lapply(d1, class)
+
+```
+
+---
+
+#### Function: `typeof()`
+
+---
+
+**1\. Review the data type for each variable**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+View the data type for each variable
+
+
+```{r}
+
+lapply(d1, typeof)
+
+```
+
+**Note**: You will notice that our date variable (Var4) returns a data type of double (or numeric). This is because internally, R stores dates as numeric values. The class of Var4 remains date though.
+
+You will also notice that the data type for our factor variable (Var1) is integer even though the values appear to be character. This is because internally, R stores factor values as integers in order to create ordered levels. To learn more about your factor levels, you can use another function called `attributes`.
+
+```{r}
+
+attributes(d1$Var1)
+
+```
+
+
+### Package: utils
+
+---
+
+#### Function: `str()`
+
+---
+
+**1\. Review the structure of the data frame/tibble**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+View the structure of the data frame/tibble as well as the class of each variable
+
+```{r}
+
+str(d1)
+
+```

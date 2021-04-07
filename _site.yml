@@ -24,6 +24,10 @@ navbar:
     href: recode-values\recode-na.html
   - text: "Collapse categories"
     href: recode-values\collapse-categories.html
+  - text: "Review Data Type"
+    href: data-type\review-data-type.html
+  - text: "Convert Variable Class"
+    href: data-type\convert-variable-class.html
 output:
   html_document:
     theme: readable

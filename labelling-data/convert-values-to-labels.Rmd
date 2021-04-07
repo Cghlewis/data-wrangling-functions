@@ -92,7 +92,7 @@ d3 %>% labelled::to_factor(nolabel_to_na=TRUE)
 
 ---
 
-**1\. Convert a labelled numeric variable to a factor variable (exchange the numeric values for the labels)**
+**1\. Convert labelled numeric variables (Var2 and Var3) to factor variables (exchange the numeric values for the labels)**
 
 Review the data (d3)
 
@@ -129,7 +129,7 @@ d3 %>% rio::factorize()
 
 ---
 
-**1\. Convert a labelled numeric variable to a character variable (exchange the numeric values for the labels)**
+**1\. Convert labelled numeric variables (Var2 and Var3) to character variables (exchange the numeric values for the labels)**
 
 Review the data (d3)
 
@@ -169,7 +169,7 @@ d3 %>% rio::characterize()
 
 ---
 
-**1\. Convert a labelled numeric variable to a factor variable (exchange the numeric values for the labels)**
+**1\. Convert labelled numeric variables (Var2 and Var3) to factor variables (exchange the numeric values for the labels)**
 
 Review the data (d3)
 

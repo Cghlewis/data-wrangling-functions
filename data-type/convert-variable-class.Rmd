@@ -1,0 +1,165 @@
+---
+title: "Convert variable class"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: base
+
+---
+
+#### Function: `as.factor()`
+
+---
+
+**1\. Convert a character variable to a factor (Var1).**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+View the class for Var1
+
+```{r}
+
+class(d2$Var1)
+
+```
+
+Convert Var1 to a factor.
+
+```{r}
+
+d2 <- d2 %>% mutate(Var1 = as.factor(Var1))
+
+class(d2$Var1)
+
+```
+
+---
+
+#### Function: `as.numeric()`
+
+---
+
+**1\. Convert a character variable to numeric (Var1).**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+View the class for Var3
+
+```{r}
+
+class(d2$Var3)
+
+```
+
+Convert Var3 to numeric.
+
+**Note**: In the case of Var3 you will get a warning message that says NAs were introduced in the transformation. In this case, I am okay with that because "X"s were used to denote NAs previously and I want those to be converted to NA.
+
+```{r, warning = FALSE}
+
+d2 <- d2 %>% mutate(Var3 = as.numeric(Var3))
+
+class(d2$Var3)
+
+```
+
+
+---
+
+#### Function: `as.character()`
+
+---
+
+**1\. Convert a factor to a character variable (Var1).**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+View the class for Var1
+
+```{r}
+
+class(d1$Var1)
+
+```
+
+Convert Var1 to a character.
+
+```{r}
+
+d1 <- d1 %>% mutate(Var1 = as.character(Var1))
+
+class(d1$Var1)
+
+```
+
+### Package: lubridate
+
+---
+
+#### Function: `lubridate::mdy()`
+
+---
+
+**Note**: mdy() is just the format for Var4, you can adjust the format for your character variable (ex: dmy, ymd, ymd_hms)
+
+**1\. Convert a character variable to a date (Var4).**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+View the class for Var4
+
+```{r}
+
+class(d2$Var4)
+
+```
+
+Convert Var4 to a date.
+
+```{r}
+
+d2 <- d2 %>% mutate(Var4 = lubridate::mdy(Var4))
+
+class(d2$Var4)
+
+d2
+
+```

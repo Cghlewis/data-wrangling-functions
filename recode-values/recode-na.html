@@ -412,7 +412,7 @@ summary {
 1 a         2   3.6
 2 b        NA   8.5
 3 c         3  NA  </code></pre>
-<p>Check the values</p>
+<p>Check the values (here I use lapply and table but could use many other functions)</p>
 <pre class="r"><code>lapply(d1, table, useNA=&quot;always&quot;)</code></pre>
 <pre><code>$Var1
 

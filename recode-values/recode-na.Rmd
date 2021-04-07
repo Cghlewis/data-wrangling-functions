@@ -67,7 +67,7 @@ d1
 
 ```
 
-Check the values
+Check the values (here I use lapply and table but could use many other functions)
 
 ```{r}
 

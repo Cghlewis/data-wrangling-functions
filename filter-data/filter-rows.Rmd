@@ -1,0 +1,389 @@
+---
+title: "Filter rows"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+
+### Package: dplyr
+
+---
+
+#### Function: `dplyr::filter()`
+
+---
+
+**1\.Filter out rows based on one criteria (character variable)**
+
+Review the data (d5)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d5
+
+```
+
+Count the number of cases in the current data
+
+```{r}
+
+count(d5)
+
+```
+
+
+Filter out any row that has "harris" for tch_name
+
+```{r}
+
+d5 <- d5 %>% filter(tch_name != "harris")
+
+d5
+
+```
+
+Count the number of cases after you filter
+
+```{r}
+
+count(d5)
+
+```
+
+**2\.Filter out rows based on one criteria (numeric variable)**
+
+Review the data (d5)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d5
+
+```
+
+Count the number of cases in the current data
+
+```{r}
+
+count(d5)
+
+```
+
+
+Filter out any row that has -999 for extra2
+
+**Note**: You'll notice that I made an explicit call to keep rows with na values for extra2 in addition to removing rows with the value of -999 for extra2. A drawback of the `filter` function is that if you filter on a certain variable (such as extra2) it will not only filter out the values you request but it will also drop any row that has NA for that variable. And we may not necessarily want that. In this case, I want to keep the last row of data that has NA for extra2.
+
+```{r}
+
+d5 <- d5 %>% filter(extra2 != -999 | is.na(extra2))
+
+d5
+
+```
+
+Count the number of cases after you filter
+
+```{r}
+
+count(d5)
+
+```
+
+
+**3\.Filter out rows based on multiple criteria**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d5
+
+```
+
+Count the number of cases in the current data
+
+```{r}
+
+count(d5)
+
+```
+
+
+Filter out any row that has -999 for extra2 or extra3 (again retaining any row that has NA values for those variables)
+
+
+```{r}
+
+d5 <- d5 %>% filter((is.na(extra2) | extra2!=-999) & ( is.na(extra3) | extra3 !=-999))
+
+d5
+
+```
+
+
+Count the number of cases after you filter
+
+```{r}
+
+count(d5)
+
+```
+
+
+---
+
+#### Function: `dplyr::filter_if()`
+
+---
+
+**1\.Filter out rows based on values from a certain type of variable**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d5
+
+```
+
+Count the number of cases in the current data
+
+```{r}
+
+count(d5)
+
+```
+
+Filter out any row that has NA for **ALL** numeric variables (notice the use of `any_vars()`)
+
+```{r}
+
+d5 <- d5 %>% dplyr::filter_if(is.numeric, any_vars(!is.na(.)))
+
+d5
+
+```
+
+Count the number of cases after you filter
+
+```{r}
+
+count(d5)
+
+```
+
+
+**2\.Filter out rows based on values from a certain type of variable**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d5
+
+```
+
+Count the number of cases in the current data
+
+```{r}
+
+count(d5)
+
+```
+
+Filter out any row that has -999 for **AT LEAST ONE** numeric variables (notice the use of `all_vars()`)
+
+```{r}
+
+d5 <- d5 %>% dplyr::filter_if(is.numeric, all_vars(. !=-999 | is.na(.)))
+
+d5
+
+```
+
+Count the number of cases after you filter
+
+```{r}
+
+count(d5)
+
+```
+
+
+---
+
+#### Function: `dplyr::filter_all()`
+
+---
+
+**1\.Filter out rows based on values from all variables**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+Count the number of cases in the current data
+
+```{r}
+
+count(d3)
+
+```
+
+Filter out any row that has NA for at least one variable (notice the use of `all_vars()`)
+
+```{r}
+
+d3 %>% dplyr::filter_all(all_vars(. !=-999 | is.na(.)))
+
+d2
+
+```
+
+Count the number of cases after you filter
+
+```{r}
+
+count(d2)
+
+```
+
+**2\.Filter out rows based on values from all variables**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+Count the number of cases in the current data
+
+```{r}
+
+count(d3)
+
+```
+
+Filter out any row that has NA for all variables (notice the use of `any_vars()`)
+
+```{r}
+
+d3 %>% dplyr::filter_all(any_vars(. !=-999 | is.na(.)))
+
+d3
+
+```
+
+Count the number of cases after you filter
+
+**Note**: You will notice that we lost no cases, because there is no case that has -999 for every variable.
+
+```{r}
+
+count(d3)
+
+```
+
+---
+
+#### Function: `dplyr::filter_at()`
+
+---
+
+**1\.Filter out rows based on values from select variables**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+Count the number of cases in the current data
+
+```{r}
+
+count(d3)
+
+```
+
+Filter out any row that has NA for **either** extra2 and extra3 (notice the use of `all_vars()`)
+
+```{r}
+
+d3 %>% dplyr::filter_at(vars(extra2, extra3), all_vars(. !=-999 | is.na(.)))
+
+
+```
+
+Count the number of cases after you filter
+
+
+```{r}
+
+count(d3)
+
+```
+
+
+**2\.Filter out rows based on values from select variables**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+Count the number of cases in the current data
+
+```{r}
+
+count(d3)
+
+```
+
+Filter out any row that has NA for **both** extra2 and extra3 (notice the use of `any_vars()`)
+
+```{r}
+
+d3 %>% dplyr::filter_at(vars(extra2, extra3), any_vars(. !=-999 | is.na(.)))
+
+
+```
+
+Count the number of cases after you filter
+
+**Note**: You will notice that we lost no cases, because there is no case that has -999 for both extra2 and extra3.
+
+```{r}
+
+count(d3)
+
+```
+
+

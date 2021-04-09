@@ -1,0 +1,110 @@
+---
+title: "Filter empty columns"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+
+### Package: expss
+
+---
+
+#### Function: `expss::drop_empty_columns()`
+
+---
+
+**1\.Filter out empty columns**
+
+Review the data (d4)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d4
+
+```
+
+Count the number of columns in the current data
+
+```{r}
+
+ncol(d4)
+
+```
+
+
+Filter out any completely empty column
+
+```{r}
+
+d4 <- d4 %>% expss::drop_empty_columns()
+
+d4
+
+```
+
+Count the number of cases after you filter
+
+```{r}
+
+ncol(d4)
+
+```
+
+
+
+### Package: janitor
+
+---
+
+#### Function: `janitor::remove_empty()`
+
+---
+
+
+**1\.Filter out empty columns**
+
+Review the data (d4)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d4
+
+```
+
+Count the number of columns in the current data
+
+```{r}
+
+ncol(d4)
+
+```
+
+
+Filter out any completely empty row
+
+```{r}
+
+d4 <- d4 %>% janitor::remove_empty("cols")
+
+d4
+
+```
+
+Count the number of cases after you filter
+
+```{r}
+
+ncol(d4)
+
+```
+
+

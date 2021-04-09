@@ -199,3 +199,12 @@ d3 %>% haven::as_factor()
 
 
 ```
+
+You can also specifically call out labelled variables this way (even though as_factor will only convert variables with labels anyway)
+
+```{r}
+
+d3 %>% dplyr::mutate_if(haven::is.labelled, haven::as_factor)
+
+```
+

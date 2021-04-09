@@ -1,0 +1,158 @@
+---
+title: "Filter empty rows"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+
+### Package: dplyr
+
+---
+
+#### Function: `dplyr::filter_all()`
+
+---
+
+**1\.Filter out empty rows**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Count the number of cases in the current data
+
+```{r}
+
+count(d1)
+
+```
+
+
+Filter out any completely empty row
+
+```{r}
+
+d1 <- d1 %>% dplyr::filter_all(any_vars(!is.na(.)))
+
+d1
+
+```
+
+Count the number of cases after you filter
+
+```{r}
+
+count(d1)
+
+```
+
+
+
+### Package: expss
+
+---
+
+#### Function: `expss::drop_empty_rows()`
+
+---
+
+**1\.Filter out empty rows**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Count the number of cases in the current data
+
+```{r}
+
+count(d1)
+
+```
+
+
+Filter out any completely empty row
+
+```{r}
+
+d1 <- d1 %>% expss::drop_empty_rows()
+
+d1
+
+```
+
+Count the number of cases after you filter
+
+```{r}
+
+count(d1)
+
+```
+
+
+
+### Package: janitor
+
+---
+
+#### Function: `janitor::remove_empty()`
+
+---
+
+
+**1\.Filter out empty rows**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Count the number of cases in the current data
+
+```{r}
+
+count(d1)
+
+```
+
+
+Filter out any completely empty row
+
+```{r}
+
+d1 <- d1 %>% janitor::remove_empty("rows")
+
+d1
+
+```
+
+Count the number of cases after you filter
+
+```{r}
+
+count(d1)
+
+```
+
+

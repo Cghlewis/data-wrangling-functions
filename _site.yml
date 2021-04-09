@@ -24,10 +24,18 @@ navbar:
     href: recode-values\recode-na.html
   - text: "Collapse categories"
     href: recode-values\collapse-categories.html
-  - text: "Review Data Type"
+  - text: "Review data type"
     href: data-type\review-data-type.html
-  - text: "Convert Variable Class"
+  - text: "Convert variable class"
     href: data-type\convert-variable-class.html
+  - text: "Filter columns"
+    href: filter-data\filter-columns.html
+  - text: "Filter empty columns"
+    href: filter-data\filter-empty-columns.html
+  - text: "Filter rows"
+    href: filter-data\filter-rows.html
+  - text: "Filter empty rows"
+    href: filter-data\filter-empty-rows.html
 output:
   html_document:
     theme: readable

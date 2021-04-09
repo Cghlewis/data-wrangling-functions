@@ -1,0 +1,74 @@
+---
+title: "Filter columns"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+
+### Package: dplyr
+
+---
+
+#### Function: `dplyr::select()`
+
+---
+
+**1\.Filter out columns**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Drop extra1, extra2, extra3
+
+```{r}
+
+d1 %>% dplyr::select(-c(extra1:extra3))
+
+```
+
+You can also drop columns based on column name
+
+```{r}
+
+d1 %>% dplyr::select(-(dplyr::starts_with("extra")))
+
+```
+
+**2\. Keep columns**
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+Keep id and test_score
+
+```{r}
+
+d2 %>% dplyr::select(id:test_score2)
+
+```
+
+You can also keep columns based on column name
+
+```{r}
+
+d2 %>% dplyr::select(id, dplyr::contains("test"))
+
+```
+

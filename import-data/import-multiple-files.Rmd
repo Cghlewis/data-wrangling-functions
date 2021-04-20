@@ -94,9 +94,10 @@ d <- dir(here::here("import-data", "attendance"),pattern=".xlsx", full.names=TRU
 
 ```{r, echo=FALSE}
 
-d2 <- d %>% mutate(source = stringr::str_replace_all(source, "hamptoncg", "username")) %>%
-  mutate(source = stringr::str_replace_all(source, "Box Sync/", "")) %>%
-  mutate(source = stringr::str_replace_all(source, "Desktop/Working R Stuff/", ""))
+d2 <- d %>% mutate(source = stringr::str_replace_all(
+  source, "C:/Users/hamptoncg/Desktop/Box Sync/Desktop/Working R Stuff/", "")) %>%
+  mutate(source = stringr::str_replace_all(
+  source, "data-wrangling-functions", "/project"))
 
 head(d2, n=c(10,3))
 

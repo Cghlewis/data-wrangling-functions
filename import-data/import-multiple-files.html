@@ -441,18 +441,18 @@ head(d, n=c(10,5))</code></pre>
   purrr::set_names() %&gt;%
   purrr::map_dfr(readxl::read_excel, na=&quot;*&quot;, .id = &quot;source&quot;)</code></pre>
 <pre><code># A tibble: 10 x 3
-   source                                        YEAR PROPORTIONAL_ATTENDANCE_T~
-   &lt;chr&gt;                                        &lt;dbl&gt;                      &lt;dbl&gt;
- 1 C:/Users/username/Desktop/data-wrangling-fu~  2015                       270 
- 2 C:/Users/username/Desktop/data-wrangling-fu~  2016                       275.
- 3 C:/Users/username/Desktop/data-wrangling-fu~  2017                       362 
- 4 C:/Users/username/Desktop/data-wrangling-fu~  2018                       368 
- 5 C:/Users/username/Desktop/data-wrangling-fu~  2019                       396 
- 6 C:/Users/username/Desktop/data-wrangling-fu~  2015                       547.
- 7 C:/Users/username/Desktop/data-wrangling-fu~  2016                       578 
- 8 C:/Users/username/Desktop/data-wrangling-fu~  2017                       568 
- 9 C:/Users/username/Desktop/data-wrangling-fu~  2018                       554 
-10 C:/Users/username/Desktop/data-wrangling-fu~  2019                       536 </code></pre>
+   source                                     YEAR PROPORTIONAL_ATTENDANCE_TOTA~
+   &lt;chr&gt;                                     &lt;dbl&gt;                         &lt;dbl&gt;
+ 1 /project/import-data/attendance/school-2~  2015                          270 
+ 2 /project/import-data/attendance/school-2~  2016                          275.
+ 3 /project/import-data/attendance/school-2~  2017                          362 
+ 4 /project/import-data/attendance/school-2~  2018                          368 
+ 5 /project/import-data/attendance/school-2~  2019                          396 
+ 6 /project/import-data/attendance/school-3~  2015                          547.
+ 7 /project/import-data/attendance/school-3~  2016                          578 
+ 8 /project/import-data/attendance/school-3~  2017                          568 
+ 9 /project/import-data/attendance/school-3~  2018                          554 
+10 /project/import-data/attendance/school-3~  2019                          536 </code></pre>
 <p><strong>4. Read in all Excel files from the directory but then create individual data frames for each file.</strong></p>
 <p>Use base R indexing to select the element you are referencing</p>
 <pre class="r"><code>File1 &lt;- dir(here::here(&quot;import-data&quot;, &quot;attendance&quot;),pattern=&quot;.xlsx&quot;, full.names=TRUE)[1] %&gt;%

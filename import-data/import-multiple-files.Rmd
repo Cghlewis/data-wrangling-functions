@@ -63,6 +63,8 @@ list.files(path=here("import-data", "attendance"))
 d <- dir(here::here("import-data", "attendance"), pattern=".xlsx", full.names=TRUE) %>%
   map_dfr(readxl::read_excel, na="*")
 
+head(d, n=c(10,5))
+
 ```
 
 
@@ -96,7 +98,7 @@ d2 <- d %>% mutate(source = stringr::str_replace_all(source, "hamptoncg", "usern
   mutate(source = stringr::str_replace_all(source, "Box Sync/", "")) %>%
   mutate(source = stringr::str_replace_all(source, "Desktop/Working R Stuff/", ""))
 
-head(d2, n=c(10,5))
+head(d2, n=c(10,3))
 
 
 ```

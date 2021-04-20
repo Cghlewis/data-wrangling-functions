@@ -401,7 +401,22 @@ summary {
 <p><strong>Note:</strong> If not all files you read in have the same variables, the appended file will include all variables and whatever data is available for those variables.</p>
 <p><strong>Note:</strong> If files contain the same variable names but the variable classes aren’t the same for a variable (ex: V1 = character in one file and V1 = numeric in another file) then datasets cannot be combined. In the case of readxl::read_excel, you could add the col_types argument to make that variable type the same across all files.</p>
 <pre class="r"><code>d &lt;- dir(here::here(&quot;import-data&quot;, &quot;attendance&quot;), pattern=&quot;.xlsx&quot;, full.names=TRUE) %&gt;%
-  map_dfr(readxl::read_excel, na=&quot;*&quot;)</code></pre>
+  map_dfr(readxl::read_excel, na=&quot;*&quot;)
+
+head(d, n=c(10,5))</code></pre>
+<pre><code># A tibble: 10 x 5
+    YEAR PROPORTIONAL_ATTE~ PROPORTIONAL_AT~ PROPORTIONAL_ATT~ PROPORTIONAL_ATT~
+   &lt;dbl&gt;              &lt;dbl&gt;            &lt;dbl&gt;             &lt;dbl&gt;             &lt;dbl&gt;
+ 1  2015               270              282               95.8             NA   
+ 2  2016               275.             299               91.8             NA   
+ 3  2017               362              391.              92.7             NA   
+ 4  2018               368              408.              90.3             NA   
+ 5  2019               396              440               90.1              9.05
+ 6  2015               547.             628               87.0             NA   
+ 7  2016               578              643               89.9             15.1 
+ 8  2017               568              640.              88.9             20   
+ 9  2018               554              625               88.6             20   
+10  2019               536              614               87.3             13.5 </code></pre>
 <p><strong>2. Add an identifier to differentiate which rows came from which files, by adding the argument “.id” and have it equal to whatever you want that new variable to be called. This will give you a numeric ordered value for which dataset the row came from.</strong></p>
 <pre class="r"><code>d &lt;- dir(here::here(&quot;import-data&quot;, &quot;attendance&quot;), pattern=&quot;.xlsx&quot;, full.names=TRUE) %&gt;%
   purrr::map_dfr(readxl::read_excel, na=&quot;*&quot;, .id = &quot;source&quot;)
@@ -425,19 +440,19 @@ head(d, n=c(10,5))</code></pre>
 <pre class="r"><code>d &lt;- dir(here::here(&quot;import-data&quot;, &quot;attendance&quot;),pattern=&quot;.xlsx&quot;, full.names=TRUE) %&gt;%
   purrr::set_names() %&gt;%
   purrr::map_dfr(readxl::read_excel, na=&quot;*&quot;, .id = &quot;source&quot;)</code></pre>
-<pre><code># A tibble: 10 x 5
-   source           YEAR PROPORTIONAL_ATTEN~ PROPORTIONAL_ATT~ PROPORTIONAL_ATT~
-   &lt;chr&gt;           &lt;dbl&gt;               &lt;dbl&gt;             &lt;dbl&gt;             &lt;dbl&gt;
- 1 C:/Users/usern~  2015                270               282               95.8
- 2 C:/Users/usern~  2016                275.              299               91.8
- 3 C:/Users/usern~  2017                362               391.              92.7
- 4 C:/Users/usern~  2018                368               408.              90.3
- 5 C:/Users/usern~  2019                396               440               90.1
- 6 C:/Users/usern~  2015                547.              628               87.0
- 7 C:/Users/usern~  2016                578               643               89.9
- 8 C:/Users/usern~  2017                568               640.              88.9
- 9 C:/Users/usern~  2018                554               625               88.6
-10 C:/Users/usern~  2019                536               614               87.3</code></pre>
+<pre><code># A tibble: 10 x 3
+   source                                        YEAR PROPORTIONAL_ATTENDANCE_T~
+   &lt;chr&gt;                                        &lt;dbl&gt;                      &lt;dbl&gt;
+ 1 C:/Users/username/Desktop/data-wrangling-fu~  2015                       270 
+ 2 C:/Users/username/Desktop/data-wrangling-fu~  2016                       275.
+ 3 C:/Users/username/Desktop/data-wrangling-fu~  2017                       362 
+ 4 C:/Users/username/Desktop/data-wrangling-fu~  2018                       368 
+ 5 C:/Users/username/Desktop/data-wrangling-fu~  2019                       396 
+ 6 C:/Users/username/Desktop/data-wrangling-fu~  2015                       547.
+ 7 C:/Users/username/Desktop/data-wrangling-fu~  2016                       578 
+ 8 C:/Users/username/Desktop/data-wrangling-fu~  2017                       568 
+ 9 C:/Users/username/Desktop/data-wrangling-fu~  2018                       554 
+10 C:/Users/username/Desktop/data-wrangling-fu~  2019                       536 </code></pre>
 <p><strong>4. Read in all Excel files from the directory but then create individual data frames for each file.</strong></p>
 <p>Use base R indexing to select the element you are referencing</p>
 <pre class="r"><code>File1 &lt;- dir(here::here(&quot;import-data&quot;, &quot;attendance&quot;),pattern=&quot;.xlsx&quot;, full.names=TRUE)[1] %&gt;%

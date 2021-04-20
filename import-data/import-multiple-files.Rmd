@@ -1,0 +1,125 @@
+---
+title: "Import multiple files"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+
+library(tidyverse)
+
+```
+
+
+### Package: base
+
+---
+
+#### Function: `list.files()`
+
+---
+
+**1\. Review files in my folder named "attendance"**
+
+**Note**: I used the here::here() function which implicitly sets my directory to the top level of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "attendance" is within another folder called "import-data" which is located in the top level of my project directory. You could also just list your entire file path.
+
+If you wanted to see the full path for each file you could add the argument "full.names" is equal to TRUE.
+
+```{r, eval=FALSE}
+
+list.files(path=here("import-data", "attendance"))
+
+```
+
+### Package: purrr
+
+---
+
+#### Function: `map_dfr()`
+
+---
+
+
+**1\. Read in all Excel files from the "attendance" folder and bind them together. Note that an asterisk was used to denote NAs and we need to notify R of that.**
+
+**Note:** base::dir() produces a character vector of the names of files in the named directory. dir is an alias for base::list.files()
+
+**Note:** purrr::map_dfr() combines tibbles (data frames) by stacking them on top of each other.
+
+**Note:** There were only 4 Excel files in the directory, one file was csv format.
+
+**Note:** If you wanted to read in other file types, you would simply change the function you call from readxl::read_excel to the function required to read in your file type.
+
+**Note:** If not all files you read in have the same variables, the appended file will include all variables and whatever data is available for those variables.
+
+**Note:** If files contain the same variable names but the variable classes aren't the same for a variable (ex: V1 = character in one file and V1 = numeric in another file) then datasets cannot be combined. In the case of readxl::read_excel, you could add the col_types argument to make that variable type the same across all files.
+
+```{r}
+
+d <- dir(here::here("import-data", "attendance"), pattern=".xlsx", full.names=TRUE) %>%
+  map_dfr(readxl::read_excel, na="*")
+
+```
+
+
+**2\. Add an identifier to differentiate which rows came from which files, by adding the argument ".id" and have it equal to whatever you want that new variable to be called. This will give you a numeric ordered value for which dataset the row came from.**
+
+```{r}
+
+d <- dir(here::here("import-data", "attendance"), pattern=".xlsx", full.names=TRUE) %>%
+  purrr::map_dfr(readxl::read_excel, na="*", .id = "source")
+
+head(d, n=c(10,5))
+
+```
+
+
+**3\. Add the full file path/name to differentiate which rows came from which files by adding the function purrr::set_names() as well as the argument ".id" and have it equal to whatever you want that new variable to be called.**
+
+**Note**: If you leave purrr::set_names() empty, it will return the name of itself
+
+```{r}
+
+d <- dir(here::here("import-data", "attendance"),pattern=".xlsx", full.names=TRUE) %>%
+  purrr::set_names() %>%
+  purrr::map_dfr(readxl::read_excel, na="*", .id = "source")
+
+```
+
+```{r, echo=FALSE}
+
+d2 <- d %>% mutate(source = stringr::str_replace_all(source, "hamptoncg", "username")) %>%
+  mutate(source = stringr::str_replace_all(source, "Box Sync/", "")) %>%
+  mutate(source = stringr::str_replace_all(source, "Desktop/Working R Stuff/", ""))
+
+head(d2, n=c(10,5))
+
+
+```
+
+
+**4\. Read in all Excel files from the directory but then create individual data frames for each file.**
+
+Use base R indexing to select the element you are referencing
+
+```{r, eval=FALSE}
+
+File1 <- dir(here::here("import-data", "attendance"),pattern=".xlsx", full.names=TRUE)[1] %>%
+  purrr::map_dfr(readxl::read_excel, na="*")
+
+File2 <- dir(here::here("import-data", "attendance"),pattern=".xlsx", full.names=TRUE)[2] %>%
+  map_dfr(readxl::read_excel, na="*")
+
+File3 <- dir(here::here("import-data", "attendance"),pattern=".xlsx", full.names=TRUE)[3] %>%
+  map_dfr(readxl::read_excel, na="*")
+
+File3 <- dir(here::here("import-data", "attendance"),pattern=".xlsx", full.names=TRUE)[4] %>%
+  map_dfr(readxl::read_excel, na="*")
+
+
+```
+

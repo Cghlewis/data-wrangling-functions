@@ -1,0 +1,140 @@
+---
+title: "Import a single file"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+
+### Package: haven
+
+---
+
+#### Function: `haven::read_sav()`
+
+---
+
+**1\. Read in an SPSS file**
+
+Type ?read_sav in the console for available arguments
+
+```{r, eval=FALSE}
+
+d <- haven::read_sav("name-of-import.sav")
+
+```
+
+**2\. Read in an SPSS file with NA value labels**
+
+**Note:** If the file has user labelled missing values that you want to save, add the option *user_na=TRUE*. Otherwise the labelled NA values will be removed and read in as NA.
+
+```{r, eval=FALSE}
+
+d <- haven::read_sav("name-of-import.sav", user_na=TRUE)
+
+```
+
+
+### Package: readxl
+
+---
+
+#### Function: `readxl::read_excel()`
+
+---
+
+**1\. Read in an Excel file**
+
+Type ?read_excel in the console for available arguments
+
+**Note:** Default for "col_names" argument is TRUE so the first row of your data will be treated a your column names unless you change the argument to FALSE
+
+```{r, eval=FALSE}
+
+d <- readxl::read_excel("name-of-import.xlsx")
+
+```
+
+**2\. Read in "Sheet 2" of an Excel file and skip the first 3 rows and tell R that 0 is to be read in as NA**
+
+**Note:** Be aware that if your column names are in the first row of your data, using the "skip" argument will remove that first row with column names because the "skip" happens before data is read. Also, if you leave the default col_names=TRUE, you column names will become whatever data is in the 4th row of your Excel sheet.
+
+```{r, eval=FALSE}
+
+d <- readxl::read_excel("name-of-import.xlsx", sheet="Sheet2", skip=3, na="0")
+
+```
+
+**3\. Read in an Excel file and skip the second row only**
+
+**Note:** Notice that I drop row 1 because [-1,] happens after R reads in the Excel file. The first row of the Excel file is read in as the column names (because I left col_names=TRUE) so the second row of the Excel file will become the first row of the R data frame
+
+```{r, eval=FALSE}
+
+d <- readxl::read_excel("name-of-import.xlsx")[-1,]
+
+```
+
+### Package: readr
+
+---
+
+#### Function: `readr::read_csv()`
+
+---
+
+**1\. Read in an csv file**
+
+Type ?read_csv in the console for available arguments
+
+**Note:** Default for "col_names" is TRUE.
+
+```{r, eval=FALSE}
+
+d <- readr::read_csv("name-of-import.csv")
+
+```
+
+**2\. Read in a csv file with no column names and assign your own column names**
+
+```{r, eval=FALSE}
+
+d <- readr::read_csv("name-of-import.csv", 
+                     col_names = c("stu_id", "grade", "test1", "test2", "test3", "test4"))
+
+```
+
+**3\. Read in a csv file and specify the "col_types"**
+
+You can specify one or all column types.
+
+```{r, eval=FALSE}
+
+d <- readr::read_csv("name-of-import.csv", 
+                     col_types = cols(stu_id = col_double(), 
+                                   grade = col_factor("6", "7", "8"), 
+                                   test1 = col_double(), test2 =  col_double(), 
+                                   test3 = col_double(), test4 = col_double()))
+
+```
+
+---
+
+#### Function: `readr::read_tsv()`
+
+---
+
+**1\. Read in a tab delimited file.**
+
+```{r, eval=FALSE}
+
+d <- read_tsv('name-of-import.txt', col_names = TRUE)
+
+```
+

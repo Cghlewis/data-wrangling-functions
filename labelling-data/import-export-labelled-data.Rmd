@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Read in an SPSS file**
+**1\. Read in a labelled SPSS file**
 
 ```{r, eval=FALSE}
 
@@ -33,7 +33,7 @@ d <- haven::read_sav("name-of-import.sav")
 
 **2\. Read in an SPSS file with NA value labels**
 
-**Note:** If the file has user labelled missing values that you want to save add the option *user_na=TRUE*. Otherwise the labelled NA values will be removed and read in as NA.
+**Note:** If the file has user labelled missing values that you want to save, add the option *user_na=TRUE*. Otherwise the labelled NA values will be removed and read in as NA.
 
 ```{r, eval=FALSE}
 

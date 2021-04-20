@@ -36,6 +36,10 @@ navbar:
     href: filter-data\filter-rows.html
   - text: "Filter empty rows"
     href: filter-data\filter-empty-rows.html
+  - text: "Import a single file"
+    href: import-data\import-single-file.html
+  - text: "Import multiple files"
+    href: import-data\import-multiple-files.html
 output:
   html_document:
     theme: readable

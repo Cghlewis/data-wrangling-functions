@@ -382,7 +382,7 @@ summary {
 <h4>Function: <code>haven::read_sav()</code></h4>
 <hr />
 <p><strong>1. Read in an SPSS file</strong></p>
-<p>Type ?read_sav in the console for available arguments</p>
+<p>Type <em>?read_sav</em> in the console for available arguments</p>
 <pre class="r"><code>d &lt;- haven::read_sav(&quot;name-of-import.sav&quot;)</code></pre>
 <p><strong>2. Read in an SPSS file with NA value labels</strong></p>
 <p><strong>Note:</strong> If the file has user labelled missing values that you want to save, add the option <em>user_na=TRUE</em>. Otherwise the labelled NA values will be removed and read in as NA.</p>
@@ -396,14 +396,14 @@ summary {
 <h4>Function: <code>readxl::read_excel()</code></h4>
 <hr />
 <p><strong>1. Read in an Excel file</strong></p>
-<p>Type ?read_excel in the console for available arguments</p>
-<p><strong>Note:</strong> Default for “col_names” argument is TRUE so the first row of your data will be treated a your column names unless you change the argument to FALSE</p>
+<p>Type <em>?read_excel</em> in the console for available arguments</p>
+<p><strong>Note:</strong> Default for <em>“col_names”</em> argument is TRUE so the first row of your data will be treated a your column names unless you change the argument to FALSE</p>
 <pre class="r"><code>d &lt;- readxl::read_excel(&quot;name-of-import.xlsx&quot;)</code></pre>
 <p><strong>2. Read in “Sheet 2” of an Excel file and skip the first 3 rows and tell R that 0 is to be read in as NA</strong></p>
-<p><strong>Note:</strong> Be aware that if your column names are in the first row of your data, using the “skip” argument will remove that first row with column names because the “skip” happens before data is read. Also, if you leave the default col_names=TRUE, you column names will become whatever data is in the 4th row of your Excel sheet.</p>
+<p><strong>Note:</strong> Be aware that if your column names are in the first row of your data, using the “skip” argument will remove that first row with column names because the “skip” happens before data is read. Also, if you leave the default <em>col_names=TRUE</em>, you column names will become whatever data is in the 4th row of your Excel sheet.</p>
 <pre class="r"><code>d &lt;- readxl::read_excel(&quot;name-of-import.xlsx&quot;, sheet=&quot;Sheet2&quot;, skip=3, na=&quot;0&quot;)</code></pre>
 <p><strong>3. Read in an Excel file and skip the second row only</strong></p>
-<p><strong>Note:</strong> Notice that I drop row 1 because [-1,] happens after R reads in the Excel file. The first row of the Excel file is read in as the column names (because I left col_names=TRUE) so the second row of the Excel file will become the first row of the R data frame</p>
+<p><strong>Note:</strong> Notice that I drop row 1 because [-1,] happens after R reads in the Excel file. The first row of the Excel file is read in as the column names (because I left the default <em>col_names=TRUE</em>) so the second row of the Excel file will become the first row of the R data frame</p>
 <pre class="r"><code>d &lt;- readxl::read_excel(&quot;name-of-import.xlsx&quot;)[-1,]</code></pre>
 </div>
 </div>
@@ -414,8 +414,8 @@ summary {
 <h4>Function: <code>readr::read_csv()</code></h4>
 <hr />
 <p><strong>1. Read in an csv file</strong></p>
-<p>Type ?read_csv in the console for available arguments</p>
-<p><strong>Note:</strong> Default for “col_names” is TRUE.</p>
+<p>Type <em>?read_csv</em> in the console for available arguments</p>
+<p><strong>Note:</strong> Default for <em>“col_names”</em> is TRUE.</p>
 <pre class="r"><code>d &lt;- readr::read_csv(&quot;name-of-import.csv&quot;)</code></pre>
 <p><strong>2. Read in a csv file with no column names and assign your own column names</strong></p>
 <pre class="r"><code>d &lt;- readr::read_csv(&quot;name-of-import.csv&quot;, 

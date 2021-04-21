@@ -1,0 +1,118 @@
+---
+title: "Clean variable names"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: purrr
+
+---
+
+#### Function: `purrr::set_names()`
+
+---
+
+**1\. Change all variable names to upper case**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Change all variable names to upper by adding the `base::toupper()` function
+
+```{r}
+
+d1 %>% purrr::set_names(toupper)
+
+```
+
+
+### Package: dplyr
+
+---
+
+#### Function: `dplyr::rename_with()`
+
+---
+
+**1\. Change all variable names to lower case**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Change all variable names to lower by adding the `base::tolower()` function
+
+```{r}
+
+d1 %>% dplyr::rename_with(tolower)
+
+```
+
+
+### Package: janitor
+
+---
+
+#### Function: `janitor::clean_names()`
+
+---
+
+**1\. Change all variable names to snake_case (lower case and underscore to separate words)**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+Change the variable names to snake_case (the default for `janitor::clean_names()`)
+
+```{r}
+
+d3 %>% janitor::clean_names()
+
+```
+
+**2\. Change all variable names to CamelCase (no spaces, indicating word separation through capital letters)**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d4
+
+```
+
+Change the variable names to camelCase
+
+**Note:** To see all of the case options type *?to_any_case* in the console.
+
+```{r}
+
+d4 %>% janitor::clean_names(., "big_camel")
+
+```

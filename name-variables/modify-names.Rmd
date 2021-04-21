@@ -1,0 +1,41 @@
+---
+title: "Modify variable names"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `dplyr::rename_with()`
+
+---
+
+**1\. Remove all periods in variable names and replace with underscores**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+Modify variable names by adding the `stringr::str_replace()` function.
+
+```{r}
+
+d2 %>% dplyr::rename_with(~ stringr::str_replace(., "\\.", "_"))
+
+```

@@ -1,0 +1,70 @@
+---
+title: "Set all variable names"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: purrr
+
+---
+
+#### Function: `purrr::set_names()`
+
+---
+
+**1\. Change all variable names**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Change variable names
+
+```{r}
+
+d1 %>% purrr::set_names("id", "grade", "test1")
+
+```
+
+### Package: purrr
+
+---
+
+#### Function: `purrr::set_names()`
+
+---
+
+**1\. Change all variable names**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Change variable names
+
+**Note:** Quotes are required around variable names and the number of variables given must be equal to the number of variables in the data frame.
+
+```{r}
+
+d1 %>% purrr::set_names("id", "grade", "test1")
+
+```

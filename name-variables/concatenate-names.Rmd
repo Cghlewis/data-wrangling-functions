@@ -1,0 +1,43 @@
+---
+title: "Concatenate to variable names"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `dplyr::rename_with()`
+
+---
+
+**1\. Concatenate "T1_" to all variable names**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Concatenate T1_ by adding the `base::paste0` function.
+
+**Note:** Using `base::paste0` concatenates the string directly to the variable name. Using `base::paste()` concatenates with a string separator.
+
+```{r}
+
+d2 %>% dplyr::rename_with(~ base::paste0("T1_", .))
+
+```

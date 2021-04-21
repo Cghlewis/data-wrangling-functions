@@ -1,0 +1,44 @@
+---
+title: "Rename variables"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `dplyr::rename()`
+
+---
+
+**1\. Change only the second variable name**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Change the second variable name
+
+**Note:** The `dplyr::rename()` formula is *new value=old value*, this is opposite of `dplyr::recode()`.
+**Note:** Quotes are not required around variable names.
+
+```{r}
+
+d1 %>% dplyr::rename(grade = Var2)
+
+```

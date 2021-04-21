@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 **1\. Read in an SPSS file**
 
-Type ?read_sav in the console for available arguments
+Type *?read_sav* in the console for available arguments
 
 ```{r, eval=FALSE}
 
@@ -51,9 +51,9 @@ d <- haven::read_sav("name-of-import.sav", user_na=TRUE)
 
 **1\. Read in an Excel file**
 
-Type ?read_excel in the console for available arguments
+Type *?read_excel* in the console for available arguments
 
-**Note:** Default for "col_names" argument is TRUE so the first row of your data will be treated a your column names unless you change the argument to FALSE
+**Note:** Default for *"col_names"* argument is TRUE so the first row of your data will be treated a your column names unless you change the argument to FALSE
 
 ```{r, eval=FALSE}
 
@@ -63,7 +63,7 @@ d <- readxl::read_excel("name-of-import.xlsx")
 
 **2\. Read in "Sheet 2" of an Excel file and skip the first 3 rows and tell R that 0 is to be read in as NA**
 
-**Note:** Be aware that if your column names are in the first row of your data, using the "skip" argument will remove that first row with column names because the "skip" happens before data is read. Also, if you leave the default col_names=TRUE, you column names will become whatever data is in the 4th row of your Excel sheet.
+**Note:** Be aware that if your column names are in the first row of your data, using the "skip" argument will remove that first row with column names because the "skip" happens before data is read. Also, if you leave the default *col_names=TRUE*, you column names will become whatever data is in the 4th row of your Excel sheet.
 
 ```{r, eval=FALSE}
 
@@ -73,7 +73,7 @@ d <- readxl::read_excel("name-of-import.xlsx", sheet="Sheet2", skip=3, na="0")
 
 **3\. Read in an Excel file and skip the second row only**
 
-**Note:** Notice that I drop row 1 because [-1,] happens after R reads in the Excel file. The first row of the Excel file is read in as the column names (because I left col_names=TRUE) so the second row of the Excel file will become the first row of the R data frame
+**Note:** Notice that I drop row 1 because [-1,] happens after R reads in the Excel file. The first row of the Excel file is read in as the column names (because I left the default *col_names=TRUE*) so the second row of the Excel file will become the first row of the R data frame
 
 ```{r, eval=FALSE}
 
@@ -91,9 +91,9 @@ d <- readxl::read_excel("name-of-import.xlsx")[-1,]
 
 **1\. Read in an csv file**
 
-Type ?read_csv in the console for available arguments
+Type *?read_csv* in the console for available arguments
 
-**Note:** Default for "col_names" is TRUE.
+**Note:** Default for *"col_names"* is TRUE.
 
 ```{r, eval=FALSE}
 

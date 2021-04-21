@@ -40,6 +40,16 @@ navbar:
     href: import-data\import-single-file.html
   - text: "Import multiple files"
     href: import-data\import-multiple-files.html
+  - text: "Set all variable names"
+    href: name-variables\set-variable-names.html
+  - text: "Rename variables"
+    href: name-variables\rename-variables.html
+  - text: "Modify variable names"
+    href: name-variables\modify-names.html
+  - text: "Concatenate variable names"
+    href: name-variables\concatenate-names.html
+  - text: "Clean variable names"
+    href: name-variables\clean-names.html
 output:
   html_document:
     theme: readable

@@ -392,13 +392,13 @@ summary {
 3 c         3  NA  </code></pre>
 <p>Concatenate T1_ by adding the <code>base::paste0</code> function.</p>
 <p><strong>Note:</strong> Using <code>base::paste0</code> concatenates the string directly to the variable name. Using <code>base::paste()</code> concatenates with a string separator.</p>
-<pre class="r"><code>d2 %&gt;% dplyr::rename_with(~ base::paste0(&quot;T1_&quot;, .))</code></pre>
+<pre class="r"><code>d1 %&gt;% dplyr::rename_with(~ base::paste0(&quot;T1_&quot;, .))</code></pre>
 <pre><code># A tibble: 3 x 3
-  T1_Var.1 T1_Var.2 T1_Var.3
-  &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;
-1 a               1        4
-2 b              NA        5
-3 c               3        1</code></pre>
+  T1_Var1 T1_Var2 T1_Var3
+  &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 a             2     3.6
+2 b            NA     8.5
+3 c             3    NA  </code></pre>
 </div>
 </div>
 

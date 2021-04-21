@@ -38,6 +38,6 @@ Concatenate T1_ by adding the `base::paste0` function.
 
 ```{r}
 
-d2 %>% dplyr::rename_with(~ base::paste0("T1_", .))
+d1 %>% dplyr::rename_with(~ base::paste0("T1_", .))
 
 ```

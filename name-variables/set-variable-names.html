@@ -391,30 +391,6 @@ summary {
 2 b        NA   8.5
 3 c         3  NA  </code></pre>
 <p>Change variable names</p>
-<pre class="r"><code>d1 %&gt;% purrr::set_names(&quot;id&quot;, &quot;grade&quot;, &quot;test1&quot;)</code></pre>
-<pre><code># A tibble: 3 x 3
-  id    grade test1
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         2   3.6
-2 b        NA   8.5
-3 c         3  NA  </code></pre>
-</div>
-</div>
-<div id="package-purrr-1" class="section level3">
-<h3>Package: purrr</h3>
-<hr />
-<div id="function-purrrset_names-1" class="section level4">
-<h4>Function: <code>purrr::set_names()</code></h4>
-<hr />
-<p><strong>1. Change all variable names</strong></p>
-<p>Review the data (d1)</p>
-<pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         2   3.6
-2 b        NA   8.5
-3 c         3  NA  </code></pre>
-<p>Change variable names</p>
 <p><strong>Note:</strong> Quotes are required around variable names and the number of variables given must be equal to the number of variables in the data frame.</p>
 <pre class="r"><code>d1 %&gt;% purrr::set_names(&quot;id&quot;, &quot;grade&quot;, &quot;test1&quot;)</code></pre>
 <pre><code># A tibble: 3 x 3

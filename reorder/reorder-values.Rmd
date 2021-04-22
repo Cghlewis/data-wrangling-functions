@@ -88,53 +88,6 @@ str(d2$s_grade)
 ```
 
 
-**3\. Move Var1 after Var2**
-
-Review the data (d1)
-
-```{r, echo=FALSE}
-
-source("data.R")
-d1
-
-```
-
-Move the variables
-
-```{r}
-
-d1 %>% dplyr::relocate(Var1, .after = Var2)
-
-```
-
-### Package: dplyr
-
----
-
-#### Function: `dplyr::select()`
-
----
-
-**1\. Move Var3 to the front**
-
-Review the data (d1)
-
-```{r, echo=FALSE}
-
-source("data.R")
-d1
-
-```
-
-Move Var3 using the `dplyr::select()` function in addition to the selection helper `everything()`.
-
-```{r}
-
-d1 %>% dplyr::select(Var3, everything())
-
-```
-
-
 ### Package: labelled
 
 ---
@@ -143,7 +96,7 @@ d1 %>% dplyr::select(Var3, everything())
 
 ---
 
-In the rare occasion where you have a labelled variable, that you want to convert to a factor and then order those levels, you can use `labelled::to_factor()`.
+In the rare occasion where you have a labelled variable that you want to convert to a factor and then order those levels, you can use `labelled::to_factor()`.
 
 **1\. Order s_grade levels: K,1,2,3**
 
@@ -173,7 +126,7 @@ str(d3$s_grade)
 ```
 
 
-Convert s_grade to a factor and then order those levels according to their original values.
+Convert s_grade to a factor and then order those levels according to their original values using the argument *sort_levels = "v"*.
 
 ```{r}
 
@@ -183,7 +136,7 @@ levels(d3v$s_grade)
 
 ```
 
-If you want them to be ordered according to labels you can select *sort_levels = "l"*.
+If you want them to be ordered according to labels you can change the argument to *sort_levels = "l"*.
 
 ```{r}
 
@@ -193,11 +146,11 @@ levels(d3l$s_grade)
 
 ```
 
-If you want them to be ordered according the order you originally assigned labels you can select *sort_levels = "n"*.
+If you want them to be ordered according the order you originally assigned labels you can change the argument to *sort_levels = "n"*.
 
 ```{r}
 
-d3n <- d3 %>% mutate(s_grade = labelled::to_factor(s_grade, sort_levels = "l"))
+d3n <- d3 %>% mutate(s_grade = labelled::to_factor(s_grade, sort_levels = "n"))
 
 levels(d3n$s_grade)
 

@@ -398,6 +398,23 @@ summary {
 1 a         1     4
 2 b        NA     5
 3 c         3     1</code></pre>
+<p><strong>2. For any variable that starts with “s_”, remove the prefix</strong></p>
+<p>Review the data (d5)</p>
+<pre><code># A tibble: 3 x 3
+  stu_id s_gender s_test
+  &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;
+1 a      m           100
+2 b      f           150
+3 c      n           160</code></pre>
+<p>Modify variable names by adding the <code>stringr::str_remove()</code> function and the selection helper <code>starts_with()</code>.</p>
+<p><strong>Note:</strong>: Other <code>tidyselect</code> selection helpers include <code>ends_with()</code>, <code>contains</code>, <code>matches</code>, and <code>num_range</code>, <code>where</code> and more.</p>
+<pre class="r"><code>d5 %&gt;% dplyr::rename_with(~ stringr::str_remove(., &quot;s_&quot;), starts_with(&quot;s_&quot;))</code></pre>
+<pre><code># A tibble: 3 x 3
+  stu_id gender  test
+  &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt;
+1 a      m        100
+2 b      f        150
+3 c      n        160</code></pre>
 </div>
 </div>
 

@@ -488,7 +488,7 @@ $Var3
     1 1 0.3333333
     4 1 0.3333333
     5 1 0.3333333</code></pre>
-<p>Reverse code Var2 and Var3 using your function and rename it with *_r* at the end</p>
+<p>Reverse code Var2 and Var3 using your function and rename the new variables with *_r* at the end</p>
 <pre class="r"><code>d2 &lt;- d2 %&gt;%
   dplyr::mutate(Var2_r = reverse_scale(Var2),
          Var3_r = reverse_scale(Var3))</code></pre>

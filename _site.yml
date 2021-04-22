@@ -50,6 +50,10 @@ navbar:
     href: name-variables\concatenate-names.html
   - text: "Clean variable names"
     href: name-variables\clean-names.html
+  - text: "Reorder Variables"
+    href: reorder\reorder-variables.html
+  - text: "Reorder values"
+    href: reorder\reorder-values.html
 output:
   html_document:
     theme: readable

@@ -152,7 +152,7 @@ d2 %>% janitor::tabyl(Var3)
 
 ```
 
-Reverse code Var2 and Var3 using your function and rename it with *_r* at the end
+Reverse code Var2 and Var3 using your function and rename the new variables with *_r* at the end
 
 ```{r}
 

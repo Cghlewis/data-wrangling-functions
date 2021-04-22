@@ -1,0 +1,110 @@
+---
+title: "Reorder variables"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `dplyr::relocate()`
+
+---
+
+**1\. Move Var3 to be ahead of Var2**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Move Var3 in front of Var2
+
+```{r}
+
+d1 %>% dplyr::relocate(Var3, .before = Var2)
+
+```
+
+
+**2\. Move Var2 and Var3 to be ahead of Var1**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Move the variables
+
+```{r}
+
+d1 %>% dplyr::relocate(Var2, Var3)
+
+
+```
+
+
+**3\. Move Var1 after Var2**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Move the variables
+
+```{r}
+
+d1 %>% dplyr::relocate(Var1, .after = Var2)
+
+```
+
+---
+
+#### Function: `dplyr::select()`
+
+---
+
+**1\. Move Var3 to the front**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Move Var3 using the `dplyr::select()` function in addition to the selection helper `everything()`.
+
+```{r}
+
+d1 %>% dplyr::select(Var3, everything())
+
+```
+
+

@@ -120,9 +120,46 @@ File2 <- dir(here::here("import-data", "attendance"),pattern=".xlsx", full.names
 File3 <- dir(here::here("import-data", "attendance"),pattern=".xlsx", full.names=TRUE)[3] %>%
   map_dfr(readxl::read_excel, na="*")
 
-File3 <- dir(here::here("import-data", "attendance"),pattern=".xlsx", full.names=TRUE)[4] %>%
+File4 <- dir(here::here("import-data", "attendance"),pattern=".xlsx", full.names=TRUE)[4] %>%
   map_dfr(readxl::read_excel, na="*")
 
+
+```
+
+If you get tired of typing the path over and over, you can put the path in an object and call that object (ex: "path")
+
+```{r, eval=FALSE}
+
+path <- (here::here("import-data", "attendance"))
+
+File1 <- dir(path, pattern=".xlsx", full.names=TRUE)[1] %>%
+  purrr::map_dfr(readxl::read_excel, na="*")
+
+File2 <- dir(path, pattern=".xlsx", full.names=TRUE)[2] %>%
+  purrr::map_dfr(readxl::read_excel, na="*")
+
+File3 <- dir(path, pattern=".xlsx", full.names=TRUE)[3] %>%
+  purrr::map_dfr(readxl::read_excel, na="*")
+
+File4 <- dir(path, pattern=".xlsx", full.names=TRUE)[4] %>%
+  purrr::map_dfr(readxl::read_excel, na="*")
+
+```
+
+Or you can use a loop (not shown here b/c I'm not great at writing them yet!) or make a function (shown here) and use that function to retrieve all of your separate data frames
+
+```{r, eval=FALSE}
+
+f <- function(x) {
+  dir(path,pattern=".xlsx", full.names=TRUE)[x] %>%
+    purrr::map_dfr(readxl::read_excel, na="*")
+  
+}
+
+File1 <- f(1)
+File2 <- f(2)
+File3 <- f(3)
+File4 <- f(4)
 
 ```
 

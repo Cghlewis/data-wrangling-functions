@@ -41,3 +41,26 @@ Concatenate T1_ by adding the `base::paste0` function.
 d1 %>% dplyr::rename_with(~ base::paste0("T1_", .))
 
 ```
+
+
+**2\. Concatenate "T1_" to only numeric variable names**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Concatenate T1_ by adding the `base::paste0` function and the selection helper `where()`.
+
+**Note:**: Other `tidyselect` selection helpers include `ends_with()`, `contains`, `matches`, and `num_range`, `where` and more.
+
+```{r}
+
+d1 %>% dplyr::rename_with(~ base::paste0("T1_", .), where(is.numeric))
+
+```
+

@@ -30,5 +30,12 @@ d4 <- tibble::tribble(
   "c", "n", "p",
 )
 
+d5 <- tibble::tribble(
+  ~stu_id, ~`s_gender`, ~`s_test`, 
+  "a", "m", 100,
+  "b", "f", 150,
+  "c", "n", 160,
+)
+
 
 

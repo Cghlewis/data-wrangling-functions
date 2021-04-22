@@ -22,7 +22,47 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Convert s_grade to a factor with the following level order: K, 1, 2, 3**
+**1\. Relevel the factor s_grade to have the following level order: 2, 3, K, 1 (for demonstration purposes)**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+Convert s_grade to factor
+
+```{r, echo=FALSE}
+
+d2 <- d2 %>% mutate(s_grade = as_factor(s_grade))
+
+```
+
+
+Review the structure of s_grade
+
+```{r}
+
+str(d2$s_grade)
+
+```
+
+Relevel s_grade
+
+```{r}
+
+d2 <- d2 %>% mutate(s_grade = fct_relevel(s_grade, "2", "3", "K", "1"))
+
+str(d2$s_grade)
+
+```
+
+
+
+**2\. Relevel the factor s_grade to be 1,2,3,K**
 
 Review the data (d2)
 
@@ -35,39 +75,9 @@ d2
 
 Review the structure of s_grade
 
-```{r}
-
-str(d2$s_grade)
-
-```
-
-Convert s_grade to factor and assign levels
-
-```{r}
-
-d2 <- d2 %>% mutate(s_grade = fct_relevel(s_grade, "K", "1", "2", "3"))
-
-str(d2$s_grade)
-
-```
-
-
-**2\. Relevel s_grade (already a factor) to be 1,2,3,K**
-
-Review the data (d2)
-
 ```{r, echo=FALSE}
 
-source("data.R")
-d2
-
-```
-
-Review the structure of s_grade
-
-```{r, echo=FALSE}
-
-d2 <- d2 %>% mutate(s_grade = fct_relevel(s_grade, "K", "1", "2", "3"))
+d2 <- d2 %>% mutate(s_grade = as_factor(s_grade))
 
 ```
 

@@ -382,7 +382,7 @@ summary {
 <div id="function-forcatsfct_relevel" class="section level4">
 <h4>Function: <code>forcats::fct_relevel()</code></h4>
 <hr />
-<p><strong>1. Convert s_grade to a factor with the following level order: K, 1, 2, 3</strong></p>
+<p><strong>1. Relevel the factor s_grade to have the following level order: 2, 3, K, 1 (for demonstration purposes)</strong></p>
 <p>Review the data (d2)</p>
 <pre><code># A tibble: 4 x 3
   s_id  s_gender s_grade
@@ -391,15 +391,16 @@ summary {
 2 b     f        1      
 3 c     n        3      
 4 f     m        2      </code></pre>
+<p>Convert s_grade to factor</p>
 <p>Review the structure of s_grade</p>
 <pre class="r"><code>str(d2$s_grade)</code></pre>
-<pre><code> chr [1:4] &quot;K&quot; &quot;1&quot; &quot;3&quot; &quot;2&quot;</code></pre>
-<p>Convert s_grade to factor and assign levels</p>
-<pre class="r"><code>d2 &lt;- d2 %&gt;% mutate(s_grade = fct_relevel(s_grade, &quot;K&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;))
+<pre><code> Factor w/ 4 levels &quot;K&quot;,&quot;1&quot;,&quot;3&quot;,&quot;2&quot;: 1 2 3 4</code></pre>
+<p>Relevel s_grade</p>
+<pre class="r"><code>d2 &lt;- d2 %&gt;% mutate(s_grade = fct_relevel(s_grade, &quot;2&quot;, &quot;3&quot;, &quot;K&quot;, &quot;1&quot;))
 
 str(d2$s_grade)</code></pre>
-<pre><code> Factor w/ 4 levels &quot;K&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;: 1 2 4 3</code></pre>
-<p><strong>2. Relevel s_grade (already a factor) to be 1,2,3,K</strong></p>
+<pre><code> Factor w/ 4 levels &quot;2&quot;,&quot;3&quot;,&quot;K&quot;,&quot;1&quot;: 3 4 2 1</code></pre>
+<p><strong>2. Relevel the factor s_grade to be 1,2,3,K</strong></p>
 <p>Review the data (d2)</p>
 <pre><code># A tibble: 4 x 3
   s_id  s_gender s_grade
@@ -410,12 +411,12 @@ str(d2$s_grade)</code></pre>
 4 f     m        2      </code></pre>
 <p>Review the structure of s_grade</p>
 <pre class="r"><code>str(d2$s_grade)</code></pre>
-<pre><code> Factor w/ 4 levels &quot;K&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;: 1 2 4 3</code></pre>
+<pre><code> Factor w/ 4 levels &quot;K&quot;,&quot;1&quot;,&quot;3&quot;,&quot;2&quot;: 1 2 3 4</code></pre>
 <p>Relevel s_grade after the 3rd position. Since the 4th position is last, you could also use the argument <em>after = Inf</em> to refer to the last position.</p>
 <pre class="r"><code>d2 &lt;- d2 %&gt;% mutate(s_grade = fct_relevel(s_grade, &quot;K&quot;, after = 3))
 
 str(d2$s_grade)</code></pre>
-<pre><code> Factor w/ 4 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;K&quot;: 4 1 3 2</code></pre>
+<pre><code> Factor w/ 4 levels &quot;1&quot;,&quot;3&quot;,&quot;2&quot;,&quot;K&quot;: 4 1 2 3</code></pre>
 </div>
 </div>
 <div id="package-labelled" class="section level3">

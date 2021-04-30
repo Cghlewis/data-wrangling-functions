@@ -378,43 +378,124 @@ summary {
 <div id="package-dplyr" class="section level3">
 <h3>Package: dplyr</h3>
 <hr />
-<div id="function-dplyrfilter" class="section level4">
-<h4>Function: <code>dplyr::filter()</code></h4>
+<div id="function-filter" class="section level4">
+<h4>Function: <code>filter()</code></h4>
+<p>Examples using one criteria, character variable</p>
 <hr />
-<p><strong>1.Filter out rows based on one criteria (character variable)</strong></p>
-<p>Review the data (d5)</p>
-<pre><code># A tibble: 5 x 6
+<p><strong>1. Keep rows based on one criteria (in this case for a character variable). Keep any row that has the exact match of “harris” for tch_name.</strong></p>
+<p>Review the data (d8)</p>
+<pre><code># A tibble: 4 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
 1 a           1      2     10        205 harris  
 2 b        -999      0     11        220 steve   
-3 c           3   -999     12        250 harris  
-4 d           4      0     13        217 lewis   
-5 e          NA     NA     NA         NA ogunti  </code></pre>
-<p>Count the number of cases in the current data</p>
-<pre class="r"><code>count(d5)</code></pre>
+3 c        -999   -999     12        250 harris  
+4 d           4      0     13        217 lewis   </code></pre>
+<p>Count the number of cases in the current data using the function <code>dplyr::count()</code></p>
+<pre class="r"><code>dplyr::count(d8)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;
-1     5</code></pre>
-<p>Filter out any row that has “harris” for tch_name</p>
-<pre class="r"><code>d5 &lt;- d5 %&gt;% filter(tch_name != &quot;harris&quot;)
+1     4</code></pre>
+<p>Keep any row that has “harris” for tch_name.</p>
+<ul>
+<li>Note: Use the operator <em>==</em> to denote equal to.</li>
+</ul>
+<pre class="r"><code>d81 &lt;- d8 %&gt;% dplyr::filter(tch_name == &quot;harris&quot;)
 
-d5</code></pre>
-<pre><code># A tibble: 3 x 6
+d81</code></pre>
+<pre><code># A tibble: 2 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 c        -999   -999     12        250 harris  </code></pre>
+<p>You could get the same result adding the <code>stringr::str_detect()</code> function.</p>
+<pre class="r"><code>d8 %&gt;% dplyr::filter(stringr::str_detect(tch_name, &#39;har&#39;) )</code></pre>
+<pre><code># A tibble: 2 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 c        -999   -999     12        250 harris  </code></pre>
+<p>Count the number of cases after you filter</p>
+<pre class="r"><code>dplyr::count(d81)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     2</code></pre>
+<p><strong>2. Remove rows based on one criteria (in this case for a character variable). Filter out any row that has the exact match of “harris” for tch_name.</strong></p>
+<p>Review the data (d8)</p>
+<pre><code># A tibble: 4 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 b        -999      0     11        220 steve   
+3 c        -999   -999     12        250 harris  
+4 d           4      0     13        217 lewis   </code></pre>
+<p>Count the number of cases in the current data using the function <code>dplyr::count()</code></p>
+<pre class="r"><code>dplyr::count(d8)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     4</code></pre>
+<p>Filter out any row that has “harris” for tch_name.</p>
+<ul>
+<li>Note: Use the operator <em>!=</em> to denote not equal to.</li>
+</ul>
+<pre class="r"><code>d8 &lt;- d8 %&gt;% dplyr::filter(tch_name != &quot;harris&quot;)
+
+d8</code></pre>
+<pre><code># A tibble: 2 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
 1 b        -999      0     11        220 steve   
-2 d           4      0     13        217 lewis   
-3 e          NA     NA     NA         NA ogunti  </code></pre>
+2 d           4      0     13        217 lewis   </code></pre>
 <p>Count the number of cases after you filter</p>
-<pre class="r"><code>count(d5)</code></pre>
+<pre class="r"><code>dplyr::count(d8)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;
-1     3</code></pre>
-<p><strong>2.Filter out rows based on one criteria (numeric variable)</strong></p>
-<p>Review the data (d5)</p>
+1     2</code></pre>
+<hr />
+</div>
+<div id="function-filter-1" class="section level4">
+<h4>Function: <code>filter()</code></h4>
+<p>Examples using one criteria, numeric variable</p>
+<hr />
+<p><strong>1. Keep rows based on one criteria (in this case for a numeric variable). Keep any row whose value is greater than or equal to 0 for extra2.</strong></p>
+<p>Review the data (d8).</p>
+<pre><code># A tibble: 4 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 b        -999      0     11        220 steve   
+3 c        -999   -999     12        250 harris  
+4 d           4      0     13        217 lewis   </code></pre>
+<p>Count the number of cases in the current data using the function <code>dplyr::count()</code></p>
+<pre class="r"><code>dplyr::count(d8)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     4</code></pre>
+<p>Keep any row that has a value greater than or equal to zero for extra2.</p>
+<ul>
+<li>Note: Use the operator <em>&gt;=</em> to denote greater than or equal to.</li>
+</ul>
+<pre class="r"><code>d8 &lt;- d8 %&gt;% dplyr::filter(extra2 &gt;= 0)
+
+d8</code></pre>
+<pre><code># A tibble: 2 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 d           4      0     13        217 lewis   </code></pre>
+<p>Count the number of cases after you filter</p>
+<pre class="r"><code>dplyr::count(d8)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     2</code></pre>
+<p><strong>2. Remove rows based on one criteria (in this case for a numeric variable). Filter out any row that has the exact match of -999 for extra2, while also keeping rows that have NA for extra2.</strong></p>
+<p>Review the data (d5).</p>
 <pre><code># A tibble: 5 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
@@ -423,15 +504,17 @@ d5</code></pre>
 3 c           3   -999     12        250 harris  
 4 d           4      0     13        217 lewis   
 5 e          NA     NA     NA         NA ogunti  </code></pre>
-<p>Count the number of cases in the current data</p>
-<pre class="r"><code>count(d5)</code></pre>
+<p>Count the number of cases in the current data using the function <code>dplyr::count()</code></p>
+<pre class="r"><code>dplyr::count(d5)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;
 1     5</code></pre>
-<p>Filter out any row that has -999 for extra2</p>
-<p><strong>Note</strong>: You’ll notice that I made an explicit call to keep rows with na values for extra2 in addition to removing rows with the value of -999 for extra2. A drawback of the <code>filter</code> function is that if you filter on a certain variable (such as extra2) it will not only filter out the values you request but it will also drop any row that has NA for that variable. And we may not necessarily want that. In this case, I want to keep the last row of data that has NA for extra2.</p>
-<pre class="r"><code>d5 &lt;- d5 %&gt;% filter(extra2 != -999 | is.na(extra2))
+<p>Filter out any row that has -999 for extra2.</p>
+<ul>
+<li>Note: You’ll notice that I make an explicit call to <strong>keep</strong> rows with NA values for extra2 in addition to removing rows with the value of -999 for extra2, using the <em>|</em> operator to denote and/or. A drawback of the <code>filter</code> function is that if you filter on a certain variable (such as extra2) it will not only filter out the values you request but it will also drop any row that has NA for that variable. And we may not necessarily want that. In this case, I want to keep the last row of data that has NA for extra2.</li>
+</ul>
+<pre class="r"><code>d5 &lt;- d5 %&gt;% dplyr::filter(extra2 != -999 | is.na(extra2))
 
 d5</code></pre>
 <pre><code># A tibble: 4 x 6
@@ -442,83 +525,329 @@ d5</code></pre>
 3 d           4      0     13        217 lewis   
 4 e          NA     NA     NA         NA ogunti  </code></pre>
 <p>Count the number of cases after you filter</p>
-<pre class="r"><code>count(d5)</code></pre>
+<pre class="r"><code>dplyr::count(d5)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;
 1     4</code></pre>
-<p><strong>3.Filter out rows based on multiple criteria</strong></p>
-<p>Review the data (d3)</p>
-<pre><code># A tibble: 5 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     10        205 harris  
-2 b        -999      0     11        220 steve   
-3 c           3   -999     12        250 harris  
-4 d           4      0     13        217 lewis   
-5 e          NA     NA     NA         NA ogunti  </code></pre>
-<p>Count the number of cases in the current data</p>
-<pre class="r"><code>count(d5)</code></pre>
-<pre><code># A tibble: 1 x 1
-      n
-  &lt;int&gt;
-1     5</code></pre>
-<p>Filter out any row that has -999 for extra2 or extra3 (again retaining any row that has NA values for those variables)</p>
-<pre class="r"><code>d5 &lt;- d5 %&gt;% filter((is.na(extra2) | extra2!=-999) &amp; ( is.na(extra3) | extra3 !=-999))
-
-d5</code></pre>
-<pre><code># A tibble: 3 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     10        205 harris  
-2 d           4      0     13        217 lewis   
-3 e          NA     NA     NA         NA ogunti  </code></pre>
-<p>Count the number of cases after you filter</p>
-<pre class="r"><code>count(d5)</code></pre>
-<pre><code># A tibble: 1 x 1
-      n
-  &lt;int&gt;
-1     3</code></pre>
 <hr />
 </div>
-<div id="function-dplyrfilter_if" class="section level4">
-<h4>Function: <code>dplyr::filter_if()</code></h4>
+<div id="function-filter-2" class="section level4">
+<h4>Function: <code>filter()</code></h4>
+<p>Examples using multiple criteria same variables</p>
 <hr />
-<p><strong>1.Filter out rows based on values from a certain type of variable</strong></p>
-<p>Review the data (d3)</p>
-<pre><code># A tibble: 5 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     10        205 harris  
-2 b        -999      0     11        220 steve   
-3 c           3   -999     12        250 harris  
-4 d           4      0     13        217 lewis   
-5 e          NA     NA     NA         NA ogunti  </code></pre>
-<p>Count the number of cases in the current data</p>
-<pre class="r"><code>count(d5)</code></pre>
-<pre><code># A tibble: 1 x 1
-      n
-  &lt;int&gt;
-1     5</code></pre>
-<p>Filter out any row that has NA for <strong>ALL</strong> numeric variables (notice the use of <code>any_vars()</code>)</p>
-<pre class="r"><code>d5 &lt;- d5 %&gt;% dplyr::filter_if(is.numeric, any_vars(!is.na(.)))
-
-d5</code></pre>
+<p><strong>1. Keep rows based on multiple criteria from one variable (in this case for a numeric variable). Keep any row that has -999 <em>OR</em> 0 for extra3.</strong></p>
+<p>Review the data (d8).</p>
 <pre><code># A tibble: 4 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
 1 a           1      2     10        205 harris  
 2 b        -999      0     11        220 steve   
-3 c           3   -999     12        250 harris  
+3 c        -999   -999     12        250 harris  
 4 d           4      0     13        217 lewis   </code></pre>
-<p>Count the number of cases after you filter</p>
-<pre class="r"><code>count(d5)</code></pre>
+<p>Count the number of cases in the current data using the function <code>dplyr::count()</code></p>
+<pre class="r"><code>dplyr::count(d8)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;
 1     4</code></pre>
-<p><strong>2.Filter out rows based on values from a certain type of variable</strong></p>
-<p>Review the data (d3)</p>
+<p>Keep any row that has -999 or 0 for extra2.</p>
+<ul>
+<li>Note: Use of the operator <em>|</em> to denote or (<em>and</em> doesn’t really apply since it’s the same variable).</li>
+</ul>
+<pre class="r"><code>d81 &lt;- d8 %&gt;% dplyr::filter(extra3 == -999 | extra3 ==0)
+
+d81</code></pre>
+<pre><code># A tibble: 3 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 b        -999      0     11        220 steve   
+2 c        -999   -999     12        250 harris  
+3 d           4      0     13        217 lewis   </code></pre>
+<p>You would get the same result using the <em>xor</em> operator.</p>
+<pre class="r"><code>d8 %&gt;% dplyr::filter(xor(extra3 == -999 , extra3 ==0))</code></pre>
+<pre><code># A tibble: 3 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 b        -999      0     11        220 steve   
+2 c        -999   -999     12        250 harris  
+3 d           4      0     13        217 lewis   </code></pre>
+<p>Count the number of cases after you filter</p>
+<pre class="r"><code>dplyr::count(d81)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     3</code></pre>
+<p><strong>2. Keep rows based on multiple criteria from one variable (in this case for a numeric variable). Keep any row whose value for extra3 is between 0 and 10.</strong></p>
+<p>Review the data (d8).</p>
+<pre><code># A tibble: 4 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 b        -999      0     11        220 steve   
+3 c        -999   -999     12        250 harris  
+4 d           4      0     13        217 lewis   </code></pre>
+<p>Count the number of cases in the current data using the function <code>dplyr::count()</code></p>
+<pre class="r"><code>dplyr::count(d8)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     4</code></pre>
+<p>Keep any row that has a value between 0 and 10 for extra3.</p>
+<ul>
+<li>Note: Use the operator <em>&amp;</em> to denote that both criteria must be met.</li>
+</ul>
+<pre class="r"><code>d81 &lt;- d8 %&gt;% dplyr::filter(extra3 &gt;= 0 &amp; extra3 &lt;=10)
+
+d81</code></pre>
+<pre><code># A tibble: 3 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 b        -999      0     11        220 steve   
+3 d           4      0     13        217 lewis   </code></pre>
+<p>You would get the same result using the <code>dplyr::between()</code> function.</p>
+<pre class="r"><code>d8 %&gt;% dplyr::filter(dplyr::between(extra3, 0, 10))</code></pre>
+<pre><code># A tibble: 3 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 b        -999      0     11        220 steve   
+3 d           4      0     13        217 lewis   </code></pre>
+<p>Count the number of cases after you filter</p>
+<pre class="r"><code>dplyr::count(d81)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     3</code></pre>
+<p><strong>3. Keep rows based on multiple criteria from one variable (in this case for a character variable). Keep any row whose tch_name is either “harris” <em>OR</em> “lewis”.</strong></p>
+<p>Review the data (d8).</p>
+<pre><code># A tibble: 4 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 b        -999      0     11        220 steve   
+3 c        -999   -999     12        250 harris  
+4 d           4      0     13        217 lewis   </code></pre>
+<p>Count the number of cases in the current data using the function <code>dplyr::count()</code></p>
+<pre class="r"><code>dplyr::count(d8)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     4</code></pre>
+<p>Keep any row where tch_name is “harris” or “lewis”.</p>
+<ul>
+<li>Note: Use of the operator <em>|</em> to denote or (<em>and</em> doesn’t really apply since it’s the same variable).</li>
+</ul>
+<pre class="r"><code>d81 &lt;- d8 %&gt;% dplyr::filter(tch_name == &quot;harris&quot; | tch_name == &quot;lewis&quot;)
+
+d81</code></pre>
+<pre><code># A tibble: 3 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 c        -999   -999     12        250 harris  
+3 d           4      0     13        217 lewis   </code></pre>
+<p>You would get the same result using the <em>%in%</em> operator.</p>
+<pre class="r"><code>d8 %&gt;% dplyr::filter(tch_name %in% c(&quot;harris&quot;, &quot;lewis&quot;))</code></pre>
+<pre><code># A tibble: 3 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 c        -999   -999     12        250 harris  
+3 d           4      0     13        217 lewis   </code></pre>
+<p>Or the same result adding the <code>stringr::str_detect()</code> function.</p>
+<pre class="r"><code>d8 %&gt;% dplyr::filter(stringr::str_detect(tch_name, &#39;harris|lewis&#39;) )</code></pre>
+<pre><code># A tibble: 3 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 c        -999   -999     12        250 harris  
+3 d           4      0     13        217 lewis   </code></pre>
+<p>Count the number of cases after you filter</p>
+<pre class="r"><code>dplyr::count(d81)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     3</code></pre>
+<hr />
+</div>
+<div id="function-filter-3" class="section level4">
+<h4>Function: <code>filter()</code></h4>
+<p>Examples using multiple criteria different variables, keep rows</p>
+<hr />
+<p><strong>1. Keep rows based on multiple criteria (in this case numeric variables). Keep rows that have -999 for extra1 <em>AND/OR</em> -999 for extra2.</strong></p>
+<p>Review the data (d8)</p>
+<pre><code># A tibble: 4 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 b        -999      0     11        220 steve   
+3 c        -999   -999     12        250 harris  
+4 d           4      0     13        217 lewis   </code></pre>
+<p>Count the number of cases in the current data using the function <code>dplyr::count()</code></p>
+<pre class="r"><code>dplyr::count(d8)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     4</code></pre>
+<p>Keep rows that have -999 for extra2 and/or extra3.</p>
+<ul>
+<li>Note: Use of the <em>|</em> operator to request and/or.</li>
+</ul>
+<pre class="r"><code>d8 &lt;- d8 %&gt;% dplyr::filter(extra2 == -999 | extra3 == -999)
+
+d8</code></pre>
+<pre><code># A tibble: 2 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 b        -999      0     11        220 steve   
+2 c        -999   -999     12        250 harris  </code></pre>
+<p>Count the number of cases after you filter</p>
+<pre class="r"><code>dplyr::count(d8)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     2</code></pre>
+<p><strong>2. Keep rows based on multiple criteria (in this case numeric variables). Keep rows that have -999 for extra1 <em>OR</em> -999 for extra2 (not for both).</strong></p>
+<p>Review the data (d8)</p>
+<pre><code># A tibble: 4 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 b        -999      0     11        220 steve   
+3 c        -999   -999     12        250 harris  
+4 d           4      0     13        217 lewis   </code></pre>
+<p>Count the number of cases in the current data using the function <code>dplyr::count()</code></p>
+<pre class="r"><code>dplyr::count(d8)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     4</code></pre>
+<p>Keep rows that have -999 for extra2 or -999 for extra3 (but not -999 for both).</p>
+<ul>
+<li>Note: Use the <em>xor</em> operator to request or (but not both).</li>
+</ul>
+<pre class="r"><code>d8 &lt;- d8 %&gt;% dplyr::filter(xor(extra2 == -999 , extra3 == -999))
+
+d8</code></pre>
+<pre><code># A tibble: 1 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 b        -999      0     11        220 steve   </code></pre>
+<p>Count the number of cases after you filter</p>
+<pre class="r"><code>dplyr::count(d8)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     1</code></pre>
+<p><strong>3. Keep rows based on multiple criteria (in this case numeric variables). Keep rows that have <em>BOTH</em> -999 for extra1 <em>AND</em> -999 for extra2.</strong></p>
+<p>Review the data (d8)</p>
+<pre><code># A tibble: 4 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 b        -999      0     11        220 steve   
+3 c        -999   -999     12        250 harris  
+4 d           4      0     13        217 lewis   </code></pre>
+<p>Count the number of cases in the current data using the function <code>dplyr::count()</code></p>
+<pre class="r"><code>dplyr::count(d8)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     4</code></pre>
+<p>Keep rows that have -999 for extra2 and also have -999 extra3.</p>
+<ul>
+<li>Note: Use the <em>&amp;</em> operator to request and.</li>
+</ul>
+<pre class="r"><code>d8 &lt;- d8 %&gt;% dplyr::filter(extra2 == -999 &amp; extra3 == -999)
+
+d8</code></pre>
+<pre><code># A tibble: 1 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 c        -999   -999     12        250 harris  </code></pre>
+<p>Count the number of cases after you filter</p>
+<pre class="r"><code>dplyr::count(d8)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     1</code></pre>
+<hr />
+</div>
+<div id="function-filter-4" class="section level4">
+<h4>Function: <code>filter()</code></h4>
+<p>Examples using multiple criteria from different variables, remove rows</p>
+<hr />
+<p><strong>1. Remove rows based on multiple criteria from multiple variables (in this case for two numeric variables). Filter out any row that has -999 for extra2 <em>AND/OR</em> has -999 for extra3.</strong></p>
+<p>Review the data (d8)</p>
+<pre><code># A tibble: 4 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 b        -999      0     11        220 steve   
+3 c        -999   -999     12        250 harris  
+4 d           4      0     13        217 lewis   </code></pre>
+<p>Count the number of cases in the current data using the function <code>dplyr::count()</code></p>
+<pre class="r"><code>dplyr::count(d8)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     4</code></pre>
+<p>Filter out any row that has -999 for extra2 and/or has -999 extra3.</p>
+<ul>
+<li>Note: Notice that I put the operator <em>!</em> outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.</li>
+</ul>
+<pre class="r"><code>d8 &lt;- d8 %&gt;% dplyr::filter(!(extra2 ==-999 | extra3 ==-999))
+
+d8</code></pre>
+<pre><code># A tibble: 2 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 d           4      0     13        217 lewis   </code></pre>
+<p>Count the number of cases after you filter</p>
+<pre class="r"><code>dplyr::count(d8)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     2</code></pre>
+<p><strong>2. Remove rows based on multiple criteria from multiple variables (in this case for two numeric variables). Filter out any row that has -999 for <em>BOTH</em> extra2 <em>AND</em> for extra3.</strong></p>
+<p>Review the data (d8)</p>
+<pre><code># A tibble: 4 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 b        -999      0     11        220 steve   
+3 c        -999   -999     12        250 harris  
+4 d           4      0     13        217 lewis   </code></pre>
+<p>Count the number of cases in the current data using the function <code>dplyr::count()</code></p>
+<pre class="r"><code>dplyr::count(d8)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     4</code></pre>
+<p>Filter out any row that has -999 for extra2 and has -999 extra3.</p>
+<ul>
+<li>Note: Notice that I put the operator <em>!</em> outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.</li>
+</ul>
+<pre class="r"><code>d8 &lt;- d8 %&gt;% dplyr::filter(!(extra2 ==-999 &amp; extra3 ==-999))
+
+d8</code></pre>
+<pre><code># A tibble: 3 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 b        -999      0     11        220 steve   
+3 d           4      0     13        217 lewis   </code></pre>
+<p>Count the number of cases after you filter</p>
+<pre class="r"><code>dplyr::count(d8)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     3</code></pre>
+<p><strong>3. Remove rows based on multiple criteria (in this case for two numeric variables). Filter out any row that has -999 for extra2 and/or has -999 for extra3. While also keeping your NA values.</strong></p>
+<p>Review the data (d5)</p>
 <pre><code># A tibble: 5 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
@@ -527,14 +856,19 @@ d5</code></pre>
 3 c           3   -999     12        250 harris  
 4 d           4      0     13        217 lewis   
 5 e          NA     NA     NA         NA ogunti  </code></pre>
-<p>Count the number of cases in the current data</p>
-<pre class="r"><code>count(d5)</code></pre>
+<p>Count the number of cases in the current data using the function <code>dplyr::count()</code></p>
+<pre class="r"><code>dplyr::count(d5)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;
 1     5</code></pre>
-<p>Filter out any row that has -999 for <strong>AT LEAST ONE</strong> numeric variables (notice the use of <code>all_vars()</code>)</p>
-<pre class="r"><code>d5 &lt;- d5 %&gt;% dplyr::filter_if(is.numeric, all_vars(. !=-999 | is.na(.)))
+<p>Filter out any row that has -999 for extra2 and/or -999 for extra3 (retaining any row that has NA values for those variables).</p>
+<ul>
+<li><p>Note: Again, you’ll notice that I make an explicit call to <strong>keep</strong> rows with NA values for extra2 and extra3 in addition to removing rows with the value of -999 for extra2 and extra 3, using the <em>|</em> operator to denote and/or. A drawback of the <code>filter</code> function is that if you filter on a certain variables it will not only filter out the values you request but it will also drop any row that has NA for those variables. And we may not necessarily want that. In this case, I want to keep the last row of data that has NA for extra2.</p></li>
+<li><p>Note: Notice that for the first part of the equation I put the operator <em>!</em> outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.</p></li>
+</ul>
+<pre class="r"><code>d5 &lt;- d5 %&gt;% 
+  dplyr::filter(!(extra2==-999 | extra3 ==-999) | (is.na(extra2) | is.na(extra3)))
 
 d5</code></pre>
 <pre><code># A tibble: 3 x 6
@@ -544,165 +878,209 @@ d5</code></pre>
 2 d           4      0     13        217 lewis   
 3 e          NA     NA     NA         NA ogunti  </code></pre>
 <p>Count the number of cases after you filter</p>
-<pre class="r"><code>count(d5)</code></pre>
+<pre class="r"><code>dplyr::count(d5)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;
 1     3</code></pre>
 <hr />
 </div>
-<div id="function-dplyrfilter_all" class="section level4">
-<h4>Function: <code>dplyr::filter_all()</code></h4>
+<div id="function-filter-5" class="section level4">
+<h4>Function: <code>filter()</code></h4>
+<p>Examples using criteria that applies to a type of variable</p>
 <hr />
-<p><strong>1.Filter out rows based on values from all variables</strong></p>
-<p>Review the data (d3)</p>
-<pre><code># A tibble: 5 x 5
+<p><strong>1.Remove rows based on values from a certain type of variable (in this case numeric variables). Filter out any row that has NA for <em>ALL</em> numeric variables.</strong></p>
+<p>Review the data (d9)</p>
+<pre><code># A tibble: 6 x 5
   extra1 extra2 extra3    id test_score
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
 1 a           1      2    10        205
 2 b        -999      0    11        220
 3 c           3   -999    12        250
-4 d           4      0    13        217
-5 e          NA     NA    NA         NA</code></pre>
-<p>Count the number of cases in the current data</p>
-<pre class="r"><code>count(d3)</code></pre>
+4 d          NA      0    13        217
+5 &lt;NA&gt;       NA     NA    NA         NA
+6 e          NA     NA    NA         NA</code></pre>
+<p>Count the number of cases in the current data using the function <code>dplyr::count()</code></p>
+<pre class="r"><code>dplyr::count(d9)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;
-1     5</code></pre>
-<p>Filter out any row that has NA for at least one variable (notice the use of <code>all_vars()</code>)</p>
-<pre class="r"><code>d3 %&gt;% dplyr::filter_all(all_vars(. !=-999 | is.na(.)))</code></pre>
-<pre><code># A tibble: 3 x 5
+1     6</code></pre>
+<p>Filter out any row that has NA for <strong>ALL</strong> numeric variables</p>
+<ul>
+<li><p>Note: Note the use of <code>dplyr::if_all()</code> predicate function to select columns. This function is available in version 1.0.5 of <code>dplyr</code>.</p></li>
+<li><p>Note: Notice that I put the operator <em>!</em> outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.</p></li>
+</ul>
+<pre class="r"><code>d9 &lt;- d9 %&gt;% dplyr::filter(!(dplyr::if_all(is.numeric,~ is.na(.))))
+
+d9</code></pre>
+<pre><code># A tibble: 4 x 5
   extra1 extra2 extra3    id test_score
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
 1 a           1      2    10        205
-2 d           4      0    13        217
-3 e          NA     NA    NA         NA</code></pre>
-<pre class="r"><code>d2</code></pre>
-<pre><code># A tibble: 5 x 6
-  extra1 extra2 extra3    id test_score1 test_score2
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
-1 a           1      2    10         205         500
-2 b        -999      0    11         220         480
-3 c           3   -999    12         250         540
-4 d           4      0    13         217         499
-5 &lt;NA&gt;       NA     NA    NA          NA          NA</code></pre>
+2 b        -999      0    11        220
+3 c           3   -999    12        250
+4 d          NA      0    13        217</code></pre>
 <p>Count the number of cases after you filter</p>
-<pre class="r"><code>count(d2)</code></pre>
+<pre class="r"><code>dplyr::count(d9)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;
-1     5</code></pre>
-<p><strong>2.Filter out rows based on values from all variables</strong></p>
-<p>Review the data (d3)</p>
-<pre><code># A tibble: 5 x 5
+1     4</code></pre>
+<p><strong>2. Filter out rows based on values from a certain type of variable (in this case numeric). Filter out any row that has -999 for <em>AT LEAST ONE</em> numeric variable.</strong></p>
+<p>Review the data (d9)</p>
+<pre><code># A tibble: 6 x 5
   extra1 extra2 extra3    id test_score
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
 1 a           1      2    10        205
 2 b        -999      0    11        220
 3 c           3   -999    12        250
-4 d           4      0    13        217
-5 e          NA     NA    NA         NA</code></pre>
-<p>Count the number of cases in the current data</p>
-<pre class="r"><code>count(d3)</code></pre>
+4 d          NA      0    13        217
+5 &lt;NA&gt;       NA     NA    NA         NA
+6 e          NA     NA    NA         NA</code></pre>
+<p>Count the number of cases in the current data using the function <code>dplyr::count()</code></p>
+<pre class="r"><code>dplyr::count(d9)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;
-1     5</code></pre>
-<p>Filter out any row that has NA for all variables (notice the use of <code>any_vars()</code>)</p>
-<pre class="r"><code>d3 %&gt;% dplyr::filter_all(any_vars(. !=-999 | is.na(.)))</code></pre>
-<pre><code># A tibble: 5 x 5
+1     6</code></pre>
+<p>Filter out any row that has -999 for <strong>AT LEAST ONE</strong> numeric variable</p>
+<ul>
+<li><p>Note: Note the use of <code>dplyr::if_any()</code> predicate function to select columns. This function is available in version 1.0.5 of <code>dplyr</code>.</p></li>
+<li><p>Note: Notice that I put the operator <em>!</em> outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.</p></li>
+<li><p>Note: You’ll notice I did not have to make an explicit call to keep the NA values for numeric variables this time. Using the <code>dplyr::if_any()</code> function only removed the values in the argument.</p></li>
+</ul>
+<pre class="r"><code>d9 &lt;- d9 %&gt;% dplyr::filter(!(dplyr::if_any(is.numeric, ~ (. ==-999)))) 
+
+d9</code></pre>
+<pre><code># A tibble: 4 x 5
   extra1 extra2 extra3    id test_score
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
 1 a           1      2    10        205
-2 b        -999      0    11        220
-3 c           3   -999    12        250
-4 d           4      0    13        217
-5 e          NA     NA    NA         NA</code></pre>
-<pre class="r"><code>d3</code></pre>
-<pre><code># A tibble: 5 x 5
-  extra1 extra2 extra3    id test_score
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
-1 a           1      2    10        205
-2 b        -999      0    11        220
-3 c           3   -999    12        250
-4 d           4      0    13        217
-5 e          NA     NA    NA         NA</code></pre>
+2 d          NA      0    13        217
+3 &lt;NA&gt;       NA     NA    NA         NA
+4 e          NA     NA    NA         NA</code></pre>
 <p>Count the number of cases after you filter</p>
-<p><strong>Note</strong>: You will notice that we lost no cases, because there is no case that has -999 for every variable.</p>
-<pre class="r"><code>count(d3)</code></pre>
+<pre class="r"><code>dplyr::count(d9)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;
-1     5</code></pre>
+1     4</code></pre>
 <hr />
 </div>
-<div id="function-dplyrfilter_at" class="section level4">
-<h4>Function: <code>dplyr::filter_at()</code></h4>
+<div id="function-filter-6" class="section level4">
+<h4>Function: <code>filter()</code></h4>
+<p>Examples using criteria that applies to all variables</p>
 <hr />
-<p><strong>1.Filter out rows based on values from select variables</strong></p>
-<p>Review the data (d3)</p>
-<pre><code># A tibble: 5 x 5
-  extra1 extra2 extra3    id test_score
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
-1 a           1      2    10        205
-2 b        -999      0    11        220
-3 c           3   -999    12        250
-4 d           4      0    13        217
-5 e          NA     NA    NA         NA</code></pre>
-<p>Count the number of cases in the current data</p>
-<pre class="r"><code>count(d3)</code></pre>
+<p><strong>1.Filter out rows based on values from all variables. Filter out any row that has -999 for <em>AT LEAST ONE</em> variable.</strong></p>
+<p>Review the data (d10)</p>
+<pre><code># A tibble: 6 x 4
+  extra2 extra3    id test_score
+   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
+1      1      2    10        205
+2   -999      0    11        220
+3      3   -999    12        250
+4     NA      0    13        217
+5     NA     NA    NA         NA
+6   -999   -999  -999       -999</code></pre>
+<p>Count the number of cases in the current data using the function <code>dplyr::count()</code></p>
+<pre class="r"><code>dplyr::count(d10)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;
-1     5</code></pre>
-<p>Filter out any row that has NA for <strong>either</strong> extra2 and extra3 (notice the use of <code>all_vars()</code>)</p>
-<pre class="r"><code>d3 %&gt;% dplyr::filter_at(vars(extra2, extra3), all_vars(. !=-999 | is.na(.)))</code></pre>
-<pre><code># A tibble: 3 x 5
-  extra1 extra2 extra3    id test_score
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
-1 a           1      2    10        205
-2 d           4      0    13        217
-3 e          NA     NA    NA         NA</code></pre>
+1     6</code></pre>
+<p>Filter out any row that has NA for at least one variable</p>
+<ul>
+<li><p>Note: Note the use of <code>dplyr::if_any()</code> predicate function to select columns. This function is available in version 1.0.5 of <code>dplyr</code>.</p></li>
+<li><p>Note: We use the <code>tidyverse</code> selection helper <code>everything()</code> to refer to all variables.</p></li>
+<li><p>Note: Notice that I put the operator <em>!</em> outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.</p></li>
+<li><p>Note: You’ll notice I did not have to make an explicit call to keep the NA values for numeric variables this time. Using the <code>dplyr::if_any()</code> function only removed the values in the argument.</p></li>
+</ul>
+<pre class="r"><code>d10 &lt;- d10 %&gt;% filter(!(dplyr::if_any(everything(), ~ .x ==-999)))
+
+d10</code></pre>
+<pre><code># A tibble: 3 x 4
+  extra2 extra3    id test_score
+   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
+1      1      2    10        205
+2     NA      0    13        217
+3     NA     NA    NA         NA</code></pre>
 <p>Count the number of cases after you filter</p>
-<pre class="r"><code>count(d3)</code></pre>
+<pre class="r"><code>dplyr::count(d10)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;
-1     5</code></pre>
-<p><strong>2.Filter out rows based on values from select variables</strong></p>
-<p>Review the data (d3)</p>
-<pre><code># A tibble: 5 x 5
-  extra1 extra2 extra3    id test_score
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
-1 a           1      2    10        205
-2 b        -999      0    11        220
-3 c           3   -999    12        250
-4 d           4      0    13        217
-5 e          NA     NA    NA         NA</code></pre>
+1     3</code></pre>
+<p><strong>2.Filter out rows based on values from all variables. Filter out any row that has NA for <em>ALL</em> variables.</strong></p>
+<p>Review the data (d10)</p>
+<pre><code># A tibble: 6 x 4
+  extra2 extra3    id test_score
+   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
+1      1      2    10        205
+2   -999      0    11        220
+3      3   -999    12        250
+4     NA      0    13        217
+5     NA     NA    NA         NA
+6   -999   -999  -999       -999</code></pre>
 <p>Count the number of cases in the current data</p>
-<pre class="r"><code>count(d3)</code></pre>
+<pre class="r"><code>dplyr::count(d10)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;
-1     5</code></pre>
-<p>Filter out any row that has NA for <strong>both</strong> extra2 and extra3 (notice the use of <code>any_vars()</code>)</p>
-<pre class="r"><code>d3 %&gt;% dplyr::filter_at(vars(extra2, extra3), any_vars(. !=-999 | is.na(.)))</code></pre>
-<pre><code># A tibble: 5 x 5
-  extra1 extra2 extra3    id test_score
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
-1 a           1      2    10        205
-2 b        -999      0    11        220
-3 c           3   -999    12        250
-4 d           4      0    13        217
-5 e          NA     NA    NA         NA</code></pre>
+1     6</code></pre>
+<p>Filter out any row that has NA for all variables</p>
+<ul>
+<li><p>Note: Note the use of <code>dplyr::if_all()</code> predicate function to select columns. This function is available in version 1.0.5 of <code>dplyr</code>.</p></li>
+<li><p>Note: We use the <code>tidyverse</code> selection helper <code>everything()</code> to refer to all variables.</p></li>
+<li><p>Note: Notice that I put the operator <em>!</em> outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.</p></li>
+<li><p>Note: You’ll notice I did not have to make an explicit call to keep the NA values for numeric variables this time. Using the <code>dplyr::if_all()</code> function only removed the values in the argument.</p></li>
+</ul>
+<pre class="r"><code>d10 %&gt;% dplyr::filter(!(dplyr::if_all(everything(), ~ .x ==-999)))</code></pre>
+<pre><code># A tibble: 5 x 4
+  extra2 extra3    id test_score
+   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
+1      1      2    10        205
+2   -999      0    11        220
+3      3   -999    12        250
+4     NA      0    13        217
+5     NA     NA    NA         NA</code></pre>
 <p>Count the number of cases after you filter</p>
-<p><strong>Note</strong>: You will notice that we lost no cases, because there is no case that has -999 for both extra2 and extra3.</p>
-<pre class="r"><code>count(d3)</code></pre>
+<pre class="r"><code>dplyr::count(d10)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;
-1     5</code></pre>
+1     6</code></pre>
+</div>
+</div>
+<div id="package-tidyr" class="section level3">
+<h3>Package: tidyr</h3>
+<hr />
+<div id="function-tidyrdrop_na" class="section level4">
+<h4>Function: <code>tidyr::drop_na()</code></h4>
+<hr />
+<p><strong>1.Filter out rows based on a select variable (stu_id) having NA values</strong></p>
+<p>Review the data (d7)</p>
+<pre><code># A tibble: 4 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     NA        205 harris  
+2 b          NA      0     11        220 steve   
+3 c           3     NA     12        250 harris  
+4 d           4      0     13        217 lewis   </code></pre>
+<p>Count the number of cases in the current data</p>
+<pre class="r"><code>dplyr::count(d7)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     4</code></pre>
+<p>Filter out any row that has NA for stu_id.</p>
+<pre class="r"><code>d7 &lt;- d7 %&gt;% tidyr::drop_na(stu_id)</code></pre>
+<p>Count the number of cases after you filter</p>
+<pre class="r"><code>dplyr::count(d7)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     3</code></pre>
 </div>
 </div>
 

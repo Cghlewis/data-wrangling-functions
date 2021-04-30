@@ -17,7 +17,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-#### Function: `dplyr::rename_with()`
+#### Function: `rename_with()`
 
 ---
 
@@ -54,11 +54,11 @@ d5
 
 Modify variable names by adding the `stringr::str_remove()` function and the selection helper `starts_with()`.
 
-**Note:**: Other `tidyselect` selection helpers include `ends_with()`, `contains`, `matches`, and `num_range`, `where` and more.
+* Note: Other `tidyselect` selection helpers include `ends_with()`, `contains`, `matches`, and `num_range`, `where` and more.
 
 ```{r}
 
-d5 %>% dplyr::rename_with(~ stringr::str_remove(., "s_"), starts_with("s_"))
+d5 %>% dplyr::rename_with(~ stringr::str_remove(., "s_"), tidyselect::starts_with("s_"))
 
 ```
 

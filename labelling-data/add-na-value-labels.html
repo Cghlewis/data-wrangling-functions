@@ -379,10 +379,10 @@ summary {
 <h3>Package: labelled</h3>
 <p><strong>Note</strong>: Using the <code>labelled</code> package, adding NA label values will not allow these values to be treated as NA in R. However, they will be labelled as NA when you export to a file type such as .sav and will be treated as NA in those files.</p>
 <hr />
-<div id="function-labelledset_na_values" class="section level4">
-<h4>Function: <code>labelled::set_na_values()</code></h4>
+<div id="function-set_na_values" class="section level4">
+<h4>Function: <code>set_na_values()</code></h4>
 <hr />
-<p><strong>1.Add a label for one variable, one NA value</strong></p>
+<p><strong>1.Add a label for one NA value (-999), for one variable (Var3).</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -390,12 +390,12 @@ summary {
 1 a         1     2
 2 b      -999     0
 3 c         3  -999</code></pre>
-<p>Add NA label</p>
+<p>Add NA label for -999</p>
 <pre class="r"><code>d1 &lt;- d1 %&gt;% labelled::set_na_values(Var3=-999)
 
 labelled::na_values(d1$Var3)</code></pre>
 <pre><code>[1] -999</code></pre>
-<p><strong>2. Add a label for one variable, multiple NA values</strong></p>
+<p><strong>2. Add labels for multiple NA values (-999, 0), for one variable (Var3)</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -403,17 +403,17 @@ labelled::na_values(d1$Var3)</code></pre>
 1 a         1     2
 2 b      -999     0
 3 c         3  -999</code></pre>
-<p>Add NA labels</p>
+<p>Add NA labels for -999 and 0</p>
 <pre class="r"><code>d1 &lt;- d1 %&gt;% labelled::set_na_values(Var3=c(-999,0))
 
 labelled::na_values(d1$Var3)</code></pre>
 <pre><code>[1] -999    0</code></pre>
 <hr />
 </div>
-<div id="function-labelledlabelled_spss" class="section level4">
-<h4>Function: <code>labelled::labelled_spss()</code></h4>
+<div id="function-labelled_spss" class="section level4">
+<h4>Function: <code>labelled_spss()</code></h4>
 <hr />
-<p><strong>1. Label NA values for multiple variables that have the same NA values</strong></p>
+<p><strong>1. Label NA values for multiple variables (Var2 and Var3) that have the same NA value (-999)</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -421,7 +421,7 @@ labelled::na_values(d1$Var3)</code></pre>
 1 a         1     2
 2 b      -999     0
 3 c         3  -999</code></pre>
-<p>Add NA labels</p>
+<p>Add NA labels for -999</p>
 <pre class="r"><code>d1 &lt;- d1 %&gt;% 
   dplyr::mutate_at(vars(Var2:Var3), 
             ~labelled::labelled_spss(., na_values=-999))

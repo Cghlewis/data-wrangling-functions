@@ -55,3 +55,41 @@ d6 <- tibble::tribble(
   "d", 4, 0, 13, 217, "lewis",
   "e", NA, NA, NA, NA, "ogunti"
 )
+
+d7 <- tibble::tribble(
+  ~extra1, ~extra2, ~extra3, ~stu_id, ~test_score, ~tch_name,
+  "a", 1, 2, NA, 205, "harris",
+  "b", NA, 0, 11, 220, "steve",
+  "c", 3, NA, 12, 250, "harris",
+  "d", 4, 0, 13, 217, "lewis"
+)
+
+d8 <- tibble::tribble(
+  ~extra1, ~extra2, ~extra3, ~stu_id, ~test_score, ~tch_name,
+  "a", 1, 2, 10, 205, "harris",
+  "b", -999, 0, 11, 220, "steve",
+  "c", -999, -999, 12, 250, "harris",
+  "d", 4, 0, 13, 217, "lewis"
+)
+
+d9 <- tibble::tribble(
+  ~extra1, ~extra2, ~extra3, ~id, ~test_score,
+  "a", 1, 2, 10, 205,
+  "b", -999, 0, 11, 220,
+  "c", 3, -999, 12, 250,
+  "d", NA, 0, 13, 217,
+  NA_character_, NA, NA, NA, NA,
+  "e", NA, NA, NA, NA
+)
+
+
+d10 <- tibble::tribble(
+  ~extra2, ~extra3, ~id, ~test_score,
+  1, 2, 10, 205,
+  -999, 0, 11, 220,
+  3, -999, 12, 250,
+  NA, 0, 13, 217,
+NA, NA, NA, NA,
+  -999, -999, -999, -999
+)
+

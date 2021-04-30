@@ -18,7 +18,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-#### Function: `forcats::fct_relevel()`
+#### Function: `fct_relevel()`
 
 ---
 
@@ -33,9 +33,9 @@ d2
 
 ```
 
-Convert s_grade to factor
-
 ```{r, echo=FALSE}
+
+# Convert s_grade to factor
 
 d2 <- d2 %>% mutate(s_grade = as_factor(s_grade))
 
@@ -102,7 +102,7 @@ str(d2$s_grade)
 
 ---
 
-#### Function: `labelled::to_factor()`
+#### Function: `to_factor()`
 
 ---
 
@@ -110,7 +110,7 @@ In the rare occasion where you have a labelled variable that you want to convert
 
 **1\. Order s_grade levels: K,1,2,3**
 
-Review the data (d2)
+Review the data (d3)
 
 ```{r, echo=FALSE}
 

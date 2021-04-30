@@ -376,47 +376,93 @@ summary {
 
 
 <p><br></p>
+<div id="package-forcats" class="section level3">
+<h3>Package: forcats</h3>
+<hr />
+<div id="function-as_factor" class="section level4">
+<h4>Function: <code>as_factor()</code></h4>
+<hr />
+<p><strong>1. Convert a variable (Var1) to a factor</strong></p>
+<p>Review the data (d2)</p>
+<pre><code># A tibble: 3 x 4
+  Var1   Var2 Var3  Var4      
+  &lt;chr&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;     
+1 b         2 3.6   10/10/2004
+2 a        NA 8.5   12/14/2007
+3 c         3 X     08/09/2020</code></pre>
+<p>View the class for Var1</p>
+<pre class="r"><code>class(d2$Var1)</code></pre>
+<pre><code>[1] &quot;character&quot;</code></pre>
+<p>Convert Var1 to a factor.</p>
+<ul>
+<li><p>Note: In the case of a character variable, the levels will be chosen based on the order in which they appear. In the case of a numeric variable, the levels will be numerically ordered.</p></li>
+<li><p>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and saving over the original variable by naming the new variable the same name as the original.</p></li>
+</ul>
+<pre class="r"><code>d2 &lt;- d2 %&gt;% dplyr::mutate(Var1 = forcats::as_factor(Var1))
+
+class(d2$Var1)</code></pre>
+<pre><code>[1] &quot;factor&quot;</code></pre>
+<pre class="r"><code>levels(d2$Var1)</code></pre>
+<pre><code>[1] &quot;b&quot; &quot;a&quot; &quot;c&quot;</code></pre>
+</div>
+</div>
 <div id="package-base" class="section level3">
 <h3>Package: base</h3>
 <hr />
 <div id="function-as.factor" class="section level4">
 <h4>Function: <code>as.factor()</code></h4>
 <hr />
-<p><strong>1. Convert a character variable to a factor (Var1).</strong></p>
+<p><strong>1. Another function to convert a variable (in this case character variable Var1) to a factor is `base::as.factor()</strong></p>
 <p>Review the data (d2)</p>
 <pre><code># A tibble: 3 x 4
   Var1   Var2 Var3  Var4      
   &lt;chr&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;     
-1 a         2 3.6   10/10/2004
-2 b        NA 8.5   12/14/2007
+1 b         2 3.6   10/10/2004
+2 a        NA 8.5   12/14/2007
 3 c         3 X     08/09/2020</code></pre>
 <p>View the class for Var1</p>
 <pre class="r"><code>class(d2$Var1)</code></pre>
 <pre><code>[1] &quot;character&quot;</code></pre>
 <p>Convert Var1 to a factor.</p>
-<pre class="r"><code>d2 &lt;- d2 %&gt;% mutate(Var1 = as.factor(Var1))
+<ul>
+<li><p>Note: The levels will be chosen alphabetically or numerically.</p></li>
+<li><p>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and saving over the original variable by naming the new variable the same name as the original.</p></li>
+</ul>
+<pre class="r"><code>d2 &lt;- d2 %&gt;% dplyr::mutate(Var1 = base::as.factor(Var1))
 
 class(d2$Var1)</code></pre>
 <pre><code>[1] &quot;factor&quot;</code></pre>
+<pre class="r"><code>levels(d2$Var1)</code></pre>
+<pre><code>[1] &quot;a&quot; &quot;b&quot; &quot;c&quot;</code></pre>
+<p>However, if you want to assign the levels when converting to a factor, you can use the function <code>base::factor()</code> instead with the argument <em>levels</em>.</p>
+<pre class="r"><code>d2 &lt;- d2 %&gt;% dplyr::mutate(Var1 = base::factor(Var1, levels = c(&quot;c&quot;, &quot;b&quot;, &quot;a&quot;)))
+
+class(d2$Var1)</code></pre>
+<pre><code>[1] &quot;factor&quot;</code></pre>
+<pre class="r"><code>levels(d2$Var1)</code></pre>
+<pre><code>[1] &quot;c&quot; &quot;b&quot; &quot;a&quot;</code></pre>
 <hr />
 </div>
 <div id="function-as.numeric" class="section level4">
 <h4>Function: <code>as.numeric()</code></h4>
 <hr />
-<p><strong>1. Convert a character variable to numeric (Var1).</strong></p>
+<p><strong>1. Convert a character variable (Var1) to numeric</strong></p>
 <p>Review the data (d2)</p>
 <pre><code># A tibble: 3 x 4
   Var1   Var2 Var3  Var4      
   &lt;chr&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;     
-1 a         2 3.6   10/10/2004
-2 b        NA 8.5   12/14/2007
+1 b         2 3.6   10/10/2004
+2 a        NA 8.5   12/14/2007
 3 c         3 X     08/09/2020</code></pre>
 <p>View the class for Var3</p>
 <pre class="r"><code>class(d2$Var3)</code></pre>
 <pre><code>[1] &quot;character&quot;</code></pre>
 <p>Convert Var3 to numeric.</p>
-<p><strong>Note</strong>: In the case of Var3 you will get a warning message that says NAs were introduced in the transformation. In this case, I am okay with that because “X”s were used to denote NAs previously and I want those to be converted to NA.</p>
-<pre class="r"><code>d2 &lt;- d2 %&gt;% mutate(Var3 = as.numeric(Var3))
+<ul>
+<li><p>Note: In the case of Var3 you will get a warning message that says NAs were introduced in the transformation. In this case, I am okay with that because “X”s were used to denote NAs previously and I want those to be converted to NA.</p></li>
+<li><p>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and saving over the original variable by naming the new variable the same name as the original.</p></li>
+</ul>
+<pre class="r"><code>d2 &lt;- d2 %&gt;% dplyr::mutate(Var3 = base::as.numeric(Var3))
 
 class(d2$Var3)</code></pre>
 <pre><code>[1] &quot;numeric&quot;</code></pre>
@@ -425,7 +471,7 @@ class(d2$Var3)</code></pre>
 <div id="function-as.character" class="section level4">
 <h4>Function: <code>as.character()</code></h4>
 <hr />
-<p><strong>1. Convert a factor to a character variable (Var1).</strong></p>
+<p><strong>1. Convert a factor (Var1) to a character variable</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 3 x 4
   Var1   Var2  Var3 Var4      
@@ -437,7 +483,10 @@ class(d2$Var3)</code></pre>
 <pre class="r"><code>class(d1$Var1)</code></pre>
 <pre><code>[1] &quot;factor&quot;</code></pre>
 <p>Convert Var1 to a character.</p>
-<pre class="r"><code>d1 &lt;- d1 %&gt;% mutate(Var1 = as.character(Var1))
+<ul>
+<li>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and saving over the original variable by naming the new variable the same name as the original.</li>
+</ul>
+<pre class="r"><code>d1 &lt;- d1 %&gt;% dplyr::mutate(Var1 = base::as.character(Var1))
 
 class(d1$Var1)</code></pre>
 <pre><code>[1] &quot;character&quot;</code></pre>
@@ -450,19 +499,23 @@ class(d1$Var1)</code></pre>
 <h4>Function: <code>lubridate::mdy()</code></h4>
 <hr />
 <p><strong>Note</strong>: mdy() is just the format for Var4, you can adjust the format for your character variable (ex: dmy, ymd, ymd_hms)</p>
-<p><strong>1. Convert a character variable to a date (Var4).</strong></p>
+<p><br></p>
+<p><strong>1. Convert a character variable (Var4) to a date</strong></p>
 <p>Review the data (d2)</p>
 <pre><code># A tibble: 3 x 4
   Var1   Var2 Var3  Var4      
   &lt;chr&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;     
-1 a         2 3.6   10/10/2004
-2 b        NA 8.5   12/14/2007
+1 b         2 3.6   10/10/2004
+2 a        NA 8.5   12/14/2007
 3 c         3 X     08/09/2020</code></pre>
 <p>View the class for Var4</p>
 <pre class="r"><code>class(d2$Var4)</code></pre>
 <pre><code>[1] &quot;character&quot;</code></pre>
-<p>Convert Var4 to a date.</p>
-<pre class="r"><code>d2 &lt;- d2 %&gt;% mutate(Var4 = lubridate::mdy(Var4))
+<p>Convert Var4 to a date</p>
+<ul>
+<li>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and saving over the original variable by naming the new variable the same name as the original.</li>
+</ul>
+<pre class="r"><code>d2 &lt;- d2 %&gt;% dplyr::mutate(Var4 = lubridate::mdy(Var4))
 
 class(d2$Var4)</code></pre>
 <pre><code>[1] &quot;Date&quot;</code></pre>
@@ -470,8 +523,8 @@ class(d2$Var4)</code></pre>
 <pre><code># A tibble: 3 x 4
   Var1   Var2 Var3  Var4      
   &lt;chr&gt; &lt;int&gt; &lt;chr&gt; &lt;date&gt;    
-1 a         2 3.6   2004-10-10
-2 b        NA 8.5   2007-12-14
+1 b         2 3.6   2004-10-10
+2 a        NA 8.5   2007-12-14
 3 c         3 X     2020-08-09</code></pre>
 </div>
 </div>

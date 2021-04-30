@@ -17,11 +17,11 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-#### Function: `labelled::set_value_labels()`
+#### Function: `set_value_labels()`
 
 ---
 
-**1\. Add value labels for one or more variables**
+**1\. Add value labels for one or more variables (Var2 and Var3)**
 
 Review the data (d3)
 
@@ -32,19 +32,21 @@ d3
 
 ```
 
-Add value labels
+Add value labels to Var2 and Var3
+
+* Note: Parentheses are *not* required around labels here but I am using them around multi-word labels with spaces. Also using them around all labels will not hurt anything.
 
 ```{r}
 
 d3 <- d3 %>% labelled::set_value_labels(
   Var2= c("not interested"=1, "mildly interested"=2,"very interested"=3),
-                                      Var3=c("none"=1, "reduced-price"=2, "free"=3))
+                                      Var3=c(none=1, "reduced-price"=2, free=3))
 
 labelled::val_labels(d3)
 
 ```
 
-**2\. Create label, then add label to vars**
+**2\. Create labels, then add labels to variables (Var2 and Var3)**
 
 Review the data (d3)
 
@@ -55,11 +57,20 @@ d3
 
 ```
 
-Add value labels
+Create labels
+
+* Note: Parentheses are *not* required around labels here, although adding them will not hurt.
 
 ```{r}
 
-lab <- c("disagree"=1, "neutral"=2, "agree"=3)
+lab <- c(disagree=1, neutral=2, agree=3)
+
+```
+
+
+Add value labels to Var2 and Var3
+
+```{r}
 
 d3 <- d3 %>% labelled::set_value_labels(Var2=lab, Var3=lab)
 
@@ -69,11 +80,11 @@ d3 %>% labelled::val_labels()
 
 ---
 
-#### Function: `labelled::add_value_labels()`
+#### Function: `add_value_labels()`
 
 ---
 
-**1\. Update or add one or more value labels without replacing/removing the other value labels**
+**1\. Update or add one or more value labels to a variable (Var3) without replacing/removing the other value labels**
 
 Review the data (d3)
 
@@ -95,7 +106,9 @@ d3 %>% labelled::val_labels()
 
 ```
 
-Update the label for *1* in Var3
+Update the label for `1` in Var3
+
+* Note: Parentheses are *not* required around labels here, although adding them will not hurt.
 
 ```{r}
 
@@ -107,11 +120,11 @@ d3 %>% labelled::val_labels()
 
 ---
 
-#### Function: `labelled::labelled()`
+#### Function: `labelled()`
 
 ---
 
-**1\. Add the same value labels to multiple variables**
+**1\. Add the same value labels to multiple variables with similar names (Var1, Var2, and Var3)**
 
 Review the data (d3)
 
@@ -122,16 +135,20 @@ d3
 
 ```
 
-Add value labels
+Add value labels to multiple variables with similar names by adding the selection helper `starts_with()`.
+
+* Note: Other `tidyselect` selection helpers include `ends_with()`, `contains()`, `matches()`, and `num_range()`, `where()` and more.
+
+* Note: Also note the addition of `dplyr::mutate_at()` to create new variables with these new labels (the overwrite the current variables). This function is needed in order to utilize the `starts_with()` selection helper.
+
+* Note: Parentheses are *not* required around labels here, although adding them will not hurt.
 
 ```{r}
 
 d3 <- d3 %>% 
-  dplyr::mutate_at(vars(starts_with('Var')), 
-            ~labelled::labelled(., labels = c("disagree"=1, "neutral"=2, "agree"=3)))
+  dplyr::mutate_at(vars(tidyselect::starts_with('Var')), 
+            ~labelled::labelled(., labels = c(disagree=1, neutral=2, agree=3)))
 
 d3 %>% labelled::val_labels()
 
 ```
-
-

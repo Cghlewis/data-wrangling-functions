@@ -379,8 +379,8 @@ summary {
 <div id="package-forcats" class="section level3">
 <h3>Package: forcats</h3>
 <hr />
-<div id="function-forcatsfct_relevel" class="section level4">
-<h4>Function: <code>forcats::fct_relevel()</code></h4>
+<div id="function-fct_relevel" class="section level4">
+<h4>Function: <code>fct_relevel()</code></h4>
 <hr />
 <p><strong>1. Relevel the factor s_grade to have the following level order: 2, 3, K, 1 (for demonstration purposes)</strong></p>
 <p>Review the data (d2)</p>
@@ -391,7 +391,6 @@ summary {
 2 b     f        1      
 3 c     n        3      
 4 f     m        2      </code></pre>
-<p>Convert s_grade to factor</p>
 <p>Review the structure of s_grade</p>
 <pre class="r"><code>str(d2$s_grade)</code></pre>
 <pre><code> Factor w/ 4 levels &quot;K&quot;,&quot;1&quot;,&quot;3&quot;,&quot;2&quot;: 1 2 3 4</code></pre>
@@ -422,12 +421,12 @@ str(d2$s_grade)</code></pre>
 <div id="package-labelled" class="section level3">
 <h3>Package: labelled</h3>
 <hr />
-<div id="function-labelledto_factor" class="section level4">
-<h4>Function: <code>labelled::to_factor()</code></h4>
+<div id="function-to_factor" class="section level4">
+<h4>Function: <code>to_factor()</code></h4>
 <hr />
 <p>In the rare occasion where you have a labelled variable that you want to convert to a factor and then order those levels, you can use <code>labelled::to_factor()</code>.</p>
 <p><strong>1. Order s_grade levels: K,1,2,3</strong></p>
-<p>Review the data (d2)</p>
+<p>Review the data (d3)</p>
 <pre><code># A tibble: 4 x 3
   s_id  s_gender s_grade
   &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;

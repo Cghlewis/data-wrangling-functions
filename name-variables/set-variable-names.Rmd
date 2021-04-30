@@ -17,7 +17,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-#### Function: `purrr::set_names()`
+#### Function: `set_names()`
 
 ---
 
@@ -34,7 +34,7 @@ d1
 
 Change variable names
 
-**Note:** Quotes are required around variable names and the number of variables given must be equal to the number of variables in the data frame.
+* Note: Quotes are required around variable names and the number of variables given must be equal to the number of variables in the data frame.
 
 ```{r}
 

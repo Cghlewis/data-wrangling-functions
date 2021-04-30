@@ -382,8 +382,10 @@ summary {
 <h4>Function: <code>list.files()</code></h4>
 <hr />
 <p><strong>1. Review files in my folder named “attendance”</strong></p>
-<p><strong>Note</strong>: I used the here::here() function which implicitly sets my directory to the top level of my current project. Then any subsequent folders can be listed in descending order. In this case my folder “attendance” is within another folder called “import-data” which is located in the top level of my project directory. You could also just list your entire file path.</p>
-<p>If you wanted to see the full path for each file you could add the argument “full.names” is equal to TRUE.</p>
+<ul>
+<li><p>Note: I used the here::here() function which implicitly sets my directory to the top level of my current project. Then any subsequent folders can be listed in descending order. In this case my folder “attendance” is within another folder called “import-data” which is located in the top level of my project directory. You could also just list your entire file path.</p></li>
+<li><p>Note: If you wanted to see the full path for each file you could add the argument <em>full.names</em> is equal to TRUE.</p></li>
+</ul>
 <pre class="r"><code>list.files(path=here(&quot;import-data&quot;, &quot;attendance&quot;))</code></pre>
 </div>
 </div>
@@ -394,12 +396,14 @@ summary {
 <h4>Function: <code>map_dfr()</code></h4>
 <hr />
 <p><strong>1. Read in all Excel files from the “attendance” folder and bind them together. Note that an asterisk was used to denote NAs and we need to notify R of that.</strong></p>
-<p><strong>Note:</strong> <code>base::dir()</code> produces a character vector of the names of files in the named directory. <code>base::dir()</code> is an alias for <code>base::list.files()</code></p>
-<p><strong>Note:</strong> <code>purrr::map_dfr()</code> combines tibbles (data frames) by stacking them on top of each other.</p>
-<p><strong>Note:</strong> There were only 4 Excel files in the directory, one file was csv format.</p>
-<p><strong>Note:</strong> If you wanted to read in other file types, you would simply change the function you call from <code>readxl::read_excel()</code> to the function required to read in your file type.</p>
-<p><strong>Note:</strong> If not all files you read in have the same variables, the appended file will include all variables and whatever data is available for those variables.</p>
-<p><strong>Note:</strong> If files contain the same variable names but the variable classes aren’t the same for a variable (ex: V1 = character in one file and V1 = numeric in another file) then datasets cannot be combined. In the case of <code>readxl::read_excel()</code>, you could add the col_types argument to make that variable type the same across all files. If you are unsure what types of variables exist in each dataset, you can use <code>janitor::compare_df_cols()</code> to see an output of each data frames’ variables and variable types. By adding the argument <em>return = “mismatch”</em> the output will only show any variables that are different types across data frames.</p>
+<ul>
+<li><p>Note: <code>base::dir()</code> produces a character vector of the names of files in the named directory. <code>base::dir()</code> is an alias for <code>base::list.files()</code></p></li>
+<li><p>Note: <code>purrr::map_dfr()</code> combines tibbles (data frames) by stacking them on top of each other.</p></li>
+<li><p>Note: There were only 4 Excel files in the directory, one file was csv format.</p></li>
+<li><p>Note: If you wanted to read in other file types, you would simply change the function you call from <code>readxl::read_excel()</code> to the function required to read in your file type.</p></li>
+<li><p>Note: If not all files you read in have the same variables, the appended file will include all variables and whatever data is available for those variables.</p></li>
+<li><p>Note: If files contain the same variable names but the variable classes aren’t the same for a variable (ex: V1 = character in one file and V1 = numeric in another file) then datasets cannot be combined. In the case of <code>readxl::read_excel()</code>, you could add the col_types argument to make that variable type the same across all files. If you are unsure what types of variables exist in each dataset, you can use <code>janitor::compare_df_cols()</code> to see an output of each data frames’ variables and variable types. By adding the argument <em>return = “mismatch”</em> the output will only show any variables that are different types across data frames.</p></li>
+</ul>
 <pre class="r"><code>d &lt;- dir(here::here(&quot;import-data&quot;, &quot;attendance&quot;), pattern=&quot;.xlsx&quot;, full.names=TRUE) %&gt;%
   map_dfr(readxl::read_excel, na=&quot;*&quot;)
 
@@ -436,7 +440,9 @@ head(d, n=c(10,5))</code></pre>
  9 2       2018                   554                  625                  88.6
 10 2       2019                   536                  614                  87.3</code></pre>
 <p><strong>3. Add the full file path/name to differentiate which rows came from which files by adding the function <code>purrr::set_names()</code> as well as the argument <em>“.id”</em> and have it equal to whatever you want that new variable to be called.</strong></p>
-<p><strong>Note</strong>: If you leave <code>purrr::set_names()</code> empty, it will return the name of itself</p>
+<ul>
+<li>Note: If you leave <code>purrr::set_names()</code> empty, it will return the name of itself</li>
+</ul>
 <pre class="r"><code>d &lt;- dir(here::here(&quot;import-data&quot;, &quot;attendance&quot;),pattern=&quot;.xlsx&quot;, full.names=TRUE) %&gt;%
   purrr::set_names() %&gt;%
   purrr::map_dfr(readxl::read_excel, na=&quot;*&quot;, .id = &quot;source&quot;)</code></pre>

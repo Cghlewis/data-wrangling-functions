@@ -379,8 +379,8 @@ summary {
 <div id="package-dplyr" class="section level3">
 <h3>Package: dplyr</h3>
 <hr />
-<div id="function-dplyrif_else" class="section level4">
-<h4>Function: <code>dplyr::if_else()</code></h4>
+<div id="function-if_else" class="section level4">
+<h4>Function: <code>if_else()</code></h4>
 <hr />
 <p><strong>1. Collapse all “Google Meet” into one category</strong></p>
 <p>Review the data (d6)</p>
@@ -393,7 +393,11 @@ summary {
 4    108 Zoom           
 5    109 Google Meet    
 6    112 Microsoft Teams</code></pre>
-<p>Collapse all spellings of Google Meet into one uniform category</p>
+<p>Collapse all spellings of Google Meet into one uniform category function</p>
+<ul>
+<li><p>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and naming the new variable a different name than the original. It keeps both the new and old versions of the variable.</p></li>
+<li><p>Note: Using <code>stringr::str_detect()</code> we can detect different spellings of google meet</p></li>
+</ul>
 <pre class="r"><code>d6 %&gt;%  
   dplyr::mutate(online_platform_new=dplyr::if_else(
   stringr::str_detect(online_platform,c(&quot;google|meet&quot;)), &quot;Google Meet&quot;, online_platform))</code></pre>
@@ -406,7 +410,7 @@ summary {
 4    108 Zoom            Zoom               
 5    109 Google Meet     Google Meet        
 6    112 Microsoft Teams Microsoft Teams    </code></pre>
-<p>Can also do this using %in% instead of stringr::str_detect()</p>
+<p>We can also do this using <code>%in%</code> instead of <code>stringr::str_detect()</code></p>
 <pre class="r"><code>d6 %&gt;%  
   dplyr::mutate(online_platform_new=dplyr::if_else(
   online_platform %in% c(&quot;google&quot;,&quot;meet&quot;, &quot;Google Meet&quot;), &quot;Google Meet&quot;, online_platform))</code></pre>
@@ -421,8 +425,8 @@ summary {
 6    112 Microsoft Teams Microsoft Teams    </code></pre>
 <hr />
 </div>
-<div id="function-dplyrcase_when" class="section level4">
-<h4>Function: <code>dplyr::case_when()</code></h4>
+<div id="function-case_when" class="section level4">
+<h4>Function: <code>case_when()</code></h4>
 <hr />
 <p><strong>1. Collapse all “Google Meet” into one category</strong></p>
 <p>Review the data (d6)</p>
@@ -436,6 +440,10 @@ summary {
 5    109 Google Meet    
 6    112 Microsoft Teams</code></pre>
 <p>Collapse all spellings of Google Meet into one uniform category</p>
+<ul>
+<li><p>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and naming the new variable a different name than the original. It keeps both the new and old versions of the variable.</p></li>
+<li><p>Note: Using <code>stringr::str_detect()</code> we can detect different spellings of google meet</p></li>
+</ul>
 <pre class="r"><code>d6 %&gt;%  
   dplyr::mutate(online_platform_new = dplyr::case_when(
   stringr::str_detect(online_platform,&quot;google&quot;) ~ &quot;Google Meet&quot;, 
@@ -451,9 +459,11 @@ summary {
 5    109 Google Meet     Google Meet        
 6    112 Microsoft Teams Microsoft Teams    </code></pre>
 </div>
-<div id="function-dplyrrecode" class="section level4">
-<h4>Function: <code>dplyr::recode()</code></h4>
+<div id="function-recode" class="section level4">
+<h4>Function: <code>recode()</code></h4>
 <hr />
+<p><strong>Note:</strong> The <code>dplyr::recode()</code> formula is: old value=new value, this is opposite of <code>dplyr::rename()</code></p>
+<p><br></p>
 <p><strong>1. Collapse all “Google Meet” into one category</strong></p>
 <p>Review the data (d6)</p>
 <pre><code># A tibble: 6 x 2
@@ -466,6 +476,9 @@ summary {
 5    109 Google Meet    
 6    112 Microsoft Teams</code></pre>
 <p>Collapse all spellings of Google Meet into one uniform category</p>
+<ul>
+<li>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and naming the new variable a different name than the original. It keeps both the new and old versions of the variable.</li>
+</ul>
 <pre class="r"><code>d6 %&gt;%  
   dplyr::mutate(online_platform_new=dplyr::recode(
   online_platform, google = &quot;Google Meet&quot;, meet = &quot;Google Meet&quot;))</code></pre>

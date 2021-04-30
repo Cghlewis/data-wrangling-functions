@@ -13,15 +13,15 @@ knitr::opts_chunk$set(comment = NA,
 
 <br>
 
-### Package: base
+### Package: forcats
 
 ---
 
-#### Function: `as.factor()`
+#### Function: `as_factor()`
 
 ---
 
-**1\. Convert a character variable to a factor (Var1).**
+**1\. Convert a variable (Var1) to a factor**
 
 Review the data (d2)
 
@@ -40,13 +40,83 @@ class(d2$Var1)
 
 ```
 
-Convert Var1 to a factor.
+Convert Var1 to a factor. 
+
+* Note: In the case of a character variable, the levels will be chosen based on the order in which they appear. In the case of a numeric variable, the levels will be numerically ordered.
+
+* Note: We are recoding into a new variable using `dplyr::mutate()` and saving over the original variable by naming the new variable the same name as the original. 
 
 ```{r}
 
-d2 <- d2 %>% mutate(Var1 = as.factor(Var1))
+d2 <- d2 %>% dplyr::mutate(Var1 = forcats::as_factor(Var1))
 
 class(d2$Var1)
+
+levels(d2$Var1)
+
+```
+
+
+
+### Package: base
+
+---
+
+#### Function: `as.factor()`
+
+---
+
+**1\. Another function to convert a variable (in this case character variable Var1) to a factor is `base::as.factor()**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+View the class for Var1
+
+```{r}
+
+class(d2$Var1)
+
+```
+
+Convert Var1 to a factor. 
+
+* Note: The levels will be chosen alphabetically or numerically.
+
+* Note: We are recoding into a new variable using `dplyr::mutate()` and saving over the original variable by naming the new variable the same name as the original. 
+
+```{r}
+
+d2 <- d2 %>% dplyr::mutate(Var1 = base::as.factor(Var1))
+
+class(d2$Var1)
+
+levels(d2$Var1)
+
+```
+
+However, if you want to assign the levels when converting to a factor, you can use the function `base::factor()` instead with the argument *levels*.
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+```
+
+
+```{r}
+
+d2 <- d2 %>% dplyr::mutate(Var1 = base::factor(Var1, levels = c("c", "b", "a")))
+
+class(d2$Var1)
+
+levels(d2$Var1)
 
 ```
 
@@ -56,7 +126,7 @@ class(d2$Var1)
 
 ---
 
-**1\. Convert a character variable to numeric (Var1).**
+**1\. Convert a character variable (Var1) to numeric**
 
 Review the data (d2)
 
@@ -77,11 +147,13 @@ class(d2$Var3)
 
 Convert Var3 to numeric.
 
-**Note**: In the case of Var3 you will get a warning message that says NAs were introduced in the transformation. In this case, I am okay with that because "X"s were used to denote NAs previously and I want those to be converted to NA.
+* Note: In the case of Var3 you will get a warning message that says NAs were introduced in the transformation. In this case, I am okay with that because "X"s were used to denote NAs previously and I want those to be converted to NA.
+
+* Note: We are recoding into a new variable using `dplyr::mutate()` and saving over the original variable by naming the new variable the same name as the original. 
 
 ```{r, warning = FALSE}
 
-d2 <- d2 %>% mutate(Var3 = as.numeric(Var3))
+d2 <- d2 %>% dplyr::mutate(Var3 = base::as.numeric(Var3))
 
 class(d2$Var3)
 
@@ -94,7 +166,7 @@ class(d2$Var3)
 
 ---
 
-**1\. Convert a factor to a character variable (Var1).**
+**1\. Convert a factor (Var1) to a character variable**
 
 Review the data (d1)
 
@@ -115,13 +187,16 @@ class(d1$Var1)
 
 Convert Var1 to a character.
 
+* Note: We are recoding into a new variable using `dplyr::mutate()` and saving over the original variable by naming the new variable the same name as the original. 
+
 ```{r}
 
-d1 <- d1 %>% mutate(Var1 = as.character(Var1))
+d1 <- d1 %>% dplyr::mutate(Var1 = base::as.character(Var1))
 
 class(d1$Var1)
 
 ```
+
 
 ### Package: lubridate
 
@@ -133,7 +208,9 @@ class(d1$Var1)
 
 **Note**: mdy() is just the format for Var4, you can adjust the format for your character variable (ex: dmy, ymd, ymd_hms)
 
-**1\. Convert a character variable to a date (Var4).**
+<br>
+
+**1\. Convert a character variable (Var4) to a date**
 
 Review the data (d2)
 
@@ -152,11 +229,13 @@ class(d2$Var4)
 
 ```
 
-Convert Var4 to a date.
+Convert Var4 to a date
+
+* Note: We are recoding into a new variable using `dplyr::mutate()` and saving over the original variable by naming the new variable the same name as the original. 
 
 ```{r}
 
-d2 <- d2 %>% mutate(Var4 = lubridate::mdy(Var4))
+d2 <- d2 %>% dplyr::mutate(Var4 = lubridate::mdy(Var4))
 
 class(d2$Var4)
 

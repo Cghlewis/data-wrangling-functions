@@ -379,23 +379,27 @@ summary {
 <div id="package-haven" class="section level3">
 <h3>Package: haven</h3>
 <hr />
-<div id="function-havenread_sav" class="section level4">
-<h4>Function: <code>haven::read_sav()</code></h4>
+<div id="function-read_sav" class="section level4">
+<h4>Function: <code>read_sav()</code></h4>
 <hr />
 <p><strong>1. Read in a labelled SPSS file</strong></p>
 <pre class="r"><code>d &lt;- haven::read_sav(&quot;name-of-import.sav&quot;)</code></pre>
 <p><strong>2. Read in an SPSS file with NA value labels</strong></p>
-<p><strong>Note:</strong> If the file has user labelled missing values that you want to save, add the option <em>user_na=TRUE</em>. Otherwise the labelled NA values will be removed and read in as NA.</p>
+<ul>
+<li>Note: If the file has user labelled missing values that you want to save, add the option <em>user_na=TRUE</em>. Otherwise the labelled NA values will be removed and read in as NA.</li>
+</ul>
 <pre class="r"><code>d &lt;- haven::read_sav(&quot;file.sav&quot;, user_na=TRUE)</code></pre>
 <hr />
 </div>
-<div id="function-havenwrite_sav" class="section level4">
-<h4>Function: <code>haven::write_sav()</code></h4>
+<div id="function-write_sav" class="section level4">
+<h4>Function: <code>write_sav()</code></h4>
 <hr />
 <p><strong>1. Export a labelled SPSS file</strong></p>
 <pre class="r"><code>haven::write_sav(d, &quot;name-of-export.sav&quot;)</code></pre>
 <p><strong>2. Export your variables with the value labels rather than the values</strong></p>
-<p><strong>Note:</strong> This also works exporting to other file types such as excel or csv</p>
+<ul>
+<li>Note: This also works exporting to other file types such as excel or csv</li>
+</ul>
 <pre class="r"><code>haven::write_sav(rio::characterize(d), &quot;name-of-export.sav&quot;)</code></pre>
 </div>
 </div>

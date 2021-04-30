@@ -43,7 +43,7 @@ class(d1$Var4)
 
 ```
 
-You could also view class for each variable using a function like lapply (or sapply) as well
+You could also view the class for each variable using a function like `base::lapply()` or `base::sapply()` to iterate the `base::class()` function over each variable
 
 ```{r}
 
@@ -77,9 +77,9 @@ lapply(d1, typeof)
 
 ```
 
-**Note**: You will notice that our date variable (Var4) returns a data type of double (or numeric). This is because internally, R stores dates as numeric values. The class of Var4 remains date though.
+* Note: You will notice that our date variable (Var4) returns a data type of double (or numeric). This is because internally, R stores dates as numeric values. The class of Var4 remains date though.
 
-You will also notice that the data type for our factor variable (Var1) is integer even though the values appear to be character. This is because internally, R stores factor values as integers in order to create ordered levels. To learn more about your factor levels, you can use another function called `attributes`.
+* Note: You will also notice that the data type for our factor variable (Var1) is integer even though the values appear to be character. This is because internally, R stores factor values as integers in order to create ordered levels. To learn more about your factor levels, you can use another function called `base::attributes()`.
 
 ```{r}
 

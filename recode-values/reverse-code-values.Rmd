@@ -17,11 +17,15 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-#### Function: `dplyr::recode()`
+#### Function: `recode()`
 
 ---
 
-**1\. Reverse code multiple variables in the same way**
+**Note:**  The `dplyr::recode()` formula is: old value=new value, this is opposite of `dplyr::rename()`
+
+<br>
+
+**1\. Reverse code multiple variables (Var2 and Var3) in the same way**
 
 Review the data (d2)
 
@@ -34,26 +38,33 @@ d2
 
 Check the values of Var2 and Var3
 
+* Note: `base::lapply()` is used to iterate the `base::table()` function across all variables.
+
 ```{r}
 
 lapply(d2, table, useNA="always")
 
 ```
 
-Reverse code Var2 and Var3 and rename them with *_r* at the end
+Reverse code Var2 and Var3 and rename the variables with *_r* at the end by using the `dplyr::rename_at()` function as well as `base::paste0()`.
 
-**Note:**  The dplyr::recode formula is: old value=new value, this is opposite of dplyr::rename
+* Note: I wrote this all into a new dataset because this syntax, using `dplyr::mutate()` and `dplyr::across()`, writes over our existing Var2 and Var3 and in this scenario I wanted to keep the old variables.
 
-**Note:**  The dplyr::recode function considers the old value as a *name* and therefore, in order to use a number as a name, you have to surround it with backticks (``)
+* Note: You will get similar results using `dplyr::mutate_at()` rather than `dplyr::mutate()` in conjunction with `dplyr::across()`.
+
+* Note:  The `dplyr::recode()` formula is: old value=new value, this is opposite of `dplyr::rename()`
+
+* Note:  The `dplyr::recode()` function considers the old value as a *name* and therefore, in order to use a number as a name/character, you have to surround it with backticks (``)
 
 
 ```{r}
 
 d2_new <- d2 %>% 
-  dplyr::mutate(across(c(Var2:Var3), ~dplyr::recode(.,`1`=5, `2`=4, `3`=3, `4`=2, `5`=1))) %>%
+  dplyr::mutate(dplyr::across(c(Var2:Var3), ~dplyr::recode(.,`1`=5, `2`=4, `3`=3, `4`=2, `5`=1))) %>%
   dplyr::rename_at(vars(Var2:Var3), ~paste0(., "_r"))
 
 ```
+
 
 Check that your reverse code worked correctly
 
@@ -67,7 +78,7 @@ table(d2$Var3, d2_new$Var3_r)
 
 ---
 
-#### Function: `dplyr::case_when()`
+#### Function: `case_when()`
 
 ---
 
@@ -90,7 +101,9 @@ d2 %>% janitor::tabyl(Var2)
 
 ```
 
-Reverse code Var2 rename it with *_r* at the end
+Reverse code Var2 and name it with *_r* at the end. 
+
+* Note: We are recoding into a new variable using `dplyr::mutate()` and naming the new variable a different name than the original. It keeps both the new and old versions of the variable. If we used `dplyr::transmute()` instead it would keep the new version and remove the old version.
 
 ```{r}
 
@@ -115,24 +128,6 @@ d2 %>% janitor::tabyl(Var2, Var2_r)
 
 **2\. Turn your reverse scale into a function to use for multiple variables (Data Science in Education Using R example)**
 
-Create your function
-
-```{r}
-
-reverse_scale <- function(Var) {
-  x <- dplyr::case_when(
-    Var == 1 ~ 5,
-    Var == 2 ~ 4,
-    Var == 3 ~ 3, 
-    Var == 4 ~ 2,
-    Var == 5 ~ 1,
-    TRUE ~ NA_real_
-  )
-  x
-}
-
-```
-
 Review the data (d2)
 
 ```{r, echo=FALSE}
@@ -152,7 +147,27 @@ d2 %>% janitor::tabyl(Var3)
 
 ```
 
+Create your function
+
+```{r}
+
+reverse_scale <- function(Var) {
+  x <- dplyr::case_when(
+    Var == 1 ~ 5,
+    Var == 2 ~ 4,
+    Var == 3 ~ 3, 
+    Var == 4 ~ 2,
+    Var == 5 ~ 1,
+    TRUE ~ NA_real_
+  )
+}
+
+```
+
+
 Reverse code Var2 and Var3 using your function and rename the new variables with *_r* at the end
+
+* Note: We are recoding into new variables using `dplyr::mutate()` and naming the new variables different names than the original. It keeps both the new and old versions of the variables. 
 
 ```{r}
 
@@ -176,9 +191,12 @@ You can also use your function this way
 
 ```{r, echo=FALSE}
 source("data.R")
-d2
 
 ```
+
+* Note: Again I wrote this all into a new dataset because this syntax, using `dplyr::mutate_at()`, writes over our existing Var2 and Var3 and in this scenario I wanted to keep the old variables.
+
+* Note: Renaming here is done using the `dplyr::rename_at()` function as well as `base::paste0()`.
 
 ```{r}
 
@@ -199,7 +217,7 @@ table(d2$Var3, d2_new$Var3_r)
 
 ---
 
-#### Function: `dplyr::if_else()`
+#### Function: `if_else()`
 
 ---
 
@@ -221,7 +239,9 @@ d2 %>% janitor::tabyl(Var2)
 
 ```
 
-Reverse code Var2 rename it with *_r* at the end
+Reverse code Var2 and rename it with *_r* at the end
+
+* Note: We are recoding into new variables using `dplyr::mutate()` and naming the new variable a different name than the original. It keeps both the new and old versions of the variable. 
 
 ```{r}
 

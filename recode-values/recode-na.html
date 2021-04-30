@@ -379,10 +379,10 @@ summary {
 <div id="package-tidyr" class="section level3">
 <h3>Package: tidyr</h3>
 <hr />
-<div id="function-tidyrreplace_na" class="section level4">
-<h4>Function: <code>tidyr::replace_na()</code></h4>
+<div id="function-replace_na" class="section level4">
+<h4>Function: <code>replace_na()</code></h4>
 <hr />
-<p><strong>1. Replace NA for one variable</strong></p>
+<p><strong>1. Replace NA values for one variable (Var3)</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -390,13 +390,16 @@ summary {
 1 a         2   3.6
 2 b        NA   8.5
 3 c         3  NA  </code></pre>
-<p>Check the values</p>
+<p>Check the values of Var3</p>
 <pre class="r"><code>d1 %&gt;% janitor::tabyl(Var3, show_na=TRUE)</code></pre>
 <pre><code> Var3 n   percent valid_percent
   3.6 1 0.3333333           0.5
   8.5 1 0.3333333           0.5
    NA 1 0.3333333            NA</code></pre>
-<p>Recode NA</p>
+<p>Recode NA to 0</p>
+<ul>
+<li>Note: We are recoding back into the same variable using <code>dplyr::mutate()</code>. However, we could have recoded into a new variable by changing the name of <em>Var3</em>.</li>
+</ul>
 <pre class="r"><code>d1 &lt;- d1 %&gt;% dplyr::mutate(Var3 = tidyr::replace_na(Var3, 0))</code></pre>
 <p>Check that the recode worked</p>
 <pre class="r"><code>d1 %&gt;% janitor::tabyl(Var3, show_na=TRUE)</code></pre>
@@ -404,7 +407,7 @@ summary {
   0.0 1 0.3333333
   3.6 1 0.3333333
   8.5 1 0.3333333</code></pre>
-<p><strong>2. Replace NA for multiple variables with the same NA value</strong></p>
+<p><strong>2. Replace NA for multiple variables (Var2 and Var3) with the same NA value</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -412,7 +415,10 @@ summary {
 1 a         2   3.6
 2 b        NA   8.5
 3 c         3  NA  </code></pre>
-<p>Check the values (here I use lapply and table but could use many other functions)</p>
+<p>Check the values of Var2 and Var3</p>
+<ul>
+<li>Note: <code>base::lapply()</code> is used to iterate the <code>base::table()</code> function across all variables.</li>
+</ul>
 <pre class="r"><code>lapply(d1, table, useNA=&quot;always&quot;)</code></pre>
 <pre><code>$Var1
 
@@ -428,7 +434,10 @@ $Var3
 
  3.6  8.5 &lt;NA&gt; 
    1    1    1 </code></pre>
-<p>Recode NA for Var2 and Var3</p>
+<p>Recode NA for Var2 and Var3 to 0</p>
+<ul>
+<li>Note: We are recoding back into the same variable using <code>dplyr::mutate_at()</code>.</li>
+</ul>
 <pre class="r"><code>d1 &lt;- d1 %&gt;% dplyr::mutate_at(vars(Var2:Var3), tidyr::replace_na , 0)</code></pre>
 <p>Check the values after the recode</p>
 <pre class="r"><code>lapply(d1, table, useNA=&quot;always&quot;) </code></pre>
@@ -446,7 +455,7 @@ $Var3
 
    0  3.6  8.5 &lt;NA&gt; 
    1    1    1    0 </code></pre>
-<p><strong>3. Replace NA for multiple variables of the same class with the same NA value</strong></p>
+<p><strong>3. Replace NA for multiple variables of the same class with the same NA value (Var2 and Var3)</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -455,6 +464,9 @@ $Var3
 2 b        NA   8.5
 3 c         3  NA  </code></pre>
 <p>Check the values</p>
+<ul>
+<li>Note: <code>base::lapply()</code> is used to iterate the <code>base::table()</code> function across all variables.</li>
+</ul>
 <pre class="r"><code>lapply(d1, table, useNA=&quot;always&quot;) </code></pre>
 <pre><code>$Var1
 
@@ -470,7 +482,10 @@ $Var3
 
  3.6  8.5 &lt;NA&gt; 
    1    1    1 </code></pre>
-<p>Recode NA for Var2 and Var3</p>
+<p>Recode NA for Var2 and Var3 to -999</p>
+<ul>
+<li>Note: We are recoding back into the same variable using <code>dplyr::mutate_if()</code>.</li>
+</ul>
 <pre class="r"><code>d1 &lt;- d1 %&gt;% dplyr::mutate_if(is.numeric , tidyr::replace_na, replace = -999)</code></pre>
 <p>Check the values after the recode</p>
 <pre class="r"><code>lapply(d1, table, useNA=&quot;always&quot;) </code></pre>
@@ -493,8 +508,8 @@ $Var3
 <div id="package-dplyr" class="section level3">
 <h3>Package: dplyr</h3>
 <hr />
-<div id="function-dplyrna_if" class="section level4">
-<h4>Function: <code>dplyr::na_if()</code></h4>
+<div id="function-na_if" class="section level4">
+<h4>Function: <code>na_if()</code></h4>
 <hr />
 <p><strong>1. Replace a value for the entire dataset with NA</strong></p>
 <p>Review the data (d3)</p>
@@ -512,7 +527,8 @@ $Var3
 1 a         1     2
 2 b        NA     0
 3 c         3    NA</code></pre>
-<p><strong>2. Replace a value for select variables with NA</strong></p>
+<p><strong>2. Replace a value for select variables (Var2 and Var3) with NA</strong></p>
+<p>Review the data (d3)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -520,6 +536,9 @@ $Var3
 2 b      -999     0
 3 c         3  -999</code></pre>
 <p>Replace -999 for for Var2 and Var3 with NA</p>
+<ul>
+<li>Note: We are recoding back into the same variable using <code>dplyr::mutate_at()</code>.</li>
+</ul>
 <pre class="r"><code>d3 %&gt;% dplyr::mutate_at(vars(Var2:Var3), dplyr::na_if, -999) </code></pre>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -527,7 +546,8 @@ $Var3
 1 a         1     2
 2 b        NA     0
 3 c         3    NA</code></pre>
-<p><strong>3. Replace a value for multiple variables of the same class with NA</strong></p>
+<p><strong>3. Replace a value for multiple variables of the same class (in this case numeric variables) with NA</strong></p>
+<p>Review the data (d3)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -535,21 +555,11 @@ $Var3
 2 b      -999     0
 3 c         3  -999</code></pre>
 <p>Replace -999 for numeric variables with NA</p>
-<pre class="r"><code>d3 %&gt;% dplyr::mutate(across(where(is.numeric), dplyr::na_if, -999))</code></pre>
-<pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         1     2
-2 b        NA     0
-3 c         3    NA</code></pre>
-<p>You can also apply <code>dplyr::na_if</code> with <code>dplyr::mutate_if</code> or <code>dplyr::mutate_at</code></p>
-<pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         1     2
-2 b      -999     0
-3 c         3  -999</code></pre>
-<pre class="r"><code>d3 %&gt;% mutate_if(is.numeric, na_if, -999)</code></pre>
+<ul>
+<li><p>Note: We are recoding back into the same variable using <code>dplyr::mutate()</code> and <code>dplyr::across()</code>.</p></li>
+<li><p>Note: You will get similar results using <code>dplyr::mutate_if()</code> rather than <code>dplyr::mutate()</code> in conjunction with <code>dplyr::across()</code> and selection helper <code>where()</code>.</p></li>
+</ul>
+<pre class="r"><code>d3 %&gt;% dplyr::mutate(dplyr::across(where(is.numeric), dplyr::na_if, -999))</code></pre>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;

@@ -18,11 +18,11 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-#### Function: `labelled::set_variable_labels()`
+#### Function: `set_variable_labels()`
 
 ---
 
-**1\. Set labels for one or more variables**
+**1\. Set labels for one or more variables (Var1, Var2, and Var3)**
 
 Review the data (d4)
 
@@ -49,13 +49,14 @@ labelled::var_label(d4)
 
 Review the data (d7)
 
-```{r}
+```{r, echo=FALSE}
 
+source("data.R")
 d7
 
 ```
 
-Set variable labels
+Set variable labels by adding the `base::names()` function which retrieves the names of objects
 
 ```{r}
 
@@ -70,13 +71,14 @@ d7 %>% labelled::var_label()
 
 Review the data (d7)
 
-```{r}
+```{r, echo=FALSE}
 
+source("data.R")
 d7
 
 ```
 
-Set variable labels
+Set variable labels by adding the `snakecase::to_sentence_case()` function in addition to the `base::names()` function.
 
 ```{r}
 
@@ -93,13 +95,14 @@ d7 %>% labelled::var_label()
 
 Review the data (d7)
 
-```{r}
+```{r, echo=FALSE}
 
+source("data.R")
 d7
 
 ```
 
-Set variable labels
+Set variable labels by adding the `stringr::str_replace_all()` function in addition to the `base::names()` function
 
 ```{r}
 
@@ -119,13 +122,14 @@ d7 %>% labelled::var_label()
 
 Review the data (d7)
 
-```{r}
+```{r, echo=FALSE}
 
+source("data.R")
 d7
 
 ```
 
-Set variable labels
+Set variable labels by adding the `stringr::str_replace_all()` function in addition to the `snakecase::to_sentence_case()` and the `base::names()` function
 
 ```{r}
 
@@ -145,7 +149,7 @@ d7 %>% labelled::var_label()
 
 ---
 
-#### Function: `labelled::copy_labels_from()`
+#### Function: `copy_labels_from()`
 
 ---
 
@@ -176,6 +180,14 @@ labelled::var_label(d5)
 
 ```
 
+```{r, echo=FALSE}
+
+d4 <- d4 %>%
+  labelled::set_variable_labels (Var1 = "Name", Var2="Interest in Homework", 
+                                 Var3 ="Interest in School")
+
+```
+
 View the labels for the labelled data (d4)
 
 ```{r}
@@ -198,7 +210,7 @@ d5 %>% labelled::var_label()
 
 **2\. Copy labels from another dataset that only has some of the same variables**
 
-This function also works if not all of the same variables exist in both datasets
+`labelled::copy_labels_from()` also works if not all of the same variables exist in both datasets
 
 Review the new dataset d6 that has some of the same variables as d4 but with no labels
 
@@ -226,6 +238,15 @@ labelled::var_label(d6)
 ```
 
 
+```{r, echo=FALSE}
+
+d4 <- d4 %>%
+  labelled::set_variable_labels (Var1 = "Name", Var2="Interest in Homework", 
+                                 Var3 ="Interest in School")
+
+```
+
+
 View the labels for the labelled data (d4)
 
 ```{r}
@@ -248,26 +269,32 @@ d6 %>% labelled::var_label()
 
 ---
 
-#### Function: `labelled::copy_labels()`
+#### Function: `copy_labels()`
 
 ---
 
-**1\. Similar to `copy_labels_from`, this function copies labels from one dataset to another**
+**Note:** With this function, the dataset you are copying **from** goes first.
 
-**Note:** With this function, remember that the dataset you are copying **from** goes first.
+<br>
+
+**1\. Similar to `labelled::copy_labels_from`, `labelled::copy_labels` copies labels from one dataset to another**
 
 Review the new data (d5)
 
-```{r}
+```{r, echo=FALSE}
 
+source("data.R")
 d5
 
 ```
 
 Review the labelled dataset with the same variables (d4)
 
-```{r}
+```{r, echo=FALSE}
 
+d4 <- d4 %>%
+  labelled::set_variable_labels (Var1 = "Name", Var2="Interest in Homework", 
+                                 Var3 ="Interest in School")
 d4
 
 ```
@@ -280,6 +307,15 @@ View the missing labels for the new data (d5)
 labelled::var_label(d5)
 
 ```
+
+```{r, echo=FALSE}
+
+d4 <- d4 %>%
+  labelled::set_variable_labels (Var1 = "Name", Var2="Interest in Homework", 
+                                 Var3 ="Interest in School")
+
+```
+
 
 View the labels for the labelled data (d4)
 

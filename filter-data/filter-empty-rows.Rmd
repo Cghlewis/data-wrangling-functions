@@ -16,26 +16,26 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-#### Function: `dplyr::filter_all()`
+#### Function: `filter()`
 
 ---
 
 **1\.Filter out empty rows**
 
-Review the data (d1)
+Review the data (d9)
 
 ```{r, echo=FALSE}
 
 source("data.R")
-d1
+d9
 
 ```
 
-Count the number of cases in the current data
+Count the number of cases in the current data using the function `dplyr::count()`
 
 ```{r}
 
-count(d1)
+dplyr::count(d9)
 
 ```
 
@@ -44,17 +44,18 @@ Filter out any completely empty row
 
 ```{r}
 
-d1 <- d1 %>% dplyr::filter_all(any_vars(!is.na(.)))
+d9 <- d9 %>% dplyr::filter(!is.na(.))
 
-d1
+d9
 
 ```
+
 
 Count the number of cases after you filter
 
 ```{r}
 
-count(d1)
+dplyr::count(d9)
 
 ```
 
@@ -64,7 +65,7 @@ count(d1)
 
 ---
 
-#### Function: `expss::drop_empty_rows()`
+#### Function: `drop_empty_rows()`
 
 ---
 
@@ -79,11 +80,11 @@ d1
 
 ```
 
-Count the number of cases in the current data
+Count the number of cases in the current data using the function `dplyr::count()`
 
 ```{r}
 
-count(d1)
+dplyr::count(d1)
 
 ```
 
@@ -102,7 +103,7 @@ Count the number of cases after you filter
 
 ```{r}
 
-count(d1)
+dplyr::count(d1)
 
 ```
 
@@ -112,7 +113,7 @@ count(d1)
 
 ---
 
-#### Function: `janitor::remove_empty()`
+#### Function: `remove_empty()`
 
 ---
 
@@ -128,11 +129,11 @@ d1
 
 ```
 
-Count the number of cases in the current data
+Count the number of cases in the current data using the function `dplyr::count()`
 
 ```{r}
 
-count(d1)
+dplyr::count(d1)
 
 ```
 
@@ -151,7 +152,7 @@ Count the number of cases after you filter
 
 ```{r}
 
-count(d1)
+dplyr::count(d1)
 
 ```
 

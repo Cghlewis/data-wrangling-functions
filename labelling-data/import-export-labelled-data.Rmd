@@ -18,7 +18,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-#### Function: `haven::read_sav()`
+#### Function: `read_sav()`
 
 ---
 
@@ -33,7 +33,7 @@ d <- haven::read_sav("name-of-import.sav")
 
 **2\. Read in an SPSS file with NA value labels**
 
-**Note:** If the file has user labelled missing values that you want to save, add the option *user_na=TRUE*. Otherwise the labelled NA values will be removed and read in as NA.
+* Note: If the file has user labelled missing values that you want to save, add the option *user_na=TRUE*. Otherwise the labelled NA values will be removed and read in as NA.
 
 ```{r, eval=FALSE}
 
@@ -44,7 +44,7 @@ d <- haven::read_sav("file.sav", user_na=TRUE)
 
 ---
 
-#### Function: `haven::write_sav()`
+#### Function: `write_sav()`
 
 ---
 
@@ -58,7 +58,7 @@ haven::write_sav(d, "name-of-export.sav")
 
 **2\. Export your variables with the value labels rather than the values**
 
-**Note:** This also works exporting to other file types such as excel or csv
+* Note: This also works exporting to other file types such as excel or csv
 
 ```{r, eval=FALSE}
 

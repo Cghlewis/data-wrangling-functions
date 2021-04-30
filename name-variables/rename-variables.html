@@ -379,10 +379,10 @@ summary {
 <div id="package-dplyr" class="section level3">
 <h3>Package: dplyr</h3>
 <hr />
-<div id="function-dplyrrename" class="section level4">
-<h4>Function: <code>dplyr::rename()</code></h4>
+<div id="function-rename" class="section level4">
+<h4>Function: <code>rename()</code></h4>
 <hr />
-<p><strong>1. Change only the second variable name</strong></p>
+<p><strong>1. Change only the second (Var2) variable name</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -391,7 +391,10 @@ summary {
 2 b        NA   8.5
 3 c         3  NA  </code></pre>
 <p>Change the second variable name</p>
-<p><strong>Note:</strong> The <code>dplyr::rename()</code> formula is <em>new value=old value</em>, this is opposite of <code>dplyr::recode()</code>. <strong>Note:</strong> Quotes are not required around variable names.</p>
+<ul>
+<li>Note: The <code>dplyr::rename()</code> formula is <em>new value=old value</em>, this is opposite of <code>dplyr::recode()</code>.</li>
+<li>Note: Quotes are not required around variable names.</li>
+</ul>
 <pre class="r"><code>d1 %&gt;% dplyr::rename(grade = Var2)</code></pre>
 <pre><code># A tibble: 3 x 3
   Var1  grade  Var3

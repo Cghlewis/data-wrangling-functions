@@ -17,11 +17,11 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-#### Function: `dplyr::rename_with()`
+#### Function: `rename_with()`
 
 ---
 
-**1\. Concatenate "T1_" to all variable names**
+**1\. Concatenate a prefix, "T1_", to all variable names**
 
 Review the data (d1)
 
@@ -34,7 +34,7 @@ d1
 
 Concatenate T1_ by adding the `base::paste0` function.
 
-**Note:** Using `base::paste0` concatenates the string directly to the variable name. Using `base::paste()` concatenates with a string separator.
+* Note: Using `base::paste0` concatenates the string directly to the variable name. Using `base::paste()` concatenates with a string separator.
 
 ```{r}
 
@@ -43,7 +43,7 @@ d1 %>% dplyr::rename_with(~ base::paste0("T1_", .))
 ```
 
 
-**2\. Concatenate "T1_" to only numeric variable names**
+**2\. Concatenate a prefix, "T1_", to only numeric variable names**
 
 Review the data (d1)
 
@@ -56,7 +56,7 @@ d1
 
 Concatenate T1_ by adding the `base::paste0` function and the selection helper `where()`.
 
-**Note:**: Other `tidyselect` selection helpers include `ends_with()`, `contains`, `matches`, and `num_range`, `where` and more.
+* Note: Other `tidyselect` selection helpers include `starts_with()`, `ends_with()`, `contains()`, `matches()`, and `num_range()`, and more.
 
 ```{r}
 

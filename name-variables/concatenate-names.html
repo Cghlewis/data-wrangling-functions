@@ -379,10 +379,10 @@ summary {
 <div id="package-dplyr" class="section level3">
 <h3>Package: dplyr</h3>
 <hr />
-<div id="function-dplyrrename_with" class="section level4">
-<h4>Function: <code>dplyr::rename_with()</code></h4>
+<div id="function-rename_with" class="section level4">
+<h4>Function: <code>rename_with()</code></h4>
 <hr />
-<p><strong>1. Concatenate “T1_” to all variable names</strong></p>
+<p><strong>1. Concatenate a prefix, “T1_”, to all variable names</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -391,7 +391,9 @@ summary {
 2 b        NA   8.5
 3 c         3  NA  </code></pre>
 <p>Concatenate T1_ by adding the <code>base::paste0</code> function.</p>
-<p><strong>Note:</strong> Using <code>base::paste0</code> concatenates the string directly to the variable name. Using <code>base::paste()</code> concatenates with a string separator.</p>
+<ul>
+<li>Note: Using <code>base::paste0</code> concatenates the string directly to the variable name. Using <code>base::paste()</code> concatenates with a string separator.</li>
+</ul>
 <pre class="r"><code>d1 %&gt;% dplyr::rename_with(~ base::paste0(&quot;T1_&quot;, .))</code></pre>
 <pre><code># A tibble: 3 x 3
   T1_Var1 T1_Var2 T1_Var3
@@ -399,7 +401,7 @@ summary {
 1 a             2     3.6
 2 b            NA     8.5
 3 c             3    NA  </code></pre>
-<p><strong>2. Concatenate “T1_” to only numeric variable names</strong></p>
+<p><strong>2. Concatenate a prefix, “T1_”, to only numeric variable names</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -408,7 +410,9 @@ summary {
 2 b        NA   8.5
 3 c         3  NA  </code></pre>
 <p>Concatenate T1_ by adding the <code>base::paste0</code> function and the selection helper <code>where()</code>.</p>
-<p><strong>Note:</strong>: Other <code>tidyselect</code> selection helpers include <code>ends_with()</code>, <code>contains</code>, <code>matches</code>, and <code>num_range</code>, <code>where</code> and more.</p>
+<ul>
+<li>Note: Other <code>tidyselect</code> selection helpers include <code>starts_with()</code>, <code>ends_with()</code>, <code>contains()</code>, <code>matches()</code>, and <code>num_range()</code>, and more.</li>
+</ul>
 <pre class="r"><code>d1 %&gt;% dplyr::rename_with(~ base::paste0(&quot;T1_&quot;, .), where(is.numeric))</code></pre>
 <pre><code># A tibble: 3 x 3
   Var1  T1_Var2 T1_Var3

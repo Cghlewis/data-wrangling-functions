@@ -379,10 +379,10 @@ summary {
 <div id="package-labelled" class="section level3">
 <h3>Package: labelled</h3>
 <hr />
-<div id="function-labelledset_value_labels" class="section level4">
-<h4>Function: <code>labelled::set_value_labels()</code></h4>
+<div id="function-set_value_labels" class="section level4">
+<h4>Function: <code>set_value_labels()</code></h4>
 <hr />
-<p><strong>1. Add value labels for one or more variables</strong></p>
+<p><strong>1. Add value labels for one or more variables (Var2 and Var3)</strong></p>
 <p>Review the data (d3)</p>
 <pre><code># A tibble: 3 x 3
    Var1  Var2  Var3
@@ -390,10 +390,13 @@ summary {
 1     1     1     2
 2     2     3     3
 3     3     3     1</code></pre>
-<p>Add value labels</p>
+<p>Add value labels to Var2 and Var3</p>
+<ul>
+<li>Note: Parentheses are <em>not</em> required around labels here but I am using them around multi-word labels with spaces. Also using them around all labels will not hurt anything.</li>
+</ul>
 <pre class="r"><code>d3 &lt;- d3 %&gt;% labelled::set_value_labels(
   Var2= c(&quot;not interested&quot;=1, &quot;mildly interested&quot;=2,&quot;very interested&quot;=3),
-                                      Var3=c(&quot;none&quot;=1, &quot;reduced-price&quot;=2, &quot;free&quot;=3))
+                                      Var3=c(none=1, &quot;reduced-price&quot;=2, free=3))
 
 labelled::val_labels(d3)</code></pre>
 <pre><code>$Var1
@@ -406,7 +409,7 @@ $Var2
 $Var3
          none reduced-price          free 
             1             2             3 </code></pre>
-<p><strong>2. Create label, then add label to vars</strong></p>
+<p><strong>2. Create labels, then add labels to variables (Var2 and Var3)</strong></p>
 <p>Review the data (d3)</p>
 <pre><code># A tibble: 3 x 3
    Var1  Var2  Var3
@@ -414,10 +417,13 @@ $Var3
 1     1     1     2
 2     2     3     3
 3     3     3     1</code></pre>
-<p>Add value labels</p>
-<pre class="r"><code>lab &lt;- c(&quot;disagree&quot;=1, &quot;neutral&quot;=2, &quot;agree&quot;=3)
-
-d3 &lt;- d3 %&gt;% labelled::set_value_labels(Var2=lab, Var3=lab)
+<p>Create labels</p>
+<ul>
+<li>Note: Parentheses are <em>not</em> required around labels here, although adding them will not hurt.</li>
+</ul>
+<pre class="r"><code>lab &lt;- c(disagree=1, neutral=2, agree=3)</code></pre>
+<p>Add value labels to Var2 and Var3</p>
+<pre class="r"><code>d3 &lt;- d3 %&gt;% labelled::set_value_labels(Var2=lab, Var3=lab)
 
 d3 %&gt;% labelled::val_labels()</code></pre>
 <pre><code>$Var1
@@ -432,10 +438,10 @@ disagree  neutral    agree
        1        2        3 </code></pre>
 <hr />
 </div>
-<div id="function-labelledadd_value_labels" class="section level4">
-<h4>Function: <code>labelled::add_value_labels()</code></h4>
+<div id="function-add_value_labels" class="section level4">
+<h4>Function: <code>add_value_labels()</code></h4>
 <hr />
-<p><strong>1. Update or add one or more value labels without replacing/removing the other value labels</strong></p>
+<p><strong>1. Update or add one or more value labels to a variable (Var3) without replacing/removing the other value labels</strong></p>
 <p>Review the data (d3)</p>
 <pre><code># A tibble: 3 x 3
    Var1  Var2  Var3
@@ -453,7 +459,10 @@ NULL
 $Var3
          none reduced-price          free 
             1             2             3 </code></pre>
-<p>Update the label for <em>1</em> in Var3</p>
+<p>Update the label for <code>1</code> in Var3</p>
+<ul>
+<li>Note: Parentheses are <em>not</em> required around labels here, although adding them will not hurt.</li>
+</ul>
 <pre class="r"><code>d3 &lt;- d3 %&gt;% labelled::add_value_labels(Var3=c(paid=1))
 
 d3 %&gt;% labelled::val_labels()</code></pre>
@@ -468,10 +477,10 @@ $Var3
             1             2             3 </code></pre>
 <hr />
 </div>
-<div id="function-labelledlabelled" class="section level4">
-<h4>Function: <code>labelled::labelled()</code></h4>
+<div id="function-labelled" class="section level4">
+<h4>Function: <code>labelled()</code></h4>
 <hr />
-<p><strong>1. Add the same value labels to multiple variables</strong></p>
+<p><strong>1. Add the same value labels to multiple variables with similar names (Var1, Var2, and Var3)</strong></p>
 <p>Review the data (d3)</p>
 <pre><code># A tibble: 3 x 3
    Var1  Var2  Var3
@@ -479,10 +488,15 @@ $Var3
 1     1     1     2
 2     2     3     3
 3     3     3     1</code></pre>
-<p>Add value labels</p>
+<p>Add value labels to multiple variables with similar names by adding the selection helper <code>starts_with()</code>.</p>
+<ul>
+<li><p>Note: Other <code>tidyselect</code> selection helpers include <code>ends_with()</code>, <code>contains()</code>, <code>matches()</code>, and <code>num_range()</code>, <code>where()</code> and more.</p></li>
+<li><p>Note: Also note the addition of <code>dplyr::mutate_at()</code> to create new variables with these new labels (the overwrite the current variables). This function is needed in order to utilize the <code>starts_with()</code> selection helper.</p></li>
+<li><p>Note: Parentheses are <em>not</em> required around labels here, although adding them will not hurt.</p></li>
+</ul>
 <pre class="r"><code>d3 &lt;- d3 %&gt;% 
-  dplyr::mutate_at(vars(starts_with(&#39;Var&#39;)), 
-            ~labelled::labelled(., labels = c(&quot;disagree&quot;=1, &quot;neutral&quot;=2, &quot;agree&quot;=3)))
+  dplyr::mutate_at(vars(tidyselect::starts_with(&#39;Var&#39;)), 
+            ~labelled::labelled(., labels = c(disagree=1, neutral=2, agree=3)))
 
 d3 %&gt;% labelled::val_labels()</code></pre>
 <pre><code>$Var1

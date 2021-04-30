@@ -16,7 +16,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-#### Function: `expss::drop_empty_columns()`
+#### Function: `drop_empty_columns()`
 
 ---
 
@@ -31,7 +31,7 @@ d4
 
 ```
 
-Count the number of columns in the current data
+Count the number of columns in the current data using the function `base::ncol()`
 
 ```{r}
 
@@ -64,7 +64,7 @@ ncol(d4)
 
 ---
 
-#### Function: `janitor::remove_empty()`
+#### Function: `remove_empty()`
 
 ---
 
@@ -80,7 +80,7 @@ d4
 
 ```
 
-Count the number of columns in the current data
+Count the number of columns in the current data using the function `base::ncol()`
 
 ```{r}
 
@@ -89,7 +89,7 @@ ncol(d4)
 ```
 
 
-Filter out any completely empty row
+Filter out any completely empty column
 
 ```{r}
 

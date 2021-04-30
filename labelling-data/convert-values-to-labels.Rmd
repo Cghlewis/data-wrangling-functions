@@ -1,5 +1,5 @@
 ---
-title: "Converting values to labels"
+title: "Convert values to labels"
 output: 
   html_document:
     anchor_sections: FALSE
@@ -18,11 +18,11 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-#### Function: `labelled::to_factor()`
+#### Function: `to_factor()`
 
 ---
 
-**1\. Convert a labelled numeric variable to a factor variable (exchange the numeric values for the labels)**
+**1\. Convert a labelled numeric variable (Var2 and Var3) to a factor variable (exchange the numeric values for the labels)**
 
 Review the data (d3)
 
@@ -75,7 +75,9 @@ d3 <- d3 %>% labelled::set_value_labels(
 
 ```
 
-Convert to factor
+Convert to factor by adding the argument *nolabel_to_na=TRUE* to turn unlabelled values to NA. 
+
+* Note: If you do not add this argument and you leave it as the default *nolabel_to_na=FALSE*, unlabelled values will return as their numeric values rather than NA.
 
 ```{r}
 
@@ -88,7 +90,7 @@ d3 %>% labelled::to_factor(nolabel_to_na=TRUE)
 
 ---
 
-#### Function: `rio::factorize()`
+#### Function: `factorize()`
 
 ---
 
@@ -165,7 +167,7 @@ d3 %>% rio::characterize()
 
 ---
 
-#### Function: `haven::as_factor()`
+#### Function: `as_factor()`
 
 ---
 
@@ -191,7 +193,9 @@ d3 <- d3 %>% labelled::set_value_labels(
 
 ```
 
-Convert to factor
+Convert Var2 and Var3 to factor. 
+
+* Note: The default for `haven::as_factor()` is to assign the labels in place of the number for any labelled value. However, using the *levels* argument, you can choose other options such as pasting together the label and value using the argument *levels = "both"*. You can see all arguments by typing *?as_factor* in the console and choosing the `haven` package.
 
 ```{r}
 
@@ -200,11 +204,52 @@ d3 %>% haven::as_factor()
 
 ```
 
-You can also specifically call out labelled variables this way (even though as_factor will only convert variables with labels anyway)
+You can also specifically convert only labelled variables in your data frame this way (even though `haven::as_factor` will only convert variables with labels anyway) using the functions `dplyr::mutate_if()` as well as `haven::is.labelled()`.
+
+```{r, echo=FALSE}
+
+d3 <- d3 %>% labelled::set_value_labels(
+  Var2= c("not interested"=1, "mildly interested"=2,"very interested"=3),
+  Var3=c("none"=1, "reduced-price"=2, "free"=3))
+
+```
+
 
 ```{r}
 
 d3 %>% dplyr::mutate_if(haven::is.labelled, haven::as_factor)
+
+```
+
+
+
+**2\. Select a specific labelled numeric variable (Var2) to convert to a factor variable (exchange the numeric values for the labels)**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+Add labels
+
+```{r}
+
+d3 <- d3 %>% labelled::set_value_labels(
+  Var2= c("not interested"=1, "mildly interested"=2,"very interested"=3))
+
+```
+
+
+Convert Var2 to a factor by including the `dplyr::mutate()` function to create a new variable (which replaces the old variable because we named it the same).
+
+```{r}
+
+d3 %>% dplyr::mutate(Var2 = haven::as_factor(Var2))
+
 
 ```
 

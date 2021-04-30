@@ -379,10 +379,10 @@ summary {
 <div id="package-labelled" class="section level3">
 <h3>Package: labelled</h3>
 <hr />
-<div id="function-labelledset_variable_labels" class="section level4">
-<h4>Function: <code>labelled::set_variable_labels()</code></h4>
+<div id="function-set_variable_labels" class="section level4">
+<h4>Function: <code>set_variable_labels()</code></h4>
 <hr />
-<p><strong>1. Set labels for one or more variables</strong></p>
+<p><strong>1. Set labels for one or more variables (Var1, Var2, and Var3)</strong></p>
 <p>Review the data (d4)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -406,14 +406,13 @@ $Var3
 [1] &quot;Interest in School&quot;</code></pre>
 <p><strong>2. Derive variable labels from variable names (simple example)</strong></p>
 <p>Review the data (d7)</p>
-<pre class="r"><code>d7</code></pre>
 <pre><code># A tibble: 3 x 3
   student_id map_ela_20 map_math_20
        &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;
 1          1        100         400
 2          2        200         200
 3          3        400         100</code></pre>
-<p>Set variable labels</p>
+<p>Set variable labels by adding the <code>base::names()</code> function which retrieves the names of objects</p>
 <pre class="r"><code>d7 &lt;- d7 %&gt;% 
   labelled::set_variable_labels(.labels=names(d7))
 
@@ -428,14 +427,13 @@ $map_math_20
 [1] &quot;map_math_20&quot;</code></pre>
 <p><strong>3. Derive variable labels from variable names (add sentence case)</strong></p>
 <p>Review the data (d7)</p>
-<pre class="r"><code>d7</code></pre>
 <pre><code># A tibble: 3 x 3
   student_id map_ela_20 map_math_20
        &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;
 1          1        100         400
 2          2        200         200
 3          3        400         100</code></pre>
-<p>Set variable labels</p>
+<p>Set variable labels by adding the <code>snakecase::to_sentence_case()</code> function in addition to the <code>base::names()</code> function.</p>
 <pre class="r"><code>d7 &lt;- d7 %&gt;% 
   labelled::set_variable_labels(.labels=snakecase::to_sentence_case(names(d7)))
 
@@ -451,14 +449,13 @@ $map_math_20
 [1] &quot;Map math 20&quot;</code></pre>
 <p><strong>4. Derive variable labels from variable names (add additional info to labels)</strong></p>
 <p>Review the data (d7)</p>
-<pre class="r"><code>d7</code></pre>
 <pre><code># A tibble: 3 x 3
   student_id map_ela_20 map_math_20
        &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;
 1          1        100         400
 2          2        200         200
 3          3        400         100</code></pre>
-<p>Set variable labels</p>
+<p>Set variable labels by adding the <code>stringr::str_replace_all()</code> function in addition to the <code>base::names()</code> function</p>
 <pre class="r"><code>d7 &lt;- d7 %&gt;% 
   labelled::set_variable_labels(
     .labels = stringr::str_replace_all(names(.),c(&quot;_&quot;=&quot; &quot;, 
@@ -478,14 +475,13 @@ $map_math_20
 [1] &quot;map score in mathematics 19-20 school year&quot;</code></pre>
 <p><strong>5. Derive variable labels from variable names (add additional info to labels and use sentence case)</strong></p>
 <p>Review the data (d7)</p>
-<pre class="r"><code>d7</code></pre>
 <pre><code># A tibble: 3 x 3
   student_id map_ela_20 map_math_20
        &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;
 1          1        100         400
 2          2        200         200
 3          3        400         100</code></pre>
-<p>Set variable labels</p>
+<p>Set variable labels by adding the <code>stringr::str_replace_all()</code> function in addition to the <code>snakecase::to_sentence_case()</code> and the <code>base::names()</code> function</p>
 <pre class="r"><code>d7 &lt;- d7 %&gt;% 
   labelled::set_variable_labels(
     .labels = snakecase::to_sentence_case(stringr::str_replace_all(names(.),c(&quot;_&quot;=&quot; &quot;, 
@@ -505,8 +501,8 @@ $map_math_20
 [1] &quot;Map score in mathematics 19 20 school year&quot;</code></pre>
 <hr />
 </div>
-<div id="function-labelledcopy_labels_from" class="section level4">
-<h4>Function: <code>labelled::copy_labels_from()</code></h4>
+<div id="function-copy_labels_from" class="section level4">
+<h4>Function: <code>copy_labels_from()</code></h4>
 <hr />
 <p><strong>1. Copy labels from another dataset that has all the same variables</strong></p>
 <p>Review the new data (d5)</p>
@@ -558,7 +554,7 @@ $Var2
 $Var3
 [1] &quot;Interest in School&quot;</code></pre>
 <p><strong>2. Copy labels from another dataset that only has some of the same variables</strong></p>
-<p>This function also works if not all of the same variables exist in both datasets</p>
+<p><code>labelled::copy_labels_from()</code> also works if not all of the same variables exist in both datasets</p>
 <p>Review the new dataset d6 that has some of the same variables as d4 but with no labels</p>
 <pre class="r"><code>d6</code></pre>
 <pre><code># A tibble: 3 x 3
@@ -609,13 +605,13 @@ $Var4
 NULL</code></pre>
 <hr />
 </div>
-<div id="function-labelledcopy_labels" class="section level4">
-<h4>Function: <code>labelled::copy_labels()</code></h4>
+<div id="function-copy_labels" class="section level4">
+<h4>Function: <code>copy_labels()</code></h4>
 <hr />
-<p><strong>1. Similar to <code>copy_labels_from</code>, this function copies labels from one dataset to another</strong></p>
-<p><strong>Note:</strong> With this function, remember that the dataset you are copying <strong>from</strong> goes first.</p>
+<p><strong>Note:</strong> With this function, the dataset you are copying <strong>from</strong> goes first.</p>
+<p><br></p>
+<p><strong>1. Similar to <code>labelled::copy_labels_from</code>, <code>labelled::copy_labels</code> copies labels from one dataset to another</strong></p>
 <p>Review the new data (d5)</p>
-<pre class="r"><code>d5</code></pre>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -623,7 +619,6 @@ NULL</code></pre>
 2 e         2     2
 3 f         1     1</code></pre>
 <p>Review the labelled dataset with the same variables (d4)</p>
-<pre class="r"><code>d4</code></pre>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -633,13 +628,13 @@ NULL</code></pre>
 <p>View the missing labels for the new data (d5)</p>
 <pre class="r"><code>labelled::var_label(d5)</code></pre>
 <pre><code>$Var1
-[1] &quot;Name&quot;
+NULL
 
 $Var2
-[1] &quot;Interest in Homework&quot;
+NULL
 
 $Var3
-[1] &quot;Interest in School&quot;</code></pre>
+NULL</code></pre>
 <p>View the labels for the labelled data (d4)</p>
 <pre class="r"><code>labelled::var_label(d4)</code></pre>
 <pre><code>$Var1

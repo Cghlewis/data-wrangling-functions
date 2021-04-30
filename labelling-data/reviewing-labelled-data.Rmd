@@ -18,7 +18,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-#### Function: `labelled::look_for()`
+#### Function: `look_for()`
 
 ---
 
@@ -30,6 +30,11 @@ View the labelled data (d10)
 
 source("data.R")
 
+d10
+```
+
+```{r, echo=FALSE}
+
 d10 <- d10 %>%
   labelled::set_variable_labels (Var1 = "Name", 
                                  Var2="Interest in Homework", 
@@ -39,11 +44,11 @@ d10 <- d10 %>%
                                     "reduced-price"=2, "free"=3)) %>%
   labelled::set_na_values(Var2=-999, Var3=-999)
 
-
-d10
 ```
 
 Review labelled information
+
+* Note: `knitr::kable()` function used to make output more readable
 
 ```{r}
 
@@ -54,11 +59,11 @@ knitr::kable(labelled::look_for(d10, details = TRUE) %>%
 
 ---
 
-#### Function: `labelled::var_label()`
+#### Function: `var_label()`
 
 ---
 
-**1\. Review just variable labels**
+**1\. Review just the variable labels**
 
 View the data (d10)
 
@@ -89,11 +94,11 @@ d10 %>% labelled::var_label()
 
 ---
 
-#### Function: `labelled::val_labels()`
+#### Function: `val_labels()`
 
 ---
 
-**1\. Review just value labels**
+**1\. Review just the value labels**
 
 View the data (d10)
 
@@ -124,11 +129,11 @@ d10 %>% labelled::val_labels()
 
 ---
 
-#### Function: `labelled::na_values()`
+#### Function: `na_values()`
 
 ---
 
-**1\. Review just NA value labels**
+**1\. Review just the NA value labels**
 
 View the data (d10)
 

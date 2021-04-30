@@ -17,7 +17,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-#### Function: `dplyr::if_else()`
+#### Function: `if_else()`
 
 ---
 
@@ -32,7 +32,11 @@ d6
 
 ```
 
-Collapse all spellings of Google Meet into one uniform category
+Collapse all spellings of Google Meet into one uniform category function
+
+* Note: We are recoding into a new variable using `dplyr::mutate()` and naming the new variable a different name than the original. It keeps both the new and old versions of the variable. 
+
+* Note: Using `stringr::str_detect()` we can detect different spellings of google meet
 
 ```{r}
 
@@ -42,7 +46,7 @@ d6 %>%
 
 ```
 
-Can also do this using %in% instead of stringr::str_detect()
+We can also do this using `%in%` instead of `stringr::str_detect()`
 
 ```{r}
 
@@ -55,7 +59,7 @@ d6 %>%
 
 ---
 
-#### Function: `dplyr::case_when()`
+#### Function: `case_when()`
 
 ---
 
@@ -71,6 +75,10 @@ d6
 ```
 
 Collapse all spellings of Google Meet into one uniform category
+
+* Note: We are recoding into a new variable using `dplyr::mutate()` and naming the new variable a different name than the original. It keeps both the new and old versions of the variable. 
+
+* Note: Using `stringr::str_detect()` we can detect different spellings of google meet
 
 ```{r}
 
@@ -83,9 +91,13 @@ d6 %>%
 ```
 
 
-#### Function: `dplyr::recode()`
+#### Function: `recode()`
 
 ---
+
+**Note:**  The `dplyr::recode()` formula is: old value=new value, this is opposite of `dplyr::rename()`
+
+<br>
 
 **1\. Collapse all "Google Meet" into one category**
 
@@ -99,6 +111,8 @@ d6
 ```
 
 Collapse all spellings of Google Meet into one uniform category
+
+* Note: We are recoding into a new variable using `dplyr::mutate()` and naming the new variable a different name than the original. It keeps both the new and old versions of the variable. 
 
 ```{r}
 

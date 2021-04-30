@@ -379,10 +379,12 @@ summary {
 <div id="package-dplyr" class="section level3">
 <h3>Package: dplyr</h3>
 <hr />
-<div id="function-dplyrrecode" class="section level4">
-<h4>Function: <code>dplyr::recode()</code></h4>
+<div id="function-recode" class="section level4">
+<h4>Function: <code>recode()</code></h4>
 <hr />
-<p><strong>1. Reverse code multiple variables in the same way</strong></p>
+<p><strong>Note:</strong> The <code>dplyr::recode()</code> formula is: old value=new value, this is opposite of <code>dplyr::rename()</code></p>
+<p><br></p>
+<p><strong>1. Reverse code multiple variables (Var2 and Var3) in the same way</strong></p>
 <p>Review the data (d2)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -391,6 +393,9 @@ summary {
 2 b        NA     5
 3 c         3     1</code></pre>
 <p>Check the values of Var2 and Var3</p>
+<ul>
+<li>Note: <code>base::lapply()</code> is used to iterate the <code>base::table()</code> function across all variables.</li>
+</ul>
 <pre class="r"><code>lapply(d2, table, useNA=&quot;always&quot;)</code></pre>
 <pre><code>$Var1
 
@@ -406,11 +411,15 @@ $Var3
 
    1    4    5 &lt;NA&gt; 
    1    1    1    0 </code></pre>
-<p>Reverse code Var2 and Var3 and rename them with *_r* at the end</p>
-<p><strong>Note:</strong> The dplyr::recode formula is: old value=new value, this is opposite of dplyr::rename</p>
-<p><strong>Note:</strong> The dplyr::recode function considers the old value as a <em>name</em> and therefore, in order to use a number as a name, you have to surround it with backticks (``)</p>
+<p>Reverse code Var2 and Var3 and rename the variables with *_r* at the end by using the <code>dplyr::rename_at()</code> function as well as <code>base::paste0()</code>.</p>
+<ul>
+<li><p>Note: I wrote this all into a new dataset because this syntax, using <code>dplyr::mutate()</code> and <code>dplyr::across()</code>, writes over our existing Var2 and Var3 and in this scenario I wanted to keep the old variables.</p></li>
+<li><p>Note: You will get similar results using <code>dplyr::mutate_at()</code> rather than <code>dplyr::mutate()</code> in conjunction with <code>dplyr::across()</code>.</p></li>
+<li><p>Note: The <code>dplyr::recode()</code> formula is: old value=new value, this is opposite of <code>dplyr::rename()</code></p></li>
+<li><p>Note: The <code>dplyr::recode()</code> function considers the old value as a <em>name</em> and therefore, in order to use a number as a name/character, you have to surround it with backticks (``)</p></li>
+</ul>
 <pre class="r"><code>d2_new &lt;- d2 %&gt;% 
-  dplyr::mutate(across(c(Var2:Var3), ~dplyr::recode(.,`1`=5, `2`=4, `3`=3, `4`=2, `5`=1))) %&gt;%
+  dplyr::mutate(dplyr::across(c(Var2:Var3), ~dplyr::recode(.,`1`=5, `2`=4, `3`=3, `4`=2, `5`=1))) %&gt;%
   dplyr::rename_at(vars(Var2:Var3), ~paste0(., &quot;_r&quot;))</code></pre>
 <p>Check that your reverse code worked correctly</p>
 <pre class="r"><code>table(d2$Var2, d2_new$Var2_r)</code></pre>
@@ -426,8 +435,8 @@ $Var3
   5 1 0 0</code></pre>
 <hr />
 </div>
-<div id="function-dplyrcase_when" class="section level4">
-<h4>Function: <code>dplyr::case_when()</code></h4>
+<div id="function-case_when" class="section level4">
+<h4>Function: <code>case_when()</code></h4>
 <hr />
 <p><strong>1. Reverse code a single variable</strong></p>
 <p>Review the data (d2)</p>
@@ -443,7 +452,10 @@ $Var3
     1 1 0.3333333           0.5
     3 1 0.3333333           0.5
    NA 1 0.3333333            NA</code></pre>
-<p>Reverse code Var2 rename it with *_r* at the end</p>
+<p>Reverse code Var2 and name it with *_r* at the end.</p>
+<ul>
+<li>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and naming the new variable a different name than the original. It keeps both the new and old versions of the variable. If we used <code>dplyr::transmute()</code> instead it would keep the new version and remove the old version.</li>
+</ul>
 <pre class="r"><code>d2 &lt;- d2 %&gt;% dplyr::mutate(Var2_r = dplyr::case_when(
   Var2 == 1 ~ 5,
   Var2 == 2 ~ 4,
@@ -458,18 +470,6 @@ $Var3
     3 1 0   0
    NA 0 0   1</code></pre>
 <p><strong>2. Turn your reverse scale into a function to use for multiple variables (Data Science in Education Using R example)</strong></p>
-<p>Create your function</p>
-<pre class="r"><code>reverse_scale &lt;- function(Var) {
-  x &lt;- dplyr::case_when(
-    Var == 1 ~ 5,
-    Var == 2 ~ 4,
-    Var == 3 ~ 3, 
-    Var == 4 ~ 2,
-    Var == 5 ~ 1,
-    TRUE ~ NA_real_
-  )
-  x
-}</code></pre>
 <p>Review the data (d2)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -488,7 +488,21 @@ $Var3
     1 1 0.3333333
     4 1 0.3333333
     5 1 0.3333333</code></pre>
+<p>Create your function</p>
+<pre class="r"><code>reverse_scale &lt;- function(Var) {
+  x &lt;- dplyr::case_when(
+    Var == 1 ~ 5,
+    Var == 2 ~ 4,
+    Var == 3 ~ 3, 
+    Var == 4 ~ 2,
+    Var == 5 ~ 1,
+    TRUE ~ NA_real_
+  )
+}</code></pre>
 <p>Reverse code Var2 and Var3 using your function and rename the new variables with *_r* at the end</p>
+<ul>
+<li>Note: We are recoding into new variables using <code>dplyr::mutate()</code> and naming the new variables different names than the original. It keeps both the new and old versions of the variables.</li>
+</ul>
 <pre class="r"><code>d2 &lt;- d2 %&gt;%
   dplyr::mutate(Var2_r = reverse_scale(Var2),
          Var3_r = reverse_scale(Var3))</code></pre>
@@ -504,12 +518,10 @@ $Var3
     4 0 1 0
     5 1 0 0</code></pre>
 <p>You can also use your function this way</p>
-<pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         1     4
-2 b        NA     5
-3 c         3     1</code></pre>
+<ul>
+<li><p>Note: Again I wrote this all into a new dataset because this syntax, using <code>dplyr::mutate_at()</code>, writes over our existing Var2 and Var3 and in this scenario I wanted to keep the old variables.</p></li>
+<li><p>Note: Renaming here is done using the <code>dplyr::rename_at()</code> function as well as <code>base::paste0()</code>.</p></li>
+</ul>
 <pre class="r"><code>d2_new &lt;- d2 %&gt;% dplyr::mutate_at(vars(Var2:Var3), reverse_scale) %&gt;%
   dplyr::rename_at(vars(Var2:Var3), ~paste0(., &quot;_r&quot;))</code></pre>
 <p>Check that the recode worked</p>
@@ -526,8 +538,8 @@ $Var3
   5 1 0 0</code></pre>
 <hr />
 </div>
-<div id="function-dplyrif_else" class="section level4">
-<h4>Function: <code>dplyr::if_else()</code></h4>
+<div id="function-if_else" class="section level4">
+<h4>Function: <code>if_else()</code></h4>
 <hr />
 <p>Review the data (d2)</p>
 <pre><code># A tibble: 3 x 3
@@ -542,7 +554,10 @@ $Var3
     1 1 0.3333333           0.5
     3 1 0.3333333           0.5
    NA 1 0.3333333            NA</code></pre>
-<p>Reverse code Var2 rename it with *_r* at the end</p>
+<p>Reverse code Var2 and rename it with *_r* at the end</p>
+<ul>
+<li>Note: We are recoding into new variables using <code>dplyr::mutate()</code> and naming the new variable a different name than the original. It keeps both the new and old versions of the variable.</li>
+</ul>
 <pre class="r"><code>d2 &lt;- d2 %&gt;% dplyr::mutate(Var2_r = dplyr::if_else(Var2 == 1, 5,
                   dplyr::if_else(Var2==2, 4,
                           dplyr::if_else(Var2==4, 2,

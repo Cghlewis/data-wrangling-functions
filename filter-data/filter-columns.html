@@ -378,10 +378,10 @@ summary {
 <div id="package-dplyr" class="section level3">
 <h3>Package: dplyr</h3>
 <hr />
-<div id="function-dplyrselect" class="section level4">
-<h4>Function: <code>dplyr::select()</code></h4>
+<div id="function-select" class="section level4">
+<h4>Function: <code>select()</code></h4>
 <hr />
-<p><strong>1.Filter out columns</strong></p>
+<p><strong>1. Drop columns (extra1, extra2, extra3)</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 5 x 5
   extra1 extra2 extra3    id test_score
@@ -401,8 +401,11 @@ summary {
 3    12        250
 4    13        217
 5    NA         NA</code></pre>
-<p>You can also drop columns based on column name</p>
-<pre class="r"><code>d1 %&gt;% dplyr::select(-(dplyr::starts_with(&quot;extra&quot;)))</code></pre>
+<p>You can also drop columns based on shared column attributes using <code>tidyselect</code> selection helpers such as <code>starts_with()</code>.</p>
+<ul>
+<li>Note: Other <code>tidyselect</code> selection helpers include <code>contains()</code>, <code>ends_with()</code>, <code>where()</code>, <code>matches()</code>, and more.</li>
+</ul>
+<pre class="r"><code>d1 %&gt;% dplyr::select(-(tidyselect::starts_with(&quot;extra&quot;)))</code></pre>
 <pre><code># A tibble: 5 x 2
      id test_score
   &lt;dbl&gt;      &lt;dbl&gt;
@@ -411,7 +414,7 @@ summary {
 3    12        250
 4    13        217
 5    NA         NA</code></pre>
-<p><strong>2. Keep columns</strong></p>
+<p><strong>2. Keep selected columns (id and test_score)</strong></p>
 <pre><code># A tibble: 5 x 6
   extra1 extra2 extra3    id test_score1 test_score2
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
@@ -430,8 +433,11 @@ summary {
 3    12         250         540
 4    13         217         499
 5    NA          NA          NA</code></pre>
-<p>You can also keep columns based on column name</p>
-<pre class="r"><code>d2 %&gt;% dplyr::select(id, dplyr::contains(&quot;test&quot;))</code></pre>
+<p>You can also keep columns based on shared column attributes using <code>tidyselect</code> selection helpers such as <code>contains()</code>.</p>
+<ul>
+<li>Note: Other <code>tidyselect</code> selection helpers include <code>starts_with()</code>, <code>ends_with()</code>, <code>where()</code>, <code>matches()</code>, and more.</li>
+</ul>
+<pre class="r"><code>d2 %&gt;% dplyr::select(id, tidyselect::contains(&quot;test&quot;))</code></pre>
 <pre><code># A tibble: 5 x 3
      id test_score1 test_score2
   &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;

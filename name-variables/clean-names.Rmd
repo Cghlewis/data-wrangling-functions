@@ -17,7 +17,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-#### Function: `purrr::set_names()`
+#### Function: `set_names()`
 
 ---
 
@@ -45,7 +45,7 @@ d1 %>% purrr::set_names(toupper)
 
 ---
 
-#### Function: `dplyr::rename_with()`
+#### Function: `rename_with()`
 
 ---
 
@@ -73,7 +73,7 @@ d1 %>% dplyr::rename_with(tolower)
 
 ---
 
-#### Function: `janitor::clean_names()`
+#### Function: `clean_names()`
 
 ---
 
@@ -96,7 +96,7 @@ d3 %>% janitor::clean_names()
 
 ```
 
-**2\. Change all variable names to CamelCase (no spaces, indicating word separation through capital letters)**
+**2\. Change all variable names to UpperCamelCase (no spaces, indicating word separation through capital letters)**
 
 Review the data (d1)
 
@@ -107,9 +107,9 @@ d4
 
 ```
 
-Change the variable names to camelCase
+Change the variable names to UpperCamelCase
 
-**Note:** To see all of the case options type *?to_any_case* in the console.
+* Note: To see all of the case options type *?to_any_case* in the console.
 
 ```{r}
 

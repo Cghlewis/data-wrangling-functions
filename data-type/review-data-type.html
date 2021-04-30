@@ -399,7 +399,7 @@ summary {
 <pre><code>[1] &quot;numeric&quot;</code></pre>
 <pre class="r"><code>class(d1$Var4)</code></pre>
 <pre><code>[1] &quot;Date&quot;</code></pre>
-<p>You could also view class for each variable using a function like lapply (or sapply) as well</p>
+<p>You could also view the class for each variable using a function like <code>base::lapply()</code> or <code>base::sapply()</code> to iterate the <code>base::class()</code> function over each variable</p>
 <pre class="r"><code>lapply(d1, class)</code></pre>
 <pre><code>$Var1
 [1] &quot;factor&quot;
@@ -438,8 +438,10 @@ $Var3
 
 $Var4
 [1] &quot;double&quot;</code></pre>
-<p><strong>Note</strong>: You will notice that our date variable (Var4) returns a data type of double (or numeric). This is because internally, R stores dates as numeric values. The class of Var4 remains date though.</p>
-<p>You will also notice that the data type for our factor variable (Var1) is integer even though the values appear to be character. This is because internally, R stores factor values as integers in order to create ordered levels. To learn more about your factor levels, you can use another function called <code>attributes</code>.</p>
+<ul>
+<li><p>Note: You will notice that our date variable (Var4) returns a data type of double (or numeric). This is because internally, R stores dates as numeric values. The class of Var4 remains date though.</p></li>
+<li><p>Note: You will also notice that the data type for our factor variable (Var1) is integer even though the values appear to be character. This is because internally, R stores factor values as integers in order to create ordered levels. To learn more about your factor levels, you can use another function called <code>base::attributes()</code>.</p></li>
+</ul>
 <pre class="r"><code>attributes(d1$Var1)</code></pre>
 <pre><code>$levels
 [1] &quot;a&quot; &quot;b&quot; &quot;c&quot;

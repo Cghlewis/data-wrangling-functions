@@ -18,11 +18,11 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-#### Function: `labelled::set_na_values()`
+#### Function: `set_na_values()`
 
 ---
 
-**1\.Add a label for one variable, one NA value**
+**1\.Add a label for one NA value (-999), for one variable (Var3).**
 
 Review the data (d1)
 
@@ -33,7 +33,7 @@ d1
 
 ```
 
-Add NA label
+Add NA label for -999
 
 ```{r}
 
@@ -44,7 +44,7 @@ labelled::na_values(d1$Var3)
 ```
 
 
-**2\. Add a label for one variable, multiple NA values**
+**2\. Add labels for multiple NA values (-999, 0), for one variable (Var3)**
 
 Review the data (d1)
 
@@ -55,7 +55,7 @@ d1
 
 ```
 
-Add NA labels
+Add NA labels for -999 and 0
 
 ```{r}
 
@@ -68,11 +68,11 @@ labelled::na_values(d1$Var3)
 
 ---
 
-#### Function: `labelled::labelled_spss()`
+#### Function: `labelled_spss()`
 
 ---
 
-**1\. Label NA values for multiple variables that have the same NA values**
+**1\. Label NA values for multiple variables (Var2 and Var3) that have the same NA value (-999)**
 
 Review the data (d1)
 
@@ -83,7 +83,7 @@ d1
 
 ```
 
-Add NA labels
+Add NA labels for -999
 
 ```{r}
 

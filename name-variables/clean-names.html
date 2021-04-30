@@ -379,8 +379,8 @@ summary {
 <div id="package-purrr" class="section level3">
 <h3>Package: purrr</h3>
 <hr />
-<div id="function-purrrset_names" class="section level4">
-<h4>Function: <code>purrr::set_names()</code></h4>
+<div id="function-set_names" class="section level4">
+<h4>Function: <code>set_names()</code></h4>
 <hr />
 <p><strong>1. Change all variable names to upper case</strong></p>
 <p>Review the data (d1)</p>
@@ -403,8 +403,8 @@ summary {
 <div id="package-dplyr" class="section level3">
 <h3>Package: dplyr</h3>
 <hr />
-<div id="function-dplyrrename_with" class="section level4">
-<h4>Function: <code>dplyr::rename_with()</code></h4>
+<div id="function-rename_with" class="section level4">
+<h4>Function: <code>rename_with()</code></h4>
 <hr />
 <p><strong>1. Change all variable names to lower case</strong></p>
 <p>Review the data (d1)</p>
@@ -427,8 +427,8 @@ summary {
 <div id="package-janitor" class="section level3">
 <h3>Package: janitor</h3>
 <hr />
-<div id="function-janitorclean_names" class="section level4">
-<h4>Function: <code>janitor::clean_names()</code></h4>
+<div id="function-clean_names" class="section level4">
+<h4>Function: <code>clean_names()</code></h4>
 <hr />
 <p><strong>1. Change all variable names to snake_case (lower case and underscore to separate words)</strong></p>
 <p>Review the data (d1)</p>
@@ -446,7 +446,7 @@ summary {
 1 a         1     2
 2 b      -999     0
 3 c         3  -999</code></pre>
-<p><strong>2. Change all variable names to CamelCase (no spaces, indicating word separation through capital letters)</strong></p>
+<p><strong>2. Change all variable names to UpperCamelCase (no spaces, indicating word separation through capital letters)</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 3 x 3
   stu_id stu_gender `lunch status`
@@ -454,8 +454,10 @@ summary {
 1 a      m          f             
 2 b      f          r             
 3 c      n          p             </code></pre>
-<p>Change the variable names to camelCase</p>
-<p><strong>Note:</strong> To see all of the case options type <em>?to_any_case</em> in the console.</p>
+<p>Change the variable names to UpperCamelCase</p>
+<ul>
+<li>Note: To see all of the case options type <em>?to_any_case</em> in the console.</li>
+</ul>
 <pre class="r"><code>d4 %&gt;% janitor::clean_names(., &quot;big_camel&quot;)</code></pre>
 <pre><code># A tibble: 3 x 3
   StuId StuGender LunchStatus

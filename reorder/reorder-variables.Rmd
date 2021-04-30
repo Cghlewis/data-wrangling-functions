@@ -18,7 +18,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-#### Function: `dplyr::relocate()`
+#### Function: `relocate()`
 
 ---
 
@@ -84,7 +84,7 @@ d1 %>% dplyr::relocate(Var1, .after = Var2)
 
 ---
 
-#### Function: `dplyr::select()`
+#### Function: `select()`
 
 ---
 

@@ -379,8 +379,8 @@ summary {
 <div id="package-dplyr" class="section level3">
 <h3>Package: dplyr</h3>
 <hr />
-<div id="function-dplyrrename_with" class="section level4">
-<h4>Function: <code>dplyr::rename_with()</code></h4>
+<div id="function-rename_with" class="section level4">
+<h4>Function: <code>rename_with()</code></h4>
 <hr />
 <p><strong>1. Remove all periods in variable names and replace with underscores</strong></p>
 <p>Review the data (d2)</p>
@@ -407,8 +407,10 @@ summary {
 2 b      f           150
 3 c      n           160</code></pre>
 <p>Modify variable names by adding the <code>stringr::str_remove()</code> function and the selection helper <code>starts_with()</code>.</p>
-<p><strong>Note:</strong>: Other <code>tidyselect</code> selection helpers include <code>ends_with()</code>, <code>contains</code>, <code>matches</code>, and <code>num_range</code>, <code>where</code> and more.</p>
-<pre class="r"><code>d5 %&gt;% dplyr::rename_with(~ stringr::str_remove(., &quot;s_&quot;), starts_with(&quot;s_&quot;))</code></pre>
+<ul>
+<li>Note: Other <code>tidyselect</code> selection helpers include <code>ends_with()</code>, <code>contains</code>, <code>matches</code>, and <code>num_range</code>, <code>where</code> and more.</li>
+</ul>
+<pre class="r"><code>d5 %&gt;% dplyr::rename_with(~ stringr::str_remove(., &quot;s_&quot;), tidyselect::starts_with(&quot;s_&quot;))</code></pre>
 <pre><code># A tibble: 3 x 3
   stu_id gender  test
   &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt;

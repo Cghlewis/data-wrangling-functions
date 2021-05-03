@@ -1,0 +1,44 @@
+---
+title: "Sort rows"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+  
+  ```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+  
+#### Function: `arrange()`
+  
+---
+  
+**1\. Arrange the data ascending by teacher last name, then teacher first name, then student id**
+  
+Review the data (d4)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d4
+
+```
+
+Arrange the data
+
+* Note: The default sort is ascending. To sort descending, wrap a variable in *desc()*
+  
+```{r}
+
+d4 %>% dplyr::arrange(t_last_name, t_first_name, s_id)
+
+```

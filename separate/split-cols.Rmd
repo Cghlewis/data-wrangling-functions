@@ -1,0 +1,93 @@
+---
+title: "Separate columns"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: tidyr
+
+---
+
+#### Function: `separate()`
+
+---
+
+**1\. Split a variable (name) into first name and last name**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Split name into two variables
+
+* Note: The original variable will be removed unless you add the argument *remove=FALSE*
+* Note: If no separator is indicated, the function will split values wherever a non-alphanumeric character appears. If you want to be clear where to separate, add the argument *sep=* and insert a regular expression such as *sep=" "*. If working with numeric columns rather than character columns, you can separate based on character position.
+
+```{r}
+
+d1 %>% tidyr::separate(name, into=c("first_name", "last_name"))
+
+```
+
+* Note: The number of new variables must equal the number of pieces you are separating. So for example if some names had a middle initial, we would only receive the first name and middle initial for those names
+
+```{r, echo=FALSE}
+d2
+
+```
+
+```{r}
+
+d2 %>% tidyr::separate(name, into=c("first_name", "last_name"))
+
+```
+
+You can make decisions on how to handle these anomalies by adding the argument *extra=* and add the option "warn", "drop" or "merge", with the default being "warn". To learn more type *?separate* in the console.
+
+Here is an example using *extra="merge"*
+
+```{r}
+
+d2 %>% tidyr::separate(name, into=c("first_name", "last_name"), extra="merge")
+
+```
+
+* Note: Similarly since the number of new variables must equal the number of pieces you are separating, if some names only have a first or last name, you will have missing data in your new variables.
+
+```{r, echo=FALSE}
+
+d3
+
+```
+
+```{r}
+
+d3 %>% tidyr::separate(name, into=c("first_name", "last_name"))
+
+```
+
+You can make decisions on how to handle these anomalies by adding the argument *fill=* and add the option "warn", "right" or "left", with the default being "warn". To learn more type *?separate* in the console.
+
+Here is an example using *fill="left"*
+
+```{r}
+
+d3 %>% tidyr::separate(name, into=c("first_name", "last_name"), fill="left")
+
+```
+

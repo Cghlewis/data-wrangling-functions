@@ -382,6 +382,10 @@ summary {
 <div id="function-rename_with" class="section level4">
 <h4>Function: <code>rename_with()</code></h4>
 <hr />
+<ul>
+<li>Note: Unlike <code>dplyr::rename()</code> where you can rename individual columns, <code>dplyr::rename_with()</code> renames columns using a function.</li>
+</ul>
+<p><br></p>
 <p><strong>1. Remove all periods in variable names and replace with underscores</strong></p>
 <p>Review the data (d2)</p>
 <pre><code># A tibble: 3 x 3
@@ -392,7 +396,7 @@ summary {
 3 c         3     1</code></pre>
 <p>Modify variable names by adding the <code>stringr::str_replace()</code> function.</p>
 <ul>
-<li>Note: Unlike <code>dplyr::rename()</code> where you can rename individual columns, <code>dplyr::rename_with()</code> renames columns using a function.</li>
+<li>Note: If there were more than one period in the variable names, you could also use <code>stringr::str_replace_all()</code> to remove all instances of periods.</li>
 </ul>
 <pre class="r"><code>d2 %&gt;% dplyr::rename_with(~ stringr::str_replace(., &quot;\\.&quot;, &quot;_&quot;))</code></pre>
 <pre><code># A tibble: 3 x 3
@@ -401,26 +405,41 @@ summary {
 1 a         1     4
 2 b        NA     5
 3 c         3     1</code></pre>
-<p><strong>2. For any variable that starts with “s_”, remove the prefix</strong></p>
+<p><strong>2. Remove 1:, 2: and 3: from Var1, Var2 and Var3</strong></p>
+<p>Review the data (d6)</p>
+<pre><code># A tibble: 3 x 3
+  `1:Var1` `2:Var2` `3:Var3`
+  &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;
+1 a               1        4
+2 b              NA        5
+3 c               3        1</code></pre>
+<p>Modify variable names by adding the <code>stringr::str_remove()</code> function.</p>
+<pre class="r"><code>d6 %&gt;% dplyr::rename_with(~ stringr::str_remove(., &quot;[:digit:]:&quot;))</code></pre>
+<pre><code># A tibble: 3 x 3
+  Var1   Var2  Var3
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 a         1     4
+2 b        NA     5
+3 c         3     1</code></pre>
+<p><strong>3. For any variable that starts with “s_”, remove the prefix</strong></p>
 <p>Review the data (d5)</p>
 <pre><code># A tibble: 3 x 3
-  stu_id s_gender s_test
-  &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;
-1 a      m           100
-2 b      f           150
-3 c      n           160</code></pre>
-<p>Modify variable names by adding the <code>stringr::str_remove()</code> function and the selection helper <code>starts_with()</code>.</p>
+  s_id  s_var1 s_var2
+  &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;
+1 a     m         100
+2 b     f         150
+3 c     n         160</code></pre>
+<p>Modify variable names by adding the <code>stringr::str_remove()</code> function and the selection helper <code>contains()</code>.</p>
 <ul>
-<li><p>Note: Other <code>tidyselect</code> selection helpers include <code>ends_with()</code>, <code>contains</code>, <code>matches</code>, and <code>num_range</code>, <code>where</code> and more.</p></li>
-<li><p>Note: Unlike <code>dplyr::rename()</code> where you can rename individual columns, <code>dplyr::rename_with()</code> renames columns using a function.</p></li>
+<li>Note: Other <code>tidyselect</code> selection helpers include <code>startswith()</code>, <code>ends_with()</code>, <code>matches</code>, <code>num_range</code>, <code>where</code> and more.</li>
 </ul>
-<pre class="r"><code>d5 %&gt;% dplyr::rename_with(~ stringr::str_remove(., &quot;s_&quot;), tidyselect::starts_with(&quot;s_&quot;))</code></pre>
+<pre class="r"><code>d5 %&gt;% dplyr::rename_with(~ stringr::str_remove(., &quot;s_&quot;), tidyselect::contains(&quot;var&quot;))</code></pre>
 <pre><code># A tibble: 3 x 3
-  stu_id gender  test
-  &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt;
-1 a      m        100
-2 b      f        150
-3 c      n        160</code></pre>
+  s_id  var1   var2
+  &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
+1 a     m       100
+2 b     f       150
+3 c     n       160</code></pre>
 </div>
 </div>
 

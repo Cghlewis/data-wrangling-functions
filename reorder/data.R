@@ -26,3 +26,12 @@ d3 <- tibble::tribble(
 )
 
 
+d4 <- tibble::tribble(
+  ~s_id, ~`t_last_name`, ~`t_first_name`, 
+  10, "simpson", "homer",
+  15, "simpson", "marge",
+  12, "simpson", "homer",
+  13, "flanders", "marge"
+)
+
+

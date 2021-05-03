@@ -1,0 +1,47 @@
+---
+title: "Separate rows"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: tidyr
+
+---
+
+#### Function: `separate_rows()`
+
+---
+
+* Note: Unlike `tidyr::separate()` which splits columns into new columns, `tidyr::separate_rows()` splits a column with multiple delimited values into new rows.
+
+**1\. Split a variable (toppings) into multiple rows**
+
+Review the data (d5)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d5
+
+```
+
+Split toppings into new rows
+
+* Note: The original variable will be removed unless you add the argument *remove=FALSE*
+* Note: If no separator is indicated, the function will split values wherever a non-alphanumeric character appears. If you want to be clear where to separate, add the argument *sep=","* as I did below otherwise the words *red* and *pepper* will be split into separate rows.
+
+```{r}
+
+d5 %>% tidyr::separate_rows(toppings, sep=",")
+
+```

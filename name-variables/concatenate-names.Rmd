@@ -21,6 +21,10 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
+* Note: Unlike `dplyr::rename()` where you can rename individual columns, `dplyr::rename_with()` renames columns using a function.
+
+<br>
+
 **1\. Concatenate a prefix, "T1_", to all variable names**
 
 Review the data (d1)
@@ -36,11 +40,25 @@ Concatenate T1_ by adding the `base::paste0` function.
 
 * Note: Using `base::paste0` concatenates the string directly to the variable name. Using `base::paste()` concatenates with a string separator.
 
-* Note: Unlike `dplyr::rename()` where you can rename individual columns, `dplyr::rename_with()` renames columns using a function.
-
 ```{r}
 
 d1 %>% dplyr::rename_with(~ base::paste0("T1_", .))
+
+```
+
+To make a suffix _T1 rather than a prefix, rewrite the function like this.
+
+```{r}
+
+d1 %>% dplyr::rename_with(~ base::paste0(., "_T1"))
+
+```
+
+You can also add your separator if you would rather use the `base::paste()` function
+
+```{r}
+
+d1 %>% dplyr::rename_with(~ base::paste(., "T1", sep= "_"))
 
 ```
 
@@ -59,8 +77,6 @@ d1
 Concatenate T1_ by adding the `base::paste0` function and the selection helper `where()`.
 
 * Note: Other `tidyselect` selection helpers include `starts_with()`, `ends_with()`, `contains()`, `matches()`, and `num_range()`, and more.
-
-* Note: Unlike `dplyr::rename()` where you can rename individual columns, `dplyr::rename_with()` renames columns using a function.
 
 ```{r}
 

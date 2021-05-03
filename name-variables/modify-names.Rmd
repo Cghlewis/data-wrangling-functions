@@ -21,6 +21,10 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
+* Note: Unlike `dplyr::rename()` where you can rename individual columns, `dplyr::rename_with()` renames columns using a function.
+
+<br>
+
 **1\. Remove all periods in variable names and replace with underscores**
 
 Review the data (d2)
@@ -34,7 +38,7 @@ d2
 
 Modify variable names by adding the `stringr::str_replace()` function.
 
-* Note: Unlike `dplyr::rename()` where you can rename individual columns, `dplyr::rename_with()` renames columns using a function.
+* Note: If there were more than one period in the variable names, you could also use `stringr::str_replace_all()` to remove all instances of periods.
 
 ```{r}
 
@@ -43,7 +47,27 @@ d2 %>% dplyr::rename_with(~ stringr::str_replace(., "\\.", "_"))
 ```
 
 
-**2\. For any variable that starts with "s_", remove the prefix**
+**2\. Remove 1:, 2: and 3: from Var1, Var2 and Var3**
+
+Review the data (d6)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d6
+
+```
+
+Modify variable names by adding the `stringr::str_remove()` function.
+
+```{r}
+
+d6 %>% dplyr::rename_with(~ stringr::str_remove(., "[:digit:]:"))
+
+```
+
+
+**3\. For any variable that starts with "s_", remove the prefix**
 
 Review the data (d5)
 
@@ -54,15 +78,13 @@ d5
 
 ```
 
-Modify variable names by adding the `stringr::str_remove()` function and the selection helper `starts_with()`.
+Modify variable names by adding the `stringr::str_remove()` function and the selection helper `contains()`.
 
-* Note: Other `tidyselect` selection helpers include `ends_with()`, `contains`, `matches`, and `num_range`, `where` and more.
-
-* Note: Unlike `dplyr::rename()` where you can rename individual columns, `dplyr::rename_with()` renames columns using a function.
+* Note: Other `tidyselect` selection helpers include `startswith()`, `ends_with()`, `matches`, `num_range`, `where` and more.
 
 ```{r}
 
-d5 %>% dplyr::rename_with(~ stringr::str_remove(., "s_"), tidyselect::starts_with("s_"))
+d5 %>% dplyr::rename_with(~ stringr::str_remove(., "s_"), tidyselect::contains("var"))
 
 ```
 

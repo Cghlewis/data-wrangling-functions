@@ -382,6 +382,10 @@ summary {
 <div id="function-rename_with" class="section level4">
 <h4>Function: <code>rename_with()</code></h4>
 <hr />
+<ul>
+<li>Note: Unlike <code>dplyr::rename()</code> where you can rename individual columns, <code>dplyr::rename_with()</code> renames columns using a function.</li>
+</ul>
+<p><br></p>
 <p><strong>1. Concatenate a prefix, “T1_”, to all variable names</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 3 x 3
@@ -392,12 +396,27 @@ summary {
 3 c         3  NA  </code></pre>
 <p>Concatenate T1_ by adding the <code>base::paste0</code> function.</p>
 <ul>
-<li><p>Note: Using <code>base::paste0</code> concatenates the string directly to the variable name. Using <code>base::paste()</code> concatenates with a string separator.</p></li>
-<li><p>Note: Unlike <code>dplyr::rename()</code> where you can rename individual columns, <code>dplyr::rename_with()</code> renames columns using a function.</p></li>
+<li>Note: Using <code>base::paste0</code> concatenates the string directly to the variable name. Using <code>base::paste()</code> concatenates with a string separator.</li>
 </ul>
 <pre class="r"><code>d1 %&gt;% dplyr::rename_with(~ base::paste0(&quot;T1_&quot;, .))</code></pre>
 <pre><code># A tibble: 3 x 3
   T1_Var1 T1_Var2 T1_Var3
+  &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 a             2     3.6
+2 b            NA     8.5
+3 c             3    NA  </code></pre>
+<p>To make a suffix _T1 rather than a prefix, rewrite the function like this.</p>
+<pre class="r"><code>d1 %&gt;% dplyr::rename_with(~ base::paste0(., &quot;_T1&quot;))</code></pre>
+<pre><code># A tibble: 3 x 3
+  Var1_T1 Var2_T1 Var3_T1
+  &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 a             2     3.6
+2 b            NA     8.5
+3 c             3    NA  </code></pre>
+<p>You can also add your separator if you would rather use the <code>base::paste()</code> function</p>
+<pre class="r"><code>d1 %&gt;% dplyr::rename_with(~ base::paste(., &quot;T1&quot;, sep= &quot;_&quot;))</code></pre>
+<pre><code># A tibble: 3 x 3
+  Var1_T1 Var2_T1 Var3_T1
   &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;
 1 a             2     3.6
 2 b            NA     8.5
@@ -412,8 +431,7 @@ summary {
 3 c         3  NA  </code></pre>
 <p>Concatenate T1_ by adding the <code>base::paste0</code> function and the selection helper <code>where()</code>.</p>
 <ul>
-<li><p>Note: Other <code>tidyselect</code> selection helpers include <code>starts_with()</code>, <code>ends_with()</code>, <code>contains()</code>, <code>matches()</code>, and <code>num_range()</code>, and more.</p></li>
-<li><p>Note: Unlike <code>dplyr::rename()</code> where you can rename individual columns, <code>dplyr::rename_with()</code> renames columns using a function.</p></li>
+<li>Note: Other <code>tidyselect</code> selection helpers include <code>starts_with()</code>, <code>ends_with()</code>, <code>contains()</code>, <code>matches()</code>, and <code>num_range()</code>, and more.</li>
 </ul>
 <pre class="r"><code>d1 %&gt;% dplyr::rename_with(~ base::paste0(&quot;T1_&quot;, .), where(is.numeric))</code></pre>
 <pre><code># A tibble: 3 x 3

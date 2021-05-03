@@ -31,11 +31,16 @@ d4 <- tibble::tribble(
 )
 
 d5 <- tibble::tribble(
-  ~stu_id, ~`s_gender`, ~`s_test`, 
+  ~s_id, ~`s_var1`, ~`s_var2`, 
   "a", "m", 100,
   "b", "f", 150,
   "c", "n", 160,
 )
 
-
+d6 <- tibble::tribble(
+  ~`1:Var1`, ~`2:Var2`, ~`3:Var3`,
+  "a", 1, 4,
+  "b", NA, 5,
+  "c", 3, 1,
+)
 

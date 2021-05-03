@@ -54,6 +54,12 @@ navbar:
     href: reorder\reorder-variables.html
   - text: "Reorder values"
     href: reorder\reorder-values.html
+  - text: "Sort rows"
+    href: reorder\sort-rows.html
+  - text: "Separate columns"
+    href: reorder\split-cols.html
+  - text: "Separate rows"
+    href: reorder\split-rows.html
 output:
   html_document:
     theme: readable

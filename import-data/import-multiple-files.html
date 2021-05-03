@@ -386,7 +386,7 @@ summary {
 <li><p>Note: I used the here::here() function which implicitly sets my directory to the top level of my current project. Then any subsequent folders can be listed in descending order. In this case my folder “attendance” is within another folder called “import-data” which is located in the top level of my project directory. You could also just list your entire file path.</p></li>
 <li><p>Note: If you wanted to see the full path for each file you could add the argument <em>full.names</em> is equal to TRUE.</p></li>
 </ul>
-<pre class="r"><code>list.files(path=here(&quot;import-data&quot;, &quot;attendance&quot;))</code></pre>
+<pre class="r"><code>list.files(path=here::here(&quot;import-data&quot;, &quot;attendance&quot;))</code></pre>
 </div>
 </div>
 <div id="package-purrr" class="section level3">

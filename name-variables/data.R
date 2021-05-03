@@ -44,3 +44,11 @@ d6 <- tibble::tribble(
   "c", 3, 1,
 )
 
+d7 <- tibble::tribble(
+  ~`X1`, ~`X2`, ~`X3`,
+  "a", 2, 3.6,
+  "b", NA, 8.5,
+  "c", 3, NA,
+)
+
+

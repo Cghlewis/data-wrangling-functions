@@ -31,7 +31,7 @@ library(tidyverse)
 
 ```{r, eval=FALSE}
 
-list.files(path=here("import-data", "attendance"))
+list.files(path=here::here("import-data", "attendance"))
 
 ```
 

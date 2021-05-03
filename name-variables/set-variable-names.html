@@ -382,19 +382,25 @@ summary {
 <div id="function-set_names" class="section level4">
 <h4>Function: <code>set_names()</code></h4>
 <hr />
-<p><strong>1. Change all variable names</strong></p>
-<p>Review the data (d1)</p>
+<p><strong>1. Set all variable names.</strong></p>
+<p>Review the data (d7)</p>
+<ul>
+<li>Note: In this example you had a file, such as a csv file, with no variable names. You’ll see that when you read the file in, R assigned variable names of X1, X2 and X3 in this instance.</li>
+</ul>
 <pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
+  X1       X2    X3
   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
 1 a         2   3.6
 2 b        NA   8.5
 3 c         3  NA  </code></pre>
-<p>Change variable names</p>
+<p>You can review the variable names using <code>base::names()</code>.</p>
+<pre class="r"><code>names(d7)</code></pre>
+<pre><code>[1] &quot;X1&quot; &quot;X2&quot; &quot;X3&quot;</code></pre>
+<p>Add variable names</p>
 <ul>
-<li>Note: Quotes are required around variable names and the number of variables given must be equal to the number of variables in the data frame.</li>
+<li>Note: Quotes are required around variable names and the number of variable names given must be equal to the number of variables in the data frame.</li>
 </ul>
-<pre class="r"><code>d1 %&gt;% purrr::set_names(&quot;id&quot;, &quot;grade&quot;, &quot;test1&quot;)</code></pre>
+<pre class="r"><code>d7 %&gt;% purrr::set_names(&quot;id&quot;, &quot;grade&quot;, &quot;test1&quot;)</code></pre>
 <pre><code># A tibble: 3 x 3
   id    grade test1
   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;

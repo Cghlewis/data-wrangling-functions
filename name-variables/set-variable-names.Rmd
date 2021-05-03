@@ -21,24 +21,34 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Change all variable names**
+**1\. Set all variable names.**
 
-Review the data (d1)
+Review the data (d7)
+
+* Note: In this example you had a file, such as a csv file, with no variable names. You'll see that when you read the file in, R assigned variable names of X1, X2 and X3 in this instance.
 
 ```{r, echo=FALSE}
 
 source("data.R")
-d1
+d7
 
 ```
 
-Change variable names
-
-* Note: Quotes are required around variable names and the number of variables given must be equal to the number of variables in the data frame.
+You can review the variable names using `base::names()`.
 
 ```{r}
 
-d1 %>% purrr::set_names("id", "grade", "test1")
+names(d7)
 
 ```
 
+
+Add variable names
+
+* Note: Quotes are required around variable names and the number of variable names given must be equal to the number of variables in the data frame.
+
+```{r}
+
+d7 %>% purrr::set_names("id", "grade", "test1")
+
+```

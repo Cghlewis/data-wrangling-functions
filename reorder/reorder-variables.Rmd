@@ -33,7 +33,7 @@ d1
 
 ```
 
-Move Var3 in front of Var2
+Move Var3 in front of Var2 by using the *.before* argument
 
 ```{r}
 
@@ -53,11 +53,22 @@ d1
 
 ```
 
-Move the variables
+Move Var2 and Var3 in front of Var1
+
+* Note: No argument is needed because the unmentioned variables will be placed after the mentioned variables.
 
 ```{r}
 
 d1 %>% dplyr::relocate(Var2, Var3)
+
+
+```
+
+You would get the same result listing all variables
+
+```{r}
+
+d1 %>% dplyr::relocate(Var2, Var3, Var1)
 
 
 ```
@@ -74,7 +85,7 @@ d1
 
 ```
 
-Move the variables
+Move Var1 after Var2 by using the *.after* argument
 
 ```{r}
 
@@ -99,11 +110,11 @@ d1
 
 ```
 
-Move Var3 using the `dplyr::select()` function in addition to the selection helper `everything()`.
+Move Var3 to the front using the `dplyr::select()` function in addition to the `tidyselect` selection helper `everything()`.
 
 ```{r}
 
-d1 %>% dplyr::select(Var3, everything())
+d1 %>% dplyr::select(Var3, tidyselect::everything())
 
 ```
 

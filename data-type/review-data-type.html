@@ -399,8 +399,11 @@ summary {
 <pre><code>[1] &quot;numeric&quot;</code></pre>
 <pre class="r"><code>class(d1$Var4)</code></pre>
 <pre><code>[1] &quot;Date&quot;</code></pre>
-<p>You could also view the class for each variable using a function like <code>base::lapply()</code> or <code>base::sapply()</code> to iterate the <code>base::class()</code> function over each variable</p>
-<pre class="r"><code>lapply(d1, class)</code></pre>
+<p>You could also view the class for each variable using a function like <code>purrr::map()</code> to iterate the <code>base::class()</code> function over each variable</p>
+<ul>
+<li>Note: <code>purrr::map()</code> returns a list.</li>
+</ul>
+<pre class="r"><code>purrr::map(d1, class)</code></pre>
 <pre><code>$Var1
 [1] &quot;factor&quot;
 
@@ -426,7 +429,7 @@ $Var4
 2 b        NA   8.5 2007-12-14
 3 c         3  NA   2020-08-09</code></pre>
 <p>View the data type for each variable</p>
-<pre class="r"><code>lapply(d1, typeof)</code></pre>
+<pre class="r"><code>purrr::map(d1, typeof)</code></pre>
 <pre><code>$Var1
 [1] &quot;integer&quot;
 

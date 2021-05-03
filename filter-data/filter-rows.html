@@ -1035,21 +1035,13 @@ d10</code></pre>
 <li><p>Note: Notice that I put the operator <em>!</em> outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.</p></li>
 <li><p>Note: You’ll notice I did not have to make an explicit call to keep the NA values for numeric variables this time. Using the <code>dplyr::if_all()</code> function only removed the values in the argument.</p></li>
 </ul>
-<pre class="r"><code>d10 %&gt;% dplyr::filter(!(dplyr::if_all(everything(), ~ .x ==-999)))</code></pre>
-<pre><code># A tibble: 5 x 4
-  extra2 extra3    id test_score
-   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
-1      1      2    10        205
-2   -999      0    11        220
-3      3   -999    12        250
-4     NA      0    13        217
-5     NA     NA    NA         NA</code></pre>
+<pre class="r"><code>d10 &lt;- d10 %&gt;% dplyr::filter(!(dplyr::if_all(everything(), ~ .x ==-999)))</code></pre>
 <p>Count the number of cases after you filter</p>
 <pre class="r"><code>dplyr::count(d10)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;
-1     6</code></pre>
+1     5</code></pre>
 </div>
 </div>
 <div id="package-tidyr" class="section level3">

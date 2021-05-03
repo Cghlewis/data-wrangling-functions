@@ -43,11 +43,13 @@ class(d1$Var4)
 
 ```
 
-You could also view the class for each variable using a function like `base::lapply()` or `base::sapply()` to iterate the `base::class()` function over each variable
+You could also view the class for each variable using a function like `purrr::map()` to iterate the `base::class()` function over each variable
+
+* Note: `purrr::map()` returns a list.
 
 ```{r}
 
-lapply(d1, class)
+purrr::map(d1, class)
 
 ```
 
@@ -73,7 +75,7 @@ View the data type for each variable
 
 ```{r}
 
-lapply(d1, typeof)
+purrr::map(d1, typeof)
 
 ```
 

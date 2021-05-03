@@ -390,7 +390,7 @@ summary {
 1 a         2   3.6
 2 b        NA   8.5
 3 c         3  NA  </code></pre>
-<p>Move Var3 in front of Var2</p>
+<p>Move Var3 in front of Var2 by using the <em>.before</em> argument</p>
 <pre class="r"><code>d1 %&gt;% dplyr::relocate(Var3, .before = Var2)</code></pre>
 <pre><code># A tibble: 3 x 3
   Var1   Var3  Var2
@@ -406,8 +406,19 @@ summary {
 1 a         2   3.6
 2 b        NA   8.5
 3 c         3  NA  </code></pre>
-<p>Move the variables</p>
+<p>Move Var2 and Var3 in front of Var1</p>
+<ul>
+<li>Note: No argument is needed because the unmentioned variables will be placed after the mentioned variables.</li>
+</ul>
 <pre class="r"><code>d1 %&gt;% dplyr::relocate(Var2, Var3)</code></pre>
+<pre><code># A tibble: 3 x 3
+   Var2  Var3 Var1 
+  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;
+1     2   3.6 a    
+2    NA   8.5 b    
+3     3  NA   c    </code></pre>
+<p>You would get the same result listing all variables</p>
+<pre class="r"><code>d1 %&gt;% dplyr::relocate(Var2, Var3, Var1)</code></pre>
 <pre><code># A tibble: 3 x 3
    Var2  Var3 Var1 
   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;
@@ -422,7 +433,7 @@ summary {
 1 a         2   3.6
 2 b        NA   8.5
 3 c         3  NA  </code></pre>
-<p>Move the variables</p>
+<p>Move Var1 after Var2 by using the <em>.after</em> argument</p>
 <pre class="r"><code>d1 %&gt;% dplyr::relocate(Var1, .after = Var2)</code></pre>
 <pre><code># A tibble: 3 x 3
    Var2 Var1   Var3
@@ -443,8 +454,8 @@ summary {
 1 a         2   3.6
 2 b        NA   8.5
 3 c         3  NA  </code></pre>
-<p>Move Var3 using the <code>dplyr::select()</code> function in addition to the selection helper <code>everything()</code>.</p>
-<pre class="r"><code>d1 %&gt;% dplyr::select(Var3, everything())</code></pre>
+<p>Move Var3 to the front using the <code>dplyr::select()</code> function in addition to the <code>tidyselect</code> selection helper <code>everything()</code>.</p>
+<pre class="r"><code>d1 %&gt;% dplyr::select(Var3, tidyselect::everything())</code></pre>
 <pre><code># A tibble: 3 x 3
    Var3 Var1   Var2
   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;

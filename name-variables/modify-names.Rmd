@@ -34,6 +34,8 @@ d2
 
 Modify variable names by adding the `stringr::str_replace()` function.
 
+* Note: Unlike `dplyr::rename()` where you can rename individual columns, `dplyr::rename_with()` renames columns using a function.
+
 ```{r}
 
 d2 %>% dplyr::rename_with(~ stringr::str_replace(., "\\.", "_"))
@@ -55,6 +57,8 @@ d5
 Modify variable names by adding the `stringr::str_remove()` function and the selection helper `starts_with()`.
 
 * Note: Other `tidyselect` selection helpers include `ends_with()`, `contains`, `matches`, and `num_range`, `where` and more.
+
+* Note: Unlike `dplyr::rename()` where you can rename individual columns, `dplyr::rename_with()` renames columns using a function.
 
 ```{r}
 

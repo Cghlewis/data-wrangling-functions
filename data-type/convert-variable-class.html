@@ -395,7 +395,7 @@ summary {
 <pre><code>[1] &quot;character&quot;</code></pre>
 <p>Convert Var1 to a factor.</p>
 <ul>
-<li><p>Note: In the case of a character variable, the levels will be chosen based on the order in which they appear. In the case of a numeric variable, the levels will be numerically ordered.</p></li>
+<li><p>Note: In the case of a character variable, the levels will be chosen based on the order in which they appear. In the case of a numeric variable, the levels will be numerically ordered. You can view levels using the <code>base::levels()</code> function.</p></li>
 <li><p>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and saving over the original variable by naming the new variable the same name as the original.</p></li>
 </ul>
 <pre class="r"><code>d2 &lt;- d2 %&gt;% dplyr::mutate(Var1 = forcats::as_factor(Var1))
@@ -425,7 +425,7 @@ class(d2$Var1)</code></pre>
 <pre><code>[1] &quot;character&quot;</code></pre>
 <p>Convert Var1 to a factor.</p>
 <ul>
-<li><p>Note: The levels will be chosen alphabetically or numerically.</p></li>
+<li><p>Note: The levels will be chosen alphabetically or numerically. You can view levels using the <code>base::levels()</code> function.</p></li>
 <li><p>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and saving over the original variable by naming the new variable the same name as the original.</p></li>
 </ul>
 <pre class="r"><code>d2 &lt;- d2 %&gt;% dplyr::mutate(Var1 = base::as.factor(Var1))

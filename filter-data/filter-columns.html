@@ -392,6 +392,9 @@ summary {
 4 d           4      0    13        217
 5 &lt;NA&gt;       NA     NA    NA         NA</code></pre>
 <p>Drop extra1, extra2, extra3</p>
+<ul>
+<li>Note: Note the use of <em>-</em> to remove columns.</li>
+</ul>
 <pre class="r"><code>d1 %&gt;% dplyr::select(-c(extra1:extra3))</code></pre>
 <pre><code># A tibble: 5 x 2
      id test_score
@@ -414,7 +417,9 @@ summary {
 3    12        250
 4    13        217
 5    NA         NA</code></pre>
-<p><strong>2. Keep selected columns (id and test_score)</strong></p>
+<p><strong>2. Keep selected columns (id, test_score1, test_score2)</strong></p>
+<pre class="r"><code>source(&quot;data.R&quot;)
+d2</code></pre>
 <pre><code># A tibble: 5 x 6
   extra1 extra2 extra3    id test_score1 test_score2
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
@@ -423,7 +428,7 @@ summary {
 3 c           3   -999    12         250         540
 4 d           4      0    13         217         499
 5 &lt;NA&gt;       NA     NA    NA          NA          NA</code></pre>
-<p>Keep id and test_score</p>
+<p>Keep id, test_score1 and test_score2</p>
 <pre class="r"><code>d2 %&gt;% dplyr::select(id:test_score2)</code></pre>
 <pre><code># A tibble: 5 x 3
      id test_score1 test_score2

@@ -392,7 +392,8 @@ summary {
 3 c         3  NA  </code></pre>
 <p>Concatenate T1_ by adding the <code>base::paste0</code> function.</p>
 <ul>
-<li>Note: Using <code>base::paste0</code> concatenates the string directly to the variable name. Using <code>base::paste()</code> concatenates with a string separator.</li>
+<li><p>Note: Using <code>base::paste0</code> concatenates the string directly to the variable name. Using <code>base::paste()</code> concatenates with a string separator.</p></li>
+<li><p>Note: Unlike <code>dplyr::rename()</code> where you can rename individual columns, <code>dplyr::rename_with()</code> renames columns using a function.</p></li>
 </ul>
 <pre class="r"><code>d1 %&gt;% dplyr::rename_with(~ base::paste0(&quot;T1_&quot;, .))</code></pre>
 <pre><code># A tibble: 3 x 3
@@ -411,7 +412,8 @@ summary {
 3 c         3  NA  </code></pre>
 <p>Concatenate T1_ by adding the <code>base::paste0</code> function and the selection helper <code>where()</code>.</p>
 <ul>
-<li>Note: Other <code>tidyselect</code> selection helpers include <code>starts_with()</code>, <code>ends_with()</code>, <code>contains()</code>, <code>matches()</code>, and <code>num_range()</code>, and more.</li>
+<li><p>Note: Other <code>tidyselect</code> selection helpers include <code>starts_with()</code>, <code>ends_with()</code>, <code>contains()</code>, <code>matches()</code>, and <code>num_range()</code>, and more.</p></li>
+<li><p>Note: Unlike <code>dplyr::rename()</code> where you can rename individual columns, <code>dplyr::rename_with()</code> renames columns using a function.</p></li>
 </ul>
 <pre class="r"><code>d1 %&gt;% dplyr::rename_with(~ base::paste0(&quot;T1_&quot;, .), where(is.numeric))</code></pre>
 <pre><code># A tibble: 3 x 3

@@ -396,11 +396,19 @@ summary {
 <hr />
 <p><strong>1. Export a labelled SPSS file</strong></p>
 <pre class="r"><code>haven::write_sav(d, &quot;name-of-export.sav&quot;)</code></pre>
-<p><strong>2. Export your variables with the value labels rather than the values</strong></p>
+</div>
+</div>
+<div id="package-rio" class="section level3">
+<h3>Package: rio</h3>
+<hr />
+<div id="function-characterize" class="section level4">
+<h4>Function: <code>characterize()</code></h4>
+<hr />
+<p><strong>1. Export your variables with the value labels rather than the values</strong></p>
 <ul>
-<li>Note: This also works exporting to other file types such as excel or csv</li>
+<li>Note: You can add <code>rio::characterize()</code> when exporting other file types as well such as csv and with using other export functions such as <code>rio::export()</code></li>
 </ul>
-<pre class="r"><code>haven::write_sav(rio::characterize(d), &quot;name-of-export.sav&quot;)</code></pre>
+<pre class="r"><code>openxlsx::write.xlsx(rio::characterize(d), &quot;name-of-export.xlsx&quot;)</code></pre>
 </div>
 </div>
 

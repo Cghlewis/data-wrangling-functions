@@ -819,7 +819,7 @@ Filter out any row that has NA for all variables
 
 ```{r}
 
-d10 %>% dplyr::filter(!(dplyr::if_all(everything(), ~ .x ==-999)))
+d10 <- d10 %>% dplyr::filter(!(dplyr::if_all(everything(), ~ .x ==-999)))
 
 ```
 

@@ -56,13 +56,22 @@ haven::write_sav(d, "name-of-export.sav")
 
 ```
 
-**2\. Export your variables with the value labels rather than the values**
 
-* Note: This also works exporting to other file types such as excel or csv
+### Package: rio
+
+---
+
+#### Function: `characterize()`
+
+---
+
+**1\. Export your variables with the value labels rather than the values**
+
+* Note: You can add `rio::characterize()` when exporting other file types as well such as csv and with using other export functions such as `rio::export()`
 
 ```{r, eval=FALSE}
 
-haven::write_sav(rio::characterize(d), "name-of-export.sav")
+openxlsx::write.xlsx(rio::characterize(d), "name-of-export.xlsx")
 
 ```
 

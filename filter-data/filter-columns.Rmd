@@ -33,6 +33,8 @@ d1
 
 Drop extra1, extra2, extra3
 
+* Note: Note the use of *-* to remove columns.
+
 ```{r}
 
 d1 %>% dplyr::select(-c(extra1:extra3))
@@ -50,16 +52,16 @@ d1 %>% dplyr::select(-(tidyselect::starts_with("extra")))
 ```
 
 
-**2\. Keep selected columns (id and test_score)**
+**2\. Keep selected columns (id, test_score1, test_score2)**
 
-```{r, echo=FALSE}
+```{r}
 
 source("data.R")
 d2
 
 ```
 
-Keep id and test_score
+Keep id, test_score1 and test_score2
 
 ```{r}
 

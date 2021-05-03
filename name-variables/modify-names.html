@@ -391,6 +391,9 @@ summary {
 2 b        NA     5
 3 c         3     1</code></pre>
 <p>Modify variable names by adding the <code>stringr::str_replace()</code> function.</p>
+<ul>
+<li>Note: Unlike <code>dplyr::rename()</code> where you can rename individual columns, <code>dplyr::rename_with()</code> renames columns using a function.</li>
+</ul>
 <pre class="r"><code>d2 %&gt;% dplyr::rename_with(~ stringr::str_replace(., &quot;\\.&quot;, &quot;_&quot;))</code></pre>
 <pre><code># A tibble: 3 x 3
   Var_1 Var_2 Var_3
@@ -408,7 +411,8 @@ summary {
 3 c      n           160</code></pre>
 <p>Modify variable names by adding the <code>stringr::str_remove()</code> function and the selection helper <code>starts_with()</code>.</p>
 <ul>
-<li>Note: Other <code>tidyselect</code> selection helpers include <code>ends_with()</code>, <code>contains</code>, <code>matches</code>, and <code>num_range</code>, <code>where</code> and more.</li>
+<li><p>Note: Other <code>tidyselect</code> selection helpers include <code>ends_with()</code>, <code>contains</code>, <code>matches</code>, and <code>num_range</code>, <code>where</code> and more.</p></li>
+<li><p>Note: Unlike <code>dplyr::rename()</code> where you can rename individual columns, <code>dplyr::rename_with()</code> renames columns using a function.</p></li>
 </ul>
 <pre class="r"><code>d5 %&gt;% dplyr::rename_with(~ stringr::str_remove(., &quot;s_&quot;), tidyselect::starts_with(&quot;s_&quot;))</code></pre>
 <pre><code># A tibble: 3 x 3

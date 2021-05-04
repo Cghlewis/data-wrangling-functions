@@ -72,11 +72,11 @@ d1
 
 Check the values of Var2 and Var3
 
-* Note: `base::lapply()` is used to iterate the `base::table()` function across all variables.
+* Note: `purrr::map()` is used to iterate the `base::table()` function across all variables.
 
 ```{r}
 
-lapply(d1, table, useNA="always")
+purrr::map(d1, table, useNA="always")
 
 ```
 
@@ -94,7 +94,7 @@ Check the values after the recode
 
 ```{r}
 
-lapply(d1, table, useNA="always") 
+purrr::map(d1, table, useNA="always") 
 
 ```
 
@@ -111,11 +111,11 @@ d1
 
 Check the values
 
-* Note: `base::lapply()` is used to iterate the `base::table()` function across all variables.
+* Note: `purrr::map()` is used to iterate the `base::table()` function across all variables.
 
 ```{r}
 
-lapply(d1, table, useNA="always") 
+purrr::map(d1, table, useNA="always") 
 
 ```
 
@@ -133,7 +133,7 @@ Check the values after the recode
 
 ```{r}
 
-lapply(d1, table, useNA="always") 
+purrr::map(d1, table, useNA="always") 
 
 ```
 

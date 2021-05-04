@@ -60,6 +60,10 @@ navbar:
     href: reorder\split-cols.html
   - text: "Separate rows"
     href: reorder\split-rows.html
+  - text: "Complete long data"
+    href: complete\complete-long.html
+  - text: "Complete wide data"
+    href: complete\complete-wide.html
 output:
   html_document:
     theme: readable

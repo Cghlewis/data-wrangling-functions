@@ -1,0 +1,79 @@
+---
+title: "Complete long data"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: tidyr
+
+---
+
+#### Function: `fill()`
+
+---
+
+**1\. Fill NA values for both school and year with existing values**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Fill values using the default argument *direction = "down"*.
+
+```{r}
+
+d1 %>% tidyr::fill(school, year)
+
+```
+
+
+---
+
+#### Function: `complete()`
+
+---
+
+**1\. Create rows for any missing time periods in the data**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+Complete the data by creating rows for any student that is missing a time period and filling the test score with NA.
+
+```{r}
+
+d2 %>% tidyr::complete(s_id, time_period)
+
+```
+
+* Note: If you want to fill with a value other than NA, add the argument *fill = list()* and add the value you want to replace NA with. 
+
+Here is an example, using *fill = list(test_score=0)*
+
+```{r}
+
+d2 %>% tidyr::complete(s_id, time_period, fill = list(test_score=0))
+
+```
+

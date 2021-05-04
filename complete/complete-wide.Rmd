@@ -1,0 +1,46 @@
+---
+title: "Complete wide data"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `coalesce()`
+
+---
+
+**1\. Create a complete 19-20 gender variable with no missing data**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+Fill in missing 20-21 self-reported gender information from the most recently available year of data.
+
+* Note: We are creating a new variable (gender_2021_new) by using `dplyr::mutate()`.
+* Note: The values will be filled in the order that variables are presented. In the example below, if data is not available for 2021, then the function will look for data in 1920, then 1819, then 1718. And the value will be filled by the first available data in that order.
+
+```{r}
+
+d3 %>% dplyr::mutate(gender_2021_new = dplyr::coalesce(gender_2021, gender_1920, gender_1819, gender_1718))
+
+```
+

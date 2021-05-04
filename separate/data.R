@@ -35,14 +35,8 @@ d4 <- tibble::tribble(
 
 d5 <- tibble::tribble(
   ~name, ~toppings,
-  "Marge", "anchovies, garlic, tomato",
-  "Homer", "sausage, red pepper",
+  "Marge", "anchovies,garlic,tomato",
+  "Homer", "sausage,red pepper",
   "Ned", "cheese"
 )
 
-d6 <- tibble::tribble(
-  ~name, ~toppings,
-  "Marge", "anchovies, garlic, tomato",
-  "Homer", "sausage, redpepper",
-  "Ned", "cheese"
-)

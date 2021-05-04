@@ -388,11 +388,11 @@ summary {
 <p><strong>1. Split a variable (toppings) into multiple rows</strong></p>
 <p>Review the data (d5)</p>
 <pre><code># A tibble: 3 x 2
-  name  toppings                 
-  &lt;chr&gt; &lt;chr&gt;                    
-1 Marge anchovies, garlic, tomato
-2 Homer sausage, red pepper      
-3 Ned   cheese                   </code></pre>
+  name  toppings               
+  &lt;chr&gt; &lt;chr&gt;                  
+1 Marge anchovies,garlic,tomato
+2 Homer sausage,red pepper     
+3 Ned   cheese                 </code></pre>
 <p>Split toppings into new rows</p>
 <ul>
 <li>Note: The original variable will be removed unless you add the argument <em>remove=FALSE</em></li>
@@ -400,24 +400,14 @@ summary {
 </ul>
 <pre class="r"><code>d5 %&gt;% tidyr::separate_rows(toppings, sep=&quot;,&quot;)</code></pre>
 <pre><code># A tibble: 6 x 2
-  name  toppings     
-  &lt;chr&gt; &lt;chr&gt;        
-1 Marge &quot;anchovies&quot;  
-2 Marge &quot; garlic&quot;    
-3 Marge &quot; tomato&quot;    
-4 Homer &quot;sausage&quot;    
-5 Homer &quot; red pepper&quot;
-6 Ned   &quot;cheese&quot;     </code></pre>
-<pre class="r"><code>d6 %&gt;% tidyr::separate_rows(toppings, sep=&quot;,&quot;)</code></pre>
-<pre><code># A tibble: 6 x 2
-  name  toppings    
-  &lt;chr&gt; &lt;chr&gt;       
-1 Marge &quot;anchovies&quot; 
-2 Marge &quot; garlic&quot;   
-3 Marge &quot; tomato&quot;   
-4 Homer &quot;sausage&quot;   
-5 Homer &quot; redpepper&quot;
-6 Ned   &quot;cheese&quot;    </code></pre>
+  name  toppings  
+  &lt;chr&gt; &lt;chr&gt;     
+1 Marge anchovies 
+2 Marge garlic    
+3 Marge tomato    
+4 Homer sausage   
+5 Homer red pepper
+6 Ned   cheese    </code></pre>
 </div>
 </div>
 

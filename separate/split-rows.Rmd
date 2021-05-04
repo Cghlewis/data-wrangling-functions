@@ -45,10 +45,3 @@ Split toppings into new rows
 d5 %>% tidyr::separate_rows(toppings, sep=",")
 
 ```
-
-
-```{r}
-
-d6 %>% tidyr::separate_rows(toppings, sep=",")
-
-```

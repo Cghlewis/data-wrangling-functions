@@ -398,7 +398,7 @@ summary {
 <li>Note: The original variable will be removed unless you add the argument <em>remove=FALSE</em></li>
 <li>Note: If no separator is indicated, the function will split values wherever a non-alphanumeric character appears. If you want to be clear where to separate, add the argument <em>sep=“,”</em> as I did below otherwise the words <em>red</em> and <em>pepper</em> will be split into separate rows.</li>
 </ul>
-<pre class="r"><code>d5 %&gt;% tidyr::separate_rows(toppings, sep=&quot;,&quot;, convert=TRUE)</code></pre>
+<pre class="r"><code>d5 %&gt;% tidyr::separate_rows(toppings, sep=&quot;,&quot;)</code></pre>
 <pre><code># A tibble: 6 x 2
   name  toppings     
   &lt;chr&gt; &lt;chr&gt;        
@@ -408,6 +408,16 @@ summary {
 4 Homer &quot;sausage&quot;    
 5 Homer &quot; red pepper&quot;
 6 Ned   &quot;cheese&quot;     </code></pre>
+<pre class="r"><code>d6 %&gt;% tidyr::separate_rows(toppings, sep=&quot;,&quot;)</code></pre>
+<pre><code># A tibble: 6 x 2
+  name  toppings    
+  &lt;chr&gt; &lt;chr&gt;       
+1 Marge &quot;anchovies&quot; 
+2 Marge &quot; garlic&quot;   
+3 Marge &quot; tomato&quot;   
+4 Homer &quot;sausage&quot;   
+5 Homer &quot; redpepper&quot;
+6 Ned   &quot;cheese&quot;    </code></pre>
 </div>
 </div>
 

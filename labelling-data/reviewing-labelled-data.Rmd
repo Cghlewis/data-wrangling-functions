@@ -48,12 +48,14 @@ d10 <- d10 %>%
 
 Review labelled information
 
-* Note: `knitr::kable()` function used to make output more readable
+* Note: The argument *details=TRUE* is added to get na_values for variables
+
+* Note: `knitr::kable()` function used to make output more readable but we lose the value labels. If you run the `labelled::look_for()` function without adding `knitr::kable()` or `dplyr::select()` you will see the value labels.
 
 ```{r}
 
 knitr::kable(labelled::look_for(d10, details = TRUE) %>% 
-               select (variable, label, class, value_labels, na_values))
+               dplyr::select(variable, label, class, value_labels, na_values))
 
 ```
 
@@ -159,6 +161,46 @@ Review NA value labels
 ```{r}
 
 d10 %>% labelled::na_values()
+
+```
+
+
+### Package: sjPlot
+
+---
+
+#### Function: `view_df()`
+
+---
+
+**1\. Review all labelled information in a data dictionary format**
+
+View the data (d10)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d10 <- d10 %>%
+  labelled::set_variable_labels (Var1 = "Name", 
+                                 Var2="Interest in Homework", 
+                                 Var3 ="Lunch Status") %>%
+  labelled::set_value_labels(Var2= c("not interested"=1, "mildly interested"=2, 
+                                     "very  interested"=3), Var3=c("none"=1, 
+                                    "reduced-price"=2, "free"=3)) %>%
+  labelled::set_na_values(Var2=-999, Var3=-999)
+
+
+d10
+```
+
+Review labelled information
+
+* Note: You will notice that we do not get NA labels here like we do using the `labelled::look_for()` function. We also do not get the variable class. Instead we can ask for the variable type by adding the argument *show.type=TRUE*, which shows us that Var2 for instance is numeric but does not let us know that the class is haven_labelled_spss.
+
+```{r}
+
+d10 %>% sjPlot::view_df(show.type=TRUE)
 
 ```
 

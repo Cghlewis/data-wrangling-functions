@@ -392,10 +392,11 @@ summary {
 3 c         2  -999</code></pre>
 <p>Review labelled information</p>
 <ul>
-<li>Note: <code>knitr::kable()</code> function used to make output more readable</li>
+<li><p>Note: The argument <em>details=TRUE</em> is added to get na_values for variables</p></li>
+<li><p>Note: <code>knitr::kable()</code> function used to make output more readable but we lose the value labels. If you run the <code>labelled::look_for()</code> function without adding <code>knitr::kable()</code> or <code>dplyr::select()</code> you will see the value labels.</p></li>
 </ul>
 <pre class="r"><code>knitr::kable(labelled::look_for(d10, details = TRUE) %&gt;% 
-               select (variable, label, class, value_labels, na_values))</code></pre>
+               dplyr::select(variable, label, class, value_labels, na_values))</code></pre>
 <table>
 <colgroup>
 <col width="7%"></col>
@@ -508,6 +509,111 @@ $Var2
 
 $Var3
 [1] -999</code></pre>
+</div>
+</div>
+<div id="package-sjplot" class="section level3">
+<h3>Package: sjPlot</h3>
+<hr />
+<div id="function-view_df" class="section level4">
+<h4>Function: <code>view_df()</code></h4>
+<hr />
+<p><strong>1. Review all labelled information in a data dictionary format</strong></p>
+<p>View the data (d10)</p>
+<pre><code># A tibble: 3 x 3
+  Var1                      Var2        Var3
+  &lt;chr&gt;                &lt;dbl+lbl&gt;   &lt;dbl+lbl&gt;
+1 a        1 [not interested]       3 [free]
+2 b     -999 (NA)                   1 [none]
+3 c        2 [mildly interested] -999 (NA)  </code></pre>
+<p>Review labelled information</p>
+<ul>
+<li>Note: You will notice that we do not get NA labels here like we do using the <code>labelled::look_for()</code> function. We also do not get the variable class. Instead we can ask for the variable type by adding the argument <em>show.type=TRUE</em>, which shows us that Var2 for instance is numeric but does not let us know that the class is haven_labelled_spss.</li>
+</ul>
+<pre class="r"><code>d10 %&gt;% sjPlot::view_df(show.type=TRUE)</code></pre>
+<table style="border-collapse:collapse; border:none;">
+<caption>
+Data frame: .
+</caption>
+<tr>
+<th style="border-bottom:double; font-style:italic; font-weight:normal; padding:0.2cm; text-align:left; vertical-align:top;">
+ID
+</th>
+<th style="border-bottom:double; font-style:italic; font-weight:normal; padding:0.2cm; text-align:left; vertical-align:top;">
+Name
+</th>
+<th style="border-bottom:double; font-style:italic; font-weight:normal; padding:0.2cm; text-align:left; vertical-align:top;">
+Type
+</th>
+<th style="border-bottom:double; font-style:italic; font-weight:normal; padding:0.2cm; text-align:left; vertical-align:top;">
+Label
+</th>
+<th style="border-bottom:double; font-style:italic; font-weight:normal; padding:0.2cm; text-align:left; vertical-align:top;">
+Values
+</th>
+<th style="border-bottom:double; font-style:italic; font-weight:normal; padding:0.2cm; text-align:left; vertical-align:top;">
+Value Labels
+</th>
+</tr>
+<tr>
+<td style="padding:0.2cm; text-align:left; vertical-align:top;">
+1
+</td>
+<td style="padding:0.2cm; text-align:left; vertical-align:top;">
+Var1
+</td>
+<td style="padding:0.2cm; text-align:left; vertical-align:top;">
+character
+</td>
+<td style="padding:0.2cm; text-align:left; vertical-align:top;">
+Name
+</td>
+<td style="padding:0.2cm; text-align:left; vertical-align:top;">
+</td>
+<td style="padding:0.2cm; text-align:left; vertical-align:top;">
+&lt;output omitted&gt;
+</td>
+</tr>
+<tr>
+<td style="padding:0.2cm; text-align:left; vertical-align:top; background-color:#eeeeee">
+2
+</td>
+<td style="padding:0.2cm; text-align:left; vertical-align:top; background-color:#eeeeee">
+Var2
+</td>
+<td style="padding:0.2cm; text-align:left; vertical-align:top; background-color:#eeeeee">
+numeric
+</td>
+<td style="padding:0.2cm; text-align:left; vertical-align:top; background-color:#eeeeee">
+Interest in Homework
+</td>
+<td style="padding:0.2cm; text-align:left; vertical-align:top; background-color:#eeeeee">
+1<br>2<br>3
+</td>
+<td style="padding:0.2cm; text-align:left; vertical-align:top; background-color:#eeeeee">
+not interested<br>mildly interested<br>very interested
+</td>
+</tr>
+<tr>
+<td style="padding:0.2cm; text-align:left; vertical-align:top;">
+3
+</td>
+<td style="padding:0.2cm; text-align:left; vertical-align:top;">
+Var3
+</td>
+<td style="padding:0.2cm; text-align:left; vertical-align:top;">
+numeric
+</td>
+<td style="padding:0.2cm; text-align:left; vertical-align:top;">
+Lunch Status
+</td>
+<td style="padding:0.2cm; text-align:left; vertical-align:top;">
+1<br>2<br>3
+</td>
+<td style="padding:0.2cm; text-align:left; vertical-align:top;">
+none<br>reduced-price<br>free
+</td>
+</tr>
+</table>
 </div>
 </div>
 

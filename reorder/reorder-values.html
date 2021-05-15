@@ -428,7 +428,7 @@ str(d2$s_grade)</code></pre>
 <p>Review the structure of s_grade</p>
 <pre class="r"><code>str(d2$s_grade)</code></pre>
 <pre><code> Factor w/ 4 levels &quot;K&quot;,&quot;1&quot;,&quot;3&quot;,&quot;2&quot;: 1 2 3 4</code></pre>
-<p>Relevel “1” to be first. Since I only want “1” to be first and to keep the order the same otherwise, I can just say to relvel “1” and the rest will be implied.</p>
+<p>Relevel “1” to be first. Since I only want “1” to be first and to keep the order the same otherwise, I can just say to relevel “1” and the rest will be implied.</p>
 <pre class="r"><code>d2 &lt;- d2 %&gt;% mutate(s_grade = fct_relevel(s_grade, &quot;1&quot;))
 
 str(d2$s_grade)</code></pre>

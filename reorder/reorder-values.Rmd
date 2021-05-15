@@ -123,7 +123,7 @@ str(d2$s_grade)
 
 ```
 
-Relevel "1" to be first. Since I only want "1" to be first and to keep the order the same otherwise, I can just say to relvel "1" and the rest will be implied.
+Relevel "1" to be first. Since I only want "1" to be first and to keep the order the same otherwise, I can just say to relevel "1" and the rest will be implied.
 
 ```{r}
 

@@ -411,11 +411,28 @@ str(d2$s_grade)</code></pre>
 <p>Review the structure of s_grade</p>
 <pre class="r"><code>str(d2$s_grade)</code></pre>
 <pre><code> Factor w/ 4 levels &quot;K&quot;,&quot;1&quot;,&quot;3&quot;,&quot;2&quot;: 1 2 3 4</code></pre>
-<p>Relevel s_grade after the 3rd position. Since the 4th position is last, you could also use the argument <em>after = Inf</em> to refer to the last position.</p>
+<p>Relevel “K” after the 3rd position. Since the 4th position is last, you could also use the argument <em>after = Inf</em> to refer to the last position.</p>
 <pre class="r"><code>d2 &lt;- d2 %&gt;% mutate(s_grade = fct_relevel(s_grade, &quot;K&quot;, after = 3))
 
 str(d2$s_grade)</code></pre>
 <pre><code> Factor w/ 4 levels &quot;1&quot;,&quot;3&quot;,&quot;2&quot;,&quot;K&quot;: 4 1 2 3</code></pre>
+<p><strong>3. Relevel the factor s_grade to be 1,K,2,3</strong></p>
+<p>Review the data (d2)</p>
+<pre><code># A tibble: 4 x 3
+  s_id  s_gender s_grade
+  &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;  
+1 a     m        K      
+2 b     f        1      
+3 c     n        3      
+4 f     m        2      </code></pre>
+<p>Review the structure of s_grade</p>
+<pre class="r"><code>str(d2$s_grade)</code></pre>
+<pre><code> Factor w/ 4 levels &quot;K&quot;,&quot;1&quot;,&quot;3&quot;,&quot;2&quot;: 1 2 3 4</code></pre>
+<p>Relevel “1” to be first. Since I only want “1” to be first and to keep the order the same otherwise, I can just say to relvel “1” and the rest will be implied.</p>
+<pre class="r"><code>d2 &lt;- d2 %&gt;% mutate(s_grade = fct_relevel(s_grade, &quot;1&quot;))
+
+str(d2$s_grade)</code></pre>
+<pre><code> Factor w/ 4 levels &quot;1&quot;,&quot;K&quot;,&quot;3&quot;,&quot;2&quot;: 2 1 3 4</code></pre>
 </div>
 </div>
 <div id="package-labelled" class="section level3">

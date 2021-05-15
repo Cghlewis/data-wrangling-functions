@@ -404,7 +404,50 @@ summary {
 1 a     male      f    
 2 b     female    r    
 3 c     nonbinary p    </code></pre>
-<p><strong>2. Recode a character variable (lunch) into a factor</strong></p>
+<p><strong>2. Recode a character variable (gender) into a numeric variable</strong></p>
+<p>Review the data (d4)</p>
+<pre><code># A tibble: 3 x 3
+  id    gender lunch
+  &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;
+1 a     m      f    
+2 b     f      r    
+3 c     n      p    </code></pre>
+<p>Recode gender</p>
+<ul>
+<li>Note: We are recoding back into the same variable using <code>dplyr::mutate()</code>. However, we could have recoded into a new variable by changing the name of <em>gender</em>.</li>
+</ul>
+<pre class="r"><code>d4 %&gt;% dplyr::mutate(gender=dplyr::recode(gender, m=1, f=2, n=3))</code></pre>
+<pre><code># A tibble: 3 x 3
+  id    gender lunch
+  &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;
+1 a          1 f    
+2 b          2 r    
+3 c          3 p    </code></pre>
+<p><strong>3. Recode just one value in a variable (Var2)</strong></p>
+<p>Review the data (d5)</p>
+<pre><code># A tibble: 3 x 3
+  Var1   Var2  Var3
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 a         1     2
+2 b        16     0
+3 c         3     1</code></pre>
+<p>Recode <code>16</code> to <code>4</code> in Var2</p>
+<ul>
+<li>Note: The <code>dplyr::recode()</code> function considers the old value as a <em>name</em> and therefore, in order to use a number as a name or a character value, you have to surround it with backticks</li>
+</ul>
+<pre class="r"><code>d5 %&gt;% dplyr::mutate(Var2=dplyr::recode(Var2, `16`=4))</code></pre>
+<pre><code># A tibble: 3 x 3
+  Var1   Var2  Var3
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 a         1     2
+2 b         4     0
+3 c         3     1</code></pre>
+<hr />
+</div>
+<div id="function-recode_factor" class="section level4">
+<h4>Function: <code>recode_factor()</code></h4>
+<hr />
+<p><strong>1. Recode a character variable (lunch) into a factor</strong></p>
 <p>Review the data (d4)</p>
 <pre><code># A tibble: 3 x 3
   id    gender lunch
@@ -429,44 +472,6 @@ d4</code></pre>
 <p>Review the factor levels</p>
 <pre class="r"><code>levels(d4$lunch)</code></pre>
 <pre><code>[1] &quot;paid&quot;    &quot;reduced&quot; &quot;free&quot;   </code></pre>
-<p><strong>3. Recode a character variable (gender) into a numeric variable</strong></p>
-<p>Review the data (d4)</p>
-<pre><code># A tibble: 3 x 3
-  id    gender lunch
-  &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;
-1 a     m      f    
-2 b     f      r    
-3 c     n      p    </code></pre>
-<p>Recode gender</p>
-<ul>
-<li>Note: We are recoding back into the same variable using <code>dplyr::mutate()</code>. However, we could have recoded into a new variable by changing the name of <em>gender</em>.</li>
-</ul>
-<pre class="r"><code>d4 %&gt;% dplyr::mutate(gender=dplyr::recode(gender, m=1, f=2, n=3))</code></pre>
-<pre><code># A tibble: 3 x 3
-  id    gender lunch
-  &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;
-1 a          1 f    
-2 b          2 r    
-3 c          3 p    </code></pre>
-<p><strong>4. Recode just one value in a variable (Var2)</strong></p>
-<p>Review the data (d5)</p>
-<pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         1     2
-2 b        16     0
-3 c         3     1</code></pre>
-<p>Recode <code>16</code> to <code>4</code> in Var2</p>
-<ul>
-<li>Note: The <code>dplyr::recode()</code> function considers the old value as a <em>name</em> and therefore, in order to use a number as a name or a character value, you have to surround it with backticks</li>
-</ul>
-<pre class="r"><code>d5 %&gt;% dplyr::mutate(Var2=dplyr::recode(Var2, `16`=4))</code></pre>
-<pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         1     2
-2 b         4     0
-3 c         3     1</code></pre>
 </div>
 </div>
 

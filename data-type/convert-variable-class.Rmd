@@ -56,6 +56,17 @@ levels(d2$Var1)
 
 ```
 
+* Note: If you don't want the levels as they are chosen, you can use the function `forcats::fct_relevel()` instead to convert your variable to a factor and assign your level order.
+
+```{r}
+
+d2 <- d2 %>% dplyr::mutate(Var1 = forcats::fct_relevel(Var1, "a", "b", "c"))
+
+class(d2$Var1)
+
+levels(d2$Var1)
+
+```
 
 
 ### Package: base

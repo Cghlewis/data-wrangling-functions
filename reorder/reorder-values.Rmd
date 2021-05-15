@@ -77,7 +77,7 @@ Review the structure of s_grade
 
 ```{r, echo=FALSE}
 
-d2 <- d2 %>% mutate(s_grade = as_factor(s_grade))
+d2 <- d2 %>% mutate(s_grade = forcats::as_factor(s_grade))
 
 ```
 
@@ -87,7 +87,7 @@ str(d2$s_grade)
 
 ```
 
-Relevel s_grade after the 3rd position. Since the 4th position is last, you could also use the argument *after = Inf* to refer to the last position.
+Relevel "K" after the 3rd position. Since the 4th position is last, you could also use the argument *after = Inf* to refer to the last position.
 
 ```{r}
 
@@ -96,6 +96,43 @@ d2 <- d2 %>% mutate(s_grade = fct_relevel(s_grade, "K", after = 3))
 str(d2$s_grade)
 
 ```
+
+
+**3\. Relevel the factor s_grade to be 1,K,2,3**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+Review the structure of s_grade
+
+```{r, echo=FALSE}
+
+d2 <- d2 %>% mutate(s_grade = forcats::as_factor(s_grade))
+
+```
+
+```{r}
+
+str(d2$s_grade)
+
+```
+
+Relevel "1" to be first. Since I only want "1" to be first and to keep the order the same otherwise, I can just say to relvel "1" and the rest will be implied.
+
+```{r}
+
+d2 <- d2 %>% mutate(s_grade = fct_relevel(s_grade, "1"))
+
+str(d2$s_grade)
+
+```
+
 
 
 ### Package: labelled

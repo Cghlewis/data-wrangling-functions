@@ -49,7 +49,59 @@ d4 %>% dplyr::mutate(gender=dplyr::recode(gender, m="male", f="female", n="nonbi
 
 ```
 
-**2\. Recode a character variable (lunch) into a factor**
+
+**2\. Recode a character variable (gender) into a numeric variable**
+
+Review the data (d4)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d4
+
+```
+
+Recode gender
+
+* Note: We are recoding back into the same variable using `dplyr::mutate()`. However, we could have recoded into a new variable by changing the name of *gender*.
+
+```{r}
+
+d4 %>% dplyr::mutate(gender=dplyr::recode(gender, m=1, f=2, n=3))
+
+```
+
+
+**3\. Recode just one value in a variable (Var2)**
+
+Review the data (d5)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d5
+
+```
+
+Recode `16` to `4` in Var2
+
+* Note:  The `dplyr::recode()` function considers the old value as a *name* and therefore, in order to use a number as a name or a character value, you have to surround it with backticks
+
+```{r}
+
+d5 %>% dplyr::mutate(Var2=dplyr::recode(Var2, `16`=4))
+
+```
+
+
+---
+
+#### Function: `recode_factor()`
+
+---
+
+
+**1\. Recode a character variable (lunch) into a factor**
 
 Review the data (d4)
 
@@ -79,49 +131,6 @@ Review the factor levels
 ```{r}
 
 levels(d4$lunch)
-
-```
-
-**3\. Recode a character variable (gender) into a numeric variable**
-
-Review the data (d4)
-
-```{r, echo=FALSE}
-
-source("data.R")
-d4
-
-```
-
-Recode gender
-
-* Note: We are recoding back into the same variable using `dplyr::mutate()`. However, we could have recoded into a new variable by changing the name of *gender*.
-
-```{r}
-
-d4 %>% dplyr::mutate(gender=dplyr::recode(gender, m=1, f=2, n=3))
-
-```
-
-
-**4\. Recode just one value in a variable (Var2)**
-
-Review the data (d5)
-
-```{r, echo=FALSE}
-
-source("data.R")
-d5
-
-```
-
-Recode `16` to `4` in Var2
-
-* Note:  The `dplyr::recode()` function considers the old value as a *name* and therefore, in order to use a number as a name or a character value, you have to surround it with backticks
-
-```{r}
-
-d5 %>% dplyr::mutate(Var2=dplyr::recode(Var2, `16`=4))
 
 ```
 

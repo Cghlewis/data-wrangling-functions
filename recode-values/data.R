@@ -47,4 +47,19 @@ d6 <- tibble::tribble(
   109, "Google Meet",
   112, "Microsoft Teams")
 
+d7 <- tibble::tribble(
+  ~id, ~gender, ~lunch,
+  "a", "m", 1,
+  "b", "f", 2,
+  "c", "n", 3
+)
+
+d8 <- tibble::tribble(
+  ~Var1, ~Var2, ~Var3,
+  "a", 1, 2,
+  "b", 16, 0,
+  "c", 3, 1,
+  "d", 4, 3,
+  "e", 14, 0
+)
 

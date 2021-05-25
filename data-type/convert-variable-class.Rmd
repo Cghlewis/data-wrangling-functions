@@ -56,7 +56,7 @@ levels(d2$Var1)
 
 ```
 
-* Note: If you don't want the levels as they are chosen, you can use the function `forcats::fct_relevel()` instead to convert your variable to a factor and assign your level order.
+* Note: If you don't want the levels as they are chosen, you can use the function `forcats::fct_relevel()` instead to convert your variable to a factor **and** assign your level order. However, this function will only work if your variable is a character or factor variable.
 
 ```{r}
 

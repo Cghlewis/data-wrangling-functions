@@ -383,7 +383,8 @@ summary {
 <h4>Function: <code>rename_with()</code></h4>
 <hr />
 <ul>
-<li>Note: Unlike <code>dplyr::rename()</code> where you can rename individual columns, <code>dplyr::rename_with()</code> renames columns using a function.</li>
+<li><p>Note: Unlike <code>dplyr::rename()</code> where you can rename individual columns, <code>dplyr::rename_with()</code> renames columns using a function.</p></li>
+<li><p>Note: You can either rename all variables or select variables with <code>dplyr::rename_with()</code>. The order is, <em>(function used to rename, columns selected)</em>. If you don’t select columns, all variables will be renamed.</p></li>
 </ul>
 <p><br></p>
 <p><strong>1. Remove all periods in variable names and replace with underscores</strong></p>
@@ -396,7 +397,7 @@ summary {
 3 c         3     1</code></pre>
 <p>Modify variable names by adding the <code>stringr::str_replace()</code> function.</p>
 <ul>
-<li>Note: If there were more than one period in the variable names, you could also use <code>stringr::str_replace_all()</code> to remove all instances of periods.</li>
+<li>Note: If there were more than one period in the variable names, you could also use <code>stringr::str_replace_all()</code> to remove all instances of periods, rather than just the first instance.</li>
 </ul>
 <pre class="r"><code>d2 %&gt;% dplyr::rename_with(~ stringr::str_replace(., &quot;\\.&quot;, &quot;_&quot;))</code></pre>
 <pre><code># A tibble: 3 x 3
@@ -436,6 +437,38 @@ summary {
 <pre class="r"><code>d5 %&gt;% dplyr::rename_with(~ stringr::str_remove(., &quot;s_&quot;), tidyselect::contains(&quot;var&quot;))</code></pre>
 <pre><code># A tibble: 3 x 3
   s_id  var1   var2
+  &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
+1 a     m       100
+2 b     f       150
+3 c     n       160</code></pre>
+<p><br></p>
+</div>
+</div>
+<div id="package-purrr" class="section level3">
+<h3>Package: purrr</h3>
+<hr />
+<div id="function-set_names" class="section level4">
+<h4>Function: <code>set_names()</code></h4>
+<hr />
+<ul>
+<li>Note: You can use <code>purrr::set_names()</code> to modify names as well, but it doesn’t have the nice compatibility with <code>tidyselect</code> that allows you to modify only select variable names. But <code>dplyr::set_names()</code> works well to modify all variable names.</li>
+</ul>
+<p><br></p>
+<p><strong>1. Remove s_ in variable names</strong></p>
+<p>Review the data (d2)</p>
+<pre><code># A tibble: 3 x 3
+  s_id  s_var1 s_var2
+  &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;
+1 a     m         100
+2 b     f         150
+3 c     n         160</code></pre>
+<p>Modify variable names by adding the <code>stringr::str_remove()</code> function.</p>
+<ul>
+<li>Note: If there were more than one period in the variable names, you could also use <code>stringr::str_replace_all()</code> to remove all instances of s_ in a variable name, rather than just the first instance.</li>
+</ul>
+<pre class="r"><code>d5 %&gt;% purrr::set_names(~ stringr::str_remove(., &quot;s_&quot;))</code></pre>
+<pre><code># A tibble: 3 x 3
+  id    var1   var2
   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
 1 a     m       100
 2 b     f       150

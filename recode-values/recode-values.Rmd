@@ -100,6 +100,9 @@ d5 %>% dplyr::mutate(Var2=dplyr::recode(Var2, `16`=4))
 
 ---
 
+**Note:** The `dplyr::recode_factor()` formula is: old value=new value, this is opposite of `dplyr::rename()`
+
+<br>
 
 **1\. Recode a character variable (lunch) into a factor**
 
@@ -113,6 +116,8 @@ d4
 ```
 
 Recode lunch status
+
+* Note: `dplyr::recode_factor` will only recode factor or character variables. If your variable is numeric, you will need to convert it to character or factor before using recode factor. If your variable is character, `dplyr::recode_factor` will convert your variable to factor **and** recode it.
 
 * Note: Parentheses are required around new value when recoding into a character/factor variable.
 
@@ -134,3 +139,86 @@ levels(d4$lunch)
 
 ```
 
+**2\. Recode a numeric variable (lunch) into a factor**
+
+Review the data (d7)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d7
+
+```
+
+Recode lunch status
+
+* Note: The function `dplyr::recode_factor` will convert your variable to factor **and** recode it.
+
+* Note: `dplyr::recode_factor` will only recode factor or character variables. If your variable is numeric, you will need to add parentheses around your numeric old values. 
+
+* Note: Parentheses are required around new value when recoding into a character/factor variable.
+
+* Note: We are recoding back into the same variable using `dplyr::mutate()`. However, we could have recoded into a new variable by changing the name of *lunch*.
+
+```{r}
+
+d7 <- d7 %>% dplyr::mutate(lunch=dplyr::recode_factor(
+  lunch, "1"="paid", "2"="reduced", "3"="free"))
+
+d7
+
+```
+
+Review the factor levels
+
+```{r}
+
+levels(d7$lunch)
+
+```
+
+
+### Package: forcats
+
+---
+
+#### Function: `fct_recode()`
+
+---
+
+**Note:** The `forcats::fct_recode()` formula is: new value=old value, this is opposite of `dplyr::recode()` but the same as `dplyr::rename()`
+
+<br>
+
+**1\. Recode a numeric variable (lunch) into a factor**
+
+Review the data (d7)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d7
+
+```
+
+Recode lunch status
+
+* Note: `forcats::fct_recode` will only recode factor or character variables. If your variable is numeric, you will need to convert it to character or factor before using recode factor. If your variable is character, `forcats::fct_recode` will convert your variable to factor **and** recode it. As you see below, I converted our numeric variable to character in order to use the function.
+
+* Note: We are recoding back into the same variable using `dplyr::mutate()`. However, we could have recoded into a new variable by changing the name of *lunch*.
+
+```{r}
+
+d7 <- d7 %>% dplyr::mutate(lunch=forcats::fct_recode(as.character(lunch), paid="1", reduced="2", free="3"))
+
+d7
+
+```
+
+Review the factor levels
+
+```{r}
+
+levels(d7$lunch)
+
+```

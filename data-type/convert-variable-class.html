@@ -405,7 +405,7 @@ class(d2$Var1)</code></pre>
 <pre class="r"><code>levels(d2$Var1)</code></pre>
 <pre><code>[1] &quot;b&quot; &quot;a&quot; &quot;c&quot;</code></pre>
 <ul>
-<li>Note: If you don’t want the levels as they are chosen, you can use the function <code>forcats::fct_relevel()</code> instead to convert your variable to a factor and assign your level order.</li>
+<li>Note: If you don’t want the levels as they are chosen, you can use the function <code>forcats::fct_relevel()</code> instead to convert your variable to a factor <strong>and</strong> assign your level order. However, this function will only work if your variable is a character or factor variable.</li>
 </ul>
 <pre class="r"><code>d2 &lt;- d2 %&gt;% dplyr::mutate(Var1 = forcats::fct_relevel(Var1, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;))
 

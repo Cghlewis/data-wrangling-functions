@@ -21,7 +21,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Collapse all "Google Meet" into one category**
+**1\. Collapse all "Google Meet" in online_platform into one category**
 
 Review the data (d6)
 
@@ -56,6 +56,33 @@ d6 %>%
 
 ```
 
+
+**2\. Collapse a numeric variable (Var2) into discrete character categories**
+
+Review the data (d6)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d8
+
+```
+
+Collapse Var2 into low, medium, high categories
+
+* Note: We are recoding into a new variable using `dplyr::mutate()` and naming the new variable a different name than the original. It keeps both the new and old versions of the variable. 
+
+* Note: We are using a nested if-else statement here to meet multiple criteria and multiple outputs
+
+* Note: We use the & operator to say if a value meets both conditions
+
+```{r}
+
+d8 %>%  
+  dplyr::mutate(Var2_new=dplyr::if_else(Var2 >14, "high",
+                                        dplyr::if_else((Var2 <=14 & Var2 >6), "medium", "low")))
+
+```
 
 ---
 

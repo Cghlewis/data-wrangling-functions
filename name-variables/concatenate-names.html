@@ -383,7 +383,8 @@ summary {
 <h4>Function: <code>rename_with()</code></h4>
 <hr />
 <ul>
-<li>Note: Unlike <code>dplyr::rename()</code> where you can rename individual columns, <code>dplyr::rename_with()</code> renames columns using a function.</li>
+<li><p>Note: Unlike <code>dplyr::rename()</code> where you can rename individual columns, <code>dplyr::rename_with()</code> renames columns using a function.</p></li>
+<li><p>Note: You can either rename all variables or select variables with <code>dplyr::rename_with()</code>. The order is, <em>(function used to rename, columns selected)</em>. If you don’t select columns, all variables will be renamed.</p></li>
 </ul>
 <p><br></p>
 <p><strong>1. Concatenate a prefix, “T1_”, to all variable names</strong></p>
@@ -434,6 +435,25 @@ summary {
 <li>Note: Other <code>tidyselect</code> selection helpers include <code>starts_with()</code>, <code>ends_with()</code>, <code>contains()</code>, <code>matches()</code>, and <code>num_range()</code>, and more.</li>
 </ul>
 <pre class="r"><code>d1 %&gt;% dplyr::rename_with(~ base::paste0(&quot;T1_&quot;, .), where(is.numeric))</code></pre>
+<pre><code># A tibble: 3 x 3
+  Var1  T1_Var2 T1_Var3
+  &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+1 a           2     3.6
+2 b          NA     8.5
+3 c           3    NA  </code></pre>
+<p><strong>3. Concatenate a prefix, “T1_”, to only Var2 and Var3</strong></p>
+<p>Review the data (d1)</p>
+<pre><code># A tibble: 3 x 3
+  Var1   Var2  Var3
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 a         2   3.6
+2 b        NA   8.5
+3 c         3  NA  </code></pre>
+<p>Concatenate T1_ by adding the <code>base::paste0</code> function and the selection helper <code>where()</code>.</p>
+<ul>
+<li>Note: Other <code>tidyselect</code> selection helpers include <code>starts_with()</code>, <code>ends_with()</code>, <code>contains()</code>, <code>matches()</code>, and <code>num_range()</code>, and more.</li>
+</ul>
+<pre class="r"><code>d1 %&gt;% dplyr::rename_with(~ base::paste0(&quot;T1_&quot;, .), Var2:Var3)</code></pre>
 <pre><code># A tibble: 3 x 3
   Var1  T1_Var2 T1_Var3
   &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt;

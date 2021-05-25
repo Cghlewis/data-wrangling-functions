@@ -382,7 +382,7 @@ summary {
 <div id="function-if_else" class="section level4">
 <h4>Function: <code>if_else()</code></h4>
 <hr />
-<p><strong>1. Collapse all “Google Meet” into one category</strong></p>
+<p><strong>1. Collapse all “Google Meet” in online_platform into one category</strong></p>
 <p>Review the data (d6)</p>
 <pre><code># A tibble: 6 x 2
   tch_id online_platform
@@ -423,6 +423,33 @@ summary {
 4    108 Zoom            Zoom               
 5    109 Google Meet     Google Meet        
 6    112 Microsoft Teams Microsoft Teams    </code></pre>
+<p><strong>2. Collapse a numeric variable (Var2) into discrete character categories</strong></p>
+<p>Review the data (d6)</p>
+<pre><code># A tibble: 5 x 3
+  Var1   Var2  Var3
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 a         1     2
+2 b        16     0
+3 c         3     1
+4 d         4     3
+5 e        14     0</code></pre>
+<p>Collapse Var2 into low, medium, high categories</p>
+<ul>
+<li><p>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and naming the new variable a different name than the original. It keeps both the new and old versions of the variable.</p></li>
+<li><p>Note: We are using a nested if-else statement here to meet multiple criteria and multiple outputs</p></li>
+<li><p>Note: We use the &amp; operator to say if a value meets both conditions</p></li>
+</ul>
+<pre class="r"><code>d8 %&gt;%  
+  dplyr::mutate(Var2_new=dplyr::if_else(Var2 &gt;14, &quot;high&quot;,
+                                        dplyr::if_else((Var2 &lt;=14 &amp; Var2 &gt;6), &quot;medium&quot;, &quot;low&quot;)))</code></pre>
+<pre><code># A tibble: 5 x 4
+  Var1   Var2  Var3 Var2_new
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;   
+1 a         1     2 low     
+2 b        16     0 high    
+3 c         3     1 low     
+4 d         4     3 low     
+5 e        14     0 medium  </code></pre>
 <hr />
 </div>
 <div id="function-case_when" class="section level4">

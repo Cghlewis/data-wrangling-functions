@@ -23,6 +23,8 @@ knitr::opts_chunk$set(comment = NA,
 
 * Note: Unlike `dplyr::rename()` where you can rename individual columns, `dplyr::rename_with()` renames columns using a function.
 
+* Note: You can either rename all variables or select variables with `dplyr::rename_with()`. The order is, *(function used to rename, columns selected)*. If you don't select columns, all variables will be renamed.
+
 <br>
 
 **1\. Remove all periods in variable names and replace with underscores**
@@ -38,7 +40,7 @@ d2
 
 Modify variable names by adding the `stringr::str_replace()` function.
 
-* Note: If there were more than one period in the variable names, you could also use `stringr::str_replace_all()` to remove all instances of periods.
+* Note: If there were more than one period in the variable names, you could also use `stringr::str_replace_all()` to remove all instances of periods, rather than just the first instance.
 
 ```{r}
 
@@ -87,4 +89,41 @@ Modify variable names by adding the `stringr::str_remove()` function and the sel
 d5 %>% dplyr::rename_with(~ stringr::str_remove(., "s_"), tidyselect::contains("var"))
 
 ```
+
+<br>
+
+### Package: purrr
+
+---
+
+#### Function: `set_names()`
+
+---
+
+* Note: You can use `purrr::set_names()` to modify names as well, but it doesn't have the nice compatibility with `tidyselect` that allows you to modify only select variable names. But `dplyr::set_names()` works well to modify all variable names.
+
+
+<br>
+
+**1\. Remove s_ in variable names**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d5
+
+```
+
+Modify variable names by adding the `stringr::str_remove()` function.
+
+* Note: If there were more than one period in the variable names, you could also use `stringr::str_replace_all()` to remove all instances of s_ in a variable name, rather than just the first instance.
+
+```{r}
+
+d5 %>% purrr::set_names(~ stringr::str_remove(., "s_"))
+
+```
+
 

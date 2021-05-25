@@ -383,6 +383,28 @@ summary {
 <hr />
 <p><strong>1.Filter out empty rows</strong></p>
 <p>Review the data (d9)</p>
+<pre><code># A tibble: 6 x 5
+  extra1 extra2 extra3    id test_score
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
+1 a           1      2    10        205
+2 b        -999      0    11        220
+3 c           3   -999    12        250
+4 d          NA      0    13        217
+5 &lt;NA&gt;       NA     NA    NA         NA
+6 e          NA     NA    NA         NA</code></pre>
+<p>Count the number of cases in the current data using the function <code>dplyr::count()</code></p>
+<ul>
+<li>Note: We could also use <code>base::nrow()</code> to get this number.</li>
+</ul>
+<pre class="r"><code>dplyr::count(d9)</code></pre>
+<pre><code># A tibble: 1 x 1
+      n
+  &lt;int&gt;
+1     6</code></pre>
+<p>Filter out any completely empty row</p>
+<pre class="r"><code>d9 &lt;- d9 %&gt;% dplyr::filter(!is.na(.))
+
+d9</code></pre>
 <pre><code># A tibble: 5 x 5
   extra1 extra2 extra3    id test_score
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
@@ -390,30 +412,13 @@ summary {
 2 b        -999      0    11        220
 3 c           3   -999    12        250
 4 d          NA      0    13        217
-5 &lt;NA&gt;       NA     NA    NA         NA</code></pre>
-<p>Count the number of cases in the current data using the function <code>dplyr::count()</code></p>
-<pre class="r"><code>dplyr::count(d9)</code></pre>
-<pre><code># A tibble: 1 x 1
-      n
-  &lt;int&gt;
-1     5</code></pre>
-<p>Filter out any completely empty row</p>
-<pre class="r"><code>d9 &lt;- d9 %&gt;% dplyr::filter(!is.na(.))
-
-d9</code></pre>
-<pre><code># A tibble: 4 x 5
-  extra1 extra2 extra3    id test_score
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
-1 a           1      2    10        205
-2 b        -999      0    11        220
-3 c           3   -999    12        250
-4 d          NA      0    13        217</code></pre>
+5 e          NA     NA    NA         NA</code></pre>
 <p>Count the number of cases after you filter</p>
 <pre class="r"><code>dplyr::count(d9)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;
-1     4</code></pre>
+1     5</code></pre>
 </div>
 </div>
 <div id="package-expss" class="section level3">

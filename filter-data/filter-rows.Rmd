@@ -35,6 +35,8 @@ d8
 
 Count the number of cases in the current data using the function `dplyr::count()`
 
+* Note: We could also use `base::nrow()` to get this number.
+
 ```{r}
 
 dplyr::count(d8)

@@ -76,9 +76,11 @@ d1
 
 ```
 
-Concatenate T1_ by adding the `base::paste0` function and the selection helper `where()`.
+Concatenate T1_ by adding the `base::paste0` function and the selection helper `where()`. 
 
 * Note: Other `tidyselect` selection helpers include `starts_with()`, `ends_with()`, `contains()`, `matches()`, and `num_range()`, and more.
+
+* Note: You must wrap *is.numeric*, a predicate function (returns a true/false), in `where()`.
 
 ```{r}
 

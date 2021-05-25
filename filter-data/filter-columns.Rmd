@@ -81,3 +81,25 @@ d2 %>% dplyr::select(id, tidyselect::contains("test"))
 
 ```
 
+
+**3\. Keep only numeric columns**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+Keep numeric columns by adding the selection helper `where()`.
+
+* Note: You must wrap *is.numeric*, a predicate function (returns a true/false), in `where()`.
+
+```{r}
+
+d2 %>% dplyr::select(where(is.numeric))
+
+```
+

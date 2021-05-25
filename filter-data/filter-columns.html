@@ -450,6 +450,29 @@ summary {
 3    12         250         540
 4    13         217         499
 5    NA          NA          NA</code></pre>
+<p><strong>3. Keep only numeric columns</strong></p>
+<p>Review the data (d2)</p>
+<pre><code># A tibble: 5 x 6
+  extra1 extra2 extra3    id test_score1 test_score2
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
+1 a           1      2    10         205         500
+2 b        -999      0    11         220         480
+3 c           3   -999    12         250         540
+4 d           4      0    13         217         499
+5 &lt;NA&gt;       NA     NA    NA          NA          NA</code></pre>
+<p>Keep numeric columns by adding the selection helper <code>where()</code>.</p>
+<ul>
+<li>Note: You must wrap <em>is.numeric</em>, a predicate function (returns a true/false), in <code>where()</code>.</li>
+</ul>
+<pre class="r"><code>d2 %&gt;% dplyr::select(where(is.numeric))</code></pre>
+<pre><code># A tibble: 5 x 5
+  extra2 extra3    id test_score1 test_score2
+   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
+1      1      2    10         205         500
+2   -999      0    11         220         480
+3      3   -999    12         250         540
+4      4      0    13         217         499
+5     NA     NA    NA          NA          NA</code></pre>
 </div>
 </div>
 

@@ -462,7 +462,7 @@ summary {
 5 &lt;NA&gt;       NA     NA    NA          NA          NA</code></pre>
 <p>Keep numeric columns by adding the selection helper <code>where()</code>.</p>
 <ul>
-<li>Note: You must wrap <em>is.numeric</em>, a predicate function (returns a true/false), in <code>where()</code>.</li>
+<li>Note: You must wrap <em>is.numeric</em>, a predicate function (returns a true/false), in the <code>tidyselect</code> selection helper <code>where()</code>.</li>
 </ul>
 <pre class="r"><code>d2 %&gt;% dplyr::select(where(is.numeric))</code></pre>
 <pre><code># A tibble: 5 x 5

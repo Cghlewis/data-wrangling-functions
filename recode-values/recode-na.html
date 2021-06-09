@@ -436,9 +436,10 @@ $Var3
    1    1    1 </code></pre>
 <p>Recode NA for Var2 and Var3 to 0</p>
 <ul>
-<li>Note: We are recoding back into the same variable using <code>dplyr::mutate_at()</code>.</li>
+<li>Note: We are recoding back into the same variable using <code>dplyr::mutate()</code>.</li>
+<li>Note: We are using <code>dplyr::across()</code> to apply a transformation to multiple columns.</li>
 </ul>
-<pre class="r"><code>d1 &lt;- d1 %&gt;% dplyr::mutate_at(vars(Var2:Var3), tidyr::replace_na , 0)</code></pre>
+<pre class="r"><code>d1 &lt;- d1 %&gt;% dplyr::mutate(dplyr::across(c(Var2:Var3), tidyr::replace_na , 0))</code></pre>
 <p>Check the values after the recode</p>
 <pre class="r"><code>purrr::map(d1, table, useNA=&quot;always&quot;) </code></pre>
 <pre><code>$Var1
@@ -484,9 +485,11 @@ $Var3
    1    1    1 </code></pre>
 <p>Recode NA for Var2 and Var3 to -999</p>
 <ul>
-<li>Note: We are recoding back into the same variable using <code>dplyr::mutate_if()</code>.</li>
+<li>Note: We are recoding back into the same variable using <code>dplyr::mutate()</code>.</li>
+<li>Note: We are using <code>dplyr::across()</code> to apply a transformation to multiple columns.</li>
+<li>Note: You must wrap <em>is.numeric</em>, a predicate function (returns a true/false), in the <code>tidyselect</code> selection helper <code>where()</code>.</li>
 </ul>
-<pre class="r"><code>d1 &lt;- d1 %&gt;% dplyr::mutate_if(is.numeric , tidyr::replace_na, replace = -999)</code></pre>
+<pre class="r"><code>d1 &lt;- d1 %&gt;% dplyr::mutate(dplyr::across(where(is.numeric) , tidyr::replace_na, replace = -999))</code></pre>
 <p>Check the values after the recode</p>
 <pre class="r"><code>purrr::map(d1, table, useNA=&quot;always&quot;) </code></pre>
 <pre><code>$Var1
@@ -537,9 +540,10 @@ $Var3
 3 c         3  -999</code></pre>
 <p>Replace -999 for for Var2 and Var3 with NA</p>
 <ul>
-<li>Note: We are recoding back into the same variable using <code>dplyr::mutate_at()</code>.</li>
+<li>Note: We are recoding back into the same variable using <code>dplyr::mutate()</code>.</li>
+<li>Note: We are using <code>dplyr::across()</code> to apply a transformation to multiple columns.</li>
 </ul>
-<pre class="r"><code>d3 %&gt;% dplyr::mutate_at(vars(Var2:Var3), dplyr::na_if, -999) </code></pre>
+<pre class="r"><code>d3 %&gt;% dplyr::mutate(dplyr::across(c(Var2:Var3), dplyr::na_if, -999))</code></pre>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -556,8 +560,9 @@ $Var3
 3 c         3  -999</code></pre>
 <p>Replace -999 for numeric variables with NA</p>
 <ul>
-<li><p>Note: We are recoding back into the same variable using <code>dplyr::mutate()</code> and <code>dplyr::across()</code>.</p></li>
-<li><p>Note: You will get similar results using <code>dplyr::mutate_if()</code> rather than <code>dplyr::mutate()</code> in conjunction with <code>dplyr::across()</code> and selection helper <code>where()</code>.</p></li>
+<li>Note: We are recoding back into the same variable using <code>dplyr::mutate()</code>.</li>
+<li>Note: We are using <code>dplyr::across()</code> to apply a transformation to multiple columns.</li>
+<li>Note: You must wrap <em>is.numeric</em>, a predicate function (returns a true/false), in the <code>tidyselect</code> selection helper <code>where()</code>.</li>
 </ul>
 <pre class="r"><code>d3 %&gt;% dplyr::mutate(dplyr::across(where(is.numeric), dplyr::na_if, -999))</code></pre>
 <pre><code># A tibble: 3 x 3

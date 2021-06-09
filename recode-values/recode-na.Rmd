@@ -82,11 +82,12 @@ purrr::map(d1, table, useNA="always")
 
 Recode NA for Var2 and Var3 to 0
 
-* Note: We are recoding back into the same variable using `dplyr::mutate_at()`. 
+* Note: We are recoding back into the same variable using `dplyr::mutate()`. 
+* Note: We are using `dplyr::across()` to apply a transformation to multiple columns.
 
 ```{r}
 
-d1 <- d1 %>% dplyr::mutate_at(vars(Var2:Var3), tidyr::replace_na , 0)
+d1 <- d1 %>% dplyr::mutate(dplyr::across(c(Var2:Var3), tidyr::replace_na , 0))
 
 ```
 
@@ -121,11 +122,13 @@ purrr::map(d1, table, useNA="always")
 
 Recode NA for Var2 and Var3 to -999
 
-* Note: We are recoding back into the same variable using `dplyr::mutate_if()`. 
+* Note: We are recoding back into the same variable using `dplyr::mutate()`. 
+* Note: We are using `dplyr::across()` to apply a transformation to multiple columns.
+* Note: You must wrap *is.numeric*, a predicate function (returns a true/false), in the `tidyselect` selection helper `where()`.
 
 ```{r}
 
-d1 <- d1 %>% dplyr::mutate_if(is.numeric , tidyr::replace_na, replace = -999)
+d1 <- d1 %>% dplyr::mutate(dplyr::across(where(is.numeric) , tidyr::replace_na, replace = -999))
 
 ```
 
@@ -179,11 +182,12 @@ d3
 
 Replace -999 for for Var2 and Var3 with NA
 
-* Note: We are recoding back into the same variable using `dplyr::mutate_at()`. 
+* Note: We are recoding back into the same variable using `dplyr::mutate()`. 
+* Note: We are using `dplyr::across()` to apply a transformation to multiple columns.
 
 ```{r}
 
-d3 %>% dplyr::mutate_at(vars(Var2:Var3), dplyr::na_if, -999) 
+d3 %>% dplyr::mutate(dplyr::across(c(Var2:Var3), dplyr::na_if, -999))
 
 ```
 
@@ -200,9 +204,10 @@ d3
 
 Replace -999 for numeric variables with NA
 
-* Note: We are recoding back into the same variable using `dplyr::mutate()` and `dplyr::across()`.
+* Note: We are recoding back into the same variable using `dplyr::mutate()`.
+* Note: We are using `dplyr::across()` to apply a transformation to multiple columns.
+* Note: You must wrap *is.numeric*, a predicate function (returns a true/false), in the `tidyselect` selection helper `where()`.
 
-* Note: You will get similar results using `dplyr::mutate_if()` rather than `dplyr::mutate()` in conjunction with `dplyr::across()` and selection helper `where()`.
 
 ```{r}
 

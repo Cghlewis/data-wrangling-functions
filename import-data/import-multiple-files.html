@@ -383,10 +383,17 @@ summary {
 <hr />
 <p><strong>1. Review files in my folder named “attendance”</strong></p>
 <ul>
-<li><p>Note: I used the here::here() function which implicitly sets my directory to the top level of my current project. Then any subsequent folders can be listed in descending order. In this case my folder “attendance” is within another folder called “import-data” which is located in the top level of my project directory. You could also just list your entire file path.</p></li>
+<li><p>Note: I used the <code>here::here()</code> function which implicitly sets my directory to the top level of my current project. Then any subsequent folders can be listed in descending order. In this case my folder “attendance” is within another folder called “import-data” which is located in the top level of my project directory. You could also just list your entire file path.</p></li>
 <li><p>Note: If you wanted to see the full path for each file you could add the argument <em>full.names</em> is equal to TRUE.</p></li>
 </ul>
 <pre class="r"><code>list.files(path=here::here(&quot;import-data&quot;, &quot;attendance&quot;))</code></pre>
+<pre><code>[1] &quot;school-1_attendance.csv&quot;  &quot;school-2_attendance.xlsx&quot;
+[3] &quot;school-3_attendance.xlsx&quot; &quot;school-4_attendance.xlsx&quot;
+[5] &quot;school-5_attendance.xlsx&quot;</code></pre>
+<ul>
+<li>Note: Again if you did not want to use <code>here::here()</code> you could just list the full file path.</li>
+</ul>
+<pre class="r"><code>list.files(path = &quot;C:\Users\Name\project\import-data\attendance&quot;)</code></pre>
 </div>
 </div>
 <div id="package-purrr" class="section level3">
@@ -398,29 +405,35 @@ summary {
 <p><strong>1. Read in all Excel files from the “attendance” folder and bind them together. Note that an asterisk was used to denote NAs and we need to notify R of that.</strong></p>
 <ul>
 <li><p>Note: <code>base::dir()</code> produces a character vector of the names of files in the named directory. <code>base::dir()</code> is an alias for <code>base::list.files()</code></p></li>
+<li><p>Note: By adding the <code>base::dir()</code> argument <em>pattern=“.xlsx”</em> you are saying you only want to read in the Excel files with the extension “.xlsx”. In this case, while there are 5 files in the directory, only 4 of them were Excel files, one file was csv format.</p></li>
+<li><p>Note: Because my current directory is my project folder (not the attendance folder), I need to add the <code>base::dir()</code> argument <em>full.names=TRUE</em> which adds the full file path to the names fo the files in the character vector created. If we don’t do this, we will get an error that says <em><code>path</code> does not exist</em>. If however, the files we were trying to bind are in the level of our current directory, we could leave the argument at the default of <em>full.names=FALSE</em>.</p></li>
 <li><p>Note: <code>purrr::map_dfr()</code> combines tibbles (data frames) by stacking them on top of each other.</p></li>
-<li><p>Note: There were only 4 Excel files in the directory, one file was csv format.</p></li>
 <li><p>Note: If you wanted to read in other file types, you would simply change the function you call from <code>readxl::read_excel()</code> to the function required to read in your file type.</p></li>
 <li><p>Note: If not all files you read in have the same variables, the appended file will include all variables and whatever data is available for those variables.</p></li>
-<li><p>Note: If files contain the same variable names but the variable classes aren’t the same for a variable (ex: V1 = character in one file and V1 = numeric in another file) then datasets cannot be combined. In the case of <code>readxl::read_excel()</code>, you could add the col_types argument to make that variable type the same across all files. If you are unsure what types of variables exist in each dataset, you can use <code>janitor::compare_df_cols()</code> to see an output of each data frames’ variables and variable types. By adding the argument <em>return = “mismatch”</em> the output will only show any variables that are different types across data frames.</p></li>
+<li><p>Note: If files contain the same variable names but the variable classes aren’t the same for a variable (ex: V1 = character in one file and V1 = numeric in another file) then datasets cannot be combined. In the case of <code>readxl::read_excel()</code>, you could add the <em>col_types</em> argument to make that variable type the same across all files. If you are unsure what types of variables exist in each dataset, you can use <code>janitor::compare_df_cols()</code> to see an output of each data frames’ variables and variable types. By adding the argument <em>return = “mismatch”</em> the output will only show any variables that are different types across data frames.</p></li>
 </ul>
-<pre class="r"><code>d &lt;- dir(here::here(&quot;import-data&quot;, &quot;attendance&quot;), pattern=&quot;.xlsx&quot;, full.names=TRUE) %&gt;%
-  map_dfr(readxl::read_excel, na=&quot;*&quot;)
+<pre class="r"><code>d &lt;- dir(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;), pattern=&quot;.xlsx&quot;, full.names=TRUE) %&gt;%
+  map_dfr(readxl::read_excel, na=&quot;*&quot;, .id = &quot;file&quot;)
 
 head(d, n=c(10,5))</code></pre>
 <pre><code># A tibble: 10 x 5
-    YEAR PROPORTIONAL_ATTE~ PROPORTIONAL_AT~ PROPORTIONAL_ATT~ PROPORTIONAL_ATT~
-   &lt;dbl&gt;              &lt;dbl&gt;            &lt;dbl&gt;             &lt;dbl&gt;             &lt;dbl&gt;
- 1  2015               270              282               95.8             NA   
- 2  2016               275.             299               91.8             NA   
- 3  2017               362              391.              92.7             NA   
- 4  2018               368              408.              90.3             NA   
- 5  2019               396              440               90.1              9.05
- 6  2015               547.             628               87.0             NA   
- 7  2016               578              643               89.9             15.1 
- 8  2017               568              640.              88.9             20   
- 9  2018               554              625               88.6             20   
-10  2019               536              614               87.3             13.5 </code></pre>
+   file   YEAR PROPORTIONAL_ATTENDAN~ PROPORTIONAL_ATTEND~ PROPORTIONAL_ATTENDA~
+   &lt;chr&gt; &lt;dbl&gt;                  &lt;dbl&gt;                &lt;dbl&gt;                 &lt;dbl&gt;
+ 1 1      2015                   270                  282                   95.8
+ 2 1      2016                   275.                 299                   91.8
+ 3 1      2017                   362                  391.                  92.7
+ 4 1      2018                   368                  408.                  90.3
+ 5 1      2019                   396                  440                   90.1
+ 6 2      2015                   547.                 628                   87.0
+ 7 2      2016                   578                  643                   89.9
+ 8 2      2017                   568                  640.                  88.9
+ 9 2      2018                   554                  625                   88.6
+10 2      2019                   536                  614                   87.3</code></pre>
+<ul>
+<li>Note: Again if you did not want to use <code>here::here()</code> you could just list the full file path.</li>
+</ul>
+<pre class="r"><code>d &lt;- dir(path = &quot;C:\Users\Name\project\import-data\attendance&quot;, pattern=&quot;.xlsx&quot;, full.names=TRUE) %&gt;%
+  map_dfr(readxl::read_excel, na=&quot;*&quot;, .id = &quot;file&quot;)</code></pre>
 <p><strong>2. Add an identifier to differentiate which rows came from which files, by adding the argument “.id” and have it equal to whatever you want that new variable to be called. This will give you a numeric ordered value for which dataset the row came from.</strong></p>
 <pre class="r"><code>d &lt;- dir(here::here(&quot;import-data&quot;, &quot;attendance&quot;), pattern=&quot;.xlsx&quot;, full.names=TRUE) %&gt;%
   purrr::map_dfr(readxl::read_excel, na=&quot;*&quot;, .id = &quot;source&quot;)
@@ -439,26 +452,27 @@ head(d, n=c(10,5))</code></pre>
  8 2       2017                   568                  640.                 88.9
  9 2       2018                   554                  625                  88.6
 10 2       2019                   536                  614                  87.3</code></pre>
-<p><strong>3. Add the full file path/name to differentiate which rows came from which files by adding the function <code>purrr::set_names()</code> as well as the argument <em>“.id”</em> and have it equal to whatever you want that new variable to be called.</strong></p>
+<p><strong>3. Add the full file name to differentiate which rows came from which files by adding the function <code>purrr::set_names()</code> as well as the argument <em>“.id”</em> and have it equal to whatever you want that new variable to be called.</strong></p>
 <ul>
-<li>Note: If you leave <code>purrr::set_names()</code> empty, it will return the name of itself</li>
+<li><p>Note: If you leave <code>purrr::set_names()</code> empty, it will return the name of itself</p></li>
+<li><p>Note: Again, because our current directory is not at the level of the attendance folder, we will need to add the argument <em>full.names=TRUE</em> to the <code>base::dir()</code> function, in order to bind the files. When we add <code>purrr::set_names()</code> the source will show the entire file path and name of the file. However if you were reading in files in the level of our current directory, we could leave the default of <em>full.names=FALSE</em> and our source variable will simply show the name of the file without the full path.</p></li>
 </ul>
-<pre class="r"><code>d &lt;- dir(here::here(&quot;import-data&quot;, &quot;attendance&quot;),pattern=&quot;.xlsx&quot;, full.names=TRUE) %&gt;%
+<pre class="r"><code>d &lt;- dir(here::here(&quot;import-data&quot;, &quot;attendance&quot;), pattern=&quot;.xlsx&quot;, full.names=TRUE) %&gt;%
   purrr::set_names() %&gt;%
-  purrr::map_dfr(readxl::read_excel, na=&quot;*&quot;, .id = &quot;source&quot;)</code></pre>
+  purrr::map_dfr(readxl::read_excel, col_types=&quot;text&quot;, .id = &quot;source&quot;)</code></pre>
 <pre><code># A tibble: 10 x 3
-   source                                     YEAR PROPORTIONAL_ATTENDANCE_TOTA~
-   &lt;chr&gt;                                     &lt;dbl&gt;                         &lt;dbl&gt;
- 1 /project/import-data/attendance/school-2~  2015                          270 
- 2 /project/import-data/attendance/school-2~  2016                          275.
- 3 /project/import-data/attendance/school-2~  2017                          362 
- 4 /project/import-data/attendance/school-2~  2018                          368 
- 5 /project/import-data/attendance/school-2~  2019                          396 
- 6 /project/import-data/attendance/school-3~  2015                          547.
- 7 /project/import-data/attendance/school-3~  2016                          578 
- 8 /project/import-data/attendance/school-3~  2017                          568 
- 9 /project/import-data/attendance/school-3~  2018                          554 
-10 /project/import-data/attendance/school-3~  2019                          536 </code></pre>
+   source                                    YEAR  PROPORTIONAL_ATTENDANCE_TOTA~
+   &lt;chr&gt;                                     &lt;chr&gt; &lt;chr&gt;                        
+ 1 /project/import-data/attendance/school-2~ 2015  270                          
+ 2 /project/import-data/attendance/school-2~ 2016  275.14240000000001           
+ 3 /project/import-data/attendance/school-2~ 2017  362                          
+ 4 /project/import-data/attendance/school-2~ 2018  368                          
+ 5 /project/import-data/attendance/school-2~ 2019  396                          
+ 6 /project/import-data/attendance/school-3~ 2015  547.06510000000003           
+ 7 /project/import-data/attendance/school-3~ 2016  578                          
+ 8 /project/import-data/attendance/school-3~ 2017  568                          
+ 9 /project/import-data/attendance/school-3~ 2018  554                          
+10 /project/import-data/attendance/school-3~ 2019  536                          </code></pre>
 <p><strong>4. Read in all Excel files from the directory but then create individual data frames for each file.</strong></p>
 <p>Use base R indexing to select the element you are referencing</p>
 <pre class="r"><code>File1 &lt;- dir(here::here(&quot;import-data&quot;, &quot;attendance&quot;),pattern=&quot;.xlsx&quot;, full.names=TRUE)[1] %&gt;%

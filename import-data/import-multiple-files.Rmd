@@ -25,15 +25,24 @@ library(tidyverse)
 
 **1\. Review files in my folder named "attendance"**
 
-* Note: I used the here::here() function which implicitly sets my directory to the top level of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "attendance" is within another folder called "import-data" which is located in the top level of my project directory. You could also just list your entire file path.
+* Note: I used the `here::here()` function which implicitly sets my directory to the top level of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "attendance" is within another folder called "import-data" which is located in the top level of my project directory. You could also just list your entire file path.
 
 * Note: If you wanted to see the full path for each file you could add the argument *full.names* is equal to TRUE.
 
-```{r, eval=FALSE}
+```{r}
 
 list.files(path=here::here("import-data", "attendance"))
 
 ```
+
+* Note: Again if you did not want to use `here::here()` you could just list the full file path.
+
+```{r, eval=FALSE}
+
+list.files(path = "C:\Users\Name\project\import-data\attendance")
+
+```
+
 
 ### Package: purrr
 
@@ -48,22 +57,33 @@ list.files(path=here::here("import-data", "attendance"))
 
 * Note: `base::dir()` produces a character vector of the names of files in the named directory. `base::dir()` is an alias for `base::list.files()`
 
-* Note: `purrr::map_dfr()` combines tibbles (data frames) by stacking them on top of each other.
+* Note: By adding the `base::dir()` argument *pattern=".xlsx"* you are saying you only want to read in the Excel files with the extension ".xlsx". In this case, while there are 5 files in the directory, only 4 of them were Excel files, one file was csv format.
 
-* Note: There were only 4 Excel files in the directory, one file was csv format.
+* Note: Because my current directory is my project folder (not the attendance folder), I need to add the `base::dir()` argument *full.names=TRUE* which adds the full file path to the names fo the files in the character vector created. If we don't do this, we will get an error that says *`path` does not exist*. If however, the files we were trying to bind are in the level of our current directory, we could leave the argument at the default of *full.names=FALSE*.
+
+* Note: `purrr::map_dfr()` combines tibbles (data frames) by stacking them on top of each other.
 
 * Note: If you wanted to read in other file types, you would simply change the function you call from `readxl::read_excel()` to the function required to read in your file type.
 
 * Note: If not all files you read in have the same variables, the appended file will include all variables and whatever data is available for those variables.
 
-* Note: If files contain the same variable names but the variable classes aren't the same for a variable (ex: V1 = character in one file and V1 = numeric in another file) then datasets cannot be combined. In the case of `readxl::read_excel()`, you could add the col_types argument to make that variable type the same across all files. If you are unsure what types of variables exist in each dataset, you can use `janitor::compare_df_cols()` to see an output of each data frames' variables and variable types. By adding the argument *return = "mismatch"* the output will only show any variables that are different types across data frames.
+* Note: If files contain the same variable names but the variable classes aren't the same for a variable (ex: V1 = character in one file and V1 = numeric in another file) then datasets cannot be combined. In the case of `readxl::read_excel()`, you could add the *col_types* argument to make that variable type the same across all files. If you are unsure what types of variables exist in each dataset, you can use `janitor::compare_df_cols()` to see an output of each data frames' variables and variable types. By adding the argument *return = "mismatch"* the output will only show any variables that are different types across data frames.
 
 ```{r}
 
-d <- dir(here::here("import-data", "attendance"), pattern=".xlsx", full.names=TRUE) %>%
-  map_dfr(readxl::read_excel, na="*")
+d <- dir(path = here::here("import-data", "attendance"), pattern=".xlsx", full.names=TRUE) %>%
+  map_dfr(readxl::read_excel, na="*", .id = "file")
 
 head(d, n=c(10,5))
+
+```
+
+* Note: Again if you did not want to use `here::here()` you could just list the full file path.
+
+```{r, eval=FALSE}
+
+d <- dir(path = "C:\Users\Name\project\import-data\attendance", pattern=".xlsx", full.names=TRUE) %>%
+  map_dfr(readxl::read_excel, na="*", .id = "file")
 
 ```
 
@@ -80,17 +100,20 @@ head(d, n=c(10,5))
 ```
 
 
-**3\. Add the full file path/name to differentiate which rows came from which files by adding the function `purrr::set_names()` as well as the argument *".id"* and have it equal to whatever you want that new variable to be called.**
+**3\. Add the full file name to differentiate which rows came from which files by adding the function `purrr::set_names()` as well as the argument *".id"* and have it equal to whatever you want that new variable to be called.**
 
 * Note: If you leave `purrr::set_names()` empty, it will return the name of itself
 
+* Note: Again, because our current directory is not at the level of the attendance folder, we will need to add the argument *full.names=TRUE* to the `base::dir()` function, in order to bind the files. When we add `purrr::set_names()` the source will show the entire file path and name of the file. However if you were reading in files in the level of our current directory, we could leave the default of *full.names=FALSE* and our source variable will simply show the name of the file without the full path.
+
 ```{r}
 
-d <- dir(here::here("import-data", "attendance"),pattern=".xlsx", full.names=TRUE) %>%
+d <- dir(here::here("import-data", "attendance"), pattern=".xlsx", full.names=TRUE) %>%
   purrr::set_names() %>%
-  purrr::map_dfr(readxl::read_excel, na="*", .id = "source")
+  purrr::map_dfr(readxl::read_excel, col_types="text", .id = "source")
 
 ```
+
 
 ```{r, echo=FALSE}
 

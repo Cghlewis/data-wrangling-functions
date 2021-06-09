@@ -104,7 +104,7 @@ Convert Var1 to a factor.
 
 ```{r}
 
-d2 <- d2 %>% dplyr::mutate(Var1 = base::as.factor(Var1))
+d2 <- d2 %>% dplyr::mutate(Var1 = as.factor(Var1))
 
 class(d2$Var1)
 
@@ -123,7 +123,7 @@ source("data.R")
 
 ```{r}
 
-d2 <- d2 %>% dplyr::mutate(Var1 = base::factor(Var1, levels = c("c", "b", "a")))
+d2 <- d2 %>% dplyr::mutate(Var1 = factor(Var1, levels = c("c", "b", "a")))
 
 class(d2$Var1)
 
@@ -150,6 +150,8 @@ d2
 
 View the class for Var3
 
+* Note: Var3 will read in as character because an X was used to denote missing values in the data.
+
 ```{r}
 
 class(d2$Var3)
@@ -164,9 +166,114 @@ Convert Var3 to numeric.
 
 ```{r, warning = FALSE}
 
-d2 <- d2 %>% dplyr::mutate(Var3 = base::as.numeric(Var3))
+d2 <- d2 %>% dplyr::mutate(Var3 = as.numeric(Var3))
 
 class(d2$Var3)
+
+```
+
+**2\. Convert all character variables to numeric**
+
+Review the data (d4)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d4
+
+```
+
+View the class for all variables
+
+* Note: Var2, Var3 and Var4 are read in as character variables because an X was used to denote missing values in the data.
+
+* Note: Another way to have dealt with these columns that have "X" denoting NA, is to have read in the data using a function where you explicitly state what the missing values are. Example: `readr::read_csv("nameoffile.csv", na="X"). If you read in your file this way, the column would have read in as numeric rather than character.
+
+```{r}
+
+str(d4)
+
+```
+
+Convert all character variables to numeric variables
+
+* Note: Using the function `dplyr::across()` we are applying a transformation across multiple columns
+* Note: You must wrap *is.numeric*, a predicate function (returns a true/false), in the `tidyselect` selection helper `where()`.
+* Note: We are recoding into a new variable using `dplyr::mutate()` and saving over the original variable by naming the new variable the same name as the original. 
+
+```{r}
+
+d4 <- d4 %>% dplyr::mutate(dplyr::across(where(is.character), as.numeric))
+
+```
+
+View the class for all variables
+
+```{r}
+
+str(d4)
+
+```
+
+You can also call out the exact variables you want to convert
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+```
+
+
+```{r, include = FALSE}
+
+d4 %>% dplyr::mutate(dplyr::across(c(Var2:Var4), as.numeric))
+
+```
+
+
+**3\. Convert a factor variable (Var3) to numeric**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+View the class for Var3
+
+```{r}
+
+class(d3$Var3)
+
+```
+
+Convert Var3 to numeric.
+
+* Note: We are recoding into a new variable using `dplyr::mutate()` and saving over the original variable by naming the new variable the same name as the original. 
+
+* Note: We MUST convert the numeric variable to character before converting to numeric or we will not retain our original values. Instead, `base::as.numeric()` will convert our factor values to their factor levels (3=2, 8=3, 1=1) which is not what we want. See the first example vs the second example.
+
+**Don't do this**
+
+```{r, warning = FALSE}
+
+d3 %>% dplyr::mutate(Var3 = as.numeric(Var3))
+
+
+```
+
+**Do this**
+
+```{r, warning = FALSE}
+
+d3 <- d3 %>% dplyr::mutate(Var3 = as.numeric(as.character(Var3)))
+
+d3
+
+class(d3$Var3)
 
 ```
 
@@ -202,7 +309,7 @@ Convert Var1 to a character.
 
 ```{r}
 
-d1 <- d1 %>% dplyr::mutate(Var1 = base::as.character(Var1))
+d1 <- d1 %>% dplyr::mutate(Var1 = as.character(Var1))
 
 class(d1$Var1)
 
@@ -249,7 +356,5 @@ Convert Var4 to a date
 d2 <- d2 %>% dplyr::mutate(Var4 = lubridate::mdy(Var4))
 
 class(d2$Var4)
-
-d2
 
 ```

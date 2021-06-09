@@ -444,16 +444,31 @@ d81</code></pre>
 <ul>
 <li>Note: Use the operator <em>!=</em> to denote not equal to.</li>
 </ul>
-<pre class="r"><code>d8 &lt;- d8 %&gt;% dplyr::filter(tch_name != &quot;harris&quot;)
+<pre class="r"><code>d81 &lt;- d8 %&gt;% dplyr::filter(tch_name != &quot;harris&quot;)
 
-d8</code></pre>
+d81</code></pre>
+<pre><code># A tibble: 2 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 b        -999      0     11        220 steve   
+2 d           4      0     13        217 lewis   </code></pre>
+<p>Again, you could get the same result adding the <code>stringr::str_detect()</code> function and either adding the <em>!</em> operator or adding the <code>stringr::str_detect</code> argument <em>negate=TRUE</em> which returns non-matching elements.</p>
+<p>Using !</p>
+<pre class="r"><code>d8 %&gt;% dplyr::filter(!stringr::str_detect(tch_name, &#39;har&#39;))</code></pre>
+<pre><code># A tibble: 2 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 b        -999      0     11        220 steve   
+2 d           4      0     13        217 lewis   </code></pre>
+<p>Or using <em>negate=TRUE</em></p>
+<pre class="r"><code>d8 %&gt;% dplyr::filter(stringr::str_detect(tch_name, &#39;har&#39;, negate=TRUE))</code></pre>
 <pre><code># A tibble: 2 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
 1 b        -999      0     11        220 steve   
 2 d           4      0     13        217 lewis   </code></pre>
 <p>Count the number of cases after you filter</p>
-<pre class="r"><code>dplyr::count(d8)</code></pre>
+<pre class="r"><code>dplyr::count(d81)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;

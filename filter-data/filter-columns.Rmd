@@ -95,7 +95,7 @@ d2
 
 Keep numeric columns by adding the selection helper `where()`.
 
-* Note: You must wrap *is.numeric*, a predicate function (returns a true/false), in `where()`.
+* Note: You must wrap *is.numeric*, a predicate function (returns a true/false), in the `tidyselect` selection helper `where()`.
 
 ```{r}
 

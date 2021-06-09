@@ -99,17 +99,36 @@ Filter out any row that has "harris" for tch_name.
 
 ```{r}
 
-d8 <- d8 %>% dplyr::filter(tch_name != "harris")
+d81 <- d8 %>% dplyr::filter(tch_name != "harris")
 
-d8
+d81
 
 ```
+
+Again, you could get the same result adding the `stringr::str_detect()` function and either adding the *!* operator or adding the `stringr::str_detect` argument *negate=TRUE* which returns non-matching elements.
+
+Using !
+
+```{r}
+
+d8 %>% dplyr::filter(!stringr::str_detect(tch_name, 'har'))
+
+```
+
+Or using *negate=TRUE*
+
+```{r}
+
+d8 %>% dplyr::filter(stringr::str_detect(tch_name, 'har', negate=TRUE))
+
+```
+
 
 Count the number of cases after you filter
 
 ```{r}
 
-dplyr::count(d8)
+dplyr::count(d81)
 
 ```
 

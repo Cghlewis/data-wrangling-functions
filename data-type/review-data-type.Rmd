@@ -113,6 +113,36 @@ View the structure of the data frame/tibble as well as the class of each variabl
 
 ```{r}
 
-str(d1)
+utils::str(d1)
 
 ```
+
+
+### Package: tibble
+
+---
+
+#### Function: `glimpse()`
+
+---
+
+**1\. Review the structure of the data frame/tibble**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+View the structure of the data frame/tibble as well as the class of each variable
+
+```{r}
+
+tibble::glimpse(d1)
+
+```
+
+

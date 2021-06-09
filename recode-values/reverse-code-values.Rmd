@@ -194,14 +194,16 @@ source("data.R")
 
 ```
 
-* Note: Again I wrote this all into a new dataset because this syntax, using `dplyr::mutate_at()`, writes over our existing Var2 and Var3 and in this scenario I wanted to keep the old variables.
+* Note: Again I wrote this all into a new dataset because this syntax, using `dplyr::mutate()`, writes over our existing Var2 and Var3 and in this scenario I wanted to keep the old variables.
 
-* Note: Renaming here is done using the `dplyr::rename_at()` function as well as `base::paste0()`.
+* Note: We are using `dplyr::across()` to apply a transformation to multiple columns.
+
+* Note: Renaming here is done using the `dplyr::rename_with()` function as well as `base::paste0()`.
 
 ```{r}
 
-d2_new <- d2 %>% dplyr::mutate_at(vars(Var2:Var3), reverse_scale) %>%
-  dplyr::rename_at(vars(Var2:Var3), ~paste0(., "_r"))
+d2_new <- d2 %>% dplyr::mutate(across(c(Var2:Var3), reverse_scale)) %>%
+  dplyr::rename_with(~paste0(., "_r"), .cols = c(Var2:Var3))
 
 ```
 

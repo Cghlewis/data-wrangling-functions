@@ -99,13 +99,31 @@ d1
 
 ```
 
-Concatenate T1_ by adding the `base::paste0` function and the selection helper `where()`.
-
-* Note: Other `tidyselect` selection helpers include `starts_with()`, `ends_with()`, `contains()`, `matches()`, and `num_range()`, and more.
+Concatenate T1_ by adding the `base::paste0` function.
 
 ```{r}
 
 d1 %>% dplyr::rename_with(~ base::paste0("T1_", .), Var2:Var3)
+
+```
+
+
+**4\. Concatenate a prefix, "T1_", to Var1 to Var3 and Var5 **
+
+Review the data (d8)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d8
+
+```
+
+Concatenate T1_ by adding the `base::paste0` function.
+
+```{r}
+
+d8 %>% dplyr::rename_with(~ base::paste0("T1_", .), c(Var1:Var3, Var5))
 
 ```
 

@@ -521,7 +521,7 @@ $Var3
 <ul>
 <li><p>Note: Again I wrote this all into a new dataset because this syntax, using <code>dplyr::mutate()</code>, writes over our existing Var2 and Var3 and in this scenario I wanted to keep the old variables.</p></li>
 <li><p>Note: We are using <code>dplyr::across()</code> to apply a transformation to multiple columns.</p></li>
-<li><p>Note: Renaming here is done using the <code>dplyr::rename_with()</code> function as well as <code>base::paste0()</code>.</p></li>
+<li><p>Note: Renaming here is done using the <code>dplyr::rename_with()</code> function as well as <code>base::paste0()</code>. <code>dplyr::rename_with()</code> allows you to rename columns using a function.</p></li>
 </ul>
 <pre class="r"><code>d2_new &lt;- d2 %&gt;% dplyr::mutate(across(c(Var2:Var3), reverse_scale)) %&gt;%
   dplyr::rename_with(~paste0(., &quot;_r&quot;), .cols = c(Var2:Var3))</code></pre>

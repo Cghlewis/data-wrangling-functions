@@ -51,4 +51,10 @@ d7 <- tibble::tribble(
   "c", 3, NA,
 )
 
+d8 <- tibble::tribble(
+  ~Var1, ~Var2, ~Var3, ~Var4, ~Var5,
+  "a", 2, 3.6, 1, 0,
+  "b", NA, 8.5, 2, 1,
+  "c", 3, NA, 3, 1
+)
 

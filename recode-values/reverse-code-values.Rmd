@@ -198,7 +198,7 @@ source("data.R")
 
 * Note: We are using `dplyr::across()` to apply a transformation to multiple columns.
 
-* Note: Renaming here is done using the `dplyr::rename_with()` function as well as `base::paste0()`.
+* Note: Renaming here is done using the `dplyr::rename_with()` function as well as `base::paste0()`. `dplyr::rename_with()` allows you to rename columns using a function.
 
 ```{r}
 

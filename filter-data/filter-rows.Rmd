@@ -84,14 +84,6 @@ d8
 
 ```
 
-Count the number of cases in the current data using the function `dplyr::count()`
-
-```{r}
-
-dplyr::count(d8)
-
-```
-
 
 Filter out any row that has "harris" for tch_name. 
 
@@ -99,9 +91,7 @@ Filter out any row that has "harris" for tch_name.
 
 ```{r}
 
-d81 <- d8 %>% dplyr::filter(tch_name != "harris")
-
-d81
+d8 %>% dplyr::filter(tch_name != "harris")
 
 ```
 
@@ -120,15 +110,6 @@ Or using *negate=TRUE*
 ```{r}
 
 d8 %>% dplyr::filter(stringr::str_detect(tch_name, 'har', negate=TRUE))
-
-```
-
-
-Count the number of cases after you filter
-
-```{r}
-
-dplyr::count(d81)
 
 ```
 
@@ -153,32 +134,13 @@ d8
 
 ```
 
-Count the number of cases in the current data using the function `dplyr::count()`
-
-```{r}
-
-dplyr::count(d8)
-
-```
-
-
 Keep any row that has a value greater than or equal to zero for extra2. 
 
 * Note: Use the operator *>=* to denote greater than or equal to.
 
 ```{r}
 
-d8 <- d8 %>% dplyr::filter(extra2 >= 0)
-
-d8
-
-```
-
-Count the number of cases after you filter
-
-```{r}
-
-dplyr::count(d8)
+d8 %>% dplyr::filter(extra2 >= 0)
 
 ```
 
@@ -194,14 +156,6 @@ d5
 
 ```
 
-Count the number of cases in the current data using the function `dplyr::count()`
-
-```{r}
-
-dplyr::count(d5)
-
-```
-
 
 Filter out any row that has -999 for extra2.
 
@@ -209,20 +163,9 @@ Filter out any row that has -999 for extra2.
 
 ```{r}
 
-d5 <- d5 %>% dplyr::filter(extra2 != -999 | is.na(extra2))
-
-d5
+d5 %>% dplyr::filter(extra2 != -999 | is.na(extra2))
 
 ```
-
-Count the number of cases after you filter
-
-```{r}
-
-dplyr::count(d5)
-
-```
-
 
 ---
 
@@ -243,24 +186,13 @@ d8
 
 ```
 
-Count the number of cases in the current data using the function `dplyr::count()`
-
-```{r}
-
-dplyr::count(d8)
-
-```
-
-
 Keep any row that has -999 or 0 for extra2. 
 
 * Note: Use of the operator *|* to denote or (*and* doesn't really apply since it's the same variable).
 
 ```{r}
 
-d81 <- d8 %>% dplyr::filter(extra3 == -999 | extra3 ==0)
-
-d81
+d8 %>% dplyr::filter(extra3 == -999 | extra3 ==0)
 
 ```
 
@@ -273,15 +205,6 @@ d8 %>% dplyr::filter(xor(extra3 == -999 , extra3 ==0))
 ```
 
 
-Count the number of cases after you filter
-
-```{r}
-
-dplyr::count(d81)
-
-```
-
-
 **2\. Keep rows based on multiple criteria from one variable (in this case for a numeric variable). Keep any row whose value for extra3 is between 0 and 10.**
 
 Review the data (d8).
@@ -290,14 +213,6 @@ Review the data (d8).
 
 source("data.R")
 d8
-
-```
-
-Count the number of cases in the current data using the function `dplyr::count()`
-
-```{r}
-
-dplyr::count(d8)
 
 ```
 
@@ -314,20 +229,11 @@ d81
 
 ```
 
-You would get the same result using the `dplyr::between()` function.
+You would get the same result using the `dplyr::between()` function. It includes both 0 and 10.
 
 ```{r}
 
 d8 %>% dplyr::filter(dplyr::between(extra3, 0, 10))
-
-```
-
-
-Count the number of cases after you filter
-
-```{r}
-
-dplyr::count(d81)
 
 ```
 
@@ -343,24 +249,13 @@ d8
 
 ```
 
-Count the number of cases in the current data using the function `dplyr::count()`
-
-```{r}
-
-dplyr::count(d8)
-
-```
-
-
 Keep any row where tch_name is "harris" or "lewis".
 
 * Note: Use of the operator *|* to denote or (*and* doesn't really apply since it's the same variable).
 
 ```{r}
 
-d81 <- d8 %>% dplyr::filter(tch_name == "harris" | tch_name == "lewis")
-
-d81
+d8 %>% dplyr::filter(tch_name == "harris" | tch_name == "lewis")
 
 ```
 
@@ -379,16 +274,6 @@ Or the same result adding the `stringr::str_detect()` function.
 d8 %>% dplyr::filter(stringr::str_detect(tch_name, 'harris|lewis') )
 
 ```
-
-
-Count the number of cases after you filter
-
-```{r}
-
-dplyr::count(d81)
-
-```
-
 
 ---
 
@@ -410,35 +295,16 @@ d8
 
 ```
 
-Count the number of cases in the current data using the function `dplyr::count()`
-
-```{r}
-
-dplyr::count(d8)
-
-```
-
-
 Keep rows that have -999 for extra2 and/or extra3. 
 
 * Note: Use of the *|* operator to request and/or.
 
 ```{r}
 
-d8 <- d8 %>% dplyr::filter(extra2 == -999 | extra3 == -999)
+d8 %>% dplyr::filter(extra2 == -999 | extra3 == -999)
 
-d8
-
-```
-
-Count the number of cases after you filter
-
-```{r}
-
-dplyr::count(d8)
 
 ```
-
 
 **2. Keep rows based on multiple criteria (in this case numeric variables). Keep rows that have -999 for extra1 *OR* -999 for extra2 (not for both).**
 
@@ -451,35 +317,16 @@ d8
 
 ```
 
-Count the number of cases in the current data using the function `dplyr::count()`
-
-```{r}
-
-dplyr::count(d8)
-
-```
-
-
 Keep rows that have -999 for extra2 or -999 for extra3 (but not -999 for both). 
 
 * Note: Use the *xor* operator to request or (but not both).
 
 ```{r}
 
-d8 <- d8 %>% dplyr::filter(xor(extra2 == -999 , extra3 == -999))
+d8 %>% dplyr::filter(xor(extra2 == -999 , extra3 == -999))
 
-d8
-
-```
-
-Count the number of cases after you filter
-
-```{r}
-
-dplyr::count(d8)
 
 ```
-
 
 **3. Keep rows based on multiple criteria (in this case numeric variables). Keep rows that have *BOTH* -999 for extra1 *AND* -999 for extra2.**
 
@@ -492,35 +339,15 @@ d8
 
 ```
 
-Count the number of cases in the current data using the function `dplyr::count()`
-
-```{r}
-
-dplyr::count(d8)
-
-```
-
-
 Keep rows that have -999 for extra2 and also have -999 extra3. 
 
 * Note: Use the *&* operator to request and.
 
 ```{r}
 
-d8 <- d8 %>% dplyr::filter(extra2 == -999 & extra3 == -999)
-
-d8
+d8 %>% dplyr::filter(extra2 == -999 & extra3 == -999)
 
 ```
-
-Count the number of cases after you filter
-
-```{r}
-
-dplyr::count(d8)
-
-```
-
 
 ---
 
@@ -542,33 +369,13 @@ d8
 
 ```
 
-Count the number of cases in the current data using the function `dplyr::count()`
-
-```{r}
-
-dplyr::count(d8)
-
-```
-
-
 Filter out any row that has -999 for extra2 and/or has -999 extra3. 
 
 * Note: Notice that I put the operator *!* outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.
 
 ```{r}
 
-d8 <- d8 %>% dplyr::filter(!(extra2 ==-999 | extra3 ==-999))
-
-d8
-
-```
-
-
-Count the number of cases after you filter
-
-```{r}
-
-dplyr::count(d8)
+d8 %>% dplyr::filter(!(extra2 ==-999 | extra3 ==-999))
 
 ```
 
@@ -584,15 +391,6 @@ d8
 
 ```
 
-Count the number of cases in the current data using the function `dplyr::count()`
-
-```{r}
-
-dplyr::count(d8)
-
-```
-
-
 Filter out any row that has -999 for extra2 and has -999 extra3. 
 
 * Note: Notice that I put the operator *!* outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.
@@ -600,23 +398,13 @@ Filter out any row that has -999 for extra2 and has -999 extra3.
 
 ```{r}
 
-d8 <- d8 %>% dplyr::filter(!(extra2 ==-999 & extra3 ==-999))
+d8 %>% dplyr::filter(!(extra2 ==-999 & extra3 ==-999))
 
-d8
 
 ```
 
 
-Count the number of cases after you filter
-
-```{r}
-
-dplyr::count(d8)
-
-```
-
-
-**3\. Remove rows based on multiple criteria (in this case for two numeric variables). Filter out any row that has -999 for extra2 and/or has -999 for extra3. While also keeping your NA values.**
+**3\. Remove rows based on multiple criteria (in this case for two numeric variables). Filter out any row that has -999 for extra2 *AND/OR* has -999 for extra3. While also keeping your NA values.**
 
 Review the data (d5)
 
@@ -627,15 +415,6 @@ d5
 
 ```
 
-Count the number of cases in the current data using the function `dplyr::count()`
-
-```{r}
-
-dplyr::count(d5)
-
-```
-
-
 Filter out any row that has -999 for extra2 and/or -999 for extra3 (retaining any row that has NA values for those variables). 
 
 * Note: Again, you'll notice that I make an explicit call to **keep** rows with NA values for extra2 and extra3 in addition to removing rows with the value of -999 for extra2 and extra 3, using the *|* operator to denote and/or. A drawback of the `filter` function is that if you filter on a certain variables it will not only filter out the values you request but it will also drop any row that has NA for those variables. And we may not necessarily want that. In this case, I want to keep the last row of data that has NA for extra2.
@@ -644,22 +423,10 @@ Filter out any row that has -999 for extra2 and/or -999 for extra3 (retaining an
 
 ```{r}
 
-d5 <- d5 %>% 
+d5 %>% 
   dplyr::filter(!(extra2==-999 | extra3 ==-999) | (is.na(extra2) | is.na(extra3)))
 
-d5
-
 ```
-
-
-Count the number of cases after you filter
-
-```{r}
-
-dplyr::count(d5)
-
-```
-
 
 ---
 
@@ -680,14 +447,6 @@ d9
 
 ```
 
-Count the number of cases in the current data using the function `dplyr::count()`
-
-```{r}
-
-dplyr::count(d9)
-
-```
-
 Filter out any row that has NA for **ALL** numeric variables
 
 * Note: Note the use of `dplyr::if_all()` predicate function to select columns. This function is available in version 1.0.5 of `dplyr`.
@@ -696,17 +455,8 @@ Filter out any row that has NA for **ALL** numeric variables
 
 ```{r}
 
-d9 <- d9 %>% dplyr::filter(!(dplyr::if_all(is.numeric,~ is.na(.))))
+d9 %>% dplyr::filter(!(dplyr::if_all(is.numeric,~ is.na(.))))
 
-d9
-
-```
-
-Count the number of cases after you filter
-
-```{r}
-
-dplyr::count(d9)
 
 ```
 
@@ -722,14 +472,6 @@ d9
 
 ```
 
-Count the number of cases in the current data using the function `dplyr::count()`
-
-```{r}
-
-dplyr::count(d9)
-
-```
-
 Filter out any row that has -999 for **AT LEAST ONE** numeric variable
 
 * Note: Note the use of `dplyr::if_any()` predicate function to select columns. This function is available in version 1.0.5 of `dplyr`.
@@ -740,20 +482,9 @@ Filter out any row that has -999 for **AT LEAST ONE** numeric variable
 
 ```{r}
 
-d9 <- d9 %>% dplyr::filter(!(dplyr::if_any(is.numeric, ~ (. ==-999)))) 
-
-d9
+d9 %>% dplyr::filter(!(dplyr::if_any(is.numeric, ~ (. ==-999)))) 
 
 ```
-
-Count the number of cases after you filter
-
-```{r}
-
-dplyr::count(d9)
-
-```
-
 
 ---
 
@@ -774,13 +505,6 @@ d10
 
 ```
 
-Count the number of cases in the current data using the function `dplyr::count()`
-
-```{r}
-
-dplyr::count(d10)
-
-```
 
 Filter out any row that has NA for at least one variable
 
@@ -794,17 +518,7 @@ Filter out any row that has NA for at least one variable
 
 ```{r}
 
-d10 <- d10 %>% filter(!(dplyr::if_any(everything(), ~ .x ==-999)))
-
-d10
-
-```
-
-Count the number of cases after you filter
-
-```{r}
-
-dplyr::count(d10)
+d10 %>% filter(!(dplyr::if_any(everything(), ~ .x ==-999)))
 
 ```
 
@@ -820,14 +534,6 @@ d10
 
 ```
 
-Count the number of cases in the current data
-
-```{r}
-
-dplyr::count(d10)
-
-```
-
 Filter out any row that has NA for all variables
 
 * Note: Note the use of `dplyr::if_all()` predicate function to select columns. This function is available in version 1.0.5 of `dplyr`.
@@ -840,17 +546,60 @@ Filter out any row that has NA for all variables
 
 ```{r}
 
-d10 <- d10 %>% dplyr::filter(!(dplyr::if_all(everything(), ~ .x ==-999)))
+d10 %>% dplyr::filter(!(dplyr::if_all(everything(), ~ .x ==-999)))
 
 ```
 
-Count the number of cases after you filter
+
+---
+
+#### Function: `filter()`
+
+Conditionally filter rows
+
+---
+
+**1\.Conditionally filter grade levels based on school name. Filter to only grade=1 for school a and grade=9 for school b**
+
+Review the data (d5)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d11
+
+```
+
+Conditionally filter
 
 ```{r}
 
-dplyr::count(d10)
+d11 %>%
+  filter(sch == "a" & grade==1 | sch == "b" & grade==9)
 
 ```
+
+
+**1\.Conditionally filter grade levels based on school name. Filter to grades between 1 & 2 for school a and grade=9 for school b**
+
+Review the data (d5)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d11
+
+```
+
+Conditionally filter
+
+```{r}
+
+d11 %>%
+  filter(sch == "a" & between(grade, 1, 2) | sch == "b" & grade==9)
+
+```
+
 
 
 ### Package: tidyr
@@ -872,28 +621,34 @@ d7
 
 ```
 
-Count the number of cases in the current data
-
-```{r}
-
-dplyr::count(d7)
-
-```
 
 Filter out any row that has NA for stu_id.
 
 ```{r}
 
-d7 <- d7 %>% tidyr::drop_na(stu_id)
+d7 %>% tidyr::drop_na(stu_id)
 
 
 ```
 
-Count the number of cases after you filter
+
+**2\.Filter out rows based on any variable having NA values**
+
+Review the data (d7)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d7
+
+```
+
+Filter out any row that has NA for any variable.
 
 ```{r}
 
-dplyr::count(d7)
+d7 %>% tidyr::drop_na()
+
 
 ```
 

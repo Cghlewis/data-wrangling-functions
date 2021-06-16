@@ -41,6 +41,35 @@ d1 %>% tidyr::fill(school, year)
 
 ```
 
+**2\. Fill NA values for cohort with existing values (grouped by the School Name)**
+
+Review the data (d4)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d4
+
+```
+
+Fill values using the default argument *direction = "down"*.
+
+You have two options. You can either use `dplyr::group_by()` to group by school.
+
+```{r}
+
+d4 %>% dplyr::group_by(school) %>% tidyr::fill(cohort) %>% dplyr::ungroup()
+
+```
+
+Or you can arrange your data by school using `dplyr::arrange()` and then fill values.
+
+```{r}
+
+d4 %>% dplyr::arrange(school) %>% tidyr::fill(cohort)
+
+```
+
 
 ---
 

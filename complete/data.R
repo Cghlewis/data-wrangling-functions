@@ -35,4 +35,18 @@ d3 <- tibble::tribble(
   164, "male", NA_character_, "male", NA_character_,
   170, "male", "female", NA_character_, "male")
 
+d4 <- tibble::tribble(
+  ~school, ~year, ~enroll, ~cohort,
+  "School A", 2009, 350, 1,
+  "School B", 2009, 400, 1,
+  "School C", 2009, 500, 2,
+  "School D", 2009, 300, 3,
+  "School A", 2010, 360, NA,
+  "School B", 2010, 460, NA,
+  "School C", 2010, 560, NA,
+  "School D", 2010, 360, NA,
+  "School B", 2011, 465, NA,
+  "School C", 2011, 660, NA,
+  "School D", 2011, 260, NA)
+
 

@@ -482,7 +482,7 @@ Filter out any row that has -999 for **AT LEAST ONE** numeric variable
 
 ```{r}
 
-d9 %>% dplyr::filter(!(dplyr::if_any(is.numeric, ~ (. ==-999)))) 
+d9 %>% dplyr::filter(!(dplyr::if_any(is.numeric, ~ (. ==-999))))
 
 ```
 
@@ -549,57 +549,6 @@ Filter out any row that has NA for all variables
 d10 %>% dplyr::filter(!(dplyr::if_all(everything(), ~ .x ==-999)))
 
 ```
-
-
----
-
-#### Function: `filter()`
-
-Conditionally filter rows
-
----
-
-**1\.Conditionally filter grade levels based on school name. Filter to only grade=1 for school a and grade=9 for school b**
-
-Review the data (d5)
-
-```{r, echo=FALSE}
-
-source("data.R")
-d11
-
-```
-
-Conditionally filter
-
-```{r}
-
-d11 %>%
-  filter(sch == "a" & grade==1 | sch == "b" & grade==9)
-
-```
-
-
-**1\.Conditionally filter grade levels based on school name. Filter to grades between 1 & 2 for school a and grade=9 for school b**
-
-Review the data (d5)
-
-```{r, echo=FALSE}
-
-source("data.R")
-d11
-
-```
-
-Conditionally filter
-
-```{r}
-
-d11 %>%
-  filter(sch == "a" & between(grade, 1, 2) | sch == "b" & grade==9)
-
-```
-
 
 
 ### Package: tidyr

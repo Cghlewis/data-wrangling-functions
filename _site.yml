@@ -34,6 +34,8 @@ navbar:
     href: filter-data\filter-empty-columns.html
   - text: "Filter rows"
     href: filter-data\filter-rows.html
+  - text: "Conditionally filter rows"
+    href: filter-data\conditional-filtering.html
   - text: "Filter empty rows"
     href: filter-data\filter-empty-rows.html
   - text: "Import a single file"

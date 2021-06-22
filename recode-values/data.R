@@ -45,7 +45,8 @@ d6 <- tibble::tribble(
   107, "Zoom",
   108, "Zoom",
   109, "Google Meet",
-  112, "Microsoft Teams")
+  112, "Microsoft Teams",
+  113, NA_character_)
 
 d7 <- tibble::tribble(
   ~id, ~gender, ~lunch,
@@ -62,4 +63,27 @@ d8 <- tibble::tribble(
   "d", 4, 3,
   "e", 14, 0
 )
+
+d9 <- tibble::tribble(
+  ~tch_id, ~online_platform,
+  105, "google",
+  106, "meet",
+  107, "Zoom",
+  108, "Zoom",
+  109, "Google Meet",
+  112, "Microsoft Teams",
+  113, "google meet",
+  114, "google met",
+  115, "hangouts",
+  116, NA_character_)
+
+d10 <- tibble::tribble(
+  ~Var1, ~Var2,
+  "a", 1, 
+  "b", 16, 
+  "c", 3, 
+  "d", 4, 
+  "e", NA
+)
+
 

@@ -21,6 +21,10 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
+*Note: `dplyr::if_else()` will evaluate in order, so proceed from most specific to most general. So therefore, it will not write over a previous evaluation even if something meets a new criteria. I'll show an example of that in #2.
+
+*Note: `dplyr::if_else()` will not evaluate NAs as TRUE or FALSE and therefore will return NAs. If you want to specifically evaluate NAs you will need to call out NAs.
+
 **1\. Collapse all "Google Meet" in online_platform into one category**
 
 Review the data (d6)
@@ -59,7 +63,7 @@ d6 %>%
 
 **2\. Collapse a numeric variable (Var2) into discrete character categories**
 
-Review the data (d6)
+Review the data (d8)
 
 ```{r, echo=FALSE}
 
@@ -68,7 +72,7 @@ d8
 
 ```
 
-Collapse Var2 into low, medium, high categories
+Collapse Var2 into low, medium, high categories.
 
 * Note: We are recoding into a new variable using `dplyr::mutate()` and naming the new variable a different name than the original. It keeps both the new and old versions of the variable. 
 
@@ -76,19 +80,78 @@ Collapse Var2 into low, medium, high categories
 
 * Note: We use the & operator to say if a value meets both conditions
 
+* Note: We cannot use `dplyr::between` because our left side is not >=
+
 ```{r}
 
 d8 %>%  
   dplyr::mutate(Var2_new=dplyr::if_else(Var2 >14, "high",
-                                        dplyr::if_else((Var2 <=14 & Var2 >6), "medium", "low")))
+                                        dplyr::if_else((Var2 >6 & Var2 <=14), "medium", "low")))
 
 ```
+
+* Note: Because `dplyr::if_else()` evaluates in order, we don't actually have to add the right side of our "medium" logic because all of the highs have been assigned and will not be written over by the mediums
+
+```{r}
+
+d8 %>%  
+  dplyr::mutate(Var2_new=dplyr::if_else(Var2 >14, "high",
+                                        dplyr::if_else((Var2 >6), "medium", "low")))
+
+```
+
+
+
+**3\. Collapse a numeric variable (Var2) into discrete numeric categories**
+
+Review the data (d10)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d10
+
+```
+
+Create an indicator variable. 1 = 8 or lower, 0 = 9 or higher
+
+*Note: NA will remain as NA because if_else does not evaluate it as TRUE or FALSE.
+
+```{r}
+
+d10 %>%  
+  dplyr::mutate(Var2_new=dplyr::if_else(Var2 <= 8, 1, 0))
+
+```
+
+*Note: If you want to evaluate NA, you will need to specifically add it
+
+```{r}
+
+d10 %>%  
+  dplyr::mutate(Var2_new=dplyr::if_else(Var2 <= 8 | is.na(Var2), 1, 0))
+
+```
+
+You could also specifically add NA this way as well
+
+```{r}
+
+d10 %>%  
+  dplyr::mutate(Var2_new=dplyr::if_else(Var2 >8 & !is.na(Var2), 0, 1))
+
+```
+
+**3\. Collapse a numeric variable (Var2) into discrete numeric categories**
+
 
 ---
 
 #### Function: `case_when()`
 
 ---
+
+*Note: `dplyr::case_when()` will evaluate in order, so proceed from most specific to most general. So therefore, it will not write over a previous evaluation even if something meets a new criteria. I'll show an example of that in #2.
 
 **1\. Collapse all "Google Meet" into one category**
 
@@ -117,6 +180,94 @@ d6 %>%
 
 ```
 
+* Note: If you do not add *TRUE ~ online_platform*, you will get NA for all categories that are not specifically mentioned in the statement.
+
+```{r}
+
+d6 %>%  
+  dplyr::mutate(online_platform_new = dplyr::case_when(
+  stringr::str_detect(online_platform,"google") ~ "Google Meet", 
+  stringr::str_detect(online_platform,"meet") ~ "Google Meet"))
+
+```
+
+* Note: And if you don't care about the other platforms, you can always collapse the remaining categories into another name, such as "other". Notice here that our NA value will be recoded into "Other". 
+
+```{r}
+
+d6 %>%  
+  dplyr::mutate(online_platform_new = dplyr::case_when(
+  stringr::str_detect(online_platform,"google") ~ "Google Meet", 
+  stringr::str_detect(online_platform,"meet") ~ "Google Meet", 
+  TRUE ~ "Other"))
+
+```
+
+* Note: If you want to keep NA as NA, you would need to specfically call out NA.
+
+```{r}
+
+d6 %>%  
+  dplyr::mutate(online_platform_new = dplyr::case_when(
+  is.na(online_platform) ~ NA_character_,
+  stringr::str_detect(online_platform,"google") ~ "Google Meet", 
+  stringr::str_detect(online_platform,"meet") ~ "Google Meet", 
+  TRUE ~ "Other"))
+
+```
+
+
+**2\. Collapse all "Google Meet" into one category and clarify that "google" means Google Hangouts**
+
+Review the data (d9)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d9
+
+```
+
+Collapse all spellings of Google Meet into one uniform category and clarify that google means Google Hangouts
+
+* Note: We are recoding into a new variable using `dplyr::mutate()` and naming the new variable a different name than the original. It keeps both the new and old versions of the variable. 
+
+* Note: Using `stringr::str_detect()` we can detect different spellings of google meet
+
+* Note: Here I am adding the `base::tolower()` function to deal with the varying capitalization
+
+* Note: Note that I am not putting "google" at the top because if I did, all instances of "google" would be recoded to google hangouts.
+
+```{r}
+
+d9 %>%  
+  dplyr::mutate(online_platform=tolower(online_platform)) %>%
+  dplyr::mutate(online_platform_new = dplyr::case_when(
+  stringr::str_detect(online_platform,"met") ~ "google meet", 
+  stringr::str_detect(online_platform,"meet") ~ "google meet", 
+  stringr::str_detect(online_platform, "google") ~ "google hangouts",
+  stringr::str_detect(online_platform, "hangouts") ~ "google hangouts",
+  TRUE ~ online_platform))
+
+```
+
+* Note: See how the result would be different if I put "google" at the top. The ordering matters. Once a statement is evaluated, it will not be rewritten.
+
+```{r}
+
+d9 %>%  
+  dplyr::mutate(online_platform=tolower(online_platform)) %>%
+  dplyr::mutate(online_platform_new = dplyr::case_when(
+  stringr::str_detect(online_platform, "google") ~ "google hangouts",
+  stringr::str_detect(online_platform,"met") ~ "google meet", 
+  stringr::str_detect(online_platform,"meet") ~ "google meet",
+  stringr::str_detect(online_platform, "hangouts") ~ "google hangouts",
+  TRUE ~ online_platform))
+
+```
+
+
+---
 
 #### Function: `recode()`
 

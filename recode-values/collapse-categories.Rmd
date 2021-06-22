@@ -21,7 +21,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-*Note: `dplyr::if_else()` will evaluate in order, so proceed from most specific to most general. So therefore, it will not write over a previous evaluation even if something meets a new criteria. I'll show an example of that in #2.
+*Note: `dplyr::if_else()` will evaluate in order, so proceed from most specific to most general. The function will not write over a previous evaluation even if something meets a new criteria. I'll show an example of that in #2.
 
 *Note: `dplyr::if_else()` will not evaluate NAs as TRUE or FALSE and therefore will return NAs. If you want to specifically evaluate NAs you will need to call out NAs.
 
@@ -151,7 +151,7 @@ d10 %>%
 
 ---
 
-*Note: `dplyr::case_when()` will evaluate in order, so proceed from most specific to most general. So therefore, it will not write over a previous evaluation even if something meets a new criteria. I'll show an example of that in #2.
+*Note: `dplyr::case_when()` will evaluate in order, so proceed from most specific to most general. The function will not write over a previous evaluation even if something meets a new criteria. I'll show an example of that in #2.
 
 **1\. Collapse all "Google Meet" into one category**
 

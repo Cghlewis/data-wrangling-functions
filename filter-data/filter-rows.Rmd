@@ -188,7 +188,7 @@ d8
 
 Keep any row that has -999 or 0 for extra2. 
 
-* Note: Use of the operator *|* to denote or (*and* doesn't really apply since it's the same variable).
+* Note: Use of the operator *|* to denote and/or (*and* doesn't really apply since it's the same variable).
 
 ```{r}
 
@@ -251,7 +251,7 @@ d8
 
 Keep any row where tch_name is "harris" or "lewis".
 
-* Note: Use of the operator *|* to denote or (*and* doesn't really apply since it's the same variable).
+* Note: Use of the operator *|* to denote and/or (*and* doesn't really apply since it's the same variable).
 
 ```{r}
 
@@ -317,9 +317,9 @@ d8
 
 ```
 
-Keep rows that have -999 for extra2 or -999 for extra3 (but not -999 for both). 
+Keep rows that have -999 for extra2 OR -999 for extra3 (but not -999 for both). 
 
-* Note: Use the *xor* operator to request or (but not both).
+* Note: Use the *xor* operator to request OR (not both).
 
 ```{r}
 

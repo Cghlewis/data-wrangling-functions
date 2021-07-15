@@ -523,7 +523,7 @@ d81</code></pre>
 4 d           4      0     13        217 lewis   </code></pre>
 <p>Keep any row that has -999 or 0 for extra2.</p>
 <ul>
-<li>Note: Use of the operator <em>|</em> to denote or (<em>and</em> doesn’t really apply since it’s the same variable).</li>
+<li>Note: Use of the operator <em>|</em> to denote and/or (<em>and</em> doesn’t really apply since it’s the same variable).</li>
 </ul>
 <pre class="r"><code>d8 %&gt;% dplyr::filter(extra3 == -999 | extra3 ==0)</code></pre>
 <pre><code># A tibble: 3 x 6
@@ -581,7 +581,7 @@ d81</code></pre>
 4 d           4      0     13        217 lewis   </code></pre>
 <p>Keep any row where tch_name is “harris” or “lewis”.</p>
 <ul>
-<li>Note: Use of the operator <em>|</em> to denote or (<em>and</em> doesn’t really apply since it’s the same variable).</li>
+<li>Note: Use of the operator <em>|</em> to denote and/or (<em>and</em> doesn’t really apply since it’s the same variable).</li>
 </ul>
 <pre class="r"><code>d8 %&gt;% dplyr::filter(tch_name == &quot;harris&quot; | tch_name == &quot;lewis&quot;)</code></pre>
 <pre><code># A tibble: 3 x 6
@@ -640,9 +640,9 @@ d81</code></pre>
 2 b        -999      0     11        220 steve   
 3 c        -999   -999     12        250 harris  
 4 d           4      0     13        217 lewis   </code></pre>
-<p>Keep rows that have -999 for extra2 or -999 for extra3 (but not -999 for both).</p>
+<p>Keep rows that have -999 for extra2 OR -999 for extra3 (but not -999 for both).</p>
 <ul>
-<li>Note: Use the <em>xor</em> operator to request or (but not both).</li>
+<li>Note: Use the <em>xor</em> operator to request OR (not both).</li>
 </ul>
 <pre class="r"><code>d8 %&gt;% dplyr::filter(xor(extra2 == -999 , extra3 == -999))</code></pre>
 <pre><code># A tibble: 1 x 6

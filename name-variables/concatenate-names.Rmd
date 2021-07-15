@@ -127,3 +127,38 @@ d8 %>% dplyr::rename_with(~ base::paste0("T1_", .), c(Var1:Var3, Var5))
 
 ```
 
+
+### Package: purrr
+
+---
+
+#### Function: `set_names()`
+
+---
+
+* Note: You can use `purrr::set_names()` to concatenate to variable names as well, but it doesn't have the nice compatibility with `tidyselect` that allows you to modify only select variable names. But `purrr::set_names()` works well to modify all variable names.
+
+<br>
+
+**1\. Concatenate a prefix, "T1_", to all variable names**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Concatenate T1_ by adding the `base::paste0` function.
+
+* Note: Using `base::paste0` concatenates the string directly to the variable name. Using `base::paste()` concatenates with a string separator.
+
+
+```{r}
+
+d1 %>% purrr::set_names(~ base::paste0("T1_", .))
+
+```
+

@@ -100,14 +100,14 @@ d5 %>% dplyr::rename_with(~ stringr::str_remove(., "s_"), tidyselect::contains("
 
 ---
 
-* Note: You can use `purrr::set_names()` to modify names as well, but it doesn't have the nice compatibility with `tidyselect` that allows you to modify only select variable names. But `dplyr::set_names()` works well to modify all variable names.
+* Note: You can use `purrr::set_names()` to modify names as well, but it doesn't have the nice compatibility with `tidyselect` that allows you to modify only select variable names. But `purrr::set_names()` works well to modify all variable names.
 
 
 <br>
 
 **1\. Remove s_ in variable names**
 
-Review the data (d2)
+Review the data (d5)
 
 ```{r, echo=FALSE}
 

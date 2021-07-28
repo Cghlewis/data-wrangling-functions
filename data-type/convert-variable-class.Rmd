@@ -224,7 +224,7 @@ source("data.R")
 ```
 
 
-```{r, include = FALSE}
+```{r}
 
 d4 %>% dplyr::mutate(dplyr::across(c(Var2:Var4), as.numeric))
 
@@ -239,7 +239,7 @@ source("data.R")
 ```
 
 
-```{r, include = FALSE}
+```{r}
 
 d4 %>% dplyr::mutate(dplyr::across(tidyselect::everything(), as.numeric))
 

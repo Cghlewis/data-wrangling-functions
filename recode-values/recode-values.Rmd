@@ -39,7 +39,9 @@ d4
 
 Recode gender
 
-* Note: Parentheses are required around the new value when recoding into a character variable.
+* Note: We did not have to put quotes around the old values because `dplyr::recode()` replaces character or factor values by their name.
+
+* Note: Parentheses *are* required around the new value when recoding into a character/factor variable.
 
 * Note: We are recoding back into the same variable using `dplyr::mutate()`. However, we could have recoded into a new variable by changing the name of *gender*.
 
@@ -63,6 +65,10 @@ d4
 
 Recode gender
 
+* Note: We did not have to put quotes around the old values because `dplyr::recode()` replaces character or factor values by their name.
+
+* Note: Since we are recoding into a numeric variable, no quotes are necessary are the numeric new value.
+
 * Note: We are recoding back into the same variable using `dplyr::mutate()`. However, we could have recoded into a new variable by changing the name of *gender*.
 
 ```{r}
@@ -85,7 +91,12 @@ d5
 
 Recode `16` to `4` in Var2
 
-* Note:  The `dplyr::recode()` function considers the old value as a *name* and therefore, in order to use a number as a name or a character value, you have to surround it with backticks
+Note: We *did* have to put quotes around the old values because `dplyr::recode()` replaces numeric values by either their name or their position. If a number with no quotes/backticks is given, it will assume it is a position.
+
+Note: Since we are recoding into a numeric variable, no quotes are necessary are the numeric new value.
+
+Note: Notice here that we are only recoding one value in the variable. There is a *default* option that you can set all not recoded values to, and if no default is supplied and the replacement values are the same variable class as the original values (ex: numeric and numeric), then unmatched values are unchanged. *However*, if the replacement value is a new variable class (ex: numeric to character) then all other values will be recoded to NA.
+
 
 ```{r}
 
@@ -93,6 +104,57 @@ d5 %>% dplyr::mutate(Var2=dplyr::recode(Var2, `16`=4))
 
 ```
 
+**4\. Recode one value in a numeric haven labelled variable (Var3)**
+
+Review the data (d5)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d5
+
+```
+
+View the variable labels for Var3
+
+```{r, echo=FALSE}
+
+d5 <- d5 %>% labelled::set_value_labels(Var3 = c(no = 0, yes = 1))
+
+```
+
+
+```{r}
+
+labelled::val_labels(d5$Var3)
+
+```
+
+
+Recode `2` to `1` in Var3
+
+Note: We *did* have to put quotes around the old values because `dplyr::recode()` replaces numeric values by either their name or their position. If a number with no quotes/backticks is given, it will assume it is a position.
+
+Note: Since we are recoding into a numeric variable, no quotes are necessary are the numeric new value.
+
+Note: Notice here that we are only recoding one value in the variable. There is a *.default* option that you can set all not recoded values to, and if no default is supplied and the replacement values are the same variable class as the original values (ex: numeric and numeric), then unmatched values are unchanged. *However*, if the replacement value is a new variable class (ex: numeric to character) then all other values will be recoded to NA.
+
+```{r}
+
+d5 <- d5 %>% dplyr::mutate(Var3=dplyr::recode(Var3, `0`=1))
+
+```
+
+View the variable labels for Var3
+
+Note: The value labels are retained. The default for the `dplyr::recode()` option *.keep_value_labels* is TRUE. However, if you do not want to keep the value labels you can set the option to FALSE.
+
+
+```{r}
+
+labelled::val_labels(d5$Var3)
+
+```
 
 ---
 
@@ -102,9 +164,11 @@ d5 %>% dplyr::mutate(Var2=dplyr::recode(Var2, `16`=4))
 
 **Note:** The `dplyr::recode_factor()` formula is: old value=new value, this is opposite of `dplyr::rename()`
 
+**Note:** The function `dplyr::recode_factor` will convert your variable to factor **and** recode it.
+
 <br>
 
-**1\. Recode a character variable (lunch) into a factor**
+**1\. Convert a character variable (lunch) into a factor and recode it**
 
 Review the data (d4)
 
@@ -117,9 +181,9 @@ d4
 
 Recode lunch status
 
-* Note: `dplyr::recode_factor` will only recode factor or character variables. If your variable is numeric, you will need to convert it to character or factor before using recode factor. If your variable is character, `dplyr::recode_factor` will convert your variable to factor **and** recode it.
+* Note: We did not have to put quotes around the old values because `dplyr::recode_factor()` replaces character or factor values by their name.
 
-* Note: Parentheses are required around new value when recoding into a character/factor variable.
+* Note: Parentheses *are* required around the new value when recoding into a character/factor variable.
 
 * Note: We are recoding back into the same variable using `dplyr::mutate()`. However, we could have recoded into a new variable by changing the name of *lunch*.
 
@@ -152,9 +216,7 @@ d7
 
 Recode lunch status
 
-* Note: The function `dplyr::recode_factor` will convert your variable to factor **and** recode it.
-
-* Note: `dplyr::recode_factor` will only recode factor or character variables. If your variable is numeric, you will need to add parentheses around your numeric old values. 
+Note: We *did* have to put quotes around the old values because `dplyr::recode_factor()` replaces numeric values by either their name or their position. If a number with no quotes/backticks is given, it will assume it is a position.
 
 * Note: Parentheses are required around new value when recoding into a character/factor variable.
 
@@ -188,6 +250,8 @@ levels(d7$lunch)
 
 **Note:** The `forcats::fct_recode()` formula is: new value=old value, this is opposite of `dplyr::recode()` but the same as `dplyr::rename()`
 
+**Note:** The function `forcats::fct_recode` will convert your variable to factor **and** recode it.
+
 <br>
 
 **1\. Recode a numeric variable (lunch) into a factor**
@@ -203,7 +267,9 @@ d7
 
 Recode lunch status
 
-* Note: `forcats::fct_recode` will only recode factor or character variables. If your variable is numeric, you will need to convert it to character or factor before using recode factor. If your variable is character, `forcats::fct_recode` will convert your variable to factor **and** recode it. As you see below, I converted our numeric variable to character in order to use the function.
+* Note: `forcats::fct_recode` will only recode factor or character variables. If your variable is numeric, you will need to convert it to character or factor before using recode factor. As you see below, I converted our numeric variable to character in order to use the function.
+
+* Note: Completely counterintuitive to what we've seen with `dplyr::recode()`, 1) you *do* have to put quotes around your character old value, 2) if you new values are character, you do *not* have to put quotes around them, 3) however, if your new values are numeric, you *do* need quotes around them.
 
 * Note: We are recoding back into the same variable using `dplyr::mutate()`. However, we could have recoded into a new variable by changing the name of *lunch*.
 

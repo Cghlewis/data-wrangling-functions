@@ -466,7 +466,7 @@ levels(d3v$s_grade)</code></pre>
 
 levels(d3l$s_grade)</code></pre>
 <pre><code>[1] &quot;First&quot;        &quot;Kindergarten&quot; &quot;Second&quot;       &quot;Third&quot;       </code></pre>
-<p>If you want them to be ordered according the order you originally assigned labels you can change the argument to <em>sort_levels = “n”</em>.</p>
+<p>If you want them to be ordered according the order you originally assigned labels you can change the argument to <em>sort_levels = “n”</em>. This is also the default when you do not add the “sort_levels” option.</p>
 <pre class="r"><code>d3n &lt;- d3 %&gt;% mutate(s_grade = labelled::to_factor(s_grade, sort_levels = &quot;n&quot;))
 
 levels(d3n$s_grade)</code></pre>

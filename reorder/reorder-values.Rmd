@@ -183,7 +183,7 @@ levels(d3v$s_grade)
 
 ```
 
-If you want them to be ordered according to labels you can change the argument to *sort_levels = "l"*.
+If you want them to be ordered according to labels you can change the argument to *sort_levels = "l"*. 
 
 ```{r}
 
@@ -193,7 +193,7 @@ levels(d3l$s_grade)
 
 ```
 
-If you want them to be ordered according the order you originally assigned labels you can change the argument to *sort_levels = "n"*.
+If you want them to be ordered according the order you originally assigned labels you can change the argument to *sort_levels = "n"*. This is also the default when you do not add the "sort_levels" option.
 
 ```{r}
 

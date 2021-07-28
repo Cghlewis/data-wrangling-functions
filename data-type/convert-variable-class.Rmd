@@ -199,7 +199,7 @@ Convert all character variables to numeric variables
 
 * Note: Using the function `dplyr::across()` we are applying a transformation across multiple columns
 * Note: You must wrap *is.numeric*, a predicate function (returns a true/false), in the `tidyselect` selection helper `where()`.
-* Note: We are recoding into a new variable using `dplyr::mutate()` and saving over the original variable by naming the new variable the same name as the original. 
+* Note: We are recoding into a new variable using `dplyr::mutate()` and saving over the original variables.
 
 ```{r}
 
@@ -229,6 +229,22 @@ source("data.R")
 d4 %>% dplyr::mutate(dplyr::across(c(Var2:Var4), as.numeric))
 
 ```
+
+Or in the case of this data frame, since you essentially want all variables to be numeric (Var1 just happens to already be numeric), you could conver *all* variables to numeric using the `tidyselect` selection helper `everything()`.
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+```
+
+
+```{r, include = FALSE}
+
+d4 %>% dplyr::mutate(dplyr::across(tidyselect::everything(), as.numeric))
+
+```
+
 
 
 **3\. Convert a factor variable (Var3) to numeric**

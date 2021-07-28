@@ -394,7 +394,8 @@ summary {
 3 c     n      p    </code></pre>
 <p>Recode gender</p>
 <ul>
-<li><p>Note: Parentheses are required around the new value when recoding into a character variable.</p></li>
+<li><p>Note: We did not have to put quotes around the old values because <code>dplyr::recode()</code> replaces character or factor values by their name.</p></li>
+<li><p>Note: Parentheses <em>are</em> required around the new value when recoding into a character/factor variable.</p></li>
 <li><p>Note: We are recoding back into the same variable using <code>dplyr::mutate()</code>. However, we could have recoded into a new variable by changing the name of <em>gender</em>.</p></li>
 </ul>
 <pre class="r"><code>d4 %&gt;% dplyr::mutate(gender=dplyr::recode(gender, m=&quot;male&quot;, f=&quot;female&quot;, n=&quot;nonbinary&quot;))</code></pre>
@@ -414,7 +415,9 @@ summary {
 3 c     n      p    </code></pre>
 <p>Recode gender</p>
 <ul>
-<li>Note: We are recoding back into the same variable using <code>dplyr::mutate()</code>. However, we could have recoded into a new variable by changing the name of <em>gender</em>.</li>
+<li><p>Note: We did not have to put quotes around the old values because <code>dplyr::recode()</code> replaces character or factor values by their name.</p></li>
+<li><p>Note: Since we are recoding into a numeric variable, no quotes are necessary are the numeric new value.</p></li>
+<li><p>Note: We are recoding back into the same variable using <code>dplyr::mutate()</code>. However, we could have recoded into a new variable by changing the name of <em>gender</em>.</p></li>
 </ul>
 <pre class="r"><code>d4 %&gt;% dplyr::mutate(gender=dplyr::recode(gender, m=1, f=2, n=3))</code></pre>
 <pre><code># A tibble: 3 x 3
@@ -432,9 +435,9 @@ summary {
 2 b        16     0
 3 c         3     1</code></pre>
 <p>Recode <code>16</code> to <code>4</code> in Var2</p>
-<ul>
-<li>Note: The <code>dplyr::recode()</code> function considers the old value as a <em>name</em> and therefore, in order to use a number as a name or a character value, you have to surround it with backticks</li>
-</ul>
+<p>Note: We <em>did</em> have to put quotes around the old values because <code>dplyr::recode()</code> replaces numeric values by either their name or their position. If a number with no quotes/backticks is given, it will assume it is a position.</p>
+<p>Note: Since we are recoding into a numeric variable, no quotes are necessary are the numeric new value.</p>
+<p>Note: Notice here that we are only recoding one value in the variable. There is a <em>default</em> option that you can set all not recoded values to, and if no default is supplied and the replacement values are the same variable class as the original values (ex: numeric and numeric), then unmatched values are unchanged. <em>However</em>, if the replacement value is a new variable class (ex: numeric to character) then all other values will be recoded to NA.</p>
 <pre class="r"><code>d5 %&gt;% dplyr::mutate(Var2=dplyr::recode(Var2, `16`=4))</code></pre>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -442,14 +445,37 @@ summary {
 1 a         1     2
 2 b         4     0
 3 c         3     1</code></pre>
+<p><strong>4. Recode one value in a numeric haven labelled variable (Var3)</strong></p>
+<p>Review the data (d5)</p>
+<pre><code># A tibble: 3 x 3
+  Var1   Var2  Var3
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 a         1     2
+2 b        16     0
+3 c         3     1</code></pre>
+<p>View the variable labels for Var3</p>
+<pre class="r"><code>labelled::val_labels(d5$Var3)</code></pre>
+<pre><code> no yes 
+  0   1 </code></pre>
+<p>Recode <code>2</code> to <code>1</code> in Var3</p>
+<p>Note: We <em>did</em> have to put quotes around the old values because <code>dplyr::recode()</code> replaces numeric values by either their name or their position. If a number with no quotes/backticks is given, it will assume it is a position.</p>
+<p>Note: Since we are recoding into a numeric variable, no quotes are necessary are the numeric new value.</p>
+<p>Note: Notice here that we are only recoding one value in the variable. There is a <em>.default</em> option that you can set all not recoded values to, and if no default is supplied and the replacement values are the same variable class as the original values (ex: numeric and numeric), then unmatched values are unchanged. <em>However</em>, if the replacement value is a new variable class (ex: numeric to character) then all other values will be recoded to NA.</p>
+<pre class="r"><code>d5 &lt;- d5 %&gt;% dplyr::mutate(Var3=dplyr::recode(Var3, `0`=1))</code></pre>
+<p>View the variable labels for Var3</p>
+<p>Note: The value labels are retained. The default for the <code>dplyr::recode()</code> option <em>.keep_value_labels</em> is TRUE. However, if you do not want to keep the value labels you can set the option to FALSE.</p>
+<pre class="r"><code>labelled::val_labels(d5$Var3)</code></pre>
+<pre><code> no yes 
+  0   1 </code></pre>
 <hr />
 </div>
 <div id="function-recode_factor" class="section level4">
 <h4>Function: <code>recode_factor()</code></h4>
 <hr />
 <p><strong>Note:</strong> The <code>dplyr::recode_factor()</code> formula is: old value=new value, this is opposite of <code>dplyr::rename()</code></p>
+<p><strong>Note:</strong> The function <code>dplyr::recode_factor</code> will convert your variable to factor <strong>and</strong> recode it.</p>
 <p><br></p>
-<p><strong>1. Recode a character variable (lunch) into a factor</strong></p>
+<p><strong>1. Convert a character variable (lunch) into a factor and recode it</strong></p>
 <p>Review the data (d4)</p>
 <pre><code># A tibble: 3 x 3
   id    gender lunch
@@ -459,8 +485,8 @@ summary {
 3 c     n      p    </code></pre>
 <p>Recode lunch status</p>
 <ul>
-<li><p>Note: <code>dplyr::recode_factor</code> will only recode factor or character variables. If your variable is numeric, you will need to convert it to character or factor before using recode factor. If your variable is character, <code>dplyr::recode_factor</code> will convert your variable to factor <strong>and</strong> recode it.</p></li>
-<li><p>Note: Parentheses are required around new value when recoding into a character/factor variable.</p></li>
+<li><p>Note: We did not have to put quotes around the old values because <code>dplyr::recode_factor()</code> replaces character or factor values by their name.</p></li>
+<li><p>Note: Parentheses <em>are</em> required around the new value when recoding into a character/factor variable.</p></li>
 <li><p>Note: We are recoding back into the same variable using <code>dplyr::mutate()</code>. However, we could have recoded into a new variable by changing the name of <em>lunch</em>.</p></li>
 </ul>
 <pre class="r"><code>d4 &lt;- d4 %&gt;% dplyr::mutate(lunch=dplyr::recode_factor(lunch, p=&quot;paid&quot;, r=&quot;reduced&quot;, f=&quot;free&quot;))
@@ -484,9 +510,8 @@ d4</code></pre>
 2 b     f          2
 3 c     n          3</code></pre>
 <p>Recode lunch status</p>
+<p>Note: We <em>did</em> have to put quotes around the old values because <code>dplyr::recode_factor()</code> replaces numeric values by either their name or their position. If a number with no quotes/backticks is given, it will assume it is a position.</p>
 <ul>
-<li><p>Note: The function <code>dplyr::recode_factor</code> will convert your variable to factor <strong>and</strong> recode it.</p></li>
-<li><p>Note: <code>dplyr::recode_factor</code> will only recode factor or character variables. If your variable is numeric, you will need to add parentheses around your numeric old values.</p></li>
 <li><p>Note: Parentheses are required around new value when recoding into a character/factor variable.</p></li>
 <li><p>Note: We are recoding back into the same variable using <code>dplyr::mutate()</code>. However, we could have recoded into a new variable by changing the name of <em>lunch</em>.</p></li>
 </ul>
@@ -512,6 +537,7 @@ d7</code></pre>
 <h4>Function: <code>fct_recode()</code></h4>
 <hr />
 <p><strong>Note:</strong> The <code>forcats::fct_recode()</code> formula is: new value=old value, this is opposite of <code>dplyr::recode()</code> but the same as <code>dplyr::rename()</code></p>
+<p><strong>Note:</strong> The function <code>forcats::fct_recode</code> will convert your variable to factor <strong>and</strong> recode it.</p>
 <p><br></p>
 <p><strong>1. Recode a numeric variable (lunch) into a factor</strong></p>
 <p>Review the data (d7)</p>
@@ -523,7 +549,8 @@ d7</code></pre>
 3 c     n          3</code></pre>
 <p>Recode lunch status</p>
 <ul>
-<li><p>Note: <code>forcats::fct_recode</code> will only recode factor or character variables. If your variable is numeric, you will need to convert it to character or factor before using recode factor. If your variable is character, <code>forcats::fct_recode</code> will convert your variable to factor <strong>and</strong> recode it. As you see below, I converted our numeric variable to character in order to use the function.</p></li>
+<li><p>Note: <code>forcats::fct_recode</code> will only recode factor or character variables. If your variable is numeric, you will need to convert it to character or factor before using recode factor. As you see below, I converted our numeric variable to character in order to use the function.</p></li>
+<li><p>Note: Completely counterintuitive to what we’ve seen with <code>dplyr::recode()</code>, 1) you <em>do</em> have to put quotes around your character old value, 2) if you new values are character, you do <em>not</em> have to put quotes around them, 3) however, if your new values are numeric, you <em>do</em> need quotes around them.</p></li>
 <li><p>Note: We are recoding back into the same variable using <code>dplyr::mutate()</code>. However, we could have recoded into a new variable by changing the name of <em>lunch</em>.</p></li>
 </ul>
 <pre class="r"><code>d7 &lt;- d7 %&gt;% dplyr::mutate(lunch=forcats::fct_recode(as.character(lunch), paid=&quot;1&quot;, reduced=&quot;2&quot;, free=&quot;3&quot;))

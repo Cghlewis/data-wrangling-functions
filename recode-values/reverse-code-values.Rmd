@@ -46,11 +46,9 @@ lapply(d2, table, useNA="always")
 
 ```
 
-Reverse code Var2 and Var3 and rename the variables with *_r* at the end by using the `dplyr::rename_at()` function as well as `base::paste0()`.
+Reverse code Var2 and Var3 and rename the variables with *_r* at the end by using the `dplyr::rename_with()` function as well as `base::paste0()`.
 
-* Note: I wrote this all into a new dataset because this syntax, using `dplyr::mutate()` and `dplyr::across()`, writes over our existing Var2 and Var3 and in this scenario I wanted to keep the old variables.
-
-* Note: You will get similar results using `dplyr::mutate_at()` rather than `dplyr::mutate()` in conjunction with `dplyr::across()`.
+* Note: In this scenario we are writing over the existing variables and then renaming them. You could also keep both the new and old variables like I do in the second scenario below. 
 
 * Note:  The `dplyr::recode()` formula is: old value=new value, this is opposite of `dplyr::rename()`
 
@@ -61,7 +59,9 @@ Reverse code Var2 and Var3 and rename the variables with *_r* at the end by usin
 
 d2_new <- d2 %>% 
   dplyr::mutate(dplyr::across(c(Var2:Var3), ~dplyr::recode(.,`1`=5, `2`=4, `3`=3, `4`=2, `5`=1))) %>%
-  dplyr::rename_at(vars(Var2:Var3), ~paste0(., "_r"))
+  dplyr::rename_with(~paste0(., "_r"), c(Var2:Var3))
+
+d2_new
 
 ```
 
@@ -75,6 +75,19 @@ table(d2$Var2, d2_new$Var2_r)
 table(d2$Var3, d2_new$Var3_r)
 
 ```
+
+* Note: If you want to keep both the old variables and the newly created variables, you can add the argument *names* to the `dplyr::across()` function to rename your recoded variables as you create them, rather than writing over the old variables. 
+
+```{r}
+
+d2 <- d2 %>% 
+  dplyr::mutate(dplyr::across(c(Var2:Var3), ~dplyr::recode(.,`1`=5, `2`=4, `3`=3, `4`=2, `5`=1), 
+                              .names = '{col}_r'))
+
+d2
+
+```
+
 
 ---
 

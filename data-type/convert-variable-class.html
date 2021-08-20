@@ -519,7 +519,7 @@ class(d2$Var3)</code></pre>
 1     1   2     3.6     4
 2     2  NA     8.5     6
 3     3   2.5  NA      NA</code></pre>
-<p>Or in the case of this data frame, since you essentially want all variables to be numeric (Var1 just happens to already be numeric), you could conver <em>all</em> variables to numeric using the <code>tidyselect</code> selection helper <code>everything()</code>.</p>
+<p>Or in the case of this data frame, since you essentially want all variables to be numeric (Var1 just happens to already be numeric), you could convert <em>all</em> variables to numeric using the <code>tidyselect</code> selection helper <code>everything()</code>.</p>
 <pre class="r"><code>d4 %&gt;% dplyr::mutate(dplyr::across(tidyselect::everything(), as.numeric))</code></pre>
 <pre><code># A tibble: 3 x 4
      ID  Var2  Var3  Var4

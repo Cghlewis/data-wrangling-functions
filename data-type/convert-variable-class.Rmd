@@ -230,7 +230,7 @@ d4 %>% dplyr::mutate(dplyr::across(c(Var2:Var4), as.numeric))
 
 ```
 
-Or in the case of this data frame, since you essentially want all variables to be numeric (Var1 just happens to already be numeric), you could conver *all* variables to numeric using the `tidyselect` selection helper `everything()`.
+Or in the case of this data frame, since you essentially want all variables to be numeric (Var1 just happens to already be numeric), you could convert *all* variables to numeric using the `tidyselect` selection helper `everything()`.
 
 ```{r, echo=FALSE}
 

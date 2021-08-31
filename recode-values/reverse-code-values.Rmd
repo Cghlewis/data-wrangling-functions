@@ -48,7 +48,9 @@ lapply(d2, table, useNA="always")
 
 Reverse code Var2 and Var3 and rename the variables with *_r* at the end by using the `dplyr::rename_with()` function as well as `base::paste0()`.
 
-* Note: In this scenario we are writing over the existing variables and then renaming them. You could also keep both the new and old variables like I do in the second scenario below. 
+* Note: We are modifying existing variables using `dplyr::mutate()`. In this scenario we are writing over the existing variables and then renaming them. You could also keep both the new and old variables like I do in the second scenario below. 
+
+* Note: We are adding `dplyr::across()` to select the variables we want to modify.
 
 * Note:  The `dplyr::recode()` formula is: old value=new value, this is opposite of `dplyr::rename()`
 
@@ -207,16 +209,16 @@ source("data.R")
 
 ```
 
-* Note: Again I wrote this all into a new dataset because this syntax, using `dplyr::mutate()`, writes over our existing Var2 and Var3 and in this scenario I wanted to keep the old variables.
+Reverse code Var2 and Var3 using your function and rename the new variables with *_r* at the end
 
-* Note: We are using `dplyr::across()` to apply a transformation to multiple columns.
+* Note: We are modifying existing variables using `dplyr::mutate()`
 
-* Note: Renaming here is done using the `dplyr::rename_with()` function as well as `base::paste0()`. `dplyr::rename_with()` allows you to rename columns using a function.
+* Note: We are using `dplyr::across()` to apply a transformation to select columns and then adding the argument *names* to rename your recoded variables as you create them, rather than writing over the old variables.
 
 ```{r}
 
-d2_new <- d2 %>% dplyr::mutate(across(c(Var2:Var3), reverse_scale)) %>%
-  dplyr::rename_with(~paste0(., "_r"), .cols = c(Var2:Var3))
+d2 <- d2 %>% dplyr::mutate(across(c(Var2:Var3), reverse_scale, 
+                              .names = '{col}_r'))
 
 ```
 
@@ -224,9 +226,9 @@ Check that the recode worked
 
 ```{r}
 
-table(d2$Var2, d2_new$Var2_r)
+table(d2$Var2, d2$Var2_r)
 
-table(d2$Var3, d2_new$Var3_r)
+table(d2$Var3, d2$Var3_r)
 
 ```
 

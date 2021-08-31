@@ -66,6 +66,8 @@ navbar:
     href: complete\complete-long.html
   - text: "Complete wide data"
     href: complete\complete-wide.html
+  - text: "Calculate row values"
+    href: calculate-row-values\row-calcs.html
 output:
   html_document:
     theme: readable

@@ -80,7 +80,7 @@ d5
 
 ```
 
-Modify variable names by adding the `stringr::str_remove()` function and the selection helper `contains()`.
+Modify variable names by adding the `stringr::str_remove()` function and the `tidyselect` selection helper `contains()`.
 
 * Note: Other `tidyselect` selection helpers include `startswith()`, `ends_with()`, `matches`, `num_range`, `where` and more.
 

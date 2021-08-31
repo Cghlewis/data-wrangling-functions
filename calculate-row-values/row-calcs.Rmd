@@ -1,0 +1,268 @@
+---
+title: "Calculate row values"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: base
+
+---
+
+#### Function: `rowSums()`
+
+---
+
+**1\. Calculate a sum score for each student called "measure_sum"**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+Calculate the sum score
+
+* Note: We are calculating a new variable using `dplyr::mutate()`
+
+* Note: Adding `dplyr::across()` allows you to select the specific columns you want to calculate the rowSums for. Otherwise rowSums will be applied across all columns.
+ 
+* Note: The default for NA values in your columns is to **not** calculate a sum if any NA value exists. If you want to still calculate a sum despite missing values, you can set the argument to *na.rm = TRUE*.
+
+```{r}
+
+d2 %>% 
+  dplyr::mutate(measure_sum = rowSums(dplyr::across(c(item1:item3))))
+
+```
+
+
+---
+
+#### Function: `rowMeans()`
+
+---
+
+
+**1\. Calculate a mean score ("measure_mean") for each student even with missing data**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+Calculate the mean score
+
+* Note: We are calculating a new variable using `dplyr::mutate()`
+
+* Note: Adding `dplyr::across()` allows you to select the specific columns you want to calculate the rowSums for. Otherwise rowSums will be applied across all columns.
+ 
+* Note: The default for NA values in your columns is to **not** calculate a sum if any NA value exists. If you want to still calculate a sum despite missing values, you can set the argument to *na.rm = TRUE*.
+
+```{r}
+
+d2 %>% 
+  dplyr::mutate(measure_mean = rowMeans(dplyr::across(c(item1:item3)), na.rm=TRUE))
+
+```
+
+You can set the number of decimal places you want the new variable to have by wrapping the calculation in the function `base::round()` and setting the digits equal to the number you want.
+
+* Note: `base::round()` rounds to the even digit for any .5 digit. Meaning when you have 0.5, it will round down to 0, and when you have 1.5 it will round up to 2.
+
+```{r}
+
+d2 %>% 
+  dplyr::mutate(measure_mean = round(rowMeans(dplyr::across(c(item1:item3)), na.rm=TRUE), digits= 2))
+
+```
+
+**2\. Calculate a mean score ("toca_mean") for all the variables that begin with "toca", for each student even with missing data**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+Calculate the mean toca score
+
+* Note: We use the `tidyselect` selection helper `starts_with()` to refer to all variables that start with the word "toca".
+
+* Note: Other `tidyselect` selection helpers include `contains()`, `ends_with()`, `matches`, `num_range`, `where` and more.
+
+```{r}
+
+d3 %>% 
+  dplyr::mutate(toca_mean = rowMeans(dplyr::across(tidyselect::starts_with("toca")), na.rm=TRUE))
+
+```
+
+
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `rowwise()`
+
+---
+
+**1\. Calculate a sum score for each student called "measure_sum"**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+Calculate the sum score.
+
+* Note: Again we are using `dplyr::mutate()` to create a new variable
+* Note: The default for NA values in your columns is to not calculate a sum if any NA value exists. If you want to still calculate a sum despite missing values, you can set the argument to *na.rm = TRUE*.
+
+```{r}
+
+d2 %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(measure_sum = sum(c(item1, item2, item3)))
+
+```
+
+If you don't want to list out every single item in a measure, you can use `dplyr::c_across()` which uses tidy selection syntax to select variables. It is essentially a combination of c() and `dplyr::across()`. So instead of `mutate(measure_sum = dplyr::across(c(item1:item3)))`, you can simplify to the code below.
+
+```{r}
+
+d2 %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(measure_sum = sum(dplyr::c_across(item1:item3)))
+
+
+```
+
+**2\. Calculate a mean score ("measure_mean") for each student even with missing data**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+Calculate the mean score 
+
+* Note: Again we are using `dplyr::mutate()` to create a new variable
+* Note: We use `base::mean()` here to calculate mean
+* Note: We use `dplyr::c_across()` to select the variables of interest
+
+```{r}
+
+d2 %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(measure_sum = mean(dplyr::c_across(item1:item3), na.rm=TRUE))
+
+```
+
+
+You can set the number of decimal places you want the new variable to have by wrapping the calculation in the function `base::round()` and setting the digits equal to the number you want.
+
+* Note: `base::round()` rounds to the even digit for any .5 digit. Meaning when you have 0.5, it will round down to 0, and when you have 1.5 it will round up to 2.
+
+```{r}
+
+d2 %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(measure_sum = round(mean(c_across(item1:item3), na.rm=TRUE), digits=2))
+
+```
+
+
+**3\. Calculate a mean score ("toca_mean") for all the variables that contain the word "toca", for each student even with missing data**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+Calculate the mean toca score
+
+* Note: We use the `tidyselect` selection helper `contains()` to refer to all variables.
+
+* Note: Other `tidyselect` selection helpers include `startswith()`, `ends_with()`, `matches`, `num_range`, `where` and more.
+
+```{r}
+
+d3 %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(toca_sum = mean(dplyr::c_across(tidyselect::contains("toca")), na.rm=TRUE))
+
+```
+
+
+<br>
+
+### Package: janitor
+
+---
+
+#### Function: `adorn_totals()`
+
+---
+
+**1\. Calculate a sum score for each student called "measure_sum"**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+
+Calculate the sum score
+
+* Note: We can add the argument *where = "col"* to denote we want rows summed across columns rather than the default which is column totals
+
+* Note: We can add the argument *name = * to rename the new column what we want rather than the default "Total"
+
+* Note: The argument default for the NA argumen tis *na.rm = TRUE* so in this case, if we don't want a sum when there is missing data, we need to change it to FALSE.
+
+```{r}
+
+d2 %>% 
+  janitor::adorn_totals(where = "col", name = "measure_sum", na.rm = FALSE)
+
+```
+

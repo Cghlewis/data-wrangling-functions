@@ -510,7 +510,7 @@ Filter out any row that has NA for at least one variable
 
 * Note: Note the use of `dplyr::if_any()` predicate function to select columns. This function is available in version 1.0.5 of `dplyr`.
 
-* Note: We use the `tidyverse` selection helper `everything()` to refer to all variables.
+* Note: We use the `tidyselect` selection helper `everything()` to refer to all variables.
 
 * Note: Notice that I put the operator *!* outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.
 

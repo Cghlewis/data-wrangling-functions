@@ -1,5 +1,5 @@
 ---
-title: "Add NA value labels"
+title: "Add missing value labels"
 output: 
   html_document:
     anchor_sections: FALSE
@@ -14,7 +14,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ### Package: labelled
 
-**Note**: Using the `labelled` package, adding NA label values will not allow these values to be treated as NA in R. However, they will be labelled as NA when you export to a file type such as .sav and will be treated as NA in those files.
+**Note**: Using the `labelled` package, adding missing label values will not allow these values to be treated as NA in R. However, they will be labelled as missing when you export to a file type such as .sav and will be treated as NA in those files.
 
 ---
 
@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\.Add a label for one NA value (-999), for one variable (Var3).**
+**1\.Add a label for one missing value (-999), for one variable (Var3).**
 
 Review the data (d1)
 
@@ -44,7 +44,7 @@ labelled::na_values(d1$Var3)
 ```
 
 
-**2\. Add labels for multiple NA values (-999, 0), for one variable (Var3)**
+**2\. Add labels for multiple missing values (-999, 0), for one variable (Var3)**
 
 Review the data (d1)
 
@@ -66,13 +66,7 @@ labelled::na_values(d1$Var3)
 ```
 
 
----
-
-#### Function: `labelled_spss()`
-
----
-
-**1\. Label NA values for multiple variables (Var2 and Var3) that have the same NA value (-999)**
+**3\. Add labels to multiple variables (Var2 and Var3) with the same missing value**
 
 Review the data (d1)
 
@@ -83,13 +77,11 @@ d1
 
 ```
 
-Add NA labels for -999
+Add NA labels for -999 and 0
 
 ```{r}
 
-d1 <- d1 %>% 
-  dplyr::mutate_at(vars(Var2:Var3), 
-            ~labelled::labelled_spss(., na_values=-999))
+d1 <- d1 %>% labelled::set_na_values(Var2 = -999, Var3= -999)
 
 labelled::na_values(d1)
 

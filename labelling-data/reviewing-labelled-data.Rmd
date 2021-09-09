@@ -24,16 +24,16 @@ knitr::opts_chunk$set(comment = NA,
 
 **1\. Review all labelled information in a data dictionary format**
 
-View the labelled data (d10)
+Let's create some labelled data
 
 ```{r, echo=FALSE}
 
 source("data.R")
 
-d10
 ```
 
-```{r, echo=FALSE}
+
+```{r}
 
 d10 <- d10 %>%
   labelled::set_variable_labels (Var1 = "Name", 
@@ -43,6 +43,15 @@ d10 <- d10 %>%
                                      "very  interested"=3), Var3=c("none"=1, 
                                     "reduced-price"=2, "free"=3)) %>%
   labelled::set_na_values(Var2=-999, Var3=-999)
+
+```
+
+
+View the labelled data (d10)
+
+```{r, echo=FALSE}
+
+d10
 
 ```
 

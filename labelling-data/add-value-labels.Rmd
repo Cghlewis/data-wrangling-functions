@@ -135,20 +135,54 @@ d3
 
 ```
 
-Add value labels to multiple variables with similar names by adding the selection helper `starts_with()`.
+Add the same value labels to multiple variables
 
-* Note: Other `tidyselect` selection helpers include `ends_with()`, `contains()`, `matches()`, and `num_range()`, `where()` and more.
+* Note: We are modifying existing variables using `dplyr::mutate()`
 
-* Note: Also note the addition of `dplyr::mutate_at()` to create new variables with these new labels (the overwrite the current variables). This function is needed in order to utilize the `starts_with()` selection helper.
+* Note: We are using `dplyr::across()` to apply a transformation to select columns and adding the `tidyselect` selection helper `starts_with()` to select variables that meet our criteria
+
+* Note: Other `tidyselect` selection helpers include `ends_with()`, `contains()`, `matches()`, and `num_range()`, and more.
 
 * Note: Parentheses are *not* required around labels here, although adding them will not hurt.
 
 ```{r}
 
 d3 <- d3 %>% 
-  dplyr::mutate_at(vars(tidyselect::starts_with('Var')), 
-            ~labelled::labelled(., labels = c(disagree=1, neutral=2, agree=3)))
+  dplyr::mutate(across(tidyselect::starts_with('Var'), 
+            ~labelled::labelled(., labels = c(disagree=1, neutral=2, agree=3))))
 
 d3 %>% labelled::val_labels()
 
 ```
+
+**2\. Add the same value labels to all variables**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+Add the same value labels to all variables
+
+* Note: We are modifying existing variables using `dplyr::mutate()`
+
+* Note: We are using `dplyr::across()` to apply a transformation to select columns and adding the `tidyselect` selection helper `everything()` to select all variables
+
+* Note: Other `tidyselect` selection helpers include `ends_with()`, `contains()`, `matches()`, and `num_range()`, and more.
+
+* Note: Parentheses are *not* required around labels here, although adding them will not hurt.
+
+```{r}
+
+d3 <- d3 %>% 
+  dplyr::mutate(across(tidyselect::everything(), 
+            ~labelled::labelled(., labels = c(disagree=1, neutral=2, agree=3))))
+
+d3 %>% labelled::val_labels()
+
+```
+

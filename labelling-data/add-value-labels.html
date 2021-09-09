@@ -488,15 +488,47 @@ $Var3
 1     1     1     2
 2     2     3     3
 3     3     3     1</code></pre>
-<p>Add value labels to multiple variables with similar names by adding the selection helper <code>starts_with()</code>.</p>
+<p>Add the same value labels to multiple variables</p>
 <ul>
-<li><p>Note: Other <code>tidyselect</code> selection helpers include <code>ends_with()</code>, <code>contains()</code>, <code>matches()</code>, and <code>num_range()</code>, <code>where()</code> and more.</p></li>
-<li><p>Note: Also note the addition of <code>dplyr::mutate_at()</code> to create new variables with these new labels (the overwrite the current variables). This function is needed in order to utilize the <code>starts_with()</code> selection helper.</p></li>
+<li><p>Note: We are modifying existing variables using <code>dplyr::mutate()</code></p></li>
+<li><p>Note: We are using <code>dplyr::across()</code> to apply a transformation to select columns and adding the <code>tidyselect</code> selection helper <code>starts_with()</code> to select variables that meet our criteria</p></li>
+<li><p>Note: Other <code>tidyselect</code> selection helpers include <code>ends_with()</code>, <code>contains()</code>, <code>matches()</code>, and <code>num_range()</code>, and more.</p></li>
 <li><p>Note: Parentheses are <em>not</em> required around labels here, although adding them will not hurt.</p></li>
 </ul>
 <pre class="r"><code>d3 &lt;- d3 %&gt;% 
-  dplyr::mutate_at(vars(tidyselect::starts_with(&#39;Var&#39;)), 
-            ~labelled::labelled(., labels = c(disagree=1, neutral=2, agree=3)))
+  dplyr::mutate(across(tidyselect::starts_with(&#39;Var&#39;), 
+            ~labelled::labelled(., labels = c(disagree=1, neutral=2, agree=3))))
+
+d3 %&gt;% labelled::val_labels()</code></pre>
+<pre><code>$Var1
+disagree  neutral    agree 
+       1        2        3 
+
+$Var2
+disagree  neutral    agree 
+       1        2        3 
+
+$Var3
+disagree  neutral    agree 
+       1        2        3 </code></pre>
+<p><strong>2. Add the same value labels to all variables</strong></p>
+<p>Review the data (d3)</p>
+<pre><code># A tibble: 3 x 3
+   Var1  Var2  Var3
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     1     1     2
+2     2     3     3
+3     3     3     1</code></pre>
+<p>Add the same value labels to all variables</p>
+<ul>
+<li><p>Note: We are modifying existing variables using <code>dplyr::mutate()</code></p></li>
+<li><p>Note: We are using <code>dplyr::across()</code> to apply a transformation to select columns and adding the <code>tidyselect</code> selection helper <code>everything()</code> to select all variables</p></li>
+<li><p>Note: Other <code>tidyselect</code> selection helpers include <code>ends_with()</code>, <code>contains()</code>, <code>matches()</code>, and <code>num_range()</code>, and more.</p></li>
+<li><p>Note: Parentheses are <em>not</em> required around labels here, although adding them will not hurt.</p></li>
+</ul>
+<pre class="r"><code>d3 &lt;- d3 %&gt;% 
+  dplyr::mutate(across(tidyselect::everything(), 
+            ~labelled::labelled(., labels = c(disagree=1, neutral=2, agree=3))))
 
 d3 %&gt;% labelled::val_labels()</code></pre>
 <pre><code>$Var1

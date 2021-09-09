@@ -515,6 +515,9 @@ summary {
 4   4567     4     5     1          10
 5   5678     1     3     2           6</code></pre>
 <p>If you don’t want to list out every single item in a measure, you can use <code>dplyr::c_across()</code> which uses tidy selection syntax to select variables. It is essentially a combination of c() and <code>dplyr::across()</code>. So instead of <code>mutate(measure_sum = dplyr::across(c(item1:item3)))</code>, you can simplify to the code below.</p>
+<ul>
+<li>Note: <code>dplyr::c_across()</code> cannot be used with <code>base::rowSums()</code> and <code>base::rowMeans()</code> because those functions take a different type of input compared to <code>dplyr::rowwise()</code></li>
+</ul>
 <pre class="r"><code>d2 %&gt;%
   dplyr::rowwise() %&gt;%
   dplyr::mutate(measure_sum = sum(dplyr::c_across(item1:item3)))</code></pre>

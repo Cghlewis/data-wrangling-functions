@@ -155,6 +155,8 @@ d2 %>%
 
 If you don't want to list out every single item in a measure, you can use `dplyr::c_across()` which uses tidy selection syntax to select variables. It is essentially a combination of c() and `dplyr::across()`. So instead of `mutate(measure_sum = dplyr::across(c(item1:item3)))`, you can simplify to the code below.
 
+* Note: `dplyr::c_across()` cannot be used with `base::rowSums()` and `base::rowMeans()` because those functions take a different type of input compared to `dplyr::rowwise()`
+
 ```{r}
 
 d2 %>%

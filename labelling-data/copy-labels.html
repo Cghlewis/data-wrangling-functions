@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Copy labels</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h2 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h3 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h4 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h5 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h6 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Data Wrangling Functions</a>
+</li>
+<li>
+  <a href="labelling-data\add-na-value-labels.html">Add missing value labels</a>
+</li>
+<li>
+  <a href="labelling-data\add-value-labels.html">Add value labels</a>
+</li>
+<li>
+  <a href="labelling-data\add-variable-labels.html">Add variable labels</a>
+</li>
+<li>
+  <a href="labelling-data\reviewing-labelled-data.html">Review labelled data</a>
+</li>
+<li>
+  <a href="labelling-data\convert-values-to-labels.html">Convert numeric values to labels</a>
+</li>
+<li>
+  <a href="labelling-data\import-export-labelled-data.html">Import or export labelled data</a>
+</li>
+<li>
+  <a href="labelling-data\copy-labels.html">Copy labels</a>
+</li>
+<li>
+  <a href="recode-values\recode-values.html">Recode values</a>
+</li>
+<li>
+  <a href="recode-values\reverse-code-values.html">Reverse code values</a>
+</li>
+<li>
+  <a href="recode-values\recode-na.html">Recode NA</a>
+</li>
+<li>
+  <a href="recode-values\collapse-categories.html">Collapse categories</a>
+</li>
+<li>
+  <a href="data-type\review-data-type.html">Review data type</a>
+</li>
+<li>
+  <a href="data-type\convert-variable-class.html">Convert variable class</a>
+</li>
+<li>
+  <a href="filter-data\filter-columns.html">Filter columns</a>
+</li>
+<li>
+  <a href="filter-data\filter-empty-columns.html">Filter empty columns</a>
+</li>
+<li>
+  <a href="filter-data\filter-rows.html">Filter rows</a>
+</li>
+<li>
+  <a href="filter-data\conditional-filtering.html">Conditionally filter rows</a>
+</li>
+<li>
+  <a href="filter-data\filter-empty-rows.html">Filter empty rows</a>
+</li>
+<li>
+  <a href="import-data\import-single-file.html">Import a single file</a>
+</li>
+<li>
+  <a href="import-data\import-multiple-files.html">Import multiple files</a>
+</li>
+<li>
+  <a href="name-variables\set-variable-names.html">Set all variable names</a>
+</li>
+<li>
+  <a href="name-variables\rename-variables.html">Rename variables</a>
+</li>
+<li>
+  <a href="name-variables\modify-names.html">Modify variable names</a>
+</li>
+<li>
+  <a href="name-variables\concatenate-names.html">Concatenate variable names</a>
+</li>
+<li>
+  <a href="name-variables\clean-names.html">Clean variable names</a>
+</li>
+<li>
+  <a href="reorder\reorder-variables.html">Reorder Variables</a>
+</li>
+<li>
+  <a href="reorder\reorder-values.html">Reorder values</a>
+</li>
+<li>
+  <a href="reorder\sort-rows.html">Sort rows</a>
+</li>
+<li>
+  <a href="reorder\split-cols.html">Separate columns</a>
+</li>
+<li>
+  <a href="reorder\split-rows.html">Separate rows</a>
+</li>
+<li>
+  <a href="complete\complete-long.html">Complete long data</a>
+</li>
+<li>
+  <a href="complete\complete-wide.html">Complete wide data</a>
+</li>
+<li>
+  <a href="calculate-row-values\row-calcs.html">Calculate row values</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Copy labels</h1>
+
+</div>
+
+
+<p><br></p>
+<div id="package-labelled" class="section level3">
+<h3>Package: labelled</h3>
+<hr />
+<div id="function-copy_labels_from" class="section level4">
+<h4>Function: <code>copy_labels_from()</code></h4>
+<hr />
+<p><strong>1. Copy variable, value, and missing labels from another dataset that has all the same variables</strong></p>
+<p>Review the new data (d5)</p>
+<pre><code># A tibble: 3 x 3
+  Var1   Var2  Var3
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 d         1    NA
+2 e         2     2
+3 f         1     1</code></pre>
+<p>Review the labelled dataset with the same variables (d4)</p>
+<pre><code># A tibble: 3 x 3
+  Var1   Var2  Var3
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 a         1     2
+2 b        NA     3
+3 c         3     1</code></pre>
+<p>View the missing labels for the new data (d5)</p>
+<pre class="r"><code>labelled::var_label(d5)</code></pre>
+<pre><code>$Var1
+NULL
+
+$Var2
+NULL
+
+$Var3
+NULL</code></pre>
+<p>View the labels for the labelled data (d4)</p>
+<pre class="r"><code>labelled::var_label(d4)</code></pre>
+<pre><code>$Var1
+[1] &quot;Name&quot;
+
+$Var2
+[1] &quot;Interest in Homework&quot;
+
+$Var3
+[1] &quot;Interest in School&quot;</code></pre>
+<p>Copy labels from d4 to d5</p>
+<pre class="r"><code>d5 &lt;- d5 %&gt;% labelled::copy_labels_from(d4)
+
+d5 %&gt;% labelled::var_label()</code></pre>
+<pre><code>$Var1
+[1] &quot;Name&quot;
+
+$Var2
+[1] &quot;Interest in Homework&quot;
+
+$Var3
+[1] &quot;Interest in School&quot;</code></pre>
+<p><strong>2. Copy variable, value, and missing labels from another dataset that only has some of the same variables</strong></p>
+<p><code>labelled::copy_labels_from()</code> also works if not all of the same variables exist in both datasets</p>
+<p>Review the new dataset d6 that has some of the same variables as d4 but with no labels</p>
+<pre><code># A tibble: 3 x 3
+   Var2  Var3  Var4
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     2     1     5
+2     3     2     4
+3     1     2     3</code></pre>
+<p>Review the labelled dataset with some of the same variables (d4)</p>
+<pre><code># A tibble: 3 x 3
+  Var1   Var2  Var3
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 a         1     2
+2 b        NA     3
+3 c         3     1</code></pre>
+<p>View the missing labels for d6</p>
+<pre class="r"><code>labelled::var_label(d6)</code></pre>
+<pre><code>$Var2
+NULL
+
+$Var3
+NULL
+
+$Var4
+NULL</code></pre>
+<p>View the labels for the labelled data (d4)</p>
+<pre class="r"><code>labelled::var_label(d4)</code></pre>
+<pre><code>$Var1
+[1] &quot;Name&quot;
+
+$Var2
+[1] &quot;Interest in Homework&quot;
+
+$Var3
+[1] &quot;Interest in School&quot;</code></pre>
+<p>Copy labels from d4 to d6</p>
+<pre class="r"><code>d6 &lt;- d6 %&gt;% labelled::copy_labels_from(d4)
+
+d6 %&gt;% labelled::var_label()</code></pre>
+<pre><code>$Var2
+[1] &quot;Interest in Homework&quot;
+
+$Var3
+[1] &quot;Interest in School&quot;
+
+$Var4
+NULL</code></pre>
+<hr />
+</div>
+<div id="function-copy_labels" class="section level4">
+<h4>Function: <code>copy_labels()</code></h4>
+<hr />
+<p><strong>Note:</strong> With this function, the dataset you are copying <strong>from</strong> goes first.</p>
+<p><br></p>
+<p><strong>1. Similar to <code>labelled::copy_labels_from</code>, <code>labelled::copy_labels</code> copies labels from one dataset to another</strong></p>
+<p>Review the new data (d5)</p>
+<pre><code># A tibble: 3 x 3
+  Var1   Var2  Var3
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 d         1    NA
+2 e         2     2
+3 f         1     1</code></pre>
+<p>Review the labelled dataset with the same variables (d4)</p>
+<pre><code># A tibble: 3 x 3
+  Var1   Var2  Var3
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 a         1     2
+2 b        NA     3
+3 c         3     1</code></pre>
+<p>View the missing labels for the new data (d5)</p>
+<pre class="r"><code>labelled::var_label(d5)</code></pre>
+<pre><code>$Var1
+NULL
+
+$Var2
+NULL
+
+$Var3
+NULL</code></pre>
+<p>View the labels for the labelled data (d4)</p>
+<pre class="r"><code>labelled::var_label(d4)</code></pre>
+<pre><code>$Var1
+[1] &quot;Name&quot;
+
+$Var2
+[1] &quot;Interest in Homework&quot;
+
+$Var3
+[1] &quot;Interest in School&quot;</code></pre>
+<p>Copy labels from d4 to d5</p>
+<pre class="r"><code>d5 &lt;- labelled::copy_labels(d4, d5)
+
+d5 %&gt;% labelled::var_label()</code></pre>
+<pre><code>$Var1
+[1] &quot;Name&quot;
+
+$Var2
+[1] &quot;Interest in Homework&quot;
+
+$Var3
+[1] &quot;Interest in School&quot;</code></pre>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

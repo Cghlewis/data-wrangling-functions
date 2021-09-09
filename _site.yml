@@ -4,7 +4,7 @@ navbar:
   left:
   - text: "Data Wrangling Functions"
     href: index.html
-  - text: "Add NA value labels"
+  - text: "Add missing value labels"
     href: labelling-data\add-na-value-labels.html
   - text: "Add value labels"
     href: labelling-data\add-value-labels.html
@@ -12,10 +12,12 @@ navbar:
     href: labelling-data\add-variable-labels.html
   - text: "Review labelled data"
     href: labelling-data\reviewing-labelled-data.html
-  - text: "Convert values to labels"
+  - text: "Convert numeric values to labels"
     href: labelling-data\convert-values-to-labels.html
   - text: "Import or export labelled data"
     href: labelling-data\import-export-labelled-data.html
+  - text: "Copy labels"
+    href: labelling-data\copy-labels.html
   - text: "Recode values"
     href: recode-values\recode-values.html
   - text: "Reverse code values"

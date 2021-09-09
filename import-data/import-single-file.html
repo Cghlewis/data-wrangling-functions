@@ -404,11 +404,13 @@ summary {
 </ul>
 <pre class="r"><code>d &lt;- readxl::read_excel(&quot;name-of-import.xlsx&quot;)</code></pre>
 <p><strong>2. Read in “Sheet 2” of an Excel file and skip the first 3 rows and tell R that 0 is to be read in as NA</strong></p>
+<p>Add the argument <em>sheet=</em> to call the sheet you want to read in, add the argument <em>skip=</em> to denote the number of rows you wish to skip, and add the argument <em>na=</em> to denote what values should be considered NA.</p>
 <ul>
 <li>Note: Be aware that if your column names are in the first row of your data, using the “skip” argument will remove that first row with column names because the “skip” happens before data is read. Also, if you leave the default <em>col_names=TRUE</em>, you column names will become whatever data is in the 4th row of your Excel sheet.</li>
 </ul>
 <pre class="r"><code>d &lt;- readxl::read_excel(&quot;name-of-import.xlsx&quot;, sheet=&quot;Sheet2&quot;, skip=3, na=&quot;0&quot;)</code></pre>
 <p><strong>3. Read in an Excel file and skip the second row only</strong></p>
+<p>Use indexing <em>[]</em> to drop the second row. Indexing is [row,column].</p>
 <ul>
 <li>Note: Notice that I drop row 1 because [-1,] happens after R reads in the Excel file. The first row of the Excel file is read in as the column names (because I left the default <em>col_names=TRUE</em>) so the second row of the Excel file will become the first row of the R data frame</li>
 </ul>

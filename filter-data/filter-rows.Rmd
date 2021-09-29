@@ -585,27 +585,6 @@ d10 %>% dplyr::filter(!(dplyr::if_all(everything(), ~ .x ==-999)))
 ```
 
 
-**3\. Keep any row whose value is not NA for *ANY* variable.**
-
-Review the data (d7).
-
-```{r, echo=FALSE}
-
-source("data.R")
-d7
-
-```
-
-Keep any row that does not have NA for extra2.
-
-* Note: We added the `stats::complete.cases()` function to say only keep complete cases.
-
-```{r}
-
-d7 %>% dplyr::filter(stats::complete.cases(.))
-
-```
-
 
 ### Package: tidyr
 
@@ -657,33 +636,3 @@ d7 %>% tidyr::drop_na()
 
 ```
 
-
-
-### Package: stats
-
----
-
-#### Function: `stats::na.omit()`
-
----
-
-**1\.Filter out rows based on any variable having NA values**
-
-Review the data (d7)
-
-```{r, echo=FALSE}
-
-source("data.R")
-d7
-
-```
-
-
-Filter out any row that has NA for any variable.
-
-```{r}
-
-d7 %>% stats::na.omit()
-
-
-```

@@ -510,6 +510,32 @@ d81</code></pre>
 </div>
 <div id="function-filter-2" class="section level4">
 <h4>Function: <code>filter()</code></h4>
+<p>Examples using one criteria, remove NA</p>
+<hr />
+<p><strong>1. Keep rows based on one criteria. Keep any row whose value is not NA for extra2.</strong></p>
+<p>Review the data (d7).</p>
+<pre><code># A tibble: 4 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     NA        205 harris  
+2 b          NA      0     11        220 steve   
+3 c           3     NA     12        250 harris  
+4 d           4      0     13        217 lewis   </code></pre>
+<p>Keep any row that does not have NA for extra2.</p>
+<ul>
+<li>Note: Use the operator <em>!=</em> to denote not equal to.</li>
+</ul>
+<pre class="r"><code>d7 %&gt;% dplyr::filter(!is.na(extra2))</code></pre>
+<pre><code># A tibble: 3 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     NA        205 harris  
+2 c           3     NA     12        250 harris  
+3 d           4      0     13        217 lewis   </code></pre>
+<hr />
+</div>
+<div id="function-filter-3" class="section level4">
+<h4>Function: <code>filter()</code></h4>
 <p>Examples using multiple criteria same variables</p>
 <hr />
 <p><strong>1. Keep rows based on multiple criteria from one variable (in this case for a numeric variable). Keep any row that has -999 <em>OR</em> 0 for extra3.</strong></p>
@@ -608,7 +634,7 @@ d81</code></pre>
 3 d           4      0     13        217 lewis   </code></pre>
 <hr />
 </div>
-<div id="function-filter-3" class="section level4">
+<div id="function-filter-4" class="section level4">
 <h4>Function: <code>filter()</code></h4>
 <p>Examples using multiple criteria different variables, keep rows</p>
 <hr />
@@ -669,7 +695,7 @@ d81</code></pre>
 1 c        -999   -999     12        250 harris  </code></pre>
 <hr />
 </div>
-<div id="function-filter-4" class="section level4">
+<div id="function-filter-5" class="section level4">
 <h4>Function: <code>filter()</code></h4>
 <p>Examples using multiple criteria from different variables, remove rows</p>
 <hr />
@@ -737,7 +763,7 @@ d81</code></pre>
 3 e          NA     NA     NA         NA ogunti  </code></pre>
 <hr />
 </div>
-<div id="function-filter-5" class="section level4">
+<div id="function-filter-6" class="section level4">
 <h4>Function: <code>filter()</code></h4>
 <p>Examples using criteria that applies to a type of variable</p>
 <hr />
@@ -765,7 +791,7 @@ d81</code></pre>
 2 b        -999      0    11        220
 3 c           3   -999    12        250
 4 d          NA      0    13        217</code></pre>
-<p><strong>2. Filter out rows based on values from a certain type of variable (in this case numeric). Filter out any row that has -999 for <em>AT LEAST ONE</em> numeric variable.</strong></p>
+<p><strong>2. Remove rows based on values from a certain type of variable (in this case numeric). Filter out any row that has -999 for <em>AT LEAST ONE</em> numeric variable.</strong></p>
 <p>Review the data (d9)</p>
 <pre><code># A tibble: 6 x 5
   extra1 extra2 extra3    id test_score
@@ -789,7 +815,7 @@ d81</code></pre>
 1 a           1      2    10        205</code></pre>
 <hr />
 </div>
-<div id="function-filter-6" class="section level4">
+<div id="function-filter-7" class="section level4">
 <h4>Function: <code>filter()</code></h4>
 <p>Examples using criteria that applies to all variables</p>
 <hr />
@@ -804,7 +830,7 @@ d81</code></pre>
 4     NA      0    13        217
 5     NA     NA    NA         NA
 6   -999   -999  -999       -999</code></pre>
-<p>Filter out any row that has NA for at least one variable</p>
+<p>Filter out any row that has -999 for at least one variable</p>
 <ul>
 <li><p>Note: Note the use of <code>dplyr::if_any()</code> predicate function to select columns. This function is available in version 1.0.5 of <code>dplyr</code>.</p></li>
 <li><p>Note: We use the <code>tidyselect</code> selection helper <code>everything()</code> to refer to all variables.</p></li>
@@ -816,7 +842,7 @@ d81</code></pre>
   extra2 extra3    id test_score
    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
 1      1      2    10        205</code></pre>
-<p><strong>2.Filter out rows based on values from all variables. Filter out any row that has NA for <em>ALL</em> variables.</strong></p>
+<p><strong>2.Filter out rows based on values from all variables. Filter out any row that has -999 for <em>ALL</em> variables.</strong></p>
 <p>Review the data (d10)</p>
 <pre><code># A tibble: 6 x 4
   extra2 extra3    id test_score
@@ -827,7 +853,7 @@ d81</code></pre>
 4     NA      0    13        217
 5     NA     NA    NA         NA
 6   -999   -999  -999       -999</code></pre>
-<p>Filter out any row that has NA for all variables</p>
+<p>Filter out any row that has -999 for all variables</p>
 <ul>
 <li><p>Note: Note the use of <code>dplyr::if_all()</code> predicate function to select columns. This function is available in version 1.0.5 of <code>dplyr</code>.</p></li>
 <li><p>Note: We use the <code>tidyverse</code> selection helper <code>everything()</code> to refer to all variables.</p></li>
@@ -842,6 +868,24 @@ d81</code></pre>
 2   -999      0    11        220
 3      3   -999    12        250
 4     NA      0    13        217</code></pre>
+<p><strong>3. Keep any row whose value is not NA for <em>ANY</em> variable.</strong></p>
+<p>Review the data (d7).</p>
+<pre><code># A tibble: 4 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     NA        205 harris  
+2 b          NA      0     11        220 steve   
+3 c           3     NA     12        250 harris  
+4 d           4      0     13        217 lewis   </code></pre>
+<p>Keep any row that does not have NA for extra2.</p>
+<ul>
+<li>Note: We added the <code>stats::complete.cases()</code> function to say only keep complete cases.</li>
+</ul>
+<pre class="r"><code>d7 %&gt;% dplyr::filter(stats::complete.cases(.))</code></pre>
+<pre><code># A tibble: 1 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 d           4      0     13        217 lewis   </code></pre>
 </div>
 </div>
 <div id="package-tidyr" class="section level3">
@@ -878,6 +922,29 @@ d81</code></pre>
 4 d           4      0     13        217 lewis   </code></pre>
 <p>Filter out any row that has NA for any variable.</p>
 <pre class="r"><code>d7 %&gt;% tidyr::drop_na()</code></pre>
+<pre><code># A tibble: 1 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 d           4      0     13        217 lewis   </code></pre>
+</div>
+</div>
+<div id="package-stats" class="section level3">
+<h3>Package: stats</h3>
+<hr />
+<div id="function-statsna.omit" class="section level4">
+<h4>Function: <code>stats::na.omit()</code></h4>
+<hr />
+<p><strong>1.Filter out rows based on any variable having NA values</strong></p>
+<p>Review the data (d7)</p>
+<pre><code># A tibble: 4 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     NA        205 harris  
+2 b          NA      0     11        220 steve   
+3 c           3     NA     12        250 harris  
+4 d           4      0     13        217 lewis   </code></pre>
+<p>Filter out any row that has NA for any variable.</p>
+<pre class="r"><code>d7 %&gt;% stats::na.omit()</code></pre>
 <pre><code># A tibble: 1 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   

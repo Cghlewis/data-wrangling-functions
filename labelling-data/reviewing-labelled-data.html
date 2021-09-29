@@ -402,7 +402,8 @@ summary {
 <p>Review labelled information</p>
 <ul>
 <li><p>Note: The argument <em>details=TRUE</em> is added to get na_values for variables</p></li>
-<li><p>Note: <code>knitr::kable()</code> function used to make output more readable but we lose the value labels. If you run the <code>labelled::look_for()</code> function without adding <code>knitr::kable()</code> or <code>dplyr::select()</code> you will see the value labels.</p></li>
+<li><p>Note: <code>knitr::kable()</code> function used to make output more readable but we lose the value labels. If you run the <code>labelled::look_for()</code> function without adding <code>knitr::kable()</code> you will see the value labels.</p></li>
+<li><p>Note: The function <code>labelled::generate_dictionary()</code> is another function equivalent to <code>labelled::look_for()</code>. You can use either function.</p></li>
 </ul>
 <pre class="r"><code>knitr::kable(labelled::look_for(d10, details = TRUE) %&gt;% 
                dplyr::select(variable, label, class, value_labels, na_values))</code></pre>

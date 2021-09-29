@@ -167,6 +167,39 @@ d5 %>% dplyr::filter(extra2 != -999 | is.na(extra2))
 
 ```
 
+
+---
+
+#### Function: `filter()`
+
+Examples using one criteria, remove NA
+
+---
+
+
+**1\. Keep rows based on one criteria. Keep any row whose value is not NA for extra2.**
+
+Review the data (d7).
+
+```{r, echo=FALSE}
+
+source("data.R")
+d7
+
+```
+
+Keep any row that does not have NA for extra2.
+
+* Note: Use the operator *!=* to denote not equal to.
+
+```{r}
+
+d7 %>% dplyr::filter(!is.na(extra2))
+
+```
+
+
+
 ---
 
 #### Function: `filter()`
@@ -428,6 +461,7 @@ d5 %>%
 
 ```
 
+
 ---
 
 #### Function: `filter()`
@@ -461,7 +495,7 @@ d9 %>% dplyr::filter(!(dplyr::if_all(is.numeric,~ is.na(.))))
 ```
 
 
-**2\. Filter out rows based on values from a certain type of variable (in this case numeric). Filter out any row that has -999 for *AT LEAST ONE* numeric variable.**
+**2\. Remove rows based on values from a certain type of variable (in this case numeric). Filter out any row that has -999 for *AT LEAST ONE* numeric variable.**
 
 Review the data (d9)
 
@@ -506,7 +540,7 @@ d10
 ```
 
 
-Filter out any row that has NA for at least one variable
+Filter out any row that has -999 for at least one variable
 
 * Note: Note the use of `dplyr::if_any()` predicate function to select columns. This function is available in version 1.0.5 of `dplyr`.
 
@@ -523,7 +557,7 @@ d10 %>% filter(!(dplyr::if_any(everything(), ~ .x ==-999)))
 ```
 
 
-**2\.Filter out rows based on values from all variables. Filter out any row that has NA for *ALL* variables.**
+**2\.Filter out rows based on values from all variables. Filter out any row that has -999 for *ALL* variables.**
 
 Review the data (d10)
 
@@ -534,7 +568,7 @@ d10
 
 ```
 
-Filter out any row that has NA for all variables
+Filter out any row that has -999 for all variables
 
 * Note: Note the use of `dplyr::if_all()` predicate function to select columns. This function is available in version 1.0.5 of `dplyr`.
 
@@ -547,6 +581,28 @@ Filter out any row that has NA for all variables
 ```{r}
 
 d10 %>% dplyr::filter(!(dplyr::if_all(everything(), ~ .x ==-999)))
+
+```
+
+
+**3\. Keep any row whose value is not NA for *ANY* variable.**
+
+Review the data (d7).
+
+```{r, echo=FALSE}
+
+source("data.R")
+d7
+
+```
+
+Keep any row that does not have NA for extra2.
+
+* Note: We added the `stats::complete.cases()` function to say only keep complete cases.
+
+```{r}
+
+d7 %>% dplyr::filter(stats::complete.cases(.))
 
 ```
 
@@ -601,3 +657,33 @@ d7 %>% tidyr::drop_na()
 
 ```
 
+
+
+### Package: stats
+
+---
+
+#### Function: `stats::na.omit()`
+
+---
+
+**1\.Filter out rows based on any variable having NA values**
+
+Review the data (d7)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d7
+
+```
+
+
+Filter out any row that has NA for any variable.
+
+```{r}
+
+d7 %>% stats::na.omit()
+
+
+```

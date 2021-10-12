@@ -53,7 +53,7 @@ d2
 
 ```{r}
 
-d2 %>% tidyr::separate(name, into=c("first_name", "last_name"))
+d2 %>% tidyr::separate(name, into = c("first_name", "last_name"))
 
 ```
 
@@ -63,7 +63,7 @@ Here is an example using *extra="merge"*
 
 ```{r}
 
-d2 %>% tidyr::separate(name, into=c("first_name", "last_name"), extra="merge")
+d2 %>% tidyr::separate(name, into = c("first_name", "last_name"), extra="merge")
 
 ```
 
@@ -77,7 +77,7 @@ d3
 
 ```{r}
 
-d3 %>% tidyr::separate(name, into=c("first_name", "last_name"))
+d3 %>% tidyr::separate(name, into = c("first_name", "last_name"))
 
 ```
 
@@ -87,7 +87,35 @@ Here is an example using *fill="left"*
 
 ```{r}
 
-d3 %>% tidyr::separate(name, into=c("first_name", "last_name"), fill="left")
+d3 %>% tidyr::separate(name, into = c("first_name", "last_name"), fill="left")
+
+```
+
+**2\. Split only some of the cells in a column (school_name) and keep only one column of the split**
+
+Review the data (d6)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d6
+
+```
+
+In this example, I want to clean up the school names by removing any first name and middle initials from school names. Most schools only go by the last name. So I want to remove David H. and Muriel W.
+
+With only a few values, I could easily do a recode. However, if there were hundreds of schools with similar first name and middle initial patterns, that would take too long. So here we use `tidyr::separate()`.
+
+* Note: We use regular expressions (regex) here to denote we are separating on any capitalized letter "[A-Z]" followed by a period "\\." and last followed by a white space "\\s". Notice the use of "\\" as an escape to tell the regex to match the period exactly, rather than using it for its special behavior which is to match *any* character. You can also put the period in [] and call it as a character class, similar to the "[A-Z]" above.
+
+* Note: I added the argument *fill="left"* to bring any value that did not separate into our new school_name column.
+
+* Note: Last I added `dplyr::select()` to drop the unnecessary name1 column.
+
+```{r}
+
+d6 %>% tidyr::separate(school_name, "[A-Z]\\.\\s", into = c("name1", "school_name"), fill="left") %>%
+  dplyr::select (-name1)
 
 ```
 

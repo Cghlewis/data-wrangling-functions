@@ -40,3 +40,9 @@ d5 <- tibble::tribble(
   "Ned", "cheese"
 )
 
+d6 <- tibble::tribble(
+  ~school_name, ~city,
+  "David H. Hickman High School", "Columbia",
+  "Muriel W. Battle High School", "Columbia",
+  "Rock Bridge Sr. High", "Columbia",
+  "Webster Groves High School", "Webster Groves")

@@ -23,11 +23,11 @@ knitr::opts_chunk$set(comment = NA,
 
 * Note: Unlike `dplyr::rename()` where you can rename individual columns, `dplyr::rename_with()` renames columns using a function.
 
-* Note: You can either rename all variables or select variables with `dplyr::rename_with()`. The order is, *(function used to rename, columns selected)*. If you don't select columns, all variables will be renamed.
+* Note: You can either rename all variables or select variables. The default argument is *.cols = everything()*.
 
 <br>
 
-**1\. Remove all periods in variable names and replace with underscores**
+**1\. Replace periods in all variable names with underscores**
 
 Review the data (d2)
 
@@ -45,6 +45,14 @@ Modify variable names by adding the `stringr::str_replace()` function.
 ```{r}
 
 d2 %>% dplyr::rename_with(~ stringr::str_replace(., "\\.", "_"))
+
+```
+
+* Note: If I only wanted to replace the periods for Var1 and Var2, I could add the argument *cols =*
+
+```{r}
+
+d2 %>% dplyr::rename_with(~ stringr::str_replace(., "\\.", "_"), .cols=c(Var.1, Var.2))
 
 ```
 
@@ -69,7 +77,7 @@ d6 %>% dplyr::rename_with(~ stringr::str_remove(., "[:digit:]:"))
 ```
 
 
-**3\. For any variable that starts with "s_", remove the prefix**
+**3\. For any variable that contains the word "var", remove the prefix "s_"**
 
 Review the data (d5)
 
@@ -80,13 +88,15 @@ d5
 
 ```
 
-Modify variable names by adding the `stringr::str_remove()` function and the `tidyselect` selection helper `contains()`.
+Modify variable names by adding the `stringr::str_remove()` function.
+
+* Note: We are using the *.cols* argument here and modifying the default which is *.cols = everything()* and selecting the columns we want by adding the `tidyselect` selection helper `contains()`.
 
 * Note: Other `tidyselect` selection helpers include `startswith()`, `ends_with()`, `matches`, `num_range`, `where` and more.
 
 ```{r}
 
-d5 %>% dplyr::rename_with(~ stringr::str_remove(., "s_"), tidyselect::contains("var"))
+d5 %>% dplyr::rename_with(~ stringr::str_remove(., "s_"), .cols = tidyselect::contains("var"))
 
 ```
 
@@ -105,7 +115,7 @@ d5 %>% dplyr::rename_with(~ stringr::str_remove(., "s_"), tidyselect::contains("
 
 <br>
 
-**1\. Remove s_ in variable names**
+**1\. Remove s_ in all variable names**
 
 Review the data (d5)
 

@@ -46,7 +46,7 @@ dplyr::count(d8)
 
 Keep any row that has "harris" for tch_name. 
 
-* Note: Use the operator *==* to denote equal to.
+* Note: Use the logical operator *==* to denote exactly equal to.
 
 ```{r}
 
@@ -87,7 +87,7 @@ d8
 
 Filter out any row that has "harris" for tch_name. 
 
-* Note: Use the operator *!=* to denote not equal to.
+* Note: Use the logical operator *!=* to denote not equal to.
 
 ```{r}
 
@@ -95,9 +95,7 @@ d8 %>% dplyr::filter(tch_name != "harris")
 
 ```
 
-Again, you could get the same result adding the `stringr::str_detect()` function and either adding the *!* operator or adding the `stringr::str_detect` argument *negate=TRUE* which returns non-matching elements.
-
-Using !
+Again, you could get the same result adding the `stringr::str_detect()` function and either adding the *!* operator.
 
 ```{r}
 
@@ -105,7 +103,7 @@ d8 %>% dplyr::filter(!stringr::str_detect(tch_name, 'har'))
 
 ```
 
-Or using *negate=TRUE*
+You could also remove the *!* and add the `stringr::str_detect` argument *negate=TRUE* which returns non-matching elements.
 
 ```{r}
 
@@ -136,7 +134,7 @@ d8
 
 Keep any row that has a value greater than or equal to zero for extra2. 
 
-* Note: Use the operator *>=* to denote greater than or equal to.
+* Note: Use the logical operator *>=* to denote greater than or equal to.
 
 ```{r}
 
@@ -159,6 +157,8 @@ d5
 
 Filter out any row that has -999 for extra2.
 
+* Note: Use the logical operator *!=* to denote not equal to.
+
 * Note: You'll notice that I make an explicit call to **keep** rows with NA values for extra2 in addition to removing rows with the value of -999 for extra2, using the *|* operator to denote and/or. A drawback of the `filter` function is that if you filter on a certain variable (such as extra2) it will not only filter out the values you request but it will also drop any row that has NA for that variable. And we may not necessarily want that. In this case, I want to keep the last row of data that has NA for extra2.
 
 ```{r}
@@ -167,6 +167,13 @@ d5 %>% dplyr::filter(extra2 != -999 | is.na(extra2))
 
 ```
 
+Another way to get around the issue of dropping NAs is to filter using the operator *%in%* rather than *=*. The == is a logical operator retains/drops rows that produce a value of TRUE for all conditions (and NA cannot be evaluated and is therefore dropped). However %in% matches values and therefore doesn't drop NA.
+
+```{r}
+
+d5 %>% dplyr::filter(!(extra2 %in% -999))
+
+```
 
 ---
 
@@ -190,7 +197,7 @@ d7
 
 Keep any row that does not have NA for extra2.
 
-* Note: Use the operator *!=* to denote not equal to.
+* Note: Use the logical operator *!* to denote NOT.
 
 ```{r}
 
@@ -450,7 +457,7 @@ d5
 
 Filter out any row that has -999 for extra2 and/or -999 for extra3 (retaining any row that has NA values for those variables). 
 
-* Note: Again, you'll notice that I make an explicit call to **keep** rows with NA values for extra2 and extra3 in addition to removing rows with the value of -999 for extra2 and extra 3, using the *|* operator to denote and/or. A drawback of the `filter` function is that if you filter on a certain variables it will not only filter out the values you request but it will also drop any row that has NA for those variables. And we may not necessarily want that. In this case, I want to keep the last row of data that has NA for extra2.
+* Note: Again, you'll notice that I make an explicit call to **keep** rows with NA values for extra2 and extra3 in addition to removing rows with the value of -999 for extra2 and extra 3, using the *|* operator to denote and/or. Remember, a drawback of the `filter` function is that if you filter on a certain variable it will not only filter out the values you request but it will also drop any row that has NA for those variables. And we may not necessarily want that. In this case, I want to keep the last row of data that has NA for extra2.
 
 * Note: Notice that for the first part of the equation I put the operator *!* outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.
 
@@ -458,6 +465,14 @@ Filter out any row that has -999 for extra2 and/or -999 for extra3 (retaining an
 
 d5 %>% 
   dplyr::filter(!(extra2==-999 | extra3 ==-999) | (is.na(extra2) | is.na(extra3)))
+
+```
+
+Again, to get around the issue of dropping NAs we can use the operator *%in%* rather than *==* to make sure we keep the NA values for extra2 and extra3.
+
+```{r}
+
+d5 %>% dplyr::filter(!(extra2 %in% -999 | extra3 %in% -999))
 
 ```
 

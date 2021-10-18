@@ -40,6 +40,7 @@ class(d1$Var1)
 class(d1$Var2)
 class(d1$Var3)
 class(d1$Var4)
+class(d1$Var5)
 
 ```
 

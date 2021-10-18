@@ -21,7 +21,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Convert a variable (Var1) to a factor**
+**1\. Convert a character variable (Var1) to a factor**
 
 Review the data (d2)
 
@@ -172,7 +172,41 @@ class(d2$Var3)
 
 ```
 
-**2\. Convert all character variables to numeric**
+**2\. Convert a logical variable (Var5) to numeric**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+View the class for Var5
+
+```{r}
+
+class(d2$Var5)
+
+```
+
+Convert Var5 to numeric.
+
+* Note: We are recoding into a new variable using `dplyr::mutate()` and saving over the original variable by naming the new variable the same name as the original. 
+
+```{r, warning = FALSE}
+
+d2 <- d2 %>% dplyr::mutate(Var5 = as.numeric(Var5))
+
+d2$Var5
+
+class(d2$Var5)
+
+```
+
+
+**3\. Convert all character variables to numeric**
 
 Review the data (d4)
 
@@ -370,6 +404,8 @@ Convert Var4 to a date
 ```{r}
 
 d2 <- d2 %>% dplyr::mutate(Var4 = lubridate::mdy(Var4))
+
+d2$Var4
 
 class(d2$Var4)
 

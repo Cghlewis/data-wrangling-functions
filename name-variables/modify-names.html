@@ -190,7 +190,8 @@ pre code {
 3 c         3     1</code></pre>
 <p>Modify variable names by adding the <code>stringr::str_replace()</code> function.</p>
 <ul>
-<li>Note: If there were more than one period in the variable names, you could also use <code>stringr::str_replace_all()</code> to remove all instances of periods, rather than just the first instance.</li>
+<li><p>Note: In regular expressions (regex), “.” has a special meaning. It is used to match any character. So therefore we will need to escape that functionality, telling the regex to match exactly, by adding “\\”.</p></li>
+<li><p>Note: If there were more than one period in the variable names, you could also use <code>stringr::str_replace_all()</code> to remove all instances of periods, rather than just the first instance.</p></li>
 </ul>
 <pre class="r"><code>d2 %&gt;% dplyr::rename_with(~ stringr::str_replace(., &quot;\\.&quot;, &quot;_&quot;))</code></pre>
 <pre><code># A tibble: 3 x 3

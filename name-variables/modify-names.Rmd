@@ -40,6 +40,8 @@ d2
 
 Modify variable names by adding the `stringr::str_replace()` function.
 
+* Note: In regular expressions (regex), "." has a special meaning. It is used to match any character. So therefore we will need to escape that functionality, telling the regex to match exactly, by adding "\\\\".
+
 * Note: If there were more than one period in the variable names, you could also use `stringr::str_replace_all()` to remove all instances of periods, rather than just the first instance.
 
 ```{r}

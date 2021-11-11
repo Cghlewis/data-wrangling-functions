@@ -117,7 +117,14 @@ d3 %>%
 
 ```
 
+If you wanted to exclude some of the "toca" items (say just toca2), you could exclude them this way, by wrapping your selected and excluded variables in c(). 
 
+```{r}
+
+d3 %>% 
+  dplyr::mutate(toca_mean = rowMeans(dplyr::across(c(tidyselect::starts_with("toca"), -toca2)), na.rm=TRUE))
+
+```
 
 <br>
 
@@ -207,12 +214,12 @@ d2 %>%
 
 **3\. Calculate a mean score ("toca_mean") for all the variables that contain the word "toca", for each student even with missing data**
 
-Review the data (d3)
+Review the data (d4)
 
 ```{r, echo=FALSE}
 
 source("data.R")
-d3
+d4
 
 ```
 
@@ -224,12 +231,21 @@ Calculate the mean toca score
 
 ```{r}
 
-d3 %>%
+d4 %>%
   dplyr::rowwise() %>%
   dplyr::mutate(toca_sum = mean(dplyr::c_across(tidyselect::contains("toca")), na.rm=TRUE))
 
 ```
 
+Again, if you wanted to exclude some of the "toca" items (say toca2 and toca4 this time), you could exclude them this way, by wrapping your selected and excluded variables in c(). 
+
+```{r}
+
+d4 %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(toca_sum = mean(dplyr::c_across(c(tidyselect::contains("toca"), -c(toca2, toca4))), na.rm=TRUE))
+
+```
 
 <br>
 

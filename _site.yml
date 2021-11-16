@@ -70,6 +70,8 @@ navbar:
     href: complete\complete-wide.html
   - text: "Calculate row values"
     href: calculate-row-values\row-calcs.html
+  - text: "Compare data frames"
+    href: compare-data-frames\compare-df.html
 output:
   html_document:
     theme: readable

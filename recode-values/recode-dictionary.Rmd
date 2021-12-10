@@ -21,7 +21,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-1. There may be times when you would rather recode open-ended gender responses based on an existing dictionary (and their misspelling variations). In this case, you can use an existing package that has a dictionary built in. In this example, we will recode gender using the `gendercoder` package.
+1. There may be times when you would rather recode open-ended gender responses based on an existing dictionary. In this case, you can use an existing package that has a dictionary built in. In this example, we will recode gender using the `gendercoder` package.
 
 To see the full dictionary used for recodes, see [GenderDictionary_List.csv](https://github.com/ropenscilabs/gendercoder/blob/master/inst/extdata/GenderDictionary_List.csv)
 

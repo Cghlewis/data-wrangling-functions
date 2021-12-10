@@ -180,7 +180,7 @@ pre code {
 </ol>
 <p>To see the full dictionary used for recodes, see <a href="https://github.com/ropenscilabs/gendercoder/blob/master/inst/extdata/GenderDictionary_List.csv">GenderDictionary_List.csv</a></p>
 <p>Review the data (d11)</p>
-<pre><code># A tibble: 6 x 2
+<pre><code># A tibble: 7 x 2
      id gender   
   &lt;dbl&gt; &lt;chr&gt;    
 1   345 mal      
@@ -188,7 +188,8 @@ pre code {
 3   347 nonbinary
 4   348 trans    
 5   349 feamle   
-6   350 f        </code></pre>
+6   350 f        
+7   351 I&#39;m a man</code></pre>
 <p>Recode open-response gender into standardized gender categories based on a built-in dictionary.</p>
 <ul>
 <li><p>Note: In this package you can choose between a broader recoding of gender, using the argument <em>dictionary = manylevels_en</em> (the default) or a narrower recoding using the argument <em>dictionary = fewlevels_en</em>.</p></li>
@@ -197,7 +198,7 @@ pre code {
 </ul>
 <pre class="r"><code>d11 %&gt;%  
   dplyr::mutate(gender_new = gendercoder::recode_gender(gender, retain_unmatched = TRUE))</code></pre>
-<pre><code># A tibble: 6 x 3
+<pre><code># A tibble: 7 x 3
      id gender    gender_new 
   &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;      
 1   345 mal       man        
@@ -205,7 +206,8 @@ pre code {
 3   347 nonbinary non-binary 
 4   348 trans     transgender
 5   349 feamle    woman      
-6   350 f         woman      </code></pre>
+6   350 f         woman      
+7   351 I&#39;m a man I&#39;m a man  </code></pre>
 </div>
 </div>
 

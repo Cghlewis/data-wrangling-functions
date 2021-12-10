@@ -67,7 +67,7 @@ Recode gender
 
 * Note: We did not have to put quotes around the old values because `dplyr::recode()` replaces character or factor values by their name.
 
-* Note: Since we are recoding into a numeric variable, no quotes are necessary are the numeric new value.
+* Note: Since we are recoding into a numeric variable, no quotes are necessary for the numeric new value.
 
 * Note: We are recoding back into the same variable using `dplyr::mutate()`. However, we could have recoded into a new variable by changing the name of *gender*.
 

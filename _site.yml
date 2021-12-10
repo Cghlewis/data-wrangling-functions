@@ -26,6 +26,8 @@ navbar:
     href: recode-values\recode-na.html
   - text: "Collapse categories"
     href: recode-values\collapse-categories.html
+  - text: "Recode dictionary"
+    href: recode-values\recode-dictionary.html
   - text: "Review data type"
     href: data-type\review-data-type.html
   - text: "Convert variable class"

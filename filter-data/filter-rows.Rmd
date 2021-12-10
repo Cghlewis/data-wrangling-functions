@@ -111,6 +111,61 @@ d8 %>% dplyr::filter(stringr::str_detect(tch_name, 'har', negate=TRUE))
 
 ```
 
+**3\. Keep rows based on one criteria (in this case for a date variable). Keep any row where test_date occurred in the year 2021.**
+
+Review the data (d12)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d12
+
+```
+
+First lets check to see what type of variable test_date is.
+
+We find that it is a character. In order to filter as a date, we either need to convert the variable type to date now, or within our filter.
+
+```{r}
+
+class(d12$test_date)
+
+```
+
+Keep any row where the test date occurred in the year 2021.
+
+* Note: We added base::as.Date in order to change the variable class to date
+
+* Note: Use the logical operator *>=* to denote greater than or equal to.
+
+
+```{r}
+
+d12 %>% 
+  dplyr::filter(as.Date(test_date) >= "2021-01-01")
+
+```
+
+* Note: I knew that the highest year in the data was 2021 so I didn't need to add a less than for this function. However if there were years greater than 2021, I could write the function like this.
+
+```{r}
+
+d12 %>% 
+  dplyr::filter(as.Date(test_date) >= "2021-01-01" &
+                  as.Date(test_date) < "2022-01-01")
+
+```
+
+I could also simplify this by not adding the day and month and just looking for the year by using the `lubridate::year()` function.
+
+```{r}
+
+d12 %>% 
+  dplyr::filter(lubridate::year(as.Date(test_date)) ==
+                  "2021")
+
+```
+
 
 ---
 

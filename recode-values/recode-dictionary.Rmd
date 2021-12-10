@@ -1,0 +1,67 @@
+---
+title: "Recode using a dictionary"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: gendercoder
+
+---
+
+#### Function: `recode_gender()`
+
+---
+
+1. There may be times when you would rather recode open-ended gender responses based on an existing dictionary (and their misspelling variations). In this case, you can use an existing package that has a dictionary built in. In this example, we will recode gender using the `gendercoder` package.
+
+To see the full dictionary used for recodes, see [GenderDictionary_List.csv](https://github.com/ropenscilabs/gendercoder/blob/master/inst/extdata/GenderDictionary_List.csv)
+
+Review the data (d11)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d11
+
+```
+
+Recode open-response gender into standardized gender categories based on a built-in dictionary. 
+
+* Note: In this package you can choose between a broader recoding of gender, using the argument *dictionary = manylevels_en* (the default) or a narrower recoding using the argument *dictionary = fewlevels_en*.
+
+* Note: You can also choose to retain any values that are not found using the argument *retain_unmatched = TRUE*.
+
+* Note: We are recoding into a new variable using `dplyr::mutate()` and naming the new variable a different name than the original. It keeps both the new and old versions of the variable. 
+
+```{r}
+
+d11 %>%  
+  dplyr::mutate(gender_new = gendercoder::recode_gender(gender, retain_unmatched = TRUE))
+
+```
+
+
+```{r, echo = FALSE, eval = FALSE, include = FALSE}
+
+# Not working
+# If we wanted to use the fewer levels dictionary, we could # change the *dictionary* argument and get this output # instead.
+
+d11 %>%  
+  dplyr::mutate(gender_new =
+                  gendercoder::recode_gender(gender,
+                                             dictionary =
+                                               fewlevels_en,
+                                            retain_unmatched
+                                            = TRUE))
+
+```
+

@@ -36,7 +36,7 @@ d6
 
 ```
 
-Collapse all spellings of Google Meet into one uniform category function
+Collapse all spellings of Google Meet into one uniform category
 
 * Note: We are recoding into a new variable using `dplyr::mutate()` and naming the new variable a different name than the original. It keeps both the new and old versions of the variable. 
 

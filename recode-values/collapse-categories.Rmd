@@ -142,9 +142,6 @@ d10 %>%
 
 ```
 
-**3\. Collapse a numeric variable (Var2) into discrete numeric categories**
-
-
 ---
 
 #### Function: `case_when()`

@@ -20,6 +20,8 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
+* Note: I am only showing how to read in SPSS files here but the `haven` package also has functions to read in Stata and SAS files.
+
 **1\. Read in an SPSS file**
 
 Type *?read_sav* in the console for available arguments

@@ -44,6 +44,8 @@ navbar:
     href: filter-data\filter-empty-rows.html
   - text: "Import a single file"
     href: import-data\import-single-file.html
+  - text: "Import from a url"
+    href: import-data\import-from-url.html
   - text: "Import multiple files"
     href: import-data\import-multiple-files.html
   - text: "Set all variable names"

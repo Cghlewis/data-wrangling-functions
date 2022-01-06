@@ -1,0 +1,74 @@
+---
+title: "Import from a url"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+### Package: readxl
+
+---
+  
+#### Function: `readxl::read_excel()`
+  
+---
+  
+**1\. Read in an Excel file**
+
+A url directly does not work as a path for the readr::read_excel() function. Therefore reading an Excel file directly from a url is a two part process.
+
+First, you need to download the file to a temporary directory on your machine. From your temporary file you can read the file into R. 
+
+You can use the curl package to download the file. 
+
+First assign the url to an object.
+Then assign your temporary directory to an object.
+Then use these arguments in the curl::curl_download() function.
+
+```{r}
+
+url <- "https://apps.dese.mo.gov/MCDS/FileDownloadWebHandler.ashx?filename=4d81bf0a-32f5Building%20Level%20Per%20Pupil%20Expenditures%202021.xlsx"
+
+tmp <- tempfile()
+
+curl::curl_download(url, tmp)
+
+```
+
+You will now have the file downloaded in a temporary directory.
+
+Next you can read in the Excel file same as you would as reading an Excel file from any directory on your computer.
+
+Type *?read_excel* in the console for available arguments
+
+```{r}
+
+d <- readxl::read_excel(tmp)
+
+```
+
+### Package: readr
+
+---
+  
+#### Function: `readr::read_csv()`
+  
+---
+  
+**1\. Read in a csv file**
+
+Unlike readxl::read_excel(), you can actually read in a url directly with readr::read_csv().
+
+Type *?read_csv* in the console for available arguments
+
+```{r, eval=FALSE}
+
+d <- readr::read_csv("https://stacks.stanford.edu/file/druid:db586ns4974/district%20gaps%20%28pooled%20year%2C%20grade%20and%20sub%29_v1_1.csv")
+
+```

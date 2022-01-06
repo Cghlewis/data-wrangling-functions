@@ -175,10 +175,9 @@ pre code {
 <h4>Function: <code>readxl::read_excel()</code></h4>
 <hr />
 <p><strong>1. Read in an Excel file</strong></p>
-<p>A url directly does not work as a path for the readr::read_excel() function. Therefore reading an Excel file directly from a url is a two part process.</p>
+<p>A url directly does not work as a path for the <code>readr::read_excel()</code> function. Therefore reading an Excel file directly from a url is a two part process.</p>
 <p>First, you need to download the file to a temporary directory on your machine. From your temporary file you can read the file into R.</p>
-<p>You can use the curl package to download the file.</p>
-<p>First assign the url to an object. Then assign your temporary directory to an object. Then use these arguments in the curl::curl_download() function.</p>
+<p>You can use the <code>curl</code> package to download the file. First assign the url to an object. Then assign your temporary directory to an object. Then use these arguments in the <code>curl::curl_download()</code> function.</p>
 <pre class="r"><code>url &lt;- &quot;https://apps.dese.mo.gov/MCDS/FileDownloadWebHandler.ashx?filename=4d81bf0a-32f5Building%20Level%20Per%20Pupil%20Expenditures%202021.xlsx&quot;
 
 tmp &lt;- tempfile()

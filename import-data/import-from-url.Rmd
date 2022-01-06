@@ -21,15 +21,14 @@ knitr::opts_chunk$set(comment = NA,
   
 **1\. Read in an Excel file**
 
-A url directly does not work as a path for the readr::read_excel() function. Therefore reading an Excel file directly from a url is a two part process.
+A url directly does not work as a path for the `readr::read_excel()` function. Therefore reading an Excel file directly from a url is a two part process.
 
 First, you need to download the file to a temporary directory on your machine. From your temporary file you can read the file into R. 
 
-You can use the curl package to download the file. 
-
+You can use the `curl` package to download the file. 
 First assign the url to an object.
 Then assign your temporary directory to an object.
-Then use these arguments in the curl::curl_download() function.
+Then use these arguments in the `curl::curl_download()` function.
 
 ```{r}
 

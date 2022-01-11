@@ -194,7 +194,7 @@ Calculate the mean score
 
 d2 %>%
   dplyr::rowwise() %>%
-  dplyr::mutate(measure_sum = mean(dplyr::c_across(item1:item3), na.rm=TRUE))
+  dplyr::mutate(measure_mean = mean(dplyr::c_across(item1:item3), na.rm=TRUE))
 
 ```
 
@@ -207,7 +207,7 @@ You can set the number of decimal places you want the new variable to have by wr
 
 d2 %>%
   dplyr::rowwise() %>%
-  dplyr::mutate(measure_sum = round(mean(c_across(item1:item3), na.rm=TRUE), digits=2))
+  dplyr::mutate(measure_mean = round(mean(c_across(item1:item3), na.rm=TRUE), digits=2))
 
 ```
 
@@ -233,7 +233,7 @@ Calculate the mean toca score
 
 d4 %>%
   dplyr::rowwise() %>%
-  dplyr::mutate(toca_sum = mean(dplyr::c_across(tidyselect::contains("toca")), na.rm=TRUE))
+  dplyr::mutate(toca_mean = mean(dplyr::c_across(tidyselect::contains("toca")), na.rm=TRUE))
 
 ```
 
@@ -243,7 +243,7 @@ Again, if you wanted to exclude some of the "toca" items (say toca2 and toca4 th
 
 d4 %>%
   dplyr::rowwise() %>%
-  dplyr::mutate(toca_sum = mean(dplyr::c_across(c(tidyselect::contains("toca"), -c(toca2, toca4))), na.rm=TRUE))
+  dplyr::mutate(toca_mean = mean(dplyr::c_across(c(tidyselect::contains("toca"), -c(toca2, toca4))), na.rm=TRUE))
 
 ```
 

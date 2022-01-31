@@ -46,3 +46,9 @@ d6 <- tibble::tribble(
   "Muriel W. Battle High School", "Columbia",
   "Rock Bridge Sr. High", "Columbia",
   "Webster Groves High School", "Webster Groves")
+
+d7 <- tibble::tribble(
+  ~stid_schid, ~students,
+  123456, 300,
+  123678, 340,
+  123789, 351)

@@ -277,3 +277,5 @@ Check that your reverse code worked correctly
 d2 %>% janitor::tabyl(Var2, Var2_r)
 
 ```
+
+Return to [Recode](https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode)

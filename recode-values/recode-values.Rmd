@@ -288,3 +288,5 @@ Review the factor levels
 levels(d7$lunch)
 
 ```
+
+Return to [Recode](https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode)

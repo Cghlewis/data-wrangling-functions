@@ -215,3 +215,4 @@ d3 %>% dplyr::mutate(dplyr::across(where(is.numeric), dplyr::na_if, -999))
 
 ```
 
+Return to [Recode](https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode)

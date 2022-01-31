@@ -45,3 +45,5 @@ Split toppings into new rows
 d5 %>% tidyr::separate_rows(toppings, sep=",")
 
 ```
+
+Return to [Separate](https://github.com/Cghlewis/data-wrangling-functions/wiki/Separate)

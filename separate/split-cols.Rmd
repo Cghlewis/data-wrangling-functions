@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Split a variable (name) into first name and last name**
+**1\. Split a character variable (name) into first name and last name**
 
 Review the data (d1)
 
@@ -36,7 +36,7 @@ d1
 Split name into two variables
 
 * Note: The original variable will be removed unless you add the argument *remove=FALSE*
-* Note: If no separator is indicated, the function will split values wherever a non-alphanumeric character appears. If you want to be clear where to separate, add the argument *sep=* and insert a regular expression such as *sep=" "*. If working with numeric columns rather than character columns, you can separate based on character position.
+* Note: If no separator is indicated, the function will split values wherever a non-alphanumeric character appears (for example, a space). If you want to be clear where to separate, add the argument *sep=* and insert a regular expression such as *sep=" "*. 
 
 ```{r}
 
@@ -91,7 +91,7 @@ d3 %>% tidyr::separate(name, into = c("first_name", "last_name"), fill="left")
 
 ```
 
-**2\. Split only some of the cells in a column (school_name) and keep only one column of the split**
+**2\. Split only some of the cells in a character column (school_name) and keep only one column of the split**
 
 Review the data (d6)
 
@@ -114,8 +114,30 @@ With only a few values, I could easily do a recode. However, if there were hundr
 
 ```{r}
 
-d6 %>% tidyr::separate(school_name, "[A-Z]\\.\\s", into = c("name1", "school_name"), fill="left") %>%
+d6 %>% tidyr::separate(school_name, sep = "[A-Z]\\.\\s", into = c("name1", "school_name"), fill="left") %>%
   dplyr::select (-name1)
 
 ```
 
+**3\. Split a numeric variable (stid_schid) into state id and school id**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d7
+
+```
+
+Split stid_schid into 2 variables
+
+* Note: If working with numeric columns you can separate based on character position.
+
+```{r}
+
+d7 %>% tidyr::separate(stid_schid, sep = 3, into=c("state_id", "school_id"))
+
+```
+
+Return to [Separate](https://github.com/Cghlewis/data-wrangling-functions/wiki/Separate)

@@ -175,7 +175,7 @@ pre code {
 <div id="function-separate" class="section level4">
 <h4>Function: <code>separate()</code></h4>
 <hr />
-<p><strong>1. Split a variable (name) into first name and last name</strong></p>
+<p><strong>1. Split a character variable (name) into first name and last name</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 3 x 3
   name            age test_score
@@ -186,7 +186,7 @@ pre code {
 <p>Split name into two variables</p>
 <ul>
 <li>Note: The original variable will be removed unless you add the argument <em>remove=FALSE</em></li>
-<li>Note: If no separator is indicated, the function will split values wherever a non-alphanumeric character appears. If you want to be clear where to separate, add the argument <em>sep=</em> and insert a regular expression such as <em>sep=” “</em>. If working with numeric columns rather than character columns, you can separate based on character position.</li>
+<li>Note: If no separator is indicated, the function will split values wherever a non-alphanumeric character appears (for example, a space). If you want to be clear where to separate, add the argument <em>sep=</em> and insert a regular expression such as <em>sep=” “</em>.</li>
 </ul>
 <pre class="r"><code>d1 %&gt;% tidyr::separate(name, into=c(&quot;first_name&quot;, &quot;last_name&quot;))</code></pre>
 <pre><code># A tibble: 3 x 4
@@ -245,7 +245,7 @@ pre code {
 1 Marge      Simpson      30        3.6
 2 &lt;NA&gt;       Simpson      34        8.5
 3 Ned        Flanders     35       NA  </code></pre>
-<p><strong>2. Split only some of the cells in a column (school_name) and keep only one column of the split</strong></p>
+<p><strong>2. Split only some of the cells in a character column (school_name) and keep only one column of the split</strong></p>
 <p>Review the data (d6)</p>
 <pre><code># A tibble: 4 x 2
   school_name                  city          
@@ -261,7 +261,7 @@ pre code {
 <li><p>Note: I added the argument <em>fill=“left”</em> to bring any value that did not separate into our new school_name column.</p></li>
 <li><p>Note: Last I added <code>dplyr::select()</code> to drop the unnecessary name1 column.</p></li>
 </ul>
-<pre class="r"><code>d6 %&gt;% tidyr::separate(school_name, &quot;[A-Z]\\.\\s&quot;, into = c(&quot;name1&quot;, &quot;school_name&quot;), fill=&quot;left&quot;) %&gt;%
+<pre class="r"><code>d6 %&gt;% tidyr::separate(school_name, sep = &quot;[A-Z]\\.\\s&quot;, into = c(&quot;name1&quot;, &quot;school_name&quot;), fill=&quot;left&quot;) %&gt;%
   dplyr::select (-name1)</code></pre>
 <pre><code># A tibble: 4 x 2
   school_name                city          
@@ -270,6 +270,26 @@ pre code {
 2 Battle High School         Columbia      
 3 Rock Bridge Sr. High       Columbia      
 4 Webster Groves High School Webster Groves</code></pre>
+<p><strong>3. Split a numeric variable (stid_schid) into state id and school id</strong></p>
+<p>Review the data (d1)</p>
+<pre><code># A tibble: 3 x 2
+  stid_schid students
+       &lt;dbl&gt;    &lt;dbl&gt;
+1     123456      300
+2     123678      340
+3     123789      351</code></pre>
+<p>Split stid_schid into 2 variables</p>
+<ul>
+<li>Note: If working with numeric columns you can separate based on character position.</li>
+</ul>
+<pre class="r"><code>d7 %&gt;% tidyr::separate(stid_schid, sep = 3, into=c(&quot;state_id&quot;, &quot;school_id&quot;))</code></pre>
+<pre><code># A tibble: 3 x 3
+  state_id school_id students
+  &lt;chr&gt;    &lt;chr&gt;        &lt;dbl&gt;
+1 123      456            300
+2 123      678            340
+3 123      789            351</code></pre>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Separate">Separate</a></p>
 </div>
 </div>
 

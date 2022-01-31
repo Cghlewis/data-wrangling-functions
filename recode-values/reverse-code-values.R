@@ -94,3 +94,10 @@ d <- d %>% mutate(Var2R = dplyr::if_else(Var2 == 1, 5,
 d %>% janitor::tabyl(Var2, Var2R)
 
 
+# Check the values of Var2 and Var3
+
+# Note: `base::lapply()` is used to iterate the 
+# `base::table()` function across all variables.
+
+lapply(d2, table, useNA="always")
+

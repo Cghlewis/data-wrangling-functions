@@ -36,16 +36,6 @@ d2
 
 ```
 
-Check the values of Var2 and Var3
-
-* Note: `base::lapply()` is used to iterate the `base::table()` function across all variables.
-
-```{r}
-
-lapply(d2, table, useNA="always")
-
-```
-
 Reverse code Var2 and Var3 and rename the variables with *_r* at the end by using the `dplyr::rename_with()` function as well as `base::paste0()`.
 
 * Note: We are modifying existing variables using `dplyr::mutate()`. In this scenario we are writing over the existing variables and then renaming them. You could also keep both the new and old variables like I do in the second scenario below. 

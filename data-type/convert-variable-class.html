@@ -409,7 +409,6 @@ class(d1$Var1)</code></pre>
 <div id="function-lubridatemdy" class="section level4">
 <h4>Function: <code>lubridate::mdy()</code></h4>
 <hr />
-<p><strong>Note</strong>: mdy() is just the format for Var4, you can adjust the format for your character variable (ex: dmy, ymd, ymd_hms)</p>
 <p><br></p>
 <p><strong>1. Convert a character variable (Var4) to a date</strong></p>
 <p>Review the data (d2)</p>
@@ -424,13 +423,109 @@ class(d1$Var1)</code></pre>
 <pre><code>[1] &quot;character&quot;</code></pre>
 <p>Convert Var4 to a date</p>
 <ul>
-<li>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and saving over the original variable by naming the new variable the same name as the original.</li>
+<li><p>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and saving over the original variable by naming the new variable the same name as the original.</p></li>
+<li><p>Note: mdy() is just the format for Var4, you can adjust the format for your character variable and use functions such as <code>dmy()</code>, <code>ymd()</code>, <code>ymd_hms()</code>.</p></li>
 </ul>
 <pre class="r"><code>d2 &lt;- d2 %&gt;% dplyr::mutate(Var4 = lubridate::mdy(Var4))
 
 d2$Var4</code></pre>
 <pre><code>[1] &quot;2004-10-10&quot; &quot;2007-12-14&quot; &quot;2020-08-09&quot;</code></pre>
 <pre class="r"><code>class(d2$Var4)</code></pre>
+<pre><code>[1] &quot;Date&quot;</code></pre>
+<hr />
+</div>
+<div id="function-lubridateas_date-lubridateas_datetime" class="section level4">
+<h4>Function: <code>lubridate::as_date()</code>, <code>lubridate::as_datetime()</code></h4>
+<hr />
+<p><strong>1. Convert a character variable that appears numeric (created_timestamp) to a datetime (POSIXct)</strong></p>
+<ul>
+<li>Note: Sometimes dates will come in as numeric, epoch time, typically number of seconds (sometimes a different unit) since a start date, usually Jan 1, 1970. This happens a lot when importing data from Excel but can also happen with other sources. For example, I’ve imported data from the Twitter API and had dates in epoch time in milliseconds. You will need to know information about your data before converting a variable.</li>
+</ul>
+<p>Review the data (d5)</p>
+<pre><code># A tibble: 2 x 3
+  type     id created_timestamp
+  &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;            
+1 b       333 1643909614746    
+2 a       444 1644593624206    </code></pre>
+<p>View the class for created_timestamp</p>
+<ul>
+<li>Note: You’ll notice this variable appeared numeric but is actually character which is important to know.</li>
+</ul>
+<pre class="r"><code>class(d5$created_timestamp)</code></pre>
+<pre><code>[1] &quot;character&quot;</code></pre>
+<p>Convert created_timestamp to a datetime</p>
+<ul>
+<li><p>Note: I know for this timestamp variable that the value is in milliseconds, not seconds. So in order to use the function I want to use, <code>lubridate::as_datetime()</code>, I need to convert my character variable to numeric using <code>base::as.numeric()</code> and then divide it by 1000. If the time was in seconds, I would not need to convert the character variable to numeric before applying the <code>lubridate</code> function.</p></li>
+<li><p>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and saving over the original variable by naming the new variable the same name as the original.</p></li>
+<li><p>Note: You can change the timezone from UTC to something else (like “America/Chicago”) by adding the argument <em>tz = “America/Chicago”</em>. You can get your current timezone by typing “Sys.timezone()” in your console. Time zones must be from tz database (Olson database). You can see all time zones by typing “OlsonNames()” in your console.</p></li>
+</ul>
+<pre class="r"><code>d5 &lt;- d5 %&gt;% 
+  mutate(created_timestamp = 
+           lubridate::as_datetime(base::as.numeric(created_timestamp)/1000))
+
+d5$created_timestamp</code></pre>
+<pre><code>[1] &quot;2022-02-03 17:33:34 UTC&quot; &quot;2022-02-11 15:33:44 UTC&quot;</code></pre>
+<pre class="r"><code>class(d5$created_timestamp)</code></pre>
+<pre><code>[1] &quot;POSIXct&quot; &quot;POSIXt&quot; </code></pre>
+<p>If I no longer cared about the time portion of this variable and only wanted the date, I could further modify the variable using <code>lubridate::as_date()</code> and add the format I want, in this case %Y/%m/%d.</p>
+<ul>
+<li>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and saving into a new variable.</li>
+</ul>
+<pre class="r"><code>d5 &lt;- d5 %&gt;% 
+  mutate(created_timestamp_date =
+           lubridate::as_date(created_timestamp))
+
+d5$created_timestamp_date</code></pre>
+<pre><code>[1] &quot;2022-02-03&quot; &quot;2022-02-11&quot;</code></pre>
+<pre class="r"><code>class(d5$created_timestamp_date)</code></pre>
+<pre><code>[1] &quot;Date&quot;</code></pre>
+<p><strong>2. Convert a numeric date variable from Excel to a date</strong></p>
+<p>Review the data (d6)</p>
+<pre><code># A tibble: 2 x 3
+  type     id  date
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 b       333 44491
+2 a       444 44530</code></pre>
+<p>View the class for date</p>
+<pre class="r"><code>class(d6$date)</code></pre>
+<pre><code>[1] &quot;numeric&quot;</code></pre>
+<ul>
+<li>Note: Here you’ll notice that I provide an origin date. Unlike the Unix epoch of 1970-01-01, the origin date for Excel on Windows, is December 30, 1899 for dates after 1900. For Excel on Mac, the origin date is January 1, 1904. If I did not provide an origin date, we would get some very strange dates.</li>
+</ul>
+<pre class="r"><code>d6 &lt;- d6 %&gt;% dplyr::mutate(date = lubridate::as_date(date, origin = &quot;1899-12-30&quot;))
+
+d6$date</code></pre>
+<pre><code>[1] &quot;2021-10-22&quot; &quot;2021-11-30&quot;</code></pre>
+<pre class="r"><code>class(d6$date)</code></pre>
+<pre><code>[1] &quot;Date&quot;</code></pre>
+</div>
+</div>
+<div id="package-janitor" class="section level3">
+<h3>Package: janitor</h3>
+<hr />
+<div id="function-janitorexcel_numeric_to_date" class="section level4">
+<h4>Function: <code>janitor::excel_numeric_to_date()</code></h4>
+<hr />
+<p><br></p>
+<p><strong>1. Convert a numeric date variable from Excel to a date</strong></p>
+<p>Review the data (d6)</p>
+<pre><code># A tibble: 2 x 3
+  type     id  date
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 b       333 44491
+2 a       444 44530</code></pre>
+<p>View the class for date</p>
+<pre class="r"><code>class(d6$date)</code></pre>
+<pre><code>[1] &quot;numeric&quot;</code></pre>
+<p>If you don’t want to stress over remembering the origin date, another helpful function for working with Excel numeric dates is <code>janitor::excel_numeric_to_date()</code>, which includes the origin time.</p>
+<ul>
+<li>Note: There are still more issues where certain versions of Excel for Mac may still use different date systems which you can work with by adding the argument <em>date_system</em>. You can view the options for adding this argument by typing ?excel_numeric_to_date in your console.</li>
+</ul>
+<pre class="r"><code>d6 &lt;- d6 %&gt;% dplyr::mutate(date = janitor::excel_numeric_to_date(date))
+
+d6$date</code></pre>
+<pre><code>[1] &quot;2021-10-22&quot; &quot;2021-11-30&quot;</code></pre>
+<pre class="r"><code>class(d6$date)</code></pre>
 <pre><code>[1] &quot;Date&quot;</code></pre>
 </div>
 </div>

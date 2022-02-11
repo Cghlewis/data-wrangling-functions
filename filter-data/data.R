@@ -114,5 +114,21 @@ d12 <- tibble::tribble(
   "b", 22, "2021-03-29", 14, 251
 )
 
+d13 <- tibble::tribble (
+  ~id, ~q1, ~q2,
+  10, "harris", "Harris",
+  20, "steve", "steve",
+  30, "lewis", NA
+)
+
+d14 <- tibble::tribble (
+  ~id, ~q1, ~q2,
+  10, "harris", "Harris",
+  20, "steve", "steve",
+  30, "lewis", NA,
+  40, NA , NA,
+  50, NA, "something"
+)
+
 
 

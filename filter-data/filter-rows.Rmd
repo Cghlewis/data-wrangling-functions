@@ -73,7 +73,7 @@ dplyr::count(d81)
 ```
 
 
-**2\. Remove rows based on one criteria (in this case for a character variable). Filter out any row that has the exact match of "harris" for tch_name.**
+**2\. Remove rows based on one criteria (in this case for a character variable). Remove any row that has the exact match of "harris" for tch_name.**
 
 Review the data (d8)
 
@@ -198,7 +198,7 @@ d8 %>% dplyr::filter(extra2 >= 0)
 ```
 
 
-**2\. Remove rows based on one criteria (in this case for a numeric variable). Filter out any row that has the exact match of -999 for extra2, while also keeping rows that have NA for extra2.**
+**2\. Remove rows based on one criteria (in this case for a numeric variable). Remove any row that has the exact match of -999 for extra2, while also keeping rows that have NA for extra2.**
 
 Review the data (d5).
 
@@ -222,7 +222,7 @@ d5 %>% dplyr::filter(extra2 != -999 | is.na(extra2))
 
 ```
 
-Another way to get around the issue of dropping NAs is to filter using the operator *%in%* rather than *=*. The == is a logical operator retains/drops rows that produce a value of TRUE for all conditions (and NA cannot be evaluated and is therefore dropped). However %in% matches values and therefore doesn't drop NA.
+Another way to get around the issue of dropping NAs is to filter using the operator *%in%* rather than *=*. The == is a logical operator retains/drops rows that produce a value of TRUE for all conditions (and NA cannot be evaluated and is therefore dropped). However *%in%* matches values and therefore doesn't drop NA.
 
 ```{r}
 
@@ -239,7 +239,7 @@ Examples using one criteria, remove NA
 ---
 
 
-**1\. Keep rows based on one criteria. Keep any row whose value is not NA for extra2.**
+**1\. Remove rows based on one criteria. Remove any row whose value is not NA for extra2.**
 
 Review the data (d7).
 
@@ -260,6 +260,62 @@ d7 %>% dplyr::filter(!is.na(extra2))
 
 ```
 
+---
+
+#### Function: `filter()`
+
+Examples using one criteria, matching variable values
+
+---
+
+
+**1\. Remove rows based on one criteria (in this case for a numeric variable). Remove any row where q1 does not equal q2, while also keeping rows that have NA for q2.**
+
+Review the data (d3).
+
+```{r, echo=FALSE}
+
+source("data.R")
+d13
+
+```
+
+Filter out any row that has -999 for extra2.
+
+* Note: Use the logical operator *!=* to denote not equal to.
+
+* Note: Again I make an explicit call to **keep** rows with NA values for q2. If I did not do this, filter would drop the last row of data.
+
+```{r}
+
+d13 %>% dplyr::filter(q1 != q2 | is.na(q2))
+
+```
+
+
+There are still other ways to keep NAs as well. In this scenario where we are comparing two vectors, you cannot use the *%in%* operator the same way we that we used it above. You would need to add the `dplyr::rowwise()` function. This is also a better method when both q1 and q2 might have NA values and you want to keep rows when either column has NA, but not when both columns have NA.
+
+
+```{r}
+
+d14 %>% 
+  dplyr::rowwise() %>%
+  dplyr::filter(!q1 %in% q2)
+
+```
+
+
+And yet, another way you may want to keep rows in your data is using the `dplyr::case_when()` function. 
+
+```{r}
+
+d13 %>%
+  dplyr::filter(
+    dplyr::case_when(
+      q1 == q2 ~ FALSE,
+      TRUE ~ TRUE))
+
+```
 
 
 ---

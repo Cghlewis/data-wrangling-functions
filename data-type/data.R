@@ -29,3 +29,12 @@ d4 <- tibble::tribble(
   2, "X", "8.5", "6",
   3, "2.5", "X", "X")
 
+d5 <- tibble::tribble(
+  ~type, ~id, ~created_timestamp,
+  "b", 333, "1643909614746",
+  "a", 444, "1644593624206")
+
+d6 <- tibble::tribble(
+  ~type, ~id, ~date,
+  "b", 333, 44491,
+  "a", 444, 44530)

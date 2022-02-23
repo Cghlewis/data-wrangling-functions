@@ -21,11 +21,11 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-*Note: `dplyr::if_else()` will evaluate in order, so proceed from most specific to most general. The function will not write over a previous evaluation even if something meets a new criteria. I'll show an example of that in #2.
+*Note: `dplyr::if_else()` will evaluate in order, so proceed from most specific to most general. The function will not write over a previous evaluation even if something meets a new criteria. I'll show an example of that in #3.
 
 *Note: `dplyr::if_else()` will not evaluate NAs as TRUE or FALSE and therefore will return NAs. If you want to specifically evaluate NAs you will need to call out NAs.
 
-**1\. Collapse all "Google Meet" in online_platform into one category**
+**1\. Collapse all "Google Meet" in character var (online_platform) into one category**
 
 Review the data (d6)
 
@@ -40,13 +40,13 @@ Collapse all spellings of Google Meet into one uniform category
 
 * Note: We are recoding into a new variable using `dplyr::mutate()` and naming the new variable a different name than the original. It keeps both the new and old versions of the variable. 
 
-* Note: Using `stringr::str_detect()` we can detect different spellings of google meet
+* Note: Using `stringr::str_detect()` we can detect different spellings of google meet. I enter a pattern ("google|meet") that means to look for any value in online_platform that contains the word "google" OR "meet" and recategorize those to "Google Meet"
 
 ```{r}
 
 d6 %>%  
   dplyr::mutate(online_platform_new=dplyr::if_else(
-  stringr::str_detect(online_platform,c("google|meet")), "Google Meet", online_platform))
+  stringr::str_detect(online_platform, "google|meet"), "Google Meet", online_platform))
 
 ```
 
@@ -61,7 +61,43 @@ d6 %>%
 ```
 
 
-**2\. Collapse a numeric variable (Var2) into discrete character categories**
+**2\. Collapse all "Google Meet" in character var (online_platform) into one category and address case sensitivity**
+
+Review the data (d12)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d12
+
+```
+
+Collapse all spellings of Google Meet into one uniform category
+
+* Note: We are recoding into a new variable using `dplyr::mutate()` and naming the new variable a different name than the original. It keeps both the new and old versions of the variable. 
+
+* Note: Using `stringr::str_detect()` we can detect different spellings of google meet. It is important to note that this function is case sensitive. As we saw above in the data, the "google|meet" pattern we used before will no longer catch our upper case "Google". So there are a number of ways we can deal with this. The first way we will try is by adding stringr::regex() and adding the argument *ignore_case = TRUE*.
+
+```{r}
+
+d12 %>%  
+  dplyr::mutate(online_platform_new=dplyr::if_else(
+  stringr::str_detect(online_platform, stringr::regex("google|meet", ignore_case = TRUE)), "Google Meet", online_platform))
+
+```
+
+We can also do this by adding (?i) to the pattern, which means match case insensitive. 
+
+```{r}
+
+d12 %>%  
+  dplyr::mutate(online_platform_new=dplyr::if_else(
+  stringr::str_detect(online_platform, "(?i)google|meet") , "Google Meet", online_platform))
+
+```
+
+
+**3\. Collapse a numeric variable (Var2) into discrete character categories**
 
 Review the data (d8)
 
@@ -102,7 +138,7 @@ d8 %>%
 
 
 
-**3\. Collapse a numeric variable (Var2) into discrete numeric categories**
+**4\. Collapse a numeric variable (Var2) into discrete numeric categories**
 
 Review the data (d10)
 
@@ -167,6 +203,8 @@ Collapse all spellings of Google Meet into one uniform category
 
 * Note: Using `stringr::str_detect()` we can detect different spellings of google meet
 
+* Note: You can also combine the pattern "google|meet" like we did above in `dplyr::if_else()` rather than separate the patterns out.
+
 ```{r}
 
 d6 %>%  
@@ -200,7 +238,7 @@ d6 %>%
 
 ```
 
-* Note: If you want to keep NA as NA, you would need to specfically call out NA.
+* Note: If you want to keep NA as NA, you would need to specifically call out NA.
 
 ```{r}
 
@@ -231,7 +269,7 @@ Collapse all spellings of Google Meet into one uniform category and clarify that
 
 * Note: Using `stringr::str_detect()` we can detect different spellings of google meet
 
-* Note: Here I am adding the `base::tolower()` function to deal with the varying capitalization
+* Note: Here I am adding the `base::tolower()` function to deal with the varying capitalization. You can also use the solutions we showed above in `dplyr::if_else()` where we add either (?i) to the pattern or add `stringr::regex()` around the pattern with the argument *ignore_case = TRUE*.
 
 * Note: Note that I am not putting "google" at the top because if I did, all instances of "google" would be recoded to google hangouts.
 

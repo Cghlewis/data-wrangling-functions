@@ -175,9 +175,9 @@ pre code {
 <div id="function-if_else" class="section level4">
 <h4>Function: <code>if_else()</code></h4>
 <hr />
-<p>*Note: <code>dplyr::if_else()</code> will evaluate in order, so proceed from most specific to most general. The function will not write over a previous evaluation even if something meets a new criteria. I’ll show an example of that in #2.</p>
+<p>*Note: <code>dplyr::if_else()</code> will evaluate in order, so proceed from most specific to most general. The function will not write over a previous evaluation even if something meets a new criteria. I’ll show an example of that in #3.</p>
 <p>*Note: <code>dplyr::if_else()</code> will not evaluate NAs as TRUE or FALSE and therefore will return NAs. If you want to specifically evaluate NAs you will need to call out NAs.</p>
-<p><strong>1. Collapse all “Google Meet” in online_platform into one category</strong></p>
+<p><strong>1. Collapse all “Google Meet” in character var (online_platform) into one category</strong></p>
 <p>Review the data (d6)</p>
 <pre><code># A tibble: 7 x 2
   tch_id online_platform
@@ -192,11 +192,11 @@ pre code {
 <p>Collapse all spellings of Google Meet into one uniform category</p>
 <ul>
 <li><p>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and naming the new variable a different name than the original. It keeps both the new and old versions of the variable.</p></li>
-<li><p>Note: Using <code>stringr::str_detect()</code> we can detect different spellings of google meet</p></li>
+<li><p>Note: Using <code>stringr::str_detect()</code> we can detect different spellings of google meet. I enter a pattern (“google|meet”) that means to look for any value in online_platform that contains the word “google” OR “meet” and recategorize those to “Google Meet”</p></li>
 </ul>
 <pre class="r"><code>d6 %&gt;%  
   dplyr::mutate(online_platform_new=dplyr::if_else(
-  stringr::str_detect(online_platform,c(&quot;google|meet&quot;)), &quot;Google Meet&quot;, online_platform))</code></pre>
+  stringr::str_detect(online_platform, &quot;google|meet&quot;), &quot;Google Meet&quot;, online_platform))</code></pre>
 <pre><code># A tibble: 7 x 3
   tch_id online_platform online_platform_new
    &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;              
@@ -221,7 +221,51 @@ pre code {
 5    109 Google Meet     Google Meet        
 6    112 Microsoft Teams Microsoft Teams    
 7    113 &lt;NA&gt;            &lt;NA&gt;               </code></pre>
-<p><strong>2. Collapse a numeric variable (Var2) into discrete character categories</strong></p>
+<p><strong>2. Collapse all “Google Meet” in character var (online_platform) into one category and address case sensitivity</strong></p>
+<p>Review the data (d12)</p>
+<pre><code># A tibble: 7 x 2
+  tch_id online_platform
+   &lt;dbl&gt; &lt;chr&gt;          
+1    105 Google         
+2    106 meet           
+3    107 Zoom           
+4    108 Zoom           
+5    109 Google Meet    
+6    112 Microsoft Teams
+7    113 &lt;NA&gt;           </code></pre>
+<p>Collapse all spellings of Google Meet into one uniform category</p>
+<ul>
+<li><p>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and naming the new variable a different name than the original. It keeps both the new and old versions of the variable.</p></li>
+<li><p>Note: Using <code>stringr::str_detect()</code> we can detect different spellings of google meet. It is important to note that this function is case sensitive. As we saw above in the data, the “google|meet” pattern we used before will no longer catch our upper case “Google”. So there are a number of ways we can deal with this. The first way we will try is by adding stringr::regex() and adding the argument <em>ignore_case = TRUE</em>.</p></li>
+</ul>
+<pre class="r"><code>d12 %&gt;%  
+  dplyr::mutate(online_platform_new=dplyr::if_else(
+  stringr::str_detect(online_platform, stringr::regex(&quot;google|meet&quot;, ignore_case = TRUE)), &quot;Google Meet&quot;, online_platform))</code></pre>
+<pre><code># A tibble: 7 x 3
+  tch_id online_platform online_platform_new
+   &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;              
+1    105 Google          Google Meet        
+2    106 meet            Google Meet        
+3    107 Zoom            Zoom               
+4    108 Zoom            Zoom               
+5    109 Google Meet     Google Meet        
+6    112 Microsoft Teams Microsoft Teams    
+7    113 &lt;NA&gt;            &lt;NA&gt;               </code></pre>
+<p>We can also do this by adding (?i) to the pattern, which means match case insensitive.</p>
+<pre class="r"><code>d12 %&gt;%  
+  dplyr::mutate(online_platform_new=dplyr::if_else(
+  stringr::str_detect(online_platform, &quot;(?i)google|meet&quot;) , &quot;Google Meet&quot;, online_platform))</code></pre>
+<pre><code># A tibble: 7 x 3
+  tch_id online_platform online_platform_new
+   &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;              
+1    105 Google          Google Meet        
+2    106 meet            Google Meet        
+3    107 Zoom            Zoom               
+4    108 Zoom            Zoom               
+5    109 Google Meet     Google Meet        
+6    112 Microsoft Teams Microsoft Teams    
+7    113 &lt;NA&gt;            &lt;NA&gt;               </code></pre>
+<p><strong>3. Collapse a numeric variable (Var2) into discrete character categories</strong></p>
 <p>Review the data (d8)</p>
 <pre><code># A tibble: 5 x 3
   Var1   Var2  Var3
@@ -263,7 +307,7 @@ pre code {
 3 c         3     1 low     
 4 d         4     3 low     
 5 e        14     0 medium  </code></pre>
-<p><strong>3. Collapse a numeric variable (Var2) into discrete numeric categories</strong></p>
+<p><strong>4. Collapse a numeric variable (Var2) into discrete numeric categories</strong></p>
 <p>Review the data (d10)</p>
 <pre><code># A tibble: 5 x 2
   Var1   Var2
@@ -329,6 +373,7 @@ pre code {
 <ul>
 <li><p>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and naming the new variable a different name than the original. It keeps both the new and old versions of the variable.</p></li>
 <li><p>Note: Using <code>stringr::str_detect()</code> we can detect different spellings of google meet</p></li>
+<li><p>Note: You can also combine the pattern “google|meet” like we did above in <code>dplyr::if_else()</code> rather than separate the patterns out.</p></li>
 </ul>
 <pre class="r"><code>d6 %&gt;%  
   dplyr::mutate(online_platform_new = dplyr::case_when(
@@ -381,7 +426,7 @@ pre code {
 6    112 Microsoft Teams Other              
 7    113 &lt;NA&gt;            Other              </code></pre>
 <ul>
-<li>Note: If you want to keep NA as NA, you would need to specfically call out NA.</li>
+<li>Note: If you want to keep NA as NA, you would need to specifically call out NA.</li>
 </ul>
 <pre class="r"><code>d6 %&gt;%  
   dplyr::mutate(online_platform_new = dplyr::case_when(
@@ -418,7 +463,7 @@ pre code {
 <ul>
 <li><p>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and naming the new variable a different name than the original. It keeps both the new and old versions of the variable.</p></li>
 <li><p>Note: Using <code>stringr::str_detect()</code> we can detect different spellings of google meet</p></li>
-<li><p>Note: Here I am adding the <code>base::tolower()</code> function to deal with the varying capitalization</p></li>
+<li><p>Note: Here I am adding the <code>base::tolower()</code> function to deal with the varying capitalization. You can also use the solutions we showed above in <code>dplyr::if_else()</code> where we add either (?i) to the pattern or add <code>stringr::regex()</code> around the pattern with the argument <em>ignore_case = TRUE</em>.</p></li>
 <li><p>Note: Note that I am not putting “google” at the top because if I did, all instances of “google” would be recoded to google hangouts.</p></li>
 </ul>
 <pre class="r"><code>d9 %&gt;%  

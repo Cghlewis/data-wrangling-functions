@@ -76,6 +76,8 @@ navbar:
     href: calculate-row-values\row-calcs.html
   - text: "Compare data frames"
     href: compare-data-frames\compare-df.html
+  - text: "Compare data frame columns"
+    href: compare-data-frames\compare-df-columns.html
 output:
   html_document:
     theme: readable

@@ -42,6 +42,70 @@ Change the second variable name (Var2)
 
 ```{r}
 
-d1 %>% dplyr::rename(grade = Var2)
+d1 %>% 
+  dplyr::rename(grade = Var2)
 
 ```
+
+If you wanted to change names of more than one variable you can just keep adding more variables.
+
+```{r}
+
+d1 %>% 
+  dplyr::rename(grade = Var2, score = Var3)
+
+
+```
+
+
+### Package: dplyr
+
+---
+
+#### Function: `rename_with()`
+
+---
+
+* Note: Unlike `dplyr::rename()` where you can rename individual columns, `dplyr::rename_with()` renames columns using a function.
+
+* Note: You can either rename all variables or select variables. The default argument is *.cols = everything()*.
+
+<br>
+
+1. Rename columns using an existing file (for example a data dictionary).
+
+Review the data (d1)
+
+```{r echo = FALSE}
+
+source("data.R")
+d1
+
+```
+
+Read in and review the data dictionary
+
+```{r, eval = FALSE}
+
+dict <- readxl::read_excel("dictionary.xlsx")
+
+```
+
+```{r, echo = FALSE}
+
+source("data.R")
+dict
+
+```
+
+In this case we can use the existing file to rename the variables for us, rather than us hand entering "stu_id = Var1, read_score = Var2, math_score = Var3". You can see how this would save us time if we have many variables to rename.
+
+* Note: We use `stringr::str_replace_all()` to replace all variable names and we use `purrr::set_names()` to set names using our dictionary.
+
+```{r}
+
+d1 %>%
+ dplyr::rename_with(~ stringr::str_replace_all(., purrr::set_names(dict2$label, dict2$question)))
+
+```
+

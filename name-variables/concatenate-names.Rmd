@@ -2,9 +2,9 @@
 title: "Concatenate to variable names"
 output: 
   html_document:
-    anchor_sections: FALSE
+  anchor_sections: FALSE
 ---
-
+  
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(comment = NA,
                       message = FALSE,
@@ -12,15 +12,15 @@ knitr::opts_chunk$set(comment = NA,
 ```
 
 <br>
-
+  
 ### Package: dplyr
-
+  
 ---
-
+  
 #### Function: `rename_with()`
-
+  
 ---
-
+  
 * Note: Unlike `dplyr::rename()` where you can rename individual columns, `dplyr::rename_with()` renames columns using a function.
 
 * Note: You can either rename all variables or select variables with `dplyr::rename_with()`. The order is, *(function used to rename, columns selected)*. If you don't select columns, all variables will be renamed.
@@ -139,10 +139,10 @@ d8 %>% dplyr::rename_with(~ base::paste0("T1_", .), c(Var1:Var3, Var5))
 * Note: You can use `purrr::set_names()` to concatenate to variable names as well, but it doesn't have the nice compatibility with `tidyselect` that allows you to modify only select variable names. But `purrr::set_names()` works well to modify all variable names.
 
 <br>
-
-**1\. Concatenate a prefix, "T1_", to all variable names**
-
-Review the data (d1)
+  
+  **1\. Concatenate a prefix, "T1_", to all variable names**
+  
+  Review the data (d1)
 
 ```{r, echo=FALSE}
 

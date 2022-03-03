@@ -58,3 +58,17 @@ d8 <- tibble::tribble(
   "c", 3, NA, 3, 1
 )
 
+dict <- tibble::tribble(
+  ~question, ~label,
+  "Var1", "stu_id",
+  "Var2", "read_score",
+  "Var3", "math_score"
+)
+
+dict2 <- tibble::tribble(
+  ~question, ~label,
+  "Var3", "math_score",
+  "Var1", "stu_id",
+  "Var2", "read_score"
+)
+

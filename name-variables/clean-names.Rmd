@@ -34,11 +34,22 @@ d1
 
 Change all variable names to upper by adding the `base::toupper()` function
 
+* Note: You can also change all variable names to lower using `base::tolower()` function.
+
 ```{r}
 
 d1 %>% purrr::set_names(toupper)
 
 ```
+
+* Note: There several other functions that convert strings to upper or lower including `stringr::str_to_lower()` and `stringr::str_to_upper()`.
+
+```{r}
+
+d1 %>% purrr::set_names(stringr::str_to_upper)
+
+```
+
 
 
 ### Package: dplyr
@@ -109,10 +120,10 @@ d4
 
 Change the variable names to UpperCamelCase
 
-* Note: To see all of the case options type *?to_any_case* in the console.
+* Note: Here we can simply add the argument *case = "upper_camel"*. To see all of the case options type *?to_any_case* in the console.
 
 ```{r}
 
-d4 %>% janitor::clean_names(., "big_camel")
+d4 %>% janitor::clean_names(., case = "upper_camel")
 
 ```

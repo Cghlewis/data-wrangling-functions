@@ -29,29 +29,23 @@ Read in the data
 * Note: Here we read in csv files but of course you can read in any type of data (.xlsx, .sav, etc)
 
 ```{r, eval=FALSE}
-
 entry1 <- readr::read_csv("project-a_forms_entry1.csv")
 entry2 <- readr::read_csv("project-b_forms_entry2.csv")
-
 ```
 
 
 Review entry1
 
 ```{r, echo=FALSE}
-
 source("data.R")
 head(entry1)
-
 ```
 
 Review entry2
 
 ```{r, echo=FALSE}
-
 source("data.R")
 head(entry2)
-
 ```
 
 Now check if there are any differences in the two data frames.  
@@ -61,9 +55,7 @@ Now check if there are any differences in the two data frames.
 * Note: I've included the base arguments you need for the function to run. Run *?diffdf* in the console to see additional arguments that can be added.
 
 ```{r}
-
 diffdf::diffdf(entry1,entry2, keys="stu_id")
-
 ```
 
 You can see our output tells us that **there are differences** between the two data frames. 
@@ -77,8 +69,5 @@ You could use this information to return to your original forms to see what the 
 If all errors have been corrected, you will see this message.
 
 ```{r, echo=FALSE}
-
 diffdf::diffdf(entry1,entry1, keys="stu_id")
-
 ```
-

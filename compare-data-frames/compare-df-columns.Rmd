@@ -1,0 +1,73 @@
+---
+title: "Data frame column comparison"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+
+### Package: janitor
+
+---
+
+#### Function: `compare_df_cols`
+
+---
+
+**1\. Compare two data frames that should have identical columns to see if there are any differences in their values**
+
+Read in the data
+
+* Note: Here we read in csv files but of course you can read in any type of data (.xlsx, .sav, etc)
+
+```{r, eval=FALSE}
+
+entry1 <- readr::read_csv("project-a_forms_entry1.csv")
+entry3 <- readr::read_csv("project-b_forms_entry2.csv")
+
+```
+
+
+Review entry1
+
+```{r, echo=FALSE}
+
+source("data.R")
+head(entry1)
+
+```
+
+Review entry2
+
+```{r, echo=FALSE}
+
+source("data.R")
+head(entry3)
+
+```
+
+Now check if there are any differences in the two data frames.  
+
+```{r}
+
+janitor::compare_df_cols(entry1, entry3)
+
+```
+
+If we only wanted to see the differences, we could add the argument *return = "mismatch"*. We can easily see here that grade is a different variable type across files and we will need to transform the variable in entry1 or entry 3 in if we want to bind the two data frames.
+
+```{r}
+
+janitor::compare_df_cols(entry1, entry3, return = "mismatch")
+
+```
+

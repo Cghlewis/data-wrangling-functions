@@ -72,3 +72,9 @@ dict2 <- tibble::tribble(
   "Var2", "read_score"
 )
 
+dict3 <- tibble::tribble(
+  ~question, ~label,
+  "Var1", "stu_id",
+  "Var2", "read_score"
+)
+

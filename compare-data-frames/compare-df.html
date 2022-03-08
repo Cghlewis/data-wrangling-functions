@@ -175,13 +175,13 @@ pre code {
 <div id="function-diffdf" class="section level4">
 <h4>Function: <code>diffdf</code></h4>
 <hr />
-<p><strong>1. Compare two data frames that should be identical to see if there are any differences in their values</strong></p>
+<p><strong>1. Compare two data frames that should be identical to see if there are any differences in their values and output those differences</strong></p>
 <p>Read in the data</p>
 <ul>
 <li>Note: Here we read in csv files but of course you can read in any type of data (.xlsx, .sav, etc)</li>
 </ul>
 <pre class="r"><code>entry1 &lt;- readr::read_csv(&quot;project-a_forms_entry1.csv&quot;)
-entry2 &lt;- readr::read_csv(&quot;project-b_forms_entry2.csv&quot;)</code></pre>
+entry2 &lt;- readr::read_csv(&quot;project-a_forms_entry2.csv&quot;)</code></pre>
 <p>Review entry1</p>
 <pre><code># A tibble: 4 x 5
   stu_id grade    q1    q2    q3
@@ -243,6 +243,79 @@ All rows are shown in table below
 <p>You could use this information to return to your original forms to see what the correct answer should be and then rectify the errors in whichever data frame has the incorrect response. You would then read your revised data back into R and then run this code again to see if all errors have been corrected.</p>
 <p>If all errors have been corrected, you will see this message.</p>
 <pre><code>No issues were found!</code></pre>
+<p><br></p>
+</div>
+</div>
+<div id="package-dplyr" class="section level3">
+<h3>Package: dplyr</h3>
+<hr />
+<div id="function-all_equal" class="section level4">
+<h4>Function: <code>all_equal</code></h4>
+<hr />
+<p><strong>1. Compare two data frames to see if they are identical</strong></p>
+<p>In this hypothetical scenario, someone has made a copy of our student data file, and we are unsure which one to use. We simply want to see if they are identical or not. We don’t care about the intricacies of the differences. A simple summary on differences in the contents and/or structure will suffice.</p>
+<p>Read in the data</p>
+<ul>
+<li>Note: Here we read in csv files but of course you can read in any type of data (.xlsx, .sav, etc)</li>
+</ul>
+<pre class="r"><code>file1 &lt;- readr::read_csv(&quot;project-a_forms_file1.csv&quot;)
+file1_copy &lt;- readr::read_csv(&quot;project-a_forms_file1_copy.csv&quot;)</code></pre>
+<p>Review entry1</p>
+<pre><code># A tibble: 4 x 5
+  stu_id grade    q1    q2    q3
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1   1234     1     2     4     6
+2   1235     2     1     5     6
+3   1236     1    NA    12     4
+4   1237     3     3     2     4</code></pre>
+<p>Review entry2</p>
+<pre><code># A tibble: 4 x 5
+  stu_id grade    q1    q3    q2
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1   1234     1     2     6     4
+2   1235     2     1     6     5
+3   1236     1    NA     4    12
+4   1237     3     3     4     2</code></pre>
+<p>Now check if there are any differences in the two data frames.</p>
+<pre class="r"><code>dplyr::all_equal(file1, file1_copy)</code></pre>
+<pre><code>[1] TRUE</code></pre>
+<p>In this scenario we find that the files are identical. Awesome! We can simply choose one to work with and archive the other. However, what would the output look like if they were not identical.</p>
+<p>Let’s read in another copy, file1_copy2.</p>
+<pre><code># A tibble: 4 x 5
+  stu_id grade    q1    q3    q2
+  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 1234       1     2     6     4
+2 1235       2     1     6     5
+3 1236       1    NA     4    12
+4 1237       3     3     4     2</code></pre>
+<p>It looks like the same data? Let’s check.</p>
+<pre class="r"><code>dplyr::all_equal(file1, file1_copy2)</code></pre>
+<pre><code>[1] &quot;- Different types for column `stu_id`: double vs character\n&quot;</code></pre>
+<p>We find out that the files are <strong>not</strong> identical! Student ID is now a character variable rather than numeric. We would need to make a decision regarding which file to use.</p>
+<p>Let’s read in yet another copy to see what differences might exist, file1_copy3.</p>
+<pre><code># A tibble: 4 x 5
+  stu_id grade    q1    q3    q2
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1   1234     1     2     6     4
+2   1235     2     1     6     5
+3   1237     3     3     4     2
+4   1236     1    NA     4    12</code></pre>
+<p>It looks like some of the rows and columns are out of order, which is okay, but is the data the same?</p>
+<pre class="r"><code>dplyr::all_equal(file1, file1_copy3)</code></pre>
+<pre><code>[1] TRUE</code></pre>
+<p>It is! So again, we can choose which copy to work with and archive the other.</p>
+<p>Let’s look at one last copy to see what the differences are, file1_copy4.</p>
+<pre><code># A tibble: 4 x 5
+  stu_id grade    q1    q2    q3
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1   1234     1     2     4     6
+2   1235     2     1     5     6
+3   1236     1    NA    12     4
+4   1238     3     3     2     4</code></pre>
+<pre class="r"><code>dplyr::all_equal(file1, file1_copy4)</code></pre>
+<pre><code>[1] &quot;- Rows in x but not in y: 4\n- Rows in y but not in x: 4\n&quot;</code></pre>
+<p>There are some major differences in this one so I would need to really dig into which copy of the file I should be using here.</p>
+<p>Side note: If these examples haven’t been a case study for why you should version and document your file changes, I’m not sure what is! :)</p>
 </div>
 </div>
 

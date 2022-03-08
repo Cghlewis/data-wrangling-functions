@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Compare two data frames that should be identical to see if there are any differences in their values**
+**1\. Compare two data frames that should be identical to see if there are any differences in their values and output those differences**
 
 Read in the data
 
@@ -30,7 +30,7 @@ Read in the data
 
 ```{r, eval=FALSE}
 entry1 <- readr::read_csv("project-a_forms_entry1.csv")
-entry2 <- readr::read_csv("project-b_forms_entry2.csv")
+entry2 <- readr::read_csv("project-a_forms_entry2.csv")
 ```
 
 
@@ -71,3 +71,105 @@ If all errors have been corrected, you will see this message.
 ```{r, echo=FALSE}
 diffdf::diffdf(entry1,entry1, keys="stu_id")
 ```
+
+
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `all_equal`
+
+---
+
+**1\. Compare two data frames to see if they are identical**
+
+In this hypothetical scenario, someone has made a copy of our student data file, and we are unsure which one to use. We simply want to see if they are identical or not. We don't care about the intricacies of the differences. A simple summary on differences in the contents and/or structure will suffice.
+
+Read in the data
+
+* Note: Here we read in csv files but of course you can read in any type of data (.xlsx, .sav, etc)
+
+```{r, eval=FALSE}
+file1 <- readr::read_csv("project-a_forms_file1.csv")
+file1_copy <- readr::read_csv("project-a_forms_file1_copy.csv")
+```
+
+
+Review entry1
+
+```{r, echo=FALSE}
+source("data.R")
+head(file1)
+```
+
+Review entry2
+
+```{r, echo=FALSE}
+source("data.R")
+head(file1_copy)
+```
+
+Now check if there are any differences in the two data frames.  
+
+```{r}
+
+dplyr::all_equal(file1, file1_copy)
+
+```
+
+In this scenario we find that the files are identical. Awesome! We can simply choose one to work with and archive the other.  However, what would the output look like if they were not identical.
+
+Let's read in another copy, file1_copy2. 
+
+```{r, echo=FALSE}
+source("data.R")
+head(file1_copy2)
+```
+
+It looks like the same data? Let's check.
+
+```{r}
+
+dplyr::all_equal(file1, file1_copy2)
+
+```
+
+We find out that the files are **not** identical! Student ID is now a character variable rather than numeric. We would need to make a decision regarding which file to use.
+
+Let's read in yet another copy to see what differences might exist, file1_copy3.
+
+```{r, echo=FALSE}
+source("data.R")
+head(file1_copy3)
+```
+
+It looks like some of the rows and columns are out of order, which is okay, but is the data the same?
+
+```{r}
+
+dplyr::all_equal(file1, file1_copy3)
+
+```
+
+It is! So again, we can choose which copy to work with and archive the other.
+
+Let's look at one last copy to see what the differences are, file1_copy4.
+
+```{r, echo=FALSE}
+source("data.R")
+head(file1_copy4)
+```
+
+```{r}
+
+dplyr::all_equal(file1, file1_copy4)
+
+```
+
+There are some major differences in this one so I would need to really dig into which copy of the file I should be using here. 
+
+Side note: If these examples haven't been a case study for why you should version and document your file changes, I'm not sure what is! :)
+

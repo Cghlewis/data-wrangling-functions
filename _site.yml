@@ -54,6 +54,8 @@ navbar:
     href: name-variables\rename-variables.html
   - text: "Modify variable names"
     href: name-variables\modify-names.html
+  - text: "Name variables using a data dictionary"
+    href: name-variables\name-variables-using-data-dict.html
   - text: "Concatenate variable names"
     href: name-variables\concatenate-names.html
   - text: "Clean variable names"

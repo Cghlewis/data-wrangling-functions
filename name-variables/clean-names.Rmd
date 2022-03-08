@@ -38,7 +38,7 @@ Change all variable names to upper by adding the `base::toupper()` function
 
 ```{r}
 
-d1 %>% purrr::set_names(toupper)
+d1 %>% purrr::set_names(base::toupper)
 
 ```
 

@@ -45,7 +45,9 @@ names(d7)
 
 Add variable names
 
-* Note: Quotes are required around variable names and the number of variable names given must be equal to the number of variables in the data frame.
+* Note: For this function you provide a vector of names to be applied. Quotes are required around variable names and the number of variable names given must be equal to the number of variables in the data frame.
+
+* Note: Pay attention to the order of your variables and names. While using `purrr::set_names()` is a convenient way to name variables without having to enter as much information as you would in the `dplyr::rename()` function, it can cause problems if you end up renaming variables incorrectly because you were unsure of the variable order.
 
 ```{r}
 
@@ -53,87 +55,3 @@ d7 %>% purrr::set_names("id", "grade", "test1")
 
 ```
 
-
-
-### Package: dplyr
-
----
-
-#### Function: `rename_with()`
-
----
-
-* Note: `dplyr::rename_with()` renames columns using a function. You can either rename all variables or select variables. The default argument is *.cols = everything()*.
-
-<br>
-
-**1\. Set column names using an existing file (for example a data dictionary).**
-
-Review the data (d1)
-
-```{r echo = FALSE}
-
-source("data.R")
-d1
-
-```
-
-Read in and review the data dictionary
-
-```{r, eval = FALSE}
-
-dict <- readxl::read_excel("dictionary.xlsx")
-
-```
-
-```{r, echo = FALSE}
-
-source("data.R")
-dict
-
-```
-
-In this case we can use the existing file to rename the variables for us, rather than us hand entering "stu_id = Var1, read_score = Var2, math_score = Var3". You can see how this would save us time if we have many variables to rename.
-
-* Note: We use `stringr::str_replace_all()` to replace all variable names and we use `purrr::set_names()` to set names using our dictionary.
-
-```{r}
-
-d1 %>%
- dplyr::rename_with(~ stringr::str_replace_all(., purrr::set_names(dict$label, dict$question)))
-
-```
-
-Even if the data dictionary is not in the same order as the variables in our data frame, the renaming will still work because it is renaming by matching the values in the 2 variables. For example, here is the dictionary in a different order.
-
-```{r}
-
-dict2
-
-```
-
-And we can still use this to rename our variables.
-
-```{r}
-
-d1 %>%
- dplyr::rename_with(~ stringr::str_replace_all(., purrr::set_names(dict2$label, dict2$question)))
-
-```
-
-We can also use this dictionary, even if it doesn't not have new names for all of our variables. Take this dictionary that can only relabel 2 of our variables.
-
-```{r}
-
-dict3
-
-```
-
-We can still rename.
-
-```{r}
-
-d1 %>%
- dplyr::rename_with(~ stringr::str_replace_all(., purrr::set_names(dict3$label, dict3$question)))
-
-```

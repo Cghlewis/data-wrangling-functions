@@ -210,49 +210,6 @@ pre code {
 3 c         3  NA  </code></pre>
 </div>
 </div>
-<div id="package-dplyr-1" class="section level3">
-<h3>Package: dplyr</h3>
-<hr />
-<div id="function-rename_with" class="section level4">
-<h4>Function: <code>rename_with()</code></h4>
-<hr />
-<ul>
-<li><p>Note: Unlike <code>dplyr::rename()</code> where you can rename individual columns, <code>dplyr::rename_with()</code> renames columns using a function.</p></li>
-<li><p>Note: You can either rename all variables or select variables. The default argument is <em>.cols = everything()</em>.</p></li>
-</ul>
-<p><br></p>
-<ol style="list-style-type: decimal">
-<li>Rename columns using an existing file (for example a data dictionary).</li>
-</ol>
-<p>Review the data (d1)</p>
-<pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         2   3.6
-2 b        NA   8.5
-3 c         3  NA  </code></pre>
-<p>Read in and review the data dictionary</p>
-<pre class="r"><code>dict &lt;- readxl::read_excel(&quot;dictionary.xlsx&quot;)</code></pre>
-<pre><code># A tibble: 3 x 2
-  question label     
-  &lt;chr&gt;    &lt;chr&gt;     
-1 Var1     stu_id    
-2 Var2     read_score
-3 Var3     math_score</code></pre>
-<p>In this case we can use the existing file to rename the variables for us, rather than us hand entering “stu_id = Var1, read_score = Var2, math_score = Var3”. You can see how this would save us time if we have many variables to rename.</p>
-<ul>
-<li>Note: We use <code>stringr::str_replace_all()</code> to replace all variable names and we use <code>purrr::set_names()</code> to set names using our dictionary.</li>
-</ul>
-<pre class="r"><code>d1 %&gt;%
- dplyr::rename_with(~ stringr::str_replace_all(., purrr::set_names(dict2$label, dict2$question)))</code></pre>
-<pre><code># A tibble: 3 x 3
-  stu_id read_score math_score
-  &lt;chr&gt;       &lt;dbl&gt;      &lt;dbl&gt;
-1 a               2        3.6
-2 b              NA        8.5
-3 c               3       NA  </code></pre>
-</div>
-</div>
 
 
 

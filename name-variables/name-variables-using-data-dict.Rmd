@@ -1,0 +1,138 @@
+---
+title: "Set variable names using a data dictionary"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `rename()`
+
+---
+
+* Note: The `dplyr::rename()` formula is *new value=old value*, this is opposite of `dplyr::recode()`.
+
+<br>
+
+**1\. Set all column names using an existing file (for example a data dictionary).**
+
+Review the data (d1)
+
+```{r echo = FALSE}
+
+source("data.R")
+d1
+
+```
+
+Read in and review the data dictionary
+
+* Note: The order of your data dictionary data frame must be new_names, old_names. If your variables are not already in that order, you can use `dplyr::relocate()` to reorder them.
+
+
+```{r, eval = FALSE}
+
+dict <- readxl::read_excel("dictionary.xlsx")
+
+```
+
+```{r, echo = FALSE}
+
+source("data.R")
+dict
+
+```
+
+In this case we can use the existing file to rename the variables for us, rather than us hand entering "stu_id = Var1, read_score = Var2, math_score = Var3". You can see how this would save us time if we have many variables to rename.
+
+
+The first thing we need to do is use the function `tibble::deframe()` to convert our dictionary data frame to a two-column names vector.
+
+
+```{r}
+
+dict_names <- tibble::deframe(dict)
+
+dict_names
+
+```
+
+Now we can rename our variables using this vector.
+
+* Note: We need to add `tidyselect::all_of()` to remove ambiguity between columns and external variables. See this link for more details https://tidyselect.r-lib.org/reference/faq-external-vector.html
+
+```{r}
+
+d1 %>%
+ dplyr::rename(tidyselect::all_of(dict_names))
+
+```
+
+There are many other ways to rename variables using another column of names. However I like this way the best because of versatility.
+
+Even if the data dictionary rows are not in the same order as the variables in our data frame, the renaming will still work.
+
+For example, here is the dictionary where the rows are in a different order.
+
+```{r}
+
+dict2
+
+```
+
+And we can still use this to rename our variables.
+
+
+```{r}
+
+dict_names <- tibble::deframe(dict2)
+
+dict_names
+
+```
+
+
+```{r}
+
+d1 %>%
+ dplyr::rename(tidyselect::all_of(dict_names))
+
+```
+
+We can also use this dictionary, even if it doesn't have new names for all of our variables. Take this dictionary that can only relabel 2 of our variables.
+
+```{r}
+
+dict3
+
+```
+
+We can still rename.
+
+
+```{r}
+
+dict_names <- tibble::deframe(dict3)
+
+dict_names
+
+```
+
+
+```{r}
+
+d1 %>%
+ dplyr::rename(tidyselect::all_of(dict_names))
+
+```

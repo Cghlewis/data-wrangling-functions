@@ -15,23 +15,55 @@ library(tidyverse)
 ```
 
 
-### Package: base
+### Package: fs
 
 ---
 
-#### Function: `list.files()`
+#### Function: `dir_ls()`
 
 ---
 
 **1\. Review files in my folder named "attendance"**
 
-* Note: I used the `here::here()` function which implicitly sets my directory to the top level of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "attendance" is within another folder called "import-data" which is located in the top level of my project directory. You could also just list your entire file path.
+* Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "attendance" is within another folder called "import-data" which is located in the top level of my project directory. You could also just list your entire file path.
 
-* Note: If you wanted to see the full path for each file you could add the argument *full.names* is equal to TRUE.
+
+```{r, eval = FALSE}
+
+fs::dir_ls(path = here::here("import-data", "attendance"))
+
+```
+
+```{r, echo = FALSE}
+
+d <- fs::dir_ls(path = here::here("import-data", "attendance"))
+
+d <- stringr::str_replace_all(
+  d, "C:/Users/Crystal/Desktop/desktop/R/Working R Stuff/", "")
+
+stringr::str_replace_all(
+  d, "data-wrangling-functions", "/project")
+
+```
+
+
+Notice you will get the full path names here. `fs::dir_ls()` creates a character vector of file names.
+
+You can also use `base::dir()` or `base::list.files()` to retrieve just the file names. 
+
+* Note: `base::dir()` is an alias for `base::list.files()`
 
 ```{r}
 
-list.files(path=here::here("import-data", "attendance"))
+base::list.files(path = here::here("import-data", "attendance"))
+
+```
+
+And if you add the argument *full.names = TRUE* you will get the same result as `fs::dir_ls()`
+
+```{r, eval = FALSE}
+
+base::list.files(path = here::here("import-data", "attendance"), full.names = TRUE)
 
 ```
 
@@ -39,7 +71,7 @@ list.files(path=here::here("import-data", "attendance"))
 
 ```{r, eval=FALSE}
 
-list.files(path = "C:\Users\Name\project\import-data\attendance")
+fs::dir_ls(path = "C:/Users/Name/project/import-data/attendance")
 
 ```
 
@@ -55,11 +87,7 @@ list.files(path = "C:\Users\Name\project\import-data\attendance")
 
 **1a\. Read in all Excel files from the "attendance" folder and bind them together. Note that an asterisk was used to denote NAs and we need to notify R of that.**
 
-* Note: `base::dir()` produces a character vector of the names of files in the named directory. `base::dir()` is an alias for `base::list.files()`
-
-* Note: By adding the `base::dir()` argument *pattern=".xlsx"* you are saying you only want to read in the Excel files with the extension ".xlsx". In this case, while there are 5 files in the directory, only 4 of them were Excel files, one file was csv format.
-
-* Note: Because my current directory is my project folder (not the attendance folder), I need to add the `base::dir()` argument *full.names=TRUE* which adds the full file path to the names fo the files in the character vector created. If we don't do this, we will get an error that says *`path` does not exist*. If however, the files we were trying to bind are in the level of our current directory, we could leave the argument at the default of *full.names=FALSE*.
+* Note: By adding the `dir_ls()` argument *glob = "\*.xlsx"* you are saying you only want to read in the Excel files with the extension ".xlsx". In this case, while there are 5 files in the directory, only 4 of them were Excel files, one file was csv format.
 
 * Note: `purrr::map_dfr()` combines tibbles (data frames) by stacking them on top of each other.
 
@@ -73,7 +101,7 @@ list.files(path = "C:\Users\Name\project\import-data\attendance")
 
 ```{r}
 
-d <- dir(path = here::here("import-data", "attendance"), pattern=".xlsx", full.names=TRUE) %>%
+d <- fs::dir_ls(path = here::here("import-data", "attendance"), glob ="*.xlsx") %>%
   map_dfr(readxl::read_excel, na="*")
 
 head(d, n=c(10,5))
@@ -84,47 +112,27 @@ head(d, n=c(10,5))
 
 ```{r, eval=FALSE}
 
-d <- dir(path = "C:\Users\Name\project\import-data\attendance", pattern=".xlsx", full.names=TRUE) %>%
+d <- fs::dir_ls(path = "C:/Users/Name/project/import-data/attendance", 
+                glob ="*.xlsx") %>%
   map_dfr(readxl::read_excel, na="*")
 
 ```
 
-
-**1b\. Add an identifier to differentiate which rows came from which files, by adding the argument ".id" and have it equal to whatever you want that new variable to be called. This will give you a numeric ordered value for which dataset the row came from.**
+**1b\. Add an identifier to differentiate which rows came from which files, by adding the argument ".id" and have it equal to whatever you want that new variable to be called. This will give you the full file name as the row identifier to differentiate which rows came from which file.**
 
 Add an identifier using the argument *.id=* and naming the variable whatever you want, in this case "source"
 
 ```{r}
 
-d <- dir(here::here("import-data", "attendance"), pattern=".xlsx", full.names=TRUE) %>%
-  purrr::map_dfr(readxl::read_excel, na="*", .id = "source")
-
-head(d, n=c(10,5))
+d <- fs::dir_ls(path = here::here("import-data", "attendance"), glob ="*.xlsx") %>%
+  map_dfr(readxl::read_excel, na="*", .id = "source")
 
 ```
-
-
-**1c\. Add the full file name as the row identifier rather than the numeric order to differentiate which rows came from which file.**
-
-Adding the function `purrr::set_names()` as well as the argument *".id"* and have it equal to whatever you want that new variable to be called.**
-
-* Note: If you leave `purrr::set_names()` empty, it will return the name of itself
-
-* Note: Again, because our current directory is not at the level of the attendance folder, we will need to add the argument *full.names=TRUE* to the `base::dir()` function, in order to bind the files. When we add `purrr::set_names()` the source will show the entire file path and name of the file. However if you were reading in files in the level of our current directory, we could leave the default of *full.names=FALSE* and our source variable will simply show the name of the file without the full path.
-
-```{r}
-
-d <- dir(here::here("import-data", "attendance"), pattern=".xlsx", full.names=TRUE) %>%
-  purrr::set_names() %>%
-  purrr::map_dfr(readxl::read_excel, col_types="text", .id = "source")
-
-```
-
 
 ```{r, echo=FALSE}
 
-d2 <- d %>% mutate(source = stringr::str_replace_all(
-  source, "C:/Users/hamptoncg/Desktop/Box Sync/Desktop/Working R Stuff/", "")) %>%
+d <- d %>% mutate(source = stringr::str_replace_all(
+  source, "C:/Users/Crystal/Desktop/desktop/R/Working R Stuff/", "")) %>%
   mutate(source = stringr::str_replace_all(
   source, "data-wrangling-functions", "/project"))
 
@@ -132,29 +140,43 @@ d2 <- d %>% mutate(source = stringr::str_replace_all(
 
 ```{r}
 
-print(d2 [1:10, 1:3])
+print(d [1:10, 1:3])
 
 ```
 
 
 **2\. Read in all Excel files except one from the directory and bind them together.**
 
-Review the files in our directory again
+Review the files in our "attendance" folder again
 
 ```{r}
 
-list.files(path=here::here("import-data", "attendance"))
+base::dir(path = here::here("import-data", "attendance"))
 
 ```
 
 Read in all files except "school-5_attendance"
 
-```{r}
+* Note: You do not have to write the entire file name "school-5_attendance.xlsx" because `stringr::str_subset()` includes an argument to detect a pattern.
 
-d <- dir(here::here("import-data", "attendance"), pattern=".xlsx", full.names=TRUE) %>%
+```{r, eval = FALSE}
+
+d <- fs::dir_ls(path = here::here("import-data", "attendance"), 
+                glob ="*.xlsx") %>%
   stringr::str_subset(., "school-5_attendance", negate = TRUE) %>%
-  purrr::set_names() %>%
-  purrr::map_dfr(readxl::read_excel, col_types="text", .id = "source")
+  purrr::map_dfr(readxl::read_excel, .id = "source")
+
+```
+
+If you wanted to exclude more than one file, you can add a "|" between the file names.
+
+```{r, eval = FALSE}
+
+d <- fs::dir_ls(path = here::here("import-data", "attendance"), 
+                glob ="*.xlsx") %>%
+  stringr::str_subset(., "school-4_attendance|school-5_attendance", negate = TRUE) %>%
+  purrr::map_dfr(readxl::read_excel, .id = "source")
+
 
 ```
 
@@ -165,16 +187,20 @@ Use base R bracket indexing `[]` to extract the element you are referencing
 
 ```{r, eval=FALSE}
 
-File1 <- dir(here::here("import-data", "attendance"),pattern=".xlsx", full.names=TRUE)[1] %>%
+File1 <- fs::dir_ls(path = here::here("import-data", "attendance"), 
+                glob ="*.xlsx")[1] %>%
   purrr::map_dfr(readxl::read_excel, na="*")
 
-File2 <- dir(here::here("import-data", "attendance"),pattern=".xlsx", full.names=TRUE)[2] %>%
+File2 <- fs::dir_ls(path = here::here("import-data", "attendance"), 
+                glob ="*.xlsx")[2] %>%
   map_dfr(readxl::read_excel, na="*")
 
-File3 <- dir(here::here("import-data", "attendance"),pattern=".xlsx", full.names=TRUE)[3] %>%
+File3 <- fs::dir_ls(path = here::here("import-data", "attendance"), 
+                glob ="*.xlsx")[3] %>%
   map_dfr(readxl::read_excel, na="*")
 
-File4 <- dir(here::here("import-data", "attendance"),pattern=".xlsx", full.names=TRUE)[4] %>%
+File4 <- fs::dir_ls(path = here::here("import-data", "attendance"), 
+                glob ="*.xlsx")[4] %>%
   map_dfr(readxl::read_excel, na="*")
 
 
@@ -186,16 +212,16 @@ If you get tired of typing the path over and over, you can put the path in an ob
 
 path <- (here::here("import-data", "attendance"))
 
-File1 <- dir(path, pattern=".xlsx", full.names=TRUE)[1] %>%
+File1 <- fs::dir_ls(path, glob ="*.xlsx")[1] %>%
   purrr::map_dfr(readxl::read_excel, na="*")
 
-File2 <- dir(path, pattern=".xlsx", full.names=TRUE)[2] %>%
+File2 <- fs::dir_ls(path, glob ="*.xlsx")[2] %>%
   purrr::map_dfr(readxl::read_excel, na="*")
 
-File3 <- dir(path, pattern=".xlsx", full.names=TRUE)[3] %>%
+File3 <- fs::dir_ls(path, glob ="*.xlsx")[3] %>%
   purrr::map_dfr(readxl::read_excel, na="*")
 
-File4 <- dir(path, pattern=".xlsx", full.names=TRUE)[4] %>%
+File4 <- fs::dir_ls(path, glob ="*.xlsx")[4] %>%
   purrr::map_dfr(readxl::read_excel, na="*")
 
 ```
@@ -205,7 +231,7 @@ You can use a loop (not shown here b/c I'm not great at writing them yet!) or ma
 ```{r, eval=FALSE}
 
 f <- function(x) {
-  dir(path,pattern=".xlsx", full.names=TRUE)[x] %>%
+  fs::dir_ls(path, glob ="*.xlsx")[x] %>%
     purrr::map_dfr(readxl::read_excel, na="*")
   
 }

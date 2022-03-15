@@ -120,7 +120,9 @@ dplyr::all_equal(file1, file1_copy)
 
 ```
 
-In this scenario we find that the files are identical. Awesome! We can simply choose one to work with and archive the other.  However, what would the output look like if they were not identical.
+In this scenario we find that the files are identical. Awesome! We can simply choose one to work with and archive the other.  
+
+But, what would the output look like if they were not identical?
 
 Let's read in another copy, file1_copy2. 
 
@@ -173,3 +175,4 @@ There are some major differences in this one so I would need to really dig into 
 
 Side note: If these examples haven't been a case study for why you should version and document your file changes, I'm not sure what is! :)
 
+<br>

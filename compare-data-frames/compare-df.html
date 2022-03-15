@@ -279,7 +279,8 @@ file1_copy &lt;- readr::read_csv(&quot;project-a_forms_file1_copy.csv&quot;)</co
 <p>Now check if there are any differences in the two data frames.</p>
 <pre class="r"><code>dplyr::all_equal(file1, file1_copy)</code></pre>
 <pre><code>[1] TRUE</code></pre>
-<p>In this scenario we find that the files are identical. Awesome! We can simply choose one to work with and archive the other. However, what would the output look like if they were not identical.</p>
+<p>In this scenario we find that the files are identical. Awesome! We can simply choose one to work with and archive the other.</p>
+<p>But, what would the output look like if they were not identical?</p>
 <p>Let’s read in another copy, file1_copy2.</p>
 <pre><code># A tibble: 4 x 5
   stu_id grade    q1    q3    q2
@@ -316,6 +317,7 @@ file1_copy &lt;- readr::read_csv(&quot;project-a_forms_file1_copy.csv&quot;)</co
 <pre><code>[1] &quot;- Rows in x but not in y: 4\n- Rows in y but not in x: 4\n&quot;</code></pre>
 <p>There are some major differences in this one so I would need to really dig into which copy of the file I should be using here.</p>
 <p>Side note: If these examples haven’t been a case study for why you should version and document your file changes, I’m not sure what is! :)</p>
+<p><br></p>
 </div>
 </div>
 

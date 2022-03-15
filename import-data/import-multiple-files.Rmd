@@ -243,8 +243,14 @@ File4 <- f(4)
 
 ```
 
+---
 
-**4\. Read in all sheets of an Excel file as separate data frames.**
+#### Function: `map()`
+
+---
+
+
+**1\. Read in all sheets of an Excel file as separate data frames.**
 
 View the sheets in our workbook
 
@@ -261,11 +267,11 @@ You can read in one sheet at a time using `readxl::read_excel` and adding the ar
 
 ```{r, eval=FALSE}
 
-df1 <- readxl::read_excel(path, sheet="Sheet1")
+df1 <- readxl::read_excel(path, sheet = "Sheet1")
 
-df2 <- readxl::read_excel(path, sheet="Sheet2")
+df2 <- readxl::read_excel(path, shee = "Sheet2")
 
-df3 <- readxl::read_excel(path, sheet="Sheet3")
+df3 <- readxl::read_excel(path, sheet = "Sheet3")
 
 ```
 
@@ -276,7 +282,7 @@ Or you can read all Excel sheets into a list using `readxl::excel_sheets()`. The
 data <- path %>% 
   readxl::excel_sheets() %>% 
   purrr::set_names() %>% 
-  purrr::map(readxl::read_excel, path=path)
+  purrr::map(readxl::read_excel, path = path)
 
 df1 <- data$Sheet1
 

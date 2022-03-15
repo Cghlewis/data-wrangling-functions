@@ -318,7 +318,12 @@ File1 &lt;- f(1)
 File2 &lt;- f(2)
 File3 &lt;- f(3)
 File4 &lt;- f(4)</code></pre>
-<p><strong>4. Read in all sheets of an Excel file as separate data frames.</strong></p>
+<hr />
+</div>
+<div id="function-map" class="section level4">
+<h4>Function: <code>map()</code></h4>
+<hr />
+<p><strong>1. Read in all sheets of an Excel file as separate data frames.</strong></p>
 <p>View the sheets in our workbook</p>
 <pre class="r"><code>path &lt;- (here::here(&quot;import-data&quot;, &quot;data&quot;, &quot;all-school_attendance.xlsx&quot;))
 
@@ -326,16 +331,16 @@ path %&gt;%
 readxl::excel_sheets()</code></pre>
 <pre><code>[1] &quot;Sheet1&quot; &quot;Sheet2&quot; &quot;Sheet3&quot;</code></pre>
 <p>You can read in one sheet at a time using <code>readxl::read_excel</code> and adding the argument <em>sheet=</em>, which allows you to call the name of the sheet OR the position.</p>
-<pre class="r"><code>df1 &lt;- readxl::read_excel(path, sheet=&quot;Sheet1&quot;)
+<pre class="r"><code>df1 &lt;- readxl::read_excel(path, sheet = &quot;Sheet1&quot;)
 
-df2 &lt;- readxl::read_excel(path, sheet=&quot;Sheet2&quot;)
+df2 &lt;- readxl::read_excel(path, shee = &quot;Sheet2&quot;)
 
-df3 &lt;- readxl::read_excel(path, sheet=&quot;Sheet3&quot;)</code></pre>
+df3 &lt;- readxl::read_excel(path, sheet = &quot;Sheet3&quot;)</code></pre>
 <p>Or you can read all Excel sheets into a list using <code>readxl::excel_sheets()</code>. Then we iterate over each sheet using <code>purrr::map()</code> to pull out each sheet into their own data frame. Last we use the <code>$</code> to select each sheet from the list by name.</p>
 <pre class="r"><code>data &lt;- path %&gt;% 
   readxl::excel_sheets() %&gt;% 
   purrr::set_names() %&gt;% 
-  purrr::map(readxl::read_excel, path=path)
+  purrr::map(readxl::read_excel, path = path)
 
 df1 &lt;- data$Sheet1
 

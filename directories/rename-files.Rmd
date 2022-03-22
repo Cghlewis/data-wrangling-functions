@@ -1,0 +1,102 @@
+---
+title: "Rename files"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+
+library(fs)
+library(here)
+library(tidyverse)
+```
+
+<br>
+
+### Package: fs
+
+---
+
+#### Function: `file_move()`
+
+---
+
+**1\. Rename all files in the existing folder. In this particular case, let's rename obs_a to obs_c in our "obs_2022-03-15" folder, to be obs1 to obs3.**
+
+* Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "obs_2022-03-15" is within another folder called "directories" which is located in the top level of my project directory. You could also just list your entire file path.
+
+* Note: I am using `base::basename()` to remove the path up to the last separator so I only see the file names.
+
+Let's review the current files
+
+```{r}
+
+base::basename(fs::dir_ls(here::here("directories", "obs_2022-03-15")))
+
+```
+
+First let's grab the files we want to rename.
+
+```{r}
+
+files_old <- fs::dir_ls(here::here("directories", "obs_2022-03-15"))
+
+```
+
+If there were other files in the folder that you did not want to rename, you could add `fs::dir_ls()` argument *glob* here which allows you to grab files/folders using a pattern. That pattern is passed to `base::grep()` to filter paths. 
+
+Here's an example
+
+```{r, eval = FALSE}
+
+files_old <- fs::dir_ls(here("directories", "obs_2022-03-15"), glob = "*.xlsx")
+
+```
+
+
+Now let's create the new name.
+
+* Note: I am using `base::paste0()` to paste the word "obs" with the file number and ".xslx".
+
+```{r}
+
+files_new <- here::here("directories", "obs_2022-03-15",(base::paste0( "obs", 1:length(files_old), ".xlsx")))
+
+```
+
+Now let's rename the files
+
+```{r}
+
+fs::file_move(path = files_old, new_path = files_new)
+
+
+```
+
+
+Let's view the new names.
+
+```{r}
+
+base::basename(fs::dir_ls(here::here("directories", "obs_2022-03-15")))
+
+```
+
+If I didn't want to create new names from scratch but simply wanted to replace a part of the existing name, I could consider something like this instead, using `stringr::str_replace()` to replace any "_letter" with the file number.
+
+```{r, eval = FALSE}
+
+files_old <- fs::dir_ls(here::here("directories", "obs_2022-03-15"), glob='*.xlsx')
+
+file_number <- as.character(1:length(files_old))
+  
+files_new <- stringr::str_replace(files_old, "_[a-z]", file_number)
+  
+fs::file_move(path = files_old, new_path = files_new)
+
+```

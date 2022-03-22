@@ -46,7 +46,6 @@ stringr::str_replace_all(
 
 ```
 
-
 Notice you will get the full path names here. `fs::dir_ls()` creates a character vector of file names.
 
 You can also use `base::dir()` or `base::list.files()` to retrieve just the file names. 
@@ -72,6 +71,16 @@ base::list.files(path = here::here("import-data", "attendance"), full.names = TR
 ```{r, eval=FALSE}
 
 fs::dir_ls(path = "C:/Users/Name/project/import-data/attendance")
+
+```
+
+And last, if you've collected all of your files in an object, you can also use `base::basename()` to retrieve just file names.
+
+```{r}
+
+path <- fs::dir_ls(path = here::here("import-data", "attendance"))
+
+base::basename(path)
 
 ```
 

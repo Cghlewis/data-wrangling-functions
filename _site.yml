@@ -80,6 +80,16 @@ navbar:
     href: compare-data-frames\compare-df.html
   - text: "Compare data frame columns"
     href: compare-data-frames\compare-df-columns.html
+  - text: "Review files in a directory"
+    href: directories\review-files.html
+  - text: "Create folders"
+    href: directories\create-folders.html
+  - text: "Rename files"
+    href: directories\rename-files.html
+  - text: "Copy files"
+    href: directories\copy-files.html
+  - text: "Delete files"
+    href: directories\delete-files.html
 output:
   html_document:
     theme: readable

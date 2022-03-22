@@ -1,0 +1,83 @@
+---
+title: "Review files in a directory"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+
+library(fs)
+library(here)
+```
+
+<br>
+
+### Package: fs
+
+---
+
+#### Function: `dir_ls()`
+
+---
+
+**1\. Review files in a specified folder. In this case we want to see the files in the folder "obs_2022-03-15"**
+
+* Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "obs_2022-03-15" is within another folder called "directories" which is located in the top level of my project directory. You could also just list your entire file path.
+
+```{r, eval = FALSE}
+
+dir_ls(here::here("directories", "obs_2022-03-15"))
+
+```
+
+```{r, echo = FALSE}
+
+d <- fs::dir_ls(here::here("directories", "obs_2022-03-15"))
+
+d <- stringr::str_replace_all(
+  d, "C:/Users/Crystal/Desktop/desktop/R/Working R Stuff/", "")
+
+stringr::str_replace_all(
+  d, "data-wrangling-functions", "/project")
+
+
+```
+
+Notice you will get the full path names here. `fs::dir_ls()` creates a character vector of file names.
+
+<br>
+
+### Package: base
+
+---
+
+#### Function: `basename()`
+
+---
+
+**1\. View just the file names in your path**
+
+`base::basename()` removes all of the path up to and including the last path separator
+
+```{r}
+
+base::basename(dir_ls(here::here("directories", "obs_2022-03-15")))
+
+
+```
+
+You can also use `base::dir()` or `base::list.files()` to retrieve just the file names. If you add the argument *full.names = TRUE* to `base::list.files()` you will get the full path.
+
+* Note: `base::dir()` is an alias for `base::list.files()`
+
+```{r}
+
+base::list.files(here::here("directories", "obs_2022-03-15"))
+
+```
+

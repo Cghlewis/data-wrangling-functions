@@ -1,5 +1,5 @@
 ---
-title: "Review files in a directory"
+title: "Review files"
 output: 
   html_document:
     toc: false
@@ -27,7 +27,7 @@ library(here)
 
 **1\. Review files in a specified folder. In this case we want to see the files in the folder "obs_2022-03-15"**
 
-* Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "obs_2022-03-15" is within another folder called "directories" which is located in the top level of my project directory. You could also just list your entire file path.
+* Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "obs_2022-03-15" is within another folder called "file-system" which is located in the top level of my project directory. You could also just list your entire file path.
 
 ```{r, eval = FALSE}
 
@@ -37,13 +37,10 @@ dir_ls(here::here("directories", "obs_2022-03-15"))
 
 ```{r, echo = FALSE}
 
-d <- fs::dir_ls(here::here("directories", "obs_2022-03-15"))
-
-d <- stringr::str_replace_all(
-  d, "C:/Users/Crystal/Desktop/desktop/R/Working R Stuff/", "")
+d <- fs::dir_ls(here::here("file-system", "obs_2022-03-15"))
 
 stringr::str_replace_all(
-  d, "data-wrangling-functions", "/project")
+  d, "C:/Users/Crystal/Desktop/desktop/R/Working R Stuff/", "C:/Users/Me/project/")
 
 
 ```
@@ -66,7 +63,7 @@ Notice you will get the full path names here. `fs::dir_ls()` creates a character
 
 ```{r}
 
-base::basename(dir_ls(here::here("directories", "obs_2022-03-15")))
+base::basename(fs::dir_ls(here::here("file-system", "obs_2022-03-15")))
 
 
 ```
@@ -77,7 +74,15 @@ You can also use `base::dir()` or `base::list.files()` to retrieve just the file
 
 ```{r}
 
-base::list.files(here::here("directories", "obs_2022-03-15"))
+base::list.files(here::here("file-system", "obs_2022-03-15"))
+
+```
+
+Last, there is also a function from the `fs` package that you can use to pull just the file names, `fs::path_file()`
+
+```{r}
+
+fs::path_file(fs::dir_ls(here::here("file-system", "obs_2022-03-15")))
 
 ```
 

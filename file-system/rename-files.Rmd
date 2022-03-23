@@ -28,7 +28,7 @@ library(tidyverse)
 
 **1\. Rename all files in the existing folder. In this particular case, let's rename obs_a to obs_c in our "obs_2022-03-15" folder, to be obs1 to obs3.**
 
-* Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "obs_2022-03-15" is within another folder called "directories" which is located in the top level of my project directory. You could also just list your entire file path.
+* Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "obs_2022-03-15" is within another folder called "file-system" which is located in the top level of my project directory. You could also just list your entire file path.
 
 * Note: I am using `base::basename()` to remove the path up to the last separator so I only see the file names.
 
@@ -36,7 +36,7 @@ Let's review the current files
 
 ```{r}
 
-base::basename(fs::dir_ls(here::here("directories", "obs_2022-03-15")))
+base::basename(fs::dir_ls(here::here("file-system", "obs_2022-03-15")))
 
 ```
 
@@ -44,7 +44,7 @@ First let's grab the files we want to rename.
 
 ```{r}
 
-files_old <- fs::dir_ls(here::here("directories", "obs_2022-03-15"))
+files_old <- fs::dir_ls(here::here("file-system", "obs_2022-03-15"))
 
 ```
 
@@ -54,7 +54,7 @@ Here's an example
 
 ```{r, eval = FALSE}
 
-files_old <- fs::dir_ls(here("directories", "obs_2022-03-15"), glob = "*.xlsx")
+files_old <- fs::dir_ls(here("file-system", "obs_2022-03-15"), glob = "*.xlsx")
 
 ```
 
@@ -65,7 +65,7 @@ Now let's create the new name.
 
 ```{r}
 
-files_new <- here::here("directories", "obs_2022-03-15",(base::paste0( "obs", 1:length(files_old), ".xlsx")))
+files_new <- here::here("file-system", "obs_2022-03-15",(base::paste0( "obs", 1:length(files_old), ".xlsx")))
 
 ```
 
@@ -83,7 +83,7 @@ Let's view the new names.
 
 ```{r}
 
-base::basename(fs::dir_ls(here::here("directories", "obs_2022-03-15")))
+base::basename(fs::dir_ls(here::here("file-system", "obs_2022-03-15")))
 
 ```
 
@@ -91,7 +91,7 @@ If I didn't want to create new names from scratch but simply wanted to replace a
 
 ```{r, eval = FALSE}
 
-files_old <- fs::dir_ls(here::here("directories", "obs_2022-03-15"), glob='*.xlsx')
+files_old <- fs::dir_ls(here::here("file-system", "obs_2022-03-15"), glob='*.xlsx')
 
 file_number <- as.character(1:length(files_old))
   

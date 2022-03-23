@@ -28,7 +28,7 @@ library(tidyverse)
 
 **1\. Copy one file from one folder to another existing folder. Copy "summary_obs.xlsx" from "obs_2022-03-15" to a folder called "all_obs".**
 
-* Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folders "obs_2022-03-15" and "all_obs" are within another folder called "directories" which is located in the top level of my project directory. You could also just list your entire file path.
+* Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folders "obs_2022-03-15" and "all_obs" are within another folder called "file-system" which is located in the top level of my project directory. You could also just list your entire file path.
 
 * Note: I am using `base::basename()` to remove the path up to the last separator so I only see the file names.
 
@@ -38,7 +38,7 @@ Files in "obs_2022-03-15"
 
 ```{r}
 
-base::basename(fs::dir_ls(here::here("directories", "obs_2022-03-15")))
+base::basename(fs::dir_ls(here::here("file-system", "obs_2022-03-15")))
 
 ```
 
@@ -48,7 +48,7 @@ You'll see there are currently no files in this folder.
 
 ```{r}
 
-base::basename(fs::dir_ls(here::here("directories", "all_obs")))
+base::basename(fs::dir_ls(here::here("file-system", "all_obs")))
 
 ```
 
@@ -59,9 +59,9 @@ Now let's copy the "summary_obs.xlsx" file.
 
 ```{r}
 
-file_to_copy <- fs::dir_ls(here("directories", "obs_2022-03-15"), glob = "*summary*")
+file_to_copy <- fs::dir_ls(here("file-system", "obs_2022-03-15"), glob = "*summary*")
 
-new_directory <- here::here("directories", "all_obs")
+new_directory <- here::here("file-system", "all_obs")
     
 fs::file_copy(path = file_to_copy , new_path = new_directory)
 
@@ -71,7 +71,7 @@ Let's view the files in "all_obs" now.
 
 ```{r}
 
-base::basename(fs::dir_ls(here::here("directories", "all_obs")))
+base::basename(fs::dir_ls(here::here("file-system", "all_obs")))
 
 ```
 
@@ -79,17 +79,17 @@ base::basename(fs::dir_ls(here::here("directories", "all_obs")))
 
 **2\. Copy one file from many folders to another existing folder. Copy "summary_obs.xlsx" from all folders named "obs_YYYY-MM-DD" to a folder called "all_files".**
 
-First let's view how many folders named "obs_YYYY-MM-DD" that we have. We will need to change our directory to be a level higher than in the previous example (up to the "directories" folder). 
+First let's view how many folders named "obs_YYYY-MM-DD" that we have. We will need to change our directory to be a level higher than in the previous example (up to the "file-system" folder). 
 
 ```{r, eval = FALSE}
 
-base::basename(fs::dir_ls(here::here("directories")))
+base::basename(fs::dir_ls(here::here("file-system")))
 
 ```
 
 ```{r, echo = FALSE}
 
-base::basename(fs::dir_ls(here::here("directories"))) %>%
+base::basename(fs::dir_ls(here::here("file-system"))) %>%
   stringr::str_subset("obs_|all_files") 
 
 ```
@@ -105,7 +105,7 @@ Now we can copy the files we want to move over.
 
 ```{r}
 
-file_to_copy_all <- fs::dir_ls(here("directories"), glob = "*summary*",
+file_to_copy_all <- fs::dir_ls(here("file-system"), glob = "*summary*",
                      recurse = TRUE)
 ```
 
@@ -113,7 +113,7 @@ file_to_copy_all <- fs::dir_ls(here("directories"), glob = "*summary*",
 
 ```{r, eval = FALSE}
 
-file_to_copy_all <- fs::dir_ls(here("directories"), glob = "*summary*",
+file_to_copy_all <- fs::dir_ls(here("file-system"), glob = "*summary*",
                      recurse = TRUE) %>%
   stringr::str_subset("all_files", negate = TRUE)
 
@@ -121,7 +121,7 @@ file_to_copy_all <- fs::dir_ls(here("directories"), glob = "*summary*",
 
 ```{r, echo = FALSE}
 
-file_to_copy_all <- fs::dir_ls(here("directories"), glob = "*summary*",
+file_to_copy_all <- fs::dir_ls(here("file-system"), glob = "*summary*",
                      recurse = TRUE) %>%
   stringr::str_subset("all_files|all_obs", negate = TRUE)
 
@@ -150,7 +150,7 @@ folder_date <- stringr::str_extract_all(file_to_copy_all, "\\d{4}-\\d{2}-\\d{2}"
 
 filename <- base::basename(file_to_copy_all)
 
-new_directory_all <- here::here("directories", "all_files", 
+new_directory_all <- here::here("file-system", "all_files", 
                                 stringr::str_replace(filename, ".xlsx", 
                                                          base::paste0("_", folder_date, ".xlsx")))
 
@@ -173,7 +173,7 @@ Let's see what files we have in our "all_files" folder now.
 
 ```{r}
 
-base::basename(fs::dir_ls(here::here("directories", "all_files")))
+base::basename(fs::dir_ls(here::here("file-system", "all_files")))
 
 ```
 

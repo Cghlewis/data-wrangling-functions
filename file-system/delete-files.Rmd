@@ -1,0 +1,91 @@
+---
+title: "Delete files"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+
+library(fs)
+library(here)
+library(tidyverse)
+```
+
+<br>
+
+### Package: fs
+
+---
+
+#### Function: `file_delete()`
+
+---
+
+**1\. Delete an observation file ("summary_obs.xlsx") from a folder ("obs_2022-03-15").**
+
+* Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folders "obs_2022-03-15" is within another folder called "file-system" which is located in the top level of my project directory. You could also just list your entire file path.
+
+* Note: I am using `base::basename()` to remove the path up to the last separator so I only see the file names.
+
+Let's review the current files in both folders.
+
+Files in "obs_2022-03-15"
+
+```{r}
+
+base::basename(fs::dir_ls(here::here("file-system", "obs_2022-03-15")))
+
+```
+
+Now let's delete "obs1.xlsx"
+
+```{r}
+    
+fs::file_delete(path = here::here("file-system", "obs_2022-03-15", "summary_obs.xlsx"))
+
+```
+
+Now let's view our files in the folder.
+
+```{r}
+
+base::basename(fs::dir_ls(here::here("file-system", "obs_2022-03-15")))
+
+```
+
+**2\. Delete ALL files from a folder ("obs_2022-03-15").**
+
+If we wanted to delete ALL files in the folder "obs_2022-03-15", we could grab all our file names and pass that in our path.
+
+```{r}
+
+files <- base::basename(fs::dir_ls(here::here("file-system", "obs_2022-03-15")))
+    
+fs::file_delete(path = here::here("file-system", "obs_2022-03-15", files))
+
+```
+
+Now let's view our files in the folder.
+
+They are all gone.
+
+```{r}
+
+base::basename(fs::dir_ls(here::here("file-system", "obs_2022-03-15")))
+
+```
+
+
+Another option is to *delete the entire folder* by simply not listing any specific files. 
+
+```{r, eval = FALSE}
+    
+fs::file_delete(path = here::here("file-system", "obs_2022-03-15"))
+
+```
+

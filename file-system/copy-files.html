@@ -175,7 +175,7 @@ pre code {
 <div id="function-file_copy" class="section level4">
 <h4>Function: <code>file_copy()</code></h4>
 <hr />
-<p><strong>1. Copy one file from one folder to another existing folder. Copy “summary_obs.xlsx” from “obs_2022-03-15” to a folder called “all_obs”.</strong></p>
+<p><strong>1. Copy one file (“summary_obs.xlsx”) from one folder (“obs_2022-03-15”) to another existing folder (“all_obs”).</strong></p>
 <ul>
 <li><p>Note: I used the <code>here::here()</code> function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folders “obs_2022-03-15” and “all_obs” are within another folder called “file-system” which is located in the top level of my project directory. You could also just list your entire file path.</p></li>
 <li><p>Note: I am using <code>base::basename()</code> to remove the path up to the last separator so I only see the file names.</p></li>
@@ -200,12 +200,12 @@ fs::file_copy(path = file_to_copy , new_path = new_directory)</code></pre>
 <p>Let’s view the files in “all_obs” now.</p>
 <pre class="r"><code>base::basename(fs::dir_ls(here::here(&quot;file-system&quot;, &quot;all_obs&quot;)))</code></pre>
 <pre><code>[1] &quot;summary_obs.xlsx&quot;</code></pre>
-<p><strong>2. Copy one file from many folders to another existing folder. Copy “summary_obs.xlsx” from all folders named “obs_YYYY-MM-DD” to a folder called “all_files”.</strong></p>
-<p>First let’s view how many folders named “obs_YYYY-MM-DD” that we have. We will need to change our directory to be a level higher than in the previous example (up to the “file-system” folder).</p>
+<p><strong>2. Copy one file (“summary_obs.xlsx”) from many folders (all folders named “obs_YYYY-MM-DD”) to another existing folder (“all_files”).</strong></p>
+<p>First let’s view how many folders named “obs_YYYY-MM-DD” exist in our directory. We will need to change our directory to be a level higher than in the previous example (up to the “file-system” folder).</p>
 <pre class="r"><code>base::basename(fs::dir_ls(here::here(&quot;file-system&quot;)))</code></pre>
 <pre><code>[1] &quot;all_files&quot;      &quot;obs_2022-03-15&quot; &quot;obs_2022-03-16&quot;</code></pre>
 <p>We notice we have 2 date folders currently.</p>
-<p>Now we can copy the files we want to move over.</p>
+<p>Now we can grab the files we want to move over.</p>
 <ul>
 <li><p>Note: We use the argument <em>glob = “*summary*”</em> to grab the files with the word summary in it.</p></li>
 <li><p>Note: I am using the argument <em>recurse = TRUE</em> to pull all of the summary files.</p></li>
@@ -213,7 +213,7 @@ fs::file_copy(path = file_to_copy , new_path = new_directory)</code></pre>
 <pre class="r"><code>file_to_copy_all &lt;- fs::dir_ls(here(&quot;file-system&quot;), glob = &quot;*summary*&quot;,
                      recurse = TRUE)</code></pre>
 <ul>
-<li>Note: If you have previously pulled in “summary_obs.xlsx” files into your “all_files” folder (from say earlier date files), those files will be pulled in again so you will need to think about subsetting those files. You can do this by adding <code>stringr::str_subset()</code> and telling it to remove any file paths that contain the string “all_files”.</li>
+<li>Note: If you have previously pulled in “summary_obs.xlsx” files into your “all_files” folder (from say earlier date files), those files will be pulled in again so you will need to think about subsetting those files. You can do this by adding <code>stringr::str_subset()</code> and telling it to remove any file paths that contain the string “all_files” using the argument <em>negate = TRUE</em>.</li>
 </ul>
 <pre class="r"><code>file_to_copy_all &lt;- fs::dir_ls(here(&quot;file-system&quot;), glob = &quot;*summary*&quot;,
                      recurse = TRUE) %&gt;%
@@ -222,15 +222,14 @@ fs::file_copy(path = file_to_copy , new_path = new_directory)</code></pre>
 <pre class="r"><code>base::basename(file_to_copy_all)</code></pre>
 <pre><code>[1] &quot;summary_obs.xlsx&quot; &quot;summary_obs.xlsx&quot;</code></pre>
 <p>As you can see, the files in each date folder are identically named so we will have duplicate file names.</p>
-<p>To differentiate between the files once we copy them over to the “all_files” folder, we are going to add “_YYYY-MM-DD” to each file by extracting the date from the folder using <code>stringr::str_extract_all()</code> and providing the regex argument 4 digits - 2 digits - 2 digits which is the format of our date.</p>
+<p>First, to differentiate between the files once we copy them over to the “all_files” folder, we are going to add “_YYYY-MM-DD” to each file by extracting the date from the folder using <code>stringr::str_extract_all()</code> and providing the regex argument 4 digits - 2 digits - 2 digits which is the format of our date.</p>
+<pre class="r"><code>folder_date &lt;- stringr::str_extract_all(file_to_copy_all, &quot;\\d{4}-\\d{2}-\\d{2}&quot;)</code></pre>
 <p>Then to create the new file path, I chose to grab the basename of the old filepath, and replace the “.xlsx” portion of the filename (using <code>stringr::str_replace()</code>) with “_“, the folder date, and”.xlsx”, all pasted together using <code>base::paste0()</code> which says paste everything together with no separator.</p>
-<pre class="r"><code>folder_date &lt;- stringr::str_extract_all(file_to_copy_all, &quot;\\d{4}-\\d{2}-\\d{2}&quot;)
+<pre class="r"><code>filename &lt;- base::basename(file_to_copy_all)
 
-filename &lt;- base::basename(file_to_copy_all)
-
-new_directory_all &lt;- here::here(&quot;file-system&quot;, &quot;all_files&quot;, 
-                                stringr::str_replace(filename, &quot;.xlsx&quot;, 
-                                                         base::paste0(&quot;_&quot;, folder_date, &quot;.xlsx&quot;)))</code></pre>
+new_directory_all &lt;- here::here(&quot;file-system&quot;, &quot;all_files&quot;, stringr::str_replace(
+  filename, &quot;.xlsx&quot;, 
+  base::paste0(&quot;_&quot;, folder_date, &quot;.xlsx&quot;)))</code></pre>
 <p>Last we will need to copy the files over.</p>
 <ul>
 <li>Note: If you want to run this syntax again to move over future files, you can add the argument <em>overwrite = TRUE</em> to overwrite existing files in the folder.</li>

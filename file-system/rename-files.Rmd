@@ -26,7 +26,7 @@ library(tidyverse)
 
 ---
 
-**1\. Rename all files in the existing folder. In this particular case, let's rename obs_a to obs_c in our "obs_2022-03-15" folder, to be obs1 to obs3.**
+**1\. Rename all files in the existing folder. In this particular case, let's rename obs_a, obs_b, and obs_c in our "obs_2022-03-15" folder, to obs1, obs2, obs3.**
 
 * Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "obs_2022-03-15" is within another folder called "file-system" which is located in the top level of my project directory. You could also just list your entire file path.
 

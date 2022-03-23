@@ -26,7 +26,7 @@ library(tidyverse)
 
 ---
 
-**1\. Copy one file from one folder to another existing folder. Copy "summary_obs.xlsx" from "obs_2022-03-15" to a folder called "all_obs".**
+**1\. Copy one file ("summary_obs.xlsx") from one folder ("obs_2022-03-15") to another existing folder ("all_obs").**
 
 * Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folders "obs_2022-03-15" and "all_obs" are within another folder called "file-system" which is located in the top level of my project directory. You could also just list your entire file path.
 
@@ -77,9 +77,9 @@ base::basename(fs::dir_ls(here::here("file-system", "all_obs")))
 
 
 
-**2\. Copy one file from many folders to another existing folder. Copy "summary_obs.xlsx" from all folders named "obs_YYYY-MM-DD" to a folder called "all_files".**
+**2\. Copy one file ("summary_obs.xlsx") from many folders (all folders named "obs_YYYY-MM-DD") to another existing folder ("all_files").**
 
-First let's view how many folders named "obs_YYYY-MM-DD" that we have. We will need to change our directory to be a level higher than in the previous example (up to the "file-system" folder). 
+First let's view how many folders named "obs_YYYY-MM-DD" exist in our directory. We will need to change our directory to be a level higher than in the previous example (up to the "file-system" folder). 
 
 ```{r, eval = FALSE}
 
@@ -97,7 +97,7 @@ base::basename(fs::dir_ls(here::here("file-system"))) %>%
 
 We notice we have 2 date folders currently. 
 
-Now we can copy the files we want to move over.
+Now we can grab the files we want to move over.
 
 * Note: We use the argument *glob = "\*summary\*"* to grab the files with the word summary in it.
 
@@ -109,7 +109,7 @@ file_to_copy_all <- fs::dir_ls(here("file-system"), glob = "*summary*",
                      recurse = TRUE)
 ```
 
-* Note: If you have previously pulled in "summary_obs.xlsx" files into your "all_files" folder (from say earlier date files), those files will be pulled in again so you will need to think about subsetting those files. You can do this by adding `stringr::str_subset()` and telling it to remove any file paths that contain the string "all_files".
+* Note: If you have previously pulled in "summary_obs.xlsx" files into your "all_files" folder (from say earlier date files), those files will be pulled in again so you will need to think about subsetting those files. You can do this by adding `stringr::str_subset()` and telling it to remove any file paths that contain the string "all_files" using the argument *negate = TRUE*.
 
 ```{r, eval = FALSE}
 
@@ -139,21 +139,25 @@ base::basename(file_to_copy_all)
 
 As you can see, the files in each date folder are identically named so we will have duplicate file names. 
 
-To differentiate between the files once we copy them over to the "all_files" folder, we are going to add "_YYYY-MM-DD" to each file by extracting the date from the folder using `stringr::str_extract_all()` and providing the regex argument 4 digits - 2 digits - 2 digits which is the format of our date.
-
-Then to create the new file path, I chose to grab the basename of the old filepath, and replace the ".xlsx" portion of the filename (using `stringr::str_replace()`) with "_", the folder date, and ".xlsx", all pasted together using `base::paste0()` which says paste everything together with no separator. 
+First, to differentiate between the files once we copy them over to the "all_files" folder, we are going to add "_YYYY-MM-DD" to each file by extracting the date from the folder using `stringr::str_extract_all()` and providing the regex argument 4 digits - 2 digits - 2 digits which is the format of our date.
 
 
 ```{r}
 
 folder_date <- stringr::str_extract_all(file_to_copy_all, "\\d{4}-\\d{2}-\\d{2}")
 
+
+```
+
+Then to create the new file path, I chose to grab the basename of the old filepath, and replace the ".xlsx" portion of the filename (using `stringr::str_replace()`) with "_", the folder date, and ".xlsx", all pasted together using `base::paste0()` which says paste everything together with no separator. 
+
+```{r}
+
 filename <- base::basename(file_to_copy_all)
 
-new_directory_all <- here::here("file-system", "all_files", 
-                                stringr::str_replace(filename, ".xlsx", 
-                                                         base::paste0("_", folder_date, ".xlsx")))
-
+new_directory_all <- here::here("file-system", "all_files", stringr::str_replace(
+  filename, ".xlsx", 
+  base::paste0("_", folder_date, ".xlsx")))
 
 ```
 

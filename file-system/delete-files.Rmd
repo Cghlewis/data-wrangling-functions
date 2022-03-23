@@ -42,7 +42,7 @@ base::basename(fs::dir_ls(here::here("file-system", "obs_2022-03-15")))
 
 ```
 
-Now let's delete "obs1.xlsx"
+Now let's delete "summary_obs.xlsx"
 
 ```{r}
     

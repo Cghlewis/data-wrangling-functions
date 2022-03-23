@@ -183,18 +183,19 @@ pre code {
 <p>Let’s review the current files in both folders.</p>
 <p>Files in “obs_2022-03-15”</p>
 <pre class="r"><code>base::basename(fs::dir_ls(here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;)))</code></pre>
-<pre><code>[1] &quot;obs1.xlsx&quot;        &quot;obs2.xlsx&quot;        &quot;obs3.xlsx&quot;        &quot;summary_obs.xlsx&quot;</code></pre>
-<p>Now let’s delete “obs1.xlsx”</p>
+<pre><code>[1] &quot;obs_a.xlsx&quot;       &quot;obs_b.xlsx&quot;       &quot;obs_c.xlsx&quot;       &quot;summary_obs.xlsx&quot;</code></pre>
+<p>Now let’s delete “summary_obs.xlsx”</p>
 <pre class="r"><code>fs::file_delete(path = here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;, &quot;summary_obs.xlsx&quot;))</code></pre>
 <p>Now let’s view our files in the folder.</p>
 <pre class="r"><code>base::basename(fs::dir_ls(here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;)))</code></pre>
-<pre><code>[1] &quot;obs1.xlsx&quot; &quot;obs2.xlsx&quot; &quot;obs3.xlsx&quot;</code></pre>
+<pre><code>[1] &quot;obs_a.xlsx&quot; &quot;obs_b.xlsx&quot; &quot;obs_c.xlsx&quot;</code></pre>
 <p><strong>2. Delete ALL files from a folder (“obs_2022-03-15”).</strong></p>
 <p>If we wanted to delete ALL files in the folder “obs_2022-03-15”, we could grab all our file names and pass that in our path.</p>
 <pre class="r"><code>files &lt;- base::basename(fs::dir_ls(here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;)))
     
 fs::file_delete(path = here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;, files))</code></pre>
 <p>Now let’s view our files in the folder.</p>
+<p>They are all gone.</p>
 <pre class="r"><code>base::basename(fs::dir_ls(here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;)))</code></pre>
 <pre><code>character(0)</code></pre>
 <p>Another option is to <em>delete the entire folder</em> by simply not listing any specific files.</p>

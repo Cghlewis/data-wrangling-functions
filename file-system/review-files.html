@@ -179,10 +179,10 @@ pre code {
 <ul>
 <li>Note: I used the <code>here::here()</code> function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder “obs_2022-03-15” is within another folder called “file-system” which is located in the top level of my project directory. You could also just list your entire file path.</li>
 </ul>
-<pre class="r"><code>dir_ls(here::here(&quot;directories&quot;, &quot;obs_2022-03-15&quot;))</code></pre>
-<pre><code>[1] &quot;C:/Users/Me/project/data-wrangling-functions/file-system/obs_2022-03-15/obs_a.xlsx&quot;
-[2] &quot;C:/Users/Me/project/data-wrangling-functions/file-system/obs_2022-03-15/obs_b.xlsx&quot;
-[3] &quot;C:/Users/Me/project/data-wrangling-functions/file-system/obs_2022-03-15/obs_c.xlsx&quot;</code></pre>
+<pre class="r"><code>dir_ls(here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;))</code></pre>
+<pre><code>[1] &quot;C:/Users/Me/project/file-system/obs_2022-03-15/obs_a.xlsx&quot;
+[2] &quot;C:/Users/Me/project/file-system/obs_2022-03-15/obs_b.xlsx&quot;
+[3] &quot;C:/Users/Me/project/file-system/obs_2022-03-15/obs_c.xlsx&quot;</code></pre>
 <p>Notice you will get the full path names here. <code>fs::dir_ls()</code> creates a character vector of file names.</p>
 <p><br></p>
 </div>

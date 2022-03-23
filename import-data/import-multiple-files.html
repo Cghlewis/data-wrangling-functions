@@ -179,11 +179,11 @@ pre code {
 <li>Note: I used the <code>here::here()</code> function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder “attendance” is within another folder called “import-data” which is located in the top level of my project directory. You could also just list your entire file path.</li>
 </ul>
 <pre class="r"><code>fs::dir_ls(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;))</code></pre>
-<pre><code>[1] &quot;/project/import-data/attendance/school-1_attendance.csv&quot; 
-[2] &quot;/project/import-data/attendance/school-2_attendance.xlsx&quot;
-[3] &quot;/project/import-data/attendance/school-3_attendance.xlsx&quot;
-[4] &quot;/project/import-data/attendance/school-4_attendance.xlsx&quot;
-[5] &quot;/project/import-data/attendance/school-5_attendance.xlsx&quot;</code></pre>
+<pre><code>[1] &quot;C:/Users/Me/project/import-data/attendance/school-1_attendance.csv&quot; 
+[2] &quot;C:/Users/Me/project/import-data/attendance/school-2_attendance.xlsx&quot;
+[3] &quot;C:/Users/Me/project/import-data/attendance/school-3_attendance.xlsx&quot;
+[4] &quot;C:/Users/Me/project/import-data/attendance/school-4_attendance.xlsx&quot;
+[5] &quot;C:/Users/Me/project/import-data/attendance/school-5_attendance.xlsx&quot;</code></pre>
 <p>Notice you will get the full path names here. <code>fs::dir_ls()</code> creates a character vector of file names.</p>
 <p>You can also use <code>base::dir()</code> or <code>base::list.files()</code> to retrieve just the file names.</p>
 <ul>
@@ -254,16 +254,16 @@ head(d, n=c(10,5))</code></pre>
 <pre><code># A tibble: 10 x 3
    source                                                  YEAR PROPORTIONAL_AT~
    &lt;chr&gt;                                                  &lt;dbl&gt;            &lt;dbl&gt;
- 1 /project/import-data/attendance/school-2_attendance.x~  2015             270 
- 2 /project/import-data/attendance/school-2_attendance.x~  2016             275.
- 3 /project/import-data/attendance/school-2_attendance.x~  2017             362 
- 4 /project/import-data/attendance/school-2_attendance.x~  2018             368 
- 5 /project/import-data/attendance/school-2_attendance.x~  2019             396 
- 6 /project/import-data/attendance/school-3_attendance.x~  2015             547.
- 7 /project/import-data/attendance/school-3_attendance.x~  2016             578 
- 8 /project/import-data/attendance/school-3_attendance.x~  2017             568 
- 9 /project/import-data/attendance/school-3_attendance.x~  2018             554 
-10 /project/import-data/attendance/school-3_attendance.x~  2019             536 </code></pre>
+ 1 C:/Users/Me/project/import-data/attendance/school-2_a~  2015             270 
+ 2 C:/Users/Me/project/import-data/attendance/school-2_a~  2016             275.
+ 3 C:/Users/Me/project/import-data/attendance/school-2_a~  2017             362 
+ 4 C:/Users/Me/project/import-data/attendance/school-2_a~  2018             368 
+ 5 C:/Users/Me/project/import-data/attendance/school-2_a~  2019             396 
+ 6 C:/Users/Me/project/import-data/attendance/school-3_a~  2015             547.
+ 7 C:/Users/Me/project/import-data/attendance/school-3_a~  2016             578 
+ 8 C:/Users/Me/project/import-data/attendance/school-3_a~  2017             568 
+ 9 C:/Users/Me/project/import-data/attendance/school-3_a~  2018             554 
+10 C:/Users/Me/project/import-data/attendance/school-3_a~  2019             536 </code></pre>
 <p><strong>2. Read in all Excel files except one from the directory and bind them together.</strong></p>
 <p>Review the files in our “attendance” folder again</p>
 <pre class="r"><code>base::dir(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;))</code></pre>

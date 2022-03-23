@@ -31,7 +31,7 @@ library(here)
 
 ```{r, eval = FALSE}
 
-dir_ls(here::here("directories", "obs_2022-03-15"))
+dir_ls(here::here("file-system", "obs_2022-03-15"))
 
 ```
 
@@ -40,7 +40,7 @@ dir_ls(here::here("directories", "obs_2022-03-15"))
 d <- fs::dir_ls(here::here("file-system", "obs_2022-03-15"))
 
 stringr::str_replace_all(
-  d, "C:/Users/Crystal/Desktop/desktop/R/Working R Stuff/", "C:/Users/Me/project/")
+  d, "C:/Users/Crystal/Desktop/desktop/R/Working R Stuff/data-wrangling-functions/", "C:/Users/Me/project/")
 
 
 ```

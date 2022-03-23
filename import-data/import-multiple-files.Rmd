@@ -38,11 +38,8 @@ fs::dir_ls(path = here::here("import-data", "attendance"))
 
 d <- fs::dir_ls(path = here::here("import-data", "attendance"))
 
-d <- stringr::str_replace_all(
-  d, "C:/Users/Crystal/Desktop/desktop/R/Working R Stuff/", "")
-
 stringr::str_replace_all(
-  d, "data-wrangling-functions", "/project")
+  d, "C:/Users/Crystal/Desktop/desktop/R/Working R Stuff/data-wrangling-functions/", "C:/Users/Me/project/") 
 
 ```
 
@@ -141,9 +138,7 @@ d <- fs::dir_ls(path = here::here("import-data", "attendance"), glob ="*.xlsx") 
 ```{r, echo=FALSE}
 
 d <- d %>% mutate(source = stringr::str_replace_all(
-  source, "C:/Users/Crystal/Desktop/desktop/R/Working R Stuff/", "")) %>%
-  mutate(source = stringr::str_replace_all(
-  source, "data-wrangling-functions", "/project"))
+  source, "C:/Users/Crystal/Desktop/desktop/R/Working R Stuff/data-wrangling-functions/", "C:/Users/Me/project/")) 
 
 ```
 

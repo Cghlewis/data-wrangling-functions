@@ -13,6 +13,7 @@ knitr::opts_chunk$set(comment = NA,
 
 library(fs)
 library(here)
+library(tidyverse)
 ```
 
 <br>
@@ -86,3 +87,103 @@ fs::path_file(fs::dir_ls(here::here("file-system", "obs_2022-03-15")))
 
 ```
 
+
+### Package: fs
+
+---
+
+#### Function: `file_info()`
+
+---
+
+**1\. View detailed information about your files**
+
+Let's review all of our files in the "analysis_data" folder.
+
+* Note: There are more columns you can view with this function but I have selected 3 columns of interest to view here.
+
+```{r, eval = FALSE}
+
+fs::file_info(fs::dir_ls(here::here("file-system"))) %>%
+  select(path, type, modification_time)
+
+```
+
+```{r, echo = FALSE}
+
+fs::file_info(fs::dir_ls(here::here("file-system", "analysis_data"))) %>%
+  select(path, type, modification_time) %>%
+  mutate(path = stringr::str_replace_all(
+  path, "C:/Users/Crystal/Desktop/desktop/R/Working R Stuff/data-wrangling-functions/file-system/analysis_data", "C:/Users/Me/project/file-system"))
+  
+  
+
+```
+
+
+
+**2\. Find the most recent version of a file**
+
+In this scenario, I want to find the most recent version of my file based on the modification time of a file.
+
+* Note: I am using `dplyr::slice()` and `base::which.max()` to select the path with the most recent modification time.
+
+```{r, eval = FALSE}
+
+fs::file_info(fs::dir_ls(here::here("file-system"))) %>%
+  dplyr::select(path,
+                type, modification_time) %>%
+  dplyr::slice(base::which.max(modification_time))
+
+```
+
+```{r, echo = FALSE}
+
+fs::file_info(fs::dir_ls(here::here("file-system", "analysis_data"))) %>%
+  dplyr::select(path, 
+                type, modification_time) %>%
+  dplyr::slice(base::which.max(modification_time)) %>% mutate(path = stringr::str_replace_all(
+  path, "C:/Users/Crystal/Desktop/desktop/R/Working R Stuff/data-wrangling-functions/file-system/analysis_data", "C:/Users/Me/project/file-system"))
+  
+
+```
+
+However, I don't always trust the modification time to give me my most recent version.You'll notice that I've also versioned our files by adding "_v#" as a suffix to each file name. I can instead use this information to find the most recent version.
+
+* Note: In this scenario I don't need to use `fs::file_info()` as I am only choosing my most recent file version based on my naming convention.
+
+* Note: I am using `dplyr::arrange()` to sort my file names descending (get the most recent version on top) and then selecting the top file name using `dplyr::slice_head()`.
+
+* Note: This same code would work if I had used a date suffix ("_YYYY-MM-DD") to version files rather than "_v#"
+
+```{r, eval = FALSE}
+
+tibble::as_tibble(fs::dir_ls(here::here("file-system"))) %>%
+  dplyr::arrange(desc(value)) %>%
+  dplyr::slice_head(n=1)
+
+```
+
+```{r, echo = FALSE}
+
+tibble::as_tibble(fs::dir_ls(here::here("file-system", "analysis_data"))) %>%
+  dplyr::arrange(desc(value)) %>%
+  dplyr::slice_head(n=1) %>%
+  mutate(value = stringr::str_replace_all(
+  value, "C:/Users/Crystal/Desktop/desktop/R/Working R Stuff/data-wrangling-functions/file-system/analysis_data", "C:/Users/Me/project/file-system"))
+```
+
+
+And last, if I wanted to go one step further and import the most recent version of a file, I could simply save the tibble from above and pull the "value" column with our path using `dplyr::pull()` and use that character vector in an import function such as `readxl::read_excel()`.
+
+```{r, eval = FALSE}
+
+newest_file <- tibble::as_tibble(fs::dir_ls(
+  here::here("file-system"))) %>%
+  dplyr::arrange(desc(value)) %>%
+  dplyr::slice_head(n=1) %>%
+  dplyr::pull(value)
+
+most_recent <- readxl::read_excel(newest_file)
+
+```

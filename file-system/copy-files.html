@@ -224,7 +224,7 @@ fs::file_copy(path = file_to_copy , new_path = new_directory)</code></pre>
 <p>As you can see, the files in each date folder are identically named so we will have duplicate file names.</p>
 <p>First, to differentiate between the files once we copy them over to the “all_files” folder, we are going to add “_YYYY-MM-DD” to each file by extracting the date from the folder using <code>stringr::str_extract_all()</code> and providing the regex argument 4 digits - 2 digits - 2 digits which is the format of our date.</p>
 <pre class="r"><code>folder_date &lt;- stringr::str_extract_all(file_to_copy_all, &quot;\\d{4}-\\d{2}-\\d{2}&quot;)</code></pre>
-<p>Then to create the new file path, I chose to grab the basename of the old filepath, and replace the “.xlsx” portion of the filename (using <code>stringr::str_replace()</code>) with “_“, the folder date, and”.xlsx”, all pasted together using <code>base::paste0()</code> which says paste everything together with no separator.</p>
+<p>Then to create the new file path, we can grab the basename of the old filepath, and replace the “.xlsx” portion of the filename (using <code>stringr::str_replace()</code>) with “_“, the folder date, and”.xlsx”, all pasted together using <code>base::paste0()</code> which says paste everything together with no separator.</p>
 <pre class="r"><code>filename &lt;- base::basename(file_to_copy_all)
 
 new_directory_all &lt;- here::here(&quot;file-system&quot;, &quot;all_files&quot;, stringr::str_replace(

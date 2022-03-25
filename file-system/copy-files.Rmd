@@ -149,7 +149,7 @@ folder_date <- stringr::str_extract_all(file_to_copy_all, "\\d{4}-\\d{2}-\\d{2}"
 
 ```
 
-Then to create the new file path, I chose to grab the basename of the old filepath, and replace the ".xlsx" portion of the filename (using `stringr::str_replace()`) with "_", the folder date, and ".xlsx", all pasted together using `base::paste0()` which says paste everything together with no separator. 
+Then to create the new file path, we can grab the basename of the old filepath, and replace the ".xlsx" portion of the filename (using `stringr::str_replace()`) with "_", the folder date, and ".xlsx", all pasted together using `base::paste0()` which says paste everything together with no separator. 
 
 ```{r}
 

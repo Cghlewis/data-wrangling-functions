@@ -117,6 +117,8 @@ d5
 
 View the variable labels for Var3
 
+* Note: You'll see in this example there are three values and two value labels. In this instance, 2s are supposed to also be yes, but they do not contain a value label.
+
 ```{r, echo=FALSE}
 
 d5 <- d5 %>% labelled::set_value_labels(Var3 = c(no = 0, yes = 1))
@@ -141,7 +143,9 @@ Note: Notice here that we are only recoding one value in the variable. There is 
 
 ```{r}
 
-d5 <- d5 %>% dplyr::mutate(Var3=dplyr::recode(Var3, `0`=1))
+d5 <- d5 %>% dplyr::mutate(Var3 = dplyr::recode(Var3, `2`=1))
+
+d5
 
 ```
 
@@ -153,6 +157,74 @@ Note: The value labels are retained. The default for the `dplyr::recode()` optio
 ```{r}
 
 labelled::val_labels(d5$Var3)
+
+```
+
+**4\. Recode multiple values in a numeric haven labelled variable (Var3)**
+
+Review the data (d13)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d13
+
+```
+
+View the variable labels for Var3
+
+* Note: You'll see in this example there are three values and two value labels. In this instance, 2s are supposed to also be yes, but they do not contain a value label.
+
+```{r, echo=FALSE}
+
+d13 <- d13 %>% labelled::set_value_labels(Var3 = c(no = 5, yes = 6))
+
+```
+
+```{r}
+
+d13 %>%
+  dplyr::select(Var3) %>%
+  labelled::val_labels()
+
+```
+
+Recode `5` to `0` and `6` to `1` in Var3
+
+Note: We *did* have to put quotes around the old values because `dplyr::recode()` replaces numeric values by either their name or their position. If a number with no quotes/backticks is given, it will assume it is a position.
+
+Note: Since we are recoding into a numeric variable, no quotes are necessary are the numeric new value.
+
+```{r}
+
+d13 <- d13 %>% dplyr::mutate(Var3 = dplyr::recode(Var3, `5`=0, `6` = 1))
+
+d13
+
+```
+
+View the variable labels for Var3
+
+Note: We left the default *.keep_value_labels* is TRUE so our value labels are still funky.
+
+```{r}
+
+d13 %>%
+  dplyr::select(Var3) %>%
+  labelled::val_labels()
+
+```
+
+
+In this instance I don't want to keep the original value labels. I don't necessarily need to set the *.keep_value_labels* to FALSE though. I can just add new value labels and they will overwrite the previous labels.
+
+```{r}
+
+d13 <- d13 %>% labelled::set_value_labels(Var3 = c(no = 0, yes = 1))
+
+d13 %>%
+  dplyr::select(Var3) %>%
+  labelled::val_labels()
 
 ```
 

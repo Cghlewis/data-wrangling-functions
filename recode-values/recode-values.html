@@ -247,6 +247,9 @@ pre code {
 2 b        16     0
 3 c         3     1</code></pre>
 <p>View the variable labels for Var3</p>
+<ul>
+<li>Note: You’ll see in this example there are three values and two value labels. In this instance, 2s are supposed to also be yes, but they do not contain a value label.</li>
+</ul>
 <pre class="r"><code>labelled::val_labels(d5$Var3)</code></pre>
 <pre><code> no yes 
   0   1 </code></pre>
@@ -254,11 +257,66 @@ pre code {
 <p>Note: We <em>did</em> have to put quotes around the old values because <code>dplyr::recode()</code> replaces numeric values by either their name or their position. If a number with no quotes/backticks is given, it will assume it is a position.</p>
 <p>Note: Since we are recoding into a numeric variable, no quotes are necessary are the numeric new value.</p>
 <p>Note: Notice here that we are only recoding one value in the variable. There is a <em>.default</em> option that you can set all not recoded values to, and if no default is supplied and the replacement values are the same variable class as the original values (ex: numeric and numeric), then unmatched values are unchanged. <em>However</em>, if the replacement value is a new variable class (ex: numeric to character) then all other values will be recoded to NA.</p>
-<pre class="r"><code>d5 &lt;- d5 %&gt;% dplyr::mutate(Var3=dplyr::recode(Var3, `0`=1))</code></pre>
+<pre class="r"><code>d5 &lt;- d5 %&gt;% dplyr::mutate(Var3 = dplyr::recode(Var3, `2`=1))
+
+d5</code></pre>
+<pre><code># A tibble: 3 x 3
+  Var1   Var2      Var3
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl+lbl&gt;
+1 a         1   1 [yes]
+2 b        16   0 [no] 
+3 c         3   1 [yes]</code></pre>
 <p>View the variable labels for Var3</p>
 <p>Note: The value labels are retained. The default for the <code>dplyr::recode()</code> option <em>.keep_value_labels</em> is TRUE. However, if you do not want to keep the value labels you can set the option to FALSE.</p>
 <pre class="r"><code>labelled::val_labels(d5$Var3)</code></pre>
 <pre><code> no yes 
+  0   1 </code></pre>
+<p><strong>4. Recode multiple values in a numeric haven labelled variable (Var3)</strong></p>
+<p>Review the data (d13)</p>
+<pre><code># A tibble: 3 x 3
+  Var1   Var2  Var3
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 a         1     6
+2 b        16     5
+3 c         3     6</code></pre>
+<p>View the variable labels for Var3</p>
+<ul>
+<li>Note: You’ll see in this example there are three values and two value labels. In this instance, 2s are supposed to also be yes, but they do not contain a value label.</li>
+</ul>
+<pre class="r"><code>d13 %&gt;%
+  dplyr::select(Var3) %&gt;%
+  labelled::val_labels()</code></pre>
+<pre><code>$Var3
+ no yes 
+  5   6 </code></pre>
+<p>Recode <code>5</code> to <code>0</code> and <code>6</code> to <code>1</code> in Var3</p>
+<p>Note: We <em>did</em> have to put quotes around the old values because <code>dplyr::recode()</code> replaces numeric values by either their name or their position. If a number with no quotes/backticks is given, it will assume it is a position.</p>
+<p>Note: Since we are recoding into a numeric variable, no quotes are necessary are the numeric new value.</p>
+<pre class="r"><code>d13 &lt;- d13 %&gt;% dplyr::mutate(Var3 = dplyr::recode(Var3, `5`=0, `6` = 1))
+
+d13</code></pre>
+<pre><code># A tibble: 3 x 3
+  Var1   Var2      Var3
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl+lbl&gt;
+1 a         1         1
+2 b        16         0
+3 c         3         1</code></pre>
+<p>View the variable labels for Var3</p>
+<p>Note: We left the default <em>.keep_value_labels</em> is TRUE so our value labels are still funky.</p>
+<pre class="r"><code>d13 %&gt;%
+  dplyr::select(Var3) %&gt;%
+  labelled::val_labels()</code></pre>
+<pre><code>$Var3
+ no yes 
+  5   6 </code></pre>
+<p>In this instance I don’t want to keep the original value labels. I don’t necessarily need to set the <em>.keep_value_labels</em> to FALSE though. I can just add new value labels and they will overwrite the previous labels.</p>
+<pre class="r"><code>d13 &lt;- d13 %&gt;% labelled::set_value_labels(Var3 = c(no = 0, yes = 1))
+
+d13 %&gt;%
+  dplyr::select(Var3) %&gt;%
+  labelled::val_labels()</code></pre>
+<pre><code>$Var3
+ no yes 
   0   1 </code></pre>
 <hr />
 </div>

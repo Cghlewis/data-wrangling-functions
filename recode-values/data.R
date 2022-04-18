@@ -107,3 +107,10 @@ d12 <- tibble::tribble(
   112, "Microsoft Teams",
   113, NA_character_)
 
+
+d13 <- tibble::tribble(
+  ~Var1, ~Var2, ~Var3,
+  "a", 1, 6,
+  "b", 16, 5,
+  "c", 3, 6,
+)

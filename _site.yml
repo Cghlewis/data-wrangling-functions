@@ -90,6 +90,10 @@ navbar:
     href: file-system\copy-files.html
   - text: "Delete files"
     href: file-system\delete-files.html
+  - text: "Restructure wide"
+    href: restructure\restructure-wide.html
+  - text: "Restructure long"
+    href: restructure\restructure-long.html
 output:
   html_document:
     theme: readable

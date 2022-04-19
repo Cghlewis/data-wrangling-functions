@@ -35,7 +35,10 @@ d1
 
 Split name into two variables
 
+* Note: The values for the *into* argument need to be provided as a character vector.
+
 * Note: The original variable will be removed unless you add the argument *remove=FALSE*
+
 * Note: If no separator is indicated, the function will split values wherever a non-alphanumeric character appears (for example, a space). If you want to be clear where to separate, add the argument *sep=* and insert a regular expression such as *sep=" "*. 
 
 ```{r}

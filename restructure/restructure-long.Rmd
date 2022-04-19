@@ -1,0 +1,113 @@
+---
+title: "Restructure data to long format"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: tidyr
+
+---
+
+#### Function: `pivot_longer()`
+
+---
+
+* Note: There are many arguments available in `tidyr::pivot_longer()`. Type *?pivot_longer* in your console to see all arguments. But those most basic arguments to be aware of include:  
+*cols* = cols you want to pivot,   
+*names_to* = name of your new categorical column/s typically,  
+*values_to* = name of the new value column/s
+
+<br>
+
+**1\. Restructure our longitudinal data into long format**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Restructure the data into long format, making "wave" a new variable
+
+* Note: We use a `tidyselect` selection helper `matches()` to select the columns we wish to pivot long. In this case we want any column that has the prefix "w#_". Using `matches()` rather than a selection helper such as `contains()`, we can use regular expressions to select columns.
+
+* Note: Here we use the *names_to* argument to state that we want two new columns, the first one being wave and the second column being whatever our remaining value is after wave (in this case "q1"). ".value" defines the column containing the cell values and overrides the *values_to* argument.
+
+* Note: We use the *names_sep* argument to state how the wave and question variable should be separated (by "_"). Using *names_pattern* is another option if you have more complicated variable names.
+
+* Note: We use the *names_prefix* argument to remove the "w" that would be attached to every number in the wave column since that is redundant information now. Be aware that the wave column will still be considered character since it contained "w" before we removed it. You may choose to convert that column type.
+
+
+```{r}
+
+d1 %>%
+  tidyr::pivot_longer(
+    cols = tidyselect::matches("w[0-9]_"),
+                      names_to = c("wave", ".value"),
+                      names_sep = "_",
+    names_prefix = "w")
+
+```
+
+
+**2\. Restructure our data into tidy format**
+
+Review the data (d5)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d5
+
+```
+
+The wide format above is not conducive for calculating summary statistics by group. So we need to reformat the data to long/tidy format. We want to end up with 4 columns (school, grade level, attendance and enrollment).
+
+* Note: Similar to above we use the argument *cols* to select the columns we wish to pivot. Here we select all columns associated with a grade level (6 or 7). 
+
+* Note: We use the *names_to* argument again but this time we switch the order. Since the value we want to group by is second in the variable name, we want to put that second in the *names_to* argument.
+
+```{r}
+
+d5 %>%
+  tidyr::pivot_longer(cols = enroll_6:attend_7,
+               names_to = c(".value", "grade"),
+               names_sep = "_")
+
+```
+
+If we only had one column type to pivot longer, we could simplify the arguments. We would no longer need to use ".value" for the *names_to* argument.
+
+For example, here we only have enrollment to pivot longer.
+
+```{r, echo = FALSE}
+
+d6
+
+```
+
+And we can now just name the column we want the grouping variable to be in, and we use the argument *values_to* rather than *names_sep* to state the name of the values column.
+
+```{r}
+
+d6 %>%
+  tidyr::pivot_longer(cols = -school,
+               names_to = "grade",
+               values_to = "enroll")
+
+```
+
+
+Return to [Restructure](https://github.com/Cghlewis/data-wrangling-functions/wiki/Restructure)

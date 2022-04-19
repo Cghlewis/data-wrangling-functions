@@ -1,0 +1,137 @@
+---
+title: "Restructure data to wide format"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: tidyr
+
+---
+
+#### Function: `pivot_wider()`
+
+---
+
+* Note: There are many arguments available in `tidyr::pivot_wider()`. Type *?pivot_wider* in your console to see all arguments.  But those most basic arguments to be aware of include:  
+*names_from* = name of columns/s to get the name of the output column,   
+*values_from* = name of column/s to get the values from
+
+<br>
+
+**1\. Restructure our longitudinal data into wide format using the "wave" column**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+Restructure the data into wide format, adding "w#_" as a prefix.
+
+* Note: Here we use the *names_from* argument to say what the output column should be, and the *values_from* argument to get cell values. We also use *names_glue* to create a custom column name where we add "w#_" as a prefix to our question name. If we did not add the *names_glue* argument, our column values would simply be the name of the wave (which in this case is not what we want because we want to know the question as well).
+
+
+```{r}
+
+d2 %>%
+  tidyr::pivot_wider(
+    names_from = wave,
+    names_glue = "w{wave}_{.value}",
+    values_from = q1)
+
+```
+
+
+**2\. Restructure our longitudinal data into wide format using the "year" and "cycle" column**
+
+Review the data (d7)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d7
+
+```
+
+Restructure the data into wide format, adding the year and cycle as a prefix.
+
+* Note: If we didn't specify our own name using *names_glue*, the year and cycle would be added as a suffix since there are multiple value columns.
+
+
+```{r}
+
+d7 %>%
+  pivot_wider(
+    names_from = c(year,cycle),
+    values_from = c(q1, q2),
+    names_glue = "y{year}_c{cycle}_{.value}"
+  )
+
+```
+
+
+**3\. Restructure the data into wide format to calculate intraclass correlation coefficient**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+For ICC analysis, we typically only want two columns of data, one for rater 1 and one for rater 2.
+
+* Note: Instead of using *names_glue* we used *names_prefix* this time to state that we just want to add "rater_" to the beginning of our rater column name.
+
+```{r}
+
+d3 %>%
+    tidyr::pivot_wider(names_from=rater_id,
+                values_from=score,
+                names_prefix= "rater_") %>%
+  select(-tch_id)
+
+
+```
+
+If we are only considered with the pairs, and not the individual raters, we can also use this method even if the raters are not consistent. Take this data for example, where the raters change, but we have a column to indicate which rater is primary and which rater is secondary.
+
+```{r, echo = FALSE}
+
+source("data.R")
+d4
+
+```
+
+We can still restructure this data.
+
+* Note: The only thing different here, compared to the prior example, is that we add the argument *id_cols* to indicate the the "tch_id" is what makes our rows unique. 
+
+```{r}
+
+d4 %>%
+    tidyr::pivot_wider(
+      id_cols = tch_id,
+      names_from=primary,
+      values_from=score,
+      names_prefix= "rater_")  %>% 
+    dplyr::select(-tch_id)
+
+```
+
+
+Return to [Restructure](https://github.com/Cghlewis/data-wrangling-functions/wiki/Restructure)

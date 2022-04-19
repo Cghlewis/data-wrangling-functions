@@ -212,8 +212,11 @@ $q1
 [1] &quot;do you get along with your teacher?&quot;</code></pre>
 <p>This also works if you only want to add variable labels to some variables, not all. There may be times when some of your variables already have labels or you simply do not want to add labels to all variables. If there are existing labels and you don’t relabel them, those labels will remain.</p>
 <p>Here is an example where we choose to only add labels to 2 of our variables.</p>
+<ul>
+<li>Note: I filter my dictionary using <code>dplyr::filter()</code> to just the two variables of interest.</li>
+</ul>
 <pre class="r"><code>var_labels &lt;- dict %&gt;%
-  filter(varname %in% c(&quot;gradelevel&quot;, &quot;q1&quot;)) %&gt;%
+  dplyr::filter(varname %in% c(&quot;gradelevel&quot;, &quot;q1&quot;)) %&gt;%
   tibble::deframe() %&gt;%
   base::as.list()
 

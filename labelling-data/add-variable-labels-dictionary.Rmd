@@ -71,6 +71,8 @@ This also works if you only want to add variable labels to some variables, not a
 
 Here is an example where we choose to only add labels to 2 of our variables. 
 
+* Note: I filter my dictionary using `dplyr::filter()` to just the two variables of interest.
+
 ```{r, echo = FALSE}
 
 source("data.R")
@@ -81,7 +83,7 @@ source("data.R")
 ```{r}
 
 var_labels <- dict %>%
-  filter(varname %in% c("gradelevel", "q1")) %>%
+  dplyr::filter(varname %in% c("gradelevel", "q1")) %>%
   tibble::deframe() %>%
   base::as.list()
 

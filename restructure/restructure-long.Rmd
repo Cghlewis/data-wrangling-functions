@@ -21,7 +21,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-* Note: There are many arguments available in `tidyr::pivot_longer()`. Type *?pivot_longer* in your console to see all arguments. But those most basic arguments to be aware of include:  
+* Note: There are many arguments available in `tidyr::pivot_longer()`. Type *?pivot_longer* in your console to see all arguments. But the most basic arguments to be aware of include:  
 *cols* = cols you want to pivot,   
 *names_to* = name of your new categorical column/s typically,  
 *values_to* = name of the new value column/s
@@ -88,7 +88,7 @@ d5 %>%
 
 ```
 
-If we only had one column type to pivot longer, we could simplify the arguments. We would no longer need to use ".value" for the *names_to* argument.
+If we only had one column type to pivot longer, we could simplify the arguments. We would no longer need to use the *names_sep* argument and we would no longer need to use ".value" for the *names_to* argument.
 
 For example, here we only have enrollment to pivot longer.
 

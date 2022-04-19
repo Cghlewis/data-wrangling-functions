@@ -21,7 +21,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-* Note: There are many arguments available in `tidyr::pivot_wider()`. Type *?pivot_wider* in your console to see all arguments.  But those most basic arguments to be aware of include:  
+* Note: There are many arguments available in `tidyr::pivot_wider()`. Type *?pivot_wider* in your console to see all arguments.  But the most basic arguments to be aware of include:  
 *names_from* = name of columns/s to get the name of the output column,   
 *values_from* = name of column/s to get the values from
 
@@ -38,7 +38,7 @@ d2
 
 ```
 
-Restructure the data into wide format, adding "w#_" as a prefix.
+Restructure the data into wide format, adding "w#_" as a prefix to the "q1" variable.
 
 * Note: Here we use the *names_from* argument to say what the output column should be, and the *values_from* argument to get cell values. We also use *names_glue* to create a custom column name where we add "w#_" as a prefix to our question name. If we did not add the *names_glue* argument, our column values would simply be the name of the wave (which in this case is not what we want because we want to know the question as well).
 
@@ -65,7 +65,7 @@ d7
 
 ```
 
-Restructure the data into wide format, adding the year and cycle as a prefix.
+Restructure the data into wide format, adding the year and cycle as a prefix to "q1" and "q2".
 
 * Note: If we didn't specify our own name using *names_glue*, the year and cycle would be added as a suffix since there are multiple value columns.
 
@@ -82,7 +82,7 @@ d7 %>%
 ```
 
 
-**3\. Restructure the data into wide format to calculate intraclass correlation coefficient**
+**3\. Restructure the data into wide format to calculate a statistic such as intraclass correlation coefficient**
 
 Review the data (d3)
 
@@ -93,9 +93,9 @@ d3
 
 ```
 
-For ICC analysis, we typically only want two columns of data, one for rater 1 and one for rater 2.
+For ICC analysis, we typically only want two columns of data, one for rater 1 and one for rater 2 (or one column per rater if we have more than 2 raters per case).
 
-* Note: Instead of using *names_glue* we used *names_prefix* this time to state that we just want to add "rater_" to the beginning of our rater column name.
+* Note: Instead of using *names_glue* we used *names_prefix* this time to state that we just want to add "rater_" to the beginning of our rater_id column name.
 
 ```{r}
 
@@ -108,7 +108,7 @@ d3 %>%
 
 ```
 
-If we are only considered with the pairs, and not the individual raters, we can also use this method even if the raters are not consistent. Take this data for example, where the raters change, but we have a column to indicate which rater is primary and which rater is secondary.
+If we are only concerned with the pairs, and not the individual raters, we can also use this method even if the raters are not consistent. Take this data for example, where the raters change, but we have a column to indicate which rater is primary and which rater is secondary.
 
 ```{r, echo = FALSE}
 

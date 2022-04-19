@@ -1,0 +1,122 @@
+---
+title: "Add variable labels using a data dictionary"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+
+### Package: labelled
+
+---
+
+#### Function: `set_variable_labels()`
+
+---
+
+**1\. Set labels for one or more variables (id, gradelevel, q1) using a data dictionary**
+
+Review the data (d11)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d11
+
+```
+
+
+Review our data dictionary (dict)
+
+```{r, echo=FALSE}
+
+source("data.R")
+dict
+
+```
+
+
+Add variable labels
+
+* Note: First we need to create a named list. We use `tibble::deframe()` to create a named character vector and turn it into a list using base::as.list().
+
+```{r}
+
+var_labels <- dict %>%
+  tibble::deframe() %>%
+  base::as.list()
+
+```
+
+Now we can use this list to add our variable labels.
+
+```{r}
+
+d11 <- d11 %>%
+  labelled::set_variable_labels(.labels = var_labels)
+
+labelled::var_label(d11)
+
+```
+
+This also works if you only want to add variable labels to some variables, not all. There may be times when some of your variables already have labels or you simply do not want to add labels to all variables. If there are existing labels and you don't relabel them, those labels will remain.
+
+Here is an example where we choose to only add labels to 2 of our variables. 
+
+```{r, echo = FALSE}
+
+source("data.R")
+
+```
+
+
+```{r}
+
+var_labels <- dict %>%
+  filter(varname %in% c("gradelevel", "q1")) %>%
+  tibble::deframe() %>%
+  base::as.list()
+
+d11 <- d11 %>%
+  labelled::set_variable_labels(.labels = var_labels)
+
+labelled::var_label(d11)
+
+```
+
+* Note: If we have more variables in our data dictionary than we have in our current data frame, we can add the argument *.strict = FALSE* to denote that we are aware that the files don't match exactly and we don't need a warning.
+
+Here is an example.
+
+Review our data dictionary (dict2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+dict2
+
+```
+
+Add our labels
+
+```{r}
+
+var_labels <- dict2 %>%
+  tibble::deframe() %>%
+  base::as.list()
+
+d11 <- d11 %>%
+  labelled::set_variable_labels(.labels = var_labels, .strict = FALSE)
+
+labelled::var_label(d11)
+
+```
+

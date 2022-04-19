@@ -10,6 +10,8 @@ navbar:
     href: labelling-data\add-value-labels.html
   - text: "Add variable labels"
     href: labelling-data\add-variable-labels.html
+  - text: "Add variable labels using a data dictionary"
+    href: labelling-data\add-variable-labels-dictionary.html
   - text: "Review labelled data"
     href: labelling-data\reviewing-labelled-data.html
   - text: "Convert numeric values to labels"

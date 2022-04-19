@@ -66,3 +66,25 @@ d10 <- tibble::tribble(
   "c", 2, -999,
 )
 
+
+d11 <- tibble::tribble(
+  ~id, ~gradelevel, ~q1,
+  1234, 6, 4,
+  2345, 6, 5,
+  3456, 7, 3
+)
+
+dict <- tibble::tribble(
+  ~varname, ~label,
+  "id", "study ID",
+  "gradelevel", "student grade level",
+  "q1", "do you get along with your teacher?"
+)
+
+dict2 <- tibble::tribble(
+  ~varname, ~label,
+  "id", "study ID",
+  "gradelevel", "student grade level",
+  "q1", "do you get along with your teacher?",
+  "q2", "something"
+)

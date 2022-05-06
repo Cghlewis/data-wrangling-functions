@@ -95,9 +95,11 @@ base::basename(path)
 
 * Note: By adding the `dir_ls()` argument *glob = "\*.xlsx"* you are saying you only want to read in the Excel files with the extension ".xlsx". In this case, while there are 5 files in the directory, only 4 of them were Excel files, one file was csv format.
 
-* Note: `purrr::map_dfr()` combines tibbles (data frames) by stacking them on top of each other.
+* Note: `purrr::map_dfr()` combines tibbles (data frames) by stacking them on top of each other. The main arguments you include are *.x*, a list or atomic vector (files to read), and *.f*, which in this scenario is a function.
 
-* Note: If you wanted to read in other file types, you would simply change the function you call from `readxl::read_excel()` to the function required to read in your file type.
+* Note: Below I have not added a "." for the *.x* argument to denote that I am referring to the character vector we created in the previous step. In this instance, it is implied.
+
+* Note: For this example I am using `readxl::read_excel()` for the *.f* argument. If you wanted to read in other file types, you would simply change the function to the one required to read in your file type.
 
 * Note: If not all files you read in have the same variables, the appended file will include all variables and whatever data is available for those variables.
 
@@ -246,6 +248,63 @@ File3 <- f(3)
 File4 <- f(4)
 
 ```
+
+**4\. Read in all csv files (from an existing file with a list of links) and bind all files into one dataframe.**
+
+In this instance, we are using a file downloaded on 2022-05-05 from Health and Human Services that provides a link to all archived datasets from the [COVID-19 Community Profile Report County Level Data](https://healthdata.gov/dataset/COVID-19-Community-Profile-Report-County-Level-di4/pcq6-asfs).
+
+View the data
+
+There are many columns in this dataset, but the one we care about it the column *Archive Link* that provides the link to the csv files stored in AWS.
+
+```{r}
+
+archive <- readr::read_csv(here::here("import-data", "data", "hhs_archive.csv")) 
+
+archive %>%
+  select(`Archive Link`) %>%
+  head()
+
+```
+
+```{r, echo = FALSE}
+
+archive <- readr::read_csv(here::here("import-data", "data", "hhs_archive.csv")) %>%
+  slice_head(n = 5)
+
+
+```
+
+In order to create a character vector to read into `purrr::map_dfr()` we must select this column and then use `dplyr::pull()`.
+
+```{r}
+
+files <- archive %>%
+  dplyr::select(`Archive Link`) %>%
+  dplyr::pull()
+
+class(files)
+
+```
+
+Last we can use this character vector in our `purrr::map_dfr()` function along with the `readr::read_csv` function to read in all of our files and bind them into one data frame.
+
+* Note: There is a variable in the files called *fema_region* that is not the same class across all files. We know from earlier that the files will not bind if the classes are not the same across files, so for the purpose of this example, I am removing that variable using the `readr::read_csv()` argument, *col_select*.
+
+* Note: Some files have 37 variables and other files have 39 variables. As mentioned above, this is okay, the appended file will include all variables and whatever data is available for those variables.
+
+* Note: While `purrr::map_dfr()` has an argument, *.id*, it will not provide us much information outside of the index of the file in this case. However, `readr::read_csv()` has it's own *id* argument which will tell us the value in the character vector so we can track which link the data came from.
+
+```{r, message = FALSE, error = FALSE}
+
+all_files <- purrr::map_dfr(files, read_csv, col_select = -fema_region, id = "source")
+
+all_files %>%
+  dplyr::select(source: cases_last_7_days) %>%
+  head()
+
+```
+
 
 ---
 

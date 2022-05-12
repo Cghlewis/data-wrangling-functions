@@ -95,7 +95,7 @@ base::basename(path)
 
 * Note: By adding the `dir_ls()` argument *glob = "\*.xlsx"* you are saying you only want to read in the Excel files with the extension ".xlsx". In this case, while there are 5 files in the directory, only 4 of them were Excel files, one file was csv format.
 
-* Note: `purrr::map_dfr()` combines tibbles (data frames) by stacking them on top of each other. The main arguments you include are *.x*, a list or atomic vector (files to read), and *.f*, which in this scenario is a function.
+* Note: While basic `purrr::map()` always returns a list, `purrr::map_dfr()` combines and returns tibbles (data frames) by stacking them on top of each other. The main arguments you include are *.x*, a list or atomic vector (files to read), and *.f*, which in this scenario is a function.
 
 * Note: Below I have not added a "." for the *.x* argument to denote that I am referring to the character vector we created in the previous step. In this instance, it is implied.
 

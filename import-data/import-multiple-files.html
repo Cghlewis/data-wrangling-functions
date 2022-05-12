@@ -60,6 +60,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -80,6 +81,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -217,7 +221,7 @@ base::basename(path)</code></pre>
 <p><strong>1a. Read in all Excel files from the “attendance” folder and bind them together. Note that an asterisk was used to denote NAs and we need to notify R of that.</strong></p>
 <ul>
 <li><p>Note: By adding the <code>dir_ls()</code> argument <em>glob = “*.xlsx”</em> you are saying you only want to read in the Excel files with the extension “.xlsx”. In this case, while there are 5 files in the directory, only 4 of them were Excel files, one file was csv format.</p></li>
-<li><p>Note: <code>purrr::map_dfr()</code> combines tibbles (data frames) by stacking them on top of each other. The main arguments you include are <em>.x</em>, a list or atomic vector (files to read), and <em>.f</em>, which in this scenario is a function.</p></li>
+<li><p>Note: While basic <code>purrr::map()</code> always returns a list, <code>purrr::map_dfr()</code> combines and returns tibbles (data frames) by stacking them on top of each other. The main arguments you include are <em>.x</em>, a list or atomic vector (files to read), and <em>.f</em>, which in this scenario is a function.</p></li>
 <li><p>Note: Below I have not added a “.” for the <em>.x</em> argument to denote that I am referring to the character vector we created in the previous step. In this instance, it is implied.</p></li>
 <li><p>Note: For this example I am using <code>readxl::read_excel()</code> for the <em>.f</em> argument. If you wanted to read in other file types, you would simply change the function to the one required to read in your file type.</p></li>
 <li><p>Note: If not all files you read in have the same variables, the appended file will include all variables and whatever data is available for those variables.</p></li>

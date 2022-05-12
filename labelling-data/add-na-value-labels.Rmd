@@ -86,3 +86,14 @@ d1 <- d1 %>% labelled::set_na_values(Var2 = -999, Var3= -999)
 labelled::na_values(d1)
 
 ```
+
+If I wanted to just review NA value labels for specific variables, I can select my variables of interest using `dplyr::select()` and then iterate the `labelled::na_values()` function over those variables using the `purrr::map()` function
+
+```{r}
+
+d1 %>%
+  dplyr::select(Var2, Var3) %>%
+  purrr::map(labelled::na_values)
+
+```
+

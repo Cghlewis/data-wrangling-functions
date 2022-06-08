@@ -44,13 +44,23 @@ Modify variable names by adding the `stringr::str_replace()` function.
 
 * Note: If there were more than one period in the variable names, you could also use `stringr::str_replace_all()` to remove all instances of periods, rather than just the first instance.
 
+* Note: In this first example, we are creating an anonymous formula using `~` to add the `stringr::str_replace()` arguments of *pattern* and *replacement*.
+
 ```{r}
 
 d2 %>% dplyr::rename_with(~ stringr::str_replace(., "\\.", "_"))
 
 ```
 
-* Note: If I only wanted to replace the periods for Var1 and Var2, I could add the argument *cols =*
+Instead of creating an anonymous function, we could also "pass the dots" through the *...* argument in `dplyr::rename_with()` and then we do not need to create an anonymous function.
+
+```{r}
+
+d2 %>% dplyr::rename_with(stringr::str_replace, pattern = "\\.", replacement = "_")
+
+```
+
+* Note: Last, if I only wanted to replace the periods for Var1 and Var2, I could add the argument *cols =*
 
 ```{r}
 

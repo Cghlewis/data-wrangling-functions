@@ -60,6 +60,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -80,6 +81,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -192,6 +196,7 @@ pre code {
 <ul>
 <li><p>Note: In regular expressions (regex), “.” has a special meaning. It is used to match any character. So therefore we will need to escape that functionality, telling the regex to match exactly, by adding “\\”.</p></li>
 <li><p>Note: If there were more than one period in the variable names, you could also use <code>stringr::str_replace_all()</code> to remove all instances of periods, rather than just the first instance.</p></li>
+<li><p>Note: In this first example, we are creating an anonymous formula using <code>~</code> to add the <code>stringr::str_replace()</code> arguments of <em>pattern</em> and <em>replacement</em>.</p></li>
 </ul>
 <pre class="r"><code>d2 %&gt;% dplyr::rename_with(~ stringr::str_replace(., &quot;\\.&quot;, &quot;_&quot;))</code></pre>
 <pre><code># A tibble: 3 x 3
@@ -200,8 +205,16 @@ pre code {
 1 a         1     4
 2 b        NA     5
 3 c         3     1</code></pre>
+<p>Instead of creating an anonymous function, we could also “pass the dots” through the <em>…</em> argument in <code>dplyr::rename_with()</code> and then we do not need to create an anonymous function.</p>
+<pre class="r"><code>d2 %&gt;% dplyr::rename_with(stringr::str_replace, pattern = &quot;\\.&quot;, replacement = &quot;_&quot;)</code></pre>
+<pre><code># A tibble: 3 x 3
+  Var_1 Var_2 Var_3
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 a         1     4
+2 b        NA     5
+3 c         3     1</code></pre>
 <ul>
-<li>Note: If I only wanted to replace the periods for Var1 and Var2, I could add the argument <em>cols =</em></li>
+<li>Note: Last, if I only wanted to replace the periods for Var1 and Var2, I could add the argument <em>cols =</em></li>
 </ul>
 <pre class="r"><code>d2 %&gt;% dplyr::rename_with(~ stringr::str_replace(., &quot;\\.&quot;, &quot;_&quot;), .cols=c(Var.1, Var.2))</code></pre>
 <pre><code># A tibble: 3 x 3

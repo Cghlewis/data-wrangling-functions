@@ -60,6 +60,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -80,6 +81,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -174,19 +178,24 @@ pre code {
 <div id="function-readxlread_excel" class="section level4">
 <h4>Function: <code>readxl::read_excel()</code></h4>
 <hr />
-<p><strong>1. Read in an Excel file</strong></p>
+<p><strong>1. Read in an Excel file from the MO Dept of Education website</strong></p>
 <p>A url directly does not work as a path for the <code>readr::read_excel()</code> function. Therefore reading an Excel file directly from a url is a two part process.</p>
 <p>First, you need to download the file to a temporary directory on your machine. From your temporary file you can read the file into R.</p>
-<p>You can use the <code>curl</code> package to download the file. First assign the url to an object. Then assign your temporary directory to an object. Then use these arguments in the <code>curl::curl_download()</code> function.</p>
+<p>You can use the <code>curl</code> package to download the file. First assign the url to an object. Then assign your temporary directory to an object. Then use these arguments in the <code>curl::curl_download()</code> function. I could also consider using <code>utils::download.file()</code> which provides similar functionality.</p>
 <pre class="r"><code>url &lt;- &quot;https://apps.dese.mo.gov/MCDS/FileDownloadWebHandler.ashx?filename=4d81bf0a-32f5Building%20Level%20Per%20Pupil%20Expenditures%202021.xlsx&quot;
 
 tmp &lt;- tempfile()
 
-curl::curl_download(url, tmp)</code></pre>
+curl::curl_download(url = url, destfile = tmp)</code></pre>
 <p>You will now have the file downloaded in a temporary directory.</p>
 <p>Next you can read in the Excel file same as you would as reading an Excel file from any directory on your computer.</p>
 <p>Type <em>?read_excel</em> in the console for available arguments</p>
 <pre class="r"><code>d &lt;- readxl::read_excel(tmp)</code></pre>
+<p>If I wanted to save the data to my data folder, rather than a temporary folder, I could assign a real folder to save the data in, as well as a name for the file I am downloading.</p>
+<p>Note: I am using the <code>here::here()</code> function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order.</p>
+<pre class="r"><code>curl::curl_download(url = url, destfile = here::here(&quot;import-data&quot;, &quot;data&quot;, &quot;modese.xlsx&quot;))</code></pre>
+<p>Now my file is saved in a “data” folder and I can use <code>readxl::read_excel()</code> to import my data directly from that folder.</p>
+<pre class="r"><code>d &lt;- readxl::read_excel(here::here(&quot;import-data&quot;, &quot;data&quot;, &quot;modese.xlsx&quot;))</code></pre>
 </div>
 </div>
 <div id="package-readr" class="section level3">

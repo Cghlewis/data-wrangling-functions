@@ -19,7 +19,7 @@ knitr::opts_chunk$set(comment = NA,
   
 ---
   
-**1\. Read in an Excel file**
+**1\. Read in an Excel file from the MO Dept of Education website**
 
 A url directly does not work as a path for the `readr::read_excel()` function. Therefore reading an Excel file directly from a url is a two part process.
 
@@ -28,7 +28,7 @@ First, you need to download the file to a temporary directory on your machine. F
 You can use the `curl` package to download the file. 
 First assign the url to an object.
 Then assign your temporary directory to an object.
-Then use these arguments in the `curl::curl_download()` function.
+Then use these arguments in the `curl::curl_download()` function. I could also consider using `utils::download.file()` which provides similar functionality.
 
 ```{r}
 
@@ -36,7 +36,7 @@ url <- "https://apps.dese.mo.gov/MCDS/FileDownloadWebHandler.ashx?filename=4d81b
 
 tmp <- tempfile()
 
-curl::curl_download(url, tmp)
+curl::curl_download(url = url, destfile = tmp)
 
 ```
 
@@ -51,6 +51,25 @@ Type *?read_excel* in the console for available arguments
 d <- readxl::read_excel(tmp)
 
 ```
+
+If I wanted to save the data to my data folder, rather than a temporary folder, I could assign a real folder to save the data in, as well as a name for the file I am downloading.
+
+Note: I am using the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order.
+
+```{r}
+
+curl::curl_download(url = url, destfile = here::here("import-data", "data", "modese.xlsx"))
+
+```
+
+Now my file is saved in a "data" folder and I can use `readxl::read_excel()` to import my data directly from that folder.
+
+```{r}
+
+d <- readxl::read_excel(here::here("import-data", "data", "modese.xlsx"))
+
+```
+
 
 ### Package: readr
 

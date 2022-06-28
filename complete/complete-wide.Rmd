@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Create a complete 19-20 gender variable with no missing data**
+**1\. Create a complete 20-21 gender variable with no missing data**
 
 Review the data (d3)
 

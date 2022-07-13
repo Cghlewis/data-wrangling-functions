@@ -60,6 +60,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -80,6 +81,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -187,7 +191,7 @@ pre code {
 3 c     n      p    </code></pre>
 <p>Recode gender</p>
 <ul>
-<li><p>Note: We did not have to put quotes around the old values because <code>dplyr::recode()</code> replaces character or factor values by their name.</p></li>
+<li><p>Note: We did not have to put quotes around the old character values because <code>dplyr::recode()</code> replaces character or factor values by their name.</p></li>
 <li><p>Note: Parentheses <em>are</em> required around the new value when recoding into a character/factor variable.</p></li>
 <li><p>Note: We are recoding back into the same variable using <code>dplyr::mutate()</code>. However, we could have recoded into a new variable by changing the name of <em>gender</em>.</p></li>
 </ul>
@@ -208,7 +212,7 @@ pre code {
 3 c     n      p    </code></pre>
 <p>Recode gender</p>
 <ul>
-<li><p>Note: We did not have to put quotes around the old values because <code>dplyr::recode()</code> replaces character or factor values by their name.</p></li>
+<li><p>Note: We did not have to put quotes around the old character values because <code>dplyr::recode()</code> replaces character or factor values by their name.</p></li>
 <li><p>Note: Since we are recoding into a numeric variable, no quotes are necessary for the numeric new value.</p></li>
 <li><p>Note: We are recoding back into the same variable using <code>dplyr::mutate()</code>. However, we could have recoded into a new variable by changing the name of <em>gender</em>.</p></li>
 </ul>
@@ -219,7 +223,7 @@ pre code {
 1 a          1 f    
 2 b          2 r    
 3 c          3 p    </code></pre>
-<p><strong>3. Recode just one value in a variable (Var2)</strong></p>
+<p><strong>3. Recode just one value in a numeric variable (Var2)</strong></p>
 <p>Review the data (d5)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -238,7 +242,40 @@ pre code {
 1 a         1     2
 2 b         4     0
 3 c         3     1</code></pre>
-<p><strong>4. Recode one value in a numeric haven labelled variable (Var3)</strong></p>
+<p><strong>4. Recode just one value in a character variable (Var)</strong></p>
+<p>Review the data (d5)</p>
+<pre><code># A tibble: 3 x 2
+     id Var1 
+  &lt;dbl&gt; &lt;chr&gt;
+1   123 1.5  
+2   234 2.2  
+3   345 MR   </code></pre>
+<p>In this case I want Var1 to be numeric. However, missing values were entered as character values (“MR” for missing response) so I need to recode these values before I can convert this variable to numeric.</p>
+<ul>
+<li><p>Note: We did not have to put quotes around the old values because <code>dplyr::recode()</code> replaces character or factor values by their name.</p></li>
+<li><p>Note: Parentheses <em>are</em> required around the new value when recoding because the values in Var1 are still considered character even though they all appear as numeric after recoding.</p></li>
+</ul>
+<pre class="r"><code>d14 &lt;- d14 %&gt;%
+  dplyr::mutate(Var1 = dplyr::recode(Var1, MR = &quot;-99&quot;))
+
+d14</code></pre>
+<pre><code># A tibble: 3 x 2
+     id Var1 
+  &lt;dbl&gt; &lt;chr&gt;
+1   123 1.5  
+2   234 2.2  
+3   345 -99  </code></pre>
+<p>Note: Notice again that we are only recoding one value in the variable. If no default replacement option is supplied and the replacement values are the same variable class as the original values (ex: character to character), then unmatched values are unchanged.</p>
+<p>I can then now convert my variable to numeric without having my character values converted to NAs. If I tried to convert my Var1 variable to numeric before recoding “MR” to -99, the <code>dplyr::recode()</code> function would convert “MR” to NA.</p>
+<pre class="r"><code>d14 %&gt;%
+  dplyr::mutate(Var1 = base::as.numeric(Var1))</code></pre>
+<pre><code># A tibble: 3 x 2
+     id  Var1
+  &lt;dbl&gt; &lt;dbl&gt;
+1   123   1.5
+2   234   2.2
+3   345 -99  </code></pre>
+<p><strong>5. Recode one value in a numeric haven labelled variable (Var3)</strong></p>
 <p>Review the data (d5)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -255,9 +292,10 @@ pre code {
   0   1 </code></pre>
 <p>Recode <code>2</code> to <code>1</code> in Var3</p>
 <p>Note: We <em>did</em> have to put quotes around the old values because <code>dplyr::recode()</code> replaces numeric values by either their name or their position. If a number with no quotes/backticks is given, it will assume it is a position.</p>
-<p>Note: Since we are recoding into a numeric variable, no quotes are necessary are the numeric new value.</p>
+<p>Note: Since we are recoding into a numeric variable, no quotes are necessary for the numeric new value.</p>
 <p>Note: Notice here that we are only recoding one value in the variable. There is a <em>.default</em> option that you can set all not recoded values to, and if no default is supplied and the replacement values are the same variable class as the original values (ex: numeric and numeric), then unmatched values are unchanged. <em>However</em>, if the replacement value is a new variable class (ex: numeric to character) then all other values will be recoded to NA.</p>
-<pre class="r"><code>d5 &lt;- d5 %&gt;% dplyr::mutate(Var3 = dplyr::recode(Var3, `2`=1))
+<pre class="r"><code>d5 &lt;- d5 %&gt;% 
+  dplyr::mutate(Var3 = dplyr::recode(Var3, `2`=1))
 
 d5</code></pre>
 <pre><code># A tibble: 3 x 3
@@ -267,11 +305,11 @@ d5</code></pre>
 2 b        16   0 [no] 
 3 c         3   1 [yes]</code></pre>
 <p>View the variable labels for Var3</p>
-<p>Note: The value labels are retained. The default for the <code>dplyr::recode()</code> option <em>.keep_value_labels</em> is TRUE. However, if you do not want to keep the value labels you can set the option to FALSE.</p>
+<p>Note: The value labels are retained. If the <code>labelled</code> package is loaded, additional functionality is available for <code>dplyr::recode()</code>, such as additional arguments for value labels. For example, there is an argument, <em>.keep_value_labels</em>, that you can add to <code>dplyr::recode()</code> and the default is TRUE. However, if you do not want to keep the value labels you can set the option to FALSE.</p>
 <pre class="r"><code>labelled::val_labels(d5$Var3)</code></pre>
 <pre><code> no yes 
   0   1 </code></pre>
-<p><strong>4. Recode multiple values in a numeric haven labelled variable (Var3)</strong></p>
+<p><strong>6. Recode multiple values in a numeric haven labelled variable (Var3)</strong></p>
 <p>Review the data (d13)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -280,9 +318,6 @@ d5</code></pre>
 2 b        16     5
 3 c         3     6</code></pre>
 <p>View the variable labels for Var3</p>
-<ul>
-<li>Note: You’ll see in this example there are three values and two value labels. In this instance, 2s are supposed to also be yes, but they do not contain a value label.</li>
-</ul>
 <pre class="r"><code>d13 %&gt;%
   dplyr::select(Var3) %&gt;%
   labelled::val_labels()</code></pre>
@@ -292,7 +327,8 @@ d5</code></pre>
 <p>Recode <code>5</code> to <code>0</code> and <code>6</code> to <code>1</code> in Var3</p>
 <p>Note: We <em>did</em> have to put quotes around the old values because <code>dplyr::recode()</code> replaces numeric values by either their name or their position. If a number with no quotes/backticks is given, it will assume it is a position.</p>
 <p>Note: Since we are recoding into a numeric variable, no quotes are necessary are the numeric new value.</p>
-<pre class="r"><code>d13 &lt;- d13 %&gt;% dplyr::mutate(Var3 = dplyr::recode(Var3, `5`=0, `6` = 1))
+<pre class="r"><code>d13 &lt;- d13 %&gt;% 
+  dplyr::mutate(Var3 = dplyr::recode(Var3, `5`=0, `6` = 1))
 
 d13</code></pre>
 <pre><code># A tibble: 3 x 3
@@ -302,7 +338,7 @@ d13</code></pre>
 2 b        16         0
 3 c         3         1</code></pre>
 <p>View the variable labels for Var3</p>
-<p>Note: We left the default <em>.keep_value_labels</em> is TRUE so our value labels are still funky.</p>
+<p>Note: We left the <code>labelled</code> and <code>dplyr::recode()</code> default of <em>.keep_value_labels</em> is TRUE so our value labels are still funky.</p>
 <pre class="r"><code>d13 %&gt;%
   dplyr::select(Var3) %&gt;%
   labelled::val_labels()</code></pre>
@@ -366,7 +402,8 @@ d4</code></pre>
 <li><p>Note: Parentheses are required around new value when recoding into a character/factor variable.</p></li>
 <li><p>Note: We are recoding back into the same variable using <code>dplyr::mutate()</code>. However, we could have recoded into a new variable by changing the name of <em>lunch</em>.</p></li>
 </ul>
-<pre class="r"><code>d7 &lt;- d7 %&gt;% dplyr::mutate(lunch=dplyr::recode_factor(
+<pre class="r"><code>d7 &lt;- d7 %&gt;% 
+  dplyr::mutate(lunch=dplyr::recode_factor(
   lunch, &quot;1&quot;=&quot;paid&quot;, &quot;2&quot;=&quot;reduced&quot;, &quot;3&quot;=&quot;free&quot;))
 
 d7</code></pre>
@@ -379,6 +416,70 @@ d7</code></pre>
 <p>Review the factor levels</p>
 <pre class="r"><code>levels(d7$lunch)</code></pre>
 <pre><code>[1] &quot;paid&quot;    &quot;reduced&quot; &quot;free&quot;   </code></pre>
+<p><br></p>
+<hr />
+</div>
+<div id="function-case_when" class="section level4">
+<h4>Function: <code>case_when()</code></h4>
+<hr />
+<p><strong>1. Recode across multiple character variables</strong></p>
+<p>Review the data (d15)</p>
+<pre><code># A tibble: 3 x 4
+     id Var1  Var2  Var3 
+  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+1   123 1.5   2.2   3.0  
+2   234 2.2   UI    6.9  
+3   345 MR    5.4   MR   </code></pre>
+<p>In this example, missing values were entered as character values in a numeric column. So now these columns are considered character.</p>
+<p>Recode “MR” to -98 and “UI” to -99 for Var1, Var2, Var3. And then convert the character variable to numeric.</p>
+<ul>
+<li><p>Note: Unlike <code>dplyr::recode()</code> where we did not have to put quotes around the old character values, we now have to put quotes around the old and new character values.</p></li>
+<li><p>Note: I use <code>dplyr::across()</code> to select multiple values to apply my function to.</p></li>
+<li><p>Note: The . is used here to say apply this function to all of the variables I selected above.</p></li>
+<li><p>Note: TRUE means, if a value was not evaluated in my arguments above, replace with the value I give. In this case, I am saying just replace with the existing value.</p></li>
+</ul>
+<pre class="r"><code>d15 &lt;- d15 %&gt;%
+  dplyr::mutate(across(Var1:Var3,
+                       ~ case_when(
+                       . == &quot;MR&quot; ~ &quot;-98&quot;,
+                       . == &quot;UI&quot; ~ &quot;-99&quot;,
+                       TRUE ~ .)))
+
+d15</code></pre>
+<pre><code># A tibble: 3 x 4
+     id Var1  Var2  Var3 
+  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+1   123 1.5   2.2   3.0  
+2   234 2.2   -99   6.9  
+3   345 -98   5.4   -98  </code></pre>
+<p>While my character values have now be recoded to numeric values, my variable is still considered character so I would need one additional step to convert it to numeric (using the <code>base::as.numeric()</code> function).</p>
+<p>However, before I do that, I want to be certain I have no other character values left in my variables. If I do still have other character values and I try to use <code>base::as.numeric()</code> those values will be converted to NA.</p>
+<p>I can check that there are no more instances of MR or UI using <code>dplyr::filter()</code> in conjunction with the <code>dplyr::if_any()</code> predicate function to select columns. This function is available in version 1.0.5 of <code>dplyr</code>.</p>
+<ul>
+<li><p>Note: We use the <code>tidyselect</code> selection helper <code>everything()</code> to refer to all variables. I could also have selected variables Var1:Var3.</p></li>
+<li><p>.x is used to say, if any of the variables I have selected contain (%in%) the values of “MR” or “UI”.</p></li>
+</ul>
+<pre class="r"><code>d15 %&gt;% 
+dplyr::filter(dplyr::if_any(everything(), ~ .x %in% c(&#39;MR&#39;, &#39;UI&#39;)))</code></pre>
+<pre><code># A tibble: 0 x 4
+# ... with 4 variables: id &lt;dbl&gt;, Var1 &lt;chr&gt;, Var2 &lt;chr&gt;, Var3 &lt;chr&gt;</code></pre>
+<p>If I wanted to be more general, I could also just check for <em>any</em> alphabetical character left in my variables using <code>stringr::str_detect()</code> and including the regex pattern <em>[a-zA-Z]</em></p>
+<pre class="r"><code>d15 %&gt;% 
+dplyr::filter(dplyr::if_any(everything(), ~ stringr::str_detect(., pattern = &quot;[a-zA-Z]&quot;)))</code></pre>
+<pre><code># A tibble: 0 x 4
+# ... with 4 variables: id &lt;dbl&gt;, Var1 &lt;chr&gt;, Var2 &lt;chr&gt;, Var3 &lt;chr&gt;</code></pre>
+<p>Now that I know my variable has all character values removed, I can convert them to numeric.</p>
+<ul>
+<li>Note: I am using <code>dplyr::across()</code> again to apply a function to multiple variables.</li>
+</ul>
+<pre class="r"><code>d15 %&gt;%
+  dplyr::mutate(dplyr::across(Var1:Var3, as.numeric))</code></pre>
+<pre><code># A tibble: 3 x 4
+     id  Var1  Var2  Var3
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1   123   1.5   2.2   3  
+2   234   2.2 -99     6.9
+3   345 -98     5.4 -98  </code></pre>
 </div>
 </div>
 <div id="package-forcats" class="section level3">

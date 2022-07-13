@@ -160,7 +160,9 @@ class(d2$Var3)
 
 Convert Var3 to numeric.
 
-* Note: In the case of Var3 you will get a warning message that says NAs were introduced in the transformation. In this case, I am okay with that because "X"s were used to denote NAs previously and I want those to be converted to NA.
+* Note: In the case of Var3 you will get a warning message that says "NAs were introduced in conversion". In this case, I am okay with that because "X"s were used to denote NAs previously and I want those to be converted to NA. 
+
+HOWEVER, if your variable contains any unexpected character values (spaces, extra decimal points, letters) and you were unaware of these values, you may have values converted to NA that you did not want that for. Whenever you get the error message above, always look into the reason before moving on. It may be that your variable requires some sort of transformation (such as a recode) before converting the type.
 
 * Note: We are recoding into a new variable using `dplyr::mutate()` and saving over the original variable by naming the new variable the same name as the original. 
 
@@ -232,7 +234,7 @@ str(d4)
 Convert all character variables to numeric variables
 
 * Note: Using the function `dplyr::across()` we are applying a transformation across multiple columns
-* Note: You must wrap *is.numeric*, a predicate function (returns a true/false), in the `tidyselect` selection helper `where()`.
+* Note: You must wrap *is.character*, a predicate function (returns a true/false), in the `tidyselect` selection helper `where()`.
 * Note: We are recoding into a new variable using `dplyr::mutate()` and saving over the original variables.
 
 ```{r}
@@ -453,7 +455,7 @@ Convert created_timestamp to a datetime
 
 d5 <- d5 %>% 
   mutate(created_timestamp = 
-           lubridate::as_datetime(base::as.numeric(created_timestamp)/1000))
+           lubridate::as_datetime(as.numeric(created_timestamp)/1000))
 
 d5$created_timestamp
 
@@ -552,3 +554,4 @@ class(d6$date)
 
 ```
 
+Return to [Data Types](https://github.com/Cghlewis/data-wrangling-functions/wiki/Data-Types)

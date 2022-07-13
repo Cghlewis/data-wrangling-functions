@@ -60,6 +60,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -80,6 +81,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -264,8 +268,11 @@ class(d2$Var1)</code></pre>
 <pre><code>[1] &quot;character&quot;</code></pre>
 <p>Convert Var3 to numeric.</p>
 <ul>
-<li><p>Note: In the case of Var3 you will get a warning message that says NAs were introduced in the transformation. In this case, I am okay with that because “X”s were used to denote NAs previously and I want those to be converted to NA.</p></li>
-<li><p>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and saving over the original variable by naming the new variable the same name as the original.</p></li>
+<li>Note: In the case of Var3 you will get a warning message that says “NAs were introduced in conversion”. In this case, I am okay with that because “X”s were used to denote NAs previously and I want those to be converted to NA.</li>
+</ul>
+<p>HOWEVER, if your variable contains any unexpected character values (spaces, extra decimal points, letters) and you were unaware of these values, you may have values converted to NA that you did not want that for. Whenever you get the error message above, always look into the reason before moving on. It may be that your variable requires some sort of transformation (such as a recode) before converting the type.</p>
+<ul>
+<li>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and saving over the original variable by naming the new variable the same name as the original.</li>
 </ul>
 <pre class="r"><code>d2 &lt;- d2 %&gt;% dplyr::mutate(Var3 = as.numeric(Var3))
 
@@ -314,7 +321,7 @@ d2$Var5</code></pre>
 <p>Convert all character variables to numeric variables</p>
 <ul>
 <li>Note: Using the function <code>dplyr::across()</code> we are applying a transformation across multiple columns</li>
-<li>Note: You must wrap <em>is.numeric</em>, a predicate function (returns a true/false), in the <code>tidyselect</code> selection helper <code>where()</code>.</li>
+<li>Note: You must wrap <em>is.character</em>, a predicate function (returns a true/false), in the <code>tidyselect</code> selection helper <code>where()</code>.</li>
 <li>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and saving over the original variables.</li>
 </ul>
 <pre class="r"><code>d4 &lt;- d4 %&gt;% dplyr::mutate(dplyr::across(where(is.character), as.numeric))</code></pre>
@@ -461,7 +468,7 @@ d2$Var4</code></pre>
 </ul>
 <pre class="r"><code>d5 &lt;- d5 %&gt;% 
   mutate(created_timestamp = 
-           lubridate::as_datetime(base::as.numeric(created_timestamp)/1000))
+           lubridate::as_datetime(as.numeric(created_timestamp)/1000))
 
 d5$created_timestamp</code></pre>
 <pre><code>[1] &quot;2022-02-03 17:33:34 UTC&quot; &quot;2022-02-11 15:33:44 UTC&quot;</code></pre>
@@ -527,6 +534,7 @@ d6$date</code></pre>
 <pre><code>[1] &quot;2021-10-22&quot; &quot;2021-11-30&quot;</code></pre>
 <pre class="r"><code>class(d6$date)</code></pre>
 <pre><code>[1] &quot;Date&quot;</code></pre>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Data-Types">Data Types</a></p>
 </div>
 </div>
 

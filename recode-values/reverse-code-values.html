@@ -60,6 +60,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -80,6 +81,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -193,7 +197,7 @@ pre code {
 <li><p>Note: The <code>dplyr::recode()</code> function considers the old value as a <em>name</em> and therefore, in order to use a number as a name/character, you have to surround it with backticks (``)</p></li>
 </ul>
 <pre class="r"><code>d2_new &lt;- d2 %&gt;% 
-  dplyr::mutate(dplyr::across(c(Var2:Var3), ~dplyr::recode(.,`1`=5, `2`=4, `3`=3, `4`=2, `5`=1))) %&gt;%
+  dplyr::mutate(dplyr::across(Var2:Var3, ~dplyr::recode(.,`1`=5, `2`=4, `3`=3, `4`=2, `5`=1))) %&gt;%
   dplyr::rename_with(~paste0(., &quot;_r&quot;), c(Var2:Var3))
 
 d2_new</code></pre>
@@ -219,7 +223,7 @@ d2_new</code></pre>
 <li>Note: If you want to keep both the old variables and the newly created variables, you can add the argument <em>names</em> to the <code>dplyr::across()</code> function to rename your recoded variables as you create them, rather than writing over the old variables.</li>
 </ul>
 <pre class="r"><code>d2 &lt;- d2 %&gt;% 
-  dplyr::mutate(dplyr::across(c(Var2:Var3), ~dplyr::recode(.,`1`=5, `2`=4, `3`=3, `4`=2, `5`=1), 
+  dplyr::mutate(dplyr::across(Var2:Var3, ~dplyr::recode(.,`1`=5, `2`=4, `3`=3, `4`=2, `5`=1), 
                               .names = &#39;{col}_r&#39;))
 
 d2</code></pre>
@@ -319,7 +323,7 @@ d2</code></pre>
 <li><p>Note: We are modifying existing variables using <code>dplyr::mutate()</code></p></li>
 <li><p>Note: We are using <code>dplyr::across()</code> to apply a transformation to select columns and then adding the argument <em>names</em> to rename your recoded variables as you create them, rather than writing over the old variables.</p></li>
 </ul>
-<pre class="r"><code>d2 &lt;- d2 %&gt;% dplyr::mutate(across(c(Var2:Var3), reverse_scale, 
+<pre class="r"><code>d2 &lt;- d2 %&gt;% dplyr::mutate(across(Var2:Var3, reverse_scale, 
                               .names = &#39;{col}_r&#39;))</code></pre>
 <p>Check that the recode worked</p>
 <pre class="r"><code>table(d2$Var2, d2$Var2_r)</code></pre>
@@ -333,38 +337,6 @@ d2</code></pre>
   1 0 0 1
   4 0 1 0
   5 1 0 0</code></pre>
-<hr />
-</div>
-<div id="function-if_else" class="section level4">
-<h4>Function: <code>if_else()</code></h4>
-<hr />
-<p>Review the data (d2)</p>
-<pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         1     4
-2 b        NA     5
-3 c         3     1</code></pre>
-<p>Check the values of Var2</p>
-<pre class="r"><code>d2 %&gt;% janitor::tabyl(Var2)</code></pre>
-<pre><code> Var2 n   percent valid_percent
-    1 1 0.3333333           0.5
-    3 1 0.3333333           0.5
-   NA 1 0.3333333            NA</code></pre>
-<p>Reverse code Var2 and rename it with *_r* at the end</p>
-<ul>
-<li>Note: We are recoding into new variables using <code>dplyr::mutate()</code> and naming the new variable a different name than the original. It keeps both the new and old versions of the variable.</li>
-</ul>
-<pre class="r"><code>d2 &lt;- d2 %&gt;% dplyr::mutate(Var2_r = dplyr::if_else(Var2 == 1, 5,
-                  dplyr::if_else(Var2==2, 4,
-                          dplyr::if_else(Var2==4, 2,
-                                  dplyr::if_else(Var2==5, 1, Var2)))))</code></pre>
-<p>Check that your reverse code worked correctly</p>
-<pre class="r"><code>d2 %&gt;% janitor::tabyl(Var2, Var2_r)</code></pre>
-<pre><code> Var2 3 5 NA_
-    1 0 1   0
-    3 1 0   0
-   NA 0 0   1</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode">Recode</a></p>
 </div>
 </div>

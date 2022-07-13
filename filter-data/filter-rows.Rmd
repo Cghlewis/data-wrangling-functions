@@ -343,7 +343,8 @@ Keep any row that has -999 or 0 for extra2.
 
 ```{r}
 
-d8 %>% dplyr::filter(extra3 == -999 | extra3 ==0)
+d8 %>% 
+  dplyr::filter(extra3 == -999 | extra3 ==0)
 
 ```
 
@@ -351,7 +352,8 @@ You would get the same result using the *xor* operator.
 
 ```{r}
 
-d8 %>% dplyr::filter(xor(extra3 == -999 , extra3 ==0))
+d8 %>% 
+  dplyr::filter(xor(extra3 == -999 , extra3 ==0))
 
 ```
 
@@ -374,7 +376,8 @@ Keep any row that has a value between 0 and 10 for extra3.
 
 ```{r}
 
-d81 <- d8 %>% dplyr::filter(extra3 >= 0 & extra3 <=10)
+d81 <- d8 %>% 
+  dplyr::filter(extra3 >= 0 & extra3 <=10)
 
 d81
 
@@ -384,7 +387,8 @@ You would get the same result using the `dplyr::between()` function. It includes
 
 ```{r}
 
-d8 %>% dplyr::filter(dplyr::between(extra3, 0, 10))
+d8 %>% 
+  dplyr::filter(dplyr::between(extra3, 0, 10))
 
 ```
 
@@ -406,7 +410,8 @@ Keep any row where tch_name is "harris" or "lewis".
 
 ```{r}
 
-d8 %>% dplyr::filter(tch_name == "harris" | tch_name == "lewis")
+d8 %>% 
+  dplyr::filter(tch_name == "harris" | tch_name == "lewis")
 
 ```
 
@@ -414,7 +419,8 @@ You would get the same result using the *%in%* operator.
 
 ```{r}
 
-d8 %>% dplyr::filter(tch_name %in% c("harris", "lewis"))
+d8 %>% 
+  dplyr::filter(tch_name %in% c("harris", "lewis"))
 
 ```
 
@@ -422,7 +428,8 @@ Or the same result adding the `stringr::str_detect()` function.
 
 ```{r}
 
-d8 %>% dplyr::filter(stringr::str_detect(tch_name, 'harris|lewis') )
+d8 %>% 
+  dplyr::filter(stringr::str_detect(tch_name, 'harris|lewis') )
 
 ```
 
@@ -452,7 +459,8 @@ Keep rows that have -999 for extra2 and/or extra3.
 
 ```{r}
 
-d8 %>% dplyr::filter(extra2 == -999 | extra3 == -999)
+d8 %>% 
+  dplyr::filter(extra2 == -999 | extra3 == -999)
 
 
 ```
@@ -474,7 +482,8 @@ Keep rows that have -999 for extra2 OR -999 for extra3 (but not -999 for both).
 
 ```{r}
 
-d8 %>% dplyr::filter(xor(extra2 == -999 , extra3 == -999))
+d8 %>% 
+  dplyr::filter(xor(extra2 == -999 , extra3 == -999))
 
 
 ```
@@ -496,7 +505,8 @@ Keep rows that have -999 for extra2 and also have -999 extra3.
 
 ```{r}
 
-d8 %>% dplyr::filter(extra2 == -999 & extra3 == -999)
+d8 %>% 
+  dplyr::filter(extra2 == -999 & extra3 == -999)
 
 ```
 
@@ -522,11 +532,12 @@ d8
 
 Filter out any row that has -999 for extra2 and/or has -999 extra3. 
 
-* Note: Notice that I put the operator *!* outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.
+* Note: Notice that I put the operator *!* outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on removal criteria from multiple variables.
 
 ```{r}
 
-d8 %>% dplyr::filter(!(extra2 ==-999 | extra3 ==-999))
+d8 %>% 
+  dplyr::filter(!(extra2 ==-999 | extra3 ==-999))
 
 ```
 
@@ -544,12 +555,13 @@ d8
 
 Filter out any row that has -999 for extra2 and has -999 extra3. 
 
-* Note: Notice that I put the operator *!* outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.
+* Note: Notice that I put the operator *!* outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on removal criteria from multiple variables.
 
 
 ```{r}
 
-d8 %>% dplyr::filter(!(extra2 ==-999 & extra3 ==-999))
+d8 %>% 
+  dplyr::filter(!(extra2 ==-999 & extra3 ==-999))
 
 
 ```
@@ -570,7 +582,7 @@ Filter out any row that has -999 for extra2 and/or -999 for extra3 (retaining an
 
 * Note: Again, you'll notice that I make an explicit call to **keep** rows with NA values for extra2 and extra3 in addition to removing rows with the value of -999 for extra2 and extra 3, using the *|* operator to denote and/or. Remember, a drawback of the `filter` function is that if you filter on a certain variable it will not only filter out the values you request but it will also drop any row that has NA for those variables. And we may not necessarily want that. In this case, I want to keep the last row of data that has NA for extra2.
 
-* Note: Notice that for the first part of the equation I put the operator *!* outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.
+* Note: Notice that for the first part of the equation I put the operator *!* outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on removal criteria from multiple variables.
 
 ```{r}
 
@@ -583,7 +595,8 @@ Again, to get around the issue of dropping NAs we can use the operator *%in%* ra
 
 ```{r}
 
-d5 %>% dplyr::filter(!(extra2 %in% -999 | extra3 %in% -999))
+d5 %>% 
+  dplyr::filter(!(extra2 %in% -999 | extra3 %in% -999))
 
 ```
 
@@ -595,6 +608,8 @@ d5 %>% dplyr::filter(!(extra2 %in% -999 | extra3 %in% -999))
 Examples using criteria that applies to a type of variable
 
 ---
+
+*Note: Using `dplyr::across()` in `dplyr::filter()` is deprecated. `dplyr::if_any()` and `dplyr::if_all()` can be used for this functionality in `dplyr::filter()`.
 
 **1\.Remove rows based on values from a certain type of variable (in this case numeric variables). Filter out any row that has NA for *ALL* numeric variables.**
 
@@ -609,13 +624,13 @@ d9
 
 Filter out any row that has NA for **ALL** numeric variables
 
-* Note: Note the use of `dplyr::if_all()` predicate function to select columns. This function is available in version 1.0.5 of `dplyr`.
+* Note: Note the use of `dplyr::if_all()` predicate function to select columns. This function is available in version 1.0.5 of `dplyr`. You can read this as, keep rows where ALL numeric variables are NOT NA (hence the ! on the outside of the `dplyr::if_all()` function)
 
-* Note: Notice that I put the operator *!* outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.
 
 ```{r}
 
-d9 %>% dplyr::filter(!(dplyr::if_all(is.numeric,~ is.na(.))))
+d9 %>% 
+  dplyr::filter(!(dplyr::if_all(is.numeric,~ is.na(.))))
 
 
 ```
@@ -634,15 +649,14 @@ d9
 
 Filter out any row that has -999 for **AT LEAST ONE** numeric variable
 
-* Note: Note the use of `dplyr::if_any()` predicate function to select columns. This function is available in version 1.0.5 of `dplyr`.
-
-* Note: Notice that I put the operator *!* outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.
+* Note: Note the use of `dplyr::if_any()` predicate function to select columns. This function is available in version 1.0.5 of `dplyr`. You can read this as, keep rows where ANY numeric variables are NOT -999 (hence the ! on the outside of the `dplyr::if_any()` function)
 
 * Note: You'll notice I did not have to make an explicit call to keep the NA values for numeric variables this time. Using the `dplyr::if_any()` function only removed the values in the argument.
 
 ```{r}
 
-d9 %>% dplyr::filter(!(dplyr::if_any(is.numeric, ~ (. ==-999))))
+d9 %>% 
+  dplyr::filter(!(dplyr::if_any(is.numeric, ~ (. == -999))))
 
 ```
 
@@ -653,6 +667,8 @@ d9 %>% dplyr::filter(!(dplyr::if_any(is.numeric, ~ (. ==-999))))
 Examples using criteria that applies to all variables
 
 ---
+
+* Note: Using `dplyr::across()` in `dplyr::filter()` is deprecated. `dplyr::if_any()` and `dplyr::if_all()` can be used for this functionality in `dplyr::filter()`.
 
 **1\.Filter out rows based on values from all variables. Filter out any row that has -999 for *AT LEAST ONE* variable.**
 
@@ -668,17 +684,17 @@ d10
 
 Filter out any row that has -999 for at least one variable
 
-* Note: Note the use of `dplyr::if_any()` predicate function to select columns. This function is available in version 1.0.5 of `dplyr`.
+* Note: Note the use of `dplyr::if_any()` predicate function to select columns. This function is available in version 1.0.5 of `dplyr`. You can read this as, keep rows where ANY variable is NOT NA (hence the ! on the outside of the `dplyr::if_any()` function)
 
 * Note: We use the `tidyselect` selection helper `everything()` to refer to all variables.
 
-* Note: Notice that I put the operator *!* outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.
 
 * Note: You'll notice I did not have to make an explicit call to keep the NA values for numeric variables this time. Using the `dplyr::if_any()` function only removed the values in the argument.
 
 ```{r}
 
-d10 %>% filter(!(dplyr::if_any(everything(), ~ .x ==-999)))
+d10 %>% 
+  dplyr::filter(!(dplyr::if_any(everything(), ~ .x ==-999)))
 
 ```
 
@@ -696,17 +712,16 @@ d10
 
 Filter out any row that has -999 for all variables
 
-* Note: Note the use of `dplyr::if_all()` predicate function to select columns. This function is available in version 1.0.5 of `dplyr`.
+* Note: Note the use of `dplyr::if_all()` predicate function to select columns. This function is available in version 1.0.5 of `dplyr`. You can read this as, keep rows where ALL variables are NOT -999 (hence the ! on the outside of the `dplyr::if_all()` function)
 
 * Note: We use the `tidyverse` selection helper `everything()` to refer to all variables.
-
-* Note: Notice that I put the operator *!* outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.
 
 * Note: You'll notice I did not have to make an explicit call to keep the NA values for numeric variables this time. Using the `dplyr::if_all()` function only removed the values in the argument.
 
 ```{r}
 
-d10 %>% dplyr::filter(!(dplyr::if_all(everything(), ~ .x ==-999)))
+d10 %>% 
+  dplyr::filter(!(dplyr::if_all(everything(), ~ .x ==-999)))
 
 ```
 
@@ -736,7 +751,8 @@ Filter out any row that has NA for stu_id.
 
 ```{r}
 
-d7 %>% tidyr::drop_na(stu_id)
+d7 %>% 
+  tidyr::drop_na(stu_id)
 
 
 ```
@@ -757,8 +773,10 @@ Filter out any row that has NA for any variable.
 
 ```{r}
 
-d7 %>% tidyr::drop_na()
+d7 %>% 
+  tidyr::drop_na()
 
 
 ```
 
+Return to [Filter](https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter)

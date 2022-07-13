@@ -39,7 +39,7 @@ d4
 
 Recode gender
 
-* Note: We did not have to put quotes around the old values because `dplyr::recode()` replaces character or factor values by their name.
+* Note: We did not have to put quotes around the old character values because `dplyr::recode()` replaces character or factor values by their name.
 
 * Note: Parentheses *are* required around the new value when recoding into a character/factor variable.
 
@@ -65,7 +65,7 @@ d4
 
 Recode gender
 
-* Note: We did not have to put quotes around the old values because `dplyr::recode()` replaces character or factor values by their name.
+* Note: We did not have to put quotes around the old character values because `dplyr::recode()` replaces character or factor values by their name.
 
 * Note: Since we are recoding into a numeric variable, no quotes are necessary for the numeric new value.
 
@@ -78,7 +78,7 @@ d4 %>% dplyr::mutate(gender=dplyr::recode(gender, m=1, f=2, n=3))
 ```
 
 
-**3\. Recode just one value in a variable (Var2)**
+**3\. Recode just one value in a numeric variable (Var2)**
 
 Review the data (d5)
 
@@ -104,7 +104,47 @@ d5 %>% dplyr::mutate(Var2=dplyr::recode(Var2, `16`=4))
 
 ```
 
-**4\. Recode one value in a numeric haven labelled variable (Var3)**
+
+**4\. Recode just one value in a character variable (Var)**
+
+Review the data (d5)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d14
+
+```
+
+In this case I want Var1 to be numeric. However, missing values were entered as character values ("MR" for missing response) so I need to recode these values before I can convert this variable to numeric.
+
+* Note: We did not have to put quotes around the old values because `dplyr::recode()` replaces character or factor values by their name.
+
+* Note: Parentheses *are* required around the new value when recoding because the values in Var1 are still considered character even though they all appear as numeric after recoding.
+
+
+```{r}
+
+d14 <- d14 %>%
+  dplyr::mutate(Var1 = dplyr::recode(Var1, MR = "-99"))
+
+d14
+
+```
+
+Note: Notice again that we are only recoding one value in the variable. If no default replacement option is supplied and the replacement values are the same variable class as the original values (ex: character to character), then unmatched values are unchanged. 
+
+I can then now convert my variable to numeric without having my character values converted to NAs. If I tried to convert my Var1 variable to numeric before recoding "MR" to -99, the `dplyr::recode()` function would convert "MR" to NA.
+
+```{r}
+
+d14 %>%
+  dplyr::mutate(Var1 = base::as.numeric(Var1))
+
+```
+
+
+**5\. Recode one value in a numeric haven labelled variable (Var3)**
 
 Review the data (d5)
 
@@ -121,7 +161,8 @@ View the variable labels for Var3
 
 ```{r, echo=FALSE}
 
-d5 <- d5 %>% labelled::set_value_labels(Var3 = c(no = 0, yes = 1))
+d5 <- d5 %>% 
+  labelled::set_value_labels(Var3 = c(no = 0, yes = 1))
 
 ```
 
@@ -137,13 +178,14 @@ Recode `2` to `1` in Var3
 
 Note: We *did* have to put quotes around the old values because `dplyr::recode()` replaces numeric values by either their name or their position. If a number with no quotes/backticks is given, it will assume it is a position.
 
-Note: Since we are recoding into a numeric variable, no quotes are necessary are the numeric new value.
+Note: Since we are recoding into a numeric variable, no quotes are necessary for the numeric new value.
 
 Note: Notice here that we are only recoding one value in the variable. There is a *.default* option that you can set all not recoded values to, and if no default is supplied and the replacement values are the same variable class as the original values (ex: numeric and numeric), then unmatched values are unchanged. *However*, if the replacement value is a new variable class (ex: numeric to character) then all other values will be recoded to NA.
 
 ```{r}
 
-d5 <- d5 %>% dplyr::mutate(Var3 = dplyr::recode(Var3, `2`=1))
+d5 <- d5 %>% 
+  dplyr::mutate(Var3 = dplyr::recode(Var3, `2`=1))
 
 d5
 
@@ -151,7 +193,7 @@ d5
 
 View the variable labels for Var3
 
-Note: The value labels are retained. The default for the `dplyr::recode()` option *.keep_value_labels* is TRUE. However, if you do not want to keep the value labels you can set the option to FALSE.
+Note: The value labels are retained. If the `labelled` package is loaded, additional functionality is available for `dplyr::recode()`, such as additional arguments for value labels. For example, there is an argument, *.keep_value_labels*, that you can add to `dplyr::recode()` and the default is TRUE. However, if you do not want to keep the value labels you can set the option to FALSE.
 
 
 ```{r}
@@ -160,7 +202,7 @@ labelled::val_labels(d5$Var3)
 
 ```
 
-**4\. Recode multiple values in a numeric haven labelled variable (Var3)**
+**6\. Recode multiple values in a numeric haven labelled variable (Var3)**
 
 Review the data (d13)
 
@@ -173,7 +215,6 @@ d13
 
 View the variable labels for Var3
 
-* Note: You'll see in this example there are three values and two value labels. In this instance, 2s are supposed to also be yes, but they do not contain a value label.
 
 ```{r, echo=FALSE}
 
@@ -197,7 +238,8 @@ Note: Since we are recoding into a numeric variable, no quotes are necessary are
 
 ```{r}
 
-d13 <- d13 %>% dplyr::mutate(Var3 = dplyr::recode(Var3, `5`=0, `6` = 1))
+d13 <- d13 %>% 
+  dplyr::mutate(Var3 = dplyr::recode(Var3, `5`=0, `6` = 1))
 
 d13
 
@@ -205,7 +247,7 @@ d13
 
 View the variable labels for Var3
 
-Note: We left the default *.keep_value_labels* is TRUE so our value labels are still funky.
+Note: We left the `labelled` and `dplyr::recode()` default of *.keep_value_labels* is TRUE so our value labels are still funky.
 
 ```{r}
 
@@ -296,7 +338,8 @@ Note: We *did* have to put quotes around the old values because `dplyr::recode_f
 
 ```{r}
 
-d7 <- d7 %>% dplyr::mutate(lunch=dplyr::recode_factor(
+d7 <- d7 %>% 
+  dplyr::mutate(lunch=dplyr::recode_factor(
   lunch, "1"="paid", "2"="reduced", "3"="free"))
 
 d7
@@ -310,6 +353,89 @@ Review the factor levels
 levels(d7$lunch)
 
 ```
+
+<br>
+
+---
+
+#### Function: `case_when()`
+
+---
+
+**1\. Recode across multiple character variables**
+
+Review the data (d15)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d15
+
+```
+
+In this example, missing values were entered as character values in a numeric column. So now these columns are considered character.
+
+Recode "MR" to -98 and "UI" to -99 for Var1, Var2, Var3. And then convert the character variable to numeric.
+
+* Note: Unlike `dplyr::recode()` where we did not have to put quotes around the old character values, we now have to put quotes around the old and new character values.
+
+* Note: I use `dplyr::across()` to select multiple values to apply my function to.
+
+* Note: The . is used here to say apply this function to all of the variables I selected above.
+
+* Note: TRUE means, if a value was not evaluated in my arguments above, replace with the value I give. In this case, I am saying just replace with the existing value.
+
+
+```{r}
+
+d15 <- d15 %>%
+  dplyr::mutate(across(Var1:Var3,
+                       ~ case_when(
+                       . == "MR" ~ "-98",
+                       . == "UI" ~ "-99",
+                       TRUE ~ .)))
+
+d15
+
+```
+
+While my character values have now be recoded to numeric values, my variable is still considered character so I would need one additional step to convert it to numeric (using the `base::as.numeric()` function). 
+
+However, before I do that, I want to be certain I have no other character values left in my variables. If I do still have other character values and I try to use `base::as.numeric()` those values will be converted to NA.
+
+I can check that there are no more instances of MR or UI using `dplyr::filter()` in conjunction with the `dplyr::if_any()` predicate function to select columns. This function is available in version 1.0.5 of `dplyr`.
+
+* Note: We use the `tidyselect` selection helper `everything()` to refer to all variables. I could also have selected variables Var1:Var3.
+
+* .x is used to say, if any of the variables I have selected contain (%in%) the values of "MR" or "UI".
+
+```{r}
+
+d15 %>% 
+dplyr::filter(dplyr::if_any(everything(), ~ .x %in% c('MR', 'UI')))
+
+```
+
+If I wanted to be more general, I could also just check for *any* alphabetical character left in my variables using `stringr::str_detect()` and including the regex pattern *[a-zA-Z]*
+
+```{r}
+
+d15 %>% 
+dplyr::filter(dplyr::if_any(everything(), ~ stringr::str_detect(., pattern = "[a-zA-Z]")))
+
+```
+
+Now that I know my variable has all character values removed, I can convert them to numeric.
+
+* Note: I am using `dplyr::across()` again to apply a function to multiple variables. 
+
+```{r}
+
+d15 %>%
+  dplyr::mutate(dplyr::across(Var1:Var3, as.numeric))
+
+```
+
 
 
 ### Package: forcats
@@ -360,5 +486,6 @@ Review the factor levels
 levels(d7$lunch)
 
 ```
+
 
 Return to [Recode](https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode)

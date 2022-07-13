@@ -60,6 +60,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -80,6 +81,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -447,7 +451,8 @@ d81</code></pre>
 <ul>
 <li>Note: Use of the operator <em>|</em> to denote and/or (<em>and</em> doesn’t really apply since it’s the same variable).</li>
 </ul>
-<pre class="r"><code>d8 %&gt;% dplyr::filter(extra3 == -999 | extra3 ==0)</code></pre>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(extra3 == -999 | extra3 ==0)</code></pre>
 <pre><code># A tibble: 3 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
@@ -455,7 +460,8 @@ d81</code></pre>
 2 c        -999   -999     12        250 harris  
 3 d           4      0     13        217 lewis   </code></pre>
 <p>You would get the same result using the <em>xor</em> operator.</p>
-<pre class="r"><code>d8 %&gt;% dplyr::filter(xor(extra3 == -999 , extra3 ==0))</code></pre>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(xor(extra3 == -999 , extra3 ==0))</code></pre>
 <pre><code># A tibble: 3 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
@@ -475,7 +481,8 @@ d81</code></pre>
 <ul>
 <li>Note: Use the operator <em>&amp;</em> to denote that both criteria must be met.</li>
 </ul>
-<pre class="r"><code>d81 &lt;- d8 %&gt;% dplyr::filter(extra3 &gt;= 0 &amp; extra3 &lt;=10)
+<pre class="r"><code>d81 &lt;- d8 %&gt;% 
+  dplyr::filter(extra3 &gt;= 0 &amp; extra3 &lt;=10)
 
 d81</code></pre>
 <pre><code># A tibble: 3 x 6
@@ -485,7 +492,8 @@ d81</code></pre>
 2 b        -999      0     11        220 steve   
 3 d           4      0     13        217 lewis   </code></pre>
 <p>You would get the same result using the <code>dplyr::between()</code> function. It includes both 0 and 10.</p>
-<pre class="r"><code>d8 %&gt;% dplyr::filter(dplyr::between(extra3, 0, 10))</code></pre>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(dplyr::between(extra3, 0, 10))</code></pre>
 <pre><code># A tibble: 3 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
@@ -505,7 +513,8 @@ d81</code></pre>
 <ul>
 <li>Note: Use of the operator <em>|</em> to denote and/or (<em>and</em> doesn’t really apply since it’s the same variable).</li>
 </ul>
-<pre class="r"><code>d8 %&gt;% dplyr::filter(tch_name == &quot;harris&quot; | tch_name == &quot;lewis&quot;)</code></pre>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(tch_name == &quot;harris&quot; | tch_name == &quot;lewis&quot;)</code></pre>
 <pre><code># A tibble: 3 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
@@ -513,7 +522,8 @@ d81</code></pre>
 2 c        -999   -999     12        250 harris  
 3 d           4      0     13        217 lewis   </code></pre>
 <p>You would get the same result using the <em>%in%</em> operator.</p>
-<pre class="r"><code>d8 %&gt;% dplyr::filter(tch_name %in% c(&quot;harris&quot;, &quot;lewis&quot;))</code></pre>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(tch_name %in% c(&quot;harris&quot;, &quot;lewis&quot;))</code></pre>
 <pre><code># A tibble: 3 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
@@ -521,7 +531,8 @@ d81</code></pre>
 2 c        -999   -999     12        250 harris  
 3 d           4      0     13        217 lewis   </code></pre>
 <p>Or the same result adding the <code>stringr::str_detect()</code> function.</p>
-<pre class="r"><code>d8 %&gt;% dplyr::filter(stringr::str_detect(tch_name, &#39;harris|lewis&#39;) )</code></pre>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(stringr::str_detect(tch_name, &#39;harris|lewis&#39;) )</code></pre>
 <pre><code># A tibble: 3 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
@@ -547,7 +558,8 @@ d81</code></pre>
 <ul>
 <li>Note: Use of the <em>|</em> operator to request and/or.</li>
 </ul>
-<pre class="r"><code>d8 %&gt;% dplyr::filter(extra2 == -999 | extra3 == -999)</code></pre>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(extra2 == -999 | extra3 == -999)</code></pre>
 <pre><code># A tibble: 2 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
@@ -566,7 +578,8 @@ d81</code></pre>
 <ul>
 <li>Note: Use the <em>xor</em> operator to request OR (not both).</li>
 </ul>
-<pre class="r"><code>d8 %&gt;% dplyr::filter(xor(extra2 == -999 , extra3 == -999))</code></pre>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(xor(extra2 == -999 , extra3 == -999))</code></pre>
 <pre><code># A tibble: 1 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
@@ -584,7 +597,8 @@ d81</code></pre>
 <ul>
 <li>Note: Use the <em>&amp;</em> operator to request and.</li>
 </ul>
-<pre class="r"><code>d8 %&gt;% dplyr::filter(extra2 == -999 &amp; extra3 == -999)</code></pre>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(extra2 == -999 &amp; extra3 == -999)</code></pre>
 <pre><code># A tibble: 1 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
@@ -606,9 +620,10 @@ d81</code></pre>
 4 d           4      0     13        217 lewis   </code></pre>
 <p>Filter out any row that has -999 for extra2 and/or has -999 extra3.</p>
 <ul>
-<li>Note: Notice that I put the operator <em>!</em> outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.</li>
+<li>Note: Notice that I put the operator <em>!</em> outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on removal criteria from multiple variables.</li>
 </ul>
-<pre class="r"><code>d8 %&gt;% dplyr::filter(!(extra2 ==-999 | extra3 ==-999))</code></pre>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(!(extra2 ==-999 | extra3 ==-999))</code></pre>
 <pre><code># A tibble: 2 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
@@ -625,9 +640,10 @@ d81</code></pre>
 4 d           4      0     13        217 lewis   </code></pre>
 <p>Filter out any row that has -999 for extra2 and has -999 extra3.</p>
 <ul>
-<li>Note: Notice that I put the operator <em>!</em> outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.</li>
+<li>Note: Notice that I put the operator <em>!</em> outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on removal criteria from multiple variables.</li>
 </ul>
-<pre class="r"><code>d8 %&gt;% dplyr::filter(!(extra2 ==-999 &amp; extra3 ==-999))</code></pre>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(!(extra2 ==-999 &amp; extra3 ==-999))</code></pre>
 <pre><code># A tibble: 3 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
@@ -647,7 +663,7 @@ d81</code></pre>
 <p>Filter out any row that has -999 for extra2 and/or -999 for extra3 (retaining any row that has NA values for those variables).</p>
 <ul>
 <li><p>Note: Again, you’ll notice that I make an explicit call to <strong>keep</strong> rows with NA values for extra2 and extra3 in addition to removing rows with the value of -999 for extra2 and extra 3, using the <em>|</em> operator to denote and/or. Remember, a drawback of the <code>filter</code> function is that if you filter on a certain variable it will not only filter out the values you request but it will also drop any row that has NA for those variables. And we may not necessarily want that. In this case, I want to keep the last row of data that has NA for extra2.</p></li>
-<li><p>Note: Notice that for the first part of the equation I put the operator <em>!</em> outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.</p></li>
+<li><p>Note: Notice that for the first part of the equation I put the operator <em>!</em> outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on removal criteria from multiple variables.</p></li>
 </ul>
 <pre class="r"><code>d5 %&gt;% 
   dplyr::filter(!(extra2==-999 | extra3 ==-999) | (is.na(extra2) | is.na(extra3)))</code></pre>
@@ -658,7 +674,8 @@ d81</code></pre>
 2 d           4      0     13        217 lewis   
 3 e          NA     NA     NA         NA ogunti  </code></pre>
 <p>Again, to get around the issue of dropping NAs we can use the operator <em>%in%</em> rather than <em>==</em> to make sure we keep the NA values for extra2 and extra3.</p>
-<pre class="r"><code>d5 %&gt;% dplyr::filter(!(extra2 %in% -999 | extra3 %in% -999))</code></pre>
+<pre class="r"><code>d5 %&gt;% 
+  dplyr::filter(!(extra2 %in% -999 | extra3 %in% -999))</code></pre>
 <pre><code># A tibble: 3 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
@@ -671,6 +688,7 @@ d81</code></pre>
 <h4>Function: <code>filter()</code></h4>
 <p>Examples using criteria that applies to a type of variable</p>
 <hr />
+<p>*Note: Using <code>dplyr::across()</code> in <code>dplyr::filter()</code> is deprecated. <code>dplyr::if_any()</code> and <code>dplyr::if_all()</code> can be used for this functionality in <code>dplyr::filter()</code>.</p>
 <p><strong>1.Remove rows based on values from a certain type of variable (in this case numeric variables). Filter out any row that has NA for <em>ALL</em> numeric variables.</strong></p>
 <p>Review the data (d9)</p>
 <pre><code># A tibble: 6 x 5
@@ -684,10 +702,10 @@ d81</code></pre>
 6 e          NA     NA    NA         NA</code></pre>
 <p>Filter out any row that has NA for <strong>ALL</strong> numeric variables</p>
 <ul>
-<li><p>Note: Note the use of <code>dplyr::if_all()</code> predicate function to select columns. This function is available in version 1.0.5 of <code>dplyr</code>.</p></li>
-<li><p>Note: Notice that I put the operator <em>!</em> outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.</p></li>
+<li>Note: Note the use of <code>dplyr::if_all()</code> predicate function to select columns. This function is available in version 1.0.5 of <code>dplyr</code>. You can read this as, keep rows where ALL numeric variables are NOT NA (hence the ! on the outside of the <code>dplyr::if_all()</code> function)</li>
 </ul>
-<pre class="r"><code>d9 %&gt;% dplyr::filter(!(dplyr::if_all(is.numeric,~ is.na(.))))</code></pre>
+<pre class="r"><code>d9 %&gt;% 
+  dplyr::filter(!(dplyr::if_all(is.numeric,~ is.na(.))))</code></pre>
 <pre><code># A tibble: 4 x 5
   extra1 extra2 extra3    id test_score
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
@@ -708,11 +726,11 @@ d81</code></pre>
 6 e          NA     NA    NA         NA</code></pre>
 <p>Filter out any row that has -999 for <strong>AT LEAST ONE</strong> numeric variable</p>
 <ul>
-<li><p>Note: Note the use of <code>dplyr::if_any()</code> predicate function to select columns. This function is available in version 1.0.5 of <code>dplyr</code>.</p></li>
-<li><p>Note: Notice that I put the operator <em>!</em> outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.</p></li>
+<li><p>Note: Note the use of <code>dplyr::if_any()</code> predicate function to select columns. This function is available in version 1.0.5 of <code>dplyr</code>. You can read this as, keep rows where ANY numeric variables are NOT -999 (hence the ! on the outside of the <code>dplyr::if_any()</code> function)</p></li>
 <li><p>Note: You’ll notice I did not have to make an explicit call to keep the NA values for numeric variables this time. Using the <code>dplyr::if_any()</code> function only removed the values in the argument.</p></li>
 </ul>
-<pre class="r"><code>d9 %&gt;% dplyr::filter(!(dplyr::if_any(is.numeric, ~ (. ==-999))))</code></pre>
+<pre class="r"><code>d9 %&gt;% 
+  dplyr::filter(!(dplyr::if_any(is.numeric, ~ (. == -999))))</code></pre>
 <pre><code># A tibble: 1 x 5
   extra1 extra2 extra3    id test_score
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
@@ -723,6 +741,9 @@ d81</code></pre>
 <h4>Function: <code>filter()</code></h4>
 <p>Examples using criteria that applies to all variables</p>
 <hr />
+<ul>
+<li>Note: Using <code>dplyr::across()</code> in <code>dplyr::filter()</code> is deprecated. <code>dplyr::if_any()</code> and <code>dplyr::if_all()</code> can be used for this functionality in <code>dplyr::filter()</code>.</li>
+</ul>
 <p><strong>1.Filter out rows based on values from all variables. Filter out any row that has -999 for <em>AT LEAST ONE</em> variable.</strong></p>
 <p>Review the data (d10)</p>
 <pre><code># A tibble: 6 x 4
@@ -736,12 +757,12 @@ d81</code></pre>
 6   -999   -999  -999       -999</code></pre>
 <p>Filter out any row that has -999 for at least one variable</p>
 <ul>
-<li><p>Note: Note the use of <code>dplyr::if_any()</code> predicate function to select columns. This function is available in version 1.0.5 of <code>dplyr</code>.</p></li>
+<li><p>Note: Note the use of <code>dplyr::if_any()</code> predicate function to select columns. This function is available in version 1.0.5 of <code>dplyr</code>. You can read this as, keep rows where ANY variable is NOT NA (hence the ! on the outside of the <code>dplyr::if_any()</code> function)</p></li>
 <li><p>Note: We use the <code>tidyselect</code> selection helper <code>everything()</code> to refer to all variables.</p></li>
-<li><p>Note: Notice that I put the operator <em>!</em> outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.</p></li>
 <li><p>Note: You’ll notice I did not have to make an explicit call to keep the NA values for numeric variables this time. Using the <code>dplyr::if_any()</code> function only removed the values in the argument.</p></li>
 </ul>
-<pre class="r"><code>d10 %&gt;% filter(!(dplyr::if_any(everything(), ~ .x ==-999)))</code></pre>
+<pre class="r"><code>d10 %&gt;% 
+  dplyr::filter(!(dplyr::if_any(everything(), ~ .x ==-999)))</code></pre>
 <pre><code># A tibble: 1 x 4
   extra2 extra3    id test_score
    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
@@ -759,12 +780,12 @@ d81</code></pre>
 6   -999   -999  -999       -999</code></pre>
 <p>Filter out any row that has -999 for all variables</p>
 <ul>
-<li><p>Note: Note the use of <code>dplyr::if_all()</code> predicate function to select columns. This function is available in version 1.0.5 of <code>dplyr</code>.</p></li>
+<li><p>Note: Note the use of <code>dplyr::if_all()</code> predicate function to select columns. This function is available in version 1.0.5 of <code>dplyr</code>. You can read this as, keep rows where ALL variables are NOT -999 (hence the ! on the outside of the <code>dplyr::if_all()</code> function)</p></li>
 <li><p>Note: We use the <code>tidyverse</code> selection helper <code>everything()</code> to refer to all variables.</p></li>
-<li><p>Note: Notice that I put the operator <em>!</em> outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on criteria from multiple variables.</p></li>
 <li><p>Note: You’ll notice I did not have to make an explicit call to keep the NA values for numeric variables this time. Using the <code>dplyr::if_all()</code> function only removed the values in the argument.</p></li>
 </ul>
-<pre class="r"><code>d10 %&gt;% dplyr::filter(!(dplyr::if_all(everything(), ~ .x ==-999)))</code></pre>
+<pre class="r"><code>d10 %&gt;% 
+  dplyr::filter(!(dplyr::if_all(everything(), ~ .x ==-999)))</code></pre>
 <pre><code># A tibble: 4 x 4
   extra2 extra3    id test_score
    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
@@ -790,7 +811,8 @@ d81</code></pre>
 3 c           3     NA     12        250 harris  
 4 d           4      0     13        217 lewis   </code></pre>
 <p>Filter out any row that has NA for stu_id.</p>
-<pre class="r"><code>d7 %&gt;% tidyr::drop_na(stu_id)</code></pre>
+<pre class="r"><code>d7 %&gt;% 
+  tidyr::drop_na(stu_id)</code></pre>
 <pre><code># A tibble: 3 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
@@ -807,11 +829,13 @@ d81</code></pre>
 3 c           3     NA     12        250 harris  
 4 d           4      0     13        217 lewis   </code></pre>
 <p>Filter out any row that has NA for any variable.</p>
-<pre class="r"><code>d7 %&gt;% tidyr::drop_na()</code></pre>
+<pre class="r"><code>d7 %&gt;% 
+  tidyr::drop_na()</code></pre>
 <pre><code># A tibble: 1 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
 1 d           4      0     13        217 lewis   </code></pre>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter">Filter</a></p>
 </div>
 </div>
 

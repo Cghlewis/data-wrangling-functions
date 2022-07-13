@@ -373,7 +373,7 @@ d13 %&gt;%
 <p>Recode lunch status</p>
 <ul>
 <li><p>Note: We did not have to put quotes around the old values because <code>dplyr::recode_factor()</code> replaces character or factor values by their name.</p></li>
-<li><p>Note: Parentheses <em>are</em> required around the new value when recoding into a character/factor variable.</p></li>
+<li><p>Note: Quotes <em>are</em> required around the new value when recoding into a character/factor variable.</p></li>
 <li><p>Note: We are recoding back into the same variable using <code>dplyr::mutate()</code>. However, we could have recoded into a new variable by changing the name of <em>lunch</em>.</p></li>
 </ul>
 <pre class="r"><code>d4 &lt;- d4 %&gt;% dplyr::mutate(lunch=dplyr::recode_factor(lunch, p=&quot;paid&quot;, r=&quot;reduced&quot;, f=&quot;free&quot;))
@@ -399,7 +399,7 @@ d4</code></pre>
 <p>Recode lunch status</p>
 <p>Note: We <em>did</em> have to put quotes around the old values because <code>dplyr::recode_factor()</code> replaces numeric values by either their name or their position. If a number with no quotes/backticks is given, it will assume it is a position.</p>
 <ul>
-<li><p>Note: Parentheses are required around new value when recoding into a character/factor variable.</p></li>
+<li><p>Note: Quotes are required around new value when recoding into a character/factor variable.</p></li>
 <li><p>Note: We are recoding back into the same variable using <code>dplyr::mutate()</code>. However, we could have recoded into a new variable by changing the name of <em>lunch</em>.</p></li>
 </ul>
 <pre class="r"><code>d7 &lt;- d7 %&gt;% 
@@ -434,7 +434,7 @@ d7</code></pre>
 <p>Recode “MR” to -98 and “UI” to -99 for Var1, Var2, Var3. And then convert the character variable to numeric.</p>
 <ul>
 <li><p>Note: Unlike <code>dplyr::recode()</code> where we did not have to put quotes around the old character values, we now have to put quotes around the old and new character values.</p></li>
-<li><p>Note: I use <code>dplyr::across()</code> to select multiple values to apply my function to.</p></li>
+<li><p>Note: I use <code>dplyr::across()</code> to select multiple variables to apply my function to.</p></li>
 <li><p>Note: The . is used here to say apply this function to all of the variables I selected above.</p></li>
 <li><p>Note: TRUE means, if a value was not evaluated in my arguments above, replace with the value I give. In this case, I am saying just replace with the existing value.</p></li>
 </ul>
@@ -457,7 +457,7 @@ d15</code></pre>
 <p>I can check that there are no more instances of MR or UI using <code>dplyr::filter()</code> in conjunction with the <code>dplyr::if_any()</code> predicate function to select columns. This function is available in version 1.0.5 of <code>dplyr</code>.</p>
 <ul>
 <li><p>Note: We use the <code>tidyselect</code> selection helper <code>everything()</code> to refer to all variables. I could also have selected variables Var1:Var3.</p></li>
-<li><p>.x is used to say, if any of the variables I have selected contain (%in%) the values of “MR” or “UI”.</p></li>
+<li><p>.x is used to say, for all of the variables I have selected</p></li>
 </ul>
 <pre class="r"><code>d15 %&gt;% 
 dplyr::filter(dplyr::if_any(everything(), ~ .x %in% c(&#39;MR&#39;, &#39;UI&#39;)))</code></pre>

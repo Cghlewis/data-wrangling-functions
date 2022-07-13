@@ -297,7 +297,7 @@ Recode lunch status
 
 * Note: We did not have to put quotes around the old values because `dplyr::recode_factor()` replaces character or factor values by their name.
 
-* Note: Parentheses *are* required around the new value when recoding into a character/factor variable.
+* Note: Quotes *are* required around the new value when recoding into a character/factor variable.
 
 * Note: We are recoding back into the same variable using `dplyr::mutate()`. However, we could have recoded into a new variable by changing the name of *lunch*.
 
@@ -332,7 +332,7 @@ Recode lunch status
 
 Note: We *did* have to put quotes around the old values because `dplyr::recode_factor()` replaces numeric values by either their name or their position. If a number with no quotes/backticks is given, it will assume it is a position.
 
-* Note: Parentheses are required around new value when recoding into a character/factor variable.
+* Note: Quotes are required around new value when recoding into a character/factor variable.
 
 * Note: We are recoding back into the same variable using `dplyr::mutate()`. However, we could have recoded into a new variable by changing the name of *lunch*.
 
@@ -379,7 +379,7 @@ Recode "MR" to -98 and "UI" to -99 for Var1, Var2, Var3. And then convert the ch
 
 * Note: Unlike `dplyr::recode()` where we did not have to put quotes around the old character values, we now have to put quotes around the old and new character values.
 
-* Note: I use `dplyr::across()` to select multiple values to apply my function to.
+* Note: I use `dplyr::across()` to select multiple variables to apply my function to.
 
 * Note: The . is used here to say apply this function to all of the variables I selected above.
 
@@ -407,7 +407,7 @@ I can check that there are no more instances of MR or UI using `dplyr::filter()`
 
 * Note: We use the `tidyselect` selection helper `everything()` to refer to all variables. I could also have selected variables Var1:Var3.
 
-* .x is used to say, if any of the variables I have selected contain (%in%) the values of "MR" or "UI".
+* .x is used to say, for all of the variables I have selected
 
 ```{r}
 

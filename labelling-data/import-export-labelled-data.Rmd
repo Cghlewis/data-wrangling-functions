@@ -76,4 +76,4 @@ openxlsx::write.xlsx(rio::characterize(d), "name-of-export.xlsx")
 ```
 
 
-Return to [Label Data](https://github.com/Cghlewis/data-wrangling-functions/wiki/labelling-data)
+Return to [Label Data](https://github.com/Cghlewis/data-wrangling-functions/wiki/Label Data)

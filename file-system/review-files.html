@@ -60,6 +60,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -80,6 +81,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -180,9 +184,9 @@ pre code {
 <li>Note: I used the <code>here::here()</code> function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder “obs_2022-03-15” is within another folder called “file-system” which is located in the top level of my project directory. You could also just list your entire file path.</li>
 </ul>
 <pre class="r"><code>dir_ls(here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;))</code></pre>
-<pre><code>[1] &quot;C:/Users/Me/project/file-system/obs_2022-03-15/obs1.xlsx&quot;       
-[2] &quot;C:/Users/Me/project/file-system/obs_2022-03-15/obs2.xlsx&quot;       
-[3] &quot;C:/Users/Me/project/file-system/obs_2022-03-15/obs3.xlsx&quot;       
+<pre><code>[1] &quot;C:/Users/Me/project/file-system/obs_2022-03-15/obs_a.xlsx&quot;      
+[2] &quot;C:/Users/Me/project/file-system/obs_2022-03-15/obs_b.xlsx&quot;      
+[3] &quot;C:/Users/Me/project/file-system/obs_2022-03-15/obs_c.xlsx&quot;      
 [4] &quot;C:/Users/Me/project/file-system/obs_2022-03-15/summary_obs.xlsx&quot;</code></pre>
 <p>Notice you will get the full path names here. <code>fs::dir_ls()</code> creates a character vector of file names.</p>
 <p><br></p>
@@ -197,16 +201,16 @@ pre code {
 <p><strong>1. View just the file names in your path</strong></p>
 <p><code>base::basename()</code> removes all of the path up to and including the last path separator</p>
 <pre class="r"><code>base::basename(fs::dir_ls(here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;)))</code></pre>
-<pre><code>[1] &quot;obs1.xlsx&quot;        &quot;obs2.xlsx&quot;        &quot;obs3.xlsx&quot;        &quot;summary_obs.xlsx&quot;</code></pre>
+<pre><code>[1] &quot;obs_a.xlsx&quot;       &quot;obs_b.xlsx&quot;       &quot;obs_c.xlsx&quot;       &quot;summary_obs.xlsx&quot;</code></pre>
 <p>You can also use <code>base::dir()</code> or <code>base::list.files()</code> to retrieve just the file names. If you add the argument <em>full.names = TRUE</em> to <code>base::list.files()</code> you will get the full path.</p>
 <ul>
 <li>Note: <code>base::dir()</code> is an alias for <code>base::list.files()</code></li>
 </ul>
 <pre class="r"><code>base::list.files(here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;))</code></pre>
-<pre><code>[1] &quot;obs1.xlsx&quot;        &quot;obs2.xlsx&quot;        &quot;obs3.xlsx&quot;        &quot;summary_obs.xlsx&quot;</code></pre>
+<pre><code>[1] &quot;obs_a.xlsx&quot;       &quot;obs_b.xlsx&quot;       &quot;obs_c.xlsx&quot;       &quot;summary_obs.xlsx&quot;</code></pre>
 <p>Last, there is also a function from the <code>fs</code> package that you can use to pull just the file names, <code>fs::path_file()</code></p>
 <pre class="r"><code>fs::path_file(fs::dir_ls(here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;)))</code></pre>
-<pre><code>[1] &quot;obs1.xlsx&quot;        &quot;obs2.xlsx&quot;        &quot;obs3.xlsx&quot;        &quot;summary_obs.xlsx&quot;</code></pre>
+<pre><code>[1] &quot;obs_a.xlsx&quot;       &quot;obs_b.xlsx&quot;       &quot;obs_c.xlsx&quot;       &quot;summary_obs.xlsx&quot;</code></pre>
 </div>
 </div>
 <div id="package-fs-1" class="section level3">
@@ -218,16 +222,16 @@ pre code {
 <p><strong>1. View detailed information about your files</strong></p>
 <p>Let’s review all of our files in the “analysis_data” folder.</p>
 <ul>
-<li>Note: There are more columns you can view with this function but I have selected 3 columns of interest to view here.</li>
+<li>Note: There are more columns you can view with this function but I have selected 3 columns of interest to view here. To view all options type <code>?file_info</code> into the console.</li>
 </ul>
 <pre class="r"><code>fs::file_info(fs::dir_ls(here::here(&quot;file-system&quot;))) %&gt;%
   select(path, type, modification_time)</code></pre>
 <pre><code># A tibble: 3 x 3
   path                                                 type  modification_time  
   &lt;chr&gt;                                                &lt;fct&gt; &lt;dttm&gt;             
-1 C:/Users/Me/project/file-system/summary_obs_v01.xlsx file  2022-03-15 10:02:16
-2 C:/Users/Me/project/file-system/summary_obs_v02.xlsx file  2022-03-24 20:59:17
-3 C:/Users/Me/project/file-system/summary_obs_v03.xlsx file  2022-03-24 20:59:26</code></pre>
+1 C:/Users/Me/project/file-system/summary_obs_v01.xlsx file  2022-07-30 20:26:52
+2 C:/Users/Me/project/file-system/summary_obs_v02.xlsx file  2022-07-30 20:26:52
+3 C:/Users/Me/project/file-system/summary_obs_v03.xlsx file  2022-08-17 09:17:37</code></pre>
 <p><strong>2. Find the most recent version of a file</strong></p>
 <p>In this scenario, I want to find the most recent version of my file based on the modification time of a file.</p>
 <ul>
@@ -240,7 +244,7 @@ pre code {
 <pre><code># A tibble: 1 x 3
   path                                                 type  modification_time  
   &lt;chr&gt;                                                &lt;fct&gt; &lt;dttm&gt;             
-1 C:/Users/Me/project/file-system/summary_obs_v03.xlsx file  2022-03-24 20:59:26</code></pre>
+1 C:/Users/Me/project/file-system/summary_obs_v03.xlsx file  2022-08-17 09:17:37</code></pre>
 <p>However, I don’t always trust the modification time to give me my most recent version.You’ll notice that I’ve also versioned our files by adding “_v#” as a suffix to each file name. I can instead use this information to find the most recent version.</p>
 <ul>
 <li><p>Note: In this scenario I don’t need to use <code>fs::file_info()</code> as I am only choosing my most recent file version based on my naming convention.</p></li>
@@ -262,6 +266,7 @@ pre code {
   dplyr::pull(value)
 
 most_recent &lt;- readxl::read_excel(newest_file)</code></pre>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/File%20System">File System</a></p>
 </div>
 </div>
 

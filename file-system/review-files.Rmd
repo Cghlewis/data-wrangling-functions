@@ -100,7 +100,7 @@ fs::path_file(fs::dir_ls(here::here("file-system", "obs_2022-03-15")))
 
 Let's review all of our files in the "analysis_data" folder.
 
-* Note: There are more columns you can view with this function but I have selected 3 columns of interest to view here.
+* Note: There are more columns you can view with this function but I have selected 3 columns of interest to view here. To view all options type `?file_info` into the console.
 
 ```{r, eval = FALSE}
 
@@ -187,3 +187,5 @@ newest_file <- tibble::as_tibble(fs::dir_ls(
 most_recent <- readxl::read_excel(newest_file)
 
 ```
+
+Return to [File System](https://github.com/Cghlewis/data-wrangling-functions/wiki/File System)

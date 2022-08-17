@@ -222,4 +222,4 @@ d10 %>% sjPlot::view_df(show.type=TRUE)
 
 ```
 
-Return to [Label Data](https://github.com/Cghlewis/data-wrangling-functions/wiki/labelling-data)
+Return to [Label Data](https://github.com/Cghlewis/data-wrangling-functions/wiki/Label Data)

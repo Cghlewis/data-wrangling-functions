@@ -97,3 +97,4 @@ d1 %>%
 
 ```
 
+Return to [Label Data](https://github.com/Cghlewis/data-wrangling-functions/wiki/Label Data)

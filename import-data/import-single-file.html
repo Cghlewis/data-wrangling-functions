@@ -60,6 +60,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -80,6 +81,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -242,6 +246,7 @@ pre code {
 <hr />
 <p><strong>1. Read in a tab delimited file.</strong></p>
 <pre class="r"><code>d &lt;- read_tsv(&#39;name-of-import.txt&#39;, col_names = TRUE)</code></pre>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Import%20Files">Import Files</a></p>
 </div>
 </div>
 

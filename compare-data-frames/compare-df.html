@@ -60,6 +60,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -80,6 +81,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -291,7 +295,7 @@ file1_copy &lt;- readr::read_csv(&quot;project-a_forms_file1_copy.csv&quot;)</co
 4 1237       3     3     4     2</code></pre>
 <p>It looks like the same data? Let’s check.</p>
 <pre class="r"><code>dplyr::all_equal(file1, file1_copy2)</code></pre>
-<pre><code>[1] &quot;- Different types for column `stu_id`: double vs character\n&quot;</code></pre>
+<pre><code>Different types for column `stu_id`: double vs character.</code></pre>
 <p>We find out that the files are <strong>not</strong> identical! Student ID is now a character variable rather than numeric. We would need to make a decision regarding which file to use.</p>
 <p>Let’s read in yet another copy to see what differences might exist, file1_copy3.</p>
 <pre><code># A tibble: 4 x 5
@@ -318,6 +322,7 @@ file1_copy &lt;- readr::read_csv(&quot;project-a_forms_file1_copy.csv&quot;)</co
 <p>There are some major differences in this one so I would need to really dig into which copy of the file I should be using here.</p>
 <p>Side note: If these examples haven’t been a case study for why you should version and document your file changes, I’m not sure what is! :)</p>
 <p><br></p>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Compare%20data%20frames">Compare data frames</a></p>
 </div>
 </div>
 

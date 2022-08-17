@@ -149,4 +149,4 @@ d5 %>% purrr::set_names(~ stringr::str_remove(., "s_"))
 ```
 
 
-Return to [Name Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/name-variables)
+Return to [Name Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Name Variables)

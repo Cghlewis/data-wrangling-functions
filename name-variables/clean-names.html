@@ -60,6 +60,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -80,6 +81,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -187,7 +191,7 @@ pre code {
 <ul>
 <li>Note: You can also change all variable names to lower using <code>base::tolower()</code> function.</li>
 </ul>
-<pre class="r"><code>d1 %&gt;% purrr::set_names(toupper)</code></pre>
+<pre class="r"><code>d1 %&gt;% purrr::set_names(base::toupper)</code></pre>
 <pre><code># A tibble: 3 x 3
   VAR1   VAR2  VAR3
   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -271,6 +275,7 @@ pre code {
 1 a     m         f          
 2 b     f         r          
 3 c     n         p          </code></pre>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Name%20Variables">Name Variables</a></p>
 </div>
 </div>
 

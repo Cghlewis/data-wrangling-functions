@@ -56,4 +56,4 @@ d1 %>%
 
 ```
 
-Return to [Name Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/name-variables)
+Return to [Name Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Name Variables)

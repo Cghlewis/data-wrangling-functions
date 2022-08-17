@@ -60,6 +60,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -80,6 +81,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -238,6 +242,7 @@ new_directory_all &lt;- here::here(&quot;file-system&quot;, &quot;all_files&quot
 <p>Let’s see what files we have in our “all_files” folder now.</p>
 <pre class="r"><code>base::basename(fs::dir_ls(here::here(&quot;file-system&quot;, &quot;all_files&quot;)))</code></pre>
 <pre><code>[1] &quot;summary_obs_2022-03-15.xlsx&quot; &quot;summary_obs_2022-03-16.xlsx&quot;</code></pre>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/File%20System">File System</a></p>
 </div>
 </div>
 

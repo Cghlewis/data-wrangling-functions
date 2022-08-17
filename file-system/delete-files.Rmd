@@ -89,3 +89,4 @@ fs::file_delete(path = here::here("file-system", "obs_2022-03-15"))
 
 ```
 
+Return to [File System](https://github.com/Cghlewis/data-wrangling-functions/wiki/File System)

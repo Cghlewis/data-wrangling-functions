@@ -176,3 +176,5 @@ There are some major differences in this one so I would need to really dig into 
 Side note: If these examples haven't been a case study for why you should version and document your file changes, I'm not sure what is! :)
 
 <br>
+
+Return to [Compare data frames](https://github.com/Cghlewis/data-wrangling-functions/wiki/Compare data frames)

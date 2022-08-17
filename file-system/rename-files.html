@@ -60,6 +60,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -80,6 +81,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -182,12 +186,14 @@ pre code {
 </ul>
 <p>Let’s review the current files</p>
 <pre class="r"><code>base::basename(fs::dir_ls(here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;)))</code></pre>
-<pre><code>[1] &quot;obs_a.xlsx&quot; &quot;obs_b.xlsx&quot; &quot;obs_c.xlsx&quot;</code></pre>
+<pre><code>[1] &quot;obs_a.xlsx&quot;       &quot;obs_b.xlsx&quot;       &quot;obs_c.xlsx&quot;       &quot;summary_obs.xlsx&quot;</code></pre>
 <p>First let’s grab the files we want to rename.</p>
+<p>Since there is a “summary_obs.xlsx” file that I do not want to rename, I am going to add the <code>fs::dir_ls()</code> argument <em>glob</em> here which allows you to grab files/folders using a globbing pattern. That pattern is passed to <code>base::grep()</code> to filter paths.</p>
+<pre class="r"><code>files_old &lt;- fs::dir_ls(here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;), glob = &quot;*obs_?.xlsx&quot;)</code></pre>
+<p>You could instead use the <em>regexp</em> argument and use a regular expression pattern to grab the files you want. This pattern is also passed to <code>base::grep()</code> to filter paths.</p>
+<pre class="r"><code>files_old &lt;- fs::dir_ls(here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;), regexp = &quot;*obs_[a-z].xlsx&quot;)</code></pre>
+<p>If I wanted to grab all files, I could simply write the code like this.</p>
 <pre class="r"><code>files_old &lt;- fs::dir_ls(here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;))</code></pre>
-<p>If there were other files in the folder that you did not want to rename, you could add <code>fs::dir_ls()</code> argument <em>glob</em> here which allows you to grab files/folders using a pattern. That pattern is passed to <code>base::grep()</code> to filter paths.</p>
-<p>Here’s an example</p>
-<pre class="r"><code>files_old &lt;- fs::dir_ls(here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;), glob = &quot;*.xlsx&quot;)</code></pre>
 <p>Now let’s create the new name.</p>
 <ul>
 <li>Note: I am using <code>base::paste0()</code> to paste the word “obs” with the file number and “.xslx”.</li>
@@ -197,15 +203,16 @@ pre code {
 <pre class="r"><code>fs::file_move(path = files_old, new_path = files_new)</code></pre>
 <p>Let’s view the new names.</p>
 <pre class="r"><code>base::basename(fs::dir_ls(here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;)))</code></pre>
-<pre><code>[1] &quot;obs1.xlsx&quot; &quot;obs2.xlsx&quot; &quot;obs3.xlsx&quot;</code></pre>
+<pre><code>[1] &quot;obs1.xlsx&quot;        &quot;obs2.xlsx&quot;        &quot;obs3.xlsx&quot;        &quot;summary_obs.xlsx&quot;</code></pre>
 <p>If I didn’t want to create new names from scratch but simply wanted to replace a part of the existing name, I could consider something like this instead, using <code>stringr::str_replace()</code> to replace any “_letter” with the file number.</p>
-<pre class="r"><code>files_old &lt;- fs::dir_ls(here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;), glob=&#39;*.xlsx&#39;)
+<pre class="r"><code>files_old &lt;- fs::dir_ls(here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;), glob=&#39;obs_*&#39;)
 
 file_number &lt;- as.character(1:length(files_old))
   
 files_new &lt;- stringr::str_replace(files_old, &quot;_[a-z]&quot;, file_number)
   
 fs::file_move(path = files_old, new_path = files_new)</code></pre>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/File%20System">File System</a></p>
 </div>
 </div>
 

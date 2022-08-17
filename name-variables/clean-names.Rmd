@@ -127,3 +127,5 @@ Change the variable names to UpperCamelCase
 d4 %>% janitor::clean_names(., case = "upper_camel")
 
 ```
+
+Return to [Name Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Name Variables)

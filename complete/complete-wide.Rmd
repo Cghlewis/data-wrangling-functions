@@ -44,3 +44,4 @@ d3 %>% dplyr::mutate(gender_2021_new = dplyr::coalesce(gender_2021, gender_1920,
 
 ```
 
+Return to [Complete](https://github.com/Cghlewis/data-wrangling-functions/wiki/Complete)

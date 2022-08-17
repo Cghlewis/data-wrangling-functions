@@ -42,19 +42,28 @@ base::basename(fs::dir_ls(here::here("file-system", "obs_2022-03-15")))
 
 First let's grab the files we want to rename.
 
+Since there is a "summary_obs.xlsx" file that I do not want to rename, I am going to add the `fs::dir_ls()` argument *glob* here which allows you to grab files/folders using a globbing pattern. That pattern is passed to `base::grep()` to filter paths. 
+
+
 ```{r}
 
-files_old <- fs::dir_ls(here::here("file-system", "obs_2022-03-15"))
+files_old <- fs::dir_ls(here("file-system", "obs_2022-03-15"), glob = "*obs_?.xlsx")
 
 ```
 
-If there were other files in the folder that you did not want to rename, you could add `fs::dir_ls()` argument *glob* here which allows you to grab files/folders using a pattern. That pattern is passed to `base::grep()` to filter paths. 
+You could instead use the *regexp* argument and use a regular expression pattern to grab the files you want. This pattern is also passed to `base::grep()` to filter paths. 
 
-Here's an example
+```{r}
+
+files_old <- fs::dir_ls(here("file-system", "obs_2022-03-15"), regexp = "*obs_[a-z].xlsx")
+
+```
+
+If I wanted to grab all files, I could simply write the code like this.
 
 ```{r, eval = FALSE}
 
-files_old <- fs::dir_ls(here("file-system", "obs_2022-03-15"), glob = "*.xlsx")
+files_old <- fs::dir_ls(here::here("file-system", "obs_2022-03-15"))
 
 ```
 
@@ -91,7 +100,7 @@ If I didn't want to create new names from scratch but simply wanted to replace a
 
 ```{r, eval = FALSE}
 
-files_old <- fs::dir_ls(here::here("file-system", "obs_2022-03-15"), glob='*.xlsx')
+files_old <- fs::dir_ls(here::here("file-system", "obs_2022-03-15"), glob='obs_*')
 
 file_number <- as.character(1:length(files_old))
   
@@ -100,3 +109,5 @@ files_new <- stringr::str_replace(files_old, "_[a-z]", file_number)
 fs::file_move(path = files_old, new_path = files_new)
 
 ```
+
+Return to [File System](https://github.com/Cghlewis/data-wrangling-functions/wiki/File System)

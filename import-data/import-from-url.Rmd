@@ -90,3 +90,5 @@ Type *?read_csv* in the console for available arguments
 d <- readr::read_csv("https://stacks.stanford.edu/file/druid:db586ns4974/district%20gaps%20%28pooled%20year%2C%20grade%20and%20sub%29_v1_1.csv")
 
 ```
+
+Return to [Import Files](https://github.com/Cghlewis/data-wrangling-functions/wiki/Import Files)

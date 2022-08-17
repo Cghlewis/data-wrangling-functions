@@ -146,4 +146,4 @@ tibble::glimpse(d1)
 
 ```
 
-
+Return to [Data Types](https://github.com/Cghlewis/data-wrangling-functions/wiki/Data Types)

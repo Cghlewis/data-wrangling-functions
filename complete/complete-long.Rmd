@@ -106,3 +106,4 @@ d2 %>% tidyr::complete(s_id, time_period, fill = list(test_score=0))
 
 ```
 
+Return to [Complete](https://github.com/Cghlewis/data-wrangling-functions/wiki/Complete)

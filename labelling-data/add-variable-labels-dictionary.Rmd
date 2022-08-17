@@ -122,5 +122,4 @@ labelled::var_label(d11)
 
 ```
 
-
-Return to [Label Data](https://github.com/Cghlewis/data-wrangling-functions/wiki/labelling-data)
+Return to [Label Data](https://github.com/Cghlewis/data-wrangling-functions/wiki/Label Data)

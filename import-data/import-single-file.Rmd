@@ -144,3 +144,4 @@ d <- read_tsv('name-of-import.txt', col_names = TRUE)
 
 ```
 
+Return to [Import Files](https://github.com/Cghlewis/data-wrangling-functions/wiki/Import Files)

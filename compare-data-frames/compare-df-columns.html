@@ -60,6 +60,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -80,6 +81,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -210,6 +214,7 @@ entry3 &lt;- readr::read_csv(&quot;project-b_forms_entry2.csv&quot;)</code></pre
 <pre class="r"><code>janitor::compare_df_cols(entry1, entry3, return = &quot;mismatch&quot;)</code></pre>
 <pre><code>  column_name  entry1    entry3
 1       grade numeric character</code></pre>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Compare%20data%20frames">Compare data frames</a></p>
 </div>
 </div>
 

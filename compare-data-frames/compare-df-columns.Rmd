@@ -71,3 +71,4 @@ janitor::compare_df_cols(entry1, entry3, return = "mismatch")
 
 ```
 
+Return to [Compare data frames](https://github.com/Cghlewis/data-wrangling-functions/wiki/Compare data frames)

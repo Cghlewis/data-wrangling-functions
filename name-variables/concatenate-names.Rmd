@@ -162,3 +162,4 @@ d1 %>% purrr::set_names(~ base::paste0("T1_", .))
 
 ```
 
+Return to [Name Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/name-variables)

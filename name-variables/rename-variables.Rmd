@@ -54,5 +54,6 @@ If you wanted to change names of more than one variable you can just keep adding
 d1 %>% 
   dplyr::rename(grade = Var2, score = Var3)
 
-
 ```
+
+Return to [Name Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/name-variables)

@@ -220,7 +220,7 @@ d2_new</code></pre>
   4 0 1 0
   5 1 0 0</code></pre>
 <ul>
-<li>Note: If you want to keep both the old variables and the newly created variables, you can add the argument <em>names</em> to the <code>dplyr::across()</code> function to rename your recoded variables as you create them, rather than writing over the old variables.</li>
+<li>Note: If you want to keep both the old variables and the newly created variables, you can add the argument <em>.names</em> to the <code>dplyr::across()</code> function to rename your recoded variables as you create them, rather than writing over the old variables.</li>
 </ul>
 <pre class="r"><code>d2 &lt;- d2 %&gt;% 
   dplyr::mutate(dplyr::across(Var2:Var3, ~dplyr::recode(.,`1`=5, `2`=4, `3`=3, `4`=2, `5`=1), 

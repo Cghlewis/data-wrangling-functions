@@ -244,3 +244,5 @@ d3 %>% dplyr::mutate(Var2 = haven::as_factor(Var2))
 
 ```
 
+
+Return to [Label Data](https://github.com/Cghlewis/data-wrangling-functions/wiki/labelling-data)

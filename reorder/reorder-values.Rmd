@@ -203,3 +203,4 @@ levels(d3n$s_grade)
 
 ```
 
+Return to [Reorder](https://github.com/Cghlewis/data-wrangling-functions/wiki/Reorder)

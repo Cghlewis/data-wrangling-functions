@@ -119,3 +119,4 @@ d1 %>% dplyr::select(Var3, tidyselect::everything())
 ```
 
 
+Return to [Reorder](https://github.com/Cghlewis/data-wrangling-functions/wiki/Reorder)

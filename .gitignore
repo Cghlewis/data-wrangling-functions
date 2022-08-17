@@ -2,3 +2,9 @@
 .Rhistory
 .RData
 .Ruserdata
+labelled-spss-dont-use.Rmd
+labelled-spss-dont-use.html
+reviewing-labelled-data.R
+add-variable-labels.R
+add-value-labels.R
+add-na-value-labels.R

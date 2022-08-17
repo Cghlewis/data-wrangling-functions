@@ -55,3 +55,4 @@ d7 %>% purrr::set_names("id", "grade", "test1")
 
 ```
 
+Return to [Name Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/name-variables)

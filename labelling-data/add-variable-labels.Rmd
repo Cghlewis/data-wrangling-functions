@@ -145,3 +145,6 @@ d7 %>% labelled::var_label()
 
 
 ```
+
+
+Return to [Label Data](https://github.com/Cghlewis/data-wrangling-functions/wiki/labelling-data)

@@ -42,3 +42,5 @@ Arrange the data
 d4 %>% dplyr::arrange(t_last_name, t_first_name, s_id)
 
 ```
+
+Return to [Reorder](https://github.com/Cghlewis/data-wrangling-functions/wiki/Reorder)

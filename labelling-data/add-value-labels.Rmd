@@ -246,3 +246,5 @@ d3 %>% labelled::val_labels()
 
 ```
 
+
+Return to [Label Data](https://github.com/Cghlewis/data-wrangling-functions/wiki/labelling-data)

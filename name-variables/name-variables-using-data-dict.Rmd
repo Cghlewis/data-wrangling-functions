@@ -136,3 +136,5 @@ d1 %>%
  dplyr::rename(tidyselect::all_of(dict_names))
 
 ```
+
+Return to [Name Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/name-variables)

@@ -335,3 +335,4 @@ d6 %>%
 
 ```
 
+Return [Recode](https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode)

@@ -68,7 +68,7 @@ table(d2$Var3, d2_new$Var3_r)
 
 ```
 
-* Note: If you want to keep both the old variables and the newly created variables, you can add the argument *names* to the `dplyr::across()` function to rename your recoded variables as you create them, rather than writing over the old variables. 
+* Note: If you want to keep both the old variables and the newly created variables, you can add the argument *.names* to the `dplyr::across()` function to rename your recoded variables as you create them, rather than writing over the old variables. 
 
 ```{r}
 

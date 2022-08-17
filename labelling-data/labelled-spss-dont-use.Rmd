@@ -182,3 +182,5 @@ d10 <- d10 %>%
 
 ```
 
+
+Return to [Label Data](https://github.com/Cghlewis/data-wrangling-functions/wiki/labelling-data)

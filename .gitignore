@@ -8,3 +8,6 @@ reviewing-labelled-data.R
 add-variable-labels.R
 add-value-labels.R
 add-na-value-labels.R
+recode-values.R
+reverse-code-values.R
+recode-na.R

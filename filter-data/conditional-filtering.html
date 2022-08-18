@@ -195,13 +195,24 @@ pre code {
 <li>Note: Note that we put each condition within () and add the <code>and/or</code> operator between the two conditions</li>
 </ul>
 <pre class="r"><code>d11 %&gt;%
-  filter((sch == &quot;a&quot; &amp; grade==1) | (sch == &quot;b&quot; &amp; grade==9))</code></pre>
+  filter((sch == &quot;a&quot; &amp; grade == 1) | (sch == &quot;b&quot; &amp; grade == 9))</code></pre>
 <pre><code># A tibble: 3 x 5
   sch   stu_id grade  var2  var3
   &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 1 a         10     1    20   205
 2 a         15     1    14   201
 3 b         22     9    13   217</code></pre>
+<p>You can use this same conditional filtering for more than just getting exact matches. Here is an example where we use the same logic but get all grades &gt;= 9 for school b.</p>
+<pre class="r"><code>d11 %&gt;%
+  filter((sch == &quot;a&quot; &amp; grade == 1) | (sch == &quot;b&quot; &amp; grade &gt;= 9))</code></pre>
+<pre><code># A tibble: 5 x 5
+  sch   stu_id grade  var2  var3
+  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 a         10     1    20   205
+2 a         15     1    14   201
+3 b         22     9    13   217
+4 b         31    10    NA    NA
+5 b         32    10    14   251</code></pre>
 <p><strong>2.Conditionally filter grade levels based on school name. Filter to grades between 1 &amp; 2 for school a and grade=9 for school b</strong></p>
 <p>Review the data (d11)</p>
 <pre><code># A tibble: 7 x 5
@@ -226,7 +237,7 @@ pre code {
 4 b         22     9    13   217</code></pre>
 <p>I could have also used <em>and/or</em> rather than <em>between</em> in this situation.</p>
 <pre class="r"><code>d11 %&gt;%
-  filter((sch == &quot;a&quot; &amp; (grade == 1 | grade ==2)) | (sch == &quot;b&quot; &amp; grade==9))</code></pre>
+  filter((sch == &quot;a&quot; &amp; (grade == 1 | grade ==2)) | (sch == &quot;b&quot; &amp; grade == 9))</code></pre>
 <pre><code># A tibble: 4 x 5
   sch   stu_id grade  var2  var3
   &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -234,6 +245,52 @@ pre code {
 2 a         15     1    14   201
 3 a         11     2    15   220
 4 b         22     9    13   217</code></pre>
+<p>I also could have used `%in%</p>
+<pre class="r"><code>d11 %&gt;%
+  filter((sch == &quot;a&quot; &amp; (grade %in% 1:2)) | (sch == &quot;b&quot; &amp; grade == 9))</code></pre>
+<pre><code># A tibble: 4 x 5
+  sch   stu_id grade  var2  var3
+  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 a         10     1    20   205
+2 a         15     1    14   201
+3 a         11     2    15   220
+4 b         22     9    13   217</code></pre>
+<p><strong>3. Conditionally filter based on school name. Filter to only grade=1 for school a and grade=9 for school b, but also keep all other schools, no matter the grade level</strong></p>
+<p>Review the data (d15)</p>
+<p>Notice this dataset also has a school c</p>
+<pre><code># A tibble: 9 x 5
+  sch   stu_id grade  var2  var3
+  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 a         10     1    20   205
+2 a         15     1    14   201
+3 a         11     2    15   220
+4 a         21     3    12   250
+5 b         22     9    13   217
+6 b         31    10    NA    NA
+7 b         32    10    14   251
+8 c         40     2    10   200
+9 c         41     3    14   220</code></pre>
+<p>Conditionally filter</p>
+<pre class="r"><code>d15 %&gt;%
+  filter((sch == &quot;a&quot; &amp; grade == 1) | (sch == &quot;b&quot; &amp; grade == 9) | (sch == &quot;c&quot;))</code></pre>
+<pre><code># A tibble: 5 x 5
+  sch   stu_id grade  var2  var3
+  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 a         10     1    20   205
+2 a         15     1    14   201
+3 b         22     9    13   217
+4 c         40     2    10   200
+5 c         41     3    14   220</code></pre>
+<p>If I did not add a condition to retain school c, only a and b would remain</p>
+<pre class="r"><code>d15 %&gt;%
+  filter((sch == &quot;a&quot; &amp; grade == 1) | (sch == &quot;b&quot; &amp; grade == 9))</code></pre>
+<pre><code># A tibble: 3 x 5
+  sch   stu_id grade  var2  var3
+  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 a         10     1    20   205
+2 a         15     1    14   201
+3 b         22     9    13   217</code></pre>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter">Filter</a></p>
 </div>
 </div>
 

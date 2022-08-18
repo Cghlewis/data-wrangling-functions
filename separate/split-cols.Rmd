@@ -124,7 +124,7 @@ d6 %>% tidyr::separate(school_name, sep = "[A-Z]\\.\\s", into = c("name1", "scho
 
 **3\. Split a numeric variable (stid_schid) into state id and school id**
 
-Review the data (d1)
+Review the data (d7)
 
 ```{r, echo=FALSE}
 

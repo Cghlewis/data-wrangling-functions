@@ -1,0 +1,220 @@
+---
+title: "Filter rows using filtering joins"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+
+### Package: dplyr
+
+---
+
+#### Function: `semi_join()`
+
+---
+
+**1\.Conditionally filter grade levels based on school name. Filter to only grade=1 for school a and grade=9 for school b**
+
+Review the data (d15)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d15
+
+```
+
+First use an existing data frame with your criteria or create one.
+
+For example this dataset (s_g) with just the schools and grade levels we want to filter our other dataset down to.
+
+```{r, echo = FALSE}
+
+s_g
+
+```
+
+Then conditionally filter based on your data frame using your second dataset.
+
+We do this using `semi_join` which is a filtering join. Filtering joins filter cases in your left table (the dataset you want filtered) based on information in your right table (your filtering dataset). 
+
+* Note: You can add an id variable/s to join on here in the *by* argument, but in this case, it's fine to leave the argument NULL and a join will be performed using all variables in common across both datasets.
+
+* Note: You can see in the output below that a and b are retained (with the grade levels we wanted) but c is no longer in the dataset. This is because using `semi_join` returns all rows from your left table that have a match in your right table. Since there is no school c in our filtering table, school c will not be retained in our output.
+
+
+```{r}
+
+d15 %>%
+  dplyr::semi_join(s_g)
+
+```
+
+You could also include the *by* argument and include the variables you want to filter on.
+
+```{r}
+
+d15 %>%
+  dplyr::semi_join(s_g, by = c("sch", "grade"))
+
+```
+
+There are benefits to using `semi_join` over the similar `inner_join` (which is considered a mutating join rather than a filtering join) for filtering. 
+
+1. It only keeps the variables in your left dataset
+2. If for some reason your right dataset has duplicates in it, `semi_join` will not duplicate your joined data, whereas `inner_join` will.
+
+For example, say our second dataset (s_g_2) had an extra variable and a duplicate school.
+
+```{r, echo = FALSE}
+
+s_g_2
+
+```
+
+If we use our `semi_join` our filter works great still.
+
+```{r}
+
+d15 %>%
+  dplyr::semi_join(s_g_2)
+
+```
+
+However, if we use an inner_join, we get extra variables and duplicate rows.
+
+```{r}
+
+d15 %>%
+  dplyr::inner_join(s_g_2)
+
+```
+
+Also if the **filtering dataset** had an extra school in it, that is not in our left table, `semi_join` will still work fine as it will only return cases from the left table that are matched in the right table.
+
+Here is an example with an extra school (school z) in the filtering dataset (s_g_3) that is not in our left data table.
+
+```{r, echo = FALSE}
+
+s_g_3
+
+```
+
+```{r}
+
+d15 %>%
+  dplyr::semi_join(s_g_3)
+
+```
+
+
+
+**2\.Conditionally filter grade levels based on school name. Filter to grades between 1 & 2 for school a and grade=9 for school b**
+
+Review the data (d11)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d11
+
+```
+
+Review our joining dataset (s_g_more)
+
+```{r, echo = FALSE}
+
+s_g_more
+
+```
+
+Filter d11 using s_g_more
+
+* Note: You can add an id variable/s to join on here in the *by* argument, but in this case, it's fine to leave the argument NULL and a join will be performed using all variables in common across both datasets.
+
+```{r}
+
+d11 %>%
+  dplyr::semi_join(s_g_more)
+
+```
+
+**3\. Filter your data to only those who are in your study sample.
+
+```{r, echo = FALSE}
+
+pretest
+
+```
+
+Let's review our roster
+
+```{r, echo = FALSE}
+
+roster
+
+```
+
+Filter to only those participants who are in our study.
+
+```{r}
+
+pretest %>%
+  dplyr::semi_join(roster, by = "id")
+
+```
+
+Again, there may be other ways to achieve something similar using a join like `right_join` (which is considered a mutating join rather than a filtering join), but it would bring in variables from both datasets. And if our roster dataset has more variables than just id, we may not want that. We may only want the variables in our original dataset.
+
+```{r}
+
+pretest %>%
+  dplyr::right_join(roster, by = "id")
+
+```
+
+
+---
+
+#### Function: `anti_join()`
+
+---
+
+**1\. Filter your pre-test data to those who did not complete a post-test.**
+
+Review the data (pretest)
+
+```{r, echo = FALSE}
+
+source("data.R")
+pretest
+
+```
+
+Let's review the post-test
+
+```{r, echo = FALSE}
+
+posttest
+
+```
+
+Filter using an `anti_join` which returns everyone from your left table that does not appear in your right (filtering) table. It also only returns the variables from the left table.
+
+```{r}
+
+pretest %>%
+  dplyr::anti_join(posttest)
+
+```
+
+
+Return to [Filter](https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter)

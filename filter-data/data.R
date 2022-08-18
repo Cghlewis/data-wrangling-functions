@@ -130,5 +130,52 @@ d14 <- tibble::tribble (
   50, NA, "something"
 )
 
+d15 <- tibble::tribble(
+  ~sch, ~stu_id, ~grade, ~var2, ~var3,
+  "a", 10, 1, 20, 205,
+  "a", 15, 1, 14, 201,
+  "a", 11, 2, 15, 220,
+  "a", 21, 3, 12, 250,
+  "b", 22, 9, 13, 217,
+  "b", 31, 10, NA, NA,
+  "b", 32, 10, 14, 251,
+  "c", 40, 2, 10, 200,
+  "c", 41, 3, 14, 220
+)
 
+s_g <- tibble::tribble( ~sch, ~grade,
+                              "a", 1,
+                              "b", 9)
+
+s_g_2 <- tibble::tribble( ~sch, ~grade, ~id,
+                        "a", 1, 30,
+                        "b", 9, 40,
+                        "a", 1, 30)
+
+s_g_3 <- tibble::tribble( ~sch, ~grade, ~id,
+                          "a", 1, 30,
+                          "b", 9, 40,
+                          "a", 1, 30,
+                          "z", 2, 80)
+
+s_g_more <- tibble::tribble(~sch, ~grade,
+                        "a", 1,
+                        "a", 2,
+                        "b", 9)
+
+pretest <- tibble::tribble( ~id, ~pre_var1, ~pre_var2,
+                            20, 3, 4,
+                            21, 4, 5,
+                            22, 3, 1,
+                            23, 5, 2)
+
+posttest <- tibble::tribble( ~id, ~post_var1, ~post_var2,
+                             21, 4, 4,
+                             22, 2, 1,
+                             23, 5, 1)
+
+roster <- tibble::tribble(~id, ~consent,
+                          20, "yes",
+                          21, "yes",
+                          22, "yes")
 

@@ -38,7 +38,16 @@ Conditionally filter
 ```{r}
 
 d11 %>%
-  filter((sch == "a" & grade==1) | (sch == "b" & grade==9))
+  filter((sch == "a" & grade == 1) | (sch == "b" & grade == 9))
+
+```
+
+You can use this same conditional filtering for more than just getting exact matches. Here is an example where we use the same logic but get all grades >= 9 for school b.
+
+```{r}
+
+d11 %>%
+  filter((sch == "a" & grade == 1) | (sch == "b" & grade >= 9))
 
 ```
 
@@ -66,8 +75,48 @@ d11 %>%
 I could have also used *and/or* rather than *between* in this situation.
 
 ```{r}
+
 d11 %>%
-  filter((sch == "a" & (grade == 1 | grade ==2)) | (sch == "b" & grade==9))
+  filter((sch == "a" & (grade == 1 | grade ==2)) | (sch == "b" & grade == 9))
 
 ```
 
+I also could have used `%in%
+
+```{r}
+
+d11 %>%
+  filter((sch == "a" & (grade %in% 1:2)) | (sch == "b" & grade == 9))
+```
+
+**3\. Conditionally filter based on school name. Filter to only grade=1 for school a and grade=9 for school b, but also keep all other schools, no matter the grade level**
+
+Review the data (d15)
+
+Notice this dataset also has a school c
+
+```{r, echo = FALSE}
+
+d15
+
+```
+
+Conditionally filter
+
+```{r}
+
+d15 %>%
+  filter((sch == "a" & grade == 1) | (sch == "b" & grade == 9) | (sch == "c"))
+
+```
+
+If I did not add a condition to retain school c, only a and b would remain
+
+```{r}
+
+d15 %>%
+  filter((sch == "a" & grade == 1) | (sch == "b" & grade == 9))
+
+```
+
+Return to [Filter](https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter)

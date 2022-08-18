@@ -60,6 +60,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -80,6 +81,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -272,7 +276,7 @@ pre code {
 3 Rock Bridge Sr. High       Columbia      
 4 Webster Groves High School Webster Groves</code></pre>
 <p><strong>3. Split a numeric variable (stid_schid) into state id and school id</strong></p>
-<p>Review the data (d1)</p>
+<p>Review the data (d7)</p>
 <pre><code># A tibble: 3 x 2
   stid_schid students
        &lt;dbl&gt;    &lt;dbl&gt;

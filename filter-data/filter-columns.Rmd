@@ -81,6 +81,14 @@ d2 %>% dplyr::select(id, tidyselect::contains("test"))
 
 ```
 
+Another way you can write this is using the selection helper `matches()` which allows you to list several criteria to match, separated by the *and/or* operator `|`.
+
+```{r}
+
+d2 %>% dplyr::select(matches("id|test"))
+
+```
+
 
 **3\. Keep only numeric columns**
 
@@ -103,3 +111,4 @@ d2 %>% dplyr::select(where(is.numeric))
 
 ```
 
+Return to [Filter](https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter)

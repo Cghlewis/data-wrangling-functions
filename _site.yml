@@ -48,6 +48,8 @@ navbar:
     href: filter-data\filter-rows-all.html
   - text: "Filter rows na"
     href: filter-data\filter-rows-na.html
+  - text: "Filter rows using joins"
+    href: filter-data\filter-rows-joins.html
   - text: "Conditionally filter rows"
     href: filter-data\conditional-filtering.html
   - text: "Filter empty rows"

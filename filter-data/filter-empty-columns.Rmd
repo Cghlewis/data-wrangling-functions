@@ -107,4 +107,4 @@ ncol(d4)
 
 ```
 
-
+Return to [Filter](https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter)

@@ -42,13 +42,12 @@ Filter out any row that has -999 for at least one variable
 
 * Note: We use the `tidyselect` selection helper `everything()` to refer to all variables.
 
-
-* Note: You'll notice I did not have to make an explicit call to keep the NA values for numeric variables this time. Using the `dplyr::if_any()` function only removed the values in the argument.
+* Note: You'll notice here that I used `%in%` rather than `==` to ensure I kept the NA values. 
 
 ```{r}
 
 d10 %>% 
-  dplyr::filter(!(dplyr::if_any(everything(), ~ .x ==-999)))
+  dplyr::filter(!(dplyr::if_any(everything(), ~ .x %in% -999)))
 
 ```
 
@@ -70,12 +69,12 @@ Filter out any row that has -999 for all variables
 
 * Note: We use the `tidyverse` selection helper `everything()` to refer to all variables.
 
-* Note: You'll notice I did not have to make an explicit call to keep the NA values for numeric variables this time. Using the `dplyr::if_all()` function only removed the values in the argument.
+* Note: You'll notice here that I used `%in%` rather than `==` to ensure I kept the NA values. 
 
 ```{r}
 
 d10 %>% 
-  dplyr::filter(!(dplyr::if_all(everything(), ~ .x ==-999)))
+  dplyr::filter(!(dplyr::if_all(everything(), ~ .x %in% -999)))
 
 ```
 

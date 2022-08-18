@@ -18,7 +18,7 @@ knitr::opts_chunk$set(comment = NA,
 
 #### Function: `filter()`
 
-Examples using one criteria, character variable
+Examples using one criteria, character variables and dates
 
 ---
 
@@ -250,7 +250,7 @@ d13
 
 ```
 
-Filter out any row that has -999 for extra2.
+Filter out any row where q1 is not equal to q2
 
 * Note: Use the logical operator *!=* to denote not equal to.
 

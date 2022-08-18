@@ -177,7 +177,7 @@ pre code {
 <hr />
 <div id="function-filter" class="section level4">
 <h4>Function: <code>filter()</code></h4>
-<p>Examples using one criteria, character variable</p>
+<p>Examples using one criteria, character variables and dates</p>
 <hr />
 <p><strong>1. Keep rows based on one criteria (in this case for a character variable). Keep any row that has the exact match of “harris” for tch_name.</strong></p>
 <p>Review the data (d8)</p>
@@ -373,7 +373,7 @@ d81</code></pre>
 1    10 harris Harris
 2    20 steve  steve 
 3    30 lewis  &lt;NA&gt;  </code></pre>
-<p>Filter out any row that has -999 for extra2.</p>
+<p>Filter out any row where q1 is not equal to q2</p>
 <ul>
 <li><p>Note: Use the logical operator <em>!=</em> to denote not equal to.</p></li>
 <li><p>Note: Again I make an explicit call to <strong>keep</strong> rows with NA values for q2. If I did not do this, filter would drop the last row of data.</p></li>

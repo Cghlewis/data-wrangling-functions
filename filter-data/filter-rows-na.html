@@ -199,6 +199,40 @@ pre code {
 1 a           1      2     NA        205 harris  
 2 c           3     NA     12        250 harris  
 3 d           4      0     13        217 lewis   </code></pre>
+<p>If you wanted to apply this criteria to multiple variables (ex: extra 2 and extra 3), you could add the <em>OR</em> operator <code>|</code>.</p>
+<ul>
+<li>Note: Notice that I put the operator ! outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on removal criteria from multiple variables.</li>
+</ul>
+<pre class="r"><code>d7 %&gt;% dplyr::filter(!(is.na(extra2) | is.na(extra3)))</code></pre>
+<pre><code># A tibble: 2 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     NA        205 harris  
+2 d           4      0     13        217 lewis   </code></pre>
+<p><strong>2. Filter out any row that has NA for <em>ALL</em> numeric variables.</strong></p>
+<p>Review the data (d9)</p>
+<pre><code># A tibble: 6 x 5
+  extra1 extra2 extra3    id test_score
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
+1 a           1      2    10        205
+2 b        -999      0    11        220
+3 c           3   -999    12        250
+4 d          NA      0    13        217
+5 &lt;NA&gt;       NA     NA    NA         NA
+6 e          NA     NA    NA         NA</code></pre>
+<p>Filter out any row that has NA for <strong>ALL</strong> numeric variables</p>
+<ul>
+<li>Note: Note the use of <code>dplyr::if_all()</code> predicate function to select columns. This function is available in version 1.0.5 of <code>dplyr</code>. You can read this as, keep rows where ALL numeric variables are NOT NA (hence the ! on the outside of the <code>dplyr::if_all()</code> function)</li>
+</ul>
+<pre class="r"><code>d9 %&gt;% 
+  dplyr::filter(!(dplyr::if_all(is.numeric,~ is.na(.))))</code></pre>
+<pre><code># A tibble: 4 x 5
+  extra1 extra2 extra3    id test_score
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
+1 a           1      2    10        205
+2 b        -999      0    11        220
+3 c           3   -999    12        250
+4 d          NA      0    13        217</code></pre>
 </div>
 </div>
 <div id="package-tidyr" class="section level3">

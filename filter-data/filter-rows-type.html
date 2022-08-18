@@ -218,14 +218,17 @@ pre code {
 <p>Filter out any row that has -999 for <strong>AT LEAST ONE</strong> numeric variable</p>
 <ul>
 <li><p>Note: Note the use of <code>dplyr::if_any()</code> predicate function to select columns. This function is available in version 1.0.5 of <code>dplyr</code>. You can read this as, keep rows where ANY numeric variables are NOT -999 (hence the ! on the outside of the <code>dplyr::if_any()</code> function)</p></li>
-<li><p>Note: You’ll notice I did not have to make an explicit call to keep the NA values for numeric variables this time. Using the <code>dplyr::if_any()</code> function only removed the values in the argument.</p></li>
+<li><p>Note: You’ll notice here that I used <code>%in%</code> rather than <code>==</code> to ensure I kept the NA values.</p></li>
 </ul>
 <pre class="r"><code>d9 %&gt;% 
-  dplyr::filter(!(dplyr::if_any(is.numeric, ~ (. == -999))))</code></pre>
-<pre><code># A tibble: 1 x 5
+  dplyr::filter(!(dplyr::if_any(is.numeric, ~ . %in% -999)))</code></pre>
+<pre><code># A tibble: 4 x 5
   extra1 extra2 extra3    id test_score
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
-1 a           1      2    10        205</code></pre>
+1 a           1      2    10        205
+2 d          NA      0    13        217
+3 &lt;NA&gt;       NA     NA    NA         NA
+4 e          NA     NA    NA         NA</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter">Filter</a></p>
 </div>
 </div>

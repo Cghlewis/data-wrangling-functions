@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 **1\.Conditionally filter grade levels based on school name. Filter to only grade=1 for school a and grade=9 for school b**
 
-Review the data (d5)
+Review the data (d11)
 
 ```{r, echo=FALSE}
 
@@ -32,6 +32,8 @@ d11
 ```
 
 Conditionally filter
+
+* Note: Note that we put each condition within () and add the `and/or` operator between the two conditions
 
 ```{r}
 
@@ -58,6 +60,14 @@ Conditionally filter
 
 d11 %>%
   filter((sch == "a" & between(grade, 1, 2)) | (sch == "b" & grade==9))
+
+```
+
+I could have also used *and/or* rather than *between* in this situation.
+
+```{r}
+d11 %>%
+  filter((sch == "a" & (grade == 1 | grade ==2)) | (sch == "b" & grade==9))
 
 ```
 

@@ -222,10 +222,10 @@ pre code {
 <ul>
 <li>Note: Use the operator <em>&amp;</em> to denote that both criteria must be met.</li>
 </ul>
-<pre class="r"><code>d81 &lt;- d8 %&gt;% 
+<pre class="r"><code>d8_new &lt;- d8 %&gt;% 
   dplyr::filter(extra3 &gt;= 0 &amp; extra3 &lt;=10)
 
-d81</code></pre>
+d8_new</code></pre>
 <pre><code># A tibble: 3 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
@@ -414,7 +414,7 @@ d81</code></pre>
 1 a           1      2     10        205 harris  
 2 d           4      0     13        217 lewis   
 3 e          NA     NA     NA         NA ogunti  </code></pre>
-<p>Again, to get around the issue of dropping NAs we can use the operator <em>%in%</em> rather than <em>==</em> to make sure we keep the NA values for extra2 and extra3.</p>
+<p>Again, to get around the issue of dropping NAs we can use the within operator <em>%in%</em> rather than <em>==</em> to make sure we keep the NA values for extra2 and extra3.</p>
 <pre class="r"><code>d5 %&gt;% 
   dplyr::filter(!(extra2 %in% -999 | extra3 %in% -999))</code></pre>
 <pre><code># A tibble: 3 x 6

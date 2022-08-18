@@ -202,10 +202,10 @@ pre code {
 <ul>
 <li>Note: Note the use of <code>dplyr::if_all()</code> predicate function to select columns. This function is available in version 1.0.5 of <code>dplyr</code>. You can read this as, keep rows where ALL variables are NOT NA (hence the ! on the outside of the <code>dplyr::if_all()</code> function)</li>
 </ul>
-<pre class="r"><code>d9 &lt;- d9 %&gt;% 
+<pre class="r"><code>d9_new &lt;- d9 %&gt;% 
   dplyr::filter(!(dplyr::if_all(everything(), ~ is.na(.x))))
 
-d9</code></pre>
+d9_new</code></pre>
 <pre><code># A tibble: 5 x 5
   extra1 extra2 extra3    id test_score
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
@@ -215,7 +215,7 @@ d9</code></pre>
 4 d          NA      0    13        217
 5 e          NA     NA    NA         NA</code></pre>
 <p>Count the number of cases after you filter</p>
-<pre class="r"><code>dplyr::count(d9)</code></pre>
+<pre class="r"><code>dplyr::count(d9_new)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;
@@ -245,10 +245,10 @@ d9</code></pre>
   &lt;int&gt;
 1     5</code></pre>
 <p>Filter out any completely empty row</p>
-<pre class="r"><code>d1 &lt;- d1 %&gt;% 
+<pre class="r"><code>d1_new &lt;- d1 %&gt;% 
   expss::drop_empty_rows()
 
-d1</code></pre>
+d1_new</code></pre>
 <pre><code># A tibble: 4 x 5
   extra1 extra2 extra3    id test_score
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
@@ -257,7 +257,7 @@ d1</code></pre>
 3 c           3   -999    12        250
 4 d           4      0    13        217</code></pre>
 <p>Count the number of cases after you filter</p>
-<pre class="r"><code>dplyr::count(d1)</code></pre>
+<pre class="r"><code>dplyr::count(d1_new)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;
@@ -287,10 +287,10 @@ d1</code></pre>
   &lt;int&gt;
 1     5</code></pre>
 <p>Filter out any completely empty row</p>
-<pre class="r"><code>d1 &lt;- d1 %&gt;% 
+<pre class="r"><code>d1_new &lt;- d1 %&gt;% 
   janitor::remove_empty(&quot;rows&quot;)
 
-d1</code></pre>
+d1_new</code></pre>
 <pre><code># A tibble: 4 x 5
   extra1 extra2 extra3    id test_score
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
@@ -299,7 +299,7 @@ d1</code></pre>
 3 c           3   -999    12        250
 4 d           4      0    13        217</code></pre>
 <p>Count the number of cases after you filter</p>
-<pre class="r"><code>dplyr::count(d1)</code></pre>
+<pre class="r"><code>dplyr::count(d1_new)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;

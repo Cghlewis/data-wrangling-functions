@@ -72,10 +72,10 @@ Keep any row that has a value between 0 and 10 for extra3.
 
 ```{r}
 
-d81 <- d8 %>% 
+d8_new <- d8 %>% 
   dplyr::filter(extra3 >= 0 & extra3 <=10)
 
-d81
+d8_new
 
 ```
 
@@ -287,7 +287,7 @@ d5 %>%
 
 ```
 
-Again, to get around the issue of dropping NAs we can use the operator *%in%* rather than *==* to make sure we keep the NA values for extra2 and extra3.
+Again, to get around the issue of dropping NAs we can use the within operator *%in%* rather than *==* to make sure we keep the NA values for extra2 and extra3.
 
 ```{r}
 

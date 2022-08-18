@@ -201,9 +201,9 @@ pre code {
 <ul>
 <li>Note: Use the logical operator <em>==</em> to denote exactly equal to.</li>
 </ul>
-<pre class="r"><code>d81 &lt;- d8 %&gt;% dplyr::filter(tch_name == &quot;harris&quot;)
+<pre class="r"><code>d8_new &lt;- d8 %&gt;% dplyr::filter(tch_name == &quot;harris&quot;)
 
-d81</code></pre>
+d8_new</code></pre>
 <pre><code># A tibble: 2 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
@@ -217,7 +217,7 @@ d81</code></pre>
 1 a           1      2     10        205 harris  
 2 c        -999   -999     12        250 harris  </code></pre>
 <p>Count the number of cases after you filter</p>
-<pre class="r"><code>dplyr::count(d81)</code></pre>
+<pre class="r"><code>dplyr::count(d8_new)</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;

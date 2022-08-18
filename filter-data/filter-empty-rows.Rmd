@@ -48,10 +48,10 @@ Filter out any completely empty row
 
 ```{r}
 
-d9 <- d9 %>% 
+d9_new <- d9 %>% 
   dplyr::filter(!(dplyr::if_all(everything(), ~ is.na(.x))))
 
-d9
+d9_new
 
 ```
 
@@ -60,7 +60,7 @@ Count the number of cases after you filter
 
 ```{r}
 
-dplyr::count(d9)
+dplyr::count(d9_new)
 
 ```
 
@@ -98,10 +98,10 @@ Filter out any completely empty row
 
 ```{r}
 
-d1 <- d1 %>% 
+d1_new <- d1 %>% 
   expss::drop_empty_rows()
 
-d1
+d1_new
 
 ```
 
@@ -109,7 +109,7 @@ Count the number of cases after you filter
 
 ```{r}
 
-dplyr::count(d1)
+dplyr::count(d1_new)
 
 ```
 
@@ -148,10 +148,10 @@ Filter out any completely empty row
 
 ```{r}
 
-d1 <- d1 %>% 
+d1_new <- d1 %>% 
   janitor::remove_empty("rows")
 
-d1
+d1_new
 
 ```
 
@@ -159,7 +159,7 @@ Count the number of cases after you filter
 
 ```{r}
 
-dplyr::count(d1)
+dplyr::count(d1_new)
 
 ```
 

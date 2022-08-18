@@ -13,7 +13,7 @@
 
 <title>Index</title>
 
-<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
@@ -60,6 +60,7 @@ if (window.hljs) {
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -80,6 +81,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -232,7 +236,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -252,6 +256,9 @@ $(document).ready(function () {
 </li>
 <li>
   <a href="labelling-data\add-variable-labels.html">Add variable labels</a>
+</li>
+<li>
+  <a href="labelling-data\add-variable-labels-dictionary.html">Add variable labels using a data dictionary</a>
 </li>
 <li>
   <a href="labelling-data\reviewing-labelled-data.html">Review labelled data</a>
@@ -293,7 +300,19 @@ $(document).ready(function () {
   <a href="filter-data\filter-empty-columns.html">Filter empty columns</a>
 </li>
 <li>
-  <a href="filter-data\filter-rows.html">Filter rows</a>
+  <a href="filter-data\filter-rows-one.html">Filter rows one criteria</a>
+</li>
+<li>
+  <a href="filter-data\filter-rows-multiple.html">Filter rows multiple criteria</a>
+</li>
+<li>
+  <a href="filter-data\filter-rows-type.html">Filter rows type</a>
+</li>
+<li>
+  <a href="filter-data\filter-rows-all.html">Filter rows all</a>
+</li>
+<li>
+  <a href="filter-data\filter-rows-na.html">Filter rows na</a>
 </li>
 <li>
   <a href="filter-data\conditional-filtering.html">Conditionally filter rows</a>
@@ -359,19 +378,25 @@ $(document).ready(function () {
   <a href="compare-data-frames\compare-df-columns.html">Compare data frame columns</a>
 </li>
 <li>
-  <a href="directories\review-files.html">Review files in a directory</a>
+  <a href="file-system\review-files.html">Review files</a>
 </li>
 <li>
-  <a href="directories\create-folders.html">Create folders</a>
+  <a href="file-system\create-folders.html">Create folders</a>
 </li>
 <li>
-  <a href="directories\rename-files.html">Rename files</a>
+  <a href="file-system\rename-files.html">Rename files</a>
 </li>
 <li>
-  <a href="directories\copy-files.html">Copy files</a>
+  <a href="file-system\copy-files.html">Copy files</a>
 </li>
 <li>
-  <a href="directories\delete-files.html">Delete files</a>
+  <a href="file-system\delete-files.html">Delete files</a>
+</li>
+<li>
+  <a href="restructure\restructure-wide.html">Restructure wide</a>
+</li>
+<li>
+  <a href="restructure\restructure-long.html">Restructure long</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">

@@ -11,3 +11,5 @@ add-na-value-labels.R
 recode-values.R
 reverse-code-values.R
 recode-na.R
+filter-rows.Rmd
+filter-rows.html

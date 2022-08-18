@@ -38,8 +38,16 @@ navbar:
     href: filter-data\filter-columns.html
   - text: "Filter empty columns"
     href: filter-data\filter-empty-columns.html
-  - text: "Filter rows"
-    href: filter-data\filter-rows.html
+  - text: "Filter rows one criteria"
+    href: filter-data\filter-rows-one.html
+  - text: "Filter rows multiple criteria"
+    href: filter-data\filter-rows-multiple.html
+  - text: "Filter rows type"
+    href: filter-data\filter-rows-type.html
+  - text: "Filter rows all"
+    href: filter-data\filter-rows-all.html
+  - text: "Filter rows na"
+    href: filter-data\filter-rows-na.html
   - text: "Conditionally filter rows"
     href: filter-data\conditional-filtering.html
   - text: "Filter empty rows"

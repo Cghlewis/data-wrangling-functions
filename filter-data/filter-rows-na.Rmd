@@ -1,0 +1,99 @@
+---
+title: "Filter rows based on NA values"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+### Package: dplyr
+
+---
+
+#### Function: `filter()`
+
+Examples using one criteria, remove NA
+
+---
+
+
+**1\. Remove rows based on one criteria. Remove any row whose value is not NA for extra2.**
+
+Review the data (d7).
+
+```{r, echo=FALSE}
+
+source("data.R")
+d7
+
+```
+
+Keep any row that does not have NA for extra2.
+
+* Note: Use the logical operator *!* to denote NOT.
+
+```{r}
+
+d7 %>% dplyr::filter(!is.na(extra2))
+
+```
+
+
+### Package: tidyr
+
+---
+
+#### Function: `tidyr::drop_na()`
+
+---
+
+**1\.Filter out rows based on a select variable (stu_id) having NA values**
+
+Review the data (d7)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d7
+
+```
+
+
+Filter out any row that has NA for stu_id.
+
+```{r}
+
+d7 %>% 
+  tidyr::drop_na(stu_id)
+
+
+```
+
+
+**2\.Filter out rows based on any variable having NA values**
+
+Review the data (d7)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d7
+
+```
+
+Filter out any row that has NA for any variable.
+
+```{r}
+
+d7 %>% 
+  tidyr::drop_na()
+
+
+```
+
+Return to [Filter](https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter)

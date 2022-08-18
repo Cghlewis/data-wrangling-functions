@@ -71,3 +71,41 @@ d11 %>%
 
 ```
 
+
+
+#### Function: `semi_join()`
+
+
+In the filtering join `semi_join(data_table, condition_table)`, a data table is
+filtered using a condition table. Only data rows that match a row in the
+condition table are kept. (`anti_join()` is a similar function but it filters *out*
+rows.)
+
+**1\.Conditionally filter grade levels based on school name. Filter to only grade=1 for school a and grade=9 for school b**
+
+```{r}
+condition1 <- tibble(
+  sch = c("a", "b"),
+  grade = c(1, 9)
+)
+
+d11 %>%
+  semi_join(condition1)
+```
+
+**2\.Conditionally filter grade levels based on school name. Filter to grades between 1 & 2 for school a and grade=9 for school b**
+
+
+
+```{r}
+condition2 <- tibble(
+  sch = c("a", "a", "b"),
+  grade = c(1, 2, 9)
+)
+
+d11 %>%
+  semi_join(condition2)
+```
+
+Note that this approach does not handle more open-ended criteria (`grade > 1`)
+very well.

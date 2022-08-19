@@ -1,0 +1,120 @@
+---
+title: "Select columns within an operation"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+
+### Package: dplyr
+
+---
+
+#### Function: `across()`
+
+---
+
+**1\. Round all mean scores to be 2 digits**
+
+Review the data (d5)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d5 %>%
+  mutate(across(contains("mean"), ~sprintf("%.3f", .)))
+
+
+```
+
+When we want to apply a transformation to multiple variables, we can use the `dplyr::across()` function which allows us to use the `dplyr::select()` semantics.
+
+* Note: I am using the `dplyr::mutate()` function to modify our existing variables.
+
+* Note: I am using the `base::round()` function to round our variables with the *digits* argument. **It is very important to note how this function does rounding, which is, it rounds to the even number when rounding at 5**. This is not your normal way of thinking of rounding. When you have a value of 23.5, it will round up to 24. When you have a value of 22.5, it will round down to 22. However, when you round with 1 or more digits, since decimal places are not represented exactly, you may get different results depending on your OS: 1.75 may round to 1.7 or 1.8. See documentation on `round` for more information.
+
+```{r, eval = FALSE}
+
+d5 %>%
+  dplyr::mutate(dplyr::across(scale1_mean:scale3_mean,
+                round, digits = 2))
+
+```
+
+```{r, echo = FALSE}
+
+d5 %>%
+  mutate(across(scale1_mean:scale3_mean,
+                round, digits = 2)) %>%
+  mutate(across(contains("mean"), ~sprintf("%.2f", .)))
+
+```
+
+Similar to `dplyr::select()` you can also select your variables by using a character vector
+
+```{r, eval = FALSE}
+
+d5 %>%
+  dplyr::mutate(dplyr::across(c(scale1_mean, scale2_mean, scale3_mean),
+                round, digits = 2))
+
+```
+
+Or using `tidyselect` selection helpers.
+
+* Note: Other `tidyselect` selection helpers include `starts_with()`, `ends_with()`, `where()`, `matches()`, and more.
+
+```{r, eval = FALSE}
+
+d5 %>%
+  dplyr::mutate(dplyr::across(contains("mean"),
+                round, digits = 2))
+
+```
+
+---
+
+#### Function: `if_any()` or `if_all()`
+
+---
+
+These functions are used in a filtering capacity and return a logical vector. For `dplyr::if_any()` it returns true when the statement is true for any of the variables. For `dplyr::if_all()` it returns true when the statement is true for all of the variables.
+
+**1\. Create a new variable that states if the survey was complete or not**
+
+Review the data (d6)
+
+```{r, echo = FALSE}
+
+d6
+
+```
+
+Create our new complete variable that is 1 if the survey is complete and 0 if it is not.
+
+* Note: I am using the `dplyr::mutate()` function to modify our existing variables.
+
+* Note: I am using `dplyr::case_when()` to recode existing variables into a new variable.
+
+
+```{r}
+
+d6 %>%
+  dplyr::mutate(complete = 
+           dplyr::case_when(
+             dplyr::if_all(q1:q3, ~ is.na(.x)) ~ 0,
+             TRUE ~ 1
+           ))
+
+```
+
+
+
+Return to [Select Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Select-Variables)

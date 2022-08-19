@@ -417,69 +417,6 @@ d7</code></pre>
 <pre class="r"><code>levels(d7$lunch)</code></pre>
 <pre><code>[1] &quot;paid&quot;    &quot;reduced&quot; &quot;free&quot;   </code></pre>
 <p><br></p>
-<hr />
-</div>
-<div id="function-case_when" class="section level4">
-<h4>Function: <code>case_when()</code></h4>
-<hr />
-<p><strong>1. Recode across multiple character variables</strong></p>
-<p>Review the data (d15)</p>
-<pre><code># A tibble: 3 x 4
-     id Var1  Var2  Var3 
-  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1   123 1.5   2.2   3.0  
-2   234 2.2   UI    6.9  
-3   345 MR    5.4   MR   </code></pre>
-<p>In this example, missing values were entered as character values in a numeric column. So now these columns are considered character.</p>
-<p>Recode “MR” to -98 and “UI” to -99 for Var1, Var2, Var3. And then convert the character variable to numeric.</p>
-<ul>
-<li><p>Note: Unlike <code>dplyr::recode()</code> where we did not have to put quotes around the old character values, we now have to put quotes around the old and new character values.</p></li>
-<li><p>Note: I use <code>dplyr::across()</code> to select multiple variables to apply my function to.</p></li>
-<li><p>Note: The . is used here to say apply this function to all of the variables I selected above.</p></li>
-<li><p>Note: TRUE means, if a value was not evaluated in my arguments above, replace with the value I give. In this case, I am saying just replace with the existing value.</p></li>
-</ul>
-<pre class="r"><code>d15 &lt;- d15 %&gt;%
-  dplyr::mutate(across(Var1:Var3,
-                       ~ case_when(
-                       . == &quot;MR&quot; ~ &quot;-98&quot;,
-                       . == &quot;UI&quot; ~ &quot;-99&quot;,
-                       TRUE ~ .)))
-
-d15</code></pre>
-<pre><code># A tibble: 3 x 4
-     id Var1  Var2  Var3 
-  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1   123 1.5   2.2   3.0  
-2   234 2.2   -99   6.9  
-3   345 -98   5.4   -98  </code></pre>
-<p>While my character values have now be recoded to numeric values, my variable is still considered character so I would need one additional step to convert it to numeric (using the <code>base::as.numeric()</code> function).</p>
-<p>However, before I do that, I want to be certain I have no other character values left in my variables. If I do still have other character values and I try to use <code>base::as.numeric()</code> those values will be converted to NA.</p>
-<p>I can check that there are no more instances of MR or UI using <code>dplyr::filter()</code> in conjunction with the <code>dplyr::if_any()</code> predicate function to select columns. This function is available in version 1.0.5 of <code>dplyr</code>.</p>
-<ul>
-<li><p>Note: We use the <code>tidyselect</code> selection helper <code>everything()</code> to refer to all variables. I could also have selected variables Var1:Var3.</p></li>
-<li><p>.x is used to say, for all of the variables I have selected</p></li>
-</ul>
-<pre class="r"><code>d15 %&gt;% 
-dplyr::filter(dplyr::if_any(everything(), ~ .x %in% c(&#39;MR&#39;, &#39;UI&#39;)))</code></pre>
-<pre><code># A tibble: 0 x 4
-# ... with 4 variables: id &lt;dbl&gt;, Var1 &lt;chr&gt;, Var2 &lt;chr&gt;, Var3 &lt;chr&gt;</code></pre>
-<p>If I wanted to be more general, I could also just check for <em>any</em> alphabetical character left in my variables using <code>stringr::str_detect()</code> and including the regex pattern <em>[a-zA-Z]</em></p>
-<pre class="r"><code>d15 %&gt;% 
-dplyr::filter(dplyr::if_any(everything(), ~ stringr::str_detect(., pattern = &quot;[a-zA-Z]&quot;)))</code></pre>
-<pre><code># A tibble: 0 x 4
-# ... with 4 variables: id &lt;dbl&gt;, Var1 &lt;chr&gt;, Var2 &lt;chr&gt;, Var3 &lt;chr&gt;</code></pre>
-<p>Now that I know my variable has all character values removed, I can convert them to numeric.</p>
-<ul>
-<li>Note: I am using <code>dplyr::across()</code> again to apply a function to multiple variables.</li>
-</ul>
-<pre class="r"><code>d15 %&gt;%
-  dplyr::mutate(dplyr::across(Var1:Var3, as.numeric))</code></pre>
-<pre><code># A tibble: 3 x 4
-     id  Var1  Var2  Var3
-  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1   123   1.5   2.2   3  
-2   234   2.2 -99     6.9
-3   345 -98     5.4 -98  </code></pre>
 </div>
 </div>
 <div id="package-forcats" class="section level3">

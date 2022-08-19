@@ -128,3 +128,11 @@ d15 <- tibble::tribble(
   234, "2.2", "UI", "6.9",
   345, "MR", "5.4", "MR"
 )
+
+d16 <- tibble::tribble(
+  ~id, ~form, ~sc_1, ~sc_2, ~sc_sum, ~sc_mean, ~tr_1, ~tr_2,  ~tr_sum, ~tr_mean,
+  10, "a", 1, 2, 3, 1.5, -80, -80, NA, NA,
+  11, "b", -80, -80, NA, NA, 1, 3, 4, 2,
+  12, "a", 2, 3, 5, 2.5, -80 , -80, NA, NA,
+  13, "a", NA, NA, NA, NA, -80, -80, NA, NA)
+

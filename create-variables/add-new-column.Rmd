@@ -1,0 +1,17 @@
+---
+title: "Add a calculated column"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+Return to [XXXX](https://github.com/Cghlewis/data-wrangling-functions/wiki/Complete)

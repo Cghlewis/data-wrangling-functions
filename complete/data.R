@@ -49,4 +49,15 @@ d4 <- tibble::tribble(
   "School C", 2011, 660, NA,
   "School D", 2011, 260, NA)
 
+d5 <- tibble::tribble(~id, ~grade, ~item1, ~item2,
+                      22, 3, 4, 5,
+                      23, 3, 5, 4,
+                      24, 4, 2, 1,
+                      25, 5, NA, NA,
+                      26, 4, NA, NA)
+
+extra_form <- tibble::tribble(~id, ~item1, ~item2,
+                              25, 2, 3,
+                              26, 4, 5)
+
 

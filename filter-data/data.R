@@ -179,3 +179,8 @@ roster <- tibble::tribble(~id, ~consent,
                           21, "yes",
                           22, "yes")
 
+d16 <- tibble::tribble(~id, ~tch_name, ~grade, ~item1, ~item2,
+                       10, "harris", 6, "5", "3",
+                       11, "lewis", 4, "3", "MR",
+                       12, "harris", 6, "4", "1")
+

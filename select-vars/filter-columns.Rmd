@@ -1,5 +1,5 @@
 ---
-title: "Filter columns"
+title: "Select columns"
 output: 
   html_document:
     anchor_sections: FALSE
@@ -81,7 +81,15 @@ d2 %>% dplyr::select(id, tidyselect::contains("test"))
 
 ```
 
-Another way you can write this is using the selection helper `matches()` which allows you to list several criteria to match, separated by the *and/or* operator `|`.
+You could also write this with both id and test in the `tidyselect::contains` selection helper. Note the use of `c()` to create a character vector.
+
+```{r}
+
+d2 %>% dplyr::select(tidyselect::contains(c("id", "test")))
+
+```
+
+Another way you can write this is using the selection helper `matches()` which matches based on a regex operator rather than a literal string like `contains()`.
 
 ```{r}
 
@@ -111,4 +119,4 @@ d2 %>% dplyr::select(where(is.numeric))
 
 ```
 
-Return to [Filter](https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter)
+Return to [Select Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Select-Variables)

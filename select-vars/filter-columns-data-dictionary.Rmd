@@ -1,0 +1,74 @@
+---
+title: "Select columns using a data dictionary"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+
+### Package: dplyr
+
+---
+
+#### Function: `select()`
+
+---
+
+**1\. Drop columns using a data dictionary**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+Review our data dictionary.
+
+Oftentimes we develop a data dictionary to include everything that exists in our raw data. It is reasonable to include a column that describes what you plan to do with a column, such as drop a column.
+
+```{r, echo = FALSE}
+
+dictionary
+
+```
+
+We can now create a character vector of all of the variables we wish to drop using our data dictionary.
+
+* Note: We use `dplyr::filter()` to only keep the variables we wish to drop.
+
+* Note: We use `dplyr::pul()` to extract the one column with the names of the variables in our data dictionary and create a character vector
+
+```{r}
+
+drop_vars <- dictionary %>%
+  dplyr::filter(keep == "no") %>%
+  dplyr::pull(var_name)
+
+drop_vars
+
+```
+
+We can now use this character vector to select/remove variables from our dataset.
+
+* Note: We use `tidyselect::all_of()` to select variables that are contained in a character vector (an environment variable). 
+
+* Note: We add the `-` to denote that we want to remove variables.
+
+```{r}
+
+d2 %>%
+  dplyr::select(-all_of(drop_vars))
+
+```
+
+
+Return to [Select Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Select-Variables)

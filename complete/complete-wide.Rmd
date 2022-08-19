@@ -44,4 +44,47 @@ d3 %>% dplyr::mutate(gender_2021_new = dplyr::coalesce(gender_2021, gender_1920,
 
 ```
 
+
+---
+
+#### Function: `rows_update()`
+
+---
+
+**1\. Fill in missing values using a second dataset**
+
+Review the data (d5)
+
+```{r, echo = FALSE}
+
+source("data.R")
+
+d5
+
+```
+
+Notice we are missing data for id 25 and 26, items 1 and 2
+
+Luckily that data was collected later on another form.
+
+Let's review that form (extra_form)
+
+```{r, echo = FALSE}
+
+extra_form
+
+```
+
+We can use `dplry::rows_update()` to fill in the missing data on our original form with our new form data.
+
+* Note: Add your identifying variable to the *by* argument to denote the unique identifier linking key.
+
+
+```{r}
+
+dplyr::rows_update(d5, extra_form, by = "id")
+
+```
+
+
 Return to [Complete](https://github.com/Cghlewis/data-wrangling-functions/wiki/Complete)

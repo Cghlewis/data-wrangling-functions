@@ -1,5 +1,5 @@
 ---
-title: "Filter empty columns"
+title: "Remove empty columns"
 output: 
   html_document:
     anchor_sections: FALSE
@@ -20,7 +20,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\.Filter out empty columns**
+**1\. Remove empty columns**
 
 Review the data (d4)
 
@@ -69,7 +69,7 @@ ncol(d4)
 ---
 
 
-**1\.Filter out empty columns**
+**1\. Remove empty columns**
 
 Review the data (d4)
 
@@ -89,7 +89,7 @@ ncol(d4)
 ```
 
 
-Filter out any completely empty column
+Remove any completely empty column
 
 ```{r}
 
@@ -107,4 +107,4 @@ ncol(d4)
 
 ```
 
-Return to [Filter](https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter)
+Return to [Select Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Select-Variables)

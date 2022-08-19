@@ -1,0 +1,136 @@
+---
+title: "Recode values"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `case_when()`
+
+---
+
+**1\. Recode across multiple character variables**
+
+Review the data (d15)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d15
+
+```
+
+In this example, missing values were entered as character values in a numeric column. So now these columns are considered character.
+
+Recode "MR" to -98 and "UI" to -99 for Var1, Var2, Var3. And then convert the character variable to numeric.
+
+* Note: Unlike `dplyr::recode()` where we did not have to put quotes around the old character values, we now have to put quotes around the old and new character values.
+
+* Note: I use `dplyr::across()` to select multiple variables to apply my function to.
+
+* Note: The . is used here to say apply this function to all of the variables I selected above.
+
+* Note: TRUE means, if a value was not evaluated in my arguments above, replace with the value I give. In this case, I am saying just replace with the existing value.
+
+
+```{r}
+
+d15 <- d15 %>%
+  dplyr::mutate(across(Var1:Var3,
+                       ~ case_when(
+                       . == "MR" ~ "-98",
+                       . == "UI" ~ "-99",
+                       TRUE ~ .)))
+
+d15
+
+```
+
+While my character values have now be recoded to numeric values, my variable is still considered character so I would need one additional step to convert it to numeric (using the `base::as.numeric()` function). 
+
+However, before I do that, I want to be certain I have no other character values left in my variables. If I do still have other character values and I try to use `base::as.numeric()` those values will be converted to NA.
+
+I can check that there are no more instances of MR or UI using `dplyr::filter()` in conjunction with the `dplyr::if_any()` predicate function to select columns where the condition applies to any of the columns. This function is available in version 1.0.5 of `dplyr`.
+
+* Note: We use the `tidyselect` selection helper `everything()` to refer to all variables. I could also have selected variables Var1:Var3.
+
+* .x is used to say, for all of the variables I have selected
+
+```{r}
+
+d15 %>% 
+dplyr::filter(dplyr::if_any(everything(), ~ .x %in% c('MR', 'UI')))
+
+```
+
+If I wanted to be more general, I could also just check for *any* alphabetical character left in my variables using `stringr::str_detect()` and including the regex pattern *[a-zA-Z]*
+
+```{r}
+
+d15 %>% 
+dplyr::filter(dplyr::if_any(everything(), ~ stringr::str_detect(., pattern = "[a-zA-Z]")))
+
+```
+
+Now that I know my variable has all character values removed, I can convert them to numeric.
+
+* Note: I am using `dplyr::across()` to apply a function to multiple variables. 
+
+```{r}
+
+d15 %>%
+  dplyr::mutate(dplyr::across(Var1:Var3, as.numeric))
+
+```
+
+**2\. Recode across multiple numeric variables**
+
+Review the data (d15)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d16
+
+```
+
+In this situation students were given a different set of items depending on their form. Form A was given the "sc" items and form b was given the "tr" items. Values of -80 denote items that a student was not given.
+
+Sum and mean scores were calculated for both scales.
+
+The task here is to recode the sums and means to -80 if the student was not given the scale, to denote this scale does not apply to them.
+
+* Note: I am using `dplyr::across()` to apply a function to multiple variables. 
+
+* Note: I am using the `dplyr::if_all()` predicate function to select columns where the condition applies to all columns. This function is available in version 1.0.5 of `dplyr`.
+
+
+```{r}
+
+d16 %>%
+  dplyr::mutate(dplyr::across(sc_sum:sc_mean,
+                 ~dplyr::case_when(
+                    dplyr::if_all(sc_1:sc_2, ~ (. == -80)) ~ -80,
+                    TRUE ~ .)),
+  dplyr::mutate(dplyr::across(tr_sum:tr_mean,
+                  ~dplyr::case_when(
+                    dplyr::if_all(tr_1:tr_2, ~ (. == -80)) ~ -80,
+                    TRUE ~ .))))
+    
+```
+
+
+Return to [Recode](https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode)

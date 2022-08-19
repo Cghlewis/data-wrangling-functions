@@ -22,6 +22,8 @@ navbar:
     href: labelling-data\copy-labels.html
   - text: "Recode values"
     href: recode-values\recode-values.html
+  - text: "Recode multiple variable values"
+    href: recode-values\recode-values-multiple.html 
   - text: "Reverse code values"
     href: recode-values\reverse-code-values.html
   - text: "Recode NA"
@@ -34,10 +36,14 @@ navbar:
     href: data-type\review-data-type.html
   - text: "Convert variable class"
     href: data-type\convert-variable-class.html
-  - text: "Filter columns"
-    href: filter-data\filter-columns.html
-  - text: "Filter empty columns"
-    href: filter-data\filter-empty-columns.html
+  - text: "Select columns"
+    href: select-variables\filter-columns.html
+  - text: "Remove empty columns"
+    href: select-variables\filter-empty-columns.html
+  - text: "Select columns in operations"
+    href: select-variables\filter-columns-operations.html
+  - text: "Select columns using data dictionary"
+    href: select-variables\filter-columns-data-dictionary.html
   - text: "Filter rows one criteria"
     href: filter-data\filter-rows-one.html
   - text: "Filter rows multiple criteria"
@@ -88,6 +94,8 @@ navbar:
     href: complete\complete-wide.html
   - text: "Calculate row values"
     href: calculate-row-values\row-calcs.html
+  - text: "Calculate NA row values"
+    href: calculate-row-values\row-calcs-na.html 
   - text: "Compare data frames"
     href: compare-data-frames\compare-df.html
   - text: "Compare data frame columns"

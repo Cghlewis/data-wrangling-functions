@@ -18,7 +18,7 @@ knitr::opts_chunk$set(comment = NA,
 
 #### Function: `filter()`
 
-Examples using one criteria, character variables and dates
+Examples using one criteria for one variable (character or date)
 
 ---
 
@@ -95,7 +95,7 @@ d8 %>% dplyr::filter(tch_name != "harris")
 
 ```
 
-Again, you could get the same result adding the `stringr::str_detect()` function and either adding the *!* operator.
+Again, you could get the same result adding the `stringr::str_detect()` function and adding the *!* operator.
 
 ```{r}
 
@@ -134,7 +134,7 @@ class(d12$test_date)
 
 Keep any row where the test date occurred in the year 2021.
 
-* Note: We added base::as.Date in order to change the variable class to date
+* Note: We added lubridate::as_date in order to change the variable class to date
 
 * Note: Use the logical operator *>=* to denote greater than or equal to.
 
@@ -142,7 +142,7 @@ Keep any row where the test date occurred in the year 2021.
 ```{r}
 
 d12 %>% 
-  dplyr::filter(as.Date(test_date) >= "2021-01-01")
+  dplyr::filter(lubridate::as_date(test_date) >= "2021-01-01")
 
 ```
 
@@ -151,8 +151,8 @@ d12 %>%
 ```{r}
 
 d12 %>% 
-  dplyr::filter(as.Date(test_date) >= "2021-01-01" &
-                  as.Date(test_date) < "2022-01-01")
+  dplyr::filter(lubridate::as_date(test_date) >= "2021-01-01" &
+                  lubridate::as_date(test_date) < "2022-01-01")
 
 ```
 
@@ -161,7 +161,7 @@ I could also simplify this by not adding the day and month and just looking for 
 ```{r}
 
 d12 %>% 
-  dplyr::filter(lubridate::year(as.Date(test_date)) ==
+  dplyr::filter(lubridate::year(lubridate::as_date(test_date)) ==
                   "2021")
 
 ```
@@ -171,14 +171,14 @@ d12 %>%
 
 #### Function: `filter()`
 
-Examples using one criteria, numeric variable
+Examples using one criteria for one variable, numeric variable
 
 ---
 
 
 **1\. Keep rows based on one criteria (in this case for a numeric variable). Keep any row whose value is greater than or equal to 0 for extra2.**
 
-Review the data (d8).
+Review the data (d8)
 
 ```{r, echo=FALSE}
 
@@ -234,14 +234,14 @@ d5 %>% dplyr::filter(!(extra2 %in% -999))
 
 #### Function: `filter()`
 
-Examples using one criteria, matching variable values
+Examples using one criteria for one variable, matching variable values
 
 ---
 
 
 **1\. Remove rows based on one criteria (in this case for a numeric variable). Remove any row where q1 does not equal q2, while also keeping rows that have NA for q2.**
 
-Review the data (d3).
+Review the data (d3)
 
 ```{r, echo=FALSE}
 
@@ -284,6 +284,39 @@ d13 %>%
     dplyr::case_when(
       q1 == q2 ~ FALSE,
       TRUE ~ TRUE))
+
+```
+
+---
+
+#### Function: `filter()`
+
+Examples using one criteria for many variables
+
+---
+
+
+**1\. Keep rows where specified variables contain letters (when they should only contain numbers).**
+
+Review the data (d16)
+
+```{r, echo = FALSE}
+
+d16
+
+```
+
+We want to review any rows where either item1 OR item2 contain letters.
+
+* Note: Note the use of `dplyr::if_any()` predicate function to select columns. This function is available in version 1.0.5 of `dplyr`. You can read this as, keep rows where ANY of the variables we denoted (item1 or item2), contain letters.
+
+* Note: We use `stringr::str_detect()` to detect a specific pattern, assigned in the *pattern* argument. Here we use a regular expression to denote that we would like to identify zero or more letters from the A-Z alphabet, lower or upper case.
+
+```{r}
+
+d16 %>% 
+  filter(if_any(item1:item2, 
+                ~ stringr::str_detect(., pattern = "[a-zA-Z]")))
 
 ```
 

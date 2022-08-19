@@ -21,7 +21,49 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\.Conditionally filter grade levels based on school name. Filter to only grade=1 for school a and grade=9 for school b**
+
+**1\. Filter your data to only those who are in your study sample using a participant roster.**
+
+```{r, echo = FALSE}
+
+source("data.R")
+
+pretest
+
+```
+
+Let's review our roster
+
+```{r, echo = FALSE}
+
+roster
+
+```
+
+Filter our pretest data to only those participants who are on our study roster.
+
+We are going to filter using `semi_join` which is a filtering join. Filtering joins filter cases in your left table (the dataset you want filtered) based on information in your right table (your filtering dataset).
+
+* Note: Using the *by* argument, we add the variable/s we want to join on. 
+
+```{r}
+
+pretest %>%
+  dplyr::semi_join(roster, by = "id")
+
+```
+
+There may be other ways to achieve something similar using a join like `right_join` (which is considered a mutating join rather than a filtering join), but it would bring in variables from both datasets. And if our roster dataset has more variables than just id (in this case there is an extra variable called "consent"), we may not want that. We may only want the variables in our original dataset.
+
+```{r}
+
+pretest %>%
+  dplyr::right_join(roster, by = "id")
+
+```
+
+
+**2\. Filter to only schools _and_ grade levels that appear in a second dataset.**
 
 Review the data (d15)
 
@@ -32,9 +74,7 @@ d15
 
 ```
 
-First use an existing data frame with your criteria or create one.
-
-For example this dataset (s_g) with just the schools and grade levels we want to filter our other dataset down to.
+We want to filter based on our second dataset (s_g).
 
 ```{r, echo = FALSE}
 
@@ -42,9 +82,9 @@ s_g
 
 ```
 
-Then conditionally filter based on your data frame using your second dataset.
+We see our second dataset includes just grade=1 for school a and just grade=9 for school b. We could conditionally filter grade levels based on school name using the `dplyr::filter()` function (see [conditional-filtering](https://cghlewis.github.io/data-wrangling-functions/filter-data/conditional-filtering.html)). But instead, here we are going to use another data frame to filter. In this case we have the existing dataset (s_g) or you could create one.
 
-We do this using `semi_join` which is a filtering join. Filtering joins filter cases in your left table (the dataset you want filtered) based on information in your right table (your filtering dataset). 
+We are going to filter using our `semi_join`.
 
 * Note: You can add an id variable/s to join on here in the *by* argument, but in this case, it's fine to leave the argument NULL and a join will be performed using all variables in common across both datasets.
 
@@ -67,7 +107,7 @@ d15 %>%
 
 ```
 
-There are benefits to using `semi_join` over the similar `inner_join` (which is considered a mutating join rather than a filtering join) for filtering. 
+There are benefits here to using `semi_join` over the similar `inner_join` (which is considered a mutating join rather than a filtering join). 
 
 1. It only keeps the variables in your left dataset
 2. If for some reason your right dataset has duplicates in it, `semi_join` will not duplicate your joined data, whereas `inner_join` will.
@@ -116,8 +156,7 @@ d15 %>%
 ```
 
 
-
-**2\.Conditionally filter grade levels based on school name. Filter to grades between 1 & 2 for school a and grade=9 for school b**
+**3\. Filter to only schools _and_ grade levels that appear in a second dataset.**
 
 Review the data (d11)
 
@@ -130,13 +169,16 @@ d11
 
 Review our joining dataset (s_g_more)
 
+
 ```{r, echo = FALSE}
 
 s_g_more
 
 ```
 
-Filter d11 using s_g_more
+This time our dataset contains more than one grade levels per school. We will be filtering to to grades 1 & 2 for school a and grade=9 for school b
+
+Similar to above, we could conditionally filter grade levels based on school name using the `dplyr::filter()` function (see [conditional-filtering](https://cghlewis.github.io/data-wrangling-functions/filter-data/conditional-filtering.html)), but in this case we are going to filter using a second dataset (s_g_more).
 
 * Note: You can add an id variable/s to join on here in the *by* argument, but in this case, it's fine to leave the argument NULL and a join will be performed using all variables in common across both datasets.
 
@@ -144,40 +186,6 @@ Filter d11 using s_g_more
 
 d11 %>%
   dplyr::semi_join(s_g_more)
-
-```
-
-**3\. Filter your data to only those who are in your study sample.
-
-```{r, echo = FALSE}
-
-pretest
-
-```
-
-Let's review our roster
-
-```{r, echo = FALSE}
-
-roster
-
-```
-
-Filter to only those participants who are in our study.
-
-```{r}
-
-pretest %>%
-  dplyr::semi_join(roster, by = "id")
-
-```
-
-Again, there may be other ways to achieve something similar using a join like `right_join` (which is considered a mutating join rather than a filtering join), but it would bring in variables from both datasets. And if our roster dataset has more variables than just id, we may not want that. We may only want the variables in our original dataset.
-
-```{r}
-
-pretest %>%
-  dplyr::right_join(roster, by = "id")
 
 ```
 

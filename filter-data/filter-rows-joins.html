@@ -178,7 +178,44 @@ pre code {
 <div id="function-semi_join" class="section level4">
 <h4>Function: <code>semi_join()</code></h4>
 <hr />
-<p><strong>1.Conditionally filter grade levels based on school name. Filter to only grade=1 for school a and grade=9 for school b</strong></p>
+<p><strong>1. Filter your data to only those who are in your study sample using a participant roster.</strong></p>
+<pre><code># A tibble: 4 x 3
+     id pre_var1 pre_var2
+  &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+1    20        3        4
+2    21        4        5
+3    22        3        1
+4    23        5        2</code></pre>
+<p>Let’s review our roster</p>
+<pre><code># A tibble: 3 x 2
+     id consent
+  &lt;dbl&gt; &lt;chr&gt;  
+1    20 yes    
+2    21 yes    
+3    22 yes    </code></pre>
+<p>Filter our pretest data to only those participants who are on our study roster.</p>
+<p>We are going to filter using <code>semi_join</code> which is a filtering join. Filtering joins filter cases in your left table (the dataset you want filtered) based on information in your right table (your filtering dataset).</p>
+<ul>
+<li>Note: Using the <em>by</em> argument, we add the variable/s we want to join on.</li>
+</ul>
+<pre class="r"><code>pretest %&gt;%
+  dplyr::semi_join(roster, by = &quot;id&quot;)</code></pre>
+<pre><code># A tibble: 3 x 3
+     id pre_var1 pre_var2
+  &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+1    20        3        4
+2    21        4        5
+3    22        3        1</code></pre>
+<p>There may be other ways to achieve something similar using a join like <code>right_join</code> (which is considered a mutating join rather than a filtering join), but it would bring in variables from both datasets. And if our roster dataset has more variables than just id (in this case there is an extra variable called “consent”), we may not want that. We may only want the variables in our original dataset.</p>
+<pre class="r"><code>pretest %&gt;%
+  dplyr::right_join(roster, by = &quot;id&quot;)</code></pre>
+<pre><code># A tibble: 3 x 4
+     id pre_var1 pre_var2 consent
+  &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;  
+1    20        3        4 yes    
+2    21        4        5 yes    
+3    22        3        1 yes    </code></pre>
+<p><strong>2. Filter to only schools <em>and</em> grade levels that appear in a second dataset.</strong></p>
 <p>Review the data (d15)</p>
 <pre><code># A tibble: 9 x 5
   sch   stu_id grade  var2  var3
@@ -192,15 +229,14 @@ pre code {
 7 b         32    10    14   251
 8 c         40     2    10   200
 9 c         41     3    14   220</code></pre>
-<p>First use an existing data frame with your criteria or create one.</p>
-<p>For example this dataset (s_g) with just the schools and grade levels we want to filter our other dataset down to.</p>
+<p>We want to filter based on our second dataset (s_g).</p>
 <pre><code># A tibble: 2 x 2
   sch   grade
   &lt;chr&gt; &lt;dbl&gt;
 1 a         1
 2 b         9</code></pre>
-<p>Then conditionally filter based on your data frame using your second dataset.</p>
-<p>We do this using <code>semi_join</code> which is a filtering join. Filtering joins filter cases in your left table (the dataset you want filtered) based on information in your right table (your filtering dataset).</p>
+<p>We see our second dataset includes just grade=1 for school a and just grade=9 for school b. We could conditionally filter grade levels based on school name using the <code>dplyr::filter()</code> function (see <a href="https://cghlewis.github.io/data-wrangling-functions/filter-data/conditional-filtering.html">conditional-filtering</a>). But instead, here we are going to use another data frame to filter. In this case we have the existing dataset (s_g) or you could create one.</p>
+<p>We are going to filter using our <code>semi_join</code>.</p>
 <ul>
 <li><p>Note: You can add an id variable/s to join on here in the <em>by</em> argument, but in this case, it’s fine to leave the argument NULL and a join will be performed using all variables in common across both datasets.</p></li>
 <li><p>Note: You can see in the output below that a and b are retained (with the grade levels we wanted) but c is no longer in the dataset. This is because using <code>semi_join</code> returns all rows from your left table that have a match in your right table. Since there is no school c in our filtering table, school c will not be retained in our output.</p></li>
@@ -222,7 +258,7 @@ pre code {
 1 a         10     1    20   205
 2 a         15     1    14   201
 3 b         22     9    13   217</code></pre>
-<p>There are benefits to using <code>semi_join</code> over the similar <code>inner_join</code> (which is considered a mutating join rather than a filtering join) for filtering.</p>
+<p>There are benefits here to using <code>semi_join</code> over the similar <code>inner_join</code> (which is considered a mutating join rather than a filtering join).</p>
 <ol style="list-style-type: decimal">
 <li>It only keeps the variables in your left dataset</li>
 <li>If for some reason your right dataset has duplicates in it, <code>semi_join</code> will not duplicate your joined data, whereas <code>inner_join</code> will.</li>
@@ -271,7 +307,7 @@ pre code {
 1 a         10     1    20   205
 2 a         15     1    14   201
 3 b         22     9    13   217</code></pre>
-<p><strong>2.Conditionally filter grade levels based on school name. Filter to grades between 1 &amp; 2 for school a and grade=9 for school b</strong></p>
+<p><strong>3. Filter to only schools <em>and</em> grade levels that appear in a second dataset.</strong></p>
 <p>Review the data (d11)</p>
 <pre><code># A tibble: 7 x 5
   sch   stu_id grade  var2  var3
@@ -290,7 +326,8 @@ pre code {
 1 a         1
 2 a         2
 3 b         9</code></pre>
-<p>Filter d11 using s_g_more</p>
+<p>This time our dataset contains more than one grade levels per school. We will be filtering to to grades 1 &amp; 2 for school a and grade=9 for school b</p>
+<p>Similar to above, we could conditionally filter grade levels based on school name using the <code>dplyr::filter()</code> function (see <a href="https://cghlewis.github.io/data-wrangling-functions/filter-data/conditional-filtering.html">conditional-filtering</a>), but in this case we are going to filter using a second dataset (s_g_more).</p>
 <ul>
 <li>Note: You can add an id variable/s to join on here in the <em>by</em> argument, but in this case, it’s fine to leave the argument NULL and a join will be performed using all variables in common across both datasets.</li>
 </ul>
@@ -303,39 +340,6 @@ pre code {
 2 a         15     1    14   201
 3 a         11     2    15   220
 4 b         22     9    13   217</code></pre>
-<p>**3. Filter your data to only those who are in your study sample.</p>
-<pre><code># A tibble: 4 x 3
-     id pre_var1 pre_var2
-  &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
-1    20        3        4
-2    21        4        5
-3    22        3        1
-4    23        5        2</code></pre>
-<p>Let’s review our roster</p>
-<pre><code># A tibble: 3 x 2
-     id consent
-  &lt;dbl&gt; &lt;chr&gt;  
-1    20 yes    
-2    21 yes    
-3    22 yes    </code></pre>
-<p>Filter to only those participants who are in our study.</p>
-<pre class="r"><code>pretest %&gt;%
-  dplyr::semi_join(roster, by = &quot;id&quot;)</code></pre>
-<pre><code># A tibble: 3 x 3
-     id pre_var1 pre_var2
-  &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
-1    20        3        4
-2    21        4        5
-3    22        3        1</code></pre>
-<p>Again, there may be other ways to achieve something similar using a join like <code>right_join</code> (which is considered a mutating join rather than a filtering join), but it would bring in variables from both datasets. And if our roster dataset has more variables than just id, we may not want that. We may only want the variables in our original dataset.</p>
-<pre class="r"><code>pretest %&gt;%
-  dplyr::right_join(roster, by = &quot;id&quot;)</code></pre>
-<pre><code># A tibble: 3 x 4
-     id pre_var1 pre_var2 consent
-  &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;  
-1    20        3        4 yes    
-2    21        4        5 yes    
-3    22        3        1 yes    </code></pre>
 <hr />
 </div>
 <div id="function-anti_join" class="section level4">

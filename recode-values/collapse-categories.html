@@ -287,7 +287,7 @@ pre code {
 <li><p>Note: We cannot use <code>dplyr::between</code> because our left side is not &gt;=</p></li>
 </ul>
 <pre class="r"><code>d8 %&gt;%  
-  dplyr::mutate(Var2_new=dplyr::if_else(Var2 &gt;14, &quot;high&quot;,
+  dplyr::mutate(Var2_new = dplyr::if_else(Var2 &gt;14, &quot;high&quot;,
                                         dplyr::if_else((Var2 &gt;6 &amp; Var2 &lt;=14), &quot;medium&quot;, &quot;low&quot;)))</code></pre>
 <pre><code># A tibble: 5 x 4
   Var1   Var2  Var3 Var2_new
@@ -301,7 +301,7 @@ pre code {
 <li>Note: Because <code>dplyr::if_else()</code> evaluates in order, we don’t actually have to add the right side of our “medium” logic because all of the highs have been assigned and will not be written over by the mediums</li>
 </ul>
 <pre class="r"><code>d8 %&gt;%  
-  dplyr::mutate(Var2_new=dplyr::if_else(Var2 &gt;14, &quot;high&quot;,
+  dplyr::mutate(Var2_new = dplyr::if_else(Var2 &gt;14, &quot;high&quot;,
                                         dplyr::if_else((Var2 &gt;6), &quot;medium&quot;, &quot;low&quot;)))</code></pre>
 <pre><code># A tibble: 5 x 4
   Var1   Var2  Var3 Var2_new
@@ -324,7 +324,7 @@ pre code {
 <p>Create an indicator variable. 1 = 8 or lower, 0 = 9 or higher</p>
 <p>*Note: NA will remain as NA because if_else does not evaluate it as TRUE or FALSE.</p>
 <pre class="r"><code>d10 %&gt;%  
-  dplyr::mutate(Var2_new=dplyr::if_else(Var2 &lt;= 8, 1, 0))</code></pre>
+  dplyr::mutate(Var2_new = dplyr::if_else(Var2 &lt;= 8, 1, 0))</code></pre>
 <pre><code># A tibble: 5 x 3
   Var1   Var2 Var2_new
   &lt;chr&gt; &lt;dbl&gt;    &lt;dbl&gt;
@@ -335,7 +335,7 @@ pre code {
 5 e        NA       NA</code></pre>
 <p>*Note: If you want to evaluate NA, you will need to specifically add it</p>
 <pre class="r"><code>d10 %&gt;%  
-  dplyr::mutate(Var2_new=dplyr::if_else(Var2 &lt;= 8 | is.na(Var2), 1, 0))</code></pre>
+  dplyr::mutate(Var2_new = dplyr::if_else(Var2 &lt;= 8 | is.na(Var2), 1, 0))</code></pre>
 <pre><code># A tibble: 5 x 3
   Var1   Var2 Var2_new
   &lt;chr&gt; &lt;dbl&gt;    &lt;dbl&gt;
@@ -346,7 +346,7 @@ pre code {
 5 e        NA        1</code></pre>
 <p>You could also specifically add NA this way as well</p>
 <pre class="r"><code>d10 %&gt;%  
-  dplyr::mutate(Var2_new=dplyr::if_else(Var2 &gt;8 &amp; !is.na(Var2), 0, 1))</code></pre>
+  dplyr::mutate(Var2_new = dplyr::if_else(Var2 &gt;8 &amp; !is.na(Var2), 0, 1))</code></pre>
 <pre><code># A tibble: 5 x 3
   Var1   Var2 Var2_new
   &lt;chr&gt; &lt;dbl&gt;    &lt;dbl&gt;
@@ -430,7 +430,7 @@ pre code {
 6    112 Microsoft Teams Other              
 7    113 &lt;NA&gt;            Other              </code></pre>
 <ul>
-<li>Note: If you want to keep NA as NA, you would need to specifically call out NA.</li>
+<li>Note: If you want to keep NA as NA, you would need to specifically call out NA. For <code>dplyr::case_when()</code> you need to call out the specific type of NA. In this case <em>NA_character_</em>.</li>
 </ul>
 <pre class="r"><code>d6 %&gt;%  
   dplyr::mutate(online_platform_new = dplyr::case_when(
@@ -539,7 +539,8 @@ pre code {
 <li>Note: We are recoding into a new variable using <code>dplyr::mutate()</code> and naming the new variable a different name than the original. It keeps both the new and old versions of the variable.</li>
 </ul>
 <pre class="r"><code>d6 %&gt;%  
-  dplyr::mutate(online_platform_new=dplyr::recode(
+  dplyr::mutate(online_platform_new =
+                  dplyr::recode(
   online_platform, google = &quot;Google Meet&quot;, meet = &quot;Google Meet&quot;))</code></pre>
 <pre><code># A tibble: 7 x 3
   tch_id online_platform online_platform_new
@@ -551,7 +552,7 @@ pre code {
 5    109 Google Meet     Google Meet        
 6    112 Microsoft Teams Microsoft Teams    
 7    113 &lt;NA&gt;            &lt;NA&gt;               </code></pre>
-<p>Return <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode">Recode</a></p>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode">Recode</a></p>
 </div>
 </div>
 

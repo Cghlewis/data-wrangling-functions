@@ -121,7 +121,7 @@ Collapse Var2 into low, medium, high categories.
 ```{r}
 
 d8 %>%  
-  dplyr::mutate(Var2_new=dplyr::if_else(Var2 >14, "high",
+  dplyr::mutate(Var2_new = dplyr::if_else(Var2 >14, "high",
                                         dplyr::if_else((Var2 >6 & Var2 <=14), "medium", "low")))
 
 ```
@@ -131,7 +131,7 @@ d8 %>%
 ```{r}
 
 d8 %>%  
-  dplyr::mutate(Var2_new=dplyr::if_else(Var2 >14, "high",
+  dplyr::mutate(Var2_new = dplyr::if_else(Var2 >14, "high",
                                         dplyr::if_else((Var2 >6), "medium", "low")))
 
 ```
@@ -156,7 +156,7 @@ Create an indicator variable. 1 = 8 or lower, 0 = 9 or higher
 ```{r}
 
 d10 %>%  
-  dplyr::mutate(Var2_new=dplyr::if_else(Var2 <= 8, 1, 0))
+  dplyr::mutate(Var2_new = dplyr::if_else(Var2 <= 8, 1, 0))
 
 ```
 
@@ -165,7 +165,7 @@ d10 %>%
 ```{r}
 
 d10 %>%  
-  dplyr::mutate(Var2_new=dplyr::if_else(Var2 <= 8 | is.na(Var2), 1, 0))
+  dplyr::mutate(Var2_new = dplyr::if_else(Var2 <= 8 | is.na(Var2), 1, 0))
 
 ```
 
@@ -174,7 +174,7 @@ You could also specifically add NA this way as well
 ```{r}
 
 d10 %>%  
-  dplyr::mutate(Var2_new=dplyr::if_else(Var2 >8 & !is.na(Var2), 0, 1))
+  dplyr::mutate(Var2_new = dplyr::if_else(Var2 >8 & !is.na(Var2), 0, 1))
 
 ```
 
@@ -238,7 +238,7 @@ d6 %>%
 
 ```
 
-* Note: If you want to keep NA as NA, you would need to specifically call out NA.
+* Note: If you want to keep NA as NA, you would need to specifically call out NA. For `dplyr::case_when()` you need to call out the specific type of NA. In this case *NA_character_*.
 
 ```{r}
 
@@ -330,9 +330,10 @@ Collapse all spellings of Google Meet into one uniform category
 ```{r}
 
 d6 %>%  
-  dplyr::mutate(online_platform_new=dplyr::recode(
+  dplyr::mutate(online_platform_new =
+                  dplyr::recode(
   online_platform, google = "Google Meet", meet = "Google Meet"))
 
 ```
 
-Return [Recode](https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode)
+Return to [Recode](https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode)

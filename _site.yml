@@ -114,7 +114,7 @@ navbar:
     href: restructure\restructure-wide.html
   - text: "Restructure long"
     href: restructure\restructure-long.html
-  - text: "Create variables"
+  - text: "Create recoded variables"
     href: create-variables\add-new-column.html
 output:
   html_document:

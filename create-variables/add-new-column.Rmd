@@ -1,5 +1,5 @@
 ---
-title: "Add a calculated column"
+title: "Add a recoded column"
 output: 
   html_document:
     toc: false

@@ -220,7 +220,7 @@ pre code {
 3   3456    NA     1     1
 4   4567     4     5     1
 5   5678     1     3     2</code></pre>
-<p>Calculate the mean score</p>
+<p>Calculate the mean score of item1, item2, and item3</p>
 <ul>
 <li><p>Note: We are calculating a new variable using <code>dplyr::mutate()</code></p></li>
 <li><p>Note: Adding <code>dplyr::across()</code> allows you to select the specific columns you want to calculate the rowSums for. Otherwise rowSums will be applied across all columns.</p></li>
@@ -238,7 +238,7 @@ pre code {
 5   5678     1     3     2         2   </code></pre>
 <p>You can set the number of decimal places you want the new variable to have by wrapping the calculation in the function <code>base::round()</code> and setting the digits equal to the number you want.</p>
 <ul>
-<li>Note: <code>base::round()</code> rounds to the even digit for any .5 digit. Meaning when you have 0.5, it will round down to 0, and when you have 1.5 it will round up to 2.</li>
+<li>Note: It is very important to note how <code>base::round()</code> does rounding. It rounds to the even number when rounding at 5. This is not your normal way of thinking of rounding. When you have a value of 23.5, it will round up to 24. When you have a value of 22.5, it will round down to 22. However, when you round with 1 or more digits, since decimal places are not represented exactly, you may get different results depending on your OS: 1.75 may round to 1.7 or 1.8. See documentation on round for more information.</li>
 </ul>
 <pre class="r"><code>d2 %&gt;% 
   dplyr::mutate(measure_mean = round(rowMeans(dplyr::across(c(item1:item3)), na.rm=TRUE), digits= 2))</code></pre>
@@ -251,41 +251,105 @@ pre code {
 4   4567     4     5     1         3.33
 5   5678     1     3     2         2   </code></pre>
 <p><strong>2. Calculate a mean score (“toca_mean”) for all the variables that begin with “toca”, for each student even with missing data</strong></p>
-<p>Review the data (d3)</p>
-<pre><code># A tibble: 5 x 6
-  stu_id toca1 toca2 toca3 item1 item2
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1   1234     3     2     4     3     4
-2   2345     4     3     1     4     5
-3   3456     2     1     1     5     5
-4   4567     4     5     1     6     1
-5   5678     1     3     2     2     6</code></pre>
+<p>Review the data (d5)</p>
+<pre><code># A tibble: 5 x 5
+  stu_id toca1 toca2 toca3 toca4
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1   1234     3     2    NA     3
+2   2345     4     3     1     4
+3   3456     2    NA     1    NA
+4   4567     4     5     1     6
+5   5678     1     3     2     2</code></pre>
 <p>Calculate the mean toca score</p>
 <ul>
 <li><p>Note: We use the <code>tidyselect</code> selection helper <code>starts_with()</code> to refer to all variables that start with the word “toca”.</p></li>
 <li><p>Note: Other <code>tidyselect</code> selection helpers include <code>contains()</code>, <code>ends_with()</code>, <code>matches</code>, <code>num_range</code>, <code>where</code> and more.</p></li>
 </ul>
-<pre class="r"><code>d3 %&gt;% 
-  dplyr::mutate(toca_mean = rowMeans(dplyr::across(tidyselect::starts_with(&quot;toca&quot;)), na.rm=TRUE))</code></pre>
-<pre><code># A tibble: 5 x 7
-  stu_id toca1 toca2 toca3 item1 item2 toca_mean
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
-1   1234     3     2     4     3     4      3   
-2   2345     4     3     1     4     5      2.67
-3   3456     2     1     1     5     5      1.33
-4   4567     4     5     1     6     1      3.33
-5   5678     1     3     2     2     6      2   </code></pre>
+<pre class="r"><code>d5 %&gt;% 
+  dplyr::mutate(
+    toca_mean = rowMeans(
+      dplyr::across(tidyselect::starts_with(&quot;toca&quot;)), na.rm=TRUE))</code></pre>
+<pre><code># A tibble: 5 x 6
+  stu_id toca1 toca2 toca3 toca4 toca_mean
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
+1   1234     3     2    NA     3      2.67
+2   2345     4     3     1     4      3   
+3   3456     2    NA     1    NA      1.5 
+4   4567     4     5     1     6      4   
+5   5678     1     3     2     2      2   </code></pre>
 <p>If you wanted to exclude some of the “toca” items (say just toca2), you could exclude them this way, by wrapping your selected and excluded variables in c().</p>
-<pre class="r"><code>d3 %&gt;% 
-  dplyr::mutate(toca_mean = rowMeans(dplyr::across(c(tidyselect::starts_with(&quot;toca&quot;), -toca2)), na.rm=TRUE))</code></pre>
+<pre class="r"><code>d5 %&gt;% 
+  dplyr::mutate(
+    toca_mean = rowMeans(
+      dplyr::across(c(tidyselect::starts_with(&quot;toca&quot;), -toca2)), na.rm=TRUE))</code></pre>
+<pre><code># A tibble: 5 x 6
+  stu_id toca1 toca2 toca3 toca4 toca_mean
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
+1   1234     3     2    NA     3      3   
+2   2345     4     3     1     4      3   
+3   3456     2    NA     1    NA      1.5 
+4   4567     4     5     1     6      3.67
+5   5678     1     3     2     2      1.67</code></pre>
+<p><strong>3. Calculate a mean score (“toca_mean”) for all the variables that begin with “toca”, when the toca variables contain <em>labelled na values</em></strong></p>
+<p>Review the data (d6)</p>
+<pre><code># A tibble: 5 x 6
+  stu_id toca1 toca2 toca3 item1 item2
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1   1234     3     2     4     3     4
+2   2345     4     3     1     4     5
+3   3456     2     1   -99     5     5
+4   4567     4     5     1     6     1
+5   5678   -99     3     2     2     6</code></pre>
+<p>Let’s review the labelled NA values.</p>
+<pre class="r"><code>d6 %&gt;%
+  labelled::na_values()</code></pre>
+<pre><code>$stu_id
+NULL
+
+$toca1
+[1] -99
+
+$toca2
+[1] -99
+
+$toca3
+[1] -99
+
+$item1
+NULL
+
+$item2
+NULL</code></pre>
+<p>We see that <strong>-99</strong> is labelled as an NA value for the toca variables. However, R does not recognize this as an NA value when calculating row scores.</p>
+<p>So first we will need to recode these to NA before creating our mean score.</p>
+<ul>
+<li><p>Note: We use <code>dplyr::mutate()</code> to create new temporary versions of our toca variables.</p></li>
+<li><p>Note: We use <code>base::ifelse()</code> to say if our current toca variables (denoted by .) are equal to 6, then make them NA, otherwise keep the value as is. Using <code>dplyr::if_else()</code> gives us errors in this process. I’m not sure why except that I read the function is more strict in checking that all alternatives are of the same variable type compared to using <code>base::ifelse()</code>.</p></li>
+<li><p>Note: We use the <code>dplyr::across()</code> <em>.names</em> arugment to rename these variable to have the suffix “_temp” because we do not want to alter our original toca variables.</p></li>
+</ul>
+<p>Second we calculate our mean score within <code>dplyr::mutate()</code> statement.</p>
+<ul>
+<li><p>Note: We add <code>dplyr::across()</code> to select multiple variables and use <code>tidyselect::contains()</code> to select all variables with the word “temp”.</p></li>
+<li><p>Note: We also use the <em>na.rm</em> = TRUE argument to calculate the mean despite missing values.</p></li>
+<li><p>Note: Again we could add <code>base::round()</code> to round the number of decimal places in our mean if we wanted to</p></li>
+</ul>
+<p>Last we drop our temporary toca variables using <code>dplyr::select()</code>. We don’t need them anymore.</p>
+<pre class="r"><code>d6 %&gt;% 
+  dplyr::mutate(dplyr::across(contains(&quot;toca&quot;), 
+                ~ ifelse(.==-99,NA,.),
+                .names = &quot;{col}_temp&quot;),
+                toca_mean = rowMeans(
+           dplyr::across(tidyselect::contains(&quot;temp&quot;), 
+           na.rm = TRUE))) %&gt;%
+  dplyr::select(-tidyselect::contains(&quot;temp&quot;))</code></pre>
 <pre><code># A tibble: 5 x 7
-  stu_id toca1 toca2 toca3 item1 item2 toca_mean
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
-1   1234     3     2     4     3     4       3.5
-2   2345     4     3     1     4     5       2.5
-3   3456     2     1     1     5     5       1.5
-4   4567     4     5     1     6     1       2.5
-5   5678     1     3     2     2     6       1.5</code></pre>
+  stu_id     toca1     toca2     toca3 item1 item2 toca_mean
+   &lt;dbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
+1   1234    3              2    4          3     4      3   
+2   2345    4              3    1          4     5      2.67
+3   3456    2              1  -99 (NA)     5     5     NA   
+4   4567    4              5    1          6     1      3.33
+5   5678  -99 (NA)         3    2          2     6     NA   </code></pre>
 <p><br></p>
 </div>
 </div>

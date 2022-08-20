@@ -228,7 +228,10 @@ d4</code></pre>
 <pre class="r"><code>ncol(d4)</code></pre>
 <pre><code>[1] 5</code></pre>
 <p>Remove any completely empty column</p>
-<pre class="r"><code>d4 &lt;- d4 %&gt;% janitor::remove_empty(&quot;cols&quot;)
+<ul>
+<li>Note: We add the argument <em>which</em> and in this case we select “cols” rather than the other option “rows”.</li>
+</ul>
+<pre class="r"><code>d4 &lt;- d4 %&gt;% janitor::remove_empty(which = &quot;cols&quot;)
 
 d4</code></pre>
 <pre><code># A tibble: 5 x 4

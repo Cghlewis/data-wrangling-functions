@@ -33,7 +33,7 @@ d2
 
 Review our data dictionary.
 
-Oftentimes we develop a data dictionary to include everything that exists in our raw data. It is reasonable to include a column that describes what you plan to do with a column, such as drop a column.
+Oftentimes we develop a data dictionary to include everything that exists in our raw data. It is reasonable to include a column that describes what you plan to do with your variables, such as drop a column.
 
 ```{r, echo = FALSE}
 
@@ -45,7 +45,7 @@ We can now create a character vector of all of the variables we wish to drop usi
 
 * Note: We use `dplyr::filter()` to only keep the variables we wish to drop.
 
-* Note: We use `dplyr::pul()` to extract the one column with the names of the variables in our data dictionary and create a character vector
+* Note: We use `dplyr::pull()` to extract the one column with the names of the variables in our data dictionary and create a character vector
 
 ```{r}
 

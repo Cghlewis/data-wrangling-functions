@@ -174,7 +174,7 @@ pre code {
 
 <div id="package-labelled" class="section level3">
 <h3>Package: labelled</h3>
-<p><strong>Note</strong>: Using the <code>labelled</code> package, adding missing label values will not allow these values to be treated as NA in R. However, they will be labelled as missing when you export to a file type such as .sav and will be treated as NA in those files.</p>
+<p><strong>Note</strong>: Using the <code>labelled</code> package, adding missing label values will not allow these values to be treated as NA in R. However, they will be labelled as missing when you export to a file type such as .sav and will be treated as missing values in those programs.</p>
 <hr />
 <div id="function-set_na_values" class="section level4">
 <h4>Function: <code>set_na_values()</code></h4>
@@ -201,10 +201,15 @@ labelled::na_values(d1$Var3)</code></pre>
 2 b      -999     0
 3 c         3  -999</code></pre>
 <p>Add NA labels for -999 and 0</p>
-<pre class="r"><code>d1 &lt;- d1 %&gt;% labelled::set_na_values(Var3=c(-999,0))
+<pre class="r"><code>d1 &lt;- d1 %&gt;% 
+  labelled::set_na_values(Var3=c(-999,0))
 
 labelled::na_values(d1$Var3)</code></pre>
 <pre><code>[1] -999    0</code></pre>
+<p>If all values -999 to 0 are considered missing you could use the <code>labelled::set_na_range()</code> function instead. This is a good alternative if you have more user-defined missing values than are allowed in other statistical programs such as SPSS, which only allows maybe 4 or 5 distinct values.</p>
+<p>Note that the range will not appear when you use <code>labelled::na_values()</code> to review the values. However, if you export the data to a program like SPSS, the ranges will appear as user defined missing values.</p>
+<pre class="r"><code>d1 &lt;- d1 %&gt;% 
+  labelled::set_na_range(Var3=c(-999,0))</code></pre>
 <p><strong>3. Add labels to multiple variables (Var2 and Var3) with the same missing value</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 3 x 3
@@ -214,26 +219,35 @@ labelled::na_values(d1$Var3)</code></pre>
 2 b      -999     0
 3 c         3  -999</code></pre>
 <p>Add NA labels for -999 and 0</p>
-<pre class="r"><code>d1 &lt;- d1 %&gt;% labelled::set_na_values(Var2 = -999, Var3= -999)
+<pre class="r"><code>d1 &lt;- d1 %&gt;% labelled::set_na_values(Var2 = c(-999,0), 
+                                     Var3= c(-999, 0))
 
 labelled::na_values(d1)</code></pre>
 <pre><code>$Var1
 NULL
 
 $Var2
-[1] -999
+[1] -999    0
 
 $Var3
-[1] -999</code></pre>
+[1] -999    0</code></pre>
 <p>If I wanted to just review NA value labels for specific variables, I can select my variables of interest using <code>dplyr::select()</code> and then iterate the <code>labelled::na_values()</code> function over those variables using the <code>purrr::map()</code> function</p>
 <pre class="r"><code>d1 %&gt;%
   dplyr::select(Var2, Var3) %&gt;%
   purrr::map(labelled::na_values)</code></pre>
 <pre><code>$Var2
-[1] -999
+[1] -999    0
 
 $Var3
-[1] -999</code></pre>
+[1] -999    0</code></pre>
+<p>Since both of these variables have the same missing value labels, I could write the function like this.</p>
+<ul>
+<li>Note: The na_values&lt;- needs to be in backticks. And you also need to have the <code>labelled</code> package loaded.</li>
+</ul>
+<pre class="r"><code>d1 %&gt;% 
+  dplyr::mutate(
+  dplyr::across(Var2:Var3, ~(`na_values&lt;-`
+                                (., c(-999, 0)))))</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Label%20Data">Label Data</a></p>
 </div>
 </div>

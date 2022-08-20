@@ -93,7 +93,7 @@ Another way you can write this is using the selection helper `matches()` which m
 
 ```{r}
 
-d2 %>% dplyr::select(matches("id|test"))
+d2 %>% dplyr::select(tidyselect::matches("id|test"))
 
 ```
 

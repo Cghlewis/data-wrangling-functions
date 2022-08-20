@@ -186,7 +186,8 @@ pre code {
 1    10 23.455      22.133      21.921     
 2    11 19.001      21.677      23.808     
 3    12 17.465      18.111      24.393     </code></pre>
-<p>When we want to apply a transformation to multiple variables, we can use the <code>dplyr::across()</code> function which allows us to use the <code>dplyr::select()</code> semantics.</p>
+<p>We want to round all mean scores to 2 digits.</p>
+<p>Since we want to apply a transformation to multiple variables, we can use the <code>dplyr::across()</code> function which allows us to use the <code>dplyr::select()</code> semantics.</p>
 <ul>
 <li><p>Note: I am using the <code>dplyr::mutate()</code> function to modify our existing variables.</p></li>
 <li><p>Note: I am using the <code>base::round()</code> function to round our variables with the <em>digits</em> argument. <strong>It is very important to note how this function does rounding, which is, it rounds to the even number when rounding at 5</strong>. This is not your normal way of thinking of rounding. When you have a value of 23.5, it will round up to 24. When you have a value of 22.5, it will round down to 22. However, when you round with 1 or more digits, since decimal places are not represented exactly, you may get different results depending on your OS: 1.75 may round to 1.7 or 1.8. See documentation on <code>round</code> for more information.</p></li>

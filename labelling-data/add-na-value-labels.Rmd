@@ -14,7 +14,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ### Package: labelled
 
-**Note**: Using the `labelled` package, adding missing label values will not allow these values to be treated as NA in R. However, they will be labelled as missing when you export to a file type such as .sav and will be treated as NA in those files.
+**Note**: Using the `labelled` package, adding missing label values will not allow these values to be treated as NA in R. However, they will be labelled as missing when you export to a file type such as .sav and will be treated as missing values in those programs.
 
 ---
 
@@ -59,9 +59,21 @@ Add NA labels for -999 and 0
 
 ```{r}
 
-d1 <- d1 %>% labelled::set_na_values(Var3=c(-999,0))
+d1 <- d1 %>% 
+  labelled::set_na_values(Var3=c(-999,0))
 
 labelled::na_values(d1$Var3)
+
+```
+
+If all values -999 to 0 are considered missing you could use the `labelled::set_na_range()` function instead. This is a good alternative if you have more user-defined missing values than are allowed in other statistical programs such as SPSS, which only allows maybe 4 or 5 distinct values.
+
+Note that the range will not appear when you use `labelled::na_values()` to review the values. However, if you export the data to a program like SPSS, the ranges will appear as user defined missing values.
+
+```{r}
+
+d1 <- d1 %>% 
+  labelled::set_na_range(Var3=c(-999,0))
 
 ```
 
@@ -81,7 +93,8 @@ Add NA labels for -999 and 0
 
 ```{r}
 
-d1 <- d1 %>% labelled::set_na_values(Var2 = -999, Var3= -999)
+d1 <- d1 %>% labelled::set_na_values(Var2 = c(-999,0), 
+                                     Var3= c(-999, 0))
 
 labelled::na_values(d1)
 
@@ -94,6 +107,19 @@ If I wanted to just review NA value labels for specific variables, I can select 
 d1 %>%
   dplyr::select(Var2, Var3) %>%
   purrr::map(labelled::na_values)
+
+```
+
+Since both of these variables have the same missing value labels, I could write the function like this.
+
+* Note: The na_values<- needs to be in backticks. And you also need to have the `labelled` package loaded.
+
+```{r, eval = FALSE}
+
+d1 %>% 
+  dplyr::mutate(
+  dplyr::across(Var2:Var3, ~(`na_values<-`
+                                (., c(-999, 0)))))
 
 ```
 

@@ -91,9 +91,11 @@ ncol(d4)
 
 Remove any completely empty column
 
+* Note: We add the argument *which* and in this case we select "cols" rather than the other option "rows".
+
 ```{r}
 
-d4 <- d4 %>% janitor::remove_empty("cols")
+d4 <- d4 %>% janitor::remove_empty(which = "cols")
 
 d4
 

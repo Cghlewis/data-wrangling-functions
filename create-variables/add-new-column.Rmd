@@ -14,4 +14,78 @@ knitr::opts_chunk$set(comment = NA,
 
 <br>
 
+### Package: dplyr
+
+---
+
+#### Function: `mutate()`
+
+---
+
+**1\. Create a new scored variable for item1**
+
+Review the data (d1)
+
+```{r, echo = FALSE}
+
+source("data.R")
+d1
+
+```
+
+Item1 through Item4 were all multiple choice variables with one correct answer. We now want to score these variables to be correct or incorrect.
+
+Item1: correct answer = 3
+Item2: correct answer = 5
+Item3: correct answer = 3
+Item4: correct answer = 5
+
+* Note: Here we use `dplyr::mutate()` to create a new variable, named item1_scored. We could have also chosen to name it item1 and write over the original variable.
+
+* Note: As we learned from the [Recode](https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode) section, we can recode this variable in many ways including `dplyr::recode()`, `dplyr::if_else()` or `dplyr::case_when()`. In this case we use `dplyr::if_else()`.
+
+```{r}
+
+d1 %>%
+  dplyr::mutate(item1_scored = 
+                  dplyr::case_when(
+                    item1 == 3 ~ 1,
+                    TRUE ~ item1))
+
+```
+
+
+**2\. Create new scored variables for _item_ variables**
+
+Review the data (d1)
+
+```{r, echo = FALSE}
+
+source("data.R")
+d1
+
+```
+
+Since Item 1 and 3 and Items 2 and 4 have the same correct answers, we can use `dplyr::across()` to score these variables at the same time. We use `.` to denote we want the criteria to apply to the variables we have selected.
+
+* Note: We use the `dplyr::across()` argument *.names* to rename our newly scored variables. You can use {.col} to stand for the selected column name.
+
+```{r}
+
+d1 %>%
+  dplyr::mutate(dplyr::across(c(item1, item3),
+                ~dplyr::case_when(
+                  . == 3 ~ 1,
+                  TRUE ~ .),
+                .names = "{col}_scored"),
+                dplyr::across(c(item2, item4),
+                ~dplyr::case_when(
+                  . == 5 ~ 1,
+                  TRUE ~ .),
+                .names = "{col}_scored"))
+
+```
+
+Return to [Create New Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Create New Variables)
+
 Return to [XXXX](https://github.com/Cghlewis/data-wrangling-functions/wiki/Complete)

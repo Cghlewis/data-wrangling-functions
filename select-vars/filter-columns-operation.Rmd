@@ -34,7 +34,9 @@ d5 %>%
 
 ```
 
-When we want to apply a transformation to multiple variables, we can use the `dplyr::across()` function which allows us to use the `dplyr::select()` semantics.
+We want to round all mean scores to 2 digits.
+
+Since we want to apply a transformation to multiple variables, we can use the `dplyr::across()` function which allows us to use the `dplyr::select()` semantics.
 
 * Note: I am using the `dplyr::mutate()` function to modify our existing variables.
 

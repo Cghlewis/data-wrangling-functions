@@ -258,7 +258,7 @@ pre code {
 4    13         217         499
 5    NA          NA          NA</code></pre>
 <p>Another way you can write this is using the selection helper <code>matches()</code> which matches based on a regex operator rather than a literal string like <code>contains()</code>.</p>
-<pre class="r"><code>d2 %&gt;% dplyr::select(matches(&quot;id|test&quot;))</code></pre>
+<pre class="r"><code>d2 %&gt;% dplyr::select(tidyselect::matches(&quot;id|test&quot;))</code></pre>
 <pre><code># A tibble: 5 x 3
      id test_score1 test_score2
   &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;

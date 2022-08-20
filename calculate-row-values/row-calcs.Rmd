@@ -67,7 +67,7 @@ d2
 
 ```
 
-Calculate the mean score
+Calculate the mean score of item1, item2, and item3
 
 * Note: We are calculating a new variable using `dplyr::mutate()`
 
@@ -84,7 +84,7 @@ d2 %>%
 
 You can set the number of decimal places you want the new variable to have by wrapping the calculation in the function `base::round()` and setting the digits equal to the number you want.
 
-* Note: `base::round()` rounds to the even digit for any .5 digit. Meaning when you have 0.5, it will round down to 0, and when you have 1.5 it will round up to 2.
+* Note: It is very important to note how `base::round()` does rounding. It rounds to the even number when rounding at 5. This is not your normal way of thinking of rounding. When you have a value of 23.5, it will round up to 24. When you have a value of 22.5, it will round down to 22. However, when you round with 1 or more digits, since decimal places are not represented exactly, you may get different results depending on your OS: 1.75 may round to 1.7 or 1.8. See documentation on round for more information.
 
 ```{r}
 
@@ -95,12 +95,12 @@ d2 %>%
 
 **2\. Calculate a mean score ("toca_mean") for all the variables that begin with "toca", for each student even with missing data**
 
-Review the data (d3)
+Review the data (d5)
 
 ```{r, echo=FALSE}
 
 source("data.R")
-d3
+d5
 
 ```
 
@@ -112,8 +112,10 @@ Calculate the mean toca score
 
 ```{r}
 
-d3 %>% 
-  dplyr::mutate(toca_mean = rowMeans(dplyr::across(tidyselect::starts_with("toca")), na.rm=TRUE))
+d5 %>% 
+  dplyr::mutate(
+    toca_mean = rowMeans(
+      dplyr::across(tidyselect::starts_with("toca")), na.rm=TRUE))
 
 ```
 
@@ -121,10 +123,78 @@ If you wanted to exclude some of the "toca" items (say just toca2), you could ex
 
 ```{r}
 
-d3 %>% 
-  dplyr::mutate(toca_mean = rowMeans(dplyr::across(c(tidyselect::starts_with("toca"), -toca2)), na.rm=TRUE))
+d5 %>% 
+  dplyr::mutate(
+    toca_mean = rowMeans(
+      dplyr::across(c(tidyselect::starts_with("toca"), -toca2)), na.rm=TRUE))
 
 ```
+
+**3\. Calculate a mean score ("toca_mean") for all the variables that begin with "toca", when the toca variables contain _labelled na values_**
+
+Review the data (d6)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d6
+
+```
+
+Let's review the labelled NA values. 
+
+```{r, echo = FALSE}
+
+library(labelled)
+
+d6 <- d6 %>%
+  mutate(across(contains("toca"), 
+  ~(`na_values<-`(., c(-99)))))
+
+```
+
+```{r}
+
+d6 %>%
+  labelled::na_values()
+
+```
+
+We see that **-99** is labelled as an NA value for the toca variables. However, R does not recognize this as an NA value when calculating row scores. 
+
+So first we will need to recode these to NA before creating our mean score.
+
+* Note: We use `dplyr::mutate()` to create new temporary versions of our toca variables.
+
+* Note: We use `base::ifelse()` to say if our current toca variables (denoted by .) are equal to 6, then make them NA, otherwise keep the value as is. Using `dplyr::if_else()` gives us errors in this process. I'm not sure why except that I read the function is more strict in checking that all alternatives are of the same variable type compared to using `base::ifelse()`. 
+
+* Note: We use the `dplyr::across()` *.names* arugment to rename these variable to have the suffix "_temp" because we do not want to alter our original toca variables.
+
+Second we calculate our mean score within `dplyr::mutate()` statement.
+
+* Note: We add `dplyr::across()` to select multiple variables and use `tidyselect::contains()` to select all variables with the word "temp".
+
+* Note: We also use the *na.rm* = TRUE argument to calculate the mean despite missing values.
+
+* Note: Again we could add `base::round()` to round the number of decimal places in our mean if we wanted to
+
+Last we drop our temporary toca variables using `dplyr::select()`. We don't need them anymore.
+
+
+```{r}
+
+d6 %>% 
+  dplyr::mutate(dplyr::across(contains("toca"), 
+                ~ ifelse(.==-99,NA,.),
+                .names = "{col}_temp"),
+                toca_mean = rowMeans(
+           dplyr::across(tidyselect::contains("temp"), 
+           na.rm = TRUE))) %>%
+  dplyr::select(-tidyselect::contains("temp"))
+
+
+```
+
 
 <br>
 

@@ -1,7 +1,9 @@
 
 ### Notes about `labelled::spss()`
 
-This function can be used to assign variable, value and missing value labels. However, I haven't found a great way to use this function to apply multiple different labels to different variables within one function (unlike `labelled::set_variable_labels()`). You can assign the same value labels and missing value labels across several variables, but that leaves out the variable labels then. And it also does not allow you to assign different value and na value labels. This is why I choose to use other `labelled` functions.
+This function can be used to assign variable, value and missing value labels. However, I haven't found a great way to use this function to apply multiple different labels to different variables within one function, unlike `labelled::set_variable_labels()` or `labelled::set_value_labels()`, which allow you to assign a variety of labels to different variables. 
+
+With `labelled::labelled_spss()` you can assign the same value labels and missing value labels across several variables, but that leaves out the variable labels then. And it also does not allow you to assign different value and na value labels. This is why I choose to use other `labelled` functions.
 
 The structure to apply the same na values across many variables in the `labelled::labelled_spss()` function is definitely more straightforward than the structure to apply the same na values across many variables using `labelled::na_values()`. 
 

@@ -35,14 +35,14 @@ d1
 
 item1 through item4 were all multiple choice variables with one correct answer. We now want to score these variables to be correct (1) or incorrect (0).
 
-Item1: correct answer = 3
-Item2: correct answer = 5
-Item3: correct answer = 3
-Item4: correct answer = 5
+Item1: correct answer = 3  
+Item2: correct answer = 5  
+Item3: correct answer = 3  
+Item4: correct answer = 5  
 
 * Note: Here we use `dplyr::mutate()` to create a new variable, named item1_scored. We could have also chosen to name it item1 and write over the original variable.
 
-* Note: As we learned from the [Recode](https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode) section, we can recode this variable in many ways including `dplyr::recode()`, `dplyr::if_else()` or `dplyr::case_when()`. In this case we use `dplyr::if_else()`.
+* Note: As we learned from the [Recode](https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode) section, we can recode this variable in many ways including `dplyr::recode()`, `dplyr::if_else()` or `dplyr::case_when()`. In this case we use `dplyr::case_when()`.
 
 ```{r}
 
@@ -123,7 +123,7 @@ d2
 
 ```
 
-We see here that our "cat" variable was a select all question (where options are separated by a comma). We want these options to separated out into their own dummy coded variables that are 1 if the selection was chosen and 0 if the selection was not chosen.
+We see here that our "cat" variable was a select all that apply question (where options are separated by a comma). We want these options to separated out into their own dummy coded variables that are 1 if the selection was chosen and 0 if the selection was not chosen.
 
 We can create our new variables using `dplyr::mutate()`, adding all variables in our one `mutate` function.
 

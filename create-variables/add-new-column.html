@@ -188,10 +188,13 @@ pre code {
 2    11     3     5     1     5
 3    12     3     1     3     5</code></pre>
 <p>item1 through item4 were all multiple choice variables with one correct answer. We now want to score these variables to be correct (1) or incorrect (0).</p>
-<p>Item1: correct answer = 3 Item2: correct answer = 5 Item3: correct answer = 3 Item4: correct answer = 5</p>
+<p>Item1: correct answer = 3<br />
+Item2: correct answer = 5<br />
+Item3: correct answer = 3<br />
+Item4: correct answer = 5</p>
 <ul>
 <li><p>Note: Here we use <code>dplyr::mutate()</code> to create a new variable, named item1_scored. We could have also chosen to name it item1 and write over the original variable.</p></li>
-<li><p>Note: As we learned from the <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode">Recode</a> section, we can recode this variable in many ways including <code>dplyr::recode()</code>, <code>dplyr::if_else()</code> or <code>dplyr::case_when()</code>. In this case we use <code>dplyr::if_else()</code>.</p></li>
+<li><p>Note: As we learned from the <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode">Recode</a> section, we can recode this variable in many ways including <code>dplyr::recode()</code>, <code>dplyr::if_else()</code> or <code>dplyr::case_when()</code>. In this case we use <code>dplyr::case_when()</code>.</p></li>
 </ul>
 <pre class="r"><code>d1 %&gt;%
   dplyr::mutate(item1_scored = 
@@ -268,7 +271,7 @@ pre code {
 3    12 5, 2, 11
 4    13 5, 1    
 5    14 &lt;NA&gt;    </code></pre>
-<p>We see here that our “cat” variable was a select all question (where options are separated by a comma). We want these options to separated out into their own dummy coded variables that are 1 if the selection was chosen and 0 if the selection was not chosen.</p>
+<p>We see here that our “cat” variable was a select all that apply question (where options are separated by a comma). We want these options to separated out into their own dummy coded variables that are 1 if the selection was chosen and 0 if the selection was not chosen.</p>
 <p>We can create our new variables using <code>dplyr::mutate()</code>, adding all variables in our one <code>mutate</code> function.</p>
 <p>cat1 = 1 cat2 = 2 cat4 = 4 cat5 = 5 cat10 = 10 cat11 = 11</p>
 <ul>

@@ -46,7 +46,7 @@ dict
 
 Add variable labels
 
-* Note: First we need to create a named list. We use `tibble::deframe()` to create a named character vector and turn it into a list using base::as.list().
+* Note: First we need to create a named list. We use `tibble::deframe()` to create a named character vector and turn it into a list using `base::as.list()`.
 
 ```{r}
 
@@ -56,7 +56,7 @@ var_labels <- dict %>%
 
 ```
 
-Now we can use this list to add our variable labels.
+Now we can use this list to add our variable labels using the argument *.labels*.
 
 ```{r}
 
@@ -67,7 +67,7 @@ labelled::var_label(d11)
 
 ```
 
-This also works if you only want to add variable labels to some variables, not all. There may be times when some of your variables already have labels or you simply do not want to add labels to all variables. If there are existing labels and you don't relabel them, those labels will remain.
+This also works if you only want to add variable labels to some variables, not all. There may be times when some of your variables already have labels or you simply do not want to add labels to all variables. If there are existing labels and those variables are not in your data dictionary, those labels will remain. If they are in your data dictionary, those labels will be replaced with your data dictionary labels.
 
 Here is an example where we choose to only add labels to 2 of our variables. 
 
@@ -80,10 +80,55 @@ source("data.R")
 ```
 
 
+You'll see labels are only added to gradelevel and q1.
 ```{r}
 
 var_labels <- dict %>%
   dplyr::filter(varname %in% c("gradelevel", "q1")) %>%
+  tibble::deframe() %>%
+  base::as.list()
+
+d11 <- d11 %>%
+  labelled::set_variable_labels(.labels = var_labels)
+
+labelled::var_label(d11)
+
+```
+
+If "id" already had a label, like in the example below, and that variable was not in the data dictionary, that label would be retained.
+
+Again, we narrow the data dictionary to only gradelevel and q1 to demonstrate this point.
+
+```{r, echo = FALSE}
+
+source("data.R")
+
+d11 <- d11 %>%
+  labelled::set_variable_labels(id = "research study id")
+
+labelled::var_label(d11)
+
+```
+
+```{r}
+
+var_labels <- dict %>%
+  dplyr::filter(varname %in% c("gradelevel", "q1")) %>%
+  tibble::deframe() %>%
+  base::as.list()
+
+d11 <- d11 %>%
+  labelled::set_variable_labels(.labels = var_labels)
+
+labelled::var_label(d11)
+
+```
+
+However, if study id **was** in our data dictionary, it would write over the existing label.
+
+```{r}
+
+var_labels <- dict %>%
   tibble::deframe() %>%
   base::as.list()
 

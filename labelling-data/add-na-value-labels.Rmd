@@ -66,7 +66,7 @@ labelled::na_values(d1$Var3)
 
 ```
 
-If all values -999 to 0 are considered missing you could use the `labelled::set_na_range()` function instead. This is a good alternative if you have more user-defined missing values than are allowed in other statistical programs such as SPSS, which only allows maybe 4 or 5 distinct values.
+If all values -999 to 0 are considered missing you could use the `labelled::set_na_range()` function instead. This is a good alternative if you have more user-defined missing values than are allowed in other statistical programs such as SPSS, which only allow 3 distinct values.
 
 Note that the range will not appear when you use `labelled::na_values()` to review the values. However, if you export the data to a program like SPSS, the ranges will appear as user defined missing values.
 
@@ -112,7 +112,7 @@ d1 %>%
 
 Since both of these variables have the same missing value labels, I could write the function like this.
 
-* Note: The na_values<- needs to be in backticks. And you also need to have the `labelled` package loaded.
+* Note: The `na_values<-` needs to be in backticks with no spaces. And you also need to have the `labelled` package loaded.
 
 ```{r, eval = FALSE}
 
@@ -122,5 +122,17 @@ d1 %>%
                                 (., c(-999, 0)))))
 
 ```
+
+And again, if all values between -999 and 0 are missing values, I could use `labelled::na_range()` instead.
+
+```{r, eval = FALSE}
+
+d1 %>% 
+  dplyr::mutate(
+  dplyr::across(Var2:Var3, ~(`na_range<-`
+                                (., c(-999, 0)))))
+
+```
+
 
 Return to [Label Data](https://github.com/Cghlewis/data-wrangling-functions/wiki/Label Data)

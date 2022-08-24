@@ -370,9 +370,10 @@ NULL</code></pre>
 4   4567     4     5     1
 5   5678     1     3     2</code></pre>
 <p>Calculate the sum score.</p>
+<p>Here we use <code>dplyr::rowwise()</code> to calculate values across rows, in conjunction with <code>base::sum()</code> to calculate a sum score.</p>
 <ul>
 <li>Note: Again we are using <code>dplyr::mutate()</code> to create a new variable</li>
-<li>Note: The default for NA values in your columns is to not calculate a sum if any NA value exists. If you want to still calculate a sum despite missing values, you can set the argument to <em>na.rm = TRUE</em>.</li>
+<li>Note: The default for <code>base::sum()</code> is to not calculate a sum if any NA value exists in your columns. If you want to still calculate a sum despite missing values, you can set the argument to <em>na.rm = TRUE</em>.</li>
 </ul>
 <pre class="r"><code>d2 %&gt;%
   dplyr::rowwise() %&gt;%

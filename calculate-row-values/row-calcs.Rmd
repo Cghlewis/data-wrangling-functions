@@ -219,8 +219,10 @@ d2
 
 Calculate the sum score.
 
+Here we use `dplyr::rowwise()` to calculate values across rows, in conjunction with `base::sum()` to calculate a sum score.
+
 * Note: Again we are using `dplyr::mutate()` to create a new variable
-* Note: The default for NA values in your columns is to not calculate a sum if any NA value exists. If you want to still calculate a sum despite missing values, you can set the argument to *na.rm = TRUE*.
+* Note: The default for `base::sum()` is to not calculate a sum if any NA value exists in your columns. If you want to still calculate a sum despite missing values, you can set the argument to *na.rm = TRUE*.
 
 ```{r}
 

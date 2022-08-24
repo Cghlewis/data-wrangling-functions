@@ -1,0 +1,134 @@
+---
+title: "Convert to factor"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: forcats
+
+---
+
+#### Function: `as_factor()`
+
+---
+
+**1\. Convert a character variable (Var1) to a factor**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+View the class for Var1
+
+```{r}
+
+class(d2$Var1)
+
+```
+
+Convert Var1 to a factor. 
+
+* Note: In the case of a character variable, the levels will be chosen based on the order in which they appear. In the case of a numeric variable, the levels will be numerically ordered. You can view levels using the `base::levels()` function.
+
+* Note: We are recoding into a new variable using `dplyr::mutate()` and saving over the original variable by naming the new variable the same name as the original. 
+
+```{r}
+
+d2 <- d2 %>% dplyr::mutate(Var1 = forcats::as_factor(Var1))
+
+class(d2$Var1)
+
+levels(d2$Var1)
+
+```
+
+* Note: If you don't want the levels as they are chosen, you can use the function `forcats::fct_relevel()` instead to convert your variable to a factor **and** assign your level order. However, this function will only work if your variable is a character or factor variable.
+
+```{r}
+
+d2 <- d2 %>% dplyr::mutate(Var1 = forcats::fct_relevel(Var1, "a", "b", "c"))
+
+class(d2$Var1)
+
+levels(d2$Var1)
+
+```
+
+
+### Package: base
+
+---
+
+#### Function: `as.factor()`
+
+---
+
+**1\. Another function to convert a variable (in this case character variable Var1) to a factor is `base::as.factor()**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+View the class for Var1
+
+```{r}
+
+class(d2$Var1)
+
+```
+
+Convert Var1 to a factor. 
+
+* Note: The levels will be chosen alphabetically or numerically. You can view levels using the `base::levels()` function.
+
+* Note: We are recoding into a new variable using `dplyr::mutate()` and saving over the original variable by naming the new variable the same name as the original. 
+
+```{r}
+
+d2 <- d2 %>% dplyr::mutate(Var1 = as.factor(Var1))
+
+class(d2$Var1)
+
+levels(d2$Var1)
+
+```
+
+However, if you want to assign the levels when converting to a factor, you can use the function `base::factor()` instead with the argument *levels*.
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+```
+
+
+```{r}
+
+d2 <- d2 %>% dplyr::mutate(Var1 = factor(Var1, levels = c("c", "b", "a")))
+
+class(d2$Var1)
+
+levels(d2$Var1)
+
+```
+
+Return to [Data Types](https://github.com/Cghlewis/data-wrangling-functions/wiki/Data-Types)

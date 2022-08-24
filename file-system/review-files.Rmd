@@ -105,14 +105,14 @@ Let's review all of our files in the "analysis_data" folder.
 ```{r, eval = FALSE}
 
 fs::file_info(fs::dir_ls(here::here("file-system", "analysis_data"))) %>%
-  select(path, type, modification_time)
+  dplyr::select(path, type, modification_time)
 
 ```
 
 ```{r, echo = FALSE}
 
 fs::file_info(fs::dir_ls(here::here("file-system", "analysis_data"))) %>%
-  select(path, type, modification_time) %>%
+  dplyr::select(path, type, modification_time) %>%
   mutate(path = stringr::str_replace_all(
   path, "C:/Users/Crystal/Desktop/desktop/R/Working R Stuff/data-wrangling-functions/file-system/analysis_data", "C:/Users/Me/project/file-system"))
 
@@ -167,7 +167,7 @@ tibble::as_tibble(fs::dir_ls(here::here("file-system"))) %>%
 tibble::as_tibble(fs::dir_ls(here::here("file-system", "analysis_data"))) %>%
   dplyr::arrange(desc(value)) %>%
   dplyr::slice_head(n=1) %>%
-  mutate(value = stringr::str_replace_all(
+  dplyr::mutate(value = stringr::str_replace_all(
   value, "C:/Users/Crystal/Desktop/desktop/R/Working R Stuff/data-wrangling-functions/file-system/analysis_data", "C:/Users/Me/project/file-system"))
 ```
 

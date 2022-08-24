@@ -1,0 +1,203 @@
+---
+title: "Convert to date"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+
+### Package: lubridate
+
+---
+
+#### Function: `lubridate::mdy()`
+
+---
+
+<br>
+
+**1\. Convert a character variable (Var4) to a date**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+View the class for Var4
+
+```{r}
+
+class(d2$Var4)
+
+```
+
+Convert Var4 to a date
+
+* Note: We are recoding into a new variable using `dplyr::mutate()` and saving over the original variable by naming the new variable the same name as the original. 
+
+* Note: mdy() is just the format for Var4, you can adjust the format for your character variable and use functions such as `dmy()`, `ymd()`, `ymd_hms()`.
+
+```{r}
+
+d2 <- d2 %>% dplyr::mutate(Var4 = lubridate::mdy(Var4))
+
+d2$Var4
+
+class(d2$Var4)
+
+```
+
+---
+
+#### Function: `lubridate::as_date()`, `lubridate::as_datetime()`
+
+---
+
+**1\. Convert a character variable that appears numeric (created_timestamp) to a datetime (POSIXct)**
+
+* Note: Sometimes dates will come in as numeric, epoch time, typically number of seconds (sometimes a different unit) since a start date, usually Jan 1, 1970. This happens a lot when importing data from Excel but can also happen with other sources. For example, I've imported data from the Twitter API and had dates in epoch time in milliseconds. You will need to know information about your data before converting a variable.
+
+Review the data (d5)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d5
+
+```
+
+View the class for created_timestamp
+
+* Note: You'll notice this variable appeared numeric but is actually character which is important to know.
+
+```{r}
+
+class(d5$created_timestamp)
+
+```
+
+Convert created_timestamp to a datetime
+
+* Note: I know for this timestamp variable that the value is in milliseconds, not seconds. So in order to use the function I want to use, `lubridate::as_datetime()`, I need to convert my character variable to numeric using `base::as.numeric()` and then divide it by 1000. If the time was in seconds, I would not need to convert the character variable to numeric before applying the `lubridate` function.
+
+* Note: We are recoding into a new variable using `dplyr::mutate()` and saving over the original variable by naming the new variable the same name as the original. 
+
+* Note: You can change the timezone from UTC to something else (like "America/Chicago") by adding the argument *tz = "America/Chicago"*. You can get your current timezone by typing "Sys.timezone()" in your console. Time zones must be from tz database (Olson database). You can see all time zones by typing "OlsonNames()" in your console.
+
+
+```{r}
+
+d5 <- d5 %>% 
+  mutate(created_timestamp = 
+           lubridate::as_datetime(as.numeric(created_timestamp)/1000))
+
+d5$created_timestamp
+
+class(d5$created_timestamp)
+
+```
+
+If I no longer cared about the time portion of this variable and only wanted the date, I could further modify the variable using `lubridate::as_date()` and add the format I want, in this case %Y/%m/%d.
+
+* Note: We are recoding into a new variable using `dplyr::mutate()` and saving into a new variable.
+
+```{r}
+
+d5 <- d5 %>% 
+  mutate(created_timestamp_date =
+           lubridate::as_date(created_timestamp))
+
+d5$created_timestamp_date
+
+class(d5$created_timestamp_date)
+
+```
+
+**2\. Convert a numeric date variable from Excel to a date**
+
+Review the data (d6)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d6
+
+```
+
+View the class for date
+
+```{r}
+
+class(d6$date)
+
+```
+
+* Note: Here you'll notice that I provide an origin date. Unlike the Unix epoch of 1970-01-01, the origin date for Excel on Windows, is December 30, 1899 for dates after 1900. For Excel on Mac, the origin date is January 1, 1904. If I did not provide an origin date, we would get some very strange dates.
+
+```{r}
+
+d6 <- d6 %>% dplyr::mutate(date = lubridate::as_date(date, origin = "1899-12-30"))
+
+d6$date
+
+class(d6$date)
+
+```
+
+
+### Package: janitor
+
+---
+
+#### Function: `janitor::excel_numeric_to_date()`
+
+---
+
+<br>
+
+**1\. Convert a numeric date variable from Excel to a date**
+
+
+Review the data (d6)
+
+```{r, echo = FALSE}
+
+source("data.R")
+d6
+
+```
+
+View the class for date
+
+```{r}
+
+class(d6$date)
+
+```
+
+If you don't want to stress over remembering the origin date, another helpful function for working with Excel numeric dates is `janitor::excel_numeric_to_date()`, which includes the origin time. 
+
+* Note: There are still more issues where certain versions of Excel for Mac may still use different date systems which you can work with by adding the argument *date_system*. You can view the options for adding this argument by typing ?excel_numeric_to_date in your console.
+
+```{r}
+d6 <- d6 %>% dplyr::mutate(date = janitor::excel_numeric_to_date(date))
+
+d6$date
+
+class(d6$date)
+
+```
+
+Return to [Data Types](https://github.com/Cghlewis/data-wrangling-functions/wiki/Data-Types)

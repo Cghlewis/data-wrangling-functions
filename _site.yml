@@ -34,8 +34,14 @@ navbar:
     href: recode-values\recode-dictionary.html
   - text: "Review data type"
     href: data-type\review-data-type.html
-  - text: "Convert variable class"
-    href: data-type\convert-variable-class.html
+  - text: "Convert to factor"
+    href: data-type\convert-variable-class-factor.html
+  - text: "Convert to numeric"
+    href: data-type\convert-variable-class-numeric.html
+  - text: "Convert to character"
+    href: data-type\convert-variable-class-character.html
+  - text: "Convert to date"
+    href: data-type\convert-variable-class-date.html  
   - text: "Select columns"
     href: select-variables\filter-columns.html
   - text: "Remove empty columns"

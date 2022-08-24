@@ -183,7 +183,7 @@ pre code {
 <ul>
 <li>Note: I used the <code>here::here()</code> function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder “obs_2022-03-15” is within another folder called “file-system” which is located in the top level of my project directory. You could also just list your entire file path.</li>
 </ul>
-<pre class="r"><code>dir_ls(here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;))</code></pre>
+<pre class="r"><code>fs::dir_ls(here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;))</code></pre>
 <pre><code>[1] &quot;C:/Users/Me/project/file-system/obs_2022-03-15/obs_a.xlsx&quot;      
 [2] &quot;C:/Users/Me/project/file-system/obs_2022-03-15/obs_b.xlsx&quot;      
 [3] &quot;C:/Users/Me/project/file-system/obs_2022-03-15/obs_c.xlsx&quot;      
@@ -224,14 +224,14 @@ pre code {
 <ul>
 <li>Note: There are more columns you can view with this function but I have selected 3 columns of interest to view here. To view all options type <code>?file_info</code> into the console.</li>
 </ul>
-<pre class="r"><code>fs::file_info(fs::dir_ls(here::here(&quot;file-system&quot;))) %&gt;%
+<pre class="r"><code>fs::file_info(fs::dir_ls(here::here(&quot;file-system&quot;, &quot;analysis_data&quot;))) %&gt;%
   select(path, type, modification_time)</code></pre>
 <pre><code># A tibble: 3 x 3
   path                                                 type  modification_time  
   &lt;chr&gt;                                                &lt;fct&gt; &lt;dttm&gt;             
 1 C:/Users/Me/project/file-system/summary_obs_v01.xlsx file  2022-07-30 20:26:52
 2 C:/Users/Me/project/file-system/summary_obs_v02.xlsx file  2022-07-30 20:26:52
-3 C:/Users/Me/project/file-system/summary_obs_v03.xlsx file  2022-08-17 09:17:37</code></pre>
+3 C:/Users/Me/project/file-system/summary_obs_v03.xlsx file  2022-08-24 12:39:01</code></pre>
 <p><strong>2. Find the most recent version of a file</strong></p>
 <p>In this scenario, I want to find the most recent version of my file based on the modification time of a file.</p>
 <ul>
@@ -244,7 +244,7 @@ pre code {
 <pre><code># A tibble: 1 x 3
   path                                                 type  modification_time  
   &lt;chr&gt;                                                &lt;fct&gt; &lt;dttm&gt;             
-1 C:/Users/Me/project/file-system/summary_obs_v03.xlsx file  2022-08-17 09:17:37</code></pre>
+1 C:/Users/Me/project/file-system/summary_obs_v03.xlsx file  2022-08-24 12:39:01</code></pre>
 <p>However, I don’t always trust the modification time to give me my most recent version.You’ll notice that I’ve also versioned our files by adding “_v#” as a suffix to each file name. I can instead use this information to find the most recent version.</p>
 <ul>
 <li><p>Note: In this scenario I don’t need to use <code>fs::file_info()</code> as I am only choosing my most recent file version based on my naming convention.</p></li>

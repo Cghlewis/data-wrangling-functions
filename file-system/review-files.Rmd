@@ -32,7 +32,7 @@ library(tidyverse)
 
 ```{r, eval = FALSE}
 
-dir_ls(here::here("file-system", "obs_2022-03-15"))
+fs::dir_ls(here::here("file-system", "obs_2022-03-15"))
 
 ```
 
@@ -104,7 +104,7 @@ Let's review all of our files in the "analysis_data" folder.
 
 ```{r, eval = FALSE}
 
-fs::file_info(fs::dir_ls(here::here("file-system"))) %>%
+fs::file_info(fs::dir_ls(here::here("file-system", "analysis_data"))) %>%
   select(path, type, modification_time)
 
 ```
@@ -115,8 +115,6 @@ fs::file_info(fs::dir_ls(here::here("file-system", "analysis_data"))) %>%
   select(path, type, modification_time) %>%
   mutate(path = stringr::str_replace_all(
   path, "C:/Users/Crystal/Desktop/desktop/R/Working R Stuff/data-wrangling-functions/file-system/analysis_data", "C:/Users/Me/project/file-system"))
-  
-  
 
 ```
 

@@ -87,7 +87,7 @@ d1 %>%
                   . == 5 ~ 1,
                   TRUE ~ 0),
                 .names = "{col}_scored")) %>%
-  select(id, contains("scored"))
+  dplyr::select(id, tidyselect::contains("scored"))
 
 ```
 
@@ -108,7 +108,7 @@ d1 %>%
                   . %in% c(1,2,3,4) ~ 0,
                   TRUE ~ .),
                 .names = "{col}_scored")) %>%
-  select(id, contains("scored"))
+  dplyr::select(id, tidyselect::contains("scored"))
 
 ```
 

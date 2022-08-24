@@ -233,7 +233,7 @@ Item4: correct answer = 5</p>
                   . == 5 ~ 1,
                   TRUE ~ 0),
                 .names = &quot;{col}_scored&quot;)) %&gt;%
-  select(id, contains(&quot;scored&quot;))</code></pre>
+  dplyr::select(id, tidyselect::contains(&quot;scored&quot;))</code></pre>
 <pre><code># A tibble: 3 x 5
      id item1_scored item3_scored item2_scored item4_scored
   &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;
@@ -254,7 +254,7 @@ Item4: correct answer = 5</p>
                   . %in% c(1,2,3,4) ~ 0,
                   TRUE ~ .),
                 .names = &quot;{col}_scored&quot;)) %&gt;%
-  select(id, contains(&quot;scored&quot;))</code></pre>
+  dplyr::select(id, tidyselect::contains(&quot;scored&quot;))</code></pre>
 <pre><code># A tibble: 3 x 5
      id item1_scored item3_scored item2_scored item4_scored
   &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;

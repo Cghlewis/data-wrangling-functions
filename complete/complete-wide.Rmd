@@ -75,7 +75,7 @@ extra_form
 
 ```
 
-We can use `dplry::rows_update()` to fill in the missing data on our original form with our new form data.
+We can use `dplyr::rows_update()` to fill in the missing data on our original form with our new form data.
 
 * Note: Add your identifying variable to the *by* argument to denote the unique identifier linking key.
 

@@ -249,24 +249,27 @@ str(d2$s_grade)</code></pre>
 3 c     n              3
 4 f     m              2</code></pre>
 <p>Review the structure of s_grade</p>
-<pre class="r"><code>str(d3$s_grade)</code></pre>
+<pre class="r"><code>utils::str(d3$s_grade)</code></pre>
 <pre><code> dbl+lbl [1:4] 0, 1, 3, 2
  @ labels: Named num [1:4] 1 2 3 0
   ..- attr(*, &quot;names&quot;)= chr [1:4] &quot;First&quot; &quot;Second&quot; &quot;Third&quot; &quot;Kindergarten&quot;</code></pre>
 <p>Convert s_grade to a factor and then order those levels according to their original values using the argument <em>sort_levels = “v”</em>.</p>
-<pre class="r"><code>d3v &lt;- d3 %&gt;% mutate(s_grade = labelled::to_factor(s_grade, sort_levels = &quot;v&quot;))
+<pre class="r"><code>d3v &lt;- d3 %&gt;% 
+  dplyr::mutate(s_grade = labelled::to_factor(s_grade, sort_levels = &quot;v&quot;))
 
-levels(d3v$s_grade)</code></pre>
+base::levels(d3v$s_grade)</code></pre>
 <pre><code>[1] &quot;Kindergarten&quot; &quot;First&quot;        &quot;Second&quot;       &quot;Third&quot;       </code></pre>
 <p>If you want them to be ordered according to labels you can change the argument to <em>sort_levels = “l”</em>.</p>
-<pre class="r"><code>d3l &lt;- d3 %&gt;% mutate(s_grade = labelled::to_factor(s_grade, sort_levels = &quot;l&quot;))
+<pre class="r"><code>d3l &lt;- d3 %&gt;% 
+  dplyr::mutate(s_grade = labelled::to_factor(s_grade, sort_levels = &quot;l&quot;))
 
-levels(d3l$s_grade)</code></pre>
+base::levels(d3l$s_grade)</code></pre>
 <pre><code>[1] &quot;First&quot;        &quot;Kindergarten&quot; &quot;Second&quot;       &quot;Third&quot;       </code></pre>
 <p>If you want them to be ordered according the order you originally assigned labels you can change the argument to <em>sort_levels = “n”</em>. This is also the default when you do not add the “sort_levels” option.</p>
-<pre class="r"><code>d3n &lt;- d3 %&gt;% mutate(s_grade = labelled::to_factor(s_grade, sort_levels = &quot;n&quot;))
+<pre class="r"><code>d3n &lt;- d3 %&gt;% 
+  dplyr::mutate(s_grade = labelled::to_factor(s_grade, sort_levels = &quot;n&quot;))
 
-levels(d3n$s_grade)</code></pre>
+base::levels(d3n$s_grade)</code></pre>
 <pre><code>[1] &quot;First&quot;        &quot;Second&quot;       &quot;Third&quot;        &quot;Kindergarten&quot;</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Reorder">Reorder</a></p>
 </div>

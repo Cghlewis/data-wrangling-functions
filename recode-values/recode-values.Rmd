@@ -402,7 +402,7 @@ Review the factor levels
 
 ```{r}
 
-levels(d7$lunch)
+base::levels(d7$lunch)
 
 ```
 

@@ -208,12 +208,12 @@ d2_new</code></pre>
 2 b         NA      1
 3 c          3      5</code></pre>
 <p>Check that your reverse code worked correctly</p>
-<pre class="r"><code>table(d2$Var2, d2_new$Var2_r)</code></pre>
+<pre class="r"><code>base::table(d2$Var2, d2_new$Var2_r)</code></pre>
 <pre><code>   
     3 5
   1 0 1
   3 1 0</code></pre>
-<pre class="r"><code>table(d2$Var3, d2_new$Var3_r)</code></pre>
+<pre class="r"><code>base::table(d2$Var3, d2_new$Var3_r)</code></pre>
 <pre><code>   
     1 2 5
   1 0 0 1
@@ -326,12 +326,12 @@ d2</code></pre>
 <pre class="r"><code>d2 &lt;- d2 %&gt;% dplyr::mutate(across(Var2:Var3, reverse_scale, 
                               .names = &#39;{col}_r&#39;))</code></pre>
 <p>Check that the recode worked</p>
-<pre class="r"><code>table(d2$Var2, d2$Var2_r)</code></pre>
+<pre class="r"><code>base::table(d2$Var2, d2$Var2_r)</code></pre>
 <pre><code>   
     3 5
   1 0 1
   3 1 0</code></pre>
-<pre class="r"><code>table(d2$Var3, d2$Var3_r)</code></pre>
+<pre class="r"><code>base::table(d2$Var3, d2$Var3_r)</code></pre>
 <pre><code>   
     1 2 5
   1 0 0 1

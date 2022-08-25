@@ -49,7 +49,7 @@ Recode "MR" to -98 and "UI" to -99 for Var1, Var2, Var3. And then convert the ch
 ```{r}
 
 d15 <- d15 %>%
-  dplyr::mutate(across(Var1:Var3,
+  dplyr::mutate(dplyr::across(Var1:Var3,
                        ~ case_when(
                        . == "MR" ~ "-98",
                        . == "UI" ~ "-99",

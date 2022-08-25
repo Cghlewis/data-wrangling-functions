@@ -196,7 +196,7 @@ pre code {
 <li><p>Note: TRUE means, if a value was not evaluated in my arguments above, replace with the value I give. In this case, I am saying just replace with the existing value.</p></li>
 </ul>
 <pre class="r"><code>d15 &lt;- d15 %&gt;%
-  dplyr::mutate(across(Var1:Var3,
+  dplyr::mutate(dplyr::across(Var1:Var3,
                        ~ case_when(
                        . == &quot;MR&quot; ~ &quot;-98&quot;,
                        . == &quot;UI&quot; ~ &quot;-99&quot;,

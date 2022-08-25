@@ -168,7 +168,7 @@ d3 <- d3 %>% labelled::set_value_labels (
 
 ```{r}
 
-str(d3$s_grade)
+utils::str(d3$s_grade)
 
 ```
 
@@ -177,9 +177,10 @@ Convert s_grade to a factor and then order those levels according to their origi
 
 ```{r}
 
-d3v <- d3 %>% mutate(s_grade = labelled::to_factor(s_grade, sort_levels = "v"))
+d3v <- d3 %>% 
+  dplyr::mutate(s_grade = labelled::to_factor(s_grade, sort_levels = "v"))
 
-levels(d3v$s_grade)
+base::levels(d3v$s_grade)
 
 ```
 
@@ -187,9 +188,10 @@ If you want them to be ordered according to labels you can change the argument t
 
 ```{r}
 
-d3l <- d3 %>% mutate(s_grade = labelled::to_factor(s_grade, sort_levels = "l"))
+d3l <- d3 %>% 
+  dplyr::mutate(s_grade = labelled::to_factor(s_grade, sort_levels = "l"))
 
-levels(d3l$s_grade)
+base::levels(d3l$s_grade)
 
 ```
 
@@ -197,9 +199,10 @@ If you want them to be ordered according the order you originally assigned label
 
 ```{r}
 
-d3n <- d3 %>% mutate(s_grade = labelled::to_factor(s_grade, sort_levels = "n"))
+d3n <- d3 %>% 
+  dplyr::mutate(s_grade = labelled::to_factor(s_grade, sort_levels = "n"))
 
-levels(d3n$s_grade)
+base::levels(d3n$s_grade)
 
 ```
 

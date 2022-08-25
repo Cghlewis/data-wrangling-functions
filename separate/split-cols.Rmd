@@ -118,7 +118,7 @@ With only a few values, I could easily do a recode. However, if there were hundr
 ```{r}
 
 d6 %>% tidyr::separate(school_name, sep = "[A-Z]\\.\\s", into = c("name1", "school_name"), fill="left") %>%
-  dplyr::select (-name1)
+  dplyr::select(-name1)
 
 ```
 

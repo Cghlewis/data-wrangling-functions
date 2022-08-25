@@ -426,7 +426,7 @@ d8_new</code></pre>
 <li><p>Note: We use <code>stringr::str_detect()</code> to detect a specific pattern, assigned in the <em>pattern</em> argument. Here we use a regular expression to denote that we would like to identify zero or more letters from the A-Z alphabet, lower or upper case.</p></li>
 </ul>
 <pre class="r"><code>d16 %&gt;% 
-  filter(if_any(item1:item2, 
+  dplyr::filter(dplyr::if_any(item1:item2, 
                 ~ stringr::str_detect(., pattern = &quot;[a-zA-Z]&quot;)))</code></pre>
 <pre><code># A tibble: 1 x 5
      id tch_name grade item1 item2

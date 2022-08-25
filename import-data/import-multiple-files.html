@@ -255,20 +255,19 @@ head(d, n=c(10,5))</code></pre>
 <p>Add an identifier using the argument <em>.id=</em> and naming the variable whatever you want, in this case “source”</p>
 <pre class="r"><code>d &lt;- fs::dir_ls(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;), glob =&quot;*.xlsx&quot;) %&gt;%
   map_dfr(readxl::read_excel, na=&quot;*&quot;, .id = &quot;source&quot;)</code></pre>
-<pre class="r"><code>print(d [1:10, 1:3])</code></pre>
-<pre><code># A tibble: 10 x 3
-   source                                                  YEAR PROPORTIONAL_AT~
-   &lt;chr&gt;                                                  &lt;dbl&gt;            &lt;dbl&gt;
- 1 C:/Users/Me/project/import-data/attendance/school-2_a~  2015             270 
- 2 C:/Users/Me/project/import-data/attendance/school-2_a~  2016             275.
- 3 C:/Users/Me/project/import-data/attendance/school-2_a~  2017             362 
- 4 C:/Users/Me/project/import-data/attendance/school-2_a~  2018             368 
- 5 C:/Users/Me/project/import-data/attendance/school-2_a~  2019             396 
- 6 C:/Users/Me/project/import-data/attendance/school-3_a~  2015             547.
- 7 C:/Users/Me/project/import-data/attendance/school-3_a~  2016             578 
- 8 C:/Users/Me/project/import-data/attendance/school-3_a~  2017             568 
- 9 C:/Users/Me/project/import-data/attendance/school-3_a~  2018             554 
-10 C:/Users/Me/project/import-data/attendance/school-3_a~  2019             536 </code></pre>
+<pre><code># A tibble: 10 x 5
+   source                YEAR PROPORTIONAL_AT~ PROPORTIONAL_AT~ PROPORTIONAL_AT~
+   &lt;chr&gt;                &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+ 1 C:/Users/Me/project~  2015             270              282              95.8
+ 2 C:/Users/Me/project~  2016             275.             299              91.8
+ 3 C:/Users/Me/project~  2017             362              391.             92.7
+ 4 C:/Users/Me/project~  2018             368              408.             90.3
+ 5 C:/Users/Me/project~  2019             396              440              90.1
+ 6 C:/Users/Me/project~  2015             547.             628              87.0
+ 7 C:/Users/Me/project~  2016             578              643              89.9
+ 8 C:/Users/Me/project~  2017             568              640.             88.9
+ 9 C:/Users/Me/project~  2018             554              625              88.6
+10 C:/Users/Me/project~  2019             536              614              87.3</code></pre>
 <p><strong>2. Read in all Excel files except one from the directory and bind them together.</strong></p>
 <p>Review the files in our “attendance” folder again</p>
 <pre class="r"><code>base::dir(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;))</code></pre>
@@ -296,15 +295,15 @@ head(d, n=c(10,5))</code></pre>
 
 File2 &lt;- fs::dir_ls(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;), 
                 glob =&quot;*.xlsx&quot;)[2] %&gt;%
-  map_dfr(readxl::read_excel, na=&quot;*&quot;)
+  purrr::map_dfr(readxl::read_excel, na=&quot;*&quot;)
 
 File3 &lt;- fs::dir_ls(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;), 
                 glob =&quot;*.xlsx&quot;)[3] %&gt;%
-  map_dfr(readxl::read_excel, na=&quot;*&quot;)
+  purrr::map_dfr(readxl::read_excel, na=&quot;*&quot;)
 
 File4 &lt;- fs::dir_ls(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;), 
                 glob =&quot;*.xlsx&quot;)[4] %&gt;%
-  map_dfr(readxl::read_excel, na=&quot;*&quot;)</code></pre>
+  purrr::map_dfr(readxl::read_excel, na=&quot;*&quot;)</code></pre>
 <p>If you get tired of typing the path over and over, you can put the path in an object and call that object (ex: “path”)</p>
 <pre class="r"><code>path &lt;- (here::here(&quot;import-data&quot;, &quot;attendance&quot;))
 
@@ -337,7 +336,7 @@ File4 &lt;- f(4)</code></pre>
 <pre class="r"><code>archive &lt;- readr::read_csv(here::here(&quot;import-data&quot;, &quot;data&quot;, &quot;hhs_archive.csv&quot;)) 
 
 archive %&gt;%
-  select(`Archive Link`) %&gt;%
+  dplyr::select(`Archive Link`) %&gt;%
   head()</code></pre>
 <pre><code># A tibble: 6 x 1
   `Archive Link`                                                                

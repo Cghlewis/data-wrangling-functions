@@ -315,7 +315,7 @@ We want to review any rows where either item1 OR item2 contain letters.
 ```{r}
 
 d16 %>% 
-  filter(if_any(item1:item2, 
+  dplyr::filter(dplyr::if_any(item1:item2, 
                 ~ stringr::str_detect(., pattern = "[a-zA-Z]")))
 
 ```

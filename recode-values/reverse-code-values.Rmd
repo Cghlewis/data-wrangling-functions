@@ -62,9 +62,9 @@ Check that your reverse code worked correctly
 
 ```{r}
 
-table(d2$Var2, d2_new$Var2_r)
+base::table(d2$Var2, d2_new$Var2_r)
 
-table(d2$Var3, d2_new$Var3_r)
+base::table(d2$Var3, d2_new$Var3_r)
 
 ```
 
@@ -216,9 +216,9 @@ Check that the recode worked
 
 ```{r}
 
-table(d2$Var2, d2$Var2_r)
+base::table(d2$Var2, d2$Var2_r)
 
-table(d2$Var3, d2$Var3_r)
+base::table(d2$Var3, d2$Var3_r)
 
 ```
 

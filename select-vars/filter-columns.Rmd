@@ -115,7 +115,7 @@ Keep numeric columns by adding the selection helper `where()`.
 
 ```{r}
 
-d2 %>% dplyr::select(where(is.numeric))
+d2 %>% dplyr::select(tidyselect::where(is.numeric))
 
 ```
 

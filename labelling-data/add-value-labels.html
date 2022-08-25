@@ -383,7 +383,7 @@ disagree  neutral    agree
 <li><p>Note: Parentheses are <em>not</em> required around labels here, although adding them will not hurt.</p></li>
 </ul>
 <pre class="r"><code>d3 &lt;- d3 %&gt;% 
-  dplyr::mutate(across(tidyselect::everything(), 
+  dplyr::mutate(dplyr::across(tidyselect::everything(), 
             ~labelled::labelled(., labels = c(disagree=1, neutral=2, agree=3))))
 
 d3 %&gt;% labelled::val_labels()</code></pre>

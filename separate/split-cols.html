@@ -267,7 +267,7 @@ pre code {
 <li><p>Note: Last I added <code>dplyr::select()</code> to drop the unnecessary name1 column.</p></li>
 </ul>
 <pre class="r"><code>d6 %&gt;% tidyr::separate(school_name, sep = &quot;[A-Z]\\.\\s&quot;, into = c(&quot;name1&quot;, &quot;school_name&quot;), fill=&quot;left&quot;) %&gt;%
-  dplyr::select (-name1)</code></pre>
+  dplyr::select(-name1)</code></pre>
 <pre><code># A tibble: 4 x 2
   school_name                city          
   &lt;chr&gt;                      &lt;chr&gt;         

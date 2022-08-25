@@ -239,7 +239,7 @@ Add the same value labels to all variables
 ```{r}
 
 d3 <- d3 %>% 
-  dplyr::mutate(across(tidyselect::everything(), 
+  dplyr::mutate(dplyr::across(tidyselect::everything(), 
             ~labelled::labelled(., labels = c(disagree=1, neutral=2, agree=3))))
 
 d3 %>% labelled::val_labels()

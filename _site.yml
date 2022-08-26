@@ -121,7 +121,9 @@ navbar:
   - text: "Restructure long"
     href: restructure\restructure-long.html
   - text: "Create recoded variables"
-    href: create-variables\add-new-column.html
+    href: create-variables\add-new-column-recode.html
+  - text: "Create dummy coded variables"
+    href: create-variables\add-new-column-dummy.html
 output:
   html_document:
     theme: readable

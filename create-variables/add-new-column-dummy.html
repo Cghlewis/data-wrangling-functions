@@ -191,7 +191,12 @@ pre code {
 5    14 &lt;NA&gt;    </code></pre>
 <p>We see here that our “cat” variable was a select all that apply question (where options are separated by a comma). We want these options to separated out into their own dummy coded variables that are 1 if the selection was chosen and 0 if the selection was not chosen.</p>
 <p>We can create our new variables using <code>dplyr::mutate()</code>, adding all variables in our one <code>mutate</code> function.</p>
-<p>cat1 = 1 cat2 = 2 cat4 = 4 cat5 = 5 cat10 = 10 cat11 = 11</p>
+<p>cat1 = 1<br />
+cat2 = 2<br />
+cat4 = 4<br />
+cat5 = 5<br />
+cat10 = 10<br />
+cat11 = 11</p>
 <ul>
 <li>Note: I used <code>stringr::str_count()</code> to count the number of instances for each categorical variable (there should only be one per row). We used regular expressions to pull out the values of interest.</li>
 </ul>
@@ -268,15 +273,16 @@ pre code {
   dplyr::mutate(count = 1) %&gt;%
   tidyr::pivot_wider(names_from = cert,
               values_from = count,
-              values_fill = 0)</code></pre>
+              values_fill = 0) %&gt;%
+  janitor::clean_names()</code></pre>
 <pre><code># A tibble: 5 x 4
-     id `elem ed` `special ed` `secondary ed`
-  &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;
-1    10         1            0              0
-2    11         0            1              0
-3    12         1            0              0
-4    13         0            1              0
-5    14         0            0              1</code></pre>
+     id elem_ed special_ed secondary_ed
+  &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;
+1    10       1          0            0
+2    11       0          1            0
+3    12       1          0            0
+4    13       0          1            0
+5    14       0          0            1</code></pre>
 <p>There are many other ways to do this using <code>dplyr::if_else()</code> or <code>dplyr::case_when()</code>. Here is an example below. However, I think using <code>tidyr::pivot_wider()</code> is a quicker and more efficient option.</p>
 <pre class="r"><code>d3 %&gt;%
   dplyr::mutate(elem_ed = dplyr::if_else(cert == &quot;elem ed&quot;, 1, 0))</code></pre>

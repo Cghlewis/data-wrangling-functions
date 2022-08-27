@@ -38,12 +38,12 @@ We see here that our "cat" variable was a select all that apply question (where 
 
 We can create our new variables using `dplyr::mutate()`, adding all variables in our one `mutate` function.
 
-cat1 = 1
-cat2 = 2
-cat4 = 4
-cat5 = 5
-cat10 = 10
-cat11 = 11
+cat1 = 1  
+cat2 = 2  
+cat4 = 4  
+cat5 = 5  
+cat10 = 10  
+cat11 = 11  
 
 * Note: I used `stringr::str_count()` to count the number of instances for each categorical variable (there should only be one per row). We used regular expressions to pull out the values of interest.
 
@@ -118,7 +118,8 @@ d3 %>%
   dplyr::mutate(count = 1) %>%
   tidyr::pivot_wider(names_from = cert,
               values_from = count,
-              values_fill = 0)
+              values_fill = 0) %>%
+  janitor::clean_names()
 
 ```
 

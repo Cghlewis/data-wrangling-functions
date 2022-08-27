@@ -23,7 +23,7 @@ knitr::opts_chunk$set(comment = NA,
 ---
 
 
-**1\. Create new dummy coded variables from a categorical column (cat)**
+**1\. Create new dummy coded variables from a categorical column with multiple items selected per cell (cat)**
 
 Review the data (d2)
 
@@ -67,7 +67,7 @@ We could have also used `stringr::str_detect()` if we were worried a category co
 
 d2 %>%
   dplyr::mutate(cat1 = 
-                  case_when(
+                  dplyr::case_when(
                     stringr::str_detect(cat, " 1,|^1,|, 1$") ~ 1,
                     is.na(cat) ~ NA_real_,
                     TRUE ~ 0))
@@ -83,5 +83,52 @@ d2 %>%
 
 ```
 
+<br>
+
+### Package: tidyr
+
+---
+
+#### Function: `pivot_wider()`
+
+---
+
+**1\. Create new dummy coded variables from a string categorical column (cert)**
+
+Review the data (d3)
+
+```{r, echo = FALSE}
+
+source("data.R")
+d3
+
+```
+
+In this situation, we only have one word per cell selected.
+
+Using `tidyr::pivot_wider()` we can pivot our categorical variable into separate dummy variables where 1 = yes the category was selected and 0 = the category was not selected.
+
+Before doing this, we will need to add one new count variable using the `dplyr::mutate()` function. This count variable will be used in our *values_from* argument in for `tidyr::pivot_wider()`.
+
+* Note: We also add the argument *values_fill* to fill in any cell where the response option was not selected. 
+
+```{r}
+
+d3 %>%
+  dplyr::mutate(count = 1) %>%
+  tidyr::pivot_wider(names_from = cert,
+              values_from = count,
+              values_fill = 0)
+
+```
+
+There are many other ways to do this using `dplyr::if_else()` or `dplyr::case_when()`. Here is an example below. However, I think using `tidyr::pivot_wider()` is a quicker and more efficient option.
+
+```{r}
+
+d3 %>%
+  dplyr::mutate(elem_ed = dplyr::if_else(cert == "elem ed", 1, 0))
+
+```
 
 Return to [Create New Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Create New Variables)

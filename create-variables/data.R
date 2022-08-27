@@ -12,3 +12,11 @@ d2 <- tibble::tribble(~id, ~cat,
                       12, "5, 2, 11",
                       13, "5, 1",
                       14, NA_character_)
+
+
+d3 <- tibble::tribble(~id, ~cert,
+                     10, "elem ed",
+                     11, "special ed",
+                     12, "elem ed",
+                     13, "special ed",
+                     14, "secondary ed")

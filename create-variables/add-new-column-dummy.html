@@ -179,7 +179,7 @@ pre code {
 <div id="function-mutate" class="section level4">
 <h4>Function: <code>mutate()</code></h4>
 <hr />
-<p><strong>1. Create new dummy coded variables from a categorical column (cat)</strong></p>
+<p><strong>1. Create new dummy coded variables from a categorical column with multiple items selected per cell (cat)</strong></p>
 <p>Review the data (d2)</p>
 <pre><code># A tibble: 5 x 2
      id cat     
@@ -216,7 +216,7 @@ pre code {
 </ul>
 <pre class="r"><code>d2 %&gt;%
   dplyr::mutate(cat1 = 
-                  case_when(
+                  dplyr::case_when(
                     stringr::str_detect(cat, &quot; 1,|^1,|, 1$&quot;) ~ 1,
                     is.na(cat) ~ NA_real_,
                     TRUE ~ 0))</code></pre>
@@ -239,6 +239,55 @@ pre code {
 3    12 5, 2, 11     0
 4    13 5, 1         1
 5    14 &lt;NA&gt;        NA</code></pre>
+<p><br></p>
+</div>
+</div>
+<div id="package-tidyr" class="section level3">
+<h3>Package: tidyr</h3>
+<hr />
+<div id="function-pivot_wider" class="section level4">
+<h4>Function: <code>pivot_wider()</code></h4>
+<hr />
+<p><strong>1. Create new dummy coded variables from a string categorical column (cert)</strong></p>
+<p>Review the data (d3)</p>
+<pre><code># A tibble: 5 x 2
+     id cert        
+  &lt;dbl&gt; &lt;chr&gt;       
+1    10 elem ed     
+2    11 special ed  
+3    12 elem ed     
+4    13 special ed  
+5    14 secondary ed</code></pre>
+<p>In this situation, we only have one word per cell selected.</p>
+<p>Using <code>tidyr::pivot_wider()</code> we can pivot our categorical variable into separate dummy variables where 1 = yes the category was selected and 0 = the category was not selected.</p>
+<p>Before doing this, we will need to add one new count variable using the <code>dplyr::mutate()</code> function. This count variable will be used in our <em>values_from</em> argument in for <code>tidyr::pivot_wider()</code>.</p>
+<ul>
+<li>Note: We also add the argument <em>values_fill</em> to fill in any cell where the response option was not selected.</li>
+</ul>
+<pre class="r"><code>d3 %&gt;%
+  dplyr::mutate(count = 1) %&gt;%
+  tidyr::pivot_wider(names_from = cert,
+              values_from = count,
+              values_fill = 0)</code></pre>
+<pre><code># A tibble: 5 x 4
+     id `elem ed` `special ed` `secondary ed`
+  &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;
+1    10         1            0              0
+2    11         0            1              0
+3    12         1            0              0
+4    13         0            1              0
+5    14         0            0              1</code></pre>
+<p>There are many other ways to do this using <code>dplyr::if_else()</code> or <code>dplyr::case_when()</code>. Here is an example below. However, I think using <code>tidyr::pivot_wider()</code> is a quicker and more efficient option.</p>
+<pre class="r"><code>d3 %&gt;%
+  dplyr::mutate(elem_ed = dplyr::if_else(cert == &quot;elem ed&quot;, 1, 0))</code></pre>
+<pre><code># A tibble: 5 x 3
+     id cert         elem_ed
+  &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;
+1    10 elem ed            1
+2    11 special ed         0
+3    12 elem ed            1
+4    13 special ed         0
+5    14 secondary ed       0</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Create%20New%20Variables">Create New Variables</a></p>
 </div>
 </div>

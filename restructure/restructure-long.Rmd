@@ -41,7 +41,7 @@ d1
 
 Restructure the data into long format, making "wave" a new variable
 
-* Note: We use a `tidyselect` selection helper `matches()` to select the columns we wish to pivot long. In this case we want any column that has the prefix "w#_". Using `matches()` rather than a selection helper such as `contains()`, we can use regular expressions to select columns.
+* Note: We use a `tidyselect` selection helper `matches()` in the *cols* argument to select the columns we wish to pivot long. In this case we want any column that has the prefix "w#_". Using `matches()` rather than a selection helper such as `contains()`, we can use regular expressions to select columns.
 
 * Note: Here we use the *names_to* argument to state that we want two new columns, the first one being wave and the second column being whatever our remaining value is after wave (in this case "q1"). ".value" defines the column containing the cell values and overrides the *values_to* argument.
 
@@ -61,8 +61,33 @@ d1 %>%
 
 ```
 
+**2\. Restructure our longitudinal data into long format**
 
-**2\. Restructure our data into tidy format**
+Review the data (d8)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d8
+
+```
+
+Unlike the prior example, we now have underscores used in our variable name to separate other pieces of metadata besides just our time component. Because of this, we can no longer simply use the argument *names_sep*. Instead we can use the *names_pattern* argument to develop a regular expression to describe the variable name and year groups of the variable.
+
+* Note: Instead of selecting the columns I want to pivot, I chose to select the columns I did NOT want to pivot in the *cols* argument.
+
+```{r}
+
+d8 %>%
+  pivot_longer(
+    cols = -c(tch_id:treatment),
+    names_to = c(".value", "year"),
+    names_pattern = "^(.*)_([0-9]{4})$")
+
+```
+
+
+**3\. Restructure our data into tidy format**
 
 Review the data (d5)
 

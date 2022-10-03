@@ -65,3 +65,10 @@ d7 <- tibble::tribble(
   2345, "1920", 2, 3, 3
 )
 
+d8 <- tibble::tribble(
+  ~tch_id, ~treatment, ~q1_sum_2018, ~q1_sum_2019,
+  1234, 1, 3, 5,
+  2345, 0, 4, 5,
+  3456, 1, NA, 2,
+)
+

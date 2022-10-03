@@ -1,5 +1,5 @@
 ---
-title: "Import multiple files"
+title: "Import multiple files and combine"
 output: 
   html_document:
     anchor_sections: FALSE

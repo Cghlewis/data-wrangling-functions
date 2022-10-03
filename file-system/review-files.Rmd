@@ -48,6 +48,8 @@ stringr::str_replace_all(
 
 Notice you will get the full path names here. `fs::dir_ls()` creates a character vector of file names.
 
+* Note: One thing to note here is that your files may not print out in the order that you see them in your directory (i.e. the order your operating system puts them in). That is because your operating system, such as Windows, has its own ordering system. However, when the files are displayed in R, you will see the files in alphabetical order. So if you have files doc1, doc2, doc10, in that order in your directory, they may appear as doc1, doc10, doc2 in RStudio.
+
 <br>
 
 ### Package: base

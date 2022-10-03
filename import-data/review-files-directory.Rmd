@@ -1,0 +1,88 @@
+---
+title: "Reviewing files in a folder"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+
+library(tidyverse)
+
+```
+
+
+### Package: fs
+
+---
+
+#### Function: `dir_ls()`
+
+---
+
+**1\. Review files in my folder named "attendance"**
+
+* Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "attendance" is within another folder called "import-data" which is located in the top level of my project directory. You could also just list your entire file path.
+
+
+```{r, eval = FALSE}
+
+fs::dir_ls(path = here::here("import-data", "attendance"))
+
+```
+
+```{r, echo = FALSE}
+
+d <- fs::dir_ls(path = here::here("import-data", "attendance"))
+
+stringr::str_replace_all(
+  d, "C:/Users/Crystal/Desktop/desktop/R/Working R Stuff/data-wrangling-functions/", "C:/Users/Me/project/") 
+
+```
+
+Notice you will get the full path names here. `fs::dir_ls()` creates a character vector of file names.
+
+You can also use `base::dir()` or `base::list.files()` to retrieve just the file names. 
+
+* Note: `base::dir()` is an alias for `base::list.files()`
+
+```{r}
+
+base::list.files(path = here::here("import-data", "attendance"))
+
+```
+
+And if you add the argument *full.names = TRUE* you will get the same result as `fs::dir_ls()`
+
+```{r, eval = FALSE}
+
+base::list.files(path = here::here("import-data", "attendance"), full.names = TRUE)
+
+```
+
+* Note: Again if you did not want to use `here::here()` you could just list the full file path.
+
+```{r, eval=FALSE}
+
+fs::dir_ls(path = "C:/Users/Name/project/import-data/attendance")
+
+```
+
+And last, if you've collected all of your files in an object, you can also use `base::basename()` to retrieve just file names.
+
+```{r}
+
+path <- fs::dir_ls(path = here::here("import-data", "attendance"))
+
+base::basename(path)
+
+```
+
+* Note: One thing to note here is that your files may not print out in the order that you see them in your directory (i.e. the order your operating system puts them in). That is because your operating system, such as Windows, has it's own ordering system. However, when the files are displayed in R, you will see the files in alphabetical order. So if you have files doc1, doc2, doc10, in that order in your directory, they may appear as doc1, doc10, doc2 in RStudio.
+
+
+
+Return to [Import Files](https://github.com/Cghlewis/data-wrangling-functions/wiki/Import Files)

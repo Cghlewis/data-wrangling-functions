@@ -1,0 +1,188 @@
+---
+title: "Import multiple files as separate data frames"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+
+library(tidyverse)
+
+```
+
+
+### Package: purrr
+
+---
+
+#### Function: `map()`
+
+---
+
+**1\. Read in all Excel files from the directory and create individual data frames for each file.**
+
+Review the files in our directory
+
+* Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "attendance" is within another folder called "import-data" which is located in the top level of my project directory. You could also just list your entire file path.
+
+```{r, eval = FALSE}
+
+fs::dir_ls(path = here::here("import-data", "attendance"))
+
+```
+
+```{r, echo = FALSE}
+
+d <- fs::dir_ls(path = here::here("import-data", "attendance"))
+
+stringr::str_replace_all(
+  d, "C:/Users/Crystal/Desktop/desktop/R/Working R Stuff/data-wrangling-functions/", "C:/Users/Me/project/") 
+
+```
+
+We see that there are 4 Excel files in the directory and one csv file. We only want to import the Excel files.
+
+There are several ways to do this. 
+
+First, we can read in our files using `fs::dir_ls()` and then use base R bracket indexing `[]` to extract the element we are referencing (only shown for 2 of the 4 files here)
+
+* Note: By adding the `fs::dir_ls()` argument *glob = "\*.xlsx"* we are saying we only want to read in the Excel files with the extension “.xlsx”. In this case, while there are 5 files in the directory, only 4 of them were Excel files, one file was csv format.
+
+* Note: In the function `readxl::read_excel()` I added the argument *na=* because I know the files I am reading in use “*” to denote missing values.
+
+```{r, eval=FALSE}
+
+# Create a list of files
+files <- fs::dir_ls(here::here("import-data", "attendance"), glob = "*.xlsx")
+
+# Read in each file
+File1 <- readxl::read_excel(path = files[1], na = "*")
+
+File2 <- readxl::read_excel(path = files[2], na = "*")
+
+```
+
+Second, if you have several files to read in, you can make a function to retrieve all of your separate data frames
+
+```{r, eval=FALSE}
+
+f <- function(x) {
+  fs::dir_ls(here::here("import-data", "attendance"), glob = "*.xlsx")[x] %>%
+    readxl::read_excel(path = ., na = "*")
+}
+
+File1 <- f(1)
+File2 <- f(2)
+File3 <- f(3)
+File4 <- f(4)
+
+```
+
+Last, and probably the best solution I have for now, is to use `purrr::map()` in conjunction with the `base::list2env()` function, which creates environment variables from a named list.
+
+* Note: We use `purrr::map()` to first create a list. We also use `purrr::set_names()` (to create a named list), in conjunction with `base::basename()` and `stringr::str_remove()` to create more usable data frame names.
+
+* Note: The main arguments you include for `purrr::map()` are .x, a list or atomic vector (files to read), and .f, which in this scenario is a function. Below I have not added a “.” for the .x argument to denote that I am referring to the character vector we created in the previous step. In this instance, it is implied.
+
+```{r, echo = FALSE}
+
+rm(list = ls())
+
+```
+
+
+```{r}
+
+# Create our list of data frames
+my_file_list <- fs::dir_ls(path = here::here("import-data", "attendance"), 
+                glob ="*.xlsx") %>%
+  purrr::set_names(basename(stringr::str_remove(., ".xlsx"))) %>%
+  purrr::map(readxl::read_excel, na="*")
+
+# Create environment variables from our list
+list2env(my_file_list, envir=.GlobalEnv)
+
+# Review all objects in environment
+ls()
+
+```
+
+
+**2\. Read in all sheets of an Excel file as separate data frames.**
+
+View the sheets in our workbook
+
+```{r}
+
+path <- (here::here("import-data", "data", "all-school_attendance.xlsx"))
+
+path %>% 
+readxl::excel_sheets()
+
+```
+
+Again, there are several ways to read in each sheet as a data frame. 
+
+First you can read in one sheet at a time using `readxl::read_excel` and adding the argument *sheet=*, which allows you to call the name of the sheet OR the position.
+
+```{r, eval=FALSE}
+
+df1 <- readxl::read_excel(path, sheet = "Sheet1")
+
+df2 <- readxl::read_excel(path, sheet = "Sheet2")
+
+df3 <- readxl::read_excel(path, sheet = "Sheet3")
+
+```
+
+Second, you can read grab all of the Excel sheets using `readxl::excel_sheets()` and then iterate our function (`readxl::read_excel()`) over each sheet using `purrr::map()` to create a list of data frames.
+
+We can then use the `$` to select each sheet from the list by name.
+
+* Note: Using `purrr::set_names()` we are creating a named list (giving each sheet a name)
+
+```{r, eval=FALSE}
+
+data <- path %>% 
+  readxl::excel_sheets() %>% 
+  purrr::set_names() %>% 
+  purrr::map(readxl::read_excel, path = path)
+
+df1 <- data$Sheet1
+
+df2 <- data$Sheet2
+
+df3 <- data$Sheet3
+
+```
+
+But again, if we have many sheets, the method above can be time consuming. A better option may be to use `base::list2env()`again.
+
+```{r, echo = FALSE}
+
+rm(list = ls())
+
+```
+
+```{r}
+
+# Create our list of data frames
+my_file_list <- here::here("import-data", "data", "all-school_attendance.xlsx") %>% 
+  readxl::excel_sheets() %>% 
+  purrr::set_names() %>% 
+  purrr::map(readxl::read_excel, path = here::here("import-data", "data", "all-school_attendance.xlsx"))
+
+# Create environment variables from our list
+list2env(my_file_list, envir=.GlobalEnv)
+
+# Review all objects in environment
+ls()
+
+```
+
+
+Return to [Import Files](https://github.com/Cghlewis/data-wrangling-functions/wiki/Import Files)

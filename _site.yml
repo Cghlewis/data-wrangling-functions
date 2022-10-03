@@ -70,8 +70,12 @@ navbar:
     href: import-data\import-single-file.html
   - text: "Import from a url"
     href: import-data\import-from-url.html
-  - text: "Import multiple files"
+  - text: "Review directory files"
+    href: import-data\review-files-directory.html
+  - text: "Import multiple files and bind"
     href: import-data\import-multiple-files.html
+  - text: "Import multiple files and keep separate"
+    href: import-data\import-multiple-files-separate.html
   - text: "Set all variable names"
     href: name-variables\set-variable-names.html
   - text: "Rename variables"

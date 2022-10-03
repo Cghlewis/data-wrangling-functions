@@ -15,18 +15,20 @@ library(tidyverse)
 ```
 
 
-### Package: fs
+### Package: purrr
 
 ---
 
-#### Function: `dir_ls()`
+#### Function: `map_dfr()`
 
 ---
 
-**1\. Review files in my folder named "attendance"**
+
+**1a\. Read in all Excel files from the "attendance" folder and bind them together. Note that an asterisk was used to denote NAs and we need to notify R of that.**
+
+Review the files in our directory
 
 * Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "attendance" is within another folder called "import-data" which is located in the top level of my project directory. You could also just list your entire file path.
-
 
 ```{r, eval = FALSE}
 
@@ -43,55 +45,9 @@ stringr::str_replace_all(
 
 ```
 
-Notice you will get the full path names here. `fs::dir_ls()` creates a character vector of file names.
+We see that there are 4 Excel files in the directory and one csv file. We only want to import the Excel files.
 
-You can also use `base::dir()` or `base::list.files()` to retrieve just the file names. 
-
-* Note: `base::dir()` is an alias for `base::list.files()`
-
-```{r}
-
-base::list.files(path = here::here("import-data", "attendance"))
-
-```
-
-And if you add the argument *full.names = TRUE* you will get the same result as `fs::dir_ls()`
-
-```{r, eval = FALSE}
-
-base::list.files(path = here::here("import-data", "attendance"), full.names = TRUE)
-
-```
-
-* Note: Again if you did not want to use `here::here()` you could just list the full file path.
-
-```{r, eval=FALSE}
-
-fs::dir_ls(path = "C:/Users/Name/project/import-data/attendance")
-
-```
-
-And last, if you've collected all of your files in an object, you can also use `base::basename()` to retrieve just file names.
-
-```{r}
-
-path <- fs::dir_ls(path = here::here("import-data", "attendance"))
-
-base::basename(path)
-
-```
-
-
-### Package: purrr
-
----
-
-#### Function: `map_dfr()`
-
----
-
-
-**1a\. Read in all Excel files from the "attendance" folder and bind them together. Note that an asterisk was used to denote NAs and we need to notify R of that.**
+We can read in all of our files using `fs::dir_ls()` and bind them together using `purrr::map_dfr()`
 
 * Note: By adding the `dir_ls()` argument *glob = "\*.xlsx"* you are saying you only want to read in the Excel files with the extension ".xlsx". In this case, while there are 5 files in the directory, only 4 of them were Excel files, one file was csv format.
 
@@ -110,9 +66,9 @@ base::basename(path)
 ```{r}
 
 d <- fs::dir_ls(path = here::here("import-data", "attendance"), glob ="*.xlsx") %>%
-  map_dfr(readxl::read_excel, na="*")
+  purrr::map_dfr(readxl::read_excel, na="*")
 
-head(d, n=c(10,5))
+head(d, n = c(10,5))
 
 ```
 
@@ -183,69 +139,7 @@ d <- fs::dir_ls(path = here::here("import-data", "attendance"),
 ```
 
 
-**3\. Read in all Excel files from the directory but then create individual data frames for each file.**
-
-Use base R bracket indexing `[]` to extract the element you are referencing
-
-```{r, eval=FALSE}
-
-File1 <- fs::dir_ls(path = here::here("import-data", "attendance"), 
-                glob ="*.xlsx")[1] %>%
-  purrr::map_dfr(readxl::read_excel, na="*")
-
-File2 <- fs::dir_ls(path = here::here("import-data", "attendance"), 
-                glob ="*.xlsx")[2] %>%
-  purrr::map_dfr(readxl::read_excel, na="*")
-
-File3 <- fs::dir_ls(path = here::here("import-data", "attendance"), 
-                glob ="*.xlsx")[3] %>%
-  purrr::map_dfr(readxl::read_excel, na="*")
-
-File4 <- fs::dir_ls(path = here::here("import-data", "attendance"), 
-                glob ="*.xlsx")[4] %>%
-  purrr::map_dfr(readxl::read_excel, na="*")
-
-
-```
-
-If you get tired of typing the path over and over, you can put the path in an object and call that object (ex: "path")
-
-```{r, eval=FALSE}
-
-path <- (here::here("import-data", "attendance"))
-
-File1 <- fs::dir_ls(path, glob ="*.xlsx")[1] %>%
-  purrr::map_dfr(readxl::read_excel, na="*")
-
-File2 <- fs::dir_ls(path, glob ="*.xlsx")[2] %>%
-  purrr::map_dfr(readxl::read_excel, na="*")
-
-File3 <- fs::dir_ls(path, glob ="*.xlsx")[3] %>%
-  purrr::map_dfr(readxl::read_excel, na="*")
-
-File4 <- fs::dir_ls(path, glob ="*.xlsx")[4] %>%
-  purrr::map_dfr(readxl::read_excel, na="*")
-
-```
-
-You can use a loop (not shown here b/c I'm not great at writing them yet!) or make a function (shown here) and use that function to retrieve all of your separate data frames
-
-```{r, eval=FALSE}
-
-f <- function(x) {
-  fs::dir_ls(path, glob ="*.xlsx")[x] %>%
-    purrr::map_dfr(readxl::read_excel, na="*")
-  
-}
-
-File1 <- f(1)
-File2 <- f(2)
-File3 <- f(3)
-File4 <- f(4)
-
-```
-
-**4\. Read in all csv files (from an existing file with a list of links) and bind all files into one dataframe.**
+**3\. Read in all csv files (from an existing file with a list of links) and bind all files into one dataframe.**
 
 In this instance, we are using a file downloaded on 2022-05-05 from Health and Human Services that provides a link to all archived datasets from the [COVID-19 Community Profile Report County Level Data](https://healthdata.gov/dataset/COVID-19-Community-Profile-Report-County-Level-di4/pcq6-asfs).
 
@@ -293,23 +187,17 @@ Last we can use this character vector in our `purrr::map_dfr()` function along w
 
 ```{r, message = FALSE, error = FALSE}
 
-all_files <- purrr::map_dfr(files, read_csv, col_select = -fema_region, id = "source")
+all_files <- purrr::map_dfr(files, read_csv, col_select = -fema_region, .id = "source")
 
 all_files %>%
-  dplyr::select(source: cases_last_7_days) %>%
+  dplyr::select(source:cases_last_7_days) %>%
   head()
 
 ```
 
 
----
 
-#### Function: `map()`
-
----
-
-
-**1\. Read in all sheets of an Excel file as separate data frames.**
+**4\. Read in all sheets of an Excel file and bind them into one large data frame.**
 
 View the sheets in our workbook
 
@@ -322,32 +210,14 @@ readxl::excel_sheets()
 
 ```
 
-You can read in one sheet at a time using `readxl::read_excel` and adding the argument *sheet=*, which allows you to call the name of the sheet OR the position.
-
-```{r, eval=FALSE}
-
-df1 <- readxl::read_excel(path, sheet = "Sheet1")
-
-df2 <- readxl::read_excel(path, shee = "Sheet2")
-
-df3 <- readxl::read_excel(path, sheet = "Sheet3")
-
-```
-
-Or you can read all Excel sheets into a list using `readxl::excel_sheets()`. Then we iterate over each sheet using `purrr::map()` to  pull out each sheet into their own data frame. Last we use the `$` to select each sheet from the list by name.
 
 ```{r, eval=FALSE}
 
 data <- path %>% 
   readxl::excel_sheets() %>% 
   purrr::set_names() %>% 
-  purrr::map(readxl::read_excel, path = path)
+  purrr::map_dfr(readxl::read_excel, path = path, .id = "source")
 
-df1 <- data$Sheet1
-
-df2 <- data$Sheet2
-
-df3 <- data$Sheet3
 
 ```
 

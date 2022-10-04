@@ -1,5 +1,5 @@
 ---
-title: "Data frame column comparison"
+title: "Data frame column type comparison"
 output: 
   html_document:
     toc: false
@@ -23,7 +23,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Compare two data frames that should have identical columns to see if there are any differences in their values**
+**1\. Compare two data frames that should have identical column types to see if there are any differences**
 
 Read in the data
 
@@ -32,7 +32,7 @@ Read in the data
 ```{r, eval=FALSE}
 
 entry1 <- readr::read_csv("project-a_forms_entry1.csv")
-entry3 <- readr::read_csv("project-b_forms_entry2.csv")
+entry3 <- readr::read_csv("project-b_forms_entry3.csv")
 
 ```
 
@@ -46,7 +46,7 @@ head(entry1)
 
 ```
 
-Review entry2
+Review entry3
 
 ```{r, echo=FALSE}
 
@@ -55,7 +55,8 @@ head(entry3)
 
 ```
 
-Now check if there are any differences in the two data frames.  
+Now check if there are any differences in the column classes between the two data frames.
+The function `janitor::compare_df_cols()` will indicate if data frames will successfully bind together by rows.
 
 ```{r}
 
@@ -70,5 +71,6 @@ If we only wanted to see the differences, we could add the argument *return = "m
 janitor::compare_df_cols(entry1, entry3, return = "mismatch")
 
 ```
+
 
 Return to [Compare data frames](https://github.com/Cghlewis/data-wrangling-functions/wiki/Compare data frames)

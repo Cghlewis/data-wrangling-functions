@@ -23,8 +23,6 @@ knitr::opts_chunk$set(comment = NA,
   
 * Note: Unlike `dplyr::rename()` where you can rename individual columns, `dplyr::rename_with()` renames columns using a function.
 
-* Note: You can either rename all variables or select variables with `dplyr::rename_with()`. The order is, *(function used to rename, columns selected)*. If you don't select columns, all variables will be renamed.
-
 <br>
 
 **1\. Concatenate a prefix, "T1_", to all variable names**
@@ -38,13 +36,14 @@ d1
 
 ```
 
-Concatenate T1_ by adding the `base::paste0` function.
+Concatenate T1_ by adding the `base::paste0` function within the `dplyr::rename_with()` function.
 
 * Note: Using `base::paste0` concatenates the string directly to the variable name. Using `base::paste()` concatenates with a string separator.
 
 ```{r}
 
-d1 %>% dplyr::rename_with(~ base::paste0("T1_", .))
+d1 %>% 
+  dplyr::rename_with(~ base::paste0("T1_", .))
 
 ```
 
@@ -52,15 +51,17 @@ To make a suffix _T1 rather than a prefix, rewrite the function like this.
 
 ```{r}
 
-d1 %>% dplyr::rename_with(~ base::paste0(., "_T1"))
+d1 %>% 
+  dplyr::rename_with(~ base::paste0(., "_T1"))
 
 ```
 
-You can also add your separator if you would rather use the `base::paste()` function
+You can also use the `base::paste()` function instead and add your separator using the *sep* argument.
 
 ```{r}
 
-d1 %>% dplyr::rename_with(~ base::paste(., "T1", sep= "_"))
+d1 %>% 
+  dplyr::rename_with(~ base::paste(., "T1", sep= "_"))
 
 ```
 
@@ -76,7 +77,9 @@ d1
 
 ```
 
-Concatenate T1_ by adding the `base::paste0` function and the selection helper `where()`. 
+Concatenate T1_ by adding the `base::paste0` function.
+
+If we want to select specific variables, we can add them to the `dplyr::rename_with()` argument *.cols*. Here we are going to select columns using the selection helper `where()`. 
 
 * Note: Other `tidyselect` selection helpers include `starts_with()`, `ends_with()`, `contains()`, `matches()`, and `num_range()`, and more.
 
@@ -84,7 +87,8 @@ Concatenate T1_ by adding the `base::paste0` function and the selection helper `
 
 ```{r}
 
-d1 %>% dplyr::rename_with(~ base::paste0("T1_", .), where(is.numeric))
+d1 %>% 
+  dplyr::rename_with(~ base::paste0("T1_", .), .cols = where(is.numeric))
 
 ```
 
@@ -103,10 +107,19 @@ Concatenate T1_ by adding the `base::paste0` function.
 
 ```{r}
 
-d1 %>% dplyr::rename_with(~ base::paste0("T1_", .), Var2:Var3)
+d1 %>% 
+  dplyr::rename_with(~ base::paste0("T1_", .), .cols = Var2:Var3)
 
 ```
 
+I could also do this by choose all variables *except* Var1.
+
+```{r}
+
+d1 %>% 
+  dplyr::rename_with(~ base::paste0("T1_", .), .cols = -Var1)
+
+```
 
 **4\. Concatenate a prefix, "T1_", to Var1 to Var3 and Var5 **
 
@@ -123,7 +136,8 @@ Concatenate T1_ by adding the `base::paste0` function.
 
 ```{r}
 
-d8 %>% dplyr::rename_with(~ base::paste0("T1_", .), c(Var1:Var3, Var5))
+d8 %>% 
+  dplyr::rename_with(~ base::paste0("T1_", .), .cols = c(Var1:Var3, Var5))
 
 ```
 
@@ -158,7 +172,8 @@ Concatenate T1_ by adding the `base::paste0` function.
 
 ```{r}
 
-d1 %>% purrr::set_names(~ base::paste0("T1_", .))
+d1 %>% 
+  purrr::set_names(~ base::paste0("T1_", .))
 
 ```
 

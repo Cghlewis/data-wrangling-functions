@@ -115,8 +115,37 @@ Keep numeric columns by adding the selection helper `where()`.
 
 ```{r}
 
-d2 %>% dplyr::select(tidyselect::where(is.numeric))
+d2 %>% dplyr::select(where(is.numeric))
 
 ```
+
+**4\. Select all columns except extra1**
+
+Review the data (d4)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d4
+
+```
+
+Similar to above, I could use the *-* to remove columns
+
+```{r}
+
+d4 %>% dplyr::select(-extra1)
+
+```
+
+Another way I could select all columns except extra1 is to select extra2 through all columns until the last column, using the `tidyselect` selection helper `last_col()`. This is helpful if you don't always know what the last column is but you know you want to keep everything until the end.
+
+```{r}
+
+d4 %>% dplyr::select(extra2:last_col())
+
+```
+
+
 
 Return to [Select Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Select-Variables)

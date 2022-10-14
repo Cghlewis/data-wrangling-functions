@@ -88,8 +88,10 @@ navbar:
     href: name-variables\concatenate-names.html
   - text: "Clean variable names"
     href: name-variables\clean-names.html
-  - text: "Reorder Variables"
+  - text: "Reorder variables"
     href: reorder\reorder-variables.html
+  - text: "Reorder variables using a data dictionary"
+    href: reorder\reorder-variables-data-dict.html
   - text: "Reorder values"
     href: reorder\reorder-values.html
   - text: "Sort rows"

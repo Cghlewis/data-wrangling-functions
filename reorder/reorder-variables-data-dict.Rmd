@@ -1,0 +1,102 @@
+---
+title: "Reorder variables using a data dictionary"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `relocate()`
+
+---
+
+**1\. Relocate variables to be in the same order as your data dictionary**
+
+Review the data (d5)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d5
+
+```
+
+Review the data dictionary
+
+Notice the order of variables in the dictionary is different than the current order of variables in the data
+
+```{r echo = FALSE}
+
+dict
+
+```
+
+We can now create a character vector of all of the variables in the correct order using our data dictionary.
+
+* Note: We use `dplyr::pull()` to extract the one column with the names of the variables in our data dictionary and create a character vector
+
+```{r}
+
+var_order <- dict %>%
+  dplyr::select(var_name) %>%
+  dplyr::pull()
+
+```
+
+We can now use this character vector to reorder variables in our data frame.
+
+* Note: We use `tidyselect::all_of()` to select variables that are contained in a character vector (an environment variable). 
+
+```{r}
+
+d5 %>%
+  dplyr::relocate(all_of(var_order))
+
+```
+
+* Note: If for some reason you have additional variables in your data frame that are not in your data dictionary, I would first recommend adding all variables in your data frame to your data dictionary to make sure you are accounting for everything. 
+
+However, if for some reason the situation occurs where you have more variables in your data frame than are in your data dictionary, all variables not listed in your data dictionary will be added to the end of your dataset.
+
+Here is an example of this situation.
+
+Our data dictionary with partial variables.
+
+```{r echo = FALSE}
+
+dict2
+
+```
+
+```{r}
+
+var_order <- dict2 %>%
+  dplyr::select(var_name) %>%
+  dplyr::pull()
+
+```
+
+```{r}
+
+d5 %>%
+  dplyr::relocate(all_of(var_order))
+
+```
+
+The other scenario that might happen is that your data dictionary has **more** variables than your data frame. In this situation you will get an error that says "Can't subset columns that don't exist". You will need to fix the discrepancies between your data dictionary and data frames.
+
+Return to [Reorder](https://github.com/Cghlewis/data-wrangling-functions/wiki/Reorder)
+
+

@@ -66,7 +66,7 @@ d5 %>%
 
 ```
 
-* Note: If for some reason you have additional variables in your data frame that are not in your data dictionary, I would first recommend adding all variables in your data frame to your data dictionary to make sure you are accounting for everything. 
+If for some reason you have **additional variables** in your data frame that are not in your data dictionary, I would first recommend adding all variables in your data frame to your data dictionary to make sure you are accounting for everything. 
 
 However, if for some reason the situation occurs where you have more variables in your data frame than are in your data dictionary, all variables not listed in your data dictionary will be added to the end of your dataset.
 

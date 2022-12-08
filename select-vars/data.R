@@ -62,3 +62,10 @@ dictionary <- tibble::tribble(
   "test_score1", "1st test score", "yes",
   "test_score2", "2nd test score", "yes"
 )
+
+d7 <- tibble::tribble(
+  ~stress1, ~anxiety1, ~stress1_reverse, ~anxiety1_reverse, ~extra1, ~ extra1_reverse,
+  1, 4, 4, 1, 2, 4,
+  2, 2, 3, 3, 5, 1, 
+  4, 2, 1, 3, 3, 2
+)

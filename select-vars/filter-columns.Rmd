@@ -146,6 +146,31 @@ d4 %>% dplyr::select(extra2:last_col())
 
 ```
 
+**5\. Keep selected columns (stress1_reverse, anxiety1_reverse)**
+
+Review the data (d7)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d7 %>%
+  relocate(stress1, stress1_reverse, anxiety1, anxiety1_reverse,)
+
+```
+
+Because there are both reversed and non-reversed versions of these variables, we will need to be careful to not select the non-reversed versions.
+
+Currently this is a small number of variables to select and we could easily just list these variables out in a select statement. But if there were 40 of these variables, we may want to be more strategic about selecting these variables.
+
+We could add 2 selection criteria to select our variables that start with "stress" or "anxiety" and end in "reverse" in order to grab all of our variables of interest.
+
+```{r}
+
+d7 %>%
+  dplyr::select(tidyselect::starts_with(c("stress", "anxiety")) & tidyselect::ends_with("reverse"))
+
+```
+
 
 
 Return to [Select Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Select-Variables)

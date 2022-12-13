@@ -1,5 +1,5 @@
 ---
-title: "Add calculated variable"
+title: "Calculate a new variable"
 output: 
   html_document:
     toc: false
@@ -38,7 +38,7 @@ Many times, in order to de-identify data we will remove date of birth and testin
 
 Here we can use `dplyr::mutate()` to create our new age variable. 
 
-Then, we can calculate our age variable. Calculating variables from date ranges can be a little tricky because a) they are dates and b) calendar days are not consistent. While there are probably many ways to calculate our age variable, here I am using the `lubridate::interval()` function to create a time span between two dates (as a sequence of seconds) and then I can divide that time span by the base function `months()` to get the number of months between the two dates. generates a duration of one week in seconds
+Then, we can calculate our age variable. 
 
 ```{r}
 

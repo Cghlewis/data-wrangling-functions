@@ -373,7 +373,8 @@ pre code {
 <div id="function-mutate" class="section level4">
 <h4>Function: <code>mutate()</code></h4>
 <hr />
-<p><strong>1. Create a new calculated variable (age)</strong></p>
+<p><strong>1. Create a new calculated variable (age in
+months)</strong></p>
 <p>Review the data (d4)</p>
 <pre><code># A tibble: 4 x 3
      id dob        test_date 
@@ -438,11 +439,12 @@ function <code>base::as.numeric()</code>.</p>
 # ... with abbreviated variable name 1: age_interval_seconds</code></pre>
 <p>The next step in the above function is to calculate the number of
 months that occur in that interval. To do that we can use the
-<code>base::months()</code> function. This function generates a duration
-of one month in seconds (2629800). You can get this number by typing
-<code>as.numeric(months(1))</code> in your console. Then we can divide
-our interval (which is in seconds) by our number of seconds in a month
-to get our total number of months (age) in a duration of time.</p>
+<code>base::months()</code> function. Adding the input of 1 to this
+function generates a duration of one month in seconds (2629800). You can
+get this number by typing <code>as.numeric(months(1))</code> in your
+console. Then we can divide our interval (which is in seconds) by our
+number of seconds in a month to get our total number of months (age) in
+an interval of time.</p>
 <pre class="r"><code>d4_new %&gt;%
   dplyr::mutate(age_months = age_interval/base::months(1))</code></pre>
 <pre><code># A tibble: 4 x 5

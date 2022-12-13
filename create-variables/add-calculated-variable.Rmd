@@ -23,7 +23,7 @@ knitr::opts_chunk$set(comment = NA,
 ---
 
 
-**1\. Create a new calculated variable (age)**
+**1\. Create a new calculated variable (age in months)**
 
 Review the data (d4)
 
@@ -69,7 +69,7 @@ d4_new %>%
 ```
 
 
-The next step in the above function is to calculate the number of months that occur in that interval. To do that we can use the `base::months()` function. This function generates a duration of one month in seconds (2629800). You can get this number by typing `as.numeric(months(1))` in your console. Then we can divide our interval (which is in seconds) by our number of seconds in a month to get our total number of months (age) in a duration of time.
+The next step in the above function is to calculate the number of months that occur in that interval. To do that we can use the `base::months()` function. Adding the input of 1 to this function generates a duration of one month in seconds (2629800). You can get this number by typing `as.numeric(months(1))` in your console. Then we can divide our interval (which is in seconds) by our number of seconds in a month to get our total number of months (age) in an interval of time.
 
 ```{r}
 

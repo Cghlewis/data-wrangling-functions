@@ -78,7 +78,7 @@ d4_new %>%
 
 ```
 
-Last if you want a clean round number of months you have several options. One option is to use the integral division operator `%/%` rather than `/`. Using this method divides two numbers and returns the integer part of the result.
+Last if you want a clean round number of months (and you most likely will want the number to be rounded to create more anonymity) you have several options. One option is to use the integral division operator `%/%` rather than `/`. Using this method divides two numbers and returns the integer part of the result.
 
 ```{r}
 

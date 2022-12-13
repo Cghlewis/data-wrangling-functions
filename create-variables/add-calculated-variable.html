@@ -454,8 +454,9 @@ an interval of time.</p>
 2    11 2011-07-08 2021-10-15 2011-07-08 UTC--2021-10-15 UTC       123.
 3    12 2012-01-22 2021-10-15 2012-01-22 UTC--2021-10-15 UTC       117.
 4    13 2011-12-13 2021-10-17 2011-12-13 UTC--2021-10-17 UTC       118.</code></pre>
-<p>Last if you want a clean round number of months you have several
-options. One option is to use the integral division operator
+<p>Last if you want a clean round number of months (and you most likely
+will want the number to be rounded to create more anonymity) you have
+several options. One option is to use the integral division operator
 <code>%/%</code> rather than <code>/</code>. Using this method divides
 two numbers and returns the integer part of the result.</p>
 <pre class="r"><code>d4 %&gt;%

@@ -411,9 +411,10 @@ seconds</p>
 is happening. Calculating variables from date ranges can be a little
 tricky because a) they are dates and b) calendar days are not
 consistent. While there are probably many ways to calculate our age
-variable, here I am using the <code>lubridate::interval()</code>
+variable, here I am first using the <code>lubridate::interval()</code>
 function to create a time span between two dates (as a sequence of
-seconds).</p>
+seconds). We add our starting date to the <em>start</em> argument and
+our ending date to the <em>end</em> argument.</p>
 <pre class="r"><code>d4_new &lt;- d4 %&gt;%
   dplyr::mutate(age_interval = lubridate::interval(start = dob, end = test_date))
 

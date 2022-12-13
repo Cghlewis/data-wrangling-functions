@@ -393,12 +393,12 @@ variable.</p>
 <pre class="r"><code>d4 %&gt;%
   dplyr::mutate(age_months = lubridate::interval(start = dob, end = test_date)/base::months(1))</code></pre>
 <pre><code># A tibble: 4 x 4
-     id dob        test_date  age_months
-  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;
-1    10 2010-11-12 2021-10-14       131.
-2    11 2011-07-08 2021-10-15       123.
-3    12 2012-01-22 2021-10-15       117.
-4    13 2011-12-13 2021-10-17       118.</code></pre>
+     id dob        test_date   age_months
+  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;            &lt;dbl&gt;
+1    10 2010-11-12 2021-10-14 131.0645161
+2    11 2011-07-08 2021-10-15 123.2258065
+3    12 2012-01-22 2021-10-15 116.7666667
+4    13 2011-12-13 2021-10-17 118.1290323</code></pre>
 <p>Let’s step through each part of this calculation to understand what
 is happening. Calculating variables from date ranges can be a little
 tricky because a) they are dates and b) calendar days are not
@@ -441,12 +441,12 @@ an interval of time.</p>
 <pre class="r"><code>d4_new %&gt;%
   dplyr::mutate(age_months = age_interval/base::months(1))</code></pre>
 <pre><code># A tibble: 4 x 5
-     id dob        test_date  age_interval                   age_months
-  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;Interval&gt;                          &lt;dbl&gt;
-1    10 2010-11-12 2021-10-14 2010-11-12 UTC--2021-10-14 UTC       131.
-2    11 2011-07-08 2021-10-15 2011-07-08 UTC--2021-10-15 UTC       123.
-3    12 2012-01-22 2021-10-15 2012-01-22 UTC--2021-10-15 UTC       117.
-4    13 2011-12-13 2021-10-17 2011-12-13 UTC--2021-10-17 UTC       118.</code></pre>
+     id dob        test_date  age_interval                    age_months
+  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;Interval&gt;                           &lt;dbl&gt;
+1    10 2010-11-12 2021-10-14 2010-11-12 UTC--2021-10-14 UTC 131.0645161
+2    11 2011-07-08 2021-10-15 2011-07-08 UTC--2021-10-15 UTC 123.2258065
+3    12 2012-01-22 2021-10-15 2012-01-22 UTC--2021-10-15 UTC 116.7666667
+4    13 2011-12-13 2021-10-17 2011-12-13 UTC--2021-10-17 UTC 118.1290323</code></pre>
 <p>Last if you want a clean round number of months (and you most likely
 will want the number to be rounded to create more anonymity) you have
 several options. One option is to use the integral division operator

@@ -1,0 +1,109 @@
+---
+title: "Add calculated variable"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `mutate()`
+
+---
+
+
+**1\. Create a new calculated variable (age)**
+
+Review the data (d4)
+
+```{r, echo = FALSE}
+
+source("data.R")
+d4
+
+```
+
+Many times, in order to de-identify data we will remove date of birth and testing date from our data. However, age may still be relevant in our analysis, so we can calculate an age variable to be added to our data.
+
+Here we can use `dplyr::mutate()` to create our new age variable. 
+
+Then, we can calculate our age variable. Calculating variables from date ranges can be a little tricky because a) they are dates and b) calendar days are not consistent. While there are probably many ways to calculate our age variable, here I am using the `lubridate::interval()` function to create a time span between two dates (as a sequence of seconds) and then I can divide that time span by the base function `months()` to get the number of months between the two dates. generates a duration of one week in seconds
+
+```{r}
+
+d4 %>%
+  dplyr::mutate(age_months = lubridate::interval(start = dob, end = test_date)/base::months(1))
+
+
+```
+
+Let's step through each part of this calculation to understand what is happening. Calculating variables from date ranges can be a little tricky because a) they are dates and b) calendar days are not consistent. While there are probably many ways to calculate our age variable, here I am using the `lubridate::interval()` function to create a time span between two dates (as a sequence of seconds).
+
+```{r}
+
+d4_new <- d4 %>%
+  dplyr::mutate(age_interval = lubridate::interval(start = dob, end = test_date))
+
+d4_new
+
+```
+
+If I want to see how many seconds this interval is, I can use the function `base::as.numeric()`.
+
+```{r}
+
+d4_new %>%
+  dplyr::mutate(age_interval_seconds = base::as.numeric(age_interval))
+
+```
+
+
+The next step in the above function is to calculate the number of months that occur in that interval. To do that we can use the `base::months()` function. This function generates a duration of one month in seconds (2629800). You can get this number by typing `as.numeric(months(1))` in your console. Then we can divide our interval (which is in seconds) by our number of seconds in a month to get our total number of months (age) in a duration of time.
+
+```{r}
+
+d4_new %>%
+  dplyr::mutate(age_months = age_interval/base::months(1))
+
+```
+
+Last if you want a clean round number of months you have several options. One option is to use the integral division operator `%/%` rather than `/`. Using this method divides two numbers and returns the integer part of the result.
+
+```{r}
+
+d4 %>%
+  dplyr::mutate(age_months = lubridate::interval(start = dob, end = test_date)%/%months(1))
+
+
+```
+
+You could also use `base::round()` but as I've mentioned in other parts of this wiki, pay attention to how this function rounds. It rounds to the even number when rounding at 5. See documentation on round for more information.
+
+```{r}
+
+d4 %>%
+  dplyr::mutate(age_months = base::round(lubridate::interval(start = dob, end = test_date)/months(1)))
+
+```
+
+You could also use `base::ceiling()` or `base::floor()` as well.
+
+```{r}
+
+d4 %>%
+  dplyr::mutate(age_months = base::ceiling(lubridate::interval(start = dob, end = test_date)/months(1)))
+
+```
+
+Return to [Create New Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Create New Variables)

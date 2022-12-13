@@ -53,7 +53,27 @@ d7 %>% dplyr::filter(!(is.na(extra2) | is.na(extra3)))
 
 ```
 
-**2\. Filter out any row that has NA for *ALL* numeric variables.**
+**2\. Keep rows where extra2 is NA but extra3 is not NA**
+
+Review the data (d10).
+
+```{r, echo=FALSE}
+
+source("data.R")
+d10
+
+```
+
+Keep rows where extra2 is NA but extra3 is not NA
+
+```{r}
+
+d10 %>%
+  dplyr::filter(is.na(extra2) & !is.na(extra3))
+```
+
+
+**3\. Filter out any row that has NA for *ALL* numeric variables.**
 
 Review the data (d9)
 

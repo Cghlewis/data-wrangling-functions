@@ -11,7 +11,7 @@
 
 
 
-<title>Filter rows based on NA values</title>
+<title>Add calculated variable</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,148 +361,136 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Filter rows based on NA values</h1>
+<h1 class="title toc-ignore">Add calculated variable</h1>
 
 </div>
 
 
+<p><br></p>
 <div id="package-dplyr" class="section level3">
 <h3>Package: dplyr</h3>
 <hr />
-<div id="function-filter" class="section level4">
-<h4>Function: <code>filter()</code></h4>
-<p>Examples using one criteria, remove NA</p>
+<div id="function-mutate" class="section level4">
+<h4>Function: <code>mutate()</code></h4>
 <hr />
-<p><strong>1. Remove rows based on one criteria. Remove any row whose
-value is not NA for extra2.</strong></p>
-<p>Review the data (d7).</p>
-<pre><code># A tibble: 4 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     NA        205 harris  
-2 b          NA      0     11        220 steve   
-3 c           3     NA     12        250 harris  
-4 d           4      0     13        217 lewis   </code></pre>
-<p>Keep any row that does not have NA for extra2.</p>
-<ul>
-<li>Note: Use the logical operator <em>!</em> to denote NOT.</li>
-</ul>
-<pre class="r"><code>d7 %&gt;% dplyr::filter(!is.na(extra2))</code></pre>
-<pre><code># A tibble: 3 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     NA        205 harris  
-2 c           3     NA     12        250 harris  
-3 d           4      0     13        217 lewis   </code></pre>
-<p>If you wanted to apply this criteria to multiple variables (ex: extra
-2 and extra 3), you could add the <em>and/or</em> operator
-<code>|</code>.</p>
-<ul>
-<li>Note: Notice that I put the operator ! outside of the parentheses.
-While there are other ways to write this equation, I find this the least
-confusing way to remove rows based on removal criteria from multiple
-variables.</li>
-</ul>
-<pre class="r"><code>d7 %&gt;% dplyr::filter(!(is.na(extra2) | is.na(extra3)))</code></pre>
-<pre><code># A tibble: 2 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     NA        205 harris  
-2 d           4      0     13        217 lewis   </code></pre>
-<p><strong>2. Keep rows where extra2 is NA but extra3 is not
-NA</strong></p>
-<p>Review the data (d10).</p>
-<pre><code># A tibble: 6 x 4
-  extra2 extra3    id test_score
-   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
-1      1      2    10        205
-2   -999      0    11        220
-3      3   -999    12        250
-4     NA      0    13        217
-5     NA     NA    NA         NA
-6   -999   -999  -999       -999</code></pre>
-<p>Keep rows where extra2 is NA but extra3 is not NA</p>
-<pre class="r"><code>d10 %&gt;%
-  dplyr::filter(is.na(extra2) &amp; !is.na(extra3))</code></pre>
-<pre><code># A tibble: 1 x 4
-  extra2 extra3    id test_score
-   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
-1     NA      0    13        217</code></pre>
-<p><strong>3. Filter out any row that has NA for <em>ALL</em> numeric
-variables.</strong></p>
-<p>Review the data (d9)</p>
-<pre><code># A tibble: 6 x 5
-  extra1 extra2 extra3    id test_score
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
-1 a           1      2    10        205
-2 b        -999      0    11        220
-3 c           3   -999    12        250
-4 d          NA      0    13        217
-5 &lt;NA&gt;       NA     NA    NA         NA
-6 e          NA     NA    NA         NA</code></pre>
-<p>Filter out any row that has NA for <strong>ALL</strong> numeric
-variables</p>
-<ul>
-<li>Note: Note the use of <code>dplyr::if_all()</code> predicate
-function to select columns. This function is available in version 1.0.5
-of <code>dplyr</code>. You can read this as, keep rows where ALL numeric
-variables are NOT NA (hence the ! on the outside of the
-<code>dplyr::if_all()</code> function)</li>
-</ul>
-<pre class="r"><code>d9 %&gt;% 
-  dplyr::filter(!(dplyr::if_all(is.numeric,~ is.na(.))))</code></pre>
+<p><strong>1. Create a new calculated variable (age)</strong></p>
+<p>Review the data (d4)</p>
+<pre><code># A tibble: 4 x 3
+     id dob        test_date 
+  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;     
+1    10 2010-11-12 2021-10-14
+2    11 2011-07-08 2021-10-15
+3    12 2012-01-22 2021-10-15
+4    13 2011-12-13 2021-10-17</code></pre>
+<p>Many times, in order to de-identify data we will remove date of birth
+and testing date from our data. However, age may still be relevant in
+our analysis, so we can calculate an age variable to be added to our
+data.</p>
+<p>Here we can use <code>dplyr::mutate()</code> to create our new age
+variable.</p>
+<p>Then, we can calculate our age variable. Calculating variables from
+date ranges can be a little tricky because a) they are dates and b)
+calendar days are not consistent. While there are probably many ways to
+calculate our age variable, here I am using the
+<code>lubridate::interval()</code> function to create a time span
+between two dates (as a sequence of seconds) and then I can divide that
+time span by the base function <code>months()</code> to get the number
+of months between the two dates. generates a duration of one week in
+seconds</p>
+<pre class="r"><code>d4 %&gt;%
+  dplyr::mutate(age_months = lubridate::interval(start = dob, end = test_date)/base::months(1))</code></pre>
+<pre><code># A tibble: 4 x 4
+     id dob        test_date  age_months
+  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;
+1    10 2010-11-12 2021-10-14       131.
+2    11 2011-07-08 2021-10-15       123.
+3    12 2012-01-22 2021-10-15       117.
+4    13 2011-12-13 2021-10-17       118.</code></pre>
+<p>Let’s step through each part of this calculation to understand what
+is happening. Calculating variables from date ranges can be a little
+tricky because a) they are dates and b) calendar days are not
+consistent. While there are probably many ways to calculate our age
+variable, here I am using the <code>lubridate::interval()</code>
+function to create a time span between two dates (as a sequence of
+seconds).</p>
+<pre class="r"><code>d4_new &lt;- d4 %&gt;%
+  dplyr::mutate(age_interval = lubridate::interval(start = dob, end = test_date))
+
+d4_new</code></pre>
+<pre><code># A tibble: 4 x 4
+     id dob        test_date  age_interval                  
+  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;Interval&gt;                    
+1    10 2010-11-12 2021-10-14 2010-11-12 UTC--2021-10-14 UTC
+2    11 2011-07-08 2021-10-15 2011-07-08 UTC--2021-10-15 UTC
+3    12 2012-01-22 2021-10-15 2012-01-22 UTC--2021-10-15 UTC
+4    13 2011-12-13 2021-10-17 2011-12-13 UTC--2021-10-17 UTC</code></pre>
+<p>If I want to see how many seconds this interval is, I can use the
+function <code>base::as.numeric()</code>.</p>
+<pre class="r"><code>d4_new %&gt;%
+  dplyr::mutate(age_interval_seconds = base::as.numeric(age_interval))</code></pre>
 <pre><code># A tibble: 4 x 5
-  extra1 extra2 extra3    id test_score
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
-1 a           1      2    10        205
-2 b        -999      0    11        220
-3 c           3   -999    12        250
-4 d          NA      0    13        217</code></pre>
-</div>
-</div>
-<div id="package-tidyr" class="section level3">
-<h3>Package: tidyr</h3>
-<hr />
-<div id="function-tidyrdrop_na" class="section level4">
-<h4>Function: <code>tidyr::drop_na()</code></h4>
-<hr />
-<p><strong>1.Filter out rows based on a select variable (stu_id) having
-NA values</strong></p>
-<p>Review the data (d7)</p>
-<pre><code># A tibble: 4 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     NA        205 harris  
-2 b          NA      0     11        220 steve   
-3 c           3     NA     12        250 harris  
-4 d           4      0     13        217 lewis   </code></pre>
-<p>Filter out any row that has NA for stu_id.</p>
-<pre class="r"><code>d7 %&gt;% 
-  tidyr::drop_na(stu_id)</code></pre>
-<pre><code># A tibble: 3 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 b          NA      0     11        220 steve   
-2 c           3     NA     12        250 harris  
-3 d           4      0     13        217 lewis   </code></pre>
-<p><strong>2.Filter out rows based on any variable having NA
-values</strong></p>
-<p>Review the data (d7)</p>
-<pre><code># A tibble: 4 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     NA        205 harris  
-2 b          NA      0     11        220 steve   
-3 c           3     NA     12        250 harris  
-4 d           4      0     13        217 lewis   </code></pre>
-<p>Filter out any row that has NA for any variable.</p>
-<pre class="r"><code>d7 %&gt;% 
-  tidyr::drop_na()</code></pre>
-<pre><code># A tibble: 1 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 d           4      0     13        217 lewis   </code></pre>
-<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter">Filter</a></p>
+     id dob        test_date  age_interval                   age_interval_seco~1
+  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;Interval&gt;                                   &lt;dbl&gt;
+1    10 2010-11-12 2021-10-14 2010-11-12 UTC--2021-10-14 UTC           344649600
+2    11 2011-07-08 2021-10-15 2011-07-08 UTC--2021-10-15 UTC           324172800
+3    12 2012-01-22 2021-10-15 2012-01-22 UTC--2021-10-15 UTC           307065600
+4    13 2011-12-13 2021-10-17 2011-12-13 UTC--2021-10-17 UTC           310694400
+# ... with abbreviated variable name 1: age_interval_seconds</code></pre>
+<p>The next step in the above function is to calculate the number of
+months that occur in that interval. To do that we can use the
+<code>base::months()</code> function. This function generates a duration
+of one month in seconds (2629800). You can get this number by typing
+<code>as.numeric(months(1))</code> in your console. Then we can divide
+our interval (which is in seconds) by our number of seconds in a month
+to get our total number of months (age) in a duration of time.</p>
+<pre class="r"><code>d4_new %&gt;%
+  dplyr::mutate(age_months = age_interval/base::months(1))</code></pre>
+<pre><code># A tibble: 4 x 5
+     id dob        test_date  age_interval                   age_months
+  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;Interval&gt;                          &lt;dbl&gt;
+1    10 2010-11-12 2021-10-14 2010-11-12 UTC--2021-10-14 UTC       131.
+2    11 2011-07-08 2021-10-15 2011-07-08 UTC--2021-10-15 UTC       123.
+3    12 2012-01-22 2021-10-15 2012-01-22 UTC--2021-10-15 UTC       117.
+4    13 2011-12-13 2021-10-17 2011-12-13 UTC--2021-10-17 UTC       118.</code></pre>
+<p>Last if you want a clean round number of months you have several
+options. One option is to use the integral division operator
+<code>%/%</code> rather than <code>/</code>. Using this method divides
+two numbers and returns the integer part of the result.</p>
+<pre class="r"><code>d4 %&gt;%
+  dplyr::mutate(age_months = lubridate::interval(start = dob, end = test_date)%/%months(1))</code></pre>
+<pre><code># A tibble: 4 x 4
+     id dob        test_date  age_months
+  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;
+1    10 2010-11-12 2021-10-14        131
+2    11 2011-07-08 2021-10-15        123
+3    12 2012-01-22 2021-10-15        116
+4    13 2011-12-13 2021-10-17        118</code></pre>
+<p>You could also use <code>base::round()</code> but as I’ve mentioned
+in other parts of this wiki, pay attention to how this function rounds.
+It rounds to the even number when rounding at 5. See documentation on
+round for more information.</p>
+<pre class="r"><code>d4 %&gt;%
+  dplyr::mutate(age_months = base::round(lubridate::interval(start = dob, end = test_date)/months(1)))</code></pre>
+<pre><code># A tibble: 4 x 4
+     id dob        test_date  age_months
+  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;
+1    10 2010-11-12 2021-10-14        131
+2    11 2011-07-08 2021-10-15        123
+3    12 2012-01-22 2021-10-15        117
+4    13 2011-12-13 2021-10-17        118</code></pre>
+<p>You could also use <code>base::ceiling()</code> or
+<code>base::floor()</code> as well.</p>
+<pre class="r"><code>d4 %&gt;%
+  dplyr::mutate(age_months = base::ceiling(lubridate::interval(start = dob, end = test_date)/months(1)))</code></pre>
+<pre><code># A tibble: 4 x 4
+     id dob        test_date  age_months
+  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;
+1    10 2010-11-12 2021-10-14        132
+2    11 2011-07-08 2021-10-15        124
+3    12 2012-01-22 2021-10-15        117
+4    13 2011-12-13 2021-10-17        119</code></pre>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Create%20New%20Variables">Create
+New Variables</a></p>
 </div>
 </div>
 

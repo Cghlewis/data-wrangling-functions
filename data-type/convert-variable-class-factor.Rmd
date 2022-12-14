@@ -48,7 +48,8 @@ Convert Var1 to a factor.
 
 ```{r}
 
-d2 <- d2 %>% dplyr::mutate(Var1 = forcats::as_factor(Var1))
+d2 <- d2 %>% 
+  dplyr::mutate(Var1 = forcats::as_factor(Var1))
 
 class(d2$Var1)
 
@@ -60,7 +61,8 @@ levels(d2$Var1)
 
 ```{r}
 
-d2 <- d2 %>% dplyr::mutate(Var1 = forcats::fct_relevel(Var1, "a", "b", "c"))
+d2 <- d2 %>% 
+  dplyr::mutate(Var1 = forcats::fct_relevel(Var1, "a", "b", "c"))
 
 class(d2$Var1)
 
@@ -104,7 +106,8 @@ Convert Var1 to a factor.
 
 ```{r}
 
-d2 <- d2 %>% dplyr::mutate(Var1 = as.factor(Var1))
+d2 <- d2 %>% 
+  dplyr::mutate(Var1 = as.factor(Var1))
 
 class(d2$Var1)
 
@@ -123,7 +126,8 @@ source("data.R")
 
 ```{r}
 
-d2 <- d2 %>% dplyr::mutate(Var1 = factor(Var1, levels = c("c", "b", "a")))
+d2 <- d2 %>% 
+  dplyr::mutate(Var1 = factor(Var1, levels = c("c", "b", "a")))
 
 class(d2$Var1)
 

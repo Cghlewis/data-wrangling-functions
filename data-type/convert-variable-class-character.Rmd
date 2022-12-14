@@ -47,7 +47,8 @@ Convert Var1 to a character.
 
 ```{r}
 
-d1 <- d1 %>% dplyr::mutate(Var1 = as.character(Var1))
+d1 <- d1 %>% 
+  dplyr::mutate(Var1 = as.character(Var1))
 
 class(d1$Var1)
 

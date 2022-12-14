@@ -51,7 +51,8 @@ Convert Var4 to a date
 
 ```{r}
 
-d2 <- d2 %>% dplyr::mutate(Var4 = lubridate::mdy(Var4))
+d2 <- d2 %>% 
+  dplyr::mutate(Var4 = lubridate::mdy(Var4))
 
 d2$Var4
 
@@ -99,29 +100,29 @@ Convert created_timestamp to a datetime
 
 ```{r}
 
-d5 <- d5 %>% 
+d5_new <- d5 %>% 
   mutate(created_timestamp = 
            lubridate::as_datetime(as.numeric(created_timestamp)/1000))
 
-d5$created_timestamp
+d5_new$created_timestamp
 
-class(d5$created_timestamp)
+class(d5_new$created_timestamp)
 
 ```
 
-If I no longer cared about the time portion of this variable and only wanted the date, I could further modify the variable using `lubridate::as_date()` and add the format I want, in this case %Y/%m/%d.
+If I no longer cared about the time portion of this variable and only wanted the date, I could further modify the variable using `lubridate::as_date()`.
 
 * Note: We are recoding into a new variable using `dplyr::mutate()` and saving into a new variable.
 
 ```{r}
 
-d5 <- d5 %>% 
+d5_new <- d5_new %>% 
   mutate(created_timestamp_date =
            lubridate::as_date(created_timestamp))
 
-d5$created_timestamp_date
+d5_new$created_timestamp_date
 
-class(d5$created_timestamp_date)
+class(d5_new$created_timestamp_date)
 
 ```
 
@@ -148,7 +149,8 @@ class(d6$date)
 
 ```{r}
 
-d6 <- d6 %>% dplyr::mutate(date = lubridate::as_date(date, origin = "1899-12-30"))
+d6 <- d6 %>% 
+  dplyr::mutate(date = lubridate::as_date(date, origin = "1899-12-30"))
 
 d6$date
 
@@ -192,7 +194,8 @@ If you don't want to stress over remembering the origin date, another helpful fu
 * Note: There are still more issues where certain versions of Excel for Mac may still use different date systems which you can work with by adding the argument *date_system*. You can view the options for adding this argument by typing ?excel_numeric_to_date in your console.
 
 ```{r}
-d6 <- d6 %>% dplyr::mutate(date = janitor::excel_numeric_to_date(date))
+d6 <- d6 %>% 
+  dplyr::mutate(date = janitor::excel_numeric_to_date(date))
 
 d6$date
 

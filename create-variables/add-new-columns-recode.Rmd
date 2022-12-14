@@ -1,5 +1,5 @@
 ---
-title: "Add recoded columns"
+title: "Add recoded score columns"
 output: 
   html_document:
     toc: false

@@ -1,0 +1,56 @@
+---
+title: "Add recoded score column"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `mutate()`
+
+---
+
+**1\. Create a new treatment variable**
+
+Review the data (d3)
+
+```{r, echo = FALSE}
+
+source("data.R")
+d3
+
+```
+
+I know that some of these teachers are in the treatment condition of my study and others are in the control condition. The teachers in treatment are IDs 10, 12, and 13. I want to assign treatment teachers a 1 and control teachers a 0.
+
+I will first create a vector of the IDs that will be assigned to treatment. I could also do this within the variable creation function but for clarity I am pulling out the IDs and assigning those to a vector called "treat".
+
+Next I can create my new variable "int" by using the `dplyr::mutate()` function. Then to assign 1s to treatment teachers and 0s to control teachers I chose to use `dplyr::case_when()`. Now I can use my vector "treat" and say when an "id" is my "treat" vector, assign it a value of 1, otherwise (which is denoted by the word *TRUE*) assign it a 0.
+
+```{r}
+
+treat <- c(10, 12, 13)
+
+d3 %>%
+  dplyr::mutate(int = case_when(
+    id %in% treat ~ 1,
+    TRUE ~ 0
+  ))
+
+```
+
+
+
+Return to [Create New Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Create New Variables)

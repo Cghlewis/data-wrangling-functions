@@ -1,0 +1,90 @@
+---
+title: "Add recoded columns"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `mutate()`
+
+---
+
+**1\. Create new scored variables for all of the _item_ variables**
+
+Review the data (d1)
+
+```{r, echo = FALSE}
+
+source("data.R")
+d1
+
+```
+
+item1 through item4 were all multiple choice variables with one correct answer. We now want to score these variables to be correct (1) or incorrect (0).
+
+Item1: correct answer = 3  
+Item2: correct answer = 5  
+Item3: correct answer = 3  
+Item4: correct answer = 5  
+
+Since Item 1 and 3 and Items 2 and 4 have the same correct answers, we can use `dplyr::across()` within `dplyr::mutate()` to score these variables at the same time. We use `.` to denote we want the criteria to apply to the variables we have selected.
+
+* Note: We use the `dplyr::across()` argument *.names* to rename our newly scored variables. You can use {.col} to stand for the selected column name.
+
+* Note: We have NA values in our variables, so since `dplyr::case_when()` recodes in order of how statements are provided, we will first want to say we want NA values to stay as NA values (NA_real_).
+
+```{r}
+
+d1 %>%
+  dplyr::mutate(dplyr::across(c(item1, item3),
+                ~dplyr::case_when(
+                  is.na(.) ~ NA_real_,
+                  . == 3 ~ 1,
+                  TRUE ~ 0),
+                .names = "{col}_scored"),
+                dplyr::across(c(item2, item4),
+                ~dplyr::case_when(
+                  is.na(.) ~ NA_real_,
+                  . == 5 ~ 1,
+                  TRUE ~ 0),
+                .names = "{col}_scored")) %>%
+  dplyr::select(id, tidyselect::contains("scored"))
+
+```
+
+We could also write the formula this way, with explicitly listing the values to be recoded to 0 and recoding NA at the end, but this is a bit longer.
+
+```{r}
+
+d1 %>%
+  dplyr::mutate(dplyr::across(c(item1, item3),
+                ~dplyr::case_when(
+                  . == 3 ~ 1,
+                  . %in% c(1,2,4,5) ~ 0,
+                  TRUE ~ .),
+                .names = "{col}_scored"),
+                dplyr::across(c(item2, item4),
+                ~dplyr::case_when(
+                  . == 5 ~ 1,
+                  . %in% c(1,2,3,4) ~ 0,
+                  TRUE ~ .),
+                .names = "{col}_scored")) %>%
+  dplyr::select(id, tidyselect::contains("scored"))
+
+```
+
+
+Return to [Create New Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Create New Variables)

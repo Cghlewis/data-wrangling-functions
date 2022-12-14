@@ -1,0 +1,86 @@
+---
+title: "Add hand inputted columns"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: tibble
+
+---
+
+#### Function: `add_column()`
+
+---
+
+
+**1\. Add a new column (participation year) to the data**
+
+Review the data (d1)
+
+```{r, echo = FALSE}
+
+source("data.R")
+d1
+
+```
+
+
+```{r}
+
+d1 %>%
+  tibble::add_column(year = "2018-19")
+
+```
+
+I can also change the location of the new column by adding the argument *.before* or *.after*.
+
+```{r}
+
+d1 %>%
+  tibble::add_column(year = "2018-19", .after = "id")
+
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `mutate()`
+
+---
+
+**1\. Add a new column (participation year) to the data**
+
+Review the data (d1)
+
+```{r, echo = FALSE}
+
+source("data.R")
+d1
+
+```
+
+I can use `dplyr::mutate()` to create our new variable "year" and assign it a value that is applied to every row. In this case I want to assign a value of 1, for the first year of the study. I can also add the argument *.before* or *.after* to change the location of the new variable.
+
+```{r}
+
+d1 %>%
+  mutate(year = 1, .after = id)
+
+```
+
+
+
+Return to [Create New Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Create New Variables)

@@ -89,7 +89,7 @@ d4 %>%
 
 ```
 
-You could also use `base::round()` but as I've mentioned in other parts of this wiki, pay attention to how this function rounds. It rounds to the even number when rounding at 5. See documentation on round for more information.
+You could also use `base::round()` but as I've mentioned in other parts of this wiki, pay attention to how this function rounds. It rounds to the even number when rounding at 5. See documentation on rounding for more information.
 
 ```{r}
 

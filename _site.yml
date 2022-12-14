@@ -126,7 +126,13 @@ navbar:
     href: restructure\restructure-wide.html
   - text: "Restructure long"
     href: restructure\restructure-long.html
+  - text: "Add hand input column"
+    href: create-variables\add-hand-inputted-column.html
+  - text: "Add random id"
+    href: create-variables\add-random-id-column.html
   - text: "Create recoded variables"
+    href: create-variables\add-new-columns-recode.html
+  - text: "Create a recoded variable"
     href: create-variables\add-new-column-recode.html
   - text: "Create dummy coded variables"
     href: create-variables\add-new-column-dummy.html

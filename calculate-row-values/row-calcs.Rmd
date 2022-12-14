@@ -89,7 +89,7 @@ You can set the number of decimal places you want the new variable to have by wr
 ```{r}
 
 d2 %>% 
-  dplyr::mutate(measure_mean = round(rowMeans(dplyr::across(c(item1:item3)), na.rm=TRUE), digits= 2))
+  dplyr::mutate(measure_mean = round(rowMeans(dplyr::across(c(item1:item3)), na.rm=TRUE), digits= 1))
 
 ```
 

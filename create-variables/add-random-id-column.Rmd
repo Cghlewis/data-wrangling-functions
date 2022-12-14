@@ -1,0 +1,72 @@
+---
+title: "Add random id column"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+
+### Package: dplyr
+
+---
+
+#### Function: `mutate()`
+
+---
+
+**1\. Add a new column (study id) to the data**
+
+Review the data (d5)
+
+```{r, echo = FALSE}
+
+source("data.R")
+d5
+
+```
+
+
+In order to de-identify my data I want to assign my participants a random unique numeric identifier (with a value between 400 and 500). At some point I will remove first and last name from my data and my de-identified data will only contain a study ID. 
+
+I can first create my new variable using the `dplyr::mutate()` function.
+
+Next, in order to assign my random numbers, I can use the `base::sample()` function to sample values between 400 and 500 and I denote that I need 3 of those values (for my 3 cases) in the argument *size*. This function has another argument *replace* which has the default of *FALSE* which means I want all numbers to be unique.
+
+Before I calculate my new variable I need to do one thing. I need to use `base::set.seed()` and choose any number to add as my seed. Setting this seed ensures that if I ever run this code again at a later time, I will get the same randomly generated numbers each time. Very important!
+
+Last, I have added the `dplyr::mutate()` argument *.after* to denote that I want my new variable to be located after the variable "l_name"
+
+
+```{r}
+
+set.seed(3456)
+
+d5 %>% 
+  mutate(study_id = sample(400:500, size = 3), .after = l_name)
+
+
+```
+
+Instead of typing in the exact *size* argument, I could also use the `base::length()` argument and choose first or last name to get the number of cases.
+
+```{r}
+
+set.seed(3456)
+
+d5 %>% 
+  mutate(study_id = sample(400:500, size = length(f_name)), .after = l_name)
+
+
+```
+
+
+Return to [Create New Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Create New Variables)

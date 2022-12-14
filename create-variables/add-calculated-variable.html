@@ -464,7 +464,7 @@ two numbers and returns the integer part of the result.</p>
 <p>You could also use <code>base::round()</code> but as I’ve mentioned
 in other parts of this wiki, pay attention to how this function rounds.
 It rounds to the even number when rounding at 5. See documentation on
-round for more information.</p>
+rounding for more information.</p>
 <pre class="r"><code>d4 %&gt;%
   dplyr::mutate(age_months = base::round(lubridate::interval(start = dob, end = test_date)/months(1)))</code></pre>
 <pre><code># A tibble: 4 x 4

@@ -1,5 +1,5 @@
 ---
-title: "Calculate a new variable"
+title: "Calculate an age variable"
 output: 
   html_document:
     toc: false

@@ -54,7 +54,8 @@ HOWEVER, if your variable contains any unexpected character values (spaces, extr
 
 ```{r, warning = FALSE}
 
-d2 <- d2 %>% dplyr::mutate(Var3 = as.numeric(Var3))
+d2 <- d2 %>% 
+  dplyr::mutate(Var3 = as.numeric(Var3))
 
 class(d2$Var3)
 
@@ -85,7 +86,8 @@ Convert Var5 to numeric.
 
 ```{r, warning = FALSE}
 
-d2 <- d2 %>% dplyr::mutate(Var5 = as.numeric(Var5))
+d2 <- d2 %>% 
+  dplyr::mutate(Var5 = as.numeric(Var5))
 
 d2$Var5
 
@@ -107,9 +109,9 @@ d4
 
 View the class for all variables
 
-* Note: Var2, Var3 and Var4 are read in as character variables because an X was used to denote missing values in the data.
+* Note: Var2, Var3 and Var4 are read in as character variables because an "X" was used to denote missing values in the data.
 
-* Note: Another way to have dealt with these columns that have "X" denoting NA, is to have read in the data using a function where you explicitly state what the missing values are. Example: `readr::read_csv("nameoffile.csv", na="X"). If you read in your file this way, the column would have read in as numeric rather than character.
+* Note: Another way to have dealt with these columns that have "X" denoting NA, is to have read in the data using a function where you explicitly state what the missing values are. Example: `readr::read_csv("file.csv", na="X"). If you read in your file this way, the column would have read in as numeric rather than character.
 
 ```{r}
 
@@ -125,7 +127,8 @@ Convert all character variables to numeric variables
 
 ```{r}
 
-d4 <- d4 %>% dplyr::mutate(dplyr::across(where(is.character), as.numeric))
+d4 <- d4 %>% 
+  dplyr::mutate(dplyr::across(where(is.character), as.numeric))
 
 ```
 
@@ -148,7 +151,8 @@ source("data.R")
 
 ```{r}
 
-d4 %>% dplyr::mutate(dplyr::across(c(Var2:Var4), as.numeric))
+d4 %>% 
+  dplyr::mutate(dplyr::across(Var2:Var4, as.numeric))
 
 ```
 
@@ -163,7 +167,8 @@ source("data.R")
 
 ```{r}
 
-d4 %>% dplyr::mutate(dplyr::across(tidyselect::everything(), as.numeric))
+d4 %>% 
+  dplyr::mutate(dplyr::across(tidyselect::everything(), as.numeric))
 
 ```
 
@@ -198,7 +203,8 @@ Convert Var3 to numeric.
 
 ```{r, warning = FALSE}
 
-d3 %>% dplyr::mutate(Var3 = as.numeric(Var3))
+d3 %>% 
+  dplyr::mutate(Var3 = as.numeric(Var3))
 
 
 ```
@@ -207,7 +213,8 @@ d3 %>% dplyr::mutate(Var3 = as.numeric(Var3))
 
 ```{r, warning = FALSE}
 
-d3 <- d3 %>% dplyr::mutate(Var3 = as.numeric(as.character(Var3)))
+d3 <- d3 %>% 
+  dplyr::mutate(Var3 = as.numeric(as.character(Var3)))
 
 d3
 

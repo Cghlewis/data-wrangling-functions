@@ -192,7 +192,7 @@ Convert Var3 to numeric.
 
 * Note: We are recoding into a new variable using `dplyr::mutate()` and saving over the original variable by naming the new variable the same name as the original. 
 
-* Note: We MUST convert the numeric variable to character before converting to numeric or we will not retain our original values. Instead, `base::as.numeric()` will convert our factor values to their factor levels (3=2, 8=3, 1=1) which is not what we want. See the first example vs the second example.
+* Note: We MUST convert the factor variable to character before converting to numeric or we will not retain our original values. Instead, `base::as.numeric()` will convert our factor values to their factor levels (3=2, 8=3, 1=1) which is not what we want. See the first example vs the second example.
 
 **Don't do this**
 

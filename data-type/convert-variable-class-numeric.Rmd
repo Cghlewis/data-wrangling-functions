@@ -23,7 +23,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Convert a character variable (Var1) to numeric**
+**1\. Convert a character variable (Var3) to numeric**
 
 Review the data (d2)
 

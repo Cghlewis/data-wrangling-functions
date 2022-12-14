@@ -424,7 +424,7 @@ I want to assign a value of 1, for the first year of the study. I can
 also add the argument <em>.before</em> or <em>.after</em> to change the
 location of the new variable.</p>
 <pre class="r"><code>d1 %&gt;%
-  mutate(year = 1, .after = id)</code></pre>
+  dplyr::mutate(year = 1, .after = id)</code></pre>
 <pre><code># A tibble: 3 x 6
      id  year item1 item2 item3 item4
   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;

@@ -77,7 +77,7 @@ I can use `dplyr::mutate()` to create our new variable "year" and assign it a va
 ```{r}
 
 d1 %>%
-  mutate(year = 1, .after = id)
+  dplyr::mutate(year = 1, .after = id)
 
 ```
 

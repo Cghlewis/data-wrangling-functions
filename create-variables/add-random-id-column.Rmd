@@ -48,10 +48,10 @@ Last, I have added the `dplyr::mutate()` argument *.after* to denote that I want
 
 ```{r}
 
-set.seed(3456)
+base::set.seed(3456)
 
 d5 %>% 
-  mutate(study_id = sample(400:500, size = 3), .after = l_name)
+  dplyr::mutate(study_id = base::sample(400:500, size = 3), .after = l_name)
 
 
 ```
@@ -63,7 +63,7 @@ Instead of typing in the exact *size* argument, I could also use the `base::leng
 set.seed(3456)
 
 d5 %>% 
-  mutate(study_id = sample(400:500, size = length(f_name)), .after = l_name)
+  dplyr::mutate(study_id = base::sample(400:500, size = base::length(f_name)), .after = l_name)
 
 
 ```

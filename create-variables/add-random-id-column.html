@@ -401,10 +401,10 @@ Very important!</p>
 <p>Last, I have added the <code>dplyr::mutate()</code> argument
 <em>.after</em> to denote that I want my new variable to be located
 after the variable “l_name”</p>
-<pre class="r"><code>set.seed(3456)
+<pre class="r"><code>base::set.seed(3456)
 
 d5 %&gt;% 
-  mutate(study_id = sample(400:500, size = 3), .after = l_name)</code></pre>
+  dplyr::mutate(study_id = base::sample(400:500, size = 3), .after = l_name)</code></pre>
 <pre><code># A tibble: 3 x 7
   f_name l_name study_id item1 item2 item3 item4
   &lt;chr&gt;  &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -417,7 +417,7 @@ name to get the number of cases.</p>
 <pre class="r"><code>set.seed(3456)
 
 d5 %&gt;% 
-  mutate(study_id = sample(400:500, size = length(f_name)), .after = l_name)</code></pre>
+  dplyr::mutate(study_id = base::sample(400:500, size = base::length(f_name)), .after = l_name)</code></pre>
 <pre><code># A tibble: 3 x 7
   f_name l_name study_id item1 item2 item3 item4
   &lt;chr&gt;  &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;

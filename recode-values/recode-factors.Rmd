@@ -22,9 +22,9 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**Note:** The `dplyr::recode_factor()` formula is: old value=new value, this is opposite of `dplyr::rename()`
+* Note: The `dplyr::recode_factor()` formula is: old value=new value, this is opposite of `dplyr::rename()`
 
-**Note:** The function `dplyr::recode_factor()` will convert your variable to factor **and** recode it.
+* Note: The function `dplyr::recode_factor()` will convert your variable to factor **and** recode it.
 
 <br>
 

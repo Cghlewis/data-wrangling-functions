@@ -11,7 +11,7 @@
 
 
 
-<title>Recode factors</title>
+<title>Recode dates</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,7 +361,7 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Recode factors</h1>
+<h1 class="title toc-ignore">Recode dates</h1>
 
 </div>
 
@@ -370,137 +370,105 @@ pre code {
 <div id="package-dplyr" class="section level3">
 <h3>Package: dplyr</h3>
 <hr />
-<div id="function-recode_factor" class="section level4">
-<h4>Function: <code>recode_factor()</code></h4>
+<div id="function-case_when" class="section level4">
+<h4>Function: <code>case_when()</code></h4>
 <hr />
+<p><strong>1. Recode all missing “svy_dates” to the midpoint of the date
+range for id 3 and 6</strong></p>
+<p>Review the data (d17)</p>
+<pre><code># A tibble: 7 x 2
+     id svy_date  
+  &lt;dbl&gt; &lt;date&gt;    
+1     1 2022-10-01
+2     2 2022-10-05
+3     3 NA        
+4     4 2022-10-14
+5     5 NA        
+6     6 NA        
+7     7 2022-10-07</code></pre>
+<p>But first we need to find the midpoint of the “svy_date” variable. We
+can do that by getting the min and max (using
+<code>base::range()</code>) and then taking the mean using
+<code>base::mean()</code> of that range. We need to make sure to add the
+argument <em>na_rm = TRUE</em> to calculate the range despite having NA
+values. We can save the value in a vector to be used later.</p>
 <ul>
-<li><p>Note: The <code>dplyr::recode_factor()</code> formula is: old
-value=new value, this is opposite of
-<code>dplyr::rename()</code></p></li>
-<li><p>Note: The function <code>dplyr::recode_factor()</code> will
-convert your variable to factor <strong>and</strong> recode it.</p></li>
+<li>Note: Notice that the class of our “svy_date” variable is date (we
+can see above). If it was character we would need to convert it to date
+before performing calculations.</li>
 </ul>
-<p><br></p>
-<p><strong>1. Convert a character variable (lunch) into a factor and
-recode it</strong></p>
-<p>Review the data (d4)</p>
-<pre><code># A tibble: 3 x 3
-  id    gender lunch
-  &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;
-1 a     m      f    
-2 b     f      r    
-3 c     n      p    </code></pre>
-<p>Recode lunch status</p>
-<ul>
-<li><p>Note: We did not have to put quotes around the old values because
-<code>dplyr::recode_factor()</code> replaces character or factor values
-by their name.</p></li>
-<li><p>Note: Quotes <em>are</em> required around the new value when
-recoding into a character/factor variable.</p></li>
-<li><p>Note: We are recoding back into the same variable using
-<code>dplyr::mutate()</code>. However, we could have recoded into a new
-variable by changing the name of <em>lunch</em>.</p></li>
-</ul>
-<pre class="r"><code>d4 &lt;- d4 %&gt;% dplyr::mutate(lunch=dplyr::recode_factor(lunch, p=&quot;paid&quot;, r=&quot;reduced&quot;, f=&quot;free&quot;))
+<pre class="r"><code>date_mid &lt;- base::mean(base::range(d17$svy_date, na.rm = TRUE))
 
-d4</code></pre>
-<pre><code># A tibble: 3 x 3
-  id    gender lunch  
-  &lt;chr&gt; &lt;chr&gt;  &lt;fct&gt;  
-1 a     m      free   
-2 b     f      reduced
-3 c     n      paid   </code></pre>
-<p>Review the factor levels</p>
-<pre class="r"><code>levels(d4$lunch)</code></pre>
-<pre><code>[1] &quot;paid&quot;    &quot;reduced&quot; &quot;free&quot;   </code></pre>
-<p><strong>2. Recode a numeric variable (lunch) into a
-factor</strong></p>
-<p>Review the data (d7)</p>
-<pre><code># A tibble: 3 x 3
-  id    gender lunch
-  &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
-1 a     m          1
-2 b     f          2
-3 c     n          3</code></pre>
-<p>Recode lunch status</p>
-<p>Note: We <em>did</em> have to put quotes around the old values
-because <code>dplyr::recode_factor()</code> replaces numeric values by
-either their name or their position. If a number with no
-quotes/backticks is given, it will assume it is a position.</p>
+date_mid</code></pre>
+<pre><code>[1] &quot;2022-10-07&quot;</code></pre>
+<p>Now we can use this vector in our recoding statement. We can use
+<code>dplyr::case_when()</code> to recode the NA values.</p>
 <ul>
-<li><p>Note: Quotes are required around new value when recoding into a
-character/factor variable.</p></li>
-<li><p>Note: We are recoding back into the same variable using
-<code>dplyr::mutate()</code>. However, we could have recoded into a new
-variable by changing the name of <em>lunch</em>.</p></li>
+<li><p>Note: I am using <code>dplyr::mutate()</code> to create a new
+svy_date variable which will replace the existing variable.</p></li>
+<li><p>Note: TRUE means, if a value was not evaluated in my arguments
+above, replace with the value I give. In this case, I am saying just
+replace with the existing value.</p></li>
 </ul>
-<pre class="r"><code>d7 &lt;- d7 %&gt;% 
-  dplyr::mutate(lunch=dplyr::recode_factor(
-  lunch, &quot;1&quot;=&quot;paid&quot;, &quot;2&quot;=&quot;reduced&quot;, &quot;3&quot;=&quot;free&quot;))
+<pre class="r"><code>d17_new &lt;- d17 %&gt;%
+  dplyr::mutate(svy_date = dplyr::case_when(
+    id %in% c(3,6) ~ date_mid,
+    TRUE ~ svy_date
+  ))
 
-d7</code></pre>
-<pre><code># A tibble: 3 x 3
-  id    gender lunch  
-  &lt;chr&gt; &lt;chr&gt;  &lt;fct&gt;  
-1 a     m      paid   
-2 b     f      reduced
-3 c     n      free   </code></pre>
-<p>Review the factor levels</p>
-<pre class="r"><code>levels(d7$lunch)</code></pre>
-<pre><code>[1] &quot;paid&quot;    &quot;reduced&quot; &quot;free&quot;   </code></pre>
-<p><br></p>
-</div>
-</div>
-<div id="package-forcats" class="section level3">
-<h3>Package: forcats</h3>
-<hr />
-<div id="function-fct_recode" class="section level4">
-<h4>Function: <code>fct_recode()</code></h4>
-<hr />
-<p><strong>Note:</strong> The <code>forcats::fct_recode()</code> formula
-is: new value=old value, this is opposite of
-<code>dplyr::recode()</code> but the same as
-<code>dplyr::rename()</code></p>
-<p><strong>Note:</strong> The function <code>forcats::fct_recode</code>
-will convert your variable to factor <strong>and</strong> recode it.</p>
-<p><br></p>
-<p><strong>1. Recode a numeric variable (lunch) into a
-factor</strong></p>
-<p>Review the data (d7)</p>
-<pre><code># A tibble: 3 x 3
-  id    gender lunch
-  &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
-1 a     m          1
-2 b     f          2
-3 c     n          3</code></pre>
-<p>Recode lunch status</p>
-<ul>
-<li><p>Note: <code>forcats::fct_recode</code> will only recode factor or
-character variables. If your variable is numeric, you will need to
-convert it to character or factor before using recode factor. As you see
-below, I converted our numeric variable to character in order to use the
-function.</p></li>
-<li><p>Note: Completely counterintuitive to what we’ve seen with
-<code>dplyr::recode()</code>, 1) you <em>do</em> have to put quotes
-around your character old value, 2) if you new values are character, you
-do <em>not</em> have to put quotes around them, 3) however, if your new
-values are numeric, you <em>do</em> need quotes around them.</p></li>
-<li><p>Note: We are recoding back into the same variable using
-<code>dplyr::mutate()</code>. However, we could have recoded into a new
-variable by changing the name of <em>lunch</em>.</p></li>
-</ul>
-<pre class="r"><code>d7 &lt;- d7 %&gt;% dplyr::mutate(lunch=forcats::fct_recode(as.character(lunch), paid=&quot;1&quot;, reduced=&quot;2&quot;, free=&quot;3&quot;))
+d17_new</code></pre>
+<pre><code># A tibble: 7 x 2
+     id svy_date  
+  &lt;dbl&gt; &lt;date&gt;    
+1     1 2022-10-01
+2     2 2022-10-05
+3     3 2022-10-07
+4     4 2022-10-14
+5     5 NA        
+6     6 2022-10-07
+7     7 2022-10-07</code></pre>
+<p>Awesome. This looks like it worked great. But wait, let’s do one last
+check. Let’s make a table of the values.</p>
+<pre class="r"><code>d17_new %&gt;%
+  janitor::tabyl(svy_date)</code></pre>
+<pre><code>   svy_date n   percent valid_percent
+ 2022-10-01 1 0.1428571     0.1666667
+ 2022-10-05 1 0.1428571     0.1666667
+ 2022-10-07 1 0.1428571     0.1666667
+ 2022-10-07 2 0.2857143     0.3333333
+ 2022-10-14 1 0.1428571     0.1666667
+       &lt;NA&gt; 1 0.1428571            NA</code></pre>
+<p>Well that doesn’t look right at all. For some reason this
+<code>janitor::tabyl()</code> function is not recognizing that my new
+“2022-10-07” values should be the same as the existing “2022-10-07”
+values. So I decide to try out a few date formats in my recode function
+until I find one that forces R to recognize them as the same value. I
+land on <code>lubridate::ymd()</code>.</p>
+<pre class="r"><code>d17_new &lt;- d17 %&gt;%
+  dplyr::mutate(svy_date = dplyr::case_when(
+    id %in% c(3,6) ~ lubridate::ymd(date_mid),
+    TRUE ~ svy_date
+  ))
 
-d7</code></pre>
-<pre><code># A tibble: 3 x 3
-  id    gender lunch  
-  &lt;chr&gt; &lt;chr&gt;  &lt;fct&gt;  
-1 a     m      paid   
-2 b     f      reduced
-3 c     n      free   </code></pre>
-<p>Review the factor levels</p>
-<pre class="r"><code>base::levels(d7$lunch)</code></pre>
-<pre><code>[1] &quot;paid&quot;    &quot;reduced&quot; &quot;free&quot;   </code></pre>
+d17_new</code></pre>
+<pre><code># A tibble: 7 x 2
+     id svy_date  
+  &lt;dbl&gt; &lt;date&gt;    
+1     1 2022-10-01
+2     2 2022-10-05
+3     3 2022-10-07
+4     4 2022-10-14
+5     5 NA        
+6     6 2022-10-07
+7     7 2022-10-07</code></pre>
+<pre class="r"><code>d17_new %&gt;%
+  janitor::tabyl(svy_date)</code></pre>
+<pre><code>   svy_date n   percent valid_percent
+ 2022-10-01 1 0.1428571     0.1666667
+ 2022-10-05 1 0.1428571     0.1666667
+ 2022-10-07 3 0.4285714     0.5000000
+ 2022-10-14 1 0.1428571     0.1666667
+       &lt;NA&gt; 1 0.1428571            NA</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode">Recode</a></p>
 </div>
 </div>

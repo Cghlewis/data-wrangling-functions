@@ -409,7 +409,7 @@ selected cut score variable, code my new variable to 0. Else
 <pre class="r"><code>cutoff &lt;- function(df, new_name, cut_score, sum_score) {
   df %&gt;%
     dplyr::mutate({{new_name}} := dplyr::case_when(
-      is.na(grade) |is.na({{sum_score}}) ~ NA_real_,
+      is.na(grade) | is.na({{sum_score}}) ~ NA_real_,
       {{sum_score}} &lt; {{cut_score}} ~ 0,
       TRUE ~ 1))
 }</code></pre>

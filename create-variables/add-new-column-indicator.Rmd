@@ -50,7 +50,7 @@ In this function I call my dataframe and I use `dplyr::mutate()` to create my ne
 cutoff <- function(df, new_name, cut_score, sum_score) {
   df %>%
     dplyr::mutate({{new_name}} := dplyr::case_when(
-      is.na(grade) |is.na({{sum_score}}) ~ NA_real_,
+      is.na(grade) | is.na({{sum_score}}) ~ NA_real_,
       {{sum_score}} < {{cut_score}} ~ 0,
       TRUE ~ 1))
 }

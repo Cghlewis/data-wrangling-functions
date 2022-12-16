@@ -15,11 +15,11 @@ knitr::opts_chunk$set(comment = NA,
 <br>
 
 
-### Package: dplyr
+### Package: base
 
 ---
 
-#### Function: `mutate()`
+#### Function: `sample()`
 
 ---
 
@@ -69,4 +69,4 @@ d5 %>%
 ```
 
 
-Return to [Create New Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Create New Variables)
+Return to [Randomize](https://github.com/Cghlewis/data-wrangling-functions/wiki/Randomize)

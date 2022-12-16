@@ -62,4 +62,4 @@ d1 %>%
 
 
 
-Return to [Create New Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Create New Variables)
+Return to [Randomize](https://github.com/Cghlewis/data-wrangling-functions/wiki/Randomize)

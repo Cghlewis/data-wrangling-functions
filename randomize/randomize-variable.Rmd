@@ -1,0 +1,91 @@
+---
+title: "Randomly assign treatment"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: base
+
+---
+
+#### Function: `sample()`
+
+---
+
+
+**1\. Randomly assign treatment to cases**
+
+Review the data (d1)
+
+```{r, echo = FALSE}
+
+source("data.R")
+d1
+
+```
+
+I want to randomly assign a treatment variable to cases. 1 = treatment and 0 = control. I want an even disbursement.
+
+First we need to use `base::set.seed()` and choose any number to add as my seed. Setting this seed ensures that if I ever run this code again at a later time, I will get the same random sample each time. Very important!
+
+Within my `base::sample()` function I can use `base::rep()` to replicate the values of 0 and 1 and assign the number of times to use each value in the *times* argument. I could put the literal number `7` in this argument, or if I wanted R to do the calculation for me, I could use `base::length()` to calculate the number of rows and divide it by 2.
+
+* Note: I am using `dplyr::mutate()` to create my new "treat" variable.
+
+```{r}
+
+set.seed(1234)
+
+d1_new <- d1 %>%
+  dplyr::mutate(treat = base::sample(base::rep(c(1,0), times = base::length(id)/2)))
+
+d1_new
+
+```
+
+Let's make sure we have an even number of treatment and control
+
+```{r}
+
+d1_new %>%
+  janitor::tabyl(treat)
+
+```
+
+
+If I cared about grade level and wanted to randomly assign treatment evenly within grade, I could add a `dplyr::group_by()` statement and group by grade before randomly assigning.
+
+Notice now that treatment cannot evenly divided though (each grade level has 7 participants). In this case you can assign different numbers of times to repeat each value. For example, here I chose to repeat 1 three times and 0 four times.
+
+```{r}
+
+set.seed(1234)
+
+d1_new <- d1 %>%
+  dplyr::group_by(grade) %>%
+  dplyr::mutate(treat = base::sample(base::rep(c(1,0), times = c(3,4))))
+
+d1_new
+
+```
+
+Let's review our treatment now
+
+```{r}
+
+d1_new %>%
+  janitor::tabyl(grade, treat)
+
+```
+
+Return to [Randomize](https://github.com/Cghlewis/data-wrangling-functions/wiki/Randomize)

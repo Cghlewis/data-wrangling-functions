@@ -132,8 +132,6 @@ navbar:
     href: restructure\restructure-long.html
   - text: "Add hand input column"
     href: create-variables\add-hand-inputted-column.html
-  - text: "Add random id"
-    href: create-variables\add-random-id-column.html
   - text: "Create recoded variables"
     href: create-variables\add-new-columns-recode.html
   - text: "Create a recoded variable"
@@ -144,6 +142,10 @@ navbar:
     href: create-variables\add-calculated-variables.html
   - text: "Randomly sample"
     href: randomize\randomize-cases.html
+  - text: "Add random id"
+    href: randomize\add-random-id-column.html
+  - text: "Add random treatment"
+    href: randomize\randomize-variable.html
 output:
   html_document:
     theme: readable

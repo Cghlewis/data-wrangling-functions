@@ -34,3 +34,8 @@ d2 <- tibble::tribble(~id, ~grade,
                       23, 3,
                       24, 4)
 
+d5 <- tibble::tribble(~f_name, ~l_name, ~item1, ~item2, ~item3, ~item4,
+                      "randi", "ivana", 3, 5, 3, NA,
+                      "nellie", "lorie", 3, 5, 1, 5,
+                      "mike", "skuld", 3, 1, 3, 5)
+

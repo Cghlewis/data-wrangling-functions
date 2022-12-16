@@ -60,7 +60,7 @@ Instead of typing in the exact *size* argument, I could also use the `base::leng
 
 ```{r}
 
-set.seed(3456)
+base::set.seed(3456)
 
 d5 %>% 
   dplyr::mutate(study_id = base::sample(400:500, size = base::length(f_name)), .after = l_name)

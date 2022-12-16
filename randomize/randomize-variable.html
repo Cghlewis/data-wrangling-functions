@@ -409,7 +409,7 @@ it by 2.</p>
 <li>Note: I am using <code>dplyr::mutate()</code> to create my new
 “treat” variable.</li>
 </ul>
-<pre class="r"><code>set.seed(1234)
+<pre class="r"><code>base::set.seed(1234)
 
 d1_new &lt;- d1 %&gt;%
   dplyr::mutate(treat = base::sample(base::rep(c(1,0), times = base::length(id)/2)))
@@ -445,7 +445,7 @@ statement and group by grade before randomly assigning.</p>
 level has 7 participants). In this case you can assign different numbers
 of times to repeat each value. For example, here I chose to repeat 1
 three times and 0 four times.</p>
-<pre class="r"><code>set.seed(1234)
+<pre class="r"><code>base::set.seed(1234)
 
 d1_new &lt;- d1 %&gt;%
   dplyr::group_by(grade) %&gt;%

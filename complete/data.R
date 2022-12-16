@@ -61,3 +61,10 @@ extra_form <- tibble::tribble(~id, ~item1, ~item2,
                               26, 4, 5)
 
 
+d6 <- tibble::tribble(
+  ~s_id, ~gender_1718, ~gender_1819, ~gender_1920, ~gender_2021,
+  123, "male", "male", "", "male",
+  145, "non-binary", "non-binary", "non-binary", "",
+  150, "female", "female", "female", "female",
+  164, "male", "", "male", "",
+  170, "male", "female", "", "male")

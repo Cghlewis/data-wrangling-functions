@@ -11,7 +11,7 @@
 
 
 
-<title>Reverse code values</title>
+<title>Recode factors</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,7 +361,7 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Reverse code values</h1>
+<h1 class="title toc-ignore">Recode factors</h1>
 
 </div>
 
@@ -370,195 +370,136 @@ pre code {
 <div id="package-dplyr" class="section level3">
 <h3>Package: dplyr</h3>
 <hr />
-<div id="function-recode" class="section level4">
-<h4>Function: <code>recode()</code></h4>
+<div id="function-recode_factor" class="section level4">
+<h4>Function: <code>recode_factor()</code></h4>
 <hr />
-<p><strong>Note:</strong> The <code>dplyr::recode()</code> formula is:
-old value=new value, this is opposite of
+<p><strong>Note:</strong> The <code>dplyr::recode_factor()</code>
+formula is: old value=new value, this is opposite of
 <code>dplyr::rename()</code></p>
+<p><strong>Note:</strong> The function
+<code>dplyr::recode_factor()</code> will convert your variable to factor
+<strong>and</strong> recode it.</p>
 <p><br></p>
-<p><strong>1. Reverse code multiple variables (Var2 and Var3) in the
-same way</strong></p>
-<p>Review the data (d2)</p>
+<p><strong>1. Convert a character variable (lunch) into a factor and
+recode it</strong></p>
+<p>Review the data (d4)</p>
 <pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         1     4
-2 b        NA     5
-3 c         3     1</code></pre>
-<p>Reverse code Var2 and Var3 and rename the variables with <em>_r</em>
-at the end.</p>
+  id    gender lunch
+  &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;
+1 a     m      f    
+2 b     f      r    
+3 c     n      p    </code></pre>
+<p>Recode lunch status</p>
 <ul>
-<li><p>Note: We are modifying existing variables using
-<code>dplyr::mutate()</code>.</p></li>
-<li><p>Note: We are adding <code>dplyr::across()</code> to select the
-variables we want to modify.</p></li>
-<li><p>Note: The <code>dplyr::recode()</code> function considers the old
-value as a <em>name</em> and therefore, in order to use a number as a
-name/character, you have to surround it with backticks (``)</p></li>
-<li><p>Note: Last, in this scenario we are writing over the existing
-variables and then renaming them by using the
-<code>dplyr::rename_with()</code> function along with
-<code>base::paste0()</code>.</p></li>
+<li><p>Note: We did not have to put quotes around the old values because
+<code>dplyr::recode_factor()</code> replaces character or factor values
+by their name.</p></li>
+<li><p>Note: Quotes <em>are</em> required around the new value when
+recoding into a character/factor variable.</p></li>
+<li><p>Note: We are recoding back into the same variable using
+<code>dplyr::mutate()</code>. However, we could have recoded into a new
+variable by changing the name of <em>lunch</em>.</p></li>
 </ul>
-<pre class="r"><code>d2_new &lt;- d2 %&gt;% 
-  dplyr::mutate(dplyr::across(Var2:Var3, ~dplyr::recode(.,`1`=5, `2`=4, `3`=3, `4`=2, `5`=1))) %&gt;%
-  dplyr::rename_with(~paste0(., &quot;_r&quot;), c(Var2:Var3))
+<pre class="r"><code>d4 &lt;- d4 %&gt;% dplyr::mutate(lunch=dplyr::recode_factor(lunch, p=&quot;paid&quot;, r=&quot;reduced&quot;, f=&quot;free&quot;))
 
-d2_new</code></pre>
+d4</code></pre>
 <pre><code># A tibble: 3 x 3
-  Var1  Var2_r Var3_r
-  &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-1 a          5      2
-2 b         NA      1
-3 c          3      5</code></pre>
-<p>Check that your reverse code worked correctly</p>
-<pre class="r"><code>base::table(d2$Var2, d2_new$Var2_r)</code></pre>
-<pre><code>   
-    3 5
-  1 0 1
-  3 1 0</code></pre>
-<pre class="r"><code>base::table(d2$Var3, d2_new$Var3_r)</code></pre>
-<pre><code>   
-    1 2 5
-  1 0 0 1
-  4 0 1 0
-  5 1 0 0</code></pre>
-<p>If you want to keep <em>both</em> the old variables and the newly
-created variables, you can add the argument <em>.names</em> to the
-<code>dplyr::across()</code> function to rename your recoded variables
-as you create them, rather than writing over the old variables by adding
-the <code>dplyr::rename_with()</code> function as a second step.</p>
-<pre class="r"><code>d2 &lt;- d2 %&gt;% 
-  dplyr::mutate(dplyr::across(Var2:Var3, ~dplyr::recode(.,`1`=5, `2`=4, `3`=3, `4`=2, `5`=1), 
-                              .names = &#39;{col}_r&#39;))
+  id    gender lunch  
+  &lt;chr&gt; &lt;chr&gt;  &lt;fct&gt;  
+1 a     m      free   
+2 b     f      reduced
+3 c     n      paid   </code></pre>
+<p>Review the factor levels</p>
+<pre class="r"><code>levels(d4$lunch)</code></pre>
+<pre><code>[1] &quot;paid&quot;    &quot;reduced&quot; &quot;free&quot;   </code></pre>
+<p><strong>2. Recode a numeric variable (lunch) into a
+factor</strong></p>
+<p>Review the data (d7)</p>
+<pre><code># A tibble: 3 x 3
+  id    gender lunch
+  &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
+1 a     m          1
+2 b     f          2
+3 c     n          3</code></pre>
+<p>Recode lunch status</p>
+<p>Note: We <em>did</em> have to put quotes around the old values
+because <code>dplyr::recode_factor()</code> replaces numeric values by
+either their name or their position. If a number with no
+quotes/backticks is given, it will assume it is a position.</p>
+<ul>
+<li><p>Note: Quotes are required around new value when recoding into a
+character/factor variable.</p></li>
+<li><p>Note: We are recoding back into the same variable using
+<code>dplyr::mutate()</code>. However, we could have recoded into a new
+variable by changing the name of <em>lunch</em>.</p></li>
+</ul>
+<pre class="r"><code>d7 &lt;- d7 %&gt;% 
+  dplyr::mutate(lunch=dplyr::recode_factor(
+  lunch, &quot;1&quot;=&quot;paid&quot;, &quot;2&quot;=&quot;reduced&quot;, &quot;3&quot;=&quot;free&quot;))
 
-d2</code></pre>
-<pre><code># A tibble: 3 x 5
-  Var1   Var2  Var3 Var2_r Var3_r
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-1 a         1     4      5      2
-2 b        NA     5     NA      1
-3 c         3     1      3      5</code></pre>
-<hr />
+d7</code></pre>
+<pre><code># A tibble: 3 x 3
+  id    gender lunch  
+  &lt;chr&gt; &lt;chr&gt;  &lt;fct&gt;  
+1 a     m      paid   
+2 b     f      reduced
+3 c     n      free   </code></pre>
+<p>Review the factor levels</p>
+<pre class="r"><code>levels(d7$lunch)</code></pre>
+<pre><code>[1] &quot;paid&quot;    &quot;reduced&quot; &quot;free&quot;   </code></pre>
+<p><br></p>
 </div>
-<div id="function-case_when" class="section level4">
-<h4>Function: <code>case_when()</code></h4>
+</div>
+<div id="package-forcats" class="section level3">
+<h3>Package: forcats</h3>
 <hr />
-<p><strong>1. Reverse code a single variable</strong></p>
-<p>Review the data (d2)</p>
+<div id="function-fct_recode" class="section level4">
+<h4>Function: <code>fct_recode()</code></h4>
+<hr />
+<p><strong>Note:</strong> The <code>forcats::fct_recode()</code> formula
+is: new value=old value, this is opposite of
+<code>dplyr::recode()</code> but the same as
+<code>dplyr::rename()</code></p>
+<p><strong>Note:</strong> The function <code>forcats::fct_recode</code>
+will convert your variable to factor <strong>and</strong> recode it.</p>
+<p><br></p>
+<p><strong>1. Recode a numeric variable (lunch) into a
+factor</strong></p>
+<p>Review the data (d7)</p>
 <pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         1     4
-2 b        NA     5
-3 c         3     1</code></pre>
-<p>Check the values of Var2</p>
-<pre class="r"><code>d2 %&gt;% janitor::tabyl(Var2)</code></pre>
-<pre><code> Var2 n   percent valid_percent
-    1 1 0.3333333           0.5
-    3 1 0.3333333           0.5
-   NA 1 0.3333333            NA</code></pre>
-<p>Reverse code Var2 and name it with *_r* at the end.</p>
+  id    gender lunch
+  &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
+1 a     m          1
+2 b     f          2
+3 c     n          3</code></pre>
+<p>Recode lunch status</p>
 <ul>
-<li>Note: We are recoding into a new variable using
-<code>dplyr::mutate()</code> and naming the new variable a different
-name than the original. It keeps both the new and old versions of the
-variable. If we used <code>dplyr::transmute()</code> instead it would
-keep the new version and remove the old version.</li>
+<li><p>Note: <code>forcats::fct_recode</code> will only recode factor or
+character variables. If your variable is numeric, you will need to
+convert it to character or factor before using recode factor. As you see
+below, I converted our numeric variable to character in order to use the
+function.</p></li>
+<li><p>Note: Completely counterintuitive to what we’ve seen with
+<code>dplyr::recode()</code>, 1) you <em>do</em> have to put quotes
+around your character old value, 2) if you new values are character, you
+do <em>not</em> have to put quotes around them, 3) however, if your new
+values are numeric, you <em>do</em> need quotes around them.</p></li>
+<li><p>Note: We are recoding back into the same variable using
+<code>dplyr::mutate()</code>. However, we could have recoded into a new
+variable by changing the name of <em>lunch</em>.</p></li>
 </ul>
-<pre class="r"><code>d2 &lt;- d2 %&gt;% dplyr::mutate(Var2_r = dplyr::case_when(
-  Var2 == 1 ~ 5,
-  Var2 == 2 ~ 4,
-  Var2 == 3 ~ 3, 
-  Var2 == 4 ~ 2,
-  Var2 == 5 ~ 1,
-  TRUE ~ NA_real_))</code></pre>
-<p>Check that your reverse code worked correctly</p>
-<pre class="r"><code>d2 %&gt;% janitor::tabyl(Var2, Var2_r)</code></pre>
-<pre><code> Var2 3 5 NA_
-    1 0 1   0
-    3 1 0   0
-   NA 0 0   1</code></pre>
-<p><strong>2. Turn your reverse scale into a function to use for
-multiple variables (Data Science in Education Using R
-example)</strong></p>
-<p>Review the data (d2)</p>
+<pre class="r"><code>d7 &lt;- d7 %&gt;% dplyr::mutate(lunch=forcats::fct_recode(as.character(lunch), paid=&quot;1&quot;, reduced=&quot;2&quot;, free=&quot;3&quot;))
+
+d7</code></pre>
 <pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         1     4
-2 b        NA     5
-3 c         3     1</code></pre>
-<p>Check the values of Var2 and Var3</p>
-<pre class="r"><code>d2 %&gt;% janitor::tabyl(Var2)</code></pre>
-<pre><code> Var2 n   percent valid_percent
-    1 1 0.3333333           0.5
-    3 1 0.3333333           0.5
-   NA 1 0.3333333            NA</code></pre>
-<pre class="r"><code>d2 %&gt;% janitor::tabyl(Var3)</code></pre>
-<pre><code> Var3 n   percent
-    1 1 0.3333333
-    4 1 0.3333333
-    5 1 0.3333333</code></pre>
-<p>Create your function</p>
-<pre class="r"><code>reverse_scale &lt;- function(Var) {
-  x &lt;- dplyr::case_when(
-    Var == 1 ~ 5,
-    Var == 2 ~ 4,
-    Var == 3 ~ 3, 
-    Var == 4 ~ 2,
-    Var == 5 ~ 1,
-    TRUE ~ NA_real_
-  )
-}</code></pre>
-<p>Reverse code Var2 and Var3 using your function and rename the new
-variables with *_r* at the end</p>
-<ul>
-<li>Note: We are recoding into new variables using
-<code>dplyr::mutate()</code> and naming the new variables different
-names than the original. It keeps both the new and old versions of the
-variables.</li>
-</ul>
-<pre class="r"><code>d2 &lt;- d2 %&gt;%
-  dplyr::mutate(Var2_r = reverse_scale(Var2),
-         Var3_r = reverse_scale(Var3))</code></pre>
-<p>Check that the recode worked</p>
-<pre class="r"><code>d2 %&gt;% janitor::tabyl(Var2, Var2_r)</code></pre>
-<pre><code> Var2 3 5 NA_
-    1 0 1   0
-    3 1 0   0
-   NA 0 0   1</code></pre>
-<pre class="r"><code>d2 %&gt;% janitor::tabyl(Var3, Var3_r)</code></pre>
-<pre><code> Var3 1 2 5
-    1 0 0 1
-    4 0 1 0
-    5 1 0 0</code></pre>
-<p>You can also use your function this way</p>
-<p>Reverse code Var2 and Var3 using your function and rename the new
-variables with <em>_r</em> at the end</p>
-<ul>
-<li><p>Note: We are modifying existing variables using
-<code>dplyr::mutate()</code></p></li>
-<li><p>Note: We are using <code>dplyr::across()</code> to apply a
-transformation to select columns and then adding the argument
-<em>names</em> to rename your recoded variables as you create them,
-rather than writing over the old variables.</p></li>
-</ul>
-<pre class="r"><code>d2 &lt;- d2 %&gt;% dplyr::mutate(across(Var2:Var3, reverse_scale, 
-                              .names = &#39;{col}_r&#39;))</code></pre>
-<p>Check that the recode worked</p>
-<pre class="r"><code>base::table(d2$Var2, d2$Var2_r)</code></pre>
-<pre><code>   
-    3 5
-  1 0 1
-  3 1 0</code></pre>
-<pre class="r"><code>base::table(d2$Var3, d2$Var3_r)</code></pre>
-<pre><code>   
-    1 2 5
-  1 0 0 1
-  4 0 1 0
-  5 1 0 0</code></pre>
+  id    gender lunch  
+  &lt;chr&gt; &lt;chr&gt;  &lt;fct&gt;  
+1 a     m      paid   
+2 b     f      reduced
+3 c     n      free   </code></pre>
+<p>Review the factor levels</p>
+<pre class="r"><code>base::levels(d7$lunch)</code></pre>
+<pre><code>[1] &quot;paid&quot;    &quot;reduced&quot; &quot;free&quot;   </code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode">Recode</a></p>
 </div>
 </div>

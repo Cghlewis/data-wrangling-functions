@@ -36,15 +36,15 @@ d2
 
 ```
 
-Reverse code Var2 and Var3 and rename the variables with *_r* at the end by using the `dplyr::rename_with()` function as well as `base::paste0()`.
+Reverse code Var2 and Var3 and rename the variables with *\_r* at the end.
 
-* Note: We are modifying existing variables using `dplyr::mutate()`. In this scenario we are writing over the existing variables and then renaming them. You could also keep both the new and old variables like I do in the second scenario below. 
+* Note: We are modifying existing variables using `dplyr::mutate()`. 
 
 * Note: We are adding `dplyr::across()` to select the variables we want to modify.
 
-* Note:  The `dplyr::recode()` formula is: old value=new value, this is opposite of `dplyr::rename()`
-
 * Note:  The `dplyr::recode()` function considers the old value as a *name* and therefore, in order to use a number as a name/character, you have to surround it with backticks (``)
+
+* Note: Last, in this scenario we are writing over the existing variables and then renaming them by using the `dplyr::rename_with()` function along with `base::paste0()`. 
 
 
 ```{r}
@@ -68,7 +68,7 @@ base::table(d2$Var3, d2_new$Var3_r)
 
 ```
 
-* Note: If you want to keep both the old variables and the newly created variables, you can add the argument *.names* to the `dplyr::across()` function to rename your recoded variables as you create them, rather than writing over the old variables. 
+If you want to keep *both* the old variables and the newly created variables, you can add the argument *.names* to the `dplyr::across()` function to rename your recoded variables as you create them, rather than writing over the old variables by adding the `dplyr::rename_with()` function as a second step. 
 
 ```{r}
 
@@ -199,7 +199,7 @@ source("data.R")
 
 ```
 
-Reverse code Var2 and Var3 using your function and rename the new variables with *_r* at the end
+Reverse code Var2 and Var3 using your function and rename the new variables with *\_r* at the end
 
 * Note: We are modifying existing variables using `dplyr::mutate()`
 

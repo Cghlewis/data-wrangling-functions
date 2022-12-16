@@ -22,6 +22,8 @@ navbar:
     href: labelling-data\copy-labels.html
   - text: "Recode values"
     href: recode-values\recode-values.html
+  - text: "Recode factors"
+    href: recode-values\recode-factors.html
   - text: "Recode multiple variable values"
     href: recode-values\recode-values-multiple.html 
   - text: "Reverse code values"

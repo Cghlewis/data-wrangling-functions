@@ -107,11 +107,9 @@ d16
 
 ```
 
-In this situation students were given a different set of items depending on their form. Form A was given the "sc" items and form b was given the "tr" items. Values of -80 denote items that a student was not given.
+In this situation, -80 means the item was not provided to a student. If a student has a -80 for all items in a scale, we want to assign a -80 for the sum and mean of that scale to denote that this scale was not provided (to differentiate between a value of NA meaning the data are actually missing).
 
-Sum and mean scores were calculated for both scales.
-
-The task here is to recode the sums and means to -80 if the student was not given the scale, to denote this scale does not apply to them.
+The two scales are "sc" and "tr" and each are made up of 2 items.
 
 * Note: I am using `dplyr::across()` to apply a function to multiple variables. 
 

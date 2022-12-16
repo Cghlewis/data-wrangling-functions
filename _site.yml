@@ -24,6 +24,8 @@ navbar:
     href: recode-values\recode-values.html
   - text: "Recode factors"
     href: recode-values\recode-factors.html
+  - text: "Recode dates"
+    href: recode-values\recode-dates.html
   - text: "Recode multiple variable values"
     href: recode-values\recode-values-multiple.html 
   - text: "Reverse code values"

@@ -31,3 +31,10 @@ d5 <- tibble::tribble(~f_name, ~l_name, ~item1, ~item2, ~item3, ~item4,
                       "randi", "ivana", 3, 5, 3, NA,
                       "nellie", "lorie", 3, 5, 1, 5,
                       "mike", "skuld", 3, 1, 3, 5)
+
+d6 <- tibble::tribble(~id, ~ grade, ~cut_scale1, ~cut_scale2, ~cut_scale3, ~scale1_sum, ~scale2_sum, ~scale3_sum,
+                      1, 2, 2.5, 3.1, 3, 1, 2, 4,
+                      2, 3, 2, 3, 2, 2, 4, 1,
+                      3, 3, 2, 3, 2, 3, 1, 2,
+                      4, NA, NA, NA, NA, 3, 4, 1,
+                      5, 2, 2.5, 3.1, 3, 4, 2, NA)

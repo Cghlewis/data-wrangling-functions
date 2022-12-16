@@ -1,5 +1,5 @@
 ---
-title: "Add recoded score column"
+title: "Add a treatment column"
 output: 
   html_document:
     toc: false
@@ -33,7 +33,7 @@ d3
 
 ```
 
-I know that some of these teachers are in the treatment condition of my study and others are in the control condition. The teachers in treatment are IDs 10, 12, and 13. I want to assign treatment teachers a 1 and control teachers a 0.
+I have preassigned teachers to treatment in another database and I know which teachers are in the treatment condition of my study and which are in the control condition. The teachers in treatment are IDs 10, 12, and 13. I want to assign treatment teachers a 1 and control teachers a 0.
 
 I will first create a vector of the IDs that will be assigned to treatment. I could also do this within the variable creation function but for clarity I am pulling out the IDs and assigning those to a vector called "treat".
 

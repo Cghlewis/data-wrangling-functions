@@ -1,0 +1,78 @@
+---
+title: "Add new indicator column"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `mutate()`
+
+---
+
+**1\. Create a new indicator column (at_risk)**
+
+Review the data (d6)
+
+```{r, echo = FALSE}
+
+source("data.R")
+d6
+
+```
+Here you can see if I have several sum scores for 3 different scales. And I also have 3 different cut scores for each of those scales. The cutscores are different depending on grade level. 
+
+I want to create an indicator of some sort of risk level based on being below (0) or at or above the cut score (1). I could write this calculation out one piece at a time, but I would prefer to create a function that I can use that will minimize duplication.
+
+First I create a cutoff function that I can use.
+
+In this function I call my dataframe and I use `dplyr::mutate()` to create my new at_risk variable which will be named dynamically. 
+
+* Note: In order to name this variable dynamically I have to use `:=`. I also have to surround all data frame variables with `{{}}` to denote that I am referring to data frame variables, not environment variables.
+
+* Note: I use `dplyr::case_when()` to recode my sum variable into a dichotomous variable. I first say if either "grade" or my selected sum score variable is NA, then my new variable should be coded to NA. Then if my selected sum score variable is less than my selected cut score variable, code my new variable to 0. Else (`TRUE`) code to 1.
+
+
+```{r}
+
+cutoff <- function(df, new_name, cut_score, sum_score) {
+  df %>%
+    dplyr::mutate({{new_name}} := dplyr::case_when(
+      is.na(grade) |is.na({{sum_score}}) ~ NA_real_,
+      {{sum_score}} < {{cut_score}} ~ 0,
+      TRUE ~ 1))
+}
+
+```
+
+Now I can use my new function to create my new at_risk variables.
+
+```{r}
+
+
+d6 <- cutoff(d6, scale1_risk, cut_scale1, scale1_sum)
+
+d6 <- cutoff(d6, scale2_risk, cut_scale2, scale2_sum)
+
+d6 <- cutoff(d6, scale3_risk, cut_scale3, scale3_sum)
+
+d6 %>%
+  dplyr::select(tidyselect::contains("risk"))
+
+```
+
+
+
+Return to [Create New Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Create New Variables)

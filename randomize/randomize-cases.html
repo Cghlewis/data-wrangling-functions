@@ -11,7 +11,7 @@
 
 
 
-<title>Recode values for multiple variables</title>
+<title>Randomly sample cases</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,7 +361,7 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Recode values for multiple variables</h1>
+<h1 class="title toc-ignore">Randomly sample cases</h1>
 
 </div>
 
@@ -370,133 +370,62 @@ pre code {
 <div id="package-dplyr" class="section level3">
 <h3>Package: dplyr</h3>
 <hr />
-<div id="function-case_when" class="section level4">
-<h4>Function: <code>case_when()</code></h4>
+<div id="function-slice_sample" class="section level4">
+<h4>Function: <code>slice_sample()</code></h4>
 <hr />
-<p><strong>1. Recode across multiple character variables</strong></p>
-<p>Review the data (d15)</p>
-<pre><code># A tibble: 3 x 4
-     id Var1  Var2  Var3 
-  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1   123 1.5   2.2   3.0  
-2   234 2.2   UI    6.9  
-3   345 MR    5.4   MR   </code></pre>
-<p>In this example, missing values were entered as character values in a
-numeric column. So now these columns are considered character.</p>
-<p>Recode “MR” to -98 and “UI” to -99 for Var1, Var2, Var3. And then
-convert the character variable to numeric.</p>
-<ul>
-<li><p>Note: Unlike <code>dplyr::recode()</code> where we did not have
-to put quotes around the old character values, we now have to put quotes
-around the old and new character values.</p></li>
-<li><p>Note: I use <code>dplyr::across()</code> to select multiple
-variables to apply my function to.</p></li>
-<li><p>Note: The . is used here to say apply this function to all of the
-variables I selected above.</p></li>
-<li><p>Note: TRUE means, if a value was not evaluated in my arguments
-above, replace with the value I give. In this case, I am saying just
-replace with the existing value.</p></li>
-</ul>
-<pre class="r"><code>d15 &lt;- d15 %&gt;%
-  dplyr::mutate(dplyr::across(Var1:Var3,
-                       ~ case_when(
-                       . == &quot;MR&quot; ~ &quot;-98&quot;,
-                       . == &quot;UI&quot; ~ &quot;-99&quot;,
-                       TRUE ~ .)))
+<p><strong>1. Randomly choose 3 teachers per grade level</strong></p>
+<p>Review the data (d1)</p>
+<pre><code># A tibble: 14 x 2
+      id grade
+   &lt;dbl&gt; &lt;dbl&gt;
+ 1    10     3
+ 2    11     3
+ 3    12     3
+ 4    13     4
+ 5    14     4
+ 6    15     4
+ 7    16     3
+ 8    17     3
+ 9    18     4
+10    19     4
+11    20     3
+12    21     4
+13    22     4
+14    23     3</code></pre>
+<p>I want to send surveys out to 3 teachers per grade level so I want to
+randomly choose those teachers from an existing roster.</p>
+<p>Let’s first see how many teachers we have per grade level.</p>
+<pre class="r"><code>d1 %&gt;%
+  janitor::tabyl(grade)</code></pre>
+<pre><code> grade n percent
+     3 7     0.5
+     4 7     0.5</code></pre>
+<p>Next we can create our random samples.</p>
+<p>First we need to use <code>base::set.seed()</code> and choose any
+number to add as my seed. Setting this seed ensures that if I ever run
+this code again at a later time, I will get the same random sample each
+time. Very important!</p>
+<p>Next we can use <code>dplyr::group_by()</code> to group our data by
+grade level and then use <code>dplyr::slice_sample()</code> to randomly
+select our cases. We use the argument <em>n</em> to say how many cases
+we want from each group.</p>
+<pre class="r"><code>base::set.seed(1234)
 
-d15</code></pre>
-<pre><code># A tibble: 3 x 4
-     id Var1  Var2  Var3 
-  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1   123 1.5   2.2   3.0  
-2   234 2.2   -99   6.9  
-3   345 -98   5.4   -98  </code></pre>
-<p>While my character values have now be recoded to numeric values, my
-variable is still considered character so I would need one additional
-step to convert it to numeric (using the <code>base::as.numeric()</code>
-function).</p>
-<p>However, before I do that, I want to be certain I have no other
-character values left in my variables. If I do still have other
-character values and I try to use <code>base::as.numeric()</code> those
-values will be converted to NA.</p>
-<p>I can check that there are no more instances of MR or UI using
-<code>dplyr::filter()</code> in conjunction with the
-<code>dplyr::if_any()</code> predicate function to select columns where
-the condition applies to any of the columns. This function is available
-in version 1.0.5 of <code>dplyr</code>.</p>
-<ul>
-<li><p>Note: We use the <code>tidyselect</code> selection helper
-<code>everything()</code> to refer to all variables. I could also have
-selected variables Var1:Var3.</p></li>
-<li><p>.x is used to say, for all of the variables I have
-selected</p></li>
-</ul>
-<pre class="r"><code>d15 %&gt;% 
-dplyr::filter(dplyr::if_any(everything(), ~ .x %in% c(&#39;MR&#39;, &#39;UI&#39;)))</code></pre>
-<pre><code># A tibble: 0 x 4
-# ... with 4 variables: id &lt;dbl&gt;, Var1 &lt;chr&gt;, Var2 &lt;chr&gt;, Var3 &lt;chr&gt;</code></pre>
-<p>If I wanted to be more general, I could also just check for
-<em>any</em> alphabetical character left in my variables using
-<code>stringr::str_detect()</code> and including the regex pattern
-<em>[a-zA-Z]</em></p>
-<pre class="r"><code>d15 %&gt;% 
-dplyr::filter(dplyr::if_any(everything(), ~ stringr::str_detect(., pattern = &quot;[a-zA-Z]&quot;)))</code></pre>
-<pre><code># A tibble: 0 x 4
-# ... with 4 variables: id &lt;dbl&gt;, Var1 &lt;chr&gt;, Var2 &lt;chr&gt;, Var3 &lt;chr&gt;</code></pre>
-<p>Now that I know my variable has all character values removed, I can
-convert them to numeric.</p>
-<ul>
-<li>Note: I am using <code>dplyr::across()</code> to apply a function to
-multiple variables.</li>
-</ul>
-<pre class="r"><code>d15 %&gt;%
-  dplyr::mutate(dplyr::across(Var1:Var3, as.numeric))</code></pre>
-<pre><code># A tibble: 3 x 4
-     id  Var1  Var2  Var3
-  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1   123   1.5   2.2   3  
-2   234   2.2 -99     6.9
-3   345 -98     5.4 -98  </code></pre>
-<p><strong>2. Recode across multiple numeric variables</strong></p>
-<p>Review the data (d15)</p>
-<pre><code># A tibble: 4 x 9
-     id  sc_1  sc_2 sc_sum sc_mean  tr_1  tr_2 tr_sum tr_mean
-  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
-1    10     1     2      3     1.5   -80   -80     NA      NA
-2    11   -80   -80     NA    NA       1     3      4       2
-3    12     2     3      5     2.5   -80   -80     NA      NA
-4    13    NA    NA     NA    NA     -80   -80     NA      NA</code></pre>
-<p>In this situation, -80 means the item was not provided to a student.
-If a student has a -80 for all items in a scale, we want to assign a -80
-for the sum and mean of that scale to denote that this scale was not
-provided (to differentiate between a value of NA meaning the data are
-actually missing).</p>
-<p>The two scales are “sc” and “tr” and each are made up of 2 items.</p>
-<ul>
-<li><p>Note: I am using <code>dplyr::across()</code> to apply a function
-to multiple variables.</p></li>
-<li><p>Note: I am using the <code>dplyr::if_all()</code> predicate
-function to select columns where the condition applies to all columns.
-This function is available in version 1.0.5 of
-<code>dplyr</code>.</p></li>
-</ul>
-<pre class="r"><code>d16 %&gt;%
-  dplyr::mutate(dplyr::across(sc_sum:sc_mean,
-                 ~dplyr::case_when(
-                    dplyr::if_all(sc_1:sc_2, ~ (. == -80)) ~ -80,
-                    TRUE ~ .)),
-  dplyr::mutate(dplyr::across(tr_sum:tr_mean,
-                  ~dplyr::case_when(
-                    dplyr::if_all(tr_1:tr_2, ~ (. == -80)) ~ -80,
-                    TRUE ~ .))))</code></pre>
-<pre><code># A tibble: 4 x 9
-     id  sc_1  sc_2 sc_sum sc_mean  tr_1  tr_2 tr_sum tr_mean
-  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
-1    10     1     2      3     1.5   -80   -80    -80     -80
-2    11   -80   -80    -80   -80       1     3      4       2
-3    12     2     3      5     2.5   -80   -80    -80     -80
-4    13    NA    NA     NA    NA     -80   -80    -80     -80</code></pre>
-<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode">Recode</a></p>
+d1 %&gt;%
+  dplyr::group_by(grade) %&gt;%
+  dplyr::slice_sample(n = 3)</code></pre>
+<pre><code># A tibble: 6 x 2
+# Groups:   grade [2]
+     id grade
+  &lt;dbl&gt; &lt;dbl&gt;
+1    16     3
+2    11     3
+3    17     3
+4    18     4
+5    13     4
+6    19     4</code></pre>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Create%20New%20Variables">Create
+New Variables</a></p>
 </div>
 </div>
 

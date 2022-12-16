@@ -1,5 +1,5 @@
 ---
-title: "Recode values"
+title: "Recode values for multiple variables"
 output: 
   html_document:
     toc: false

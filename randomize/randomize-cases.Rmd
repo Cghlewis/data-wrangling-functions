@@ -1,0 +1,65 @@
+---
+title: "Randomly sample cases"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `slice_sample()`
+
+---
+
+
+**1\. Randomly choose 3 teachers per grade level**
+
+Review the data (d1)
+
+```{r, echo = FALSE}
+
+source("data.R")
+d1
+
+```
+
+I want to send surveys out to 3 teachers per grade level so I want to randomly choose those teachers from our existing roster.
+
+Let's first see how many teachers we have per grade level.
+
+```{r}
+
+d1 %>%
+  janitor::tabyl(grade)
+```
+
+Next we can create our random samples. 
+
+First we need to use `base::set.seed()` and choose any number to add as my seed. Setting this seed ensures that if I ever run this code again at a later time, I will get the same random sample each time. Very important!
+
+Next we can use `dplyr::group_by()` to group our data by grade level and then use `dplyr::slice_sample()` to randomly select our cases. We use the argument *n* to say how many cases we want from each group.
+
+```{r}
+
+base::set.seed(1234)
+
+d1 %>%
+  dplyr::group_by(grade) %>%
+  dplyr::slice_sample(n = 3)
+
+```
+
+
+
+Return to [Create New Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Create New Variables)

@@ -142,6 +142,8 @@ navbar:
     href: create-variables\add-new-column-dummy.html
   - text: "Create calculated variables"
     href: create-variables\add-calculated-variables.html
+  - text: "Randomly sample"
+    href: randomize\randomize-cases.html
 output:
   html_document:
     theme: readable

@@ -140,6 +140,8 @@ navbar:
     href: create-variables\add-new-column-dummy.html
   - text: "Create calculated variables"
     href: create-variables\add-calculated-variables.html
+  - text: "Add new column indicator"
+    href: create-variables\add-new-column-indicator.html
   - text: "Randomly sample"
     href: randomize\randomize-cases.html
   - text: "Add random id"

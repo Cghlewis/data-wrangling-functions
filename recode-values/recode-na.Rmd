@@ -32,31 +32,17 @@ d1
 
 ```
 
-Check the values of Var3
-
-```{r}
-
-d1 %>% janitor::tabyl(Var3, show_na=TRUE)
-
-```
-
 Recode NA to 0
 
 * Note: We are recoding back into the same variable using `dplyr::mutate()`. However, we could have recoded into a new variable by changing the name of *Var3*.
 
 ```{r}
 
-d1 <- d1 %>% dplyr::mutate(Var3 = tidyr::replace_na(Var3, 0))
+d1 %>% 
+  dplyr::mutate(Var3 = tidyr::replace_na(Var3, replace = 0))
 
 ```
 
-Check that the recode worked
-
-```{r}
-
-d1 %>% janitor::tabyl(Var3, show_na=TRUE)
-
-```
 
 **2\. Replace NA for multiple variables (Var2 and Var3) with the same NA value**
 
@@ -69,17 +55,6 @@ d1
 
 ```
 
-
-Check the values of Var2 and Var3
-
-* Note: `purrr::map()` is used to iterate the `base::table()` function across all variables.
-
-```{r}
-
-purrr::map(d1, table, useNA="always")
-
-```
-
 Recode NA for Var2 and Var3 to 0
 
 * Note: We are recoding back into the same variable using `dplyr::mutate()`. 
@@ -87,17 +62,11 @@ Recode NA for Var2 and Var3 to 0
 
 ```{r}
 
-d1 <- d1 %>% dplyr::mutate(dplyr::across(c(Var2:Var3), tidyr::replace_na , 0))
+d1 %>% 
+  dplyr::mutate(dplyr::across(c(Var2:Var3), tidyr::replace_na, 0))
 
 ```
 
-Check the values after the recode
-
-```{r}
-
-purrr::map(d1, table, useNA="always") 
-
-```
 
 **3\. Replace NA for multiple variables of the same class with the same NA value (Var2 and Var3)**
 
@@ -110,16 +79,6 @@ d1
 
 ```
 
-Check the values
-
-* Note: `purrr::map()` is used to iterate the `base::table()` function across all variables.
-
-```{r}
-
-purrr::map(d1, table, useNA="always") 
-
-```
-
 Recode NA for Var2 and Var3 to -999
 
 * Note: We are recoding back into the same variable using `dplyr::mutate()`. 
@@ -128,18 +87,33 @@ Recode NA for Var2 and Var3 to -999
 
 ```{r}
 
-d1 <- d1 %>% dplyr::mutate(dplyr::across(where(is.numeric) , tidyr::replace_na, replace = -999))
+d1 %>% 
+  dplyr::mutate(dplyr::across(where(is.numeric), tidyr::replace_na, -999))
 
 ```
 
-Check the values after the recode
+
+**4\. Replace NA Var2 and Var3 with different values**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Replace NA with -999 for Var2 and replace NA with 0 for Var3.
+
+Here we can use `base::list()` to list the variables we want to transform. Because we are not replacing NAs in a vector, we do not have to use `dplyr::mutate()` to do our transformation.
 
 ```{r}
 
-purrr::map(d1, table, useNA="always") 
+d1 %>% 
+  tidyr::replace_na(list(Var2 = -999, Var3 = 0))
 
 ```
-
 
 ### Package: dplyr
 
@@ -164,7 +138,8 @@ Replace -999 for the entire dataset with NA
 
 ```{r}
 
-d3 %>% dplyr::na_if(-999)
+d3 %>% 
+  dplyr::na_if(-999)
 
 ```
 
@@ -187,7 +162,8 @@ Replace -999 for for Var2 and Var3 with NA
 
 ```{r}
 
-d3 %>% dplyr::mutate(dplyr::across(c(Var2:Var3), dplyr::na_if, -999))
+d3 %>% 
+  dplyr::mutate(dplyr::across(c(Var2:Var3), dplyr::na_if, -999))
 
 ```
 
@@ -211,7 +187,8 @@ Replace -999 for numeric variables with NA
 
 ```{r}
 
-d3 %>% dplyr::mutate(dplyr::across(where(is.numeric), dplyr::na_if, -999))
+d3 %>% 
+  dplyr::mutate(dplyr::across(where(is.numeric), dplyr::na_if, -999))
 
 ```
 

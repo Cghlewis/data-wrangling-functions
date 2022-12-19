@@ -134,7 +134,7 @@ d3 %>%
 
 ```
 
-**2\. Create new dummy coded variables from a categorical column with multiple items selected per cell (cat)**
+**2\. Create new dummy coded variables from a categorical column with multiple items selected per cell (cert)**
 
 Review the data (d7)
 

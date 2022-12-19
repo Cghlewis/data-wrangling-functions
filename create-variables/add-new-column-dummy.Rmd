@@ -201,12 +201,39 @@ d2 %>%
   tidyr::pivot_wider(
     names_from = cat,
     names_prefix = "cat",
-    values_from = count,
+    values_from = count, 
     values_fill = 0
   ) %>%
-  dplyr::select(id, cat1, cat2, cat4, cat5, cat10, cat11, -catNA)
+  dplyr::select(id, cat1, cat2, cat4, cat5, cat10, cat11)
 
 ```
+
+Last, you'll notice above that id 14 now has zeros for all of the categories. Whereas before they had NAs. If the NAs actually mean that their data is missing, then we don't want id 14 to have zeros for all of our dummy categories. We want them to have NAs.
+
+We could fix this by keeping the "catNA" variable and then using this variable as an indicator for when to recode our other categorical variables back to NA. 
+
+```{r}
+
+d2 %>% 
+  tidyr::separate_rows(cat, sep = ", ") %>%
+  dplyr::mutate(count = 1) %>%
+  tidyr::pivot_wider(
+    names_from = cat,
+    names_prefix = "cat",
+    values_from = count, 
+    values_fill = 0
+  ) %>%
+  dplyr::select(id, catNA, cat1, cat2, cat4, cat5, cat10, cat11) %>%
+  dplyr::mutate(dplyr::across(cat1:cat11,
+                       ~ dplyr::case_when(
+                         catNA == 1 ~ NA_real_,
+                         TRUE ~ .
+                       ))) %>%
+  dplyr::select(-catNA)
+
+```
+
+
 
 
 Return to [Create New Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Create New Variables)

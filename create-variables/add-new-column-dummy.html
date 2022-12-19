@@ -595,10 +595,10 @@ due to id 14 having a value of NA for “cat”.</p>
   tidyr::pivot_wider(
     names_from = cat,
     names_prefix = &quot;cat&quot;,
-    values_from = count,
+    values_from = count, 
     values_fill = 0
   ) %&gt;%
-  dplyr::select(id, cat1, cat2, cat4, cat5, cat10, cat11, -catNA)</code></pre>
+  dplyr::select(id, cat1, cat2, cat4, cat5, cat10, cat11)</code></pre>
 <pre><code># A tibble: 5 x 7
      id  cat1  cat2  cat4  cat5 cat10 cat11
   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -607,6 +607,37 @@ due to id 14 having a value of NA for “cat”.</p>
 3    12     0     1     0     1     0     1
 4    13     1     0     0     1     0     0
 5    14     0     0     0     0     0     0</code></pre>
+<p>Last, you’ll notice above that id 14 now has zeros for all of the
+categories. Whereas before they had NAs. If the NAs actually mean that
+their data is missing, then we don’t want id 14 to have zeros for all of
+our dummy categories. We want them to have NAs.</p>
+<p>We could fix this by keeping the “catNA” variable and then using this
+variable as an indicator for when to recode our other categorical
+variables back to NA.</p>
+<pre class="r"><code>d2 %&gt;% 
+  tidyr::separate_rows(cat, sep = &quot;, &quot;) %&gt;%
+  dplyr::mutate(count = 1) %&gt;%
+  tidyr::pivot_wider(
+    names_from = cat,
+    names_prefix = &quot;cat&quot;,
+    values_from = count, 
+    values_fill = 0
+  ) %&gt;%
+  dplyr::select(id, catNA, cat1, cat2, cat4, cat5, cat10, cat11) %&gt;%
+  dplyr::mutate(dplyr::across(cat1:cat11,
+                       ~ dplyr::case_when(
+                         catNA == 1 ~ NA_real_,
+                         TRUE ~ .
+                       ))) %&gt;%
+  dplyr::select(-catNA)</code></pre>
+<pre><code># A tibble: 5 x 7
+     id  cat1  cat2  cat4  cat5 cat10 cat11
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1    10     1     0     1     0     0     1
+2    11     0     0     1     1     1     0
+3    12     0     1     0     1     0     1
+4    13     1     0     0     1     0     0
+5    14    NA    NA    NA    NA    NA    NA</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Create%20New%20Variables">Create
 New Variables</a></p>
 </div>

@@ -42,8 +42,33 @@ Split toppings into new rows
 
 ```{r}
 
-d5 %>% tidyr::separate_rows(toppings, sep=",")
+d5 %>% 
+  tidyr::separate_rows(toppings, sep=",")
 
 ```
+
+* Note: While I think `tidyr::separate_rows()` is a very clean way of accomplishing the goal above, I think it is nice to see that there are other methods to accomplishing this result. One of those other ways is using `stringr::str_split()`. 
+
+Notice here though that you have to use `dplyr::mutate()` to create a new column (or in this case replace the existing column). 
+
+```{r}
+
+d5 %>%
+  mutate(toppings = stringr::str_split(toppings, pattern = ",")) 
+
+```
+
+You'll also notice that you do not get a normal character vector for toppings. You get a nested list-column that now requires us to `tidyr::unnest()` in order to see the information.
+
+So while this method does work, you can see what `tidyr::separte_rows()` is much simpler for this use case.
+
+```{r}
+
+d5 %>%
+  mutate(toppings = stringr::str_split(toppings, pattern = ",")) %>%
+  tidyr::unnest()
+
+```
+
 
 Return to [Separate](https://github.com/Cghlewis/data-wrangling-functions/wiki/Separate)

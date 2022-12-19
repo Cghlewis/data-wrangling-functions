@@ -543,7 +543,7 @@ wanted.</p>
 <pre class="r"><code>d7 %&gt;% 
   tidyr::separate_rows(cert, sep = &quot;, &quot;) %&gt;%
   dplyr::mutate(count = 1) %&gt;%
-  pivot_wider(
+  tidyr::pivot_wider(
     names_from = cert,
     values_from = count,
     values_fill = 0
@@ -563,7 +563,7 @@ over.</p>
 <pre class="r"><code>d7 %&gt;% 
   tidyr::separate_rows(cert, sep = &quot;, &quot;) %&gt;%
   dplyr::mutate(count = 1) %&gt;%
-  pivot_wider(
+  tidyr::pivot_wider(
     id_cols = c(id, age),
     names_from = cert,
     values_from = count,
@@ -586,16 +586,19 @@ method.</li>
 </ul>
 <p>The only thing I am adding here, compared to the example directly
 above, is the <em>names_prefix</em> argument.</p>
+<p>I am also adding a <code>dplyr::select()</code> statement at the end
+to reorder the variables and drop the “catNA” variable that is created
+due to id 14 having a value of NA for “cat”.</p>
 <pre class="r"><code>d2 %&gt;% 
   tidyr::separate_rows(cat, sep = &quot;, &quot;) %&gt;%
   dplyr::mutate(count = 1) %&gt;%
-  pivot_wider(
+  tidyr::pivot_wider(
     names_from = cat,
     names_prefix = &quot;cat&quot;,
     values_from = count,
     values_fill = 0
   ) %&gt;%
-  select(id, cat1, cat2, cat4, cat5, cat10, cat11, -catNA)</code></pre>
+  dplyr::select(id, cat1, cat2, cat4, cat5, cat10, cat11, -catNA)</code></pre>
 <pre><code># A tibble: 5 x 7
      id  cat1  cat2  cat4  cat5 cat10 cat11
   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;

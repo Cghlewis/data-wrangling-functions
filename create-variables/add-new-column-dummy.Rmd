@@ -160,7 +160,7 @@ Now we can pivot. After we pivot, we notice that our data has been regrouped to 
 d7 %>% 
   tidyr::separate_rows(cert, sep = ", ") %>%
   dplyr::mutate(count = 1) %>%
-  pivot_wider(
+  tidyr::pivot_wider(
     names_from = cert,
     values_from = count,
     values_fill = 0
@@ -176,7 +176,7 @@ If we wanted to more explicitly keep our age and id variables, we could name the
 d7 %>% 
   tidyr::separate_rows(cert, sep = ", ") %>%
   dplyr::mutate(count = 1) %>%
-  pivot_wider(
+  tidyr::pivot_wider(
     id_cols = c(id, age),
     names_from = cert,
     values_from = count,
@@ -191,18 +191,20 @@ d7 %>%
 
 The only thing I am adding here, compared to the example directly above, is the *names_prefix* argument.
 
+I am also adding a `dplyr::select()` statement at the end to reorder the variables and drop the "catNA" variable that is created due to id 14 having a value of NA for "cat".
+
 ```{r}
 
 d2 %>% 
   tidyr::separate_rows(cat, sep = ", ") %>%
   dplyr::mutate(count = 1) %>%
-  pivot_wider(
+  tidyr::pivot_wider(
     names_from = cat,
     names_prefix = "cat",
     values_from = count,
     values_fill = 0
   ) %>%
-  select(id, cat1, cat2, cat4, cat5, cat10, cat11, -catNA)
+  dplyr::select(id, cat1, cat2, cat4, cat5, cat10, cat11, -catNA)
 
 ```
 

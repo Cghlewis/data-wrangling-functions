@@ -411,15 +411,17 @@ when you have a value of 23.5, it will round up to 24. When you have a
 value of 22.5, it will round down to 22. See documentation on round for
 more information.</p>
 <p>Let’s see what happens when we round to 1 digit.</p>
+<pre class="r"><code>d1 %&gt;% 
+  dplyr::mutate(dplyr::across(scorex:scorey, ~ round(., digits = 1)))</code></pre>
 <pre><code># A tibble: 6 x 3
      id scorex scorey
   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-1    30    3.6   102.
-2    34    8.5   133.
-3    35    5.5   156.
-4    36    5.3   130.
-5    37   NA     110.
-6    38    4.2   115.</code></pre>
+1    30    3.6  101.5
+2    34    8.5  132.7
+3    35    5.5  155.7
+4    36    5.3  129.8
+5    37   NA    109.6
+6    38    4.2  115.3</code></pre>
 <p>In this case it appears that rounding is doing what we would expect,
 rounding up at 5, no matter if the tens digit is odd or even.</p>
 <p>However, it is important to note that when you round with 1 or more
@@ -473,12 +475,12 @@ expect, where round up at 5 or higher and down at 4 or lower.</p>
 <pre><code># A tibble: 6 x 3
      id scorex scorey
   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-1    30    3.6   102.
-2    34    8.5   133.
-3    35    5.5   156.
-4    36    5.3   130.
-5    37   NA     110.
-6    38    4.2   115.</code></pre>
+1    30    3.6  101.5
+2    34    8.5  132.7
+3    35    5.5  155.7
+4    36    5.3  129.8
+5    37   NA    109.6
+6    38    4.2  115.3</code></pre>
 <p>Again, the rounding here is as expected. However, as mentioned above,
 this may differ slightly based on operating system. I am currently using
 Windows 10.</p>

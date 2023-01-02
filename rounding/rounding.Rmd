@@ -51,7 +51,7 @@ Second, the rounding behavior may not be as expected. This base R function uses 
 
 Let's see what happens when we round to 1 digit.
 
-```{r, echo=FALSE}
+```{r R.options=list(pillar.sigfig = 10)}
 
 d1 %>% 
   dplyr::mutate(dplyr::across(scorex:scorey, ~ round(., digits = 1)))
@@ -99,7 +99,7 @@ You can see that now we have the behavior that we would normally expect, where r
 
 Let's see how this function works when we round to 1 digit.
 
-```{r}
+```{r R.options=list(pillar.sigfig = 10)}
 
 d1 %>%
   dplyr::mutate(dplyr::across(scorex:scorey, ~ janitor::round_half_up(., digits = 1)))

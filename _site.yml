@@ -148,6 +148,8 @@ navbar:
     href: randomize\add-random-id-column.html
   - text: "Add random treatment"
     href: randomize\randomize-variable.html
+  - text: "Rounding"
+    href: rounding\rounding.html
 output:
   html_document:
     theme: readable

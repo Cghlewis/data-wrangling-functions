@@ -1,0 +1,112 @@
+---
+title: "Forms of rounding"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: base
+
+---
+
+#### Function: `round()`
+
+---
+
+**1\. Round our score values**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Round our score values using `base::round()`.
+
+* Note: We need to use `dplyr::mutate()` in order to modify our existing columns.
+* Note: We use `dplyr::across()` to mutate both "scorex" and "scorey" with the same function.
+
+```{r}
+
+d1 %>% 
+  dplyr::mutate(dplyr::across(scorex:scorey, ~ round(.)))
+
+```
+
+There are a few things to note here.
+First, the default is to round to a whole number. We can add the argument *digits* to change the number of digits that we want.
+Second, the rounding behavior may not be as expected. This base R function uses banker's rounding. This means that R rounds to the even number when rounding at 5. So for example, when you have a value of 23.5, it will round up to 24. When you have a value of 22.5, it will round down to 22. See documentation on round for more information.
+
+Let's see what happens when we round to 1 digit.
+
+```{r, echo=FALSE}
+
+d1 %>% 
+  dplyr::mutate(dplyr::across(scorex:scorey, ~ round(., digits = 1)))
+
+
+```
+
+In this case it appears that rounding is doing what we would expect, rounding up at 5, no matter if the tens digit is odd or even. 
+
+However, it is important to note that when you round with 1 or more digits, since decimal places are not represented exactly, you may get different results depending on your OS: 1.75 may round to 1.7 or 1.8. 
+
+* Note: The other options in base R for rounding are `base::ceiling()` if you want to always round up, `base::floor()` if you want to always round down, and `base::trunc()` if you want to simply cut off all decimal places and keep the current whole value.
+
+<br>
+
+### Package: janitor
+
+---
+
+#### Function: `round_half_up()`
+
+---
+
+**1\. Round our score values**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Round our score values.
+
+```{r}
+
+d1 %>%
+  dplyr::mutate(dplyr::across(scorex:scorey, ~ janitor::round_half_up(.)))
+
+```
+
+You can see that now we have the behavior that we would normally expect, where round up at 5 or higher and down at 4 or lower.
+
+Let's see how this function works when we round to 1 digit.
+
+```{r}
+
+d1 %>%
+  dplyr::mutate(dplyr::across(scorex:scorey, ~ janitor::round_half_up(., digits = 1)))
+
+```
+
+Again, the rounding here is as expected. However, as mentioned above, this may differ slightly based on operating system. I am currently using Windows 10.
+
+
+Return to [Rounding](https://github.com/Cghlewis/data-wrangling-functions/wiki/Rounding)

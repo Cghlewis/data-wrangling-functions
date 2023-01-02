@@ -402,14 +402,15 @@ and “scorey” with the same function.</li>
 4    36      5    130
 5    37     NA    110
 6    38      4    115</code></pre>
-<p>There are a few things to note here. First, the default is to round
-to a whole number. We can add the argument <em>digits</em> to change the
-number of digits that we want. Second, the rounding behavior may not be
-as expected. This base R function uses banker’s rounding. This means
-that R rounds to the even number when rounding at 5. So for example,
-when you have a value of 23.5, it will round up to 24. When you have a
-value of 22.5, it will round down to 22. See documentation on round for
-more information.</p>
+<p>There are a few things to note here.</p>
+<p>First, the default is to round to a whole number. We can add the
+argument <em>digits</em> to change the number of digits that we
+want.</p>
+<p>Second, the rounding behavior may not be as expected. This base R
+function uses banker’s rounding. This means that R rounds to the even
+number when rounding at 5. So for example, when you have a value of
+23.5, it will round up to 24. When you have a value of 22.5, it will
+round down to 22. See documentation on round for more information.</p>
 <p>Let’s see what happens when we round to 1 digit.</p>
 <pre class="r"><code>d1 %&gt;% 
   dplyr::mutate(dplyr::across(scorex:scorey, ~ round(., digits = 1)))</code></pre>

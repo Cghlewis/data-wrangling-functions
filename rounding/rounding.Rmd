@@ -46,7 +46,9 @@ d1 %>%
 ```
 
 There are a few things to note here.
+
 First, the default is to round to a whole number. We can add the argument *digits* to change the number of digits that we want.
+
 Second, the rounding behavior may not be as expected. This base R function uses banker's rounding. This means that R rounds to the even number when rounding at 5. So for example, when you have a value of 23.5, it will round up to 24. When you have a value of 22.5, it will round down to 22. See documentation on round for more information.
 
 Let's see what happens when we round to 1 digit.

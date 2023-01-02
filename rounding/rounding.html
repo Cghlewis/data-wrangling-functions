@@ -378,12 +378,12 @@ pre code {
 <pre><code># A tibble: 6 x 3
      id scorex scorey
   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-1    30    3.6   102.
-2    34    8.5   133.
-3    35    5.5   156.
-4    36    5.3   130.
-5    37   NA     110.
-6    38    4.2   115.</code></pre>
+1    30    3.6 101.51
+2    34    8.5 132.65
+3    35    5.5 155.65
+4    36    5.3 129.75
+5    37   NA   109.6 
+6    38    4.2 115.31</code></pre>
 <p>Round our score values using <code>base::round()</code>.</p>
 <ul>
 <li>Note: We need to use <code>dplyr::mutate()</code> in order to modify
@@ -449,12 +449,12 @@ places and keep the current whole value.</li>
 <pre><code># A tibble: 6 x 3
      id scorex scorey
   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-1    30    3.6   102.
-2    34    8.5   133.
-3    35    5.5   156.
-4    36    5.3   130.
-5    37   NA     110.
-6    38    4.2   115.</code></pre>
+1    30    3.6 101.51
+2    34    8.5 132.65
+3    35    5.5 155.65
+4    36    5.3 129.75
+5    37   NA   109.6 
+6    38    4.2 115.31</code></pre>
 <p>Round our score values.</p>
 <pre class="r"><code>d1 %&gt;%
   dplyr::mutate(dplyr::across(scorex:scorey, ~ janitor::round_half_up(.)))</code></pre>

@@ -155,7 +155,7 @@ navbar:
   - text: "Count"
     href: count\count-distinct-groups.html
   - text: "Count"
-    href: count\count-values_groups.html
+    href: count\count-values-groups.html
   - text: "Count"
     href: count\count-duplicates.html
 output:

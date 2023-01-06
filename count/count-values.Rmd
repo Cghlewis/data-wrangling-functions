@@ -75,8 +75,8 @@ So in this case we can use `dplyr::distinct()` to get distinct IDs before we do 
 ```{r}
 
 d3 %>%
-  distinct(stu_id) %>%
-  count()
+  dplyr::distinct(stu_id) %>%
+  dplyr::count()
 
 ```
 

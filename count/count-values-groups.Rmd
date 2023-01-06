@@ -43,6 +43,17 @@ d1 %>%
 
 ```
 
+You'll notice above that `dplyr::count()` does the grouping for you. But if you want to more explicitly see the steps, you could first group by "tch_id" using `dplyr::group_by()` and then using `dplyr::summarize()` to create a new variable "n_stud" and use the `dplyr::n()` function to count the number of rows per group.
+
+```{r}
+
+d1 %>%
+  dplyr::group_by(tch_id) %>%
+  dplyr::summarize(n_stud = dplyr::n())
+
+```
+
+
 ### Package: dplyr
 
 ---
@@ -65,7 +76,7 @@ d1
 
 We see here that teachers appear more than once in our data frame (once for every student they are associated with). In this case we don't want to count a teacher more than once so we will need to only count distinct teacher ids per school. Otherwise it will appear that we have more teachers per school than we really do.
 
-So in this case we can first group by "school" using `dplyr::group_by()` and then create our new variable "n_tch" using `dplyr::summmarize()` and use `dplyr::n_distinct()` to count the distinct number of teachers per group.
+So in this case we can first explicityly group by "school" using `dplyr::group_by()` and then create our new variable "n_tch" using `dplyr::summmarize()` and use `dplyr::n_distinct()` to count the distinct number of teachers per group.
 
 
 ```{r}

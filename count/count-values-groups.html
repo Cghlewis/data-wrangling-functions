@@ -394,6 +394,22 @@ pre code {
 2     13     1
 3     17     1
 4     18     2</code></pre>
+<p>You’ll notice above that <code>dplyr::count()</code> does the
+grouping for you. But if you want to more explicitly see the steps, you
+could first group by “tch_id” using <code>dplyr::group_by()</code> and
+then using <code>dplyr::summarize()</code> to create a new variable
+“n_stud” and use the <code>dplyr::n()</code> function to count the
+number of rows per group.</p>
+<pre class="r"><code>d1 %&gt;%
+  dplyr::group_by(tch_id) %&gt;%
+  dplyr::summarize(n_stud = dplyr::n())</code></pre>
+<pre><code># A tibble: 4 x 2
+  tch_id n_stud
+   &lt;dbl&gt;  &lt;int&gt;
+1     12      2
+2     13      1
+3     17      1
+4     18      2</code></pre>
 </div>
 </div>
 <div id="package-dplyr-1" class="section level3">
@@ -418,7 +434,7 @@ pre code {
 want to count a teacher more than once so we will need to only count
 distinct teacher ids per school. Otherwise it will appear that we have
 more teachers per school than we really do.</p>
-<p>So in this case we can first group by “school” using
+<p>So in this case we can first explicityly group by “school” using
 <code>dplyr::group_by()</code> and then create our new variable “n_tch”
 using <code>dplyr::summmarize()</code> and use
 <code>dplyr::n_distinct()</code> to count the distinct number of

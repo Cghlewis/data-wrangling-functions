@@ -421,8 +421,8 @@ want to count this student twice though in our sample.</p>
 <p>So in this case we can use <code>dplyr::distinct()</code> to get
 distinct IDs before we do our count.</p>
 <pre class="r"><code>d3 %&gt;%
-  distinct(stu_id) %&gt;%
-  count()</code></pre>
+  dplyr::distinct(stu_id) %&gt;%
+  dplyr::count()</code></pre>
 <pre><code># A tibble: 1 x 1
       n
   &lt;int&gt;

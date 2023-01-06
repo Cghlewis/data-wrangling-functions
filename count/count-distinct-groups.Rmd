@@ -1,0 +1,61 @@
+---
+title: "Count distinct number of groups"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `count()`
+
+---
+
+**1\. Count how many distinct schools we have**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Count the distinct number of schools
+
+Because groups inherently occur more than once in a dataset, you need to consider how to remove duplicates to get distinct values. Similar to what we did in "count values" we can use `dplyr::distinct()` to get our distinct school names and then do a count.
+
+```{r}
+
+d1 %>%
+  dplyr::distinct(school) %>%
+  dplyr::count()
+
+```
+
+We could also use another function `dplyr::n_groups()` which requires you to first group by your variable of interest (in this case school) and then use the function.
+
+Note: Similar to what was mentioned in "count values", it is important to note that the output between using `dplyr::count()` and `dplyr::n_groups()` is different. The former produces a tibble and the latter produces a numeric vector.
+
+```{r}
+
+d1 %>%
+  dplyr::group_by(school) %>%
+  dplyr::n_groups()
+
+```
+
+
+Return to [Count](https://github.com/Cghlewis/data-wrangling-functions/wiki/Count)

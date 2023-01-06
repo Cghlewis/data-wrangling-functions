@@ -1,0 +1,49 @@
+---
+title: "Count duplicates"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `count()`
+
+---
+
+**1\. Count how many duplicates we have per student in our data**
+
+Review the data (d4)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d4
+
+```
+
+In this case, a student can be re-recruited back into our study each year. We now want to count how many years each student has been in our study.
+
+In order to do this we can first group by our student id using `dplyr::group_by()` and then do a count.
+
+```{r}
+
+d4 %>%
+  dplyr::group_by(stu_id) %>%
+  dplyr::count()
+
+```
+
+
+Return to [Count](https://github.com/Cghlewis/data-wrangling-functions/wiki/Count)

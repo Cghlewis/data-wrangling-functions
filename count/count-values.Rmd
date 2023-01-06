@@ -1,0 +1,84 @@
+---
+title: "Count values"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `count()`
+
+---
+
+**1\. Count how many students we have in our data frame**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Count our number of students.
+
+Since each row is a student, we can simply count the number of rows in the data frame.
+
+```{r}
+
+d1 %>%
+  dplyr::count()
+
+```
+
+We could also use `base::nrow()` in this case as well.
+
+* Note: Note the difference in the output type though. Above using `dplyr::count()` we got a tibble. Now with `base::nrow()` we get a numeric vector.
+
+```{r}
+
+d1 %>%
+  base::nrow()
+
+```
+
+
+**2\. Count the number of students we have in our data frame when there are duplicate students**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+Notice now that ID 30 appears twice. It's possible that we accidentally collected data on this student twice. We don't actually want to count this student twice though in our sample.
+
+So in this case we can use `dplyr::distinct()` to get distinct IDs before we do our count.
+
+
+```{r}
+
+d3 %>%
+  distinct(stu_id) %>%
+  count()
+
+```
+
+
+Return to [Count](https://github.com/Cghlewis/data-wrangling-functions/wiki/Count)

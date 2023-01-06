@@ -150,6 +150,14 @@ navbar:
     href: randomize\randomize-variable.html
   - text: "Rounding"
     href: rounding\rounding.html
+  - text: "Count"
+    href: count\count-values.html
+  - text: "Count"
+    href: count\count-distinct-groups.html
+  - text: "Count"
+    href: count\count-values_groups.html
+  - text: "Count"
+    href: count\count-duplicates.html
 output:
   html_document:
     theme: readable

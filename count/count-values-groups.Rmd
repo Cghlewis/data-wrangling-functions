@@ -1,0 +1,80 @@
+---
+title: "Count values by groups"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `count()`
+
+---
+
+**1\. Count the number of students per teacher**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+Count our number of students per teacher.
+
+
+```{r}
+
+d1 %>%
+  dplyr::count(tch_id)
+
+```
+
+### Package: dplyr
+
+---
+
+#### Function: `n_distinct()`
+
+---
+
+
+**1\. Count the number of teachers per school**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+We see here that teachers appear more than once in our data frame (once for every student they are associated with). In this case we don't want to count a teacher more than once so we will need to only count distinct teacher ids per school. Otherwise it will appear that we have more teachers per school than we really do.
+
+So in this case we can first group by "school" using `dplyr::group_by()` and then create our new variable "n_tch" using `dplyr::summmarize()` and use `dplyr::n_distinct()` to count the distinct number of teachers per group.
+
+
+```{r}
+
+d1 %>%
+  dplyr::group_by(school) %>%
+  dplyr::summarize(n_tch = dplyr::n_distinct(tch_id))
+
+```
+
+
+Return to [Count](https://github.com/Cghlewis/data-wrangling-functions/wiki/Count)

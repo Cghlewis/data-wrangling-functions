@@ -33,7 +33,9 @@ d1
 
 ```
 
-Count our number of students per teacher.
+In this case our dataset is student level, so both teacher and school are grouping variables.
+
+Count our number of students per grouping variable teacher.
 
 
 ```{r}
@@ -54,16 +56,7 @@ d1 %>%
 ```
 
 
-### Package: dplyr
-
----
-
-#### Function: `n_distinct()`
-
----
-
-
-**1\. Count the number of teachers per school**
+**2\. Count the number of teachers per school**
 
 Review the data (d1)
 
@@ -74,9 +67,22 @@ d1
 
 ```
 
-We see here that teachers appear more than once in our data frame (once for every student they are associated with). In this case we don't want to count a teacher more than once so we will need to only count distinct teacher ids per school. Otherwise it will appear that we have more teachers per school than we really do.
+Since this is a student level dataset, not a teacher level dataset, we see that teachers appear more than once in our data frame (once for every student they are associated with). In this case we don't want to count a teacher more than once so we will need to only count distinct teacher ids per school. Otherwise it will appear that we have more teachers per school than we really do.
 
-So in this case we can first explicityly group by "school" using `dplyr::group_by()` and then create our new variable "n_tch" using `dplyr::summmarize()` and use `dplyr::n_distinct()` to count the distinct number of teachers per group.
+We can do this using `dplyr::distinct()` to first remove duplicate teachers and then do our count.
+
+* Note: You will need to add the argument *.keep_all = TRUE* in order to keep all variables after using the distinct function (otherwise it will only keep the "tch_id" variable).
+
+```{r}
+
+d1 %>%
+  dplyr::distinct(tch_id, .keep_all = TRUE) %>%
+  count(school)
+
+```
+
+
+Or, like above, if you want to more explicitly group by "school", you can first group using `dplyr::group_by()` and then create our new variable "n_tch" using `dplyr::summmarize()` and use `dplyr::n_distinct()` to count the distinct number of teachers per group.
 
 
 ```{r}

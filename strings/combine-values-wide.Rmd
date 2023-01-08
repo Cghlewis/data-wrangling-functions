@@ -1,0 +1,83 @@
+---
+title: "Combine strings in wide format"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: stringr
+
+---
+
+#### Function: `str_c()`
+
+---
+
+**1\. Combine two variables (school and district)**
+
+Review the data (d9)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d9
+
+```
+
+I will first use `dplyr::mutate()` to create my new variable which I am calling "sch_dist".
+
+I can then use my `stringr::str_c()` function to combine or concatenate the two variables which I want to separate by a "," so I will add the argument *collapse = ","*
+
+```{r}
+
+d9 %>%
+  dplyr::mutate(sch_dist = stringr::str_c(school, district, sep = ","))
+
+```
+
+**2\. Combine two variables (item1 and measure)**
+
+Review the data (d10)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d10
+
+```
+
+Again, I will use `dplyr::mutate()` first to create my new variable "item1_measure".
+
+Then I can use my `stringr` function to combine values.
+
+In this case I don't want any separator between my two values so I will write my separator argument as *sep = ""*.
+
+```{r}
+
+d10 %>%
+  dplyr::mutate(item1_measure = stringr::str_c(item1, measure, sep = ""))
+
+```
+
+* Note: This is also equivalent to using `base::paste0()` which unlike `base::paste()` has no separator.
+
+```{r}
+
+d10 %>%
+  dplyr::mutate(item1_measure = base::paste0(item1, measure))
+
+```
+
+
+Return to [Strings](https://github.com/Cghlewis/data-wrangling-functions/wiki/Strings)

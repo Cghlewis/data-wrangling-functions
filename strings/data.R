@@ -58,4 +58,28 @@ d7 <- tibble::tribble(
   4, "1, and 2,  and 3"
 )
 
+d8 <- tibble::tribble(
+  ~id, ~status, ~subtest,
+  1, "complete", "test1",
+  1, "pending", "test2",
+  1, "complete", "test3",
+  2, "pending", "test1",
+  2, "complete", "test2",
+  2, "complete", "test3"
+)
+
+d9 <- tibble::tribble(
+  ~ id, ~school, ~district,
+  1, "schoola", "districtb",
+  2, "schoolb", "districtb",
+  3, "schoolc", "districte",
+  4, "schoold", "districte")
+  
+d10 <- tibble::tribble(
+  ~ id, ~item1, ~measure,
+  1, 12, "in",
+  2, 10, "in",
+  3, 15, "cm",
+  4, 20, "cm")
+
 

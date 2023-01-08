@@ -1,0 +1,64 @@
+---
+title: "Combine strings in long format"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: stringr
+
+---
+
+#### Function: `str_c()`
+
+---
+
+**1\. Combine subtests based on id and status**
+
+Review the data (d8)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d8
+
+```
+
+To combine subtests in long format, I first need to group the data by both "id" and "status" using `dplyr::group_by()`.
+
+Then I can create a new variable "subtest" which will be my combined subtests. I can use my `stringr::str_c()` function to combine or concatenate the subtests. I want subtests to be separated by a "," so I will add the argument *collapse = ","*
+
+```{r}
+
+d8_new <- d8 %>%
+  dplyr::group_by(id, status) %>%
+  dplyr::summarize(subtest = stringr::str_c(subtest, collapse=","))
+
+d8_new
+
+```
+
+If I wanted all of a user's information on the same row, I could take this one step further and use `tidyr::pivot_wider()` to pivot the data to wide format.
+
+```{r}
+
+d8_new %>%
+  tidyr::pivot_wider(
+  names_from = status,
+  values_from = subtest
+  )
+
+```
+
+
+Return to [Strings](https://github.com/Cghlewis/data-wrangling-functions/wiki/Strings)

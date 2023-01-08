@@ -117,7 +117,9 @@ extra_form2
 
 ```
 
-We see that if we use this new form with updated information for existing variables, that all of our data will update based on the new data, not just the missing data. We would need to make a decision about which values for grade level are more accurate, the old values or the new values.
+We see that if we use this new form with updated information for existing variables, that all of our data will update based on the new data, not just the missing data. See that grade level for id 26 has changed from 4 to 5 now. This same thing would even happen if the new form had NA for grade level. It would change from 4 to NA. All values are updated based on the new form. 
+
+We would need to make a decision about which values for grade level are more accurate, the old values or the new values.
 
 ```{r}
 

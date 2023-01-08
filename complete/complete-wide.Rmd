@@ -91,7 +91,7 @@ Luckily that data was collected later on another form.
 
 Let's review that form (extra_form)
 
-* Note: Your new form does not need to have all of the same variables as your original form. It will only update the variables that match across both forms. It CANNOT however, have MORE variables than the original form. This will cause an error.
+* Note: Your new form does not need to have all of the same variables as your original form. Only variables that match across both forms will update. Your new form CANNOT, however, have MORE variables than the original form. This will cause an error.
 
 ```{r, echo = FALSE}
 

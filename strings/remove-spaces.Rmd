@@ -1,0 +1,111 @@
+---
+title: "Remove spaces"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: stringr
+
+---
+
+#### Function: `str_trim()`
+
+---
+
+**1\. Remove spaces from a variable**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d1
+
+```
+
+I can see here that my variable item1 has some values with added spaces. This is going to cause issues for me when I try to do things like filter or group using this variable.
+
+For example if I want to get a table of values for item1, we can see that the yes values are not grouping together.
+
+```{r}
+
+d1 %>%
+  janitor::tabyl(item1)
+
+```
+
+So I want to remove all white space on the left side of my variable.
+
+* Note: I am using `dplyr::mutate()` to create a new variable "item1" that replaces the prior "item1" variable.
+
+* Note: I used the argument *side = "left"* here but I could also say "right" or "both" (which is the default argument).
+
+```{r}
+
+d1 %>%
+  dplyr::mutate(item1 = stringr::str_trim(item1, side = "left"))
+
+```
+
+**2\. Remove spaces from multiple variable**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d2
+
+```
+
+We see here that we have spacing issues across multiple variables ("item1" and "item2") so I want to remove spaces from both variables. I can use `dplyr::across()` to efficiently take care of this.
+
+```{r}
+
+d2 %>%
+  dplyr::mutate(dplyr::across(item1:item2, stringr::str_trim, side = "both"))
+
+```
+
+### Package: stringr
+
+---
+
+#### Function: `str_squish()`
+
+---
+
+**1\. Remove all excessive leading, trailing and middle spaces from a variable**
+
+Review the data (d7)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d7
+
+```
+
+Remove all spaces from "item1"
+
+```{r}
+
+d7 %>%
+  dplyr::mutate(item1 = stringr::str_squish(item1))
+
+```
+
+Return to [Strings](https://github.com/Cghlewis/data-wrangling-functions/wiki/Strings)

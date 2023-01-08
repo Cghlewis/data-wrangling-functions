@@ -11,7 +11,7 @@
 
 
 
-<title>Separate columns</title>
+<title>Remove spaces</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,185 +361,111 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Separate columns</h1>
+<h1 class="title toc-ignore">Remove spaces</h1>
 
 </div>
 
 
 <p><br></p>
-<div id="package-tidyr" class="section level3">
-<h3>Package: tidyr</h3>
+<div id="package-stringr" class="section level3">
+<h3>Package: stringr</h3>
 <hr />
-<div id="function-separate" class="section level4">
-<h4>Function: <code>separate()</code></h4>
+<div id="function-str_trim" class="section level4">
+<h4>Function: <code>str_trim()</code></h4>
 <hr />
-<p><strong>1. Split a character variable (name) into first name and last
-name</strong></p>
+<p><strong>1. Remove spaces from a variable</strong></p>
 <p>Review the data (d1)</p>
-<pre><code># A tibble: 3 x 3
-  name            age test_score
-  &lt;chr&gt;         &lt;dbl&gt;      &lt;dbl&gt;
-1 Marge Simpson    30        3.6
-2 Homer Simpson    34        8.5
-3 Ned Flanders     35       NA  </code></pre>
-<p>Split name into two variables</p>
+<pre><code># A tibble: 5 x 2
+  stu_id item1  
+   &lt;dbl&gt; &lt;chr&gt;  
+1   1234 &quot; yes&quot; 
+2   2345 &quot;no&quot;   
+3   3456 &quot;maybe&quot;
+4   4567 &quot;no&quot;   
+5   5678 &quot;yes&quot;  </code></pre>
+<p>I can see here that my variable item1 has some values with added
+spaces. This is going to cause issues for me when I try to do things
+like filter or group using this variable.</p>
+<p>For example if I want to get a table of values for item1, we can see
+that the yes values are not grouping together.</p>
+<pre class="r"><code>d1 %&gt;%
+  janitor::tabyl(item1)</code></pre>
+<pre><code> item1 n percent
+   yes 1     0.2
+ maybe 1     0.2
+    no 2     0.4
+   yes 1     0.2</code></pre>
+<p>So I want to remove all white space on the left side of my
+variable.</p>
 <ul>
-<li><p>Note: The values for the <em>into</em> argument need to be
-provided as a character vector.</p></li>
-<li><p>Note: The original variable will be removed unless you add the
-argument <em>remove=FALSE</em></p></li>
-<li><p>Note: If no separator is indicated, the function will split
-values wherever a non-alphanumeric character appears (for example, a
-space). If you want to be clear where to separate, add the argument
-<em>sep=</em> and insert a regular expression such as <em>sep=”
-“</em>.</p></li>
+<li><p>Note: I am using <code>dplyr::mutate()</code> to create a new
+variable “item1” that replaces the prior “item1” variable.</p></li>
+<li><p>Note: I used the argument <em>side = “left”</em> here but I could
+also say “right” or “both” (which is the default argument).</p></li>
 </ul>
-<pre class="r"><code>d1 %&gt;% 
-  tidyr::separate(name, into=c(&quot;first_name&quot;, &quot;last_name&quot;))</code></pre>
-<pre><code># A tibble: 3 x 4
-  first_name last_name   age test_score
-  &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;
-1 Marge      Simpson      30        3.6
-2 Homer      Simpson      34        8.5
-3 Ned        Flanders     35       NA  </code></pre>
-<ul>
-<li>Note: The number of new variables must equal the number of pieces
-you are separating. So for example if some names had a middle initial,
-we would only receive the first name and middle initial for those
-names</li>
-</ul>
-<pre><code># A tibble: 3 x 3
-  name               age test_score
-  &lt;chr&gt;            &lt;dbl&gt;      &lt;dbl&gt;
-1 Marge Simpson       30        3.6
-2 Homer J. Simpson    34        8.5
-3 Ned Flanders        35       NA  </code></pre>
-<pre class="r"><code>d2 %&gt;% 
-  tidyr::separate(name, into = c(&quot;first_name&quot;, &quot;last_name&quot;))</code></pre>
-<pre><code># A tibble: 3 x 4
-  first_name last_name   age test_score
-  &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;
-1 Marge      Simpson      30        3.6
-2 Homer      J            34        8.5
-3 Ned        Flanders     35       NA  </code></pre>
-<p>You can make decisions on how to handle these anomalies by adding the
-argument <em>extra=</em> and add the option “warn”, “drop” or “merge”,
-with the default being “warn”. To learn more type <em>?separate</em> in
-the console.</p>
-<p>Here is an example using <em>extra=“merge”</em></p>
-<pre class="r"><code>d2 %&gt;% 
-  tidyr::separate(name, into = c(&quot;first_name&quot;, &quot;last_name&quot;), extra=&quot;merge&quot;)</code></pre>
-<pre><code># A tibble: 3 x 4
-  first_name last_name    age test_score
-  &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt;      &lt;dbl&gt;
-1 Marge      Simpson       30        3.6
-2 Homer      J. Simpson    34        8.5
-3 Ned        Flanders      35       NA  </code></pre>
-<ul>
-<li>Note: Similarly since the number of new variables must equal the
-number of pieces you are separating, if some names only have a first or
-last name, you will have missing data in your new variables.</li>
-</ul>
-<pre><code># A tibble: 3 x 3
-  name            age test_score
-  &lt;chr&gt;         &lt;dbl&gt;      &lt;dbl&gt;
-1 Marge Simpson    30        3.6
-2 Simpson          34        8.5
-3 Ned Flanders     35       NA  </code></pre>
-<pre class="r"><code>d3 %&gt;% tidyr::separate(name, into = c(&quot;first_name&quot;, &quot;last_name&quot;))</code></pre>
-<pre><code># A tibble: 3 x 4
-  first_name last_name   age test_score
-  &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;
-1 Marge      Simpson      30        3.6
-2 Simpson    &lt;NA&gt;         34        8.5
-3 Ned        Flanders     35       NA  </code></pre>
-<p>You can make decisions on how to handle these anomalies by adding the
-argument <em>fill=</em> and add the option “warn”, “right” or “left”,
-with the default being “warn”. To learn more type <em>?separate</em> in
-the console.</p>
-<p>Here is an example using <em>fill=“left”</em></p>
-<pre class="r"><code>d3 %&gt;% 
-  tidyr::separate(name, into = c(&quot;first_name&quot;, &quot;last_name&quot;), fill=&quot;left&quot;)</code></pre>
-<pre><code># A tibble: 3 x 4
-  first_name last_name   age test_score
-  &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;
-1 Marge      Simpson      30        3.6
-2 &lt;NA&gt;       Simpson      34        8.5
-3 Ned        Flanders     35       NA  </code></pre>
-<p><strong>2. Split only some of the cells in a character column
-(school_name) and keep only one column of the split</strong></p>
-<p>Review the data (d6)</p>
-<pre><code># A tibble: 4 x 2
-  school_name                  city          
-  &lt;chr&gt;                        &lt;chr&gt;         
-1 David H. Hickman High School Columbia      
-2 Muriel W. Battle High School Columbia      
-3 Rock Bridge Sr. High         Columbia      
-4 Webster Groves High School   Webster Groves</code></pre>
-<p>In this example, I want to clean up the school names by removing any
-first name and middle initials from school names. Most schools only go
-by the last name. So I want to remove David H. and Muriel W.</p>
-<p>With only a few values, I could easily do a recode. However, if there
-were hundreds of schools with similar first name and middle initial
-patterns, that would take too long. So here we use
-<code>tidyr::separate()</code>.</p>
-<ul>
-<li><p>Note: We use regular expressions (regex) here to denote we are
-separating on any capitalized letter “[A-Z]” followed by a period “\.”
-and last followed by a white space “\s”. Notice the use of “\” as an
-escape to tell the regex to match the period exactly, rather than using
-it for its special behavior which is to match <em>any</em> character.
-You can also put the period in [] and call it as a character class,
-similar to the “[A-Z]” above.</p></li>
-<li><p>Note: I added the argument <em>fill=“left”</em> to bring any
-value that did not separate into our new “school_name” column from the
-left side to the right column “school_name”.</p></li>
-</ul>
-<pre class="r"><code>d6 %&gt;% 
-  tidyr::separate(school_name, sep = &quot;[A-Z]\\.\\s&quot;, into = c(&quot;name1&quot;, &quot;school_name&quot;), fill=&quot;left&quot;)</code></pre>
-<pre><code># A tibble: 4 x 3
-  name1     school_name                city          
-  &lt;chr&gt;     &lt;chr&gt;                      &lt;chr&gt;         
-1 &quot;David &quot;  Hickman High School        Columbia      
-2 &quot;Muriel &quot; Battle High School         Columbia      
-3  &lt;NA&gt;     Rock Bridge Sr. High       Columbia      
-4  &lt;NA&gt;     Webster Groves High School Webster Groves</code></pre>
-<p>Notice now that we have an extra column “name1” that I don’t want. I
-could either remove this using a <code>dplyr::select()</code> statement
-OR I could name this “name1” column NA in my function above and the
-column would drop automatically.</p>
-<pre class="r"><code>d6 %&gt;% 
-  tidyr::separate(school_name, sep = &quot;[A-Z]\\.\\s&quot;, into = c(NA, &quot;school_name&quot;), fill=&quot;left&quot;)</code></pre>
-<pre><code># A tibble: 4 x 2
-  school_name                city          
-  &lt;chr&gt;                      &lt;chr&gt;         
-1 Hickman High School        Columbia      
-2 Battle High School         Columbia      
-3 Rock Bridge Sr. High       Columbia      
-4 Webster Groves High School Webster Groves</code></pre>
-<p><strong>3. Split a numeric variable (stid_schid) into state id and
-school id</strong></p>
+<pre class="r"><code>d1 %&gt;%
+  dplyr::mutate(item1 = stringr::str_trim(item1, side = &quot;left&quot;))</code></pre>
+<pre><code># A tibble: 5 x 2
+  stu_id item1
+   &lt;dbl&gt; &lt;chr&gt;
+1   1234 yes  
+2   2345 no   
+3   3456 maybe
+4   4567 no   
+5   5678 yes  </code></pre>
+<p><strong>2. Remove spaces from multiple variable</strong></p>
+<p>Review the data (d2)</p>
+<pre><code># A tibble: 5 x 3
+  stu_id item1   item2  
+   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  
+1   1234 &quot; yes&quot;  &quot;yes&quot;  
+2   2345 &quot;no&quot;    &quot;no &quot;  
+3   3456 &quot;maybe&quot; &quot;no&quot;   
+4   4567 &quot;no&quot;    &quot;no&quot;   
+5   5678 &quot;yes&quot;   &quot;maybe&quot;</code></pre>
+<p>We see here that we have spacing issues across multiple variables
+(“item1” and “item2”) so I want to remove spaces from both variables. I
+can use <code>dplyr::across()</code> to efficiently take care of
+this.</p>
+<pre class="r"><code>d2 %&gt;%
+  dplyr::mutate(dplyr::across(item1:item2, stringr::str_trim, side = &quot;both&quot;))</code></pre>
+<pre><code># A tibble: 5 x 3
+  stu_id item1 item2
+   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+1   1234 yes   yes  
+2   2345 no    no   
+3   3456 maybe no   
+4   4567 no    no   
+5   5678 yes   maybe</code></pre>
+</div>
+</div>
+<div id="package-stringr-1" class="section level3">
+<h3>Package: stringr</h3>
+<hr />
+<div id="function-str_squish" class="section level4">
+<h4>Function: <code>str_squish()</code></h4>
+<hr />
+<p><strong>1. Remove all excessive leading, trailing and middle spaces
+from a variable</strong></p>
 <p>Review the data (d7)</p>
-<pre><code># A tibble: 3 x 2
-  stid_schid students
-       &lt;dbl&gt;    &lt;dbl&gt;
-1     123456      300
-2     123678      340
-3     123789      351</code></pre>
-<p>Split stid_schid into 2 variables</p>
-<ul>
-<li>Note: If working with numeric columns you can separate based on
-character position.</li>
-</ul>
-<pre class="r"><code>d7 %&gt;% 
-  tidyr::separate(stid_schid, sep = 3, into=c(&quot;state_id&quot;, &quot;school_id&quot;))</code></pre>
-<pre><code># A tibble: 3 x 3
-  state_id school_id students
-  &lt;chr&gt;    &lt;chr&gt;        &lt;dbl&gt;
-1 123      456            300
-2 123      678            340
-3 123      789            351</code></pre>
-<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Separate">Separate</a></p>
+<pre><code># A tibble: 4 x 2
+     id item1              
+  &lt;dbl&gt; &lt;chr&gt;              
+1     1 &quot; 1,  and 2, and 3&quot;
+2     2 &quot;1, and 3&quot;         
+3     3 &quot;3&quot;                
+4     4 &quot;1, and 2,  and 3&quot; </code></pre>
+<p>Remove all spaces from “item1”</p>
+<pre class="r"><code>d7 %&gt;%
+  dplyr::mutate(item1 = stringr::str_squish(item1))</code></pre>
+<pre><code># A tibble: 4 x 2
+     id item1          
+  &lt;dbl&gt; &lt;chr&gt;          
+1     1 1, and 2, and 3
+2     2 1, and 3       
+3     3 3              
+4     4 1, and 2, and 3</code></pre>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Strings">Strings</a></p>
 </div>
 </div>
 

@@ -104,7 +104,34 @@ We can use `dplyr::rows_update()` to fill in the missing data on our original fo
 
 ```{r}
 
-dplyr::rows_update(d5, extra_form, by = "id")
+d5 %>%
+  dplyr::rows_update(extra_form, by = "id")
+
+```
+
+What would happen if our extra_form had different values than we already have for existing data. For example in this case where we have a new form (extra_form2), where the grade level for id 26 has now changed.
+
+```{r, echo = FALSE}
+
+extra_form2
+
+```
+
+We see that if we use this new form with updated information for existing variables, that all of our data will update based on the new data, not just the missing data. We would need to make a decision about which values for grade level are more accurate, the old values or the new values.
+
+```{r}
+
+d5 %>%
+  dplyr::rows_update(extra_form2, by = "id")
+
+```
+
+If we do not want to overwrite all data with new information, we can use another function, `dplyr::rows_patch()` which only overwrites NA values.
+
+```{r}
+
+d5 %>%
+  dplyr::rows_patch(extra_form2, by = "id")
 
 ```
 

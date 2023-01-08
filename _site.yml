@@ -150,14 +150,20 @@ navbar:
     href: randomize\randomize-variable.html
   - text: "Rounding"
     href: rounding\rounding.html
-  - text: "Count"
+  - text: "Count values"
     href: count\count-values.html
-  - text: "Count"
+  - text: "Count groups"
     href: count\count-distinct-groups.html
-  - text: "Count"
+  - text: "Count values by group"
     href: count\count-values-groups.html
-  - text: "Count"
+  - text: "Count duplicates"
     href: count\count-duplicates.html
+  - text: "Remove spaces"
+    href: strings\remove-spaces.html
+  - text: "Remove values"
+    href: strings\remove-values.html
+  - text: "Extract values by location"
+    href: strings\extract-values-location.html
 output:
   html_document:
     theme: readable

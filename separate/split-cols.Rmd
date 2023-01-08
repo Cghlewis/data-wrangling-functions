@@ -115,17 +115,25 @@ With only a few values, I could easily do a recode. However, if there were hundr
 
 * Note: We use regular expressions (regex) here to denote we are separating on any capitalized letter "[A-Z]" followed by a period "\\." and last followed by a white space "\\s". Notice the use of "\\" as an escape to tell the regex to match the period exactly, rather than using it for its special behavior which is to match *any* character. You can also put the period in [] and call it as a character class, similar to the "[A-Z]" above.
 
-* Note: I added the argument *fill="left"* to bring any value that did not separate into our new school_name column.
-
-* Note: Last I added `dplyr::select()` to drop the unnecessary name1 column.
+* Note: I added the argument *fill="left"* to bring any value that did not separate into our new "school_name" column from the left side to the right column "school_name".
 
 ```{r}
 
 d6 %>% 
-  tidyr::separate(school_name, sep = "[A-Z]\\.\\s", into = c("name1", "school_name"), fill="left") %>%
-  dplyr::select(-name1)
+  tidyr::separate(school_name, sep = "[A-Z]\\.\\s", into = c("name1", "school_name"), fill="left")
 
 ```
+
+Notice now that we have an extra column "name1" that I don't want. I could either remove this using a `dplyr::select()` statement OR I could name this "name1" column NA in my function above and the column would drop automatically.
+
+```{r}
+
+d6 %>% 
+  tidyr::separate(school_name, sep = "[A-Z]\\.\\s", into = c(NA, "school_name"), fill="left")
+
+```
+
+
 
 **3\. Split a numeric variable (stid_schid) into state id and school id**
 

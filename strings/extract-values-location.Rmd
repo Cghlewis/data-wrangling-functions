@@ -1,0 +1,72 @@
+---
+title: "Extract values based on location"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: stringr
+
+---
+
+#### Function: `str_sub()`
+
+---
+
+**1\. Extract the middle and last initials based on location**
+
+Review the data (d6)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d6
+
+```
+
+Pull the middle and last initial.
+
+* Note: I can use negative numbers to count backwards from the end.
+
+```{r}
+
+d6 %>%
+  dplyr::mutate(fl_init = stringr::str_sub(initials, start = 2, end = -1))
+
+```
+
+
+**2\. Extract middle initials based on location**
+
+Review the data (d5)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d5
+
+```
+
+Notice some names have 2 middle initials.
+
+```{r}
+
+d5 %>%
+  dplyr::mutate(f_init = str_sub(initials, start = 2, end = -2))
+
+```
+
+
+
+Return to [Strings](https://github.com/Cghlewis/data-wrangling-functions/wiki/Strings)

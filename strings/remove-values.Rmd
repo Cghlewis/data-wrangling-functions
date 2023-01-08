@@ -1,0 +1,91 @@
+---
+title: "Remove values"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: stringr
+
+---
+
+#### Function: `str_remove()`
+
+---
+
+**1\. Remove all "cm" or "CM" from item1**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d3
+
+```
+
+In this case I only want the number, not the measurement type, so I need to remove all versions of "cm".
+
+* Note: I am using `dplyr::mutate()` to create a new variable "item1" that will replace the existing "item1".
+
+* Note: I am using `|` to say remove "cm" AND/OR "CM".
+
+```{r}
+
+d3 %>%
+  dplyr::mutate(item1 = stringr::str_remove(item1, "cm|CM"))
+
+```
+
+If I did not want to list both the upper and lower case versions of "cm" I could also use another `stringr` function `str_to_lower()` first.
+
+```{r}
+
+d3 %>%
+  dplyr::mutate(item1 = stringr::str_remove(stringr::str_to_lower(item1), "cm"))
+
+```
+
+
+**2\. Remove all instances of the word "and" from item1**
+
+Review the data (d4)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d4
+
+```
+
+Notice here, if we simply use `stringr::str_remove()` we will only remove the first instance of "and".
+
+```{r}
+
+d4 %>%
+  dplyr::mutate(item1 = stringr::str_remove(item1, "and"))
+
+```
+
+So therefore, if we want to remove all instances, we need to use `stringr::str_remove_all()`
+
+```{r}
+
+d4 %>%
+  dplyr::mutate(item1 = stringr::str_remove_all(item1, "and"))
+
+```
+
+
+Return to [Strings](https://github.com/Cghlewis/data-wrangling-functions/wiki/Strings)

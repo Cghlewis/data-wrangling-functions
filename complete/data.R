@@ -60,6 +60,10 @@ extra_form <- tibble::tribble(~id, ~item1, ~item2,
                               25, 2, 3,
                               26, 4, 5)
 
+extra_form2 <- tibble::tribble(~id, ~grade, ~item1, ~item2,
+                              25, 5, 2, 3,
+                              26, 5, 4, 5)
+
 
 d6 <- tibble::tribble(
   ~s_id, ~gender_1718, ~gender_1819, ~gender_1920, ~gender_2021,

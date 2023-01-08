@@ -472,7 +472,45 @@ data on our original form with our new form data.</p>
 <li>Note: Add your identifying variable to the <em>by</em> argument to
 denote the unique identifier linking key.</li>
 </ul>
-<pre class="r"><code>dplyr::rows_update(d5, extra_form, by = &quot;id&quot;)</code></pre>
+<pre class="r"><code>d5 %&gt;%
+  dplyr::rows_update(extra_form, by = &quot;id&quot;)</code></pre>
+<pre><code># A tibble: 5 x 4
+     id grade item1 item2
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1    22     3     4     5
+2    23     3     5     4
+3    24     4     2     1
+4    25     5     2     3
+5    26     4     4     5</code></pre>
+<p>What would happen if our extra_form had different values than we
+already have for existing data. For example in this case where we have a
+new form (extra_form2), where the grade level for id 26 has now
+changed.</p>
+<pre><code># A tibble: 2 x 4
+     id grade item1 item2
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1    25     5     2     3
+2    26     5     4     5</code></pre>
+<p>We see that if we use this new form with updated information for
+existing variables, that all of our data will update based on the new
+data, not just the missing data. We would need to make a decision about
+which values for grade level are more accurate, the old values or the
+new values.</p>
+<pre class="r"><code>d5 %&gt;%
+  dplyr::rows_update(extra_form2, by = &quot;id&quot;)</code></pre>
+<pre><code># A tibble: 5 x 4
+     id grade item1 item2
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1    22     3     4     5
+2    23     3     5     4
+3    24     4     2     1
+4    25     5     2     3
+5    26     5     4     5</code></pre>
+<p>If we do not want to overwrite all data with new information, we can
+use another function, <code>dplyr::rows_patch()</code> which only
+overwrites NA values.</p>
+<pre class="r"><code>d5 %&gt;%
+  dplyr::rows_patch(extra_form2, by = &quot;id&quot;)</code></pre>
 <pre><code># A tibble: 5 x 4
      id grade item1 item2
   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;

@@ -56,12 +56,12 @@ d5 <- tibble::tribble(~id, ~grade, ~item1, ~item2,
                       25, 5, NA, NA,
                       26, 4, NA, NA)
 
-extra_form <- tibble::tribble(~id, ~item1, ~item2,
-                              25, 2, 3,
-                              26, 4, 5)
+extra_form <- tibble::tribble(~id, ~grade, ~item1, ~item2,
+                              25, 5, 2, 3,
+                              26, 4, 4, 5)
 
 extra_form2 <- tibble::tribble(~id, ~grade, ~item1, ~item2,
-                              25, 5, 2, 3,
+                              25, NA, 2, 3,
                               26, 5, 4, 5)
 
 

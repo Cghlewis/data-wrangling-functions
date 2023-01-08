@@ -91,6 +91,8 @@ Luckily that data was collected later on another form.
 
 Let's review that form (extra_form)
 
+* Note: Your new form does not need to have all of the same variables as your original form. It will only update the variables that match across both forms. It CANNOT however, have MORE variables than the original form. This will cause an error.
+
 ```{r, echo = FALSE}
 
 extra_form
@@ -101,7 +103,6 @@ We can use `dplyr::rows_update()` to fill in the missing data on our original fo
 
 * Note: Add your identifying variable to the *by* argument to denote the unique identifier linking key.
 
-
 ```{r}
 
 d5 %>%
@@ -109,7 +110,9 @@ d5 %>%
 
 ```
 
-What would happen if our extra_form had different values than we already have for existing data. For example in this case where we have a new form (extra_form2), where the grade level for id 26 has now changed.
+What would happen if our extra_form had different values than we already have for existing data though? 
+
+For example in this case where we have a new form (extra_form2), where the grade level has changed for id 25 (from 5 -> NA) and id 26 (from 4 -> 5).
 
 ```{r, echo = FALSE}
 
@@ -117,7 +120,7 @@ extra_form2
 
 ```
 
-We see that if we use this new form with updated information for existing variables, that all of our data will update based on the new data, not just the missing data. See that grade level for id 26 has changed from 4 to 5 now. This same thing would even happen if the new form had NA for grade level. It would change from 4 to NA. All values are updated based on the new form. 
+We see that if we use this new form with updated information for existing variables, that all of our data will update based on the new data, not just the missing data. See that grade level for id 25 has changed from 5 to NA and grade level for id 26 has changed from 4 to 5. 
 
 We would need to make a decision about which values for grade level are more accurate, the old values or the new values.
 

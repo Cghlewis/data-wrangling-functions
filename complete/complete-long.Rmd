@@ -1,5 +1,5 @@
 ---
-title: "Complete long data"
+title: "Complete long data using existing values"
 output: 
   html_document:
     toc: false
@@ -37,7 +37,8 @@ Fill values using the default argument *direction = "down"*.
 
 ```{r}
 
-d1 %>% tidyr::fill(school, year)
+d1 %>% 
+  tidyr::fill(school, year)
 
 ```
 
@@ -58,7 +59,9 @@ You have two options. You can either use `dplyr::group_by()` to group by school.
 
 ```{r}
 
-d4 %>% dplyr::group_by(school) %>% tidyr::fill(cohort) %>% dplyr::ungroup()
+d4 %>% 
+  dplyr::group_by(school) %>% 
+  tidyr::fill(cohort) %>% dplyr::ungroup()
 
 ```
 
@@ -66,7 +69,9 @@ Or you can arrange your data by school using `dplyr::arrange()` and then fill va
 
 ```{r}
 
-d4 %>% dplyr::arrange(school) %>% tidyr::fill(cohort)
+d4 %>% 
+  dplyr::arrange(school) %>% 
+  tidyr::fill(cohort)
 
 ```
 
@@ -92,7 +97,8 @@ Complete the data by creating rows for any student that is missing a time period
 
 ```{r}
 
-d2 %>% tidyr::complete(s_id, time_period)
+d2 %>% 
+  tidyr::complete(s_id, time_period)
 
 ```
 
@@ -102,7 +108,8 @@ Here is an example, using *fill = list(test_score=0)*
 
 ```{r}
 
-d2 %>% tidyr::complete(s_id, time_period, fill = list(test_score=0))
+d2 %>% 
+  tidyr::complete(s_id, time_period, fill = list(test_score=0))
 
 ```
 

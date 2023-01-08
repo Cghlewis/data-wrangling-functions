@@ -1,5 +1,5 @@
 ---
-title: "Complete wide data using existing values"
+title: "Complete wide data with external values"
 output: 
   html_document:
     toc: false
@@ -15,57 +15,6 @@ knitr::opts_chunk$set(comment = NA,
 <br>
 
 ### Package: dplyr
-
----
-
-#### Function: `coalesce()`
-
----
-
-**1\. Create a complete 20-21 gender variable with no missing data**
-
-Review the data (d3)
-
-```{r, echo=FALSE}
-
-source("data.R")
-d3
-
-```
-
-Fill in missing 20-21 self-reported gender information from the most recently available year of data.
-
-* Note: We are creating a new variable (gender_2021_new) by using `dplyr::mutate()`.
-* Note: The values will be filled in the order that variables are presented. In the example below, if data is not available for 2021, then the function will look for data in 1920, then 1819, then 1718. And the value will be filled by the first available data in that order.
-
-```{r}
-
-d3 %>% 
-  dplyr::mutate(gender_2021_new = dplyr::coalesce(gender_2021, gender_1920, gender_1819, gender_1718))
-
-```
-
-* Note: Coalesce works when your missing values are denoted as actual NAs (NA, NA_character, etc.). If you are working with a character variable where blanks are not denoted as NAs but are instead shown as blanks or " ", then coalesce will not work. It will assume the " " are actual values. In this case you can either first recode all " " to NA_character or you can use something like `dplyr::case_when()` to fill empty values (similar to what we did in the [Recode](https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode) section). If you are planning to coalesce using many variables, I think recoding blanks to NA_character first would be your best option. 
-
-Here is an example below. Our new data has blanks rather than NAs.
-
-```{r}
-
-d6
-
-```
-
-I can select all gender variables that I want to recode using `dplyr::across()` along with `tidyselect::contains()` and then recode all "" to NAs by using `dplyr::na_if()`. Now that my blank values are coded to NA, coalesce will work fine.
-
-```{r}
-
-d6 %>%
-  dplyr::mutate(dplyr::across(tidyselect::contains("gender"), ~ dplyr::na_if(., ""))) %>%
-  dplyr::mutate(gender_2021_new = dplyr::coalesce(gender_2021, gender_1920, gender_1819, gender_1718))
-
-```
-
-
 
 ---
 

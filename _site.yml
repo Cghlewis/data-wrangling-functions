@@ -108,6 +108,8 @@ navbar:
     href: complete\complete-long.html
   - text: "Complete wide data"
     href: complete\complete-wide.html
+  - text: "Complete wide data external"
+    href: complete\complete-wide-external.html
   - text: "Calculate row values"
     href: calculate-row-values\row-calcs.html
   - text: "Calculate NA row values"

@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Combine two variables (school and district)**
+**1\. Combine two variables (school and district) with a separator**
 
 Review the data (d9)
 
@@ -45,7 +45,7 @@ d9 %>%
 
 ```
 
-**2\. Combine two variables (item1 and measure)**
+**2\. Combine two variables (item1 and measure) with no separator**
 
 Review the data (d10)
 

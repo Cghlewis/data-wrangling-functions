@@ -38,7 +38,7 @@ d1
 
 Concatenate T1_ by adding the `base::paste0` function within the `dplyr::rename_with()` function.
 
-* Note: Using `base::paste0` concatenates the string directly to the variable name. Using `base::paste()` concatenates with a string separator.
+* Note: Using `base::paste0` concatenates the string directly to the variable name. Using `base::paste()` or     `stringr::str_c()` concatenates with a string separator.
 
 ```{r}
 
@@ -56,7 +56,7 @@ d1 %>%
 
 ```
 
-You can also use the `base::paste()` function instead and add your separator using the *sep* argument.
+You can also use the `base::paste()` function or the `stringr::str_c()` function (they are equivalent) instead and add your separator using the *sep* argument.
 
 ```{r}
 
@@ -64,7 +64,6 @@ d1 %>%
   dplyr::rename_with(~ base::paste(., "T1", sep= "_"))
 
 ```
-
 
 **2\. Concatenate a prefix, "T1_", to only numeric variable names**
 
@@ -165,15 +164,15 @@ d1
 
 ```
 
-Concatenate T1_ by adding the `base::paste0` function.
+Concatenate T1_ by adding the `stringr::str_c()` function.
 
-* Note: Using `base::paste0` concatenates the string directly to the variable name. Using `base::paste()` concatenates with a string separator.
+* Note: Here we can add the argument *sep = "_"* to add an underscore after T1.
 
 
 ```{r}
 
 d1 %>% 
-  purrr::set_names(~ base::paste0("T1_", .))
+  purrr::set_names(~ stringr::str_c("T1", sep = "_", .))
 
 ```
 

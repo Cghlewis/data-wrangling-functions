@@ -48,7 +48,8 @@ Modify variable names by adding the `stringr::str_replace()` function.
 
 ```{r}
 
-d2 %>% dplyr::rename_with(~ stringr::str_replace(., "\\.", "_"))
+d2 %>% 
+  dplyr::rename_with(~ stringr::str_replace(., pattern = "\\.", replacement = "_"))
 
 ```
 
@@ -56,7 +57,8 @@ Instead of creating an anonymous function, we could also "pass the dots" through
 
 ```{r}
 
-d2 %>% dplyr::rename_with(stringr::str_replace, pattern = "\\.", replacement = "_")
+d2 %>% 
+  dplyr::rename_with(stringr::str_replace, pattern = "\\.", replacement = "_")
 
 ```
 
@@ -64,7 +66,8 @@ d2 %>% dplyr::rename_with(stringr::str_replace, pattern = "\\.", replacement = "
 
 ```{r}
 
-d2 %>% dplyr::rename_with(~ stringr::str_replace(., "\\.", "_"), .cols=c(Var.1, Var.2))
+d2 %>% 
+  dplyr::rename_with(~ stringr::str_replace(., "\\.", "_"), .cols=c(Var.1, Var.2))
 
 ```
 
@@ -84,7 +87,8 @@ Modify variable names by adding the `stringr::str_remove()` function.
 
 ```{r}
 
-d6 %>% dplyr::rename_with(~ stringr::str_remove(., "[:digit:]:"))
+d6 %>% 
+  dplyr::rename_with(~ stringr::str_remove(., "[:digit:]:"))
 
 ```
 
@@ -108,7 +112,8 @@ Modify variable names by adding the `stringr::str_remove()` function.
 
 ```{r}
 
-d5 %>% dplyr::rename_with(~ stringr::str_remove(., "s_"), .cols = tidyselect::contains("var"))
+d5 %>% 
+  dplyr::rename_with(~ stringr::str_remove(., "s_"), .cols = tidyselect::contains("var"))
 
 ```
 
@@ -144,7 +149,8 @@ Modify variable names by adding the `stringr::str_remove()` function.
 
 ```{r}
 
-d5 %>% purrr::set_names(~ stringr::str_remove(., "s_"))
+d5 %>% 
+  purrr::set_names(~ stringr::str_remove(., "s_"))
 
 ```
 

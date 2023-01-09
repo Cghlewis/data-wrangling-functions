@@ -392,8 +392,8 @@ names</strong></p>
 within the <code>dplyr::rename_with()</code> function.</p>
 <ul>
 <li>Note: Using <code>base::paste0</code> concatenates the string
-directly to the variable name. Using <code>base::paste()</code>
-concatenates with a string separator.</li>
+directly to the variable name. Using <code>base::paste()</code> or
+<code>stringr::str_c()</code> concatenates with a string separator.</li>
 </ul>
 <pre class="r"><code>d1 %&gt;% 
   dplyr::rename_with(~ base::paste0(&quot;T1_&quot;, .))</code></pre>
@@ -413,7 +413,8 @@ this.</p>
 1 a             2     3.6
 2 b            NA     8.5
 3 c             3    NA  </code></pre>
-<p>You can also use the <code>base::paste()</code> function instead and
+<p>You can also use the <code>base::paste()</code> function or the
+<code>stringr::str_c()</code> function (they are equivalent) instead and
 add your separator using the <em>sep</em> argument.</p>
 <pre class="r"><code>d1 %&gt;% 
   dplyr::rename_with(~ base::paste(., &quot;T1&quot;, sep= &quot;_&quot;))</code></pre>
@@ -524,14 +525,14 @@ names</strong></p>
 1 a         2   3.6
 2 b        NA   8.5
 3 c         3  NA  </code></pre>
-<p>Concatenate T1_ by adding the <code>base::paste0</code> function.</p>
+<p>Concatenate T1_ by adding the <code>stringr::str_c()</code>
+function.</p>
 <ul>
-<li>Note: Using <code>base::paste0</code> concatenates the string
-directly to the variable name. Using <code>base::paste()</code>
-concatenates with a string separator.</li>
+<li>Note: Here we can add the argument *sep = “_“* to add an underscore
+after T1.</li>
 </ul>
 <pre class="r"><code>d1 %&gt;% 
-  purrr::set_names(~ base::paste0(&quot;T1_&quot;, .))</code></pre>
+  purrr::set_names(~ stringr::str_c(&quot;T1&quot;, sep = &quot;_&quot;, .))</code></pre>
 <pre><code># A tibble: 3 x 3
   T1_Var1 T1_Var2 T1_Var3
   &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;

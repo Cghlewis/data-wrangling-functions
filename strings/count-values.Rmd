@@ -1,0 +1,81 @@
+---
+title: "Count values in strings"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: stringr
+
+---
+
+#### Function: `str_length()`
+
+---
+
+**1\. Count the length of item1**
+
+Review the data (d11)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d11
+
+```
+
+In this data, "item1" represents student responses of a word. Each letter represents a correct phonetic sound. We want to count the number of correct sounds for each student.
+
+We first create a new variable "item1_score" using `dplyr::mutate()`. We can then use `stringr::str_length()` to count the length of our strings.
+
+```{r}
+
+d11 %>%
+  dplyr::mutate(item1_score = stringr::str_length(item1))
+
+```
+
+<br>
+
+---
+
+#### Function: `str_count()`
+
+---
+
+**1\. Count the length of item1**
+
+Review the data (d12)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d12
+
+```
+
+Same as above, "item1" represents student responses of a word. Each letter represents a correct phonetic sound. We want to count the number of correct sounds for each student. However, this time, our data has commas between letters so we cannot use `stringr::str_length()` because it will count the commas, giving us incorrect scores.
+
+Instead we use `stringr::str_count()` and add the argument *pattern =* and we add the regex pattern "[a-z]" which says to count any lowercase letter a to z.
+
+```{r}
+
+d12 %>%
+  dplyr::mutate(item1_score = stringr::str_count(item1, pattern = "[a-z]"))
+
+```
+
+
+
+Return to [Strings](https://github.com/Cghlewis/data-wrangling-functions/wiki/Strings)

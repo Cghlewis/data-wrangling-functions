@@ -20,7 +20,7 @@ d2 <- tibble::tribble(
 
 d3 <- tibble::tribble(
   ~id, ~item1,
-  1, "2cm",
+  1, "12cm",
   2, "4cm",
   3, "6cm",
   4, "2.5CM"
@@ -81,5 +81,20 @@ d10 <- tibble::tribble(
   2, 10, "in",
   3, 15, "cm",
   4, 20, "cm")
+
+d11 <- tibble::tribble(
+  ~id, ~item1,
+  1, "cap",
+  2, "ap",
+  3, "",
+  4, "p")
+
+d12 <- tibble::tribble(
+  ~id, ~item1,
+  1, "c,a,p",
+  2, "a,p",
+  3, "",
+  4, "p")
+
 
 

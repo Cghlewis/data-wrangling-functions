@@ -22,16 +22,32 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Extract the middle and last initials based on location**
+**1\. Extract all numeric values from item1**
 
-Review the data (d6)
+Review the data (d3)
 
 ```{r, echo=FALSE}
 
 source("data.R")
 
-d6
+d3
 
 ```
+
+We first need to create our new variable "item1" which will write over our existing "item1" variable since I named it the same name. We do this using `dplyr::mutate()`.
+
+Next we use the argument *pattern =* in our `stringr` function to denote what pattern we want to extract. If it wasn't for the 2.5 value, this pattern would be fairly simple. We could use something like "\\\\d\*" to say zero or more digits.
+
+But since we have a "2.5" value, the pattern is a little more complicated. We say the pattern starts with zero or more digits ("^\\\\d\*") and then an optional period ("\\\\.?") and then zero or more digits ("\\\\d\*").
+
+
+```{r}
+
+d3 %>%
+  dplyr::mutate(item1 = stringr::str_extract(item1, pattern = "^\\d*\\.?\\d*"))
+
+```
+
+
 
 Return to [Strings](https://github.com/Cghlewis/data-wrangling-functions/wiki/Strings)

@@ -48,6 +48,75 @@ d3 %>%
 
 ```
 
+* Note: It is important to note above that item1 continues to be a character variable. If we want to work with this as a numeric variable, we would need to further transform this variable into numeric.
+
+<br>
+
+### Package: tidyr
+
+---
+
+#### Function: `extract()`
+
+---
+
+**1\. Extract all numeric values from item1**
+
+Review the data (d3)
+
+```{r , echo=FALSE}
+
+source("data.R")
+
+d3
+
+```
+
+Using `tidyr::extract()` you no longer need to use `dplyr::mutate()` because you have the argument *into* where you name the new extracted variable/s.
+
+The other thing to note is that in the *regex* argument, each pattern associated with an "into" variable needs to be surrounded by parentheses.
+
+```{r}
+
+d3 %>%
+  tidyr::extract(col =item1, into = "item1", regex = "(^\\d*\\.?\\d*)")
+
+```
+
+
+
+<br>
+
+### Package: readr
+
+---
+
+#### Function: `parse_number()`
+
+---
+
+**1\. Extract all numeric values from item1**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d3
+
+```
+
+There is another function `readr::parse_number()` that pulls out all numeric values from a string variable and converts the variable to numeric for us, which is pretty cool.
+
+
+```{r}
+
+d3 %>%
+  dplyr::mutate(item1 = readr::parse_number(item1))
+
+```
+
 
 
 Return to [Strings](https://github.com/Cghlewis/data-wrangling-functions/wiki/Strings)

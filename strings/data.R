@@ -96,5 +96,12 @@ d12 <- tibble::tribble(
   3, "",
   4, "p")
 
+d13 <- tibble::tribble(
+  ~id, ~school,
+  10, "hickman sr. high school",
+  20, "west (senior) high school",
+  30, "east sr. high school"
+)
+
 
 

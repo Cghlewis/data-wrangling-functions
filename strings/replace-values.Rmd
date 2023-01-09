@@ -1,0 +1,78 @@
+---
+title: "Replace values"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: stringr
+
+---
+
+#### Function: `str_replace()`
+
+---
+
+**1\. Replace (sr) and sr. with "senior"**
+
+Review the data (d13)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d13
+
+```
+
+We first need to create a new variable "school" using `dplyr::mutate()` which will overwrite the existing "school" variable. We can then use `stringr::str_replace()` to replace our pattern using the *pattern* argument and denote our replacement using the *replacement* argument. 
+
+* Note: The *pattern* argument uses regex arguments. Both periods and parentheses have special meaning but you can escape the special meaning using a double backslash or a bracket (as used in this case).
+
+```{r}
+
+d13 %>%
+  dplyr::mutate(school = stringr::str_replace(school, pattern = "sr[.]|[(]senior[)]", replacement = "senior"))
+
+```
+
+**2\. Replace all instances of the word "and" from item1 with "or"**
+
+Review the data (d4)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d4
+
+```
+
+Notice here, if we simply use `stringr::str_replace()` we will only remove the first instance of "and".
+
+```{r}
+
+d4 %>%
+  dplyr::mutate(item1 = stringr::str_replace(item1, "and", "or"))
+
+```
+
+So therefore, if we want to remove all instances, we need to use `stringr::str_replace_all()`
+
+```{r}
+
+d4 %>%
+  dplyr::mutate(item1 = stringr::str_replace_all(item1, "and", "or"))
+
+```
+
+Return to [Strings](https://github.com/Cghlewis/data-wrangling-functions/wiki/Strings)

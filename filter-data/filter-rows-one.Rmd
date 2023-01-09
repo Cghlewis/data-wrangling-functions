@@ -50,7 +50,8 @@ Keep any row that has "harris" for tch_name.
 
 ```{r}
 
-d8_new <- d8 %>% dplyr::filter(tch_name == "harris")
+d8_new <- d8 %>% 
+  dplyr::filter(tch_name == "harris")
 
 d8_new
 
@@ -60,7 +61,8 @@ You could get the same result adding the `stringr::str_detect()` function.
 
 ```{r}
 
-d8 %>% dplyr::filter(stringr::str_detect(tch_name, 'har') )
+d8 %>% 
+  dplyr::filter(stringr::str_detect(tch_name, 'har') )
 
 ```
 
@@ -91,7 +93,8 @@ Filter out any row that has "harris" for tch_name.
 
 ```{r}
 
-d8 %>% dplyr::filter(tch_name != "harris")
+d8 %>% 
+  dplyr::filter(tch_name != "harris")
 
 ```
 
@@ -99,7 +102,8 @@ Again, you could get the same result adding the `stringr::str_detect()` function
 
 ```{r}
 
-d8 %>% dplyr::filter(!stringr::str_detect(tch_name, 'har'))
+d8 %>% 
+  dplyr::filter(!stringr::str_detect(tch_name, 'har'))
 
 ```
 
@@ -218,7 +222,8 @@ Filter out any row that has -999 for extra2.
 
 ```{r}
 
-d5 %>% dplyr::filter(extra2 != -999 | is.na(extra2))
+d5 %>% 
+  dplyr::filter(extra2 != -999 | is.na(extra2))
 
 ```
 
@@ -226,7 +231,8 @@ Another way to get around the issue of dropping NAs is to filter using the opera
 
 ```{r}
 
-d5 %>% dplyr::filter(!(extra2 %in% -999))
+d5 %>% 
+  dplyr::filter(!(extra2 %in% -999))
 
 ```
 
@@ -258,7 +264,8 @@ Filter out any row where q1 is not equal to q2
 
 ```{r}
 
-d13 %>% dplyr::filter(q1 != q2 | is.na(q2))
+d13 %>% 
+  dplyr::filter(q1 != q2 | is.na(q2))
 
 ```
 

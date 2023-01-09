@@ -57,7 +57,7 @@ d4
 
 ```
 
-Notice here, if we simply use `stringr::str_replace()` we will only remove the first instance of "and".
+Notice here, if we simply use `stringr::str_replace()` we will only replace the first instance of "and".
 
 ```{r}
 
@@ -66,7 +66,7 @@ d4 %>%
 
 ```
 
-So therefore, if we want to remove all instances, we need to use `stringr::str_replace_all()`
+So therefore, if we want to replace all instances, we need to use `stringr::str_replace_all()`
 
 ```{r}
 

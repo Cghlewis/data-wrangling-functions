@@ -411,7 +411,7 @@ case).</li>
 3     3 3              
 4     4 1, and 2, and 3</code></pre>
 <p>Notice here, if we simply use <code>stringr::str_replace()</code> we
-will only remove the first instance of “and”.</p>
+will only replace the first instance of “and”.</p>
 <pre class="r"><code>d4 %&gt;%
   dplyr::mutate(item1 = stringr::str_replace(item1, &quot;and&quot;, &quot;or&quot;))</code></pre>
 <pre><code># A tibble: 4 x 2
@@ -421,7 +421,7 @@ will only remove the first instance of “and”.</p>
 2     2 1, or 3       
 3     3 3             
 4     4 1, or 2, and 3</code></pre>
-<p>So therefore, if we want to remove all instances, we need to use
+<p>So therefore, if we want to replace all instances, we need to use
 <code>stringr::str_replace_all()</code></p>
 <pre class="r"><code>d4 %&gt;%
   dplyr::mutate(item1 = stringr::str_replace_all(item1, &quot;and&quot;, &quot;or&quot;))</code></pre>

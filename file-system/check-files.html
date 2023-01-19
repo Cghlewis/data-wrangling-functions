@@ -373,9 +373,9 @@ pre code {
 <div id="function-file.exists" class="section level4">
 <h4>Function: <code>file.exists()</code></h4>
 <hr />
-<p><strong>1. Check to see if today’s file (“obs_YYYY-MM-DD.xlsx”)
-already exists in a folder (“all_files”). If it does not, copy the
-file.</strong></p>
+<p><strong>1. Check to see if today’s file
+(“summary_obs_YYYY-MM-DD.xlsx”) already exists in a folder
+(“all_files”). If it does not, copy the file.</strong></p>
 <p>To prevent duplication of efforts each day, I want to build a
 function that lets people know if the current day’s file has already
 been moved over.</p>
@@ -404,11 +404,12 @@ pull today’s date in the YYYY-MM-DD format.</p></li>
 <p>Next, I need to set the path of where the file originates from. I
 assign this to an object called “file_to_copy”.</p>
 <pre class="r"><code>file_to_copy &lt;- here::here(&quot;file-system&quot;,  base::paste0(&quot;obs_&quot;, lubridate::today()), &quot;summary_obs.xlsx&quot;)</code></pre>
-<p>Last, I write an if..else statement to say: If the summary file does
-not exist (we check using <code>base::file.exists()</code>), copy the
-summary_obs file from today’s observation folder, add today’s date as a
-suffix, and copy to the “all_files” folder. If the file already exists,
-give me a message that says “Data already exists”.</p>
+<p>Last, I write an if..else statement to say:<br />
+If the summary_obs file does not exist (we check using
+<code>base::file.exists()</code>), copy the summary_obs file from
+today’s observation folder, add today’s date as a suffix, and copy to
+the “all_files” folder. If the file already exists, give me a message
+that says “Data already exists”.</p>
 <ul>
 <li><p>Note: We are using <code>fs::file_copy()</code> to copy a file
 from the existing location to the new location. We use

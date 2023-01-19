@@ -26,7 +26,7 @@ library(tidyverse)
 
 ---
 
-**1\. Check to see if today's file ("obs_YYYY-MM-DD.xlsx") already exists in a folder ("all_files"). If it does not, copy the file.**
+**1\. Check to see if today's file ("summary_obs_YYYY-MM-DD.xlsx") already exists in a folder ("all_files"). If it does not, copy the file.**
 
 To prevent duplication of efforts each day, I want to build a function that lets people know if the current day's file has already been moved over.
 
@@ -61,8 +61,8 @@ file_to_copy <- here::here("file-system",  base::paste0("obs_", lubridate::today
 
 ```
 
-Last, I write an if..else statement to say:
-If the summary file does not exist (we check using `base::file.exists()`), copy the summary_obs file from today's observation folder, add today's date as a suffix, and copy to the "all_files" folder. If the file already exists, give me a message that says "Data already exists".
+Last, I write an if..else statement to say:  
+If the summary_obs file does not exist (we check using `base::file.exists()`), copy the summary_obs file from today's observation folder, add today's date as a suffix, and copy to the "all_files" folder. If the file already exists, give me a message that says "Data already exists".
 
 * Note: We are using `fs::file_copy()` to copy a file from the existing location to the new location. We use `base::cat()` to print out our message.
 

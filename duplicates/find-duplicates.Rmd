@@ -1,0 +1,75 @@
+---
+title: "Find and remove duplicates"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: janitor
+
+---
+
+#### Function: `get_dupes()`
+
+---
+
+**1\. Review the duplicate student IDs in our data**
+
+Review the data (d1)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d1
+
+```
+
+I can see that I have one "stu_id" that is duplicated in my data. 
+
+```{r}
+
+d1 %>% 
+  janitor::get_dupes(stu_id)
+
+```
+
+
+### Package: dplyr
+
+---
+
+#### Function: `distinct()`
+
+---
+
+**1\. Remove the duplicate student IDs in our data**
+
+In the case of the data above, these are from one wave of student surveys and I only expect to have one row per student id. Also, the duplicate entries are not identical.
+
+I would need to make a plan for how to remove duplicate data. For example purposes, let's say my team has made a plan to always keep the most recently completed survey.
+
+In order to ensure I remove duplicates in that specific manner, I need to first arrange my data descending by date. I need to do this because `dplyr::distinct()` always keeps the first instance of a survey (based on order).
+
+* Note: I need to add the argument *.keep_all = TRUE*, otherwise all variables except for "stu_id" will be dropped
+
+```{r}
+
+d1 %>%
+  dplyr::arrange(desc(date)) %>%
+  dplyr::distinct(stu_id, .keep_all = TRUE)
+
+```
+
+It is really important to never randomly drop duplicate data. This means, that you will ALWAYS want to arrange your data before using the `dplyr::distinct()` function. The reason for this is that if for some reason your raw data is every rearranged, when you run this function again, you may be dropping a different duplicate than you intended to.
+
+
+Return to [Duplicates](https://github.com/Cghlewis/data-wrangling-functions/wiki/Duplicates)

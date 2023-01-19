@@ -126,6 +126,8 @@ navbar:
     href: file-system\rename-files.html
   - text: "Copy files"
     href: file-system\copy-files.html
+  - text: "Check files"
+    href: file-system\check-files.html
   - text: "Delete files"
     href: file-system\delete-files.html
   - text: "Restructure wide"

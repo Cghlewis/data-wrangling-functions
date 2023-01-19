@@ -1,0 +1,125 @@
+---
+title: "Check files exist"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+
+library(fs)
+library(here)
+library(tidyverse)
+```
+
+<br>
+
+### Package: base
+
+---
+
+#### Function: `file.exists()`
+
+---
+
+**1\. Check to see if today's file ("obs_YYYY-MM-DD.xlsx") already exists in a folder ("all_files"). If it does not, copy the file.**
+
+To prevent duplication of efforts each day, I want to build a function that lets people know if the current day's file has already been moved over.
+
+Let's view files in today's observation folder.
+
+* Note: I am using base::basename() to remove the path up to the last separator so I only see the file names.
+
+```{r}
+
+base::basename(fs::dir_ls(here::here("file-system", "obs_2023-01-19")))
+
+```
+
+First, I need to set the path to where the file should live. I assign this to the object "summary_file". 
+
+* Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folders "obs_YYYY-MM-DD" are within another folder called "file-system" which is located in the top level of my project directory. You could also just list your entire file path.
+
+* Note: We also use `base::paste0()` to combine multiple elements in a file name, as well as `lubridate::today()` to pull today's date in the YYYY-MM-DD format.
+
+```{r}
+
+summary_file <- here::here("file-system", "all_files",  base::paste0("summary_obs_", lubridate::today(), ".xlsx"))
+
+
+```
+
+Next, I need to set the path of where the file originates from. I assign this to an object called "file_to_copy".
+
+```{r}
+
+file_to_copy <- here::here("file-system",  base::paste0("obs_", lubridate::today()), "summary_obs.xlsx")
+
+```
+
+Last, I write an if..else statement to say:
+If the summary file does not exist (we check using `base::file.exists()`), copy the summary_obs file from today's observation folder, add today's date as a suffix, and copy to the "all_files" folder. If the file already exists, give me a message that says "Data already exists".
+
+* Note: We are using `fs::file_copy()` to copy a file from the existing location to the new location. We use `base::cat()` to print out our message.
+
+* Note: I could build this same kind of statement for files that need to be downloaded rather than copied as well.
+
+```{r}
+
+if(!file.exists(summary_file)) {
+  fs::file_copy(path = file_to_copy , new_path = summary_file)
+} else {
+  cat("File already exists")
+}
+
+```
+
+And the message is correct, the file already exists.
+
+```{r}
+
+base::basename(fs::dir_ls(here::here("file-system", "all_files")))
+
+```
+
+* Note: If we were not worried about possible changes in files, we could skip the if..else statement, just use `fs::file_copy()`, and add the argument *overwrite = TRUE* to overwrite existing files in the folder. **NOTE:** The function will only overwrite the file if changes have been made. The function appears to verify the checksum first. Then if the file remains unchanged, the function will not overwrite the existing file.
+
+```{r}
+
+fs::file_copy(path = file_to_copy, new_path = summary_file, overwrite = TRUE)
+
+```
+
+
+### Package: base
+
+---
+
+#### Function: `exists()`
+
+---
+
+**1\. Check to see if an object, "summary_obs", already exists in your environment.**
+
+Similar to checking if a file exists, I think its worth pointing out that you can also check to see if objects exist in your environment using `base::exists()`. For example if you run a series of functions, you might want to confirm certain objects were created.
+
+So for example, our hypothetical function should create the object summary_obs by binding each days observations into one large data frame. Let's see if our object already exists.
+
+```{r}
+
+if(!exists("summary_obs")) {
+  summary_obs <- fs::dir_ls(path = here::here("file-system", "all_files"), glob ="*.xlsx") %>%
+  purrr::map_dfr(readxl::read_excel)
+} else {
+  cat("Data already exists")
+}
+
+```
+
+We can see that the statement confirmed that the object does exist. [At these time I am not getting the message to render in the html document but it does appear in R!]
+
+Return to [File System](https://github.com/Cghlewis/data-wrangling-functions/wiki/File System)

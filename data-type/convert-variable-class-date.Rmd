@@ -47,7 +47,7 @@ Convert Var4 to a date
 
 * Note: We are recoding into a new variable using `dplyr::mutate()` and saving over the original variable by naming the new variable the same name as the original. 
 
-* Note: mdy() is just the format for Var4, you can adjust the format for your character variable and use functions such as `dmy()`, `ymd()`, `ymd_hms()`.
+* Note: `mdy()` is just the format for Var4, you can adjust the format for your character variable and use functions such as `dmy()`, `ymd()`, `ymd_hms()`.
 
 ```{r}
 

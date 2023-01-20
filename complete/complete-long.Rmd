@@ -61,7 +61,8 @@ You have two options. You can either use `dplyr::group_by()` to group by school.
 
 d4 %>% 
   dplyr::group_by(school) %>% 
-  tidyr::fill(cohort) %>% dplyr::ungroup()
+  tidyr::fill(cohort) %>% 
+  dplyr::ungroup()
 
 ```
 

@@ -373,7 +373,8 @@ pre code {
 <div id="function-get_dupes" class="section level4">
 <h4>Function: <code>get_dupes()</code></h4>
 <hr />
-<p><strong>1. Review the duplicate student IDs in our data</strong></p>
+<p><strong>1. Review the duplicate student IDs in our student survey
+data</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 6 x 5
   stu_id date       item1 item2 item3
@@ -401,12 +402,11 @@ pre code {
 <h4>Function: <code>distinct()</code></h4>
 <hr />
 <p><strong>1. Remove the duplicate student IDs in our data</strong></p>
-<p>In the case of the data above, these are from one wave of student
-surveys and I only expect to have one row per student id. Also, the
-duplicate entries are not identical.</p>
-<p>I would need to make a plan for how to remove duplicate data. For
-example purposes, let’s say my team has made a plan to always keep the
-most recently completed survey.</p>
+<p>In the case of the data above, I only expect to have one row per
+student id. It appears one student completed the survey twice.</p>
+<p>The duplicate entries are not identical. I need to make a plan for
+how to remove duplicate data. For example purposes, let’s say I have
+made the decision to always keep the most recently completed survey.</p>
 <p>In order to ensure I remove duplicates in that specific manner, I
 need to first arrange my data descending by date. I need to do this
 because <code>dplyr::distinct()</code> always keeps the first instance
@@ -429,9 +429,68 @@ otherwise all variables except for “stu_id” will be dropped</li>
 <p>It is really important to never randomly drop duplicate data. This
 means, that you will ALWAYS want to arrange your data before using the
 <code>dplyr::distinct()</code> function. The reason for this is that if
-for some reason your raw data is every rearranged, when you run this
+for some reason your raw data is ever rearranged, when you run this
 function again, you may be dropping a different duplicate than you
 intended to.</p>
+<p><strong>2. Remove incomplete data for duplicate student IDs in our
+data</strong></p>
+<p>Review the data (d2)</p>
+<pre><code># A tibble: 8 x 5
+  stu_id date       item1 item2 item3
+   &lt;dbl&gt; &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1    100 2022-11-15     3     4     2
+2    103 2022-11-15     2     5    NA
+3    105 2022-11-15     5     4     3
+4    106 2022-11-16     2     1     1
+5    100 2022-11-17     2    NA    NA
+6    102 2022-11-18     3     4     1
+7    103 2022-11-18     2     4     2
+8    105 2022-11-18     5     4     1</code></pre>
+<p>We can see in our new data, we have several instances of duplicate
+data. In this new scenario, my new decision rule for keeping duplicates
+is to keep the **most *recent<strong>, </strong>complete** data.</p>
+<p>We can ensure we meet this criteria by doing 2 things:</p>
+<ol style="list-style-type: decimal">
+<li><p>First, creating a way calculate completeness. In this case I just
+calculate a new variable using <code>dplyr::mutate()</code> called
+“incomplete”. Using <code>base::rowSums()</code> I calculate the number
+of NA values across the main survey items. If the incomplete value is 0,
+it means the survey is missing no data.</p></li>
+<li><p>Next we can arrange by both the “incomplete” variable and “date”
+descending again.</p></li>
+</ol>
+<p>Doing both of these steps, we can see that we will ultimately keep
+the surveys we want when we use <code>dplyr::distinct()</code> because
+the function keeps the first instance of the survey in your data.</p>
+<p>IDs 103, 105 and 100 all have the most complete, most recently
+completed surveys at the top.</p>
+<pre class="r"><code>d2 %&gt;%
+  dplyr::mutate(incomplete = rowSums(is.na(dplyr::across(item1: item3)))) %&gt;%
+  dplyr::arrange(incomplete, desc(date))</code></pre>
+<pre><code># A tibble: 8 x 6
+  stu_id date       item1 item2 item3 incomplete
+   &lt;dbl&gt; &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
+1    102 2022-11-18     3     4     1          0
+2    103 2022-11-18     2     4     2          0
+3    105 2022-11-18     5     4     1          0
+4    106 2022-11-16     2     1     1          0
+5    100 2022-11-15     3     4     2          0
+6    105 2022-11-15     5     4     3          0
+7    103 2022-11-15     2     5    NA          1
+8    100 2022-11-17     2    NA    NA          2</code></pre>
+<p>We can now remove duplicates</p>
+<pre class="r"><code>d2 %&gt;%
+  dplyr::mutate(incomplete = rowSums(is.na(dplyr::across(item1: item3)))) %&gt;%
+  dplyr::arrange(incomplete, desc(date)) %&gt;%
+  dplyr::distinct(stu_id, .keep_all = TRUE)</code></pre>
+<pre><code># A tibble: 5 x 6
+  stu_id date       item1 item2 item3 incomplete
+   &lt;dbl&gt; &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
+1    102 2022-11-18     3     4     1          0
+2    103 2022-11-18     2     4     2          0
+3    105 2022-11-18     5     4     1          0
+4    106 2022-11-16     2     1     1          0
+5    100 2022-11-15     3     4     2          0</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Duplicates">Duplicates</a></p>
 </div>
 </div>

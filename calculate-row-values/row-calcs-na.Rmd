@@ -48,4 +48,14 @@ d5 %>%
 
 ```
 
+We could also select the variables in other ways and it would work just as well.
+
+```{r}
+
+d5 %>% 
+  dplyr::mutate(toca_na_sum = rowSums(is.na(dplyr::across(toca1:toca4))))
+
+```
+
+
 Return to [Calculate Row Values](https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate Row Values)

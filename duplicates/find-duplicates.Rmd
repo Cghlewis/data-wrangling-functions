@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Review the duplicate student IDs in our data**
+**1\. Review the duplicate student IDs in our student survey data**
 
 Review the data (d1)
 
@@ -53,9 +53,9 @@ d1 %>%
 
 **1\. Remove the duplicate student IDs in our data**
 
-In the case of the data above, these are from one wave of student surveys and I only expect to have one row per student id. Also, the duplicate entries are not identical.
+In the case of the data above, I only expect to have one row per student id. It appears one student completed the survey twice. 
 
-I would need to make a plan for how to remove duplicate data. For example purposes, let's say my team has made a plan to always keep the most recently completed survey.
+The duplicate entries are not identical. I need to make a plan for how to remove duplicate data. For example purposes, let's say I have made the decision to always keep the most recently completed survey.
 
 In order to ensure I remove duplicates in that specific manner, I need to first arrange my data descending by date. I need to do this because `dplyr::distinct()` always keeps the first instance of a survey (based on order).
 
@@ -69,7 +69,49 @@ d1 %>%
 
 ```
 
-It is really important to never randomly drop duplicate data. This means, that you will ALWAYS want to arrange your data before using the `dplyr::distinct()` function. The reason for this is that if for some reason your raw data is every rearranged, when you run this function again, you may be dropping a different duplicate than you intended to.
+It is really important to never randomly drop duplicate data. This means, that you will ALWAYS want to arrange your data before using the `dplyr::distinct()` function. The reason for this is that if for some reason your raw data is ever rearranged, when you run this function again, you may be dropping a different duplicate than you intended to.
 
+**2\. Remove incomplete data for duplicate student IDs in our data**
+
+Review the data (d2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d2
+
+```
+
+We can see in our new data, we have several instances of duplicate data.
+In this new scenario, my new decision rule for keeping duplicates is to keep the **most *recent**, **complete** data.
+
+We can ensure we meet this criteria by doing 2 things:
+
+1. First, creating a way calculate completeness. In this case I just calculate a new variable using `dplyr::mutate()` called "incomplete". Using `base::rowSums()` I calculate the number of NA values across the main survey items. If the incomplete value is 0, it means the survey is missing no data.
+
+2. Next we can arrange by both the "incomplete" variable and "date" descending again.
+
+Doing both of these steps, we can see that we will ultimately keep the surveys we want when we use `dplyr::distinct()` because the function keeps the first instance of the survey in your data.
+
+IDs 103, 105 and 100 all have the most complete, most recently completed surveys at the top.
+
+```{r}
+
+d2 %>%
+  dplyr::mutate(incomplete = rowSums(is.na(dplyr::across(item1: item3)))) %>%
+  dplyr::arrange(incomplete, desc(date))
+
+```
+
+We can now remove duplicates
+
+```{r}
+
+d2 %>%
+  dplyr::mutate(incomplete = rowSums(is.na(dplyr::across(item1: item3)))) %>%
+  dplyr::arrange(incomplete, desc(date)) %>%
+  dplyr::distinct(stu_id, .keep_all = TRUE)
+
+```
 
 Return to [Duplicates](https://github.com/Cghlewis/data-wrangling-functions/wiki/Duplicates)

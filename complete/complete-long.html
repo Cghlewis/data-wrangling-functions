@@ -434,7 +434,8 @@ the School Name)</strong></p>
 <code>dplyr::group_by()</code> to group by school.</p>
 <pre class="r"><code>d4 %&gt;% 
   dplyr::group_by(school) %&gt;% 
-  tidyr::fill(cohort) %&gt;% dplyr::ungroup()</code></pre>
+  tidyr::fill(cohort) %&gt;% 
+  dplyr::ungroup()</code></pre>
 <pre><code># A tibble: 11 x 4
    school    year enroll cohort
    &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;

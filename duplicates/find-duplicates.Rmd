@@ -82,8 +82,11 @@ d2
 
 ```
 
-We can see in our new data, we have several instances of duplicate data.
-In this new scenario, my new decision rule for keeping duplicates is to keep the **most *recent**, **complete** data.
+We can see in our new data we have several instances of duplicate data. Sometimes those duplicates have both incomplete and complete data.
+
+In this new scenario, my new decision rule for keeping duplicates is to keep data based on 2 criteria:  
+1. First I want to keep the record that is complete (if one is incomplete).  
+2. If both records are complete, I want to keep the most recent record.  
 
 We can ensure we meet this criteria by doing 2 things:
 

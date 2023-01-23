@@ -90,7 +90,7 @@ dict
 
 Here we see our data dictionary has a column called "var_type" which tells us which variables are binary (or coded 0 and 1).
 
-This example is based off of a real-life scenario. Oftentimes when you download "select all" questions from a survey platform, each option is downloaded with a 1 (if selected) and NA (if not selected). However, we often want those variables to show 1s (Yes) and 0s (No) instead of 1s and NAs.
+This example is based off of a real-life scenario. Oftentimes when you download "select all" questions from a survey platform, each option is downloaded with a 1 (if selected) and NA (if not selected). There are times when this format makes sense (say for visualizations). However, for analysis purposes we probably want those variables to show 1s (Yes) and 0s (No) instead of 1s and NAs.
 
 Instead of listing out all of the variables we want to recode, we can pull a vector of variable names using our dictionary.
 

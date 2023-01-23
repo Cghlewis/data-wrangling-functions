@@ -147,3 +147,16 @@ d17 <- tibble::tribble(
   7, "2022-10-07"
 )
 
+d18 <- tibble::tribble(
+  ~Var1, ~Var2, ~Var3,
+  NA, NA, 3,
+  1, NA, 4,
+  1, 0, 2,
+)
+
+dict <- tibble::tribble(
+  ~var_name, ~label, ~var_type,
+  "Var1", "Select all: Option 1", "binary",
+  "Var2", "Select all: Option 2", "binary",
+  "Var3", "Question wording of Var3", "likert",
+)

@@ -373,53 +373,101 @@ pre code {
 <div id="function-replace_na" class="section level4">
 <h4>Function: <code>replace_na()</code></h4>
 <hr />
-<p><strong>1. Replace NA values for one variable (Var3)</strong></p>
-<p>Review the data (d1)</p>
+<p><strong>1. Replace NA values for one variable (Var2)</strong></p>
+<p>Review the data (d18)</p>
 <pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         2   3.6
-2 b        NA   8.5
-3 c         3  NA  </code></pre>
+   Var1  Var2  Var3
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1    NA    NA     3
+2     1    NA     4
+3     1     0     2</code></pre>
 <p>Recode NA to 0</p>
 <ul>
 <li>Note: We are recoding back into the same variable using
 <code>dplyr::mutate()</code>. However, we could have recoded into a new
 variable by changing the name of <em>Var3</em>.</li>
 </ul>
-<pre class="r"><code>d1 %&gt;% 
-  dplyr::mutate(Var3 = tidyr::replace_na(Var3, replace = 0))</code></pre>
+<pre class="r"><code>d18 %&gt;% 
+  dplyr::mutate(Var2 = tidyr::replace_na(Var2, replace = 0))</code></pre>
 <pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         2   3.6
-2 b        NA   8.5
-3 c         3   0  </code></pre>
-<p><strong>2. Replace NA for multiple variables (Var2 and Var3) with the
+   Var1  Var2  Var3
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1    NA     0     3
+2     1     0     4
+3     1     0     2</code></pre>
+<p><strong>2. Replace NA for multiple variables (Var1 and Var2) with the
 same NA value</strong></p>
-<p>Review the data (d1)</p>
+<p>Review the data (d18)</p>
 <pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         2   3.6
-2 b        NA   8.5
-3 c         3  NA  </code></pre>
-<p>Recode NA for Var2 and Var3 to 0</p>
+   Var1  Var2  Var3
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1    NA    NA     3
+2     1    NA     4
+3     1     0     2</code></pre>
+<p>Recode NA for Var1 and Var2 to 0</p>
 <ul>
 <li>Note: We are recoding back into the same variable using
 <code>dplyr::mutate()</code>.</li>
 <li>Note: We are using <code>dplyr::across()</code> to apply a
 transformation to multiple columns.</li>
 </ul>
-<pre class="r"><code>d1 %&gt;% 
-  dplyr::mutate(dplyr::across(c(Var2:Var3), tidyr::replace_na, 0))</code></pre>
+<pre class="r"><code>d18 %&gt;% 
+  dplyr::mutate(dplyr::across(Var1:Var2, tidyr::replace_na, 0))</code></pre>
 <pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         2   3.6
-2 b         0   8.5
-3 c         3   0  </code></pre>
-<p><strong>3. Replace NA for multiple variables of the same class with
+   Var1  Var2  Var3
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     0     0     3
+2     1     0     4
+3     1     0     2</code></pre>
+<p><strong>3. Replace NA for multiple variables (Var2 and Var3) with the
+same NA value using your project data dictionary</strong></p>
+<p>Review the data (d18)</p>
+<pre><code># A tibble: 3 x 3
+   Var1  Var2  Var3
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1    NA    NA     3
+2     1    NA     4
+3     1     0     2</code></pre>
+<p>It’s possible that you may have built a data dictionary before
+collecting data and you may have added a column to your dictionary that
+helps you identify which columns need to be recoded in a particular
+way.</p>
+<p>Let’s review our very simple data dictionary.</p>
+<pre class="r"><code>dict</code></pre>
+<pre><code># A tibble: 3 x 3
+  var_name label                    var_type
+  &lt;chr&gt;    &lt;chr&gt;                    &lt;chr&gt;   
+1 Var1     Select all: Option 1     binary  
+2 Var2     Select all: Option 2     binary  
+3 Var3     Question wording of Var3 likert  </code></pre>
+<p>Here we see our data dictionary has a column called “var_type” which
+tells us which variables are binary (or coded 0 and 1).</p>
+<p>This example is based off of a real-life scenario. Oftentimes when
+you download “select all” questions from a survey platform, each option
+is downloaded with a 1 (if selected) and NA (if not selected). However,
+we often want those variables to show 1s (Yes) and 0s (No) instead of 1s
+and NAs.</p>
+<p>Instead of listing out all of the variables we want to recode, we can
+pull a vector of variable names using our dictionary.</p>
+<pre class="r"><code>vars &lt;- dict %&gt;%
+  dplyr::filter(var_type == &quot;binary&quot;) %&gt;%
+  dplyr::select(var_name) %&gt;%
+  dplyr::pull()</code></pre>
+<p>We can now use this vector in our <code>tidyr::replace_na()</code>
+function.</p>
+<ul>
+<li>Note: We use <code>tidyselect::all_of()</code> to denote that we are
+selecting variable names from an external vector (“vars”).</li>
+</ul>
+<pre class="r"><code>d18 %&gt;%
+  dplyr::mutate(dplyr::across(tidyselect::all_of(vars), ~replace_na(., 0)))</code></pre>
+<pre><code># A tibble: 3 x 3
+   Var1  Var2  Var3
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     0     0     3
+2     1     0     4
+3     1     0     2</code></pre>
+<p><strong>4. Replace NA for multiple variables of the same class with
 the same NA value (Var2 and Var3)</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 3 x 3
@@ -446,7 +494,7 @@ transformation to multiple columns.</li>
 1 a         2    3.6
 2 b      -999    8.5
 3 c         3 -999  </code></pre>
-<p><strong>4. Replace NA Var2 and Var3 with different
+<p><strong>5. Replace NA Var2 and Var3 with different
 values</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 3 x 3

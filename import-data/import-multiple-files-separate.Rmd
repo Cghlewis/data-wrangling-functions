@@ -86,7 +86,7 @@ Last, and probably the best solution I have for now, is to use `purrr::map()` in
 
 * Note: We use `purrr::map()` to first create a list. We also use `purrr::set_names()` (to create a named list), in conjunction with `base::basename()` and `stringr::str_remove()` to create more usable data frame names.
 
-* Note: The main arguments you include for `purrr::map()` are .x, a list or atomic vector (files to read), and .f, which in this scenario is a function. Below I have not added a “.” for the .x argument to denote that I am referring to the character vector we created in the previous step. In this instance, it is implied.
+* Note: The main arguments you include for `purrr::map()` are .x, a list or atomic vector (files to read), and .f, which in this scenario is a function. Below “.” refers to the character vector we created in the previous step. 
 
 ```{r, echo = FALSE}
 
@@ -101,13 +101,34 @@ rm(list = ls())
 my_file_list <- fs::dir_ls(path = here::here("import-data", "attendance"), 
                 glob ="*.xlsx") %>%
   purrr::set_names(basename(stringr::str_remove(., ".xlsx"))) %>%
-  purrr::map(readxl::read_excel, na="*")
+  purrr::map(., .f = readxl::read_excel, na="*")
 
 # Create environment variables from our list
 list2env(my_file_list, envir=.GlobalEnv)
 
 # Review all objects in environment
 ls()
+
+```
+
+Last, if we only cared about certain variables in our data frames, we could add a `dplyr::select()` statement in a `purrr::map()` function to select our variables from our list of data frames before creating our environment variables.
+
+* Note: If your variable names change across files (for instance they have different prefix or suffix) you'll need to use a `tidyselection` helper to grab similar names across files, such as `tidyselect::contains()`.
+
+```{r}
+
+# Create our list of data frames
+my_file_list <- fs::dir_ls(path = here::here("import-data", "attendance"), 
+                glob ="*.xlsx") %>%
+  purrr::set_names(basename(stringr::str_remove(., ".xlsx"))) %>%
+  purrr::map(., .f = readxl::read_excel, na="*") %>%
+  purrr::map(., .f = list(. %>% dplyr::select(YEAR, tidyselect::contains("TOTAL"))))
+
+# Create environment variables from our list
+list2env(my_file_list, envir=.GlobalEnv)
+
+# Review names of one object
+names(`school-2_attendance`)
 
 ```
 

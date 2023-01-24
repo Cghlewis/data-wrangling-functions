@@ -436,16 +436,14 @@ conjunction with <code>base::basename()</code> and
 names.</p></li>
 <li><p>Note: The main arguments you include for
 <code>purrr::map()</code> are .x, a list or atomic vector (files to
-read), and .f, which in this scenario is a function. Below I have not
-added a “.” for the .x argument to denote that I am referring to the
-character vector we created in the previous step. In this instance, it
-is implied.</p></li>
+read), and .f, which in this scenario is a function. Below “.” refers to
+the character vector we created in the previous step.</p></li>
 </ul>
 <pre class="r"><code># Create our list of data frames
 my_file_list &lt;- fs::dir_ls(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;), 
                 glob =&quot;*.xlsx&quot;) %&gt;%
   purrr::set_names(basename(stringr::str_remove(., &quot;.xlsx&quot;))) %&gt;%
-  purrr::map(readxl::read_excel, na=&quot;*&quot;)
+  purrr::map(., .f = readxl::read_excel, na=&quot;*&quot;)
 
 # Create environment variables from our list
 list2env(my_file_list, envir=.GlobalEnv)</code></pre>
@@ -454,6 +452,30 @@ list2env(my_file_list, envir=.GlobalEnv)</code></pre>
 ls()</code></pre>
 <pre><code>[1] &quot;my_file_list&quot;        &quot;school-2_attendance&quot; &quot;school-3_attendance&quot;
 [4] &quot;school-4_attendance&quot; &quot;school-5_attendance&quot;</code></pre>
+<p>Last, if we only cared about certain variables in our data frames, we
+could add a <code>dplyr::select()</code> statement in a
+<code>purrr::map()</code> function to select our variables from our list
+of data frames before creating our environment variables.</p>
+<ul>
+<li>Note: If your variable names change across files (for instance they
+have different prefix or suffix) you’ll need to use a
+<code>tidyselection</code> helper to grab similar names across files,
+such as <code>tidyselect::contains()</code>.</li>
+</ul>
+<pre class="r"><code># Create our list of data frames
+my_file_list &lt;- fs::dir_ls(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;), 
+                glob =&quot;*.xlsx&quot;) %&gt;%
+  purrr::set_names(basename(stringr::str_remove(., &quot;.xlsx&quot;))) %&gt;%
+  purrr::map(., .f = readxl::read_excel, na=&quot;*&quot;) %&gt;%
+  purrr::map(., .f = list(. %&gt;% dplyr::select(YEAR, tidyselect::contains(&quot;TOTAL&quot;))))
+
+# Create environment variables from our list
+list2env(my_file_list, envir=.GlobalEnv)</code></pre>
+<pre><code>&lt;environment: R_GlobalEnv&gt;</code></pre>
+<pre class="r"><code># Review names of one object
+names(`school-2_attendance`)</code></pre>
+<pre><code>[1] &quot;YEAR&quot;                                &quot;PROPORTIONAL_ATTENDANCE_TOTAL_90ABV&quot;
+[3] &quot;PROPORTIONAL_ATTENDANCE_TOTAL&quot;       &quot;PROPORTIONAL_ATTENDANCE_TOTAL_PCT&quot;  </code></pre>
 <p><strong>2. Read in all sheets of an Excel file as separate data
 frames.</strong></p>
 <p>View the sheets in our workbook</p>

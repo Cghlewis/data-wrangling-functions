@@ -87,5 +87,61 @@ d4 %>%
 
 ```
 
+**3\. Read in files and remove the date from the file name**
+
+```{r, echo = FALSE}
+
+rm(list = ls())
+
+```
+
+See what files we have
+
+```{r}
+
+base::basename(fs::dir_ls(here::here("strings", "data")))
+
+```
+
+Read in all files from the data folder, remove the underscore and date from the file name, and create individual data frames.
+
+* Note: The `\\` is used as an escape character so that the "d" is seen as digits rather than the letter d.
+
+```{r}
+
+# Create our list of data frames
+
+my_file_list <- fs::dir_ls(path = here::here("strings", "data"), 
+                glob ="*.xlsx") %>%
+  purrr::set_names(basename(stringr::str_remove(., "_\\d{4}-\\d{2}-\\d{2}"))) %>%
+  purrr::map(readxl::read_excel)
+
+# Create environment variables from our list
+list2env(my_file_list, envir=.GlobalEnv)
+
+```
+
+```{r}
+
+# Review all objects in environment
+ls()
+
+```
+
+
+But there are many ways we can grab date patterns, so we can choose whatever makes the most sense to us. The brackets here are also used as escape character to say look for *any* number between 0 and 9 that is represented 4 times, 2 times, and 2 times.
+
+```{r}
+
+# Create our list of data frames
+my_file_list <- fs::dir_ls(path = here::here("strings", "data"), 
+                glob ="*.xlsx") %>%
+  purrr::set_names(basename(stringr::str_remove(., "_[0-9]{4}-{1}[0-9]{2}-{1}[0-9]{2}"))) %>%
+  purrr::map(readxl::read_excel)
+
+# Create environment variables from our list
+list2env(my_file_list, envir=.GlobalEnv)
+
+```
 
 Return to [Strings](https://github.com/Cghlewis/data-wrangling-functions/wiki/Strings)

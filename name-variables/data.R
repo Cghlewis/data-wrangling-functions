@@ -78,3 +78,12 @@ dict3 <- tibble::tribble(
   "read_score", "Var2"
 )
 
+d9 <- tibble::tribble(
+  ~`school name`, ~Var1, ~Var2, ~Var3, ~Var4,
+  "a", 200, 3.6, 1, 0,
+  "b", 350, 8.5, 2, 1,
+  "c", 400, NA, 3, 1
+)
+
+
+

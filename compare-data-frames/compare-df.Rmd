@@ -50,7 +50,7 @@ head(entry2)
 
 Now check if there are any differences in the two data frames.  
 
-* Note: For the *key* argument I added "stu_id". This is because "stu_id" is what makes each row unique. If you needed multiple variables to make a row unique, you can simply add them all using combine. For example, *keys = c("stu_id", "tch_id")*.
+* Note: For the *keys* argument I added "stu_id". This is because "stu_id" is what makes each row unique. If you needed multiple variables to make a row unique, you can simply add them all using combine. For example, *keys = c("stu_id", "tch_id")*.
 
 * Note: I've included the base arguments you need for the function to run. Run *?diffdf* in the console to see additional arguments that can be added.
 

@@ -21,6 +21,10 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
+**Note:** The `dplyr::rename()` formula is new value=old value, this is opposite of `dplyr::recode()`.
+
+<br>
+
 **1\. Change the name of Var2**
 
 Review the data (d1)

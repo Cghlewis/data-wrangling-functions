@@ -32,7 +32,7 @@ View the sheets in our workbook
 path <- (here::here("import-data", "data", "all-school_attendance.xlsx"))
 
 path %>% 
-readxl::excel_sheets()
+  readxl::excel_sheets()
 
 ```
 

@@ -22,6 +22,8 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
+**Note:** The `dplyr::recode_factor()` formula is: old value=new value, this is opposite of `dplyr::rename()`
+
 **Note:** The function `dplyr::recode_factor()` will convert your variable to factor **and** recode it.
 
 <br>
@@ -109,6 +111,8 @@ levels(d7$lunch)
 #### Function: `fct_recode()`
 
 ---
+
+**Note:** The `forcats::fct_recode()` formula is: new value=old value, this is opposite of dplyr::recode() but the same as `dplyr::rename()`
 
 **Note:** The function `forcats::fct_recode` will convert your variable to factor **and** recode it.
 

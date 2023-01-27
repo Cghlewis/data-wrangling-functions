@@ -373,6 +373,9 @@ pre code {
 <div id="function-recode_factor" class="section level4">
 <h4>Function: <code>recode_factor()</code></h4>
 <hr />
+<p><strong>Note:</strong> The <code>dplyr::recode_factor()</code>
+formula is: old value=new value, this is opposite of
+<code>dplyr::rename()</code></p>
 <p><strong>Note:</strong> The function
 <code>dplyr::recode_factor()</code> will convert your variable to factor
 <strong>and</strong> recode it.</p>
@@ -454,6 +457,9 @@ d7</code></pre>
 <div id="function-fct_recode" class="section level4">
 <h4>Function: <code>fct_recode()</code></h4>
 <hr />
+<p><strong>Note:</strong> The <code>forcats::fct_recode()</code> formula
+is: new value=old value, this is opposite of dplyr::recode() but the
+same as <code>dplyr::rename()</code></p>
 <p><strong>Note:</strong> The function <code>forcats::fct_recode</code>
 will convert your variable to factor <strong>and</strong> recode it.</p>
 <p><br></p>

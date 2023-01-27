@@ -111,7 +111,10 @@ ls()
 
 ```
 
-Last, if we only cared about certain variables in our data frames, we could add a `dplyr::select()` statement in a `purrr::map()` function to select our variables from our list of data frames before creating our environment variables.
+
+**2\. Read in all Excel files from the directory, select the same variables from each file, and create individual data frames for each file.**
+
+Using the same files as above, if we only cared about certain variables in our data frames, we could add a `dplyr::select()` statement in a `purrr::map()` function to select our variables from our list of data frames before creating our environment variables.
 
 * Note: If your variable names change across files (for instance they have different prefix or suffix) you'll need to use a `tidyselection` helper to grab similar names across files, such as `tidyselect::contains()`.
 
@@ -129,79 +132,6 @@ list2env(my_file_list, envir=.GlobalEnv)
 
 # Review names of one object
 names(`school-2_attendance`)
-
-```
-
-
-**2\. Read in all sheets of an Excel file as separate data frames.**
-
-View the sheets in our workbook
-
-```{r}
-
-path <- (here::here("import-data", "data", "all-school_attendance.xlsx"))
-
-path %>% 
-readxl::excel_sheets()
-
-```
-
-Again, there are several ways to read in each sheet as a data frame. 
-
-First you can read in one sheet at a time using `readxl::read_excel` and adding the argument *sheet=*, which allows you to call the name of the sheet OR the position.
-
-```{r, eval=FALSE}
-
-df1 <- readxl::read_excel(path, sheet = "Sheet1")
-
-df2 <- readxl::read_excel(path, sheet = "Sheet2")
-
-df3 <- readxl::read_excel(path, sheet = "Sheet3")
-
-```
-
-Second, you can read grab all of the Excel sheets using `readxl::excel_sheets()` and then iterate our function (`readxl::read_excel()`) over each sheet using `purrr::map()` to create a list of data frames.
-
-We can then use the `$` to select each sheet from the list by name.
-
-* Note: Using `purrr::set_names()` we are creating a named list (giving each sheet a name)
-
-```{r, eval=FALSE}
-
-data <- path %>% 
-  readxl::excel_sheets() %>% 
-  purrr::set_names() %>% 
-  purrr::map(readxl::read_excel, path = path)
-
-df1 <- data$Sheet1
-
-df2 <- data$Sheet2
-
-df3 <- data$Sheet3
-
-```
-
-But again, if we have many sheets, the method above can be time consuming. A better option may be to use `base::list2env()`again.
-
-```{r, echo = FALSE}
-
-rm(list = ls())
-
-```
-
-```{r}
-
-# Create our list of data frames
-my_file_list <- here::here("import-data", "data", "all-school_attendance.xlsx") %>% 
-  readxl::excel_sheets() %>% 
-  purrr::set_names() %>% 
-  purrr::map(readxl::read_excel, path = here::here("import-data", "data", "all-school_attendance.xlsx"))
-
-# Create environment variables from our list
-list2env(my_file_list, envir=.GlobalEnv)
-
-# Review all objects in environment
-ls()
 
 ```
 

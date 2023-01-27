@@ -160,3 +160,10 @@ dict <- tibble::tribble(
   "Var2", "Select all: Option 2", "binary",
   "Var3", "Question wording of Var3", "likert",
 )
+
+d19 <- tibble::tribble(
+  ~Var1, ~Var2, ~Var3,
+  "y", "n", "Y",
+  "Y", "N", "Y",
+  "n","N", "n",
+)

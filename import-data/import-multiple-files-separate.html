@@ -452,10 +452,14 @@ list2env(my_file_list, envir=.GlobalEnv)</code></pre>
 ls()</code></pre>
 <pre><code>[1] &quot;my_file_list&quot;        &quot;school-2_attendance&quot; &quot;school-3_attendance&quot;
 [4] &quot;school-4_attendance&quot; &quot;school-5_attendance&quot;</code></pre>
-<p>Last, if we only cared about certain variables in our data frames, we
-could add a <code>dplyr::select()</code> statement in a
-<code>purrr::map()</code> function to select our variables from our list
-of data frames before creating our environment variables.</p>
+<p><strong>2. Read in all Excel files from the directory, select the
+same variables from each file, and create individual data frames for
+each file.</strong></p>
+<p>Using the same files as above, if we only cared about certain
+variables in our data frames, we could add a
+<code>dplyr::select()</code> statement in a <code>purrr::map()</code>
+function to select our variables from our list of data frames before
+creating our environment variables.</p>
 <ul>
 <li>Note: If your variable names change across files (for instance they
 have different prefix or suffix) you’ll need to use a
@@ -476,59 +480,6 @@ list2env(my_file_list, envir=.GlobalEnv)</code></pre>
 names(`school-2_attendance`)</code></pre>
 <pre><code>[1] &quot;YEAR&quot;                                &quot;PROPORTIONAL_ATTENDANCE_TOTAL_90ABV&quot;
 [3] &quot;PROPORTIONAL_ATTENDANCE_TOTAL&quot;       &quot;PROPORTIONAL_ATTENDANCE_TOTAL_PCT&quot;  </code></pre>
-<p><strong>2. Read in all sheets of an Excel file as separate data
-frames.</strong></p>
-<p>View the sheets in our workbook</p>
-<pre class="r"><code>path &lt;- (here::here(&quot;import-data&quot;, &quot;data&quot;, &quot;all-school_attendance.xlsx&quot;))
-
-path %&gt;% 
-readxl::excel_sheets()</code></pre>
-<pre><code>[1] &quot;Sheet1&quot; &quot;Sheet2&quot; &quot;Sheet3&quot;</code></pre>
-<p>Again, there are several ways to read in each sheet as a data
-frame.</p>
-<p>First you can read in one sheet at a time using
-<code>readxl::read_excel</code> and adding the argument <em>sheet=</em>,
-which allows you to call the name of the sheet OR the position.</p>
-<pre class="r"><code>df1 &lt;- readxl::read_excel(path, sheet = &quot;Sheet1&quot;)
-
-df2 &lt;- readxl::read_excel(path, sheet = &quot;Sheet2&quot;)
-
-df3 &lt;- readxl::read_excel(path, sheet = &quot;Sheet3&quot;)</code></pre>
-<p>Second, you can read grab all of the Excel sheets using
-<code>readxl::excel_sheets()</code> and then iterate our function
-(<code>readxl::read_excel()</code>) over each sheet using
-<code>purrr::map()</code> to create a list of data frames.</p>
-<p>We can then use the <code>$</code> to select each sheet from the list
-by name.</p>
-<ul>
-<li>Note: Using <code>purrr::set_names()</code> we are creating a named
-list (giving each sheet a name)</li>
-</ul>
-<pre class="r"><code>data &lt;- path %&gt;% 
-  readxl::excel_sheets() %&gt;% 
-  purrr::set_names() %&gt;% 
-  purrr::map(readxl::read_excel, path = path)
-
-df1 &lt;- data$Sheet1
-
-df2 &lt;- data$Sheet2
-
-df3 &lt;- data$Sheet3</code></pre>
-<p>But again, if we have many sheets, the method above can be time
-consuming. A better option may be to use
-<code>base::list2env()</code>again.</p>
-<pre class="r"><code># Create our list of data frames
-my_file_list &lt;- here::here(&quot;import-data&quot;, &quot;data&quot;, &quot;all-school_attendance.xlsx&quot;) %&gt;% 
-  readxl::excel_sheets() %&gt;% 
-  purrr::set_names() %&gt;% 
-  purrr::map(readxl::read_excel, path = here::here(&quot;import-data&quot;, &quot;data&quot;, &quot;all-school_attendance.xlsx&quot;))
-
-# Create environment variables from our list
-list2env(my_file_list, envir=.GlobalEnv)</code></pre>
-<pre><code>&lt;environment: R_GlobalEnv&gt;</code></pre>
-<pre class="r"><code># Review all objects in environment
-ls()</code></pre>
-<pre><code>[1] &quot;my_file_list&quot; &quot;Sheet1&quot;       &quot;Sheet2&quot;       &quot;Sheet3&quot;      </code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Import%20Files">Import
 Files</a></p>
 </div>

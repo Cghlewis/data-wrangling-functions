@@ -379,37 +379,41 @@ pre code {
 <p>To prevent duplication of efforts each day, I want to build a
 function that lets people know if the current day’s file has already
 been moved over.</p>
-<p>Let’s view files in today’s observation folder.</p>
-<ul>
-<li>Note: I am using base::basename() to remove the path up to the last
-separator so I only see the file names.</li>
-</ul>
+<p>Let’s view files in today’s observation folder (today is
+2022-01-19).</p>
 <pre class="r"><code>base::basename(fs::dir_ls(here::here(&quot;file-system&quot;, &quot;obs_2023-01-19&quot;)))</code></pre>
 <pre><code>[1] &quot;obs1.xlsx&quot;        &quot;obs2.xlsx&quot;        &quot;obs3.xlsx&quot;        &quot;summary_obs.xlsx&quot;</code></pre>
-<p>First, I need to set the path to where the file should live. I assign
-this to the object “summary_file”.</p>
+<p>I see “summary_obs.xlsx” exists in today’s folder but I’m not sure if
+it has been moved over to the “all_files” folder yet and renamed to
+“summary_obs_2023-01-19”.</p>
+<ol style="list-style-type: decimal">
+<li>To check this, I first need to set the path to where the file should
+live if it has already been moved. I assign this to the object
+“summary_files”.</li>
+</ol>
 <ul>
-<li><p>Note: I used the <code>here::here()</code> function which
-implicitly sets my directory to the top level (root directory) of my
-current project. Then any subsequent folders can be listed in descending
-order. In this case my folders “obs_YYYY-MM-DD” are within another
-folder called “file-system” which is located in the top level of my
-project directory. You could also just list your entire file
-path.</p></li>
-<li><p>Note: We also use <code>base::paste0()</code> to combine multiple
-elements in a file name, as well as <code>lubridate::today()</code> to
-pull today’s date in the YYYY-MM-DD format.</p></li>
+<li>Note: I could just simply list the name of the file like this.</li>
 </ul>
+<pre class="r"><code>summary_file &lt;- here::here(&quot;file-system&quot;, &quot;all_files&quot;,  &quot;summary_obs_2023-01-19.xlsx&quot;))</code></pre>
+<p>However, because I want to use this function every day, I need to
+write this in a way that updates based on the current day. Here I use
+<code>base::paste0()</code> to combine “summary_obs_”, with the current
+date in YYYY-MM-DD format, grabbed using
+<code>lubridate::today()</code>.</p>
 <pre class="r"><code>summary_file &lt;- here::here(&quot;file-system&quot;, &quot;all_files&quot;,  base::paste0(&quot;summary_obs_&quot;, lubridate::today(), &quot;.xlsx&quot;))</code></pre>
-<p>Next, I need to set the path of where the file originates from. I
-assign this to an object called “file_to_copy”.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Next, I need to set the path of where the file originates from. I
+assign this to an object called “file_to_copy”.</li>
+</ol>
 <pre class="r"><code>file_to_copy &lt;- here::here(&quot;file-system&quot;,  base::paste0(&quot;obs_&quot;, lubridate::today()), &quot;summary_obs.xlsx&quot;)</code></pre>
-<p>Last, I write an if..else statement to say:<br />
-If the summary_obs file does not exist (we check using
-<code>base::file.exists()</code>), copy the summary_obs file from
+<ol start="3" style="list-style-type: decimal">
+<li>Last, I write an if..else statement to say:<br />
+If the “summary_obs” file does not exist (we check using
+<code>base::file.exists()</code>), copy the “summary_obs” file from
 today’s observation folder, add today’s date as a suffix, and copy to
 the “all_files” folder. If the file already exists, give me a message
-that says “Data already exists”.</p>
+that says “Data already exists”.</li>
+</ol>
 <ul>
 <li><p>Note: We are using <code>fs::file_copy()</code> to copy a file
 from the existing location to the new location. We use

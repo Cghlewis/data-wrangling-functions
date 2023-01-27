@@ -24,6 +24,53 @@ knitr::opts_chunk$set(comment = NA,
 
 **1\. Recode across multiple character variables**
 
+Review the data (d19)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d19
+
+```
+
+When this data was entered it appears that both lower and upper case letters were used. 
+
+We want to recode all "y" to "Y" and all "n" to "N" for Var1, Var2 and Var3.
+
+* Note: Unlike `dplyr::recode()` where we did not have to put quotes around the old character values, we now have to put quotes around the old and new character values.
+
+* Note: I use `dplyr::across()` to select multiple variables to apply my function to.
+
+* Note: We use the `tidyselect` selection helper `everything()` to refer to all variables. I could also have selected variables Var1:Var3.
+
+* Note: The . is used here to say apply this function to all of the variables I selected above.
+
+* Note: TRUE means, if a value was not evaluated in my arguments above, replace with the value I give. In this case, I am saying just replace with the existing value.
+
+
+```{r}
+
+d19 %>%
+  dplyr::mutate(dplyr::across(everything(),
+                                 ~case_when(
+                                   . == "y" ~ "Y",
+                                   . == "n" ~ "N",
+                                   TRUE ~ .
+                                 )))
+
+```
+
+A more sophisticated way to do this might be to bypass the `dplyr::case_when()` statement all together though and use something like `stringr::str_to_upper()` though.
+
+```{r}
+
+d19 %>%
+  dplyr::mutate(dplyr::across(everything(), ~stringr::str_to_upper(.)))
+
+```
+
+**2\. Recode across multiple character variables**
+
 Review the data (d15)
 
 ```{r, echo=FALSE}
@@ -35,15 +82,9 @@ d15
 
 In this example, missing values were entered as character values in a numeric column. So now these columns are considered character.
 
-Recode "MR" to -98 and "UI" to -99 for Var1, Var2, Var3. And then convert the character variable to numeric.
+Recode "MR" to -98 and "UI" to -99 for Var1, Var2, Var3. 
 
-* Note: Unlike `dplyr::recode()` where we did not have to put quotes around the old character values, we now have to put quotes around the old and new character values.
-
-* Note: I use `dplyr::across()` to select multiple variables to apply my function to.
-
-* Note: The . is used here to say apply this function to all of the variables I selected above.
-
-* Note: TRUE means, if a value was not evaluated in my arguments above, replace with the value I give. In this case, I am saying just replace with the existing value.
+Notice that I am putting -98 and -99 in quotes. That is because this variable is currently considered a character variable. So we will recode first, and then convert the variable to numeric.
 
 
 ```{r}
@@ -59,20 +100,18 @@ d15
 
 ```
 
-While my character values have now be recoded to numeric values, my variable is still considered character so I would need one additional step to convert it to numeric (using the `base::as.numeric()` function). 
+Remember I still need to do one additional step to convert this variable to numeric (using the `base::as.numeric()` function). 
 
 However, before I do that, I want to be certain I have no other character values left in my variables. If I do still have other character values and I try to use `base::as.numeric()` those values will be converted to NA.
 
 I can check that there are no more instances of MR or UI using `dplyr::filter()` in conjunction with the `dplyr::if_any()` predicate function to select columns where the condition applies to any of the columns. This function is available in version 1.0.5 of `dplyr`.
-
-* Note: We use the `tidyselect` selection helper `everything()` to refer to all variables. I could also have selected variables Var1:Var3.
 
 * .x is used to say, for all of the variables I have selected
 
 ```{r}
 
 d15 %>% 
-dplyr::filter(dplyr::if_any(everything(), ~ .x %in% c('MR', 'UI')))
+  dplyr::filter(dplyr::if_any(everything(), ~ .x %in% c('MR', 'UI')))
 
 ```
 
@@ -81,13 +120,11 @@ If I wanted to be more general, I could also just check for *any* alphabetical c
 ```{r}
 
 d15 %>% 
-dplyr::filter(dplyr::if_any(everything(), ~ stringr::str_detect(., pattern = "[a-zA-Z]")))
+  dplyr::filter(dplyr::if_any(everything(), ~ stringr::str_detect(., pattern = "[a-zA-Z]")))
 
 ```
 
 Now that I know my variable has all character values removed, I can convert them to numeric.
-
-* Note: I am using `dplyr::across()` to apply a function to multiple variables. 
 
 ```{r}
 
@@ -111,8 +148,6 @@ In this situation, -80 means the item was not provided to a student. If a studen
 
 The two scales are "sc" and "tr" and each are made up of 2 items.
 
-* Note: I am using `dplyr::across()` to apply a function to multiple variables. 
-
 * Note: I am using the `dplyr::if_all()` predicate function to select columns where the condition applies to all columns. This function is available in version 1.0.5 of `dplyr`.
 
 
@@ -121,11 +156,11 @@ The two scales are "sc" and "tr" and each are made up of 2 items.
 d16 %>%
   dplyr::mutate(dplyr::across(sc_sum:sc_mean,
                  ~dplyr::case_when(
-                    dplyr::if_all(sc_1:sc_2, ~ (. == -80)) ~ -80,
+                    dplyr::if_all(sc_1:sc_2, ~ . == -80) ~ -80,
                     TRUE ~ .)),
   dplyr::mutate(dplyr::across(tr_sum:tr_mean,
                   ~dplyr::case_when(
-                    dplyr::if_all(tr_1:tr_2, ~ (. == -80)) ~ -80,
+                    dplyr::if_all(tr_1:tr_2, ~ . == -80) ~ -80,
                     TRUE ~ .))))
     
 ```

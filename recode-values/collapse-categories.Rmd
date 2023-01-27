@@ -21,9 +21,6 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-*Note: `dplyr::if_else()` will evaluate in order, so proceed from most specific to most general. The function will not write over a previous evaluation even if something meets a new criteria. I'll show an example of that in #3.
-
-*Note: `dplyr::if_else()` will not evaluate NAs as TRUE or FALSE and therefore will return NAs. If you want to specifically evaluate NAs you will need to call out NAs.
 
 **1\. Collapse all "Google Meet" in character var (online_platform) into one category**
 
@@ -74,7 +71,6 @@ d12
 
 Collapse all spellings of Google Meet into one uniform category
 
-* Note: We are recoding into a new variable using `dplyr::mutate()` and naming the new variable a different name than the original. It keeps both the new and old versions of the variable. 
 
 * Note: Using `stringr::str_detect()` we can detect different spellings of google meet. It is important to note that this function is case sensitive. As we saw above in the data, the "google|meet" pattern we used before will no longer catch our upper case "Google". So there are a number of ways we can deal with this. The first way we will try is by adding stringr::regex() and adding the argument *ignore_case = TRUE*.
 
@@ -92,7 +88,7 @@ We can also do this by adding (?i) to the pattern, which means match case insens
 
 d12 %>%  
   dplyr::mutate(online_platform_new=dplyr::if_else(
-  stringr::str_detect(online_platform, "(?i)google|meet") , "Google Meet", online_platform))
+  stringr::str_detect(online_platform, "(?i)google|meet"), "Google Meet", online_platform))
 
 ```
 
@@ -109,8 +105,6 @@ d8
 ```
 
 Collapse Var2 into low, medium, high categories.
-
-* Note: We are recoding into a new variable using `dplyr::mutate()` and naming the new variable a different name than the original. It keeps both the new and old versions of the variable. 
 
 * Note: We are using a nested if-else statement here to meet multiple criteria and multiple outputs
 
@@ -135,7 +129,6 @@ d8 %>%
                                         dplyr::if_else((Var2 >6), "medium", "low")))
 
 ```
-
 
 
 **4\. Collapse a numeric variable (Var2) into discrete numeric categories**
@@ -184,7 +177,6 @@ d10 %>%
 
 ---
 
-*Note: `dplyr::case_when()` will evaluate in order, so proceed from most specific to most general. The function will not write over a previous evaluation even if something meets a new criteria. I'll show an example of that in #2.
 
 **1\. Collapse all "Google Meet" into one category**
 
@@ -265,8 +257,6 @@ d9
 
 Collapse all spellings of Google Meet into one uniform category and clarify that google means Google Hangouts
 
-* Note: We are recoding into a new variable using `dplyr::mutate()` and naming the new variable a different name than the original. It keeps both the new and old versions of the variable. 
-
 * Note: Using `stringr::str_detect()` we can detect different spellings of google meet
 
 * Note: Here I am adding the `base::tolower()` function to deal with the varying capitalization. You can also use the solutions we showed above in `dplyr::if_else()` where we add either (?i) to the pattern or add `stringr::regex()` around the pattern with the argument *ignore_case = TRUE*.
@@ -308,9 +298,6 @@ d9 %>%
 
 ---
 
-**Note:**  The `dplyr::recode()` formula is: old value=new value, this is opposite of `dplyr::rename()`
-
-<br>
 
 **1\. Collapse all "Google Meet" into one category**
 
@@ -325,7 +312,6 @@ d6
 
 Collapse all spellings of Google Meet into one uniform category
 
-* Note: We are recoding into a new variable using `dplyr::mutate()` and naming the new variable a different name than the original. It keeps both the new and old versions of the variable. 
 
 ```{r}
 

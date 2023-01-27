@@ -22,9 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-* Note: The `dplyr::recode_factor()` formula is: old value=new value, this is opposite of `dplyr::rename()`
-
-* Note: The function `dplyr::recode_factor()` will convert your variable to factor **and** recode it.
+**Note:** The function `dplyr::recode_factor()` will convert your variable to factor **and** recode it.
 
 <br>
 
@@ -49,7 +47,8 @@ Recode lunch status
 
 ```{r}
 
-d4 <- d4 %>% dplyr::mutate(lunch=dplyr::recode_factor(lunch, p="paid", r="reduced", f="free"))
+d4 <- d4 %>% 
+  dplyr::mutate(lunch=dplyr::recode_factor(lunch, p="paid", r="reduced", f="free"))
 
 d4
 
@@ -111,8 +110,6 @@ levels(d7$lunch)
 
 ---
 
-**Note:** The `forcats::fct_recode()` formula is: new value=old value, this is opposite of `dplyr::recode()` but the same as `dplyr::rename()`
-
 **Note:** The function `forcats::fct_recode` will convert your variable to factor **and** recode it.
 
 <br>
@@ -138,7 +135,8 @@ Recode lunch status
 
 ```{r}
 
-d7 <- d7 %>% dplyr::mutate(lunch=forcats::fct_recode(as.character(lunch), paid="1", reduced="2", free="3"))
+d7 <- d7 %>% 
+  dplyr::mutate(lunch=forcats::fct_recode(as.character(lunch), paid="1", reduced="2", free="3"))
 
 d7
 

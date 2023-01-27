@@ -63,7 +63,7 @@ Recode NA for Var1 and Var2 to 0
 ```{r}
 
 d18 %>% 
-  dplyr::mutate(dplyr::across(Var1:Var2, tidyr::replace_na, 0))
+  dplyr::mutate(dplyr::across(Var1:Var2, ~tidyr::replace_na(., 0)))
 
 ```
 
@@ -90,7 +90,7 @@ dict
 
 Here we see our data dictionary has a column called "var_type" which tells us which variables are binary (or coded 0 and 1).
 
-This example is based off of a real-life scenario. Oftentimes when you download "select all" questions from a survey platform, each option is downloaded with a 1 (if selected) and NA (if not selected). There are times when this format makes sense (say for visualizations). However, for analysis purposes we probably want those variables to show 1s (Yes) and 0s (No) instead of 1s and NAs.
+Oftentimes when you download "select all" questions from a survey platform, each option is downloaded with a 1 (if selected) and NA (if not selected). There are times when this format makes sense (say for visualizations). However, for analysis purposes we probably want those variables to show 1s (Yes) and 0s (No) instead of 1s and NAs.
 
 Instead of listing out all of the variables we want to recode, we can pull a vector of variable names using our dictionary.
 
@@ -110,7 +110,7 @@ We can now use this vector in our `tidyr::replace_na()` function.
 ```{r}
 
 d18 %>%
-  dplyr::mutate(dplyr::across(tidyselect::all_of(vars), ~replace_na(., 0)))
+  dplyr::mutate(dplyr::across(tidyselect::all_of(vars), ~tidyr::replace_na(., 0)))
 
 ```
 
@@ -135,7 +135,7 @@ Recode NA for Var2 and Var3 to -999
 ```{r}
 
 d1 %>% 
-  dplyr::mutate(dplyr::across(where(is.numeric), tidyr::replace_na, -999))
+  dplyr::mutate(dplyr::across(where(is.numeric), ~tidyr::replace_na(., -999)))
 
 ```
 
@@ -210,7 +210,7 @@ Replace -999 for for Var2 and Var3 with NA
 ```{r}
 
 d3 %>% 
-  dplyr::mutate(dplyr::across(c(Var2:Var3), dplyr::na_if, -999))
+  dplyr::mutate(dplyr::across(Var2:Var3, ~dplyr::na_if(., -999)))
 
 ```
 
@@ -235,7 +235,7 @@ Replace -999 for numeric variables with NA
 ```{r}
 
 d3 %>% 
-  dplyr::mutate(dplyr::across(where(is.numeric), dplyr::na_if, -999))
+  dplyr::mutate(dplyr::across(where(is.numeric), ~dplyr::na_if(., -999)))
 
 ```
 

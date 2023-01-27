@@ -22,9 +22,6 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**Note:** The `dplyr::recode()` formula is: old value=new value, this is opposite of `dplyr::rename()`
-
-<br>
 
 **1\. Recode character values into different character values (for gender)**
 
@@ -64,8 +61,6 @@ d4
 ```
 
 Recode gender
-
-* Note: We did not have to put quotes around the old character values because `dplyr::recode()` replaces character or factor values by their name.
 
 * Note: Since we are recoding into a numeric variable, no quotes are necessary for the numeric new value.
 

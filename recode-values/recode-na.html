@@ -412,7 +412,7 @@ same NA value</strong></p>
 transformation to multiple columns.</li>
 </ul>
 <pre class="r"><code>d18 %&gt;% 
-  dplyr::mutate(dplyr::across(Var1:Var2, tidyr::replace_na, 0))</code></pre>
+  dplyr::mutate(dplyr::across(Var1:Var2, ~tidyr::replace_na(., 0)))</code></pre>
 <pre><code># A tibble: 3 x 3
    Var1  Var2  Var3
   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -442,12 +442,11 @@ way.</p>
 3 Var3     Question wording of Var3 likert  </code></pre>
 <p>Here we see our data dictionary has a column called “var_type” which
 tells us which variables are binary (or coded 0 and 1).</p>
-<p>This example is based off of a real-life scenario. Oftentimes when
-you download “select all” questions from a survey platform, each option
-is downloaded with a 1 (if selected) and NA (if not selected). There are
-times when this format makes sense (say for visualizations). However,
-for analysis purposes we probably want those variables to show 1s (Yes)
-and 0s (No) instead of 1s and NAs.</p>
+<p>Oftentimes when you download “select all” questions from a survey
+platform, each option is downloaded with a 1 (if selected) and NA (if
+not selected). There are times when this format makes sense (say for
+visualizations). However, for analysis purposes we probably want those
+variables to show 1s (Yes) and 0s (No) instead of 1s and NAs.</p>
 <p>Instead of listing out all of the variables we want to recode, we can
 pull a vector of variable names using our dictionary.</p>
 <pre class="r"><code>vars &lt;- dict %&gt;%
@@ -461,7 +460,7 @@ function.</p>
 selecting variable names from an external vector (“vars”).</li>
 </ul>
 <pre class="r"><code>d18 %&gt;%
-  dplyr::mutate(dplyr::across(tidyselect::all_of(vars), ~replace_na(., 0)))</code></pre>
+  dplyr::mutate(dplyr::across(tidyselect::all_of(vars), ~tidyr::replace_na(., 0)))</code></pre>
 <pre><code># A tibble: 3 x 3
    Var1  Var2  Var3
   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -488,7 +487,7 @@ transformation to multiple columns.</li>
 <code>where()</code>.</li>
 </ul>
 <pre class="r"><code>d1 %&gt;% 
-  dplyr::mutate(dplyr::across(where(is.numeric), tidyr::replace_na, -999))</code></pre>
+  dplyr::mutate(dplyr::across(where(is.numeric), ~tidyr::replace_na(., -999)))</code></pre>
 <pre><code># A tibble: 3 x 3
   Var1   Var2   Var3
   &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;
@@ -560,7 +559,7 @@ NA</strong></p>
 transformation to multiple columns.</li>
 </ul>
 <pre class="r"><code>d3 %&gt;% 
-  dplyr::mutate(dplyr::across(c(Var2:Var3), dplyr::na_if, -999))</code></pre>
+  dplyr::mutate(dplyr::across(Var2:Var3, ~dplyr::na_if(., -999)))</code></pre>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -587,7 +586,7 @@ transformation to multiple columns.</li>
 <code>where()</code>.</li>
 </ul>
 <pre class="r"><code>d3 %&gt;% 
-  dplyr::mutate(dplyr::across(where(is.numeric), dplyr::na_if, -999))</code></pre>
+  dplyr::mutate(dplyr::across(where(is.numeric), ~dplyr::na_if(., -999)))</code></pre>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;

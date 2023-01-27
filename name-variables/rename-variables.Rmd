@@ -21,11 +21,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-* Note: The `dplyr::rename()` formula is *new value=old value*, this is opposite of `dplyr::recode()`.
-
-<br>
-
-**1\. Change only the second variable name (Var2)**
+**1\. Change the name of Var2**
 
 Review the data (d1)
 
@@ -36,9 +32,9 @@ d1
 
 ```
 
-Change the second variable name (Var2)
+Change "Var2" to "grade"
 
-* Note: Quotes are not required around variable names.
+* Note: Quotes are not required around variable names. If your variable names have spaces in them, you will need to put backticks around the variable name (ex: \`Var 2\`)
 
 ```{r}
 

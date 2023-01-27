@@ -30,9 +30,7 @@ library(tidyverse)
 
 To prevent duplication of efforts each day, I want to build a function that lets people know if the current day's file has already been moved over.
 
-Let's view files in today's observation folder.
-
-* Note: I am using base::basename() to remove the path up to the last separator so I only see the file names.
+Let's view files in today's observation folder (today is 2022-01-19). 
 
 ```{r}
 
@@ -40,29 +38,50 @@ base::basename(fs::dir_ls(here::here("file-system", "obs_2023-01-19")))
 
 ```
 
-First, I need to set the path to where the file should live. I assign this to the object "summary_file". 
+I see "summary_obs.xlsx" exists in today's folder but I'm not sure if it has been moved over to the "all_files" folder yet and renamed to "summary_obs_2023-01-19".
 
-* Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folders "obs_YYYY-MM-DD" are within another folder called "file-system" which is located in the top level of my project directory. You could also just list your entire file path.
+(01) To check this, I first need to set the path to where the file should live if it has already been moved. I assign this to the object "summary_files". 
 
-* Note: We also use `base::paste0()` to combine multiple elements in a file name, as well as `lubridate::today()` to pull today's date in the YYYY-MM-DD format.
+* Note: I could just simply list the name of the file like this.
 
-```{r}
+```{r, eval = FALSE}
 
-summary_file <- here::here("file-system", "all_files",  base::paste0("summary_obs_", lubridate::today(), ".xlsx"))
+summary_file <- here::here("file-system", "all_files",  "summary_obs_2023-01-19.xlsx"))
 
 
 ```
 
-Next, I need to set the path of where the file originates from. I assign this to an object called "file_to_copy".
+However, because I want to use this function every day, I need to write this in a way that updates based on the current day. Here I use `base::paste0()` to combine "summary_obs_", with the current date in YYYY-MM-DD format, grabbed using `lubridate::today()`.
 
-```{r}
+```{r, eval = FALSE}
+
+summary_file <- here::here("file-system", "all_files",  base::paste0("summary_obs_", lubridate::today(), ".xlsx"))
+
+```
+
+```{r, echo = FALSE}
+
+summary_file <- here::here("file-system", "all_files",  "summary_obs_2023-01-19.xlsx")
+
+
+```
+
+(02) Next, I need to set the path of where the file originates from. I assign this to an object called "file_to_copy".
+
+```{r, eval = FALSE}
 
 file_to_copy <- here::here("file-system",  base::paste0("obs_", lubridate::today()), "summary_obs.xlsx")
 
 ```
 
-Last, I write an if..else statement to say:  
-If the summary_obs file does not exist (we check using `base::file.exists()`), copy the summary_obs file from today's observation folder, add today's date as a suffix, and copy to the "all_files" folder. If the file already exists, give me a message that says "Data already exists".
+```{r, echo = FALSE}
+
+file_to_copy <- here::here("file-system", "obs_2023-01-19", "summary_obs.xlsx")
+
+```
+
+(03) Last, I write an if..else statement to say:  
+If the "summary_obs" file does not exist (we check using `base::file.exists()`), copy the "summary_obs" file from today's observation folder, add today's date as a suffix, and copy to the "all_files" folder. If the file already exists, give me a message that says "Data already exists".
 
 * Note: We are using `fs::file_copy()` to copy a file from the existing location to the new location. We use `base::cat()` to print out our message.
 

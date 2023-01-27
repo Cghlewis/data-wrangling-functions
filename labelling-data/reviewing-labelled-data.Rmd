@@ -76,12 +76,6 @@ dictionary <- labelled::generate_dictionary(d10, details = TRUE) %>%
 
 ```
 
-* Note: **A word of warning.** There are times when the ordering of how you apply labels may matter. Every once in a while I have labels disappear (say if I apply the variable labels first and then later apply the value labels, my variable labels may disappear, I'm not sure why). If you have issues with labels disappearing, consider applying them in this order to preserve information:
-
-1. value labels
-2. na values
-3. variable labels
-
 ---
 
 #### Function: `var_label()`

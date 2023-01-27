@@ -373,13 +373,9 @@ pre code {
 <div id="function-recode_factor" class="section level4">
 <h4>Function: <code>recode_factor()</code></h4>
 <hr />
-<ul>
-<li><p>Note: The <code>dplyr::recode_factor()</code> formula is: old
-value=new value, this is opposite of
-<code>dplyr::rename()</code></p></li>
-<li><p>Note: The function <code>dplyr::recode_factor()</code> will
-convert your variable to factor <strong>and</strong> recode it.</p></li>
-</ul>
+<p><strong>Note:</strong> The function
+<code>dplyr::recode_factor()</code> will convert your variable to factor
+<strong>and</strong> recode it.</p>
 <p><br></p>
 <p><strong>1. Convert a character variable (lunch) into a factor and
 recode it</strong></p>
@@ -401,7 +397,8 @@ recoding into a character/factor variable.</p></li>
 <code>dplyr::mutate()</code>. However, we could have recoded into a new
 variable by changing the name of <em>lunch</em>.</p></li>
 </ul>
-<pre class="r"><code>d4 &lt;- d4 %&gt;% dplyr::mutate(lunch=dplyr::recode_factor(lunch, p=&quot;paid&quot;, r=&quot;reduced&quot;, f=&quot;free&quot;))
+<pre class="r"><code>d4 &lt;- d4 %&gt;% 
+  dplyr::mutate(lunch=dplyr::recode_factor(lunch, p=&quot;paid&quot;, r=&quot;reduced&quot;, f=&quot;free&quot;))
 
 d4</code></pre>
 <pre><code># A tibble: 3 x 3
@@ -457,10 +454,6 @@ d7</code></pre>
 <div id="function-fct_recode" class="section level4">
 <h4>Function: <code>fct_recode()</code></h4>
 <hr />
-<p><strong>Note:</strong> The <code>forcats::fct_recode()</code> formula
-is: new value=old value, this is opposite of
-<code>dplyr::recode()</code> but the same as
-<code>dplyr::rename()</code></p>
 <p><strong>Note:</strong> The function <code>forcats::fct_recode</code>
 will convert your variable to factor <strong>and</strong> recode it.</p>
 <p><br></p>
@@ -489,7 +482,8 @@ values are numeric, you <em>do</em> need quotes around them.</p></li>
 <code>dplyr::mutate()</code>. However, we could have recoded into a new
 variable by changing the name of <em>lunch</em>.</p></li>
 </ul>
-<pre class="r"><code>d7 &lt;- d7 %&gt;% dplyr::mutate(lunch=forcats::fct_recode(as.character(lunch), paid=&quot;1&quot;, reduced=&quot;2&quot;, free=&quot;3&quot;))
+<pre class="r"><code>d7 &lt;- d7 %&gt;% 
+  dplyr::mutate(lunch=forcats::fct_recode(as.character(lunch), paid=&quot;1&quot;, reduced=&quot;2&quot;, free=&quot;3&quot;))
 
 d7</code></pre>
 <pre><code># A tibble: 3 x 3

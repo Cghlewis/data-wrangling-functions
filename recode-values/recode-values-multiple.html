@@ -374,6 +374,57 @@ pre code {
 <h4>Function: <code>case_when()</code></h4>
 <hr />
 <p><strong>1. Recode across multiple character variables</strong></p>
+<p>Review the data (d19)</p>
+<pre><code># A tibble: 3 x 3
+  Var1  Var2  Var3 
+  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+1 y     n     Y    
+2 Y     N     Y    
+3 n     N     n    </code></pre>
+<p>When this data was entered it appears that both lower and upper case
+letters were used.</p>
+<p>We want to recode all “y” to “Y” and all “n” to “N” for Var1, Var2
+and Var3.</p>
+<ul>
+<li><p>Note: Unlike <code>dplyr::recode()</code> where we did not have
+to put quotes around the old character values, we now have to put quotes
+around the old and new character values.</p></li>
+<li><p>Note: I use <code>dplyr::across()</code> to select multiple
+variables to apply my function to.</p></li>
+<li><p>Note: We use the <code>tidyselect</code> selection helper
+<code>everything()</code> to refer to all variables. I could also have
+selected variables Var1:Var3.</p></li>
+<li><p>Note: The . is used here to say apply this function to all of the
+variables I selected above.</p></li>
+<li><p>Note: TRUE means, if a value was not evaluated in my arguments
+above, replace with the value I give. In this case, I am saying just
+replace with the existing value.</p></li>
+</ul>
+<pre class="r"><code>d19 %&gt;%
+  dplyr::mutate(dplyr::across(everything(),
+                                 ~case_when(
+                                   . == &quot;y&quot; ~ &quot;Y&quot;,
+                                   . == &quot;n&quot; ~ &quot;N&quot;,
+                                   TRUE ~ .
+                                 )))</code></pre>
+<pre><code># A tibble: 3 x 3
+  Var1  Var2  Var3 
+  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+1 Y     N     Y    
+2 Y     N     Y    
+3 N     N     N    </code></pre>
+<p>A more sophisticated way to do this might be to bypass the
+<code>dplyr::case_when()</code> statement all together though and use
+something like <code>stringr::str_to_upper()</code> though.</p>
+<pre class="r"><code>d19 %&gt;%
+  dplyr::mutate(dplyr::across(everything(), ~stringr::str_to_upper(.)))</code></pre>
+<pre><code># A tibble: 3 x 3
+  Var1  Var2  Var3 
+  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+1 Y     N     Y    
+2 Y     N     Y    
+3 N     N     N    </code></pre>
+<p><strong>2. Recode across multiple character variables</strong></p>
 <p>Review the data (d15)</p>
 <pre><code># A tibble: 3 x 4
      id Var1  Var2  Var3 
@@ -383,20 +434,10 @@ pre code {
 3   345 MR    5.4   MR   </code></pre>
 <p>In this example, missing values were entered as character values in a
 numeric column. So now these columns are considered character.</p>
-<p>Recode “MR” to -98 and “UI” to -99 for Var1, Var2, Var3. And then
-convert the character variable to numeric.</p>
-<ul>
-<li><p>Note: Unlike <code>dplyr::recode()</code> where we did not have
-to put quotes around the old character values, we now have to put quotes
-around the old and new character values.</p></li>
-<li><p>Note: I use <code>dplyr::across()</code> to select multiple
-variables to apply my function to.</p></li>
-<li><p>Note: The . is used here to say apply this function to all of the
-variables I selected above.</p></li>
-<li><p>Note: TRUE means, if a value was not evaluated in my arguments
-above, replace with the value I give. In this case, I am saying just
-replace with the existing value.</p></li>
-</ul>
+<p>Recode “MR” to -98 and “UI” to -99 for Var1, Var2, Var3.</p>
+<p>Notice that I am putting -98 and -99 in quotes. That is because this
+variable is currently considered a character variable. So we will recode
+first, and then convert the variable to numeric.</p>
 <pre class="r"><code>d15 &lt;- d15 %&gt;%
   dplyr::mutate(dplyr::across(Var1:Var3,
                        ~ case_when(
@@ -411,9 +452,8 @@ d15</code></pre>
 1   123 1.5   2.2   3.0  
 2   234 2.2   -99   6.9  
 3   345 -98   5.4   -98  </code></pre>
-<p>While my character values have now be recoded to numeric values, my
-variable is still considered character so I would need one additional
-step to convert it to numeric (using the <code>base::as.numeric()</code>
+<p>Remember I still need to do one additional step to convert this
+variable to numeric (using the <code>base::as.numeric()</code>
 function).</p>
 <p>However, before I do that, I want to be certain I have no other
 character values left in my variables. If I do still have other
@@ -425,14 +465,10 @@ values will be converted to NA.</p>
 the condition applies to any of the columns. This function is available
 in version 1.0.5 of <code>dplyr</code>.</p>
 <ul>
-<li><p>Note: We use the <code>tidyselect</code> selection helper
-<code>everything()</code> to refer to all variables. I could also have
-selected variables Var1:Var3.</p></li>
-<li><p>.x is used to say, for all of the variables I have
-selected</p></li>
+<li>.x is used to say, for all of the variables I have selected</li>
 </ul>
 <pre class="r"><code>d15 %&gt;% 
-dplyr::filter(dplyr::if_any(everything(), ~ .x %in% c(&#39;MR&#39;, &#39;UI&#39;)))</code></pre>
+  dplyr::filter(dplyr::if_any(everything(), ~ .x %in% c(&#39;MR&#39;, &#39;UI&#39;)))</code></pre>
 <pre><code># A tibble: 0 x 4
 # ... with 4 variables: id &lt;dbl&gt;, Var1 &lt;chr&gt;, Var2 &lt;chr&gt;, Var3 &lt;chr&gt;</code></pre>
 <p>If I wanted to be more general, I could also just check for
@@ -440,15 +476,11 @@ dplyr::filter(dplyr::if_any(everything(), ~ .x %in% c(&#39;MR&#39;, &#39;UI&#39;
 <code>stringr::str_detect()</code> and including the regex pattern
 <em>[a-zA-Z]</em></p>
 <pre class="r"><code>d15 %&gt;% 
-dplyr::filter(dplyr::if_any(everything(), ~ stringr::str_detect(., pattern = &quot;[a-zA-Z]&quot;)))</code></pre>
+  dplyr::filter(dplyr::if_any(everything(), ~ stringr::str_detect(., pattern = &quot;[a-zA-Z]&quot;)))</code></pre>
 <pre><code># A tibble: 0 x 4
 # ... with 4 variables: id &lt;dbl&gt;, Var1 &lt;chr&gt;, Var2 &lt;chr&gt;, Var3 &lt;chr&gt;</code></pre>
 <p>Now that I know my variable has all character values removed, I can
 convert them to numeric.</p>
-<ul>
-<li>Note: I am using <code>dplyr::across()</code> to apply a function to
-multiple variables.</li>
-</ul>
 <pre class="r"><code>d15 %&gt;%
   dplyr::mutate(dplyr::across(Var1:Var3, as.numeric))</code></pre>
 <pre><code># A tibble: 3 x 4
@@ -473,21 +505,18 @@ provided (to differentiate between a value of NA meaning the data are
 actually missing).</p>
 <p>The two scales are “sc” and “tr” and each are made up of 2 items.</p>
 <ul>
-<li><p>Note: I am using <code>dplyr::across()</code> to apply a function
-to multiple variables.</p></li>
-<li><p>Note: I am using the <code>dplyr::if_all()</code> predicate
-function to select columns where the condition applies to all columns.
-This function is available in version 1.0.5 of
-<code>dplyr</code>.</p></li>
+<li>Note: I am using the <code>dplyr::if_all()</code> predicate function
+to select columns where the condition applies to all columns. This
+function is available in version 1.0.5 of <code>dplyr</code>.</li>
 </ul>
 <pre class="r"><code>d16 %&gt;%
   dplyr::mutate(dplyr::across(sc_sum:sc_mean,
                  ~dplyr::case_when(
-                    dplyr::if_all(sc_1:sc_2, ~ (. == -80)) ~ -80,
+                    dplyr::if_all(sc_1:sc_2, ~ . == -80) ~ -80,
                     TRUE ~ .)),
   dplyr::mutate(dplyr::across(tr_sum:tr_mean,
                   ~dplyr::case_when(
-                    dplyr::if_all(tr_1:tr_2, ~ (. == -80)) ~ -80,
+                    dplyr::if_all(tr_1:tr_2, ~ . == -80) ~ -80,
                     TRUE ~ .))))</code></pre>
 <pre><code># A tibble: 4 x 9
      id  sc_1  sc_2 sc_sum sc_mean  tr_1  tr_2 tr_sum tr_mean

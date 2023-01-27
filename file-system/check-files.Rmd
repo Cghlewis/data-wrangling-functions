@@ -139,6 +139,6 @@ if(!exists("summary_obs")) {
 
 ```
 
-We can see that the statement confirmed that the object does exist. [At these time I am not getting the message to render in the html document but it does appear in R!]
+We can see that the statement confirmed that the object does exist. [At this time I am not getting the message to render in the html document but it does appear in R!]
 
 Return to [File System](https://github.com/Cghlewis/data-wrangling-functions/wiki/File System)

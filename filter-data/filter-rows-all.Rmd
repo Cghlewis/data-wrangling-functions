@@ -24,7 +24,7 @@ Examples using criteria that applies to all variables
 
 * Note: Using `dplyr::across()` in `dplyr::filter()` is deprecated. `dplyr::if_any()` and `dplyr::if_all()` can be used for this functionality in `dplyr::filter()`.
 
-**1\.Filter out rows based on values from all variables. Filter out any row that has -999 for *AT LEAST ONE* variable.**
+**1\. Filter out any row that has -999 for *AT LEAST ONE* variable.**
 
 Review the data (d10)
 
@@ -52,7 +52,7 @@ d10 %>%
 ```
 
 
-**2\.Filter out rows based on values from all variables. Filter out any row that has -999 for *ALL* variables.**
+**2\. Filter out any row that has -999 for *ALL* variables.**
 
 Review the data (d10)
 
@@ -78,7 +78,7 @@ d10 %>%
 
 ```
 
-**3\. Keep rows based on a value from an selection of variables. Keep rows where any variable that starts with the word "item" contains the value "MR".**
+**3\. Keep rows where any variable that starts with the word "item" contains the value "MR".**
 
 Review the data (d16)
 
@@ -102,5 +102,17 @@ d16 %>%
 
 ```
 
+**3\. Return rows "form" is NOT empty, and var1:var ARE empty.**
+
+Review the data (d17)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d17
+
+```
+
+You can see that this data has some funky things going on (a mixture of empty character values as well as NA values).
 
 Return to [Filter](https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter)

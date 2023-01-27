@@ -28,7 +28,59 @@ knitr::opts_chunk$set(comment = NA,
 
 <br>
 
-**1\. Restructure our longitudinal data into long format**
+**1\. Restructure our "select all" items into long format**
+
+Review the data (d9)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d9
+
+```
+
+Oftentimes when we collect survey data that includes a "select all" question, the data exports with each item displayed in its own column. With the response option shown if selected and NA shown if not selected. 
+
+If we want to **visualize** the options in this select all question, it can be very helpful to restructure these items into long format.
+
+```{r}
+
+d9 %>%
+  tidyr::pivot_longer(
+    cols = contains("tool"),
+    names_to = "tools",
+    values_to = "response"
+  )
+
+```
+
+You can then manipulate the "response" column to create your visualization, potentially filtering out any NA values.
+
+Your "select all" data may also come in this way, with the columns named for the response options and the responses given as 1 or NA.
+
+```{r, echo=FALSE}
+
+source("data.R")
+d10
+
+```
+
+This data can be restructured just as easily.
+
+Except instead of working with the "response" column, you will work with the "tools" column, potentially filtering data based on NA values in the "response" column.
+
+```{r}
+
+d10 %>%
+  tidyr::pivot_longer(
+    cols = google_meet:other,
+    names_to = "tools",
+    values_to = "response"
+  )
+
+```
+
+**2\. Restructure our longitudinal data into long format**
 
 Review the data (d1)
 
@@ -39,7 +91,9 @@ d1
 
 ```
 
-Restructure the data into long format, making "wave" a new variable
+In education research we are often wanting to restructure longitudinal data for **analysis** purposes.
+
+In this example, we want to restructure the data into long format, making a new "wave" variable
 
 * Note: We use a `tidyselect` selection helper `matches()` in the *cols* argument to select the columns we wish to pivot long. In this case we want any column that has the prefix "w#_". Using `matches()` rather than a selection helper such as `contains()`, we can use regular expressions to select columns.
 
@@ -61,7 +115,7 @@ d1 %>%
 
 ```
 
-**2\. Restructure our longitudinal data into long format**
+**3\. Restructure our longitudinal data into long format**
 
 Review the data (d8)
 
@@ -87,7 +141,7 @@ d8 %>%
 ```
 
 
-**3\. Restructure our data into tidy format**
+**4\. Restructure our data into tidy format**
 
 Review the data (d5)
 
@@ -98,7 +152,7 @@ d5
 
 ```
 
-The wide format above is not conducive for calculating summary statistics by group. So we need to reformat the data to long/tidy format. We want to end up with 4 columns (school, grade level, attendance and enrollment).
+The wide format above is not conducive for **calculating summary statistics by group**. So we need to reformat the data to long/tidy format. We want to end up with 4 columns (school, grade level, attendance and enrollment).
 
 * Note: Similar to above we use the argument *cols* to select the columns we wish to pivot. Here we select all columns associated with a grade level (6 or 7). 
 
@@ -107,9 +161,10 @@ The wide format above is not conducive for calculating summary statistics by gro
 ```{r}
 
 d5 %>%
-  tidyr::pivot_longer(cols = enroll_6:attend_7,
-               names_to = c(".value", "grade"),
-               names_sep = "_")
+  tidyr::pivot_longer(
+    cols = enroll_6:attend_7,
+    names_to = c(".value", "grade"),
+    names_sep = "_")
 
 ```
 
@@ -128,9 +183,10 @@ And we can now just name the column we want the grouping variable to be in, and 
 ```{r}
 
 d6 %>%
-  tidyr::pivot_longer(cols = -school,
-               names_to = "grade",
-               values_to = "enroll")
+  tidyr::pivot_longer(
+    cols = -school,
+    names_to = "grade",
+    values_to = "enroll")
 
 ```
 

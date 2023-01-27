@@ -28,8 +28,6 @@ library(tidyverse)
 
 **1\. Create a new observation folder with today's date**
 
-* Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case I want all my observation folders to be in a folder called "file-system" which is located in the top level of my project directory. You could also just list your entire file path.
-
 Let's see what folders currently exist in our "file-system" folder
 
 * Note: A reminder that `base::basename()` removes all of the path up to and including the last path separator so we can simply view the folder names here
@@ -43,7 +41,7 @@ base::basename(fs::dir_ls(here::here("file-system")))
 ```{r, echo = FALSE}
 
 base::basename(fs::dir_ls(here::here("file-system"))) %>%
-  stringr::str_subset("obs_")
+  stringr::str_subset("obs_2022-03-15")
 
 ```
 
@@ -75,7 +73,7 @@ base::basename(fs::dir_ls(here::here("file-system")))
 ```{r, echo = FALSE}
 
 base::basename(fs::dir_ls(here::here("file-system"))) %>%
-  stringr::str_subset("obs_")
+  stringr::str_subset("obs_2022")
 
 ```
 

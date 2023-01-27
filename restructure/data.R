@@ -72,3 +72,16 @@ d8 <- tibble::tribble(
   3456, 1, NA, 2,
 )
 
+d9 <- tibble::tribble(
+  ~id, ~school, ~tool1, ~tool2, ~tool3,
+  1234, "a", "google meet", NA, "other",
+  2345, "a", NA, "zoom", NA,
+  3456, "b", "google meet", "zoom", NA
+)
+
+d10 <- tibble::tribble(
+  ~id, ~school, ~google_meet, ~zoom, ~other,
+  1234, "a", 1, NA, 1,
+  2345, "a", NA, 1, NA,
+  3456, "b", 1, 1, NA
+)

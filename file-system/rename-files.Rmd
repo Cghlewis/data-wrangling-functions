@@ -26,11 +26,9 @@ library(tidyverse)
 
 ---
 
-**1\. Rename all files in the existing folder. In this particular case, let's rename obs_a, obs_b, and obs_c in our "obs_2022-03-15" folder, to obs1, obs2, obs3.**
 
-* Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "obs_2022-03-15" is within another folder called "file-system" which is located in the top level of my project directory. You could also just list your entire file path.
+**1\. Rename one file ("summary_obs.xlsx") in the folder "obs_2022-03-15".**
 
-* Note: I am using `base::basename()` to remove the path up to the last separator so I only see the file names.
 
 Let's review the current files
 
@@ -40,10 +38,57 @@ base::basename(fs::dir_ls(here::here("file-system", "obs_2022-03-15")))
 
 ```
 
-First let's grab the files we want to rename.
+Rename "summary_obs.xlsx" to "summary_tch_obs.xlsx"
 
-Since there is a "summary_obs.xlsx" file that I do not want to rename, I am going to add the `fs::dir_ls()` argument *glob* here which allows you to grab files/folders using a globbing pattern. That pattern is passed to `base::grep()` to filter paths. 
+```{r}
 
+fs::file_move(path = here::here("file-system", "obs_2022-03-15", "summary_obs.xlsx"),
+              new_path = here::here("file-system", "obs_2022-03-15", "summary_tch_obs.xlsx"))
+
+```
+
+Let's review the files now
+
+```{r}
+
+base::basename(fs::dir_ls(here::here("file-system", "obs_2022-03-15")))
+
+```
+
+**2\. Rename multiple files in the folder "obs_2022-03-15".**
+
+Let's review the current files
+
+```{r, echo = FALSE}
+
+fs::file_move(here::here("file-system", "obs_2022-03-15", "summary_tch_obs.xlsx"),
+              here::here("file-system", "obs_2022-03-15", "summary_obs.xlsx"))
+
+```
+
+```{r}
+
+base::basename(fs::dir_ls(here::here("file-system", "obs_2022-03-15")))
+
+```
+
+Rename obs_a, obs_b, and obs_c to obs1, obs2, obs3.
+
+(01) First let's grab the files we want to rename and put them in an object "files_old".
+
+I could definitely write out all of the file names and put them into a vector, like this.
+
+```{r, eval = FALSE}
+
+files_old <- c(here::here("file-system", "obs_2022-03-15","obs_a.xlsx"),
+               here::here("file-system", "obs_2022-03-15","obs_b.xlsx"),
+               here::here("file-system", "obs_2022-03-15","obs_c.xlsx"))
+
+```
+
+But if I had tons of files, this would take forever. We've already seen that `fs::dir_ls()` grabs the names of all of our files in our directory so we can use this function to more efficiently grab our existing files.
+
+Since there is a "summary_obs.xlsx" file that I do not want to rename, I am going to add the `fs::dir_ls()` argument *glob* here which allows you to grab files/folders using a globbing pattern. That pattern is passed to `base::grep()` to filter paths. The "?" in globbing matches one character.
 
 ```{r}
 
@@ -51,7 +96,7 @@ files_old <- fs::dir_ls(here("file-system", "obs_2022-03-15"), glob = "*obs_?.xl
 
 ```
 
-You could instead use the *regexp* argument and use a regular expression pattern to grab the files you want. This pattern is also passed to `base::grep()` to filter paths. 
+You could instead use the *regexp* argument and use a regular expression pattern to grab the files you want. This pattern is also passed to `base::grep()` to filter paths. The "[a-z]" in regex matches one alphabetic character.
 
 ```{r}
 
@@ -68,9 +113,12 @@ files_old <- fs::dir_ls(here::here("file-system", "obs_2022-03-15"))
 ```
 
 
-Now let's create the new name.
+(02) Now let's create the new names for our files and put them in an object "files_new".
+
+Again, I could write out the new names for all of our files but if we are renaming many files, we should find a more efficient way to rename.
 
 * Note: I am using `base::paste0()` to paste the word "obs" with the file number and ".xslx".
+* Note: I am using `base::length()` to create numbers for the number of files that exist in the folder.
 
 ```{r}
 
@@ -78,7 +126,8 @@ files_new <- here::here("file-system", "obs_2022-03-15",(base::paste0( "obs", 1:
 
 ```
 
-Now let's rename the files
+
+(03) Now let's rename the files
 
 ```{r}
 

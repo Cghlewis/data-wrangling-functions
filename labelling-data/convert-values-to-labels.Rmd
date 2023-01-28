@@ -38,7 +38,8 @@ Add labels
 
 ```{r}
 
-d3 <- d3 %>% labelled::set_value_labels(
+d3 <- d3 %>% 
+  labelled::set_value_labels(
   Var2= c("not interested"=1, "mildly interested"=2,"very interested"=3),
   Var3=c("none"=1, "reduced-price"=2, "free"=3))
 
@@ -69,7 +70,8 @@ Add value labels to only some values in Var3 (as you can see we skipped 2)
 
 ```{r}
 
-d3 <- d3 %>% labelled::set_value_labels(
+d3 <- d3 %>% 
+  labelled::set_value_labels(
   Var2= c("not interested"=1, "mildly interested"=2,"very interested"=3),
   Var3=c("none"=1, "free"=3))
 
@@ -81,7 +83,8 @@ Convert to factor by adding the argument *nolabel_to_na=TRUE* to turn unlabelled
 
 ```{r}
 
-d3 %>% labelled::to_factor(nolabel_to_na=TRUE)
+d3 %>% 
+  labelled::to_factor(nolabel_to_na=TRUE)
 
 ```
 
@@ -110,7 +113,8 @@ Add labels
 
 ```{r}
 
-d3 <- d3 %>% labelled::set_value_labels(
+d3 <- d3 %>% 
+  labelled::set_value_labels(
   Var2= c("not interested"=1, "mildly interested"=2,"very interested"=3),
   Var3=c("none"=1, "reduced-price"=2, "free"=3))
 
@@ -120,14 +124,15 @@ Convert to factor
 
 ```{r}
 
-d3 %>% rio::factorize()
+d3 %>% 
+  rio::factorize()
 
 
 ```
 
 ---
 
-#### Function: `rio::characterize()`
+#### Function: `characterize()`
 
 ---
 
@@ -147,7 +152,8 @@ Add labels
 
 ```{r}
 
-d3 <- d3 %>% labelled::set_value_labels(
+d3 <- d3 %>% 
+  labelled::set_value_labels(
   Var2= c("not interested"=1, "mildly interested"=2,"very interested"=3),
   Var3=c("none"=1, "reduced-price"=2, "free"=3))
 
@@ -157,7 +163,8 @@ Convert to character
 
 ```{r}
 
-d3 %>% rio::characterize()
+d3 %>% 
+  rio::characterize()
 
 ```
 
@@ -187,7 +194,8 @@ Add labels
 
 ```{r}
 
-d3 <- d3 %>% labelled::set_value_labels(
+d3 <- d3 %>% 
+  labelled::set_value_labels(
   Var2= c("not interested"=1, "mildly interested"=2,"very interested"=3),
   Var3=c("none"=1, "reduced-price"=2, "free"=3))
 
@@ -199,7 +207,8 @@ Convert Var2 and Var3 to factor.
 
 ```{r}
 
-d3 %>% haven::as_factor()
+d3 %>% 
+  haven::as_factor()
 
 
 ```
@@ -208,7 +217,8 @@ You can also specifically convert only labelled variables (`haven::is.labelled()
 
 ```{r}
 
-d3 %>% dplyr::mutate(across(where(haven::is.labelled), haven::as_factor))
+d3 %>% 
+  dplyr::mutate(across(where(haven::is.labelled), haven::as_factor))
 
 ```
 
@@ -229,7 +239,8 @@ Add labels
 
 ```{r}
 
-d3 <- d3 %>% labelled::set_value_labels(
+d3 <- d3 %>% 
+  labelled::set_value_labels(
   Var2= c("not interested"=1, "mildly interested"=2,"very interested"=3))
 
 ```
@@ -239,7 +250,8 @@ Convert Var2 to a factor by including the `dplyr::mutate()` function to create a
 
 ```{r}
 
-d3 %>% dplyr::mutate(Var2 = haven::as_factor(Var2))
+d3 %>% 
+  dplyr::mutate(Var2 = haven::as_factor(Var2))
 
 
 ```

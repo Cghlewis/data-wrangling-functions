@@ -1,0 +1,79 @@
+---
+title: "Import and export labelled data"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+
+### Package: haven
+
+---
+
+#### Function: `read_sav()`
+
+---
+
+**1\. Read in a labelled SPSS file**
+
+```{r, eval=FALSE}
+
+d <- haven::read_sav("name-of-import.sav")
+
+```
+
+
+**2\. Read in an SPSS file with NA value labels**
+
+* Note: If the file has user labelled missing values that you want to save, add the option *user_na=TRUE*. Otherwise the labelled NA values will be removed and read in as NA.
+
+```{r, eval=FALSE}
+
+d <- haven::read_sav("file.sav", user_na=TRUE)
+
+```
+
+
+---
+
+#### Function: `write_sav()`
+
+---
+
+**1\. Export a labelled SPSS file**
+
+```{r, eval=FALSE}
+
+haven::write_sav(d, "name-of-export.sav")
+
+```
+
+
+### Package: rio
+
+---
+
+#### Function: `characterize()`
+
+---
+
+**1\. Export your variables with the value labels rather than the values**
+
+* Note: You can add `rio::characterize()` when exporting other file types as well such as csv and with using other export functions such as `rio::export()`
+
+```{r, eval=FALSE}
+
+openxlsx::write.xlsx(rio::characterize(d), "name-of-export.xlsx")
+
+```
+
+
+Return to [Label Data](https://github.com/Cghlewis/data-wrangling-functions/wiki/Label Data)

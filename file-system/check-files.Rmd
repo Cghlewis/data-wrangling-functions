@@ -30,7 +30,7 @@ library(tidyverse)
 
 To prevent duplication of efforts each day, I want to build a function that lets people know if the current day's file has already been moved over.
 
-Let's view files in today's observation folder (today is 2022-01-19). 
+Let's view files in today's observation folder (today is 2023-01-19). 
 
 ```{r}
 

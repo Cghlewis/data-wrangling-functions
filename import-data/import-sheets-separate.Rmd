@@ -71,7 +71,7 @@ df3 <- data$Sheet3
 
 ```
 
-But if we have many sheets, the method above can be time consuming. A better option may be to use `base::list2env()`again.
+But if we have many sheets, the method above can be time consuming. A better option may be to use `base::list2env()`.
 
 ```{r, echo = FALSE}
 

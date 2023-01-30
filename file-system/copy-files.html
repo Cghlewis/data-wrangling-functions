@@ -434,7 +434,7 @@ files with the word summary in it.</p></li>
 <p>If our files had unique names, this would be pretty
 straightforward.</p>
 <pre class="r"><code>new_directory_all &lt;- here::here(&quot;file-system&quot;, &quot;all_files&quot;)</code></pre>
-<p>However, here you can see that the files in each date folder are
+<p>However, above you can see that the files in each date folder are
 identically named so we will have duplicate file names which are not
 allowed.</p>
 <p>To differentiate between the files once we copy them over we are
@@ -465,12 +465,10 @@ existing files in the folder.</li>
 <p>Let’s see what files we have in our “all_files” folder now.</p>
 <pre class="r"><code>base::basename(fs::dir_ls(here::here(&quot;file-system&quot;, &quot;all_files&quot;)))</code></pre>
 <pre><code>[1] &quot;summary_obs_2022-03-15.xlsx&quot; &quot;summary_obs_2022-03-16.xlsx&quot;</code></pre>
-<ul>
-<li>Note: If you have previously pulled in “summary_obs.xlsx” files into
-your “all_files” folder (from say earlier date files), those files will
-be pulled in again so you will need to think about subsetting those
-files in your step #1.</li>
-</ul>
+<p><strong>Note:</strong> If you have previously pulled in
+“summary_obs.xlsx” files into your “all_files” folder (from say earlier
+date files), those files will be pulled in again so you will need to
+think about subsetting those files in your step #1.</p>
 <p>You can do this by adding <code>stringr::str_subset()</code> and
 telling it to remove any file paths that contain the string “all_files”
 using the argument <em>negate = TRUE</em>.</p>

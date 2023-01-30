@@ -132,13 +132,13 @@ base::basename(file_to_copy_all)
 
 If our files had unique names, this would be pretty straightforward.
 
-```{r}
+```{r, eval = FALSE}
 
 new_directory_all <- here::here("file-system", "all_files")
 
 ```
 
-However, here you can see that the files in each date folder are identically named so we will have duplicate file names which are not allowed. 
+However, above you can see that the files in each date folder are identically named so we will have duplicate file names which are not allowed. 
 
 To differentiate between the files once we copy them over we are going to add the suffix "_YYYY-MM-DD" to each file.
 
@@ -186,7 +186,7 @@ base::basename(fs::dir_ls(here::here("file-system", "all_files")))
 
 ```
 
-* Note: If you have previously pulled in "summary_obs.xlsx" files into your "all_files" folder (from say earlier date files), those files will be pulled in again so you will need to think about subsetting those files in your step #1. 
+**Note:** If you have previously pulled in "summary_obs.xlsx" files into your "all_files" folder (from say earlier date files), those files will be pulled in again so you will need to think about subsetting those files in your step #1. 
 
 You can do this by adding `stringr::str_subset()` and telling it to remove any file paths that contain the string "all_files" using the argument *negate = TRUE*.
 

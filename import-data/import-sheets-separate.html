@@ -410,7 +410,7 @@ df2 &lt;- data$Sheet2
 
 df3 &lt;- data$Sheet3</code></pre>
 <p>But if we have many sheets, the method above can be time consuming. A
-better option may be to use <code>base::list2env()</code>again.</p>
+better option may be to use <code>base::list2env()</code>.</p>
 <pre class="r"><code># Create our list of data frames
 my_file_list &lt;- here::here(&quot;import-data&quot;, &quot;data&quot;, &quot;all-school_attendance.xlsx&quot;) %&gt;% 
   readxl::excel_sheets() %&gt;% 

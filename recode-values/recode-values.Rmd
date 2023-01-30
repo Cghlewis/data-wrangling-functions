@@ -72,7 +72,8 @@ Recode gender
 
 ```{r}
 
-d4 %>% dplyr::mutate(gender=dplyr::recode(gender, m=1, f=2, n=3))
+d4 %>% 
+  dplyr::mutate(gender=dplyr::recode(gender, m=1, f=2, n=3))
 
 ```
 
@@ -99,7 +100,8 @@ Note: Notice here that we are only recoding one value in the variable. There is 
 
 ```{r}
 
-d5 %>% dplyr::mutate(Var2=dplyr::recode(Var2, `16`=4))
+d5 %>% 
+  dplyr::mutate(Var2=dplyr::recode(Var2, `16`=4))
 
 ```
 
@@ -217,7 +219,8 @@ View the variable labels for Var3
 
 ```{r, echo=FALSE}
 
-d13 <- d13 %>% labelled::set_value_labels(Var3 = c(no = 5, yes = 6))
+d13 <- d13 %>% 
+  labelled::set_value_labels(Var3 = c(no = 5, yes = 6))
 
 ```
 

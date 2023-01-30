@@ -421,7 +421,8 @@ are necessary for the numeric new value.</p></li>
 <code>dplyr::mutate()</code>. However, we could have recoded into a new
 variable by changing the name of <em>gender</em>.</p></li>
 </ul>
-<pre class="r"><code>d4 %&gt;% dplyr::mutate(gender=dplyr::recode(gender, m=1, f=2, n=3))</code></pre>
+<pre class="r"><code>d4 %&gt;% 
+  dplyr::mutate(gender=dplyr::recode(gender, m=1, f=2, n=3))</code></pre>
 <pre><code># A tibble: 3 x 3
   id    gender lunch
   &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;
@@ -451,7 +452,8 @@ values are the same variable class as the original values (ex: numeric
 and numeric), then unmatched values are unchanged. <em>However</em>, if
 the replacement value is a new variable class (ex: numeric to character)
 then all other values will be recoded to NA.</p>
-<pre class="r"><code>d5 %&gt;% dplyr::mutate(Var2=dplyr::recode(Var2, `16`=4))</code></pre>
+<pre class="r"><code>d5 %&gt;% 
+  dplyr::mutate(Var2=dplyr::recode(Var2, `16`=4))</code></pre>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;

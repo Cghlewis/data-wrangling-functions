@@ -22,7 +22,11 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Recode across multiple character variables**
+**Note:** `dplyr::case_when()` will evaluate in order, so proceed from most specific to most general. The function will not write over a previous evaluation even if something meets a new criteria. 
+
+<br>
+
+**1\. Recode across multiple character variables (all variables)**
 
 Review the data (d19)
 
@@ -69,7 +73,7 @@ d19 %>%
 
 ```
 
-**2\. Recode across multiple character variables**
+**2\. Recode across multiple character variables (Var1:Var3**
 
 Review the data (d15)
 
@@ -106,7 +110,7 @@ However, before I do that, I want to be certain I have no other character values
 
 I can check that there are no more instances of MR or UI using `dplyr::filter()` in conjunction with the `dplyr::if_any()` predicate function to select columns where the condition applies to any of the columns. This function is available in version 1.0.5 of `dplyr`.
 
-* .x is used to say, for all of the variables I have selected
+* .x (or just .) is used to say, for all of the variables I have selected
 
 ```{r}
 
@@ -133,7 +137,7 @@ d15 %>%
 
 ```
 
-**2\. Recode across multiple numeric variables**
+**3\. Recode across multiple numeric variables (sum and means variables)**
 
 Review the data (d15)
 

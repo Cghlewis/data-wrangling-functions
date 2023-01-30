@@ -112,7 +112,8 @@ Reverse code Var2 and name it with *_r* at the end.
 
 ```{r}
 
-d2 <- d2 %>% dplyr::mutate(Var2_r = dplyr::case_when(
+d2 <- d2 %>% 
+  dplyr::mutate(Var2_r = dplyr::case_when(
   Var2 == 1 ~ 5,
   Var2 == 2 ~ 4,
   Var2 == 3 ~ 3, 
@@ -126,7 +127,8 @@ Check that your reverse code worked correctly
 
 ```{r}
 
-d2 %>% janitor::tabyl(Var2, Var2_r)
+d2 %>% 
+  janitor::tabyl(Var2, Var2_r)
 
 ```
 
@@ -146,9 +148,11 @@ Check the values of Var2 and Var3
 
 ```{r}
 
-d2 %>% janitor::tabyl(Var2)
+d2 %>% 
+  janitor::tabyl(Var2)
 
-d2 %>% janitor::tabyl(Var3)
+d2 %>% 
+  janitor::tabyl(Var3)
 
 ```
 
@@ -186,9 +190,11 @@ Check that the recode worked
 
 ```{r}
 
-d2 %>% janitor::tabyl(Var2, Var2_r)
+d2 %>% 
+  janitor::tabyl(Var2, Var2_r)
 
-d2 %>% janitor::tabyl(Var3, Var3_r)
+d2 %>% 
+  janitor::tabyl(Var3, Var3_r)
 
 ```
 
@@ -207,7 +213,8 @@ Reverse code Var2 and Var3 using your function and rename the new variables with
 
 ```{r}
 
-d2 <- d2 %>% dplyr::mutate(across(Var2:Var3, reverse_scale, 
+d2 <- d2 %>% 
+  dplyr::mutate(across(Var2:Var3, reverse_scale, 
                               .names = '{col}_r'))
 
 ```

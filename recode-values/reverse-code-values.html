@@ -467,7 +467,8 @@ name than the original. It keeps both the new and old versions of the
 variable. If we used <code>dplyr::transmute()</code> instead it would
 keep the new version and remove the old version.</li>
 </ul>
-<pre class="r"><code>d2 &lt;- d2 %&gt;% dplyr::mutate(Var2_r = dplyr::case_when(
+<pre class="r"><code>d2 &lt;- d2 %&gt;% 
+  dplyr::mutate(Var2_r = dplyr::case_when(
   Var2 == 1 ~ 5,
   Var2 == 2 ~ 4,
   Var2 == 3 ~ 3, 
@@ -475,7 +476,8 @@ keep the new version and remove the old version.</li>
   Var2 == 5 ~ 1,
   TRUE ~ NA_real_))</code></pre>
 <p>Check that your reverse code worked correctly</p>
-<pre class="r"><code>d2 %&gt;% janitor::tabyl(Var2, Var2_r)</code></pre>
+<pre class="r"><code>d2 %&gt;% 
+  janitor::tabyl(Var2, Var2_r)</code></pre>
 <pre><code> Var2 3 5 NA_
     1 0 1   0
     3 1 0   0
@@ -491,12 +493,14 @@ example)</strong></p>
 2 b        NA     5
 3 c         3     1</code></pre>
 <p>Check the values of Var2 and Var3</p>
-<pre class="r"><code>d2 %&gt;% janitor::tabyl(Var2)</code></pre>
+<pre class="r"><code>d2 %&gt;% 
+  janitor::tabyl(Var2)</code></pre>
 <pre><code> Var2 n   percent valid_percent
     1 1 0.3333333           0.5
     3 1 0.3333333           0.5
    NA 1 0.3333333            NA</code></pre>
-<pre class="r"><code>d2 %&gt;% janitor::tabyl(Var3)</code></pre>
+<pre class="r"><code>d2 %&gt;% 
+  janitor::tabyl(Var3)</code></pre>
 <pre><code> Var3 n   percent
     1 1 0.3333333
     4 1 0.3333333
@@ -524,12 +528,14 @@ variables.</li>
   dplyr::mutate(Var2_r = reverse_scale(Var2),
          Var3_r = reverse_scale(Var3))</code></pre>
 <p>Check that the recode worked</p>
-<pre class="r"><code>d2 %&gt;% janitor::tabyl(Var2, Var2_r)</code></pre>
+<pre class="r"><code>d2 %&gt;% 
+  janitor::tabyl(Var2, Var2_r)</code></pre>
 <pre><code> Var2 3 5 NA_
     1 0 1   0
     3 1 0   0
    NA 0 0   1</code></pre>
-<pre class="r"><code>d2 %&gt;% janitor::tabyl(Var3, Var3_r)</code></pre>
+<pre class="r"><code>d2 %&gt;% 
+  janitor::tabyl(Var3, Var3_r)</code></pre>
 <pre><code> Var3 1 2 5
     1 0 0 1
     4 0 1 0
@@ -545,7 +551,8 @@ transformation to select columns and then adding the argument
 <em>names</em> to rename your recoded variables as you create them,
 rather than writing over the old variables.</p></li>
 </ul>
-<pre class="r"><code>d2 &lt;- d2 %&gt;% dplyr::mutate(across(Var2:Var3, reverse_scale, 
+<pre class="r"><code>d2 &lt;- d2 %&gt;% 
+  dplyr::mutate(across(Var2:Var3, reverse_scale, 
                               .names = &#39;{col}_r&#39;))</code></pre>
 <p>Check that the recode worked</p>
 <pre class="r"><code>base::table(d2$Var2, d2$Var2_r)</code></pre>

@@ -373,7 +373,13 @@ pre code {
 <div id="function-case_when" class="section level4">
 <h4>Function: <code>case_when()</code></h4>
 <hr />
-<p><strong>1. Recode across multiple character variables</strong></p>
+<p><strong>Note:</strong> <code>dplyr::case_when()</code> will evaluate
+in order, so proceed from most specific to most general. The function
+will not write over a previous evaluation even if something meets a new
+criteria.</p>
+<p><br></p>
+<p><strong>1. Recode across multiple character variables (all
+variables)</strong></p>
 <p>Review the data (d19)</p>
 <pre><code># A tibble: 3 x 3
   Var1  Var2  Var3 
@@ -424,7 +430,8 @@ something like <code>stringr::str_to_upper()</code> though.</p>
 1 Y     N     Y    
 2 Y     N     Y    
 3 N     N     N    </code></pre>
-<p><strong>2. Recode across multiple character variables</strong></p>
+<p><strong>2. Recode across multiple character variables
+(Var1:Var3</strong></p>
 <p>Review the data (d15)</p>
 <pre><code># A tibble: 3 x 4
      id Var1  Var2  Var3 
@@ -465,7 +472,8 @@ values will be converted to NA.</p>
 the condition applies to any of the columns. This function is available
 in version 1.0.5 of <code>dplyr</code>.</p>
 <ul>
-<li>.x is used to say, for all of the variables I have selected</li>
+<li>.x (or just .) is used to say, for all of the variables I have
+selected</li>
 </ul>
 <pre class="r"><code>d15 %&gt;% 
   dplyr::filter(dplyr::if_any(everything(), ~ .x %in% c(&#39;MR&#39;, &#39;UI&#39;)))</code></pre>
@@ -489,7 +497,8 @@ convert them to numeric.</p>
 1   123   1.5   2.2   3  
 2   234   2.2 -99     6.9
 3   345 -98     5.4 -98  </code></pre>
-<p><strong>2. Recode across multiple numeric variables</strong></p>
+<p><strong>3. Recode across multiple numeric variables (sum and means
+variables)</strong></p>
 <p>Review the data (d15)</p>
 <pre><code># A tibble: 4 x 9
      id  sc_1  sc_2 sc_sum sc_mean  tr_1  tr_2 tr_sum tr_mean

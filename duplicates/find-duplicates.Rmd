@@ -53,7 +53,7 @@ d1 %>%
 
 **1\. Remove the duplicate student IDs in our data**
 
-In the case of the data above, I only expect to have one row per student id. It appears one student completed the survey twice. 
+In the case of the data above, I only expect to have one row per student id ("stu_id"). It appears one student completed the survey twice. 
 
 The duplicate entries are not identical. I need to make a plan for how to remove duplicate data. For example purposes, let's say I have made the decision to always keep the most recently completed survey.
 
@@ -101,17 +101,17 @@ IDs 103, 105 and 100 all have the most complete, most recently completed surveys
 ```{r}
 
 d2 %>%
-  dplyr::mutate(incomplete = rowSums(is.na(dplyr::across(item1: item3)))) %>%
+  dplyr::mutate(incomplete = rowSums(is.na(dplyr::across(item1:item3)))) %>%
   dplyr::arrange(incomplete, desc(date))
 
 ```
 
-We can now remove duplicates
+We can now put it all together to remove duplicates
 
 ```{r}
 
 d2 %>%
-  dplyr::mutate(incomplete = rowSums(is.na(dplyr::across(item1: item3)))) %>%
+  dplyr::mutate(incomplete = rowSums(is.na(dplyr::across(item1:item3)))) %>%
   dplyr::arrange(incomplete, desc(date)) %>%
   dplyr::distinct(stu_id, .keep_all = TRUE)
 

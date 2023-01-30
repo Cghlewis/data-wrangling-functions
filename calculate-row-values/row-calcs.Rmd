@@ -68,10 +68,6 @@ d2
 ```
 
 Calculate the mean score of item1, item2, and item3
-
-* Note: We are calculating a new variable using `dplyr::mutate()`
-
-* Note: Adding `dplyr::across()` allows you to select the specific columns you want to calculate the rowSums for. Otherwise rowSums will be applied across all columns.
  
 * Note: The default for NA values in your columns is to **not** calculate a sum if any NA value exists. If you want to still calculate a sum despite missing values, you can set the argument to *na.rm = TRUE*.
 
@@ -84,7 +80,7 @@ d2 %>%
 
 You can set the number of decimal places you want the new variable to have by wrapping the calculation in the function `base::round()` and setting the digits equal to the number you want.
 
-* Note: It is very important to note how `base::round()` does rounding. It rounds to the even number when rounding at 5. This is not your normal way of thinking of rounding. When you have a value of 23.5, it will round up to 24. When you have a value of 22.5, it will round down to 22. However, when you round with 1 or more digits, since decimal places are not represented exactly, you may get different results depending on your OS: 1.75 may round to 1.7 or 1.8. See documentation on round for more information.
+* Note: It is very important to note how `base::round()` does rounding. See [Rounding](https://github.com/Cghlewis/data-wrangling-functions/wiki/Rounding) for more information.
 
 ```{r}
 
@@ -222,6 +218,7 @@ Calculate the sum score.
 Here we use `dplyr::rowwise()` to calculate values across rows, in conjunction with `base::sum()` to calculate a sum score.
 
 * Note: Again we are using `dplyr::mutate()` to create a new variable
+
 * Note: The default for `base::sum()` is to not calculate a sum if any NA value exists in your columns. If you want to still calculate a sum despite missing values, you can set the argument to *na.rm = TRUE*.
 
 ```{r}
@@ -273,7 +270,7 @@ d2 %>%
 
 You can set the number of decimal places you want the new variable to have by wrapping the calculation in the function `base::round()` and setting the digits equal to the number you want.
 
-* Note: `base::round()` rounds to the even digit for any .5 digit. Meaning when you have 0.5, it will round down to 0, and when you have 1.5 it will round up to 2.
+* Note: To learn more about how base R does rounding, see [Rounding](https://github.com/Cghlewis/data-wrangling-functions/wiki/Rounding).
 
 ```{r}
 

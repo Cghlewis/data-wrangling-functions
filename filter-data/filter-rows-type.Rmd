@@ -18,13 +18,13 @@ knitr::opts_chunk$set(comment = NA,
 
 #### Function: `filter()`
 
-Examples using criteria that applies to a type of variable
-
 ---
 
-*Note: Using `dplyr::across()` in `dplyr::filter()` is deprecated. `dplyr::if_any()` and `dplyr::if_all()` can be used for this functionality in `dplyr::filter()`.
+*Note: Using `dplyr::across()` in `dplyr::filter()` is deprecated. `dplyr::if_any()` and `dplyr::if_all()` are predicate functions used to select columns within `dplyr::filter()`. This function is available in version 1.0.5 of `dplyr`.
 
-**1\.Remove rows based on values from a certain type of variable (in this case numeric variables). Filter out any row that has NA for *ALL* numeric variables.**
+<br>
+
+**1\. Remove any row that has NA for *ALL* numeric variables.**
 
 Review the data (d9)
 
@@ -37,19 +37,19 @@ d9
 
 Filter out any row that has NA for **ALL** numeric variables
 
-* Note: Note the use of `dplyr::if_all()` predicate function to select columns. This function is available in version 1.0.5 of `dplyr`. You can read this as, keep rows where ALL numeric variables are NOT NA (hence the ! on the outside of the `dplyr::if_all()` function)
+* Note: You can read `dplyr::if_all()` here as, keep rows where ALL numeric variables are NOT NA (hence the ! on the outside of the `dplyr::if_all()` function)
 
 
 ```{r}
 
 d9 %>% 
-  dplyr::filter(!(dplyr::if_all(is.numeric,~ is.na(.))))
+  dplyr::filter(!dplyr::if_all(is.numeric,~ is.na(.)))
 
 
 ```
 
 
-**2\. Remove rows based on values from a certain type of variable (in this case numeric). Filter out any row that has -999 for *AT LEAST ONE* numeric variable.**
+**2\. Remove any row that has -999 for *AT LEAST ONE* numeric variable.**
 
 Review the data (d9)
 
@@ -62,14 +62,14 @@ d9
 
 Filter out any row that has -999 for **AT LEAST ONE** numeric variable
 
-* Note: Note the use of `dplyr::if_any()` predicate function to select columns. This function is available in version 1.0.5 of `dplyr`. You can read this as, keep rows where ANY numeric variables are NOT -999 (hence the ! on the outside of the `dplyr::if_any()` function)
+* Note: You can read `dplyr::if_any()` here as, keep rows where ANY numeric variables are NOT -999 (notice the ! on the outside of the `dplyr::if_any()` function)
 
-* Note: You'll notice here that I used `%in%` rather than `==` to ensure I kept the NA values. 
+* Note: You'll notice here that I used *%in%* rather than *==* to ensure I kept the NA values. 
 
 ```{r}
 
 d9 %>% 
-  dplyr::filter(!(dplyr::if_any(is.numeric, ~ . %in% -999)))
+  dplyr::filter(!dplyr::if_any(is.numeric, ~ . %in% -999))
 
 ```
 

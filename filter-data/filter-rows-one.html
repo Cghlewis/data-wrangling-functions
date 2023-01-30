@@ -11,7 +11,7 @@
 
 
 
-<title>Filter rows based on one criteria</title>
+<title>Filter rows based on one criteria for one variable</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,7 +361,8 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Filter rows based on one criteria</h1>
+<h1 class="title toc-ignore">Filter rows based on one criteria for one
+variable</h1>
 
 </div>
 
@@ -371,11 +372,10 @@ pre code {
 <hr />
 <div id="function-filter" class="section level4">
 <h4>Function: <code>filter()</code></h4>
-<p>Examples using one criteria for one variable (character or date)</p>
+<p>Examples using one criteria for one variable (character)</p>
 <hr />
-<p><strong>1. Keep rows based on one criteria (in this case for a
-character variable). Keep any row that has the exact match of “harris”
-for tch_name.</strong></p>
+<p><strong>1. Keep any row that has the exact match of “harris” for
+tch_name.</strong></p>
 <p>Review the data (d8)</p>
 <pre><code># A tibble: 4 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
@@ -384,26 +384,13 @@ for tch_name.</strong></p>
 2 b        -999      0     11        220 steve   
 3 c        -999   -999     12        250 harris  
 4 d           4      0     13        217 lewis   </code></pre>
-<p>Count the number of cases in the current data using the function
-<code>dplyr::count()</code></p>
-<ul>
-<li>Note: We could also use <code>base::nrow()</code> to get this
-number.</li>
-</ul>
-<pre class="r"><code>dplyr::count(d8)</code></pre>
-<pre><code># A tibble: 1 x 1
-      n
-  &lt;int&gt;
-1     4</code></pre>
 <p>Keep any row that has “harris” for tch_name.</p>
 <ul>
 <li>Note: Use the logical operator <em>==</em> to denote exactly equal
 to.</li>
 </ul>
-<pre class="r"><code>d8_new &lt;- d8 %&gt;% 
-  dplyr::filter(tch_name == &quot;harris&quot;)
-
-d8_new</code></pre>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(tch_name == &quot;harris&quot;)</code></pre>
 <pre><code># A tibble: 2 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
@@ -418,15 +405,8 @@ d8_new</code></pre>
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
 1 a           1      2     10        205 harris  
 2 c        -999   -999     12        250 harris  </code></pre>
-<p>Count the number of cases after you filter</p>
-<pre class="r"><code>dplyr::count(d8_new)</code></pre>
-<pre><code># A tibble: 1 x 1
-      n
-  &lt;int&gt;
-1     2</code></pre>
-<p><strong>2. Remove rows based on one criteria (in this case for a
-character variable). Remove any row that has the exact match of “harris”
-for tch_name.</strong></p>
+<p><strong>2. Remove any row that has the exact match of “harris” for
+tch_name.</strong></p>
 <p>Review the data (d8)</p>
 <pre><code># A tibble: 4 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
@@ -460,14 +440,20 @@ operator.</p>
 <p>You could also remove the <em>!</em> and add the
 <code>stringr::str_detect</code> argument <em>negate=TRUE</em> which
 returns non-matching elements.</p>
-<pre class="r"><code>d8 %&gt;% dplyr::filter(stringr::str_detect(tch_name, &#39;har&#39;, negate=TRUE))</code></pre>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(stringr::str_detect(tch_name, &#39;har&#39;, negate=TRUE))</code></pre>
 <pre><code># A tibble: 2 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
 1 b        -999      0     11        220 steve   
 2 d           4      0     13        217 lewis   </code></pre>
-<p><strong>3. Keep rows based on one criteria (in this case for a date
-variable). Keep any row where test_date occurred in the year
+<hr />
+</div>
+<div id="function-filter-1" class="section level4">
+<h4>Function: <code>filter()</code></h4>
+<p>Examples using one criteria for one variable (date)</p>
+<hr />
+<p><strong>3. Keep any row where test_date occurred in the year
 2021.</strong></p>
 <p>Review the data (d12)</p>
 <pre><code># A tibble: 6 x 5
@@ -525,13 +511,12 @@ function.</p>
 2 b         22 2021-03-29    14   251</code></pre>
 <hr />
 </div>
-<div id="function-filter-1" class="section level4">
+<div id="function-filter-2" class="section level4">
 <h4>Function: <code>filter()</code></h4>
-<p>Examples using one criteria for one variable, numeric variable</p>
+<p>Examples using one criteria for one variable (numeric)</p>
 <hr />
-<p><strong>1. Keep rows based on one criteria (in this case for a
-numeric variable). Keep any row whose value is greater than or equal to
-0 for extra2.</strong></p>
+<p><strong>1. Keep any row whose value is greater than or equal to 0 for
+extra2.</strong></p>
 <p>Review the data (d8)</p>
 <pre><code># A tibble: 4 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
@@ -546,155 +531,13 @@ extra2.</p>
 <li>Note: Use the logical operator <em>&gt;=</em> to denote greater than
 or equal to.</li>
 </ul>
-<pre class="r"><code>d8 %&gt;% dplyr::filter(extra2 &gt;= 0)</code></pre>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(extra2 &gt;= 0)</code></pre>
 <pre><code># A tibble: 2 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
 1 a           1      2     10        205 harris  
 2 d           4      0     13        217 lewis   </code></pre>
-<p><strong>2. Remove rows based on one criteria (in this case for a
-numeric variable). Remove any row that has the exact match of -999 for
-extra2, while also keeping rows that have NA for extra2.</strong></p>
-<p>Review the data (d5).</p>
-<pre><code># A tibble: 5 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     10        205 harris  
-2 b        -999      0     11        220 steve   
-3 c           3   -999     12        250 harris  
-4 d           4      0     13        217 lewis   
-5 e          NA     NA     NA         NA ogunti  </code></pre>
-<p>Filter out any row that has -999 for extra2.</p>
-<ul>
-<li><p>Note: Use the logical operator <em>!=</em> to denote not equal
-to.</p></li>
-<li><p>Note: You’ll notice that I make an explicit call to
-<strong>keep</strong> rows with NA values for extra2 in addition to
-removing rows with the value of -999 for extra2, using the <em>|</em>
-operator to denote and/or. A drawback of the <code>filter</code>
-function is that if you filter on a certain variable (such as extra2) it
-will not only filter out the values you request but it will also drop
-any row that has NA for that variable. And we may not necessarily want
-that. In this case, I want to keep the last row of data that has NA for
-extra2.</p></li>
-</ul>
-<pre class="r"><code>d5 %&gt;% 
-  dplyr::filter(extra2 != -999 | is.na(extra2))</code></pre>
-<pre><code># A tibble: 4 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     10        205 harris  
-2 c           3   -999     12        250 harris  
-3 d           4      0     13        217 lewis   
-4 e          NA     NA     NA         NA ogunti  </code></pre>
-<p>Another way to get around the issue of dropping NAs is to filter
-using the operator <em>%in%</em> rather than <em>=</em>. The == is a
-logical operator retains/drops rows that produce a value of TRUE for all
-conditions (and NA cannot be evaluated and is therefore dropped).
-However <em>%in%</em> matches values and therefore doesn’t drop NA.</p>
-<pre class="r"><code>d5 %&gt;% 
-  dplyr::filter(!(extra2 %in% -999))</code></pre>
-<pre><code># A tibble: 4 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     10        205 harris  
-2 c           3   -999     12        250 harris  
-3 d           4      0     13        217 lewis   
-4 e          NA     NA     NA         NA ogunti  </code></pre>
-<hr />
-</div>
-<div id="function-filter-2" class="section level4">
-<h4>Function: <code>filter()</code></h4>
-<p>Examples using one criteria for one variable, matching variable
-values</p>
-<hr />
-<p><strong>1. Remove rows based on one criteria (in this case for a
-numeric variable). Remove any row where q1 does not equal q2, while also
-keeping rows that have NA for q2.</strong></p>
-<p>Review the data (d3)</p>
-<pre><code># A tibble: 3 x 3
-     id q1     q2    
-  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; 
-1    10 harris Harris
-2    20 steve  steve 
-3    30 lewis  &lt;NA&gt;  </code></pre>
-<p>Filter out any row where q1 is not equal to q2</p>
-<ul>
-<li><p>Note: Use the logical operator <em>!=</em> to denote not equal
-to.</p></li>
-<li><p>Note: Again I make an explicit call to <strong>keep</strong> rows
-with NA values for q2. If I did not do this, filter would drop the last
-row of data.</p></li>
-</ul>
-<pre class="r"><code>d13 %&gt;% 
-  dplyr::filter(q1 != q2 | is.na(q2))</code></pre>
-<pre><code># A tibble: 2 x 3
-     id q1     q2    
-  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; 
-1    10 harris Harris
-2    30 lewis  &lt;NA&gt;  </code></pre>
-<p>There are still other ways to keep NAs as well. In this scenario
-where we are comparing two vectors, you cannot use the <em>%in%</em>
-operator the same way we that we used it above. You would need to add
-the <code>dplyr::rowwise()</code> function. This is also a better method
-when both q1 and q2 might have NA values and you want to keep rows when
-either column has NA, but not when both columns have NA.</p>
-<pre class="r"><code>d14 %&gt;% 
-  dplyr::rowwise() %&gt;%
-  dplyr::filter(!q1 %in% q2)</code></pre>
-<pre><code># A tibble: 3 x 3
-# Rowwise: 
-     id q1     q2       
-  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    
-1    10 harris Harris   
-2    30 lewis  &lt;NA&gt;     
-3    50 &lt;NA&gt;   something</code></pre>
-<p>And yet, another way you may want to keep rows in your data is using
-the <code>dplyr::case_when()</code> function.</p>
-<pre class="r"><code>d13 %&gt;%
-  dplyr::filter(
-    dplyr::case_when(
-      q1 == q2 ~ FALSE,
-      TRUE ~ TRUE))</code></pre>
-<pre><code># A tibble: 2 x 3
-     id q1     q2    
-  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; 
-1    10 harris Harris
-2    30 lewis  &lt;NA&gt;  </code></pre>
-<hr />
-</div>
-<div id="function-filter-3" class="section level4">
-<h4>Function: <code>filter()</code></h4>
-<p>Examples using one criteria for many variables</p>
-<hr />
-<p><strong>1. Keep rows where specified variables contain letters (when
-they should only contain numbers).</strong></p>
-<p>Review the data (d16)</p>
-<pre><code># A tibble: 3 x 5
-     id tch_name grade item1 item2
-  &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
-1    10 harris       6 5     3    
-2    11 lewis        4 3     MR   
-3    12 harris       6 4     1    </code></pre>
-<p>We want to review any rows where either item1 OR item2 contain
-letters.</p>
-<ul>
-<li><p>Note: Note the use of <code>dplyr::if_any()</code> predicate
-function to select columns. This function is available in version 1.0.5
-of <code>dplyr</code>. You can read this as, keep rows where ANY of the
-variables we denoted (item1 or item2), contain letters.</p></li>
-<li><p>Note: We use <code>stringr::str_detect()</code> to detect a
-specific pattern, assigned in the <em>pattern</em> argument. Here we use
-a regular expression to denote that we would like to identify zero or
-more letters from the A-Z alphabet, lower or upper case.</p></li>
-</ul>
-<pre class="r"><code>d16 %&gt;% 
-  dplyr::filter(dplyr::if_any(item1:item2, 
-                ~ stringr::str_detect(., pattern = &quot;[a-zA-Z]&quot;)))</code></pre>
-<pre><code># A tibble: 1 x 5
-     id tch_name grade item1 item2
-  &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
-1    11 lewis        4 3     MR   </code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter">Filter</a></p>
 </div>
 </div>

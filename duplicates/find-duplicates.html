@@ -403,7 +403,8 @@ data</strong></p>
 <hr />
 <p><strong>1. Remove the duplicate student IDs in our data</strong></p>
 <p>In the case of the data above, I only expect to have one row per
-student id. It appears one student completed the survey twice.</p>
+student id (“stu_id”). It appears one student completed the survey
+twice.</p>
 <p>The duplicate entries are not identical. I need to make a plan for
 how to remove duplicate data. For example purposes, let’s say I have
 made the decision to always keep the most recently completed survey.</p>
@@ -471,7 +472,7 @@ the function keeps the first instance of the survey in your data.</p>
 <p>IDs 103, 105 and 100 all have the most complete, most recently
 completed surveys at the top.</p>
 <pre class="r"><code>d2 %&gt;%
-  dplyr::mutate(incomplete = rowSums(is.na(dplyr::across(item1: item3)))) %&gt;%
+  dplyr::mutate(incomplete = rowSums(is.na(dplyr::across(item1:item3)))) %&gt;%
   dplyr::arrange(incomplete, desc(date))</code></pre>
 <pre><code># A tibble: 8 x 6
   stu_id date       item1 item2 item3 incomplete
@@ -484,9 +485,9 @@ completed surveys at the top.</p>
 6    105 2022-11-15     5     4     3          0
 7    103 2022-11-15     2     5    NA          1
 8    100 2022-11-17     2    NA    NA          2</code></pre>
-<p>We can now remove duplicates</p>
+<p>We can now put it all together to remove duplicates</p>
 <pre class="r"><code>d2 %&gt;%
-  dplyr::mutate(incomplete = rowSums(is.na(dplyr::across(item1: item3)))) %&gt;%
+  dplyr::mutate(incomplete = rowSums(is.na(dplyr::across(item1:item3)))) %&gt;%
   dplyr::arrange(incomplete, desc(date)) %&gt;%
   dplyr::distinct(stu_id, .keep_all = TRUE)</code></pre>
 <pre><code># A tibble: 5 x 6

@@ -1,0 +1,89 @@
+---
+title: "Filter rows based on multiple criteria for multiple variables"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+
+### Package: dplyr
+
+
+---
+
+#### Function: `filter()`
+
+---
+
+* Note: Using `dplyr::across()` in `dplyr::filter()` is deprecated. `dplyr::if_any()` and `dplyr::if_all()` are predicate functions used to select columns within `dplyr::filter()`. This function is available in version 1.0.5 of `dplyr`.
+
+<br>
+
+**1\. Return rows where "form" is not empty, and any variable var1:var4 is not equal to "MR".**
+
+Review the data (d17)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d17
+
+```
+
+We can see here that form is a character variable and missing values are denoted by "", so we will need to account for that in our formula.
+
+* Note: You can read `dplyr::if_any()` here as, keep rows where ANY variable (var1:var4) is equal to "MR"
+
+* Note: You'll notice here that I used *%in%* rather than *==* to ensure I keep the NA values for var1:var4. 
+
+```{r}
+
+d17 %>%
+  filter(form == "" & !dplyr::if_any(var1:var4, ~ . %in% "MR"))
+
+```
+
+
+**2\. Return rows where "form" is empty, and var1:var4 are NOT ALL empty.**
+
+Review the data (d17)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d17
+
+```
+
+You can see that this data has some funky things going on, var1:var4 have a mixture of empty character values as well as NA values. Both of these will be considered "empty". I will need to account for this when I filter.
+
+There are many ways I can filter this data.
+
+The first is very explicit.
+
+* Note: You can read `dplyr::if_all()` here as, remove rows where ALL variables (var1:var4) are NOT equal to "" AND/OR NA (notice the ! on the outside of the `dplyr::if_all()` function)
+
+```{r}
+
+d17 %>%
+  filter(form == "" & !dplyr::if_all(var1:var4, ~ (.== "" | is.na(.))))
+
+```
+
+But ultimately, I don't need to make my explicit call for NA values because they will be dropped anyway. See [Filter](https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter) to read more about this.
+
+```{r}
+
+d17 %>%
+  filter(form == "" & !dplyr::if_all(var1:var4, ~ . == ""))
+
+```
+
+
+Return to [Filter](https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter)

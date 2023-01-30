@@ -1,0 +1,192 @@
+---
+title: "Filter rows based on one criteria for multiple variables"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+
+### Package: dplyr
+
+---
+
+#### Function: `filter()`
+
+Examples selecting specific variables
+
+---
+
+**1\. Keep rows that have -999 for extra1 *AND/OR* -999 for extra2.**
+
+Review the data (d8)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d8
+
+```
+
+Keep rows that have -999 for extra2 and/or extra3. 
+
+* Note: Use of the *|* operator to request and/or.
+
+```{r}
+
+d8 %>% 
+  dplyr::filter(extra2 == -999 | extra3 == -999)
+
+
+```
+
+**2\. Keep rows that have -999 for extra1 *OR* -999 for extra2 (not for both).**
+
+Review the data (d8)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d8
+
+```
+
+Keep rows that have -999 for extra2 OR -999 for extra3 (but not -999 for both). 
+
+* Note: Use the *xor* operator to request OR (not both).
+
+```{r}
+
+d8 %>% 
+  dplyr::filter(xor(extra2 == -999 , extra3 == -999))
+
+
+```
+
+**3\. Keep rows that have *BOTH* -999 for extra1 *AND* -999 for extra2.**
+
+Review the data (d8)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d8
+
+```
+
+Keep rows that have -999 for extra2 and also have -999 extra3. 
+
+* Note: Use the *&* operator to request and.
+
+```{r}
+
+d8 %>% 
+  dplyr::filter(extra2 == -999 & extra3 == -999)
+
+```
+
+**4\. Remove any row that has -999 for extra2 *AND/OR* has -999 for extra3.**
+
+Review the data (d8)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d8
+
+```
+
+Filter out any row that has -999 for extra2 and/or has -999 extra3. 
+
+* Note: Notice that I put the operator *!* outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on removal criteria from multiple variables.
+
+```{r}
+
+d8 %>% 
+  dplyr::filter(!(extra2 ==-999 | extra3 ==-999))
+
+```
+
+
+**5\. Remove any row that has -999 for *BOTH* extra2 *AND* for extra3.**
+
+Review the data (d8)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d8
+
+```
+
+Filter out any row that has -999 for extra2 and has -999 extra3. 
+
+* Note: Notice that I put the operator *!* outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on removal criteria from multiple variables.
+
+
+```{r}
+
+d8 %>% 
+  dplyr::filter(!(extra2 ==-999 & extra3 ==-999))
+
+
+```
+
+---
+
+#### Function: `filter()`
+
+Examples selecting across variables
+
+---
+
+* Note: Using `dplyr::across()` in `dplyr::filter()` is deprecated. `dplyr::if_any()` and `dplyr::if_all()` are predicate functions used to select columns within `dplyr::filter()`. This function is available in version 1.0.5 of `dplyr`.
+
+<br>
+
+**1\. Keep rows where any variable that starts with the word "item" contains the value "MR".**
+
+Review the data (d16)
+
+```{r, echo=FALSE}
+source("data.R")
+d16
+```
+
+Keep rows where any of the item variables contains the value "MR"
+
+* Note: You can read `dplyr::if_any()` here as, keep rows where ANY variable that starts with "item" is equal to "MR"
+
+* Note: We use the `tidyverse` selection helper `starts_with()` to select variables.
+
+```{r}
+d16 %>%
+  dplyr::filter(dplyr::if_any(tidyselect::starts_with("item"), ~ . == "MR"))
+```
+
+**2\. Keep rows where any variable that starts with the word "item" contain letters.**
+
+Review the data (d16)
+
+```{r, echo = FALSE}
+d16
+```
+
+We want to review any rows where either item1 OR item2 contain letters.
+
+* Note: You can read `dplyr::if_any()` here as, keep rows where ANY of the variables we denoted (item1 or item2), contain letters.
+
+* Note: We use `stringr::str_detect()` to detect a specific pattern, assigned in the *pattern* argument. Here we use a regular expression to denote that we would like to identify zero or more letters from the A-Z alphabet, lower or upper case.
+
+```{r}
+d16 %>% 
+  dplyr::filter(dplyr::if_any(item1:item2, 
+                ~ stringr::str_detect(., pattern = "[a-zA-Z]")))
+```
+
+Return to [Filter](https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter)

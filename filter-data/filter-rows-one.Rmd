@@ -1,5 +1,5 @@
 ---
-title: "Filter rows based on one criteria"
+title: "Filter rows based on one criteria for one variable"
 output: 
   html_document:
     anchor_sections: FALSE
@@ -18,11 +18,11 @@ knitr::opts_chunk$set(comment = NA,
 
 #### Function: `filter()`
 
-Examples using one criteria for one variable (character or date)
+Examples using one criteria for one variable (character)
 
 ---
 
-**1\. Keep rows based on one criteria (in this case for a character variable). Keep any row that has the exact match of "harris" for tch_name.**
+**1\. Keep any row that has the exact match of "harris" for tch_name.**
 
 Review the data (d8)
 
@@ -33,27 +33,14 @@ d8
 
 ```
 
-Count the number of cases in the current data using the function `dplyr::count()`
-
-* Note: We could also use `base::nrow()` to get this number.
-
-```{r}
-
-dplyr::count(d8)
-
-```
-
-
 Keep any row that has "harris" for tch_name. 
 
 * Note: Use the logical operator *==* to denote exactly equal to.
 
 ```{r}
 
-d8_new <- d8 %>% 
+d8 %>% 
   dplyr::filter(tch_name == "harris")
-
-d8_new
 
 ```
 
@@ -66,16 +53,7 @@ d8 %>%
 
 ```
 
-Count the number of cases after you filter
-
-```{r}
-
-dplyr::count(d8_new)
-
-```
-
-
-**2\. Remove rows based on one criteria (in this case for a character variable). Remove any row that has the exact match of "harris" for tch_name.**
+**2\. Remove any row that has the exact match of "harris" for tch_name.**
 
 Review the data (d8)
 
@@ -111,11 +89,20 @@ You could also remove the *!* and add the `stringr::str_detect` argument *negate
 
 ```{r}
 
-d8 %>% dplyr::filter(stringr::str_detect(tch_name, 'har', negate=TRUE))
+d8 %>% 
+  dplyr::filter(stringr::str_detect(tch_name, 'har', negate=TRUE))
 
 ```
 
-**3\. Keep rows based on one criteria (in this case for a date variable). Keep any row where test_date occurred in the year 2021.**
+---
+
+#### Function: `filter()`
+
+Examples using one criteria for one variable (date)
+
+---
+
+**3\. Keep any row where test_date occurred in the year 2021.**
 
 Review the data (d12)
 
@@ -175,12 +162,12 @@ d12 %>%
 
 #### Function: `filter()`
 
-Examples using one criteria for one variable, numeric variable
+Examples using one criteria for one variable (numeric)
 
 ---
 
 
-**1\. Keep rows based on one criteria (in this case for a numeric variable). Keep any row whose value is greater than or equal to 0 for extra2.**
+**1\. Keep any row whose value is greater than or equal to 0 for extra2.**
 
 Review the data (d8)
 
@@ -197,133 +184,8 @@ Keep any row that has a value greater than or equal to zero for extra2.
 
 ```{r}
 
-d8 %>% dplyr::filter(extra2 >= 0)
-
-```
-
-
-**2\. Remove rows based on one criteria (in this case for a numeric variable). Remove any row that has the exact match of -999 for extra2, while also keeping rows that have NA for extra2.**
-
-Review the data (d5).
-
-```{r, echo=FALSE}
-
-source("data.R")
-d5
-
-```
-
-
-Filter out any row that has -999 for extra2.
-
-* Note: Use the logical operator *!=* to denote not equal to.
-
-* Note: You'll notice that I make an explicit call to **keep** rows with NA values for extra2 in addition to removing rows with the value of -999 for extra2, using the *|* operator to denote and/or. A drawback of the `filter` function is that if you filter on a certain variable (such as extra2) it will not only filter out the values you request but it will also drop any row that has NA for that variable. And we may not necessarily want that. In this case, I want to keep the last row of data that has NA for extra2.
-
-```{r}
-
-d5 %>% 
-  dplyr::filter(extra2 != -999 | is.na(extra2))
-
-```
-
-Another way to get around the issue of dropping NAs is to filter using the operator *%in%* rather than *=*. The == is a logical operator retains/drops rows that produce a value of TRUE for all conditions (and NA cannot be evaluated and is therefore dropped). However *%in%* matches values and therefore doesn't drop NA.
-
-```{r}
-
-d5 %>% 
-  dplyr::filter(!(extra2 %in% -999))
-
-```
-
----
-
-#### Function: `filter()`
-
-Examples using one criteria for one variable, matching variable values
-
----
-
-
-**1\. Remove rows based on one criteria (in this case for a numeric variable). Remove any row where q1 does not equal q2, while also keeping rows that have NA for q2.**
-
-Review the data (d3)
-
-```{r, echo=FALSE}
-
-source("data.R")
-d13
-
-```
-
-Filter out any row where q1 is not equal to q2
-
-* Note: Use the logical operator *!=* to denote not equal to.
-
-* Note: Again I make an explicit call to **keep** rows with NA values for q2. If I did not do this, filter would drop the last row of data.
-
-```{r}
-
-d13 %>% 
-  dplyr::filter(q1 != q2 | is.na(q2))
-
-```
-
-
-There are still other ways to keep NAs as well. In this scenario where we are comparing two vectors, you cannot use the *%in%* operator the same way we that we used it above. You would need to add the `dplyr::rowwise()` function. This is also a better method when both q1 and q2 might have NA values and you want to keep rows when either column has NA, but not when both columns have NA.
-
-
-```{r}
-
-d14 %>% 
-  dplyr::rowwise() %>%
-  dplyr::filter(!q1 %in% q2)
-
-```
-
-
-And yet, another way you may want to keep rows in your data is using the `dplyr::case_when()` function. 
-
-```{r}
-
-d13 %>%
-  dplyr::filter(
-    dplyr::case_when(
-      q1 == q2 ~ FALSE,
-      TRUE ~ TRUE))
-
-```
-
----
-
-#### Function: `filter()`
-
-Examples using one criteria for many variables
-
----
-
-
-**1\. Keep rows where specified variables contain letters (when they should only contain numbers).**
-
-Review the data (d16)
-
-```{r, echo = FALSE}
-
-d16
-
-```
-
-We want to review any rows where either item1 OR item2 contain letters.
-
-* Note: Note the use of `dplyr::if_any()` predicate function to select columns. This function is available in version 1.0.5 of `dplyr`. You can read this as, keep rows where ANY of the variables we denoted (item1 or item2), contain letters.
-
-* Note: We use `stringr::str_detect()` to detect a specific pattern, assigned in the *pattern* argument. Here we use a regular expression to denote that we would like to identify zero or more letters from the A-Z alphabet, lower or upper case.
-
-```{r}
-
-d16 %>% 
-  dplyr::filter(dplyr::if_any(item1:item2, 
-                ~ stringr::str_detect(., pattern = "[a-zA-Z]")))
+d8 %>% 
+  dplyr::filter(extra2 >= 0)
 
 ```
 

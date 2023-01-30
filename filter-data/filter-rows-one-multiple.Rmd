@@ -1,0 +1,141 @@
+---
+title: "Filter rows based on multiple criteria for one variable"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+
+### Package: dplyr
+
+---
+
+#### Function: `filter()`
+
+Examples using multiple criteria same variable (numeric)
+
+---
+
+
+**1\. Keep any row that has -999 *OR* 0 for extra3.**
+
+Review the data (d8).
+
+```{r, echo=FALSE}
+
+source("data.R")
+d8
+
+```
+
+Keep any row that has -999 or 0 for extra2. 
+
+* Note: Use of the operator *|* to denote and/or (*and* doesn't really apply since it's the same variable).
+
+```{r}
+
+d8 %>% 
+  dplyr::filter(extra3 == -999 | extra3 ==0)
+
+```
+
+You would get the same result using the *xor* operator.
+
+```{r}
+
+d8 %>% 
+  dplyr::filter(xor(extra3 == -999 , extra3 ==0))
+
+```
+
+
+**2\. Keep any row whose value for extra3 is between 0 and 10.**
+
+Review the data (d8).
+
+```{r, echo=FALSE}
+
+source("data.R")
+d8
+
+```
+
+
+Keep any row that has a value between 0 and 10 for extra3. 
+
+* Note: Use the operator *&* to denote that both criteria must be met.
+
+```{r}
+
+d81 <- d8 %>% 
+  dplyr::filter(extra3 >= 0 & extra3 <=10)
+
+d81
+
+```
+
+You would get the same result using the `dplyr::between()` function. It includes both 0 and 10.
+
+```{r}
+
+d8 %>% 
+  dplyr::filter(dplyr::between(extra3, 0, 10))
+
+```
+
+---
+
+#### Function: `filter()`
+
+Examples using multiple criteria same variable (character)
+
+---
+
+**1\. Keep any row whose tch_name is either "harris" *OR* "lewis".**
+
+Review the data (d8).
+
+```{r, echo=FALSE}
+
+source("data.R")
+d8
+
+```
+
+Keep any row where tch_name is "harris" or "lewis".
+
+* Note: Use of the operator *|* to denote and/or (*and* doesn't really apply since it's the same variable).
+
+```{r}
+
+d8 %>% 
+  dplyr::filter(tch_name == "harris" | tch_name == "lewis")
+
+```
+
+You would get the same result using the *%in%* operator.
+
+```{r}
+
+d8 %>% 
+  dplyr::filter(tch_name %in% c("harris", "lewis"))
+
+```
+
+Or the same result adding the `stringr::str_detect()` function.
+
+```{r}
+
+d8 %>% 
+  dplyr::filter(stringr::str_detect(tch_name, 'harris|lewis') )
+
+```
+
+
+Return to [Filter](https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter)

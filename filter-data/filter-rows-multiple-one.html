@@ -11,7 +11,7 @@
 
 
 
-<title>Calculate row values</title>
+<title>Filter rows based on one criteria for multiple variables</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,438 +361,196 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Calculate row values</h1>
+<h1 class="title toc-ignore">Filter rows based on one criteria for
+multiple variables</h1>
 
 </div>
 
 
-<p><br></p>
-<div id="package-base" class="section level3">
-<h3>Package: base</h3>
-<hr />
-<div id="function-rowsums" class="section level4">
-<h4>Function: <code>rowSums()</code></h4>
-<hr />
-<p><strong>1. Calculate a sum score for each student called
-“measure_sum”</strong></p>
-<p>Review the data (d2)</p>
-<pre><code># A tibble: 5 x 4
-  stu_id item1 item2 item3
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1   1234     3     2     4
-2   2345     4     3     1
-3   3456    NA     1     1
-4   4567     4     5     1
-5   5678     1     3     2</code></pre>
-<p>Calculate the sum score</p>
-<ul>
-<li><p>Note: We are calculating a new variable using
-<code>dplyr::mutate()</code></p></li>
-<li><p>Note: Adding <code>dplyr::across()</code> allows you to select
-the specific columns you want to calculate the rowSums for. Otherwise
-rowSums will be applied across all columns.</p></li>
-<li><p>Note: The default for NA values in your columns is to
-<strong>not</strong> calculate a sum if any NA value exists. If you want
-to still calculate a sum despite missing values, you can set the
-argument to <em>na.rm = TRUE</em>.</p></li>
-</ul>
-<pre class="r"><code>d2 %&gt;% 
-  dplyr::mutate(measure_sum = rowSums(dplyr::across(c(item1:item3))))</code></pre>
-<pre><code># A tibble: 5 x 5
-  stu_id item1 item2 item3 measure_sum
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;
-1   1234     3     2     4           9
-2   2345     4     3     1           8
-3   3456    NA     1     1          NA
-4   4567     4     5     1          10
-5   5678     1     3     2           6</code></pre>
-<hr />
-</div>
-<div id="function-rowmeans" class="section level4">
-<h4>Function: <code>rowMeans()</code></h4>
-<hr />
-<p><strong>1. Calculate a mean score (“measure_mean”) for each student
-even with missing data</strong></p>
-<p>Review the data (d2)</p>
-<pre><code># A tibble: 5 x 4
-  stu_id item1 item2 item3
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1   1234     3     2     4
-2   2345     4     3     1
-3   3456    NA     1     1
-4   4567     4     5     1
-5   5678     1     3     2</code></pre>
-<p>Calculate the mean score of item1, item2, and item3</p>
-<ul>
-<li>Note: The default for NA values in your columns is to
-<strong>not</strong> calculate a sum if any NA value exists. If you want
-to still calculate a sum despite missing values, you can set the
-argument to <em>na.rm = TRUE</em>.</li>
-</ul>
-<pre class="r"><code>d2 %&gt;% 
-  dplyr::mutate(measure_mean = rowMeans(dplyr::across(c(item1:item3)), na.rm=TRUE))</code></pre>
-<pre><code># A tibble: 5 x 5
-  stu_id item1 item2 item3 measure_mean
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt;
-1   1234     3     2     4         3   
-2   2345     4     3     1         2.67
-3   3456    NA     1     1         1   
-4   4567     4     5     1         3.33
-5   5678     1     3     2         2   </code></pre>
-<p>You can set the number of decimal places you want the new variable to
-have by wrapping the calculation in the function
-<code>base::round()</code> and setting the digits equal to the number
-you want.</p>
-<ul>
-<li>Note: It is very important to note how <code>base::round()</code>
-does rounding. See <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Rounding">Rounding</a>
-for more information.</li>
-</ul>
-<pre class="r"><code>d2 %&gt;% 
-  dplyr::mutate(measure_mean = round(rowMeans(dplyr::across(c(item1:item3)), na.rm=TRUE), digits= 1))</code></pre>
-<pre><code># A tibble: 5 x 5
-  stu_id item1 item2 item3 measure_mean
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt;
-1   1234     3     2     4          3  
-2   2345     4     3     1          2.7
-3   3456    NA     1     1          1  
-4   4567     4     5     1          3.3
-5   5678     1     3     2          2  </code></pre>
-<p><strong>2. Calculate a mean score (“toca_mean”) for all the variables
-that begin with “toca”, for each student even with missing
-data</strong></p>
-<p>Review the data (d5)</p>
-<pre><code># A tibble: 5 x 5
-  stu_id toca1 toca2 toca3 toca4
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1   1234     3     2    NA     3
-2   2345     4     3     1     4
-3   3456     2    NA     1    NA
-4   4567     4     5     1     6
-5   5678     1     3     2     2</code></pre>
-<p>Calculate the mean toca score</p>
-<ul>
-<li><p>Note: We use the <code>tidyselect</code> selection helper
-<code>starts_with()</code> to refer to all variables that start with the
-word “toca”.</p></li>
-<li><p>Note: Other <code>tidyselect</code> selection helpers include
-<code>contains()</code>, <code>ends_with()</code>, <code>matches</code>,
-<code>num_range</code>, <code>where</code> and more.</p></li>
-</ul>
-<pre class="r"><code>d5 %&gt;% 
-  dplyr::mutate(
-    toca_mean = rowMeans(
-      dplyr::across(tidyselect::starts_with(&quot;toca&quot;)), na.rm=TRUE))</code></pre>
-<pre><code># A tibble: 5 x 6
-  stu_id toca1 toca2 toca3 toca4 toca_mean
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
-1   1234     3     2    NA     3      2.67
-2   2345     4     3     1     4      3   
-3   3456     2    NA     1    NA      1.5 
-4   4567     4     5     1     6      4   
-5   5678     1     3     2     2      2   </code></pre>
-<p>If you wanted to exclude some of the “toca” items (say just toca2),
-you could exclude them this way, by wrapping your selected and excluded
-variables in c().</p>
-<pre class="r"><code>d5 %&gt;% 
-  dplyr::mutate(
-    toca_mean = rowMeans(
-      dplyr::across(c(tidyselect::starts_with(&quot;toca&quot;), -toca2)), na.rm=TRUE))</code></pre>
-<pre><code># A tibble: 5 x 6
-  stu_id toca1 toca2 toca3 toca4 toca_mean
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
-1   1234     3     2    NA     3      3   
-2   2345     4     3     1     4      3   
-3   3456     2    NA     1    NA      1.5 
-4   4567     4     5     1     6      3.67
-5   5678     1     3     2     2      1.67</code></pre>
-<p><strong>3. Calculate a mean score (“toca_mean”) for all the variables
-that begin with “toca”, when the toca variables contain <em>labelled na
-values</em></strong></p>
-<p>Review the data (d6)</p>
-<pre><code># A tibble: 5 x 6
-  stu_id toca1 toca2 toca3 item1 item2
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1   1234     3     2     4     3     4
-2   2345     4     3     1     4     5
-3   3456     2     1   -99     5     5
-4   4567     4     5     1     6     1
-5   5678   -99     3     2     2     6</code></pre>
-<p>Let’s review the labelled NA values.</p>
-<pre class="r"><code>d6 %&gt;%
-  labelled::na_values()</code></pre>
-<pre><code>$stu_id
-NULL
-
-$toca1
-[1] -99
-
-$toca2
-[1] -99
-
-$toca3
-[1] -99
-
-$item1
-NULL
-
-$item2
-NULL</code></pre>
-<p>We see that <strong>-99</strong> is labelled as an NA value for the
-toca variables. However, R does not recognize this as an NA value when
-calculating row scores.</p>
-<p>So first we will need to recode these to NA before creating our mean
-score.</p>
-<ul>
-<li><p>Note: We use <code>dplyr::mutate()</code> to create new temporary
-versions of our toca variables.</p></li>
-<li><p>Note: We use <code>base::ifelse()</code> to say if our current
-toca variables (denoted by .) are equal to 6, then make them NA,
-otherwise keep the value as is. Using <code>dplyr::if_else()</code>
-gives us errors in this process. I’m not sure why except that I read the
-function is more strict in checking that all alternatives are of the
-same variable type compared to using
-<code>base::ifelse()</code>.</p></li>
-<li><p>Note: We use the <code>dplyr::across()</code> <em>.names</em>
-arugment to rename these variable to have the suffix “_temp” because we
-do not want to alter our original toca variables.</p></li>
-</ul>
-<p>Second we calculate our mean score within
-<code>dplyr::mutate()</code> statement.</p>
-<ul>
-<li><p>Note: We add <code>dplyr::across()</code> to select multiple
-variables and use <code>tidyselect::contains()</code> to select all
-variables with the word “temp”.</p></li>
-<li><p>Note: We also use the <em>na.rm</em> = TRUE argument to calculate
-the mean despite missing values.</p></li>
-<li><p>Note: Again we could add <code>base::round()</code> to round the
-number of decimal places in our mean if we wanted to</p></li>
-</ul>
-<p>Last we drop our temporary toca variables using
-<code>dplyr::select()</code>. We don’t need them anymore.</p>
-<pre class="r"><code>d6 %&gt;% 
-  dplyr::mutate(dplyr::across(contains(&quot;toca&quot;), 
-                ~ ifelse(.==-99,NA,.),
-                .names = &quot;{col}_temp&quot;),
-                toca_mean = rowMeans(
-           dplyr::across(tidyselect::contains(&quot;temp&quot;), 
-           na.rm = TRUE))) %&gt;%
-  dplyr::select(-tidyselect::contains(&quot;temp&quot;))</code></pre>
-<pre><code># A tibble: 5 x 7
-  stu_id      toca1      toca2      toca3 item1 item2 toca_mean
-   &lt;dbl&gt; &lt;hvn_lbl_&gt; &lt;hvn_lbl_&gt; &lt;hvn_lbl_&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
-1   1234     3               2     4          3     4      3   
-2   2345     4               3     1          4     5      2.67
-3   3456     2               1   -99 (NA)     5     5     NA   
-4   4567     4               5     1          6     1      3.33
-5   5678   -99 (NA)          3     2          2     6     NA   </code></pre>
-<p><br></p>
-</div>
-</div>
 <div id="package-dplyr" class="section level3">
 <h3>Package: dplyr</h3>
 <hr />
-<div id="function-rowwise" class="section level4">
-<h4>Function: <code>rowwise()</code></h4>
+<div id="function-filter" class="section level4">
+<h4>Function: <code>filter()</code></h4>
+<p>Examples selecting specific variables</p>
 <hr />
-<p><strong>1. Calculate a sum score for each student called
-“measure_sum”</strong></p>
-<p>Review the data (d2)</p>
-<pre><code># A tibble: 5 x 4
-  stu_id item1 item2 item3
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1   1234     3     2     4
-2   2345     4     3     1
-3   3456    NA     1     1
-4   4567     4     5     1
-5   5678     1     3     2</code></pre>
-<p>Calculate the sum score.</p>
-<p>Here we use <code>dplyr::rowwise()</code> to calculate values across
-rows, in conjunction with <code>base::sum()</code> to calculate a sum
-score.</p>
+<p><strong>1. Keep rows that have -999 for extra1 <em>AND/OR</em> -999
+for extra2.</strong></p>
+<p>Review the data (d8)</p>
+<pre><code># A tibble: 4 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 b        -999      0     11        220 steve   
+3 c        -999   -999     12        250 harris  
+4 d           4      0     13        217 lewis   </code></pre>
+<p>Keep rows that have -999 for extra2 and/or extra3.</p>
 <ul>
-<li><p>Note: Again we are using <code>dplyr::mutate()</code> to create a
-new variable</p></li>
-<li><p>Note: The default for <code>base::sum()</code> is to not
-calculate a sum if any NA value exists in your columns. If you want to
-still calculate a sum despite missing values, you can set the argument
-to <em>na.rm = TRUE</em>.</p></li>
+<li>Note: Use of the <em>|</em> operator to request and/or.</li>
 </ul>
-<pre class="r"><code>d2 %&gt;%
-  dplyr::rowwise() %&gt;%
-  dplyr::mutate(measure_sum = sum(c(item1, item2, item3)))</code></pre>
-<pre><code># A tibble: 5 x 5
-# Rowwise: 
-  stu_id item1 item2 item3 measure_sum
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;
-1   1234     3     2     4           9
-2   2345     4     3     1           8
-3   3456    NA     1     1          NA
-4   4567     4     5     1          10
-5   5678     1     3     2           6</code></pre>
-<p>If you don’t want to list out every single item in a measure, you can
-use <code>dplyr::c_across()</code> which uses tidy selection syntax to
-select variables. It is essentially a combination of c() and
-<code>dplyr::across()</code>. So instead of
-<code>mutate(measure_sum = dplyr::across(c(item1:item3)))</code>, you
-can simplify to the code below.</p>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(extra2 == -999 | extra3 == -999)</code></pre>
+<pre><code># A tibble: 2 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 b        -999      0     11        220 steve   
+2 c        -999   -999     12        250 harris  </code></pre>
+<p><strong>2. Keep rows that have -999 for extra1 <em>OR</em> -999 for
+extra2 (not for both).</strong></p>
+<p>Review the data (d8)</p>
+<pre><code># A tibble: 4 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 b        -999      0     11        220 steve   
+3 c        -999   -999     12        250 harris  
+4 d           4      0     13        217 lewis   </code></pre>
+<p>Keep rows that have -999 for extra2 OR -999 for extra3 (but not -999
+for both).</p>
 <ul>
-<li>Note: <code>dplyr::c_across()</code> cannot be used with
-<code>base::rowSums()</code> and <code>base::rowMeans()</code> because
-those functions take a different type of input compared to
-<code>dplyr::rowwise()</code></li>
+<li>Note: Use the <em>xor</em> operator to request OR (not both).</li>
 </ul>
-<pre class="r"><code>d2 %&gt;%
-  dplyr::rowwise() %&gt;%
-  dplyr::mutate(measure_sum = sum(dplyr::c_across(item1:item3)))</code></pre>
-<pre><code># A tibble: 5 x 5
-# Rowwise: 
-  stu_id item1 item2 item3 measure_sum
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;
-1   1234     3     2     4           9
-2   2345     4     3     1           8
-3   3456    NA     1     1          NA
-4   4567     4     5     1          10
-5   5678     1     3     2           6</code></pre>
-<p><strong>2. Calculate a mean score (“measure_mean”) for each student
-even with missing data</strong></p>
-<p>Review the data (d2)</p>
-<pre><code># A tibble: 5 x 4
-  stu_id item1 item2 item3
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1   1234     3     2     4
-2   2345     4     3     1
-3   3456    NA     1     1
-4   4567     4     5     1
-5   5678     1     3     2</code></pre>
-<p>Calculate the mean score</p>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(xor(extra2 == -999 , extra3 == -999))</code></pre>
+<pre><code># A tibble: 1 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 b        -999      0     11        220 steve   </code></pre>
+<p><strong>3. Keep rows that have <em>BOTH</em> -999 for extra1
+<em>AND</em> -999 for extra2.</strong></p>
+<p>Review the data (d8)</p>
+<pre><code># A tibble: 4 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 b        -999      0     11        220 steve   
+3 c        -999   -999     12        250 harris  
+4 d           4      0     13        217 lewis   </code></pre>
+<p>Keep rows that have -999 for extra2 and also have -999 extra3.</p>
 <ul>
-<li>Note: Again we are using <code>dplyr::mutate()</code> to create a
-new variable</li>
-<li>Note: We use <code>base::mean()</code> here to calculate mean</li>
-<li>Note: We use <code>dplyr::c_across()</code> to select the variables
-of interest</li>
+<li>Note: Use the <em>&amp;</em> operator to request and.</li>
 </ul>
-<pre class="r"><code>d2 %&gt;%
-  dplyr::rowwise() %&gt;%
-  dplyr::mutate(measure_mean = mean(dplyr::c_across(item1:item3), na.rm=TRUE))</code></pre>
-<pre><code># A tibble: 5 x 5
-# Rowwise: 
-  stu_id item1 item2 item3 measure_mean
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt;
-1   1234     3     2     4         3   
-2   2345     4     3     1         2.67
-3   3456    NA     1     1         1   
-4   4567     4     5     1         3.33
-5   5678     1     3     2         2   </code></pre>
-<p>You can set the number of decimal places you want the new variable to
-have by wrapping the calculation in the function
-<code>base::round()</code> and setting the digits equal to the number
-you want.</p>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(extra2 == -999 &amp; extra3 == -999)</code></pre>
+<pre><code># A tibble: 1 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 c        -999   -999     12        250 harris  </code></pre>
+<p><strong>4. Remove any row that has -999 for extra2 <em>AND/OR</em>
+has -999 for extra3.</strong></p>
+<p>Review the data (d8)</p>
+<pre><code># A tibble: 4 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 b        -999      0     11        220 steve   
+3 c        -999   -999     12        250 harris  
+4 d           4      0     13        217 lewis   </code></pre>
+<p>Filter out any row that has -999 for extra2 and/or has -999
+extra3.</p>
 <ul>
-<li>Note: To learn more about how base R does rounding, see <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Rounding">Rounding</a>.</li>
+<li>Note: Notice that I put the operator <em>!</em> outside of the
+parentheses. While there are other ways to write this equation, I find
+this the least confusing way to remove rows based on removal criteria
+from multiple variables.</li>
 </ul>
-<pre class="r"><code>d2 %&gt;%
-  dplyr::rowwise() %&gt;%
-  dplyr::mutate(measure_mean = round(mean(c_across(item1:item3), na.rm=TRUE), digits=2))</code></pre>
-<pre><code># A tibble: 5 x 5
-# Rowwise: 
-  stu_id item1 item2 item3 measure_mean
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt;
-1   1234     3     2     4         3   
-2   2345     4     3     1         2.67
-3   3456    NA     1     1         1   
-4   4567     4     5     1         3.33
-5   5678     1     3     2         2   </code></pre>
-<p><strong>3. Calculate a mean score (“toca_mean”) for all the variables
-that contain the word “toca”, for each student even with missing
-data</strong></p>
-<p>Review the data (d4)</p>
-<pre><code># A tibble: 5 x 6
-  stu_id toca1 toca2 toca3 toca4 item1
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1   1234     3     2     4     3     4
-2   2345     4     3     1     4     5
-3   3456     2     1     1     5     5
-4   4567     4     5     1     6     1
-5   5678     1     3     2     2     6</code></pre>
-<p>Calculate the mean toca score</p>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(!(extra2 ==-999 | extra3 ==-999))</code></pre>
+<pre><code># A tibble: 2 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 d           4      0     13        217 lewis   </code></pre>
+<p><strong>5. Remove any row that has -999 for <em>BOTH</em> extra2
+<em>AND</em> for extra3.</strong></p>
+<p>Review the data (d8)</p>
+<pre><code># A tibble: 4 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 b        -999      0     11        220 steve   
+3 c        -999   -999     12        250 harris  
+4 d           4      0     13        217 lewis   </code></pre>
+<p>Filter out any row that has -999 for extra2 and has -999 extra3.</p>
 <ul>
-<li><p>Note: We use the <code>tidyselect</code> selection helper
-<code>contains()</code> to refer to all variables.</p></li>
-<li><p>Note: Other <code>tidyselect</code> selection helpers include
-<code>startswith()</code>, <code>ends_with()</code>,
-<code>matches</code>, <code>num_range</code>, <code>where</code> and
-more.</p></li>
+<li>Note: Notice that I put the operator <em>!</em> outside of the
+parentheses. While there are other ways to write this equation, I find
+this the least confusing way to remove rows based on removal criteria
+from multiple variables.</li>
 </ul>
-<pre class="r"><code>d4 %&gt;%
-  dplyr::rowwise() %&gt;%
-  dplyr::mutate(toca_mean = mean(dplyr::c_across(tidyselect::contains(&quot;toca&quot;)), na.rm=TRUE))</code></pre>
-<pre><code># A tibble: 5 x 7
-# Rowwise: 
-  stu_id toca1 toca2 toca3 toca4 item1 toca_mean
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
-1   1234     3     2     4     3     4      3   
-2   2345     4     3     1     4     5      3   
-3   3456     2     1     1     5     5      2.25
-4   4567     4     5     1     6     1      4   
-5   5678     1     3     2     2     6      2   </code></pre>
-<p>Again, if you wanted to exclude some of the “toca” items (say toca2
-and toca4 this time), you could exclude them this way, by wrapping your
-selected and excluded variables in c().</p>
-<pre class="r"><code>d4 %&gt;%
-  dplyr::rowwise() %&gt;%
-  dplyr::mutate(toca_mean = mean(dplyr::c_across(c(tidyselect::contains(&quot;toca&quot;), -c(toca2, toca4))), na.rm=TRUE))</code></pre>
-<pre><code># A tibble: 5 x 7
-# Rowwise: 
-  stu_id toca1 toca2 toca3 toca4 item1 toca_mean
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
-1   1234     3     2     4     3     4       3.5
-2   2345     4     3     1     4     5       2.5
-3   3456     2     1     1     5     5       1.5
-4   4567     4     5     1     6     1       2.5
-5   5678     1     3     2     2     6       1.5</code></pre>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(!(extra2 ==-999 &amp; extra3 ==-999))</code></pre>
+<pre><code># A tibble: 3 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 b        -999      0     11        220 steve   
+3 d           4      0     13        217 lewis   </code></pre>
+<hr />
+</div>
+<div id="function-filter-1" class="section level4">
+<h4>Function: <code>filter()</code></h4>
+<p>Examples selecting across variables</p>
+<hr />
+<ul>
+<li>Note: Using <code>dplyr::across()</code> in
+<code>dplyr::filter()</code> is deprecated. <code>dplyr::if_any()</code>
+and <code>dplyr::if_all()</code> are predicate functions used to select
+columns within <code>dplyr::filter()</code>. This function is available
+in version 1.0.5 of <code>dplyr</code>.</li>
+</ul>
 <p><br></p>
-</div>
-</div>
-<div id="package-janitor" class="section level3">
-<h3>Package: janitor</h3>
-<hr />
-<div id="function-adorn_totals" class="section level4">
-<h4>Function: <code>adorn_totals()</code></h4>
-<hr />
-<p><strong>1. Calculate a sum score for each student called
-“measure_sum”</strong></p>
-<p>Review the data (d2)</p>
-<pre><code># A tibble: 5 x 4
-  stu_id item1 item2 item3
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1   1234     3     2     4
-2   2345     4     3     1
-3   3456    NA     1     1
-4   4567     4     5     1
-5   5678     1     3     2</code></pre>
-<p>Calculate the sum score</p>
+<p><strong>1. Keep rows where any variable that starts with the word
+“item” contains the value “MR”.</strong></p>
+<p>Review the data (d16)</p>
+<pre><code># A tibble: 3 x 5
+     id tch_name grade item1 item2
+  &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+1    10 harris       6 5     3    
+2    11 lewis        4 3     MR   
+3    12 harris       6 4     1    </code></pre>
+<p>Keep rows where any of the item variables contains the value “MR”</p>
 <ul>
-<li><p>Note: We can add the argument <em>where = “col”</em> to denote we
-want rows summed across columns rather than the default which is column
-totals</p></li>
-<li><p>Note: We can add the argument <em>name = </em> to rename the new
-column what we want rather than the default “Total”</p></li>
-<li><p>Note: The argument default for the NA argumen tis <em>na.rm =
-TRUE</em> so in this case, if we don’t want a sum when there is missing
-data, we need to change it to FALSE.</p></li>
+<li><p>Note: You can read <code>dplyr::if_any()</code> here as, keep
+rows where ANY variable that starts with “item” is equal to
+“MR”</p></li>
+<li><p>Note: We use the <code>tidyverse</code> selection helper
+<code>starts_with()</code> to select variables.</p></li>
 </ul>
-<pre class="r"><code>d2 %&gt;% 
-  janitor::adorn_totals(where = &quot;col&quot;, name = &quot;measure_sum&quot;, na.rm = FALSE)</code></pre>
-<pre><code> stu_id item1 item2 item3 measure_sum
-   1234     3     2     4           9
-   2345     4     3     1           8
-   3456    NA     1     1          NA
-   4567     4     5     1          10
-   5678     1     3     2           6</code></pre>
-<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate%20Row%20Values">Calculate
-Row Values</a></p>
+<pre class="r"><code>d16 %&gt;%
+  dplyr::filter(dplyr::if_any(tidyselect::starts_with(&quot;item&quot;), ~ . == &quot;MR&quot;))</code></pre>
+<pre><code># A tibble: 1 x 5
+     id tch_name grade item1 item2
+  &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+1    11 lewis        4 3     MR   </code></pre>
+<p><strong>2. Keep rows where any variable that starts with the word
+“item” contain letters.</strong></p>
+<p>Review the data (d16)</p>
+<pre><code># A tibble: 3 x 5
+     id tch_name grade item1 item2
+  &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+1    10 harris       6 5     3    
+2    11 lewis        4 3     MR   
+3    12 harris       6 4     1    </code></pre>
+<p>We want to review any rows where either item1 OR item2 contain
+letters.</p>
+<ul>
+<li><p>Note: You can read <code>dplyr::if_any()</code> here as, keep
+rows where ANY of the variables we denoted (item1 or item2), contain
+letters.</p></li>
+<li><p>Note: We use <code>stringr::str_detect()</code> to detect a
+specific pattern, assigned in the <em>pattern</em> argument. Here we use
+a regular expression to denote that we would like to identify zero or
+more letters from the A-Z alphabet, lower or upper case.</p></li>
+</ul>
+<pre class="r"><code>d16 %&gt;% 
+  dplyr::filter(dplyr::if_any(item1:item2, 
+                ~ stringr::str_detect(., pattern = &quot;[a-zA-Z]&quot;)))</code></pre>
+<pre><code># A tibble: 1 x 5
+     id tch_name grade item1 item2
+  &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+1    11 lewis        4 3     MR   </code></pre>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter">Filter</a></p>
 </div>
 </div>
 

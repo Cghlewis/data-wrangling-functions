@@ -54,10 +54,16 @@ navbar:
     href: select-variables\filter-columns-operations.html
   - text: "Select columns using data dictionary"
     href: select-variables\filter-columns-data-dictionary.html
-  - text: "Filter rows one criteria"
+  - text: "Filter rows one criteria, one variable"
     href: filter-data\filter-rows-one.html
-  - text: "Filter rows multiple criteria"
-    href: filter-data\filter-rows-multiple.html
+  - text: "Filter rows multiple criteria, one variable"
+    href: filter-data\filter-rows-one-multiple.html
+  - text: "Filter rows one criteria, multiple variables"
+    href: filter-data\filter-rows-multiple-one.html
+  - text: "Filter rows multiple criteria, multiple variables"
+    href: filter-data\filter-rows-multiple-multiple.html
+  - text: "Filter rows matching"
+    href: filter-data\filter-rows-matching.html
   - text: "Filter rows type"
     href: filter-data\filter-rows-type.html
   - text: "Filter rows all"

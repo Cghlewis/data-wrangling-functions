@@ -24,18 +24,18 @@ knitr::opts_chunk$set(comment = NA,
 
 <br>
 
-**1\. Remove any row that has NA for *ALL* numeric variables.**
+**1\. Remove any row that has -999 for *ALL* numeric variables.**
 
-Review the data (d9)
+Review the data (d19)
 
 ```{r, echo=FALSE}
 
 source("data.R")
-d9
+d19
 
 ```
 
-Filter out any row that has NA for **ALL** numeric variables
+Filter out any row that has -999 for **ALL** numeric variables
 
 * Note: You can read `dplyr::if_all()` here as, keep rows where ALL numeric variables are NOT NA (hence the ! on the outside of the `dplyr::if_all()` function)
 
@@ -43,7 +43,7 @@ Filter out any row that has NA for **ALL** numeric variables
 ```{r}
 
 d9 %>% 
-  dplyr::filter(!dplyr::if_all(is.numeric,~ is.na(.)))
+  dplyr::filter(!dplyr::if_all(is.numeric,~ . == -999))
 
 
 ```
@@ -51,12 +51,12 @@ d9 %>%
 
 **2\. Remove any row that has -999 for *AT LEAST ONE* numeric variable.**
 
-Review the data (d9)
+Review the data (d19)
 
 ```{r, echo=FALSE}
 
 source("data.R")
-d9
+d19
 
 ```
 
@@ -64,12 +64,11 @@ Filter out any row that has -999 for **AT LEAST ONE** numeric variable
 
 * Note: You can read `dplyr::if_any()` here as, keep rows where ANY numeric variables are NOT -999 (notice the ! on the outside of the `dplyr::if_any()` function)
 
-* Note: You'll notice here that I used *%in%* rather than *==* to ensure I kept the NA values. 
 
 ```{r}
 
-d9 %>% 
-  dplyr::filter(!dplyr::if_any(is.numeric, ~ . %in% -999))
+d19 %>% 
+  dplyr::filter(!dplyr::if_any(is.numeric, ~ . == -999))
 
 ```
 

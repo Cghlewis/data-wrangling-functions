@@ -25,7 +25,7 @@ knitr::opts_chunk$set(comment = NA,
 
 <br>
 
-**1\. Return rows where "form" is not empty, and any variable var1:var4 is not equal to "MR".**
+**1\. Return rows where form is not empty, and any variable var1:var4 is not equal to "MR".**
 
 Review the data (d17)
 
@@ -38,19 +38,19 @@ d17
 
 We can see here that form is a character variable and missing values are denoted by "", so we will need to account for that in our formula.
 
-* Note: You can read `dplyr::if_any()` here as, keep rows where ANY variable (var1:var4) is equal to "MR"
+* Note: You can read `dplyr::if_any()` here as, keep rows where ANY variable (var1:var4) is not equal to "MR" (notice the ! on the outside of the `dplyr::if_all()` function)
 
-* Note: You'll notice here that I used *%in%* rather than *==* to ensure I keep the NA values for var1:var4. 
+* Note: You'll notice here that I used *%in%* rather than *==* to ensure I keep the NA values for var1:var4. See [Filter rows with NA values](https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-na.html) to learn more.
 
 ```{r}
 
 d17 %>%
-  filter(form == "" & !dplyr::if_any(var1:var4, ~ . %in% "MR"))
+  filter(form != "" & !dplyr::if_any(var1:var4, ~ . %in% "MR"))
 
 ```
 
 
-**2\. Return rows where "form" is empty, and var1:var4 are NOT ALL empty.**
+**2\. Return rows where form is empty, and var1:var4 are NOT ALL empty.**
 
 Review the data (d17)
 

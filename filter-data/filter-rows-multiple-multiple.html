@@ -381,10 +381,10 @@ columns within <code>dplyr::filter()</code>. This function is available
 in version 1.0.5 of <code>dplyr</code>.</li>
 </ul>
 <p><br></p>
-<p><strong>1. Return rows where “form” is not empty, and any variable
+<p><strong>1. Return rows where form is not empty, and any variable
 var1:var4 is not equal to “MR”.</strong></p>
 <p>Review the data (d17)</p>
-<pre><code># A tibble: 6 x 6
+<pre><code># A tibble: 7 x 6
      id form  var1  var2  var3  var4 
   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
 1    10 &quot;a&quot;   &quot;3&quot;   &quot;4&quot;   &quot;3&quot;   &quot;3&quot;  
@@ -392,27 +392,30 @@ var1:var4 is not equal to “MR”.</strong></p>
 3    12 &quot;b&quot;   &lt;NA&gt;  &quot;3&quot;   &quot;1&quot;   &quot;MR&quot; 
 4    13 &quot;&quot;    &quot;&quot;    &quot;&quot;    &quot;&quot;    &quot;&quot;   
 5    14 &quot;&quot;    &lt;NA&gt;  &quot;&quot;    &quot;&quot;    &quot;&quot;   
-6    15 &quot;&quot;    &quot;1&quot;   &quot;&quot;    &quot;3&quot;   &quot;MR&quot; </code></pre>
+6    15 &quot;&quot;    &quot;1&quot;   &quot;&quot;    &quot;3&quot;   &quot;MR&quot; 
+7    16 &quot;c&quot;   &lt;NA&gt;  &quot;2&quot;   &quot;1&quot;   &quot;2&quot;  </code></pre>
 <p>We can see here that form is a character variable and missing values
 are denoted by ““, so we will need to account for that in our
 formula.</p>
 <ul>
 <li><p>Note: You can read <code>dplyr::if_any()</code> here as, keep
-rows where ANY variable (var1:var4) is equal to “MR”</p></li>
+rows where ANY variable (var1:var4) is not equal to “MR” (notice the !
+on the outside of the <code>dplyr::if_all()</code> function)</p></li>
 <li><p>Note: You’ll notice here that I used <em>%in%</em> rather than
-<em>==</em> to ensure I keep the NA values for var1:var4.</p></li>
+<em>==</em> to ensure I keep the NA values for var1:var4. See <a href="https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-na.html">Filter
+rows with NA values</a> to learn more.</p></li>
 </ul>
 <pre class="r"><code>d17 %&gt;%
-  filter(form == &quot;&quot; &amp; !dplyr::if_any(var1:var4, ~ . %in% &quot;MR&quot;))</code></pre>
+  filter(form != &quot;&quot; &amp; !dplyr::if_any(var1:var4, ~ . %in% &quot;MR&quot;))</code></pre>
 <pre><code># A tibble: 2 x 6
      id form  var1  var2  var3  var4 
   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1    13 &quot;&quot;    &quot;&quot;    &quot;&quot;    &quot;&quot;    &quot;&quot;   
-2    14 &quot;&quot;    &lt;NA&gt;  &quot;&quot;    &quot;&quot;    &quot;&quot;   </code></pre>
-<p><strong>2. Return rows where “form” is empty, and var1:var4 are NOT
-ALL empty.</strong></p>
+1    10 a     3     4     3     3    
+2    16 c     &lt;NA&gt;  2     1     2    </code></pre>
+<p><strong>2. Return rows where form is empty, and var1:var4 are NOT ALL
+empty.</strong></p>
 <p>Review the data (d17)</p>
-<pre><code># A tibble: 6 x 6
+<pre><code># A tibble: 7 x 6
      id form  var1  var2  var3  var4 
   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
 1    10 &quot;a&quot;   &quot;3&quot;   &quot;4&quot;   &quot;3&quot;   &quot;3&quot;  
@@ -420,7 +423,8 @@ ALL empty.</strong></p>
 3    12 &quot;b&quot;   &lt;NA&gt;  &quot;3&quot;   &quot;1&quot;   &quot;MR&quot; 
 4    13 &quot;&quot;    &quot;&quot;    &quot;&quot;    &quot;&quot;    &quot;&quot;   
 5    14 &quot;&quot;    &lt;NA&gt;  &quot;&quot;    &quot;&quot;    &quot;&quot;   
-6    15 &quot;&quot;    &quot;1&quot;   &quot;&quot;    &quot;3&quot;   &quot;MR&quot; </code></pre>
+6    15 &quot;&quot;    &quot;1&quot;   &quot;&quot;    &quot;3&quot;   &quot;MR&quot; 
+7    16 &quot;c&quot;   &lt;NA&gt;  &quot;2&quot;   &quot;1&quot;   &quot;2&quot;  </code></pre>
 <p>You can see that this data has some funky things going on, var1:var4
 have a mixture of empty character values as well as NA values. Both of
 these will be considered “empty”. I will need to account for this when I

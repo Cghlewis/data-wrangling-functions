@@ -38,7 +38,7 @@ Filter out any completely empty row
 ```{r}
 
 d9 %>% 
-  dplyr::filter(!(dplyr::if_all(everything(), ~ is.na(.x))))
+  dplyr::filter(!(dplyr::if_all(everything(), ~ is.na(.))))
 
 
 ```

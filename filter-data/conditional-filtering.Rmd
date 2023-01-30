@@ -20,7 +20,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Conditionally filter grade levels based on school name. Filter to only grade=1 for school a and grade=9 for school b**
+**1\. Filter to only grade=1 for school a and only grade=9 for school b**
 
 Review the data (d11)
 
@@ -52,7 +52,7 @@ d11 %>%
 ```
 
 
-**2\. Conditionally filter grade levels based on school name. Filter to grades between 1 & 2 for school a and grade=9 for school b**
+**2\. Filter to grades between 1 & 2 for school a and grade=9 for school b**
 
 Review the data (d11)
 
@@ -89,7 +89,7 @@ d11 %>%
   filter((sch == "a" & (grade %in% 1:2)) | (sch == "b" & grade == 9))
 ```
 
-**3\. Conditionally filter based on school name. Filter to only grade=1 for school a and grade=9 for school b, but also keep all other schools, no matter the grade level**
+**3\. Filter to only grade=1 for school a and grade=9 for school b, but also keep all other schools, no matter the grade level**
 
 Review the data (d15)
 

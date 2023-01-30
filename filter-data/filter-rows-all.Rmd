@@ -22,58 +22,54 @@ Examples using criteria that applies to all variables
 
 ---
 
-* Note: Using `dplyr::across()` in `dplyr::filter()` is deprecated. `dplyr::if_any()` and `dplyr::if_all()` can be used for this functionality in `dplyr::filter()`.
+* Note: Using `dplyr::across()` in `dplyr::filter()` is deprecated. `dplyr::if_any()` and `dplyr::if_all()` are predicate functions used to select columns within `dplyr::filter()`. This function is available in version 1.0.5 of `dplyr`.
 
 **1\. Remove any row that has -999 for *AT LEAST ONE* variable.**
 
-Review the data (d10)
+Review the data (d19)
 
 ```{r, echo=FALSE}
 
 source("data.R")
-d10
+d19
 
 ```
 
 
 Filter out any row that has -999 for at least one variable
 
-* Note: Note the use of `dplyr::if_any()` predicate function to select columns. This function is available in version 1.0.5 of `dplyr`. You can read this as, keep rows where ANY variable is NOT -999 (hence the ! on the outside of the `dplyr::if_any()` function)
+* Note: You can read `dplyr::if_any()` here as, keep rows where ANY variable is NOT -999 (hence the ! on the outside of the `dplyr::if_any()` function)
 
 * Note: We use the `tidyselect` selection helper `everything()` to refer to all variables.
 
-* Note: You'll notice here that I used `%in%` rather than `==` to ensure I kept the NA values. 
 
 ```{r}
 
-d10 %>% 
-  dplyr::filter(!(dplyr::if_any(everything(), ~ .x %in% -999)))
+d19 %>% 
+  dplyr::filter(!dplyr::if_any(everything(), ~ . %in% -999))
 
 ```
 
 
 **2\. Keep any row that has -999 for *ALL* variables.**
 
-Review the data (d10)
+Review the data (d19)
 
 ```{r, echo=FALSE}
 
 source("data.R")
-d10
+d19
 
 ```
 
 Keep any row that has -999 for all variables
 
-* Note: Note the use of `dplyr::if_all()` predicate function to select columns. This function is available in version 1.0.5 of `dplyr`. You can read this as, keep rows where ALL variables are -999
-
-* Note: We use the `tidyverse` selection helper `everything()` to refer to all variables.
-
+* Note: You can read `dplyr::if_all()` here as, keep rows where ALL variables are -999
 
 ```{r}
 
-d10 %>% 
-  dplyr::filter(dplyr::if_all(everything(), ~ .x %in% -999))
+d19 %>% 
+  dplyr::filter(dplyr::if_all(everything(), ~ . == -999))
 
 ```
 

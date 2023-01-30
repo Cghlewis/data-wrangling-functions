@@ -20,7 +20,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-* Note: `dplyr::across()` function which allows us to use the `dplyr::select()` semantics within functions like `dplyr::summarise()` or `dplyr::mutate()`
+* Note: `dplyr::across()` is a function which allows us to use the `dplyr::select()` semantics within functions like `dplyr::summarise()` or `dplyr::mutate()`
 
 <br>
 

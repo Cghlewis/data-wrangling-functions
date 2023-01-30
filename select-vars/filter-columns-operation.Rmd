@@ -107,7 +107,7 @@ d6
 
 Create our new complete variable that is 1 if the survey is complete and 0 if it is not.
 
-* Note: I am using the `dplyr::mutate()` function to modify our existing variables.
+* Note: I am using the `dplyr::mutate()` function to create our new variable.
 
 * Note: I am using `dplyr::case_when()` to recode existing variables into a new variable.
 

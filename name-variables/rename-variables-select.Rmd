@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Rename variables when selecting them**
+**1\. Select `school name` and `Var1` and rename them**
 
 Review the data (d9)
 
@@ -34,7 +34,7 @@ d9
 ```
 
 
-Select "school name" and "Var1" and rename them in the select statement.
+Select `school name` and `Var1` and rename them in the select statement.
 
 * Note: The formula is the same as `dplyr::rename()`, *new value=old value*
 

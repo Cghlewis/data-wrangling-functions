@@ -454,8 +454,8 @@ going to select columns using the selection helper
 1 a           2     3.6
 2 b          NA     8.5
 3 c           3    NA  </code></pre>
-<p><strong>3. Concatenate a prefix, “T1_”, to only Var2 and
-Var3</strong></p>
+<p><strong>3. Concatenate a prefix, “T1_”, to only <code>Var2</code> and
+<code>Var3</code></strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -482,8 +482,8 @@ Var1.</p>
 1 a           2     3.6
 2 b          NA     8.5
 3 c           3    NA  </code></pre>
-<p><strong>4. Concatenate a prefix, “T1_”, to Var1 to Var3 and Var5
-</strong></p>
+<p><strong>4. Concatenate a prefix, “T1_”, to <code>Var1</code> to
+<code>Var3</code> and <code>Var5</code> </strong></p>
 <p>Review the data (d8)</p>
 <pre><code># A tibble: 3 x 5
   Var1   Var2  Var3  Var4  Var5
@@ -491,7 +491,8 @@ Var1.</p>
 1 a         2   3.6     1     0
 2 b        NA   8.5     2     1
 3 c         3  NA       3     1</code></pre>
-<p>Concatenate T1_ by adding the <code>base::paste0</code> function.</p>
+<p>Concatenate “T1_” by adding the <code>base::paste0</code>
+function.</p>
 <pre class="r"><code>d8 %&gt;% 
   dplyr::rename_with(~ base::paste0(&quot;T1_&quot;, .), .cols = c(Var1:Var3, Var5))</code></pre>
 <pre><code># A tibble: 3 x 5
@@ -525,7 +526,7 @@ names</strong></p>
 1 a         2   3.6
 2 b        NA   8.5
 3 c         3  NA  </code></pre>
-<p>Concatenate T1_ by adding the <code>stringr::str_c()</code>
+<p>Concatenate “T1_” by adding the <code>stringr::str_c()</code>
 function.</p>
 <ul>
 <li>Note: Here we can add the argument *sep = “_“* to add an underscore

@@ -132,7 +132,7 @@ d5 %>%
 
 <br>
 
-**1\. Remove s_ in all variable names**
+**1\. Remove "s_" in all variable names**
 
 Review the data (d5)
 

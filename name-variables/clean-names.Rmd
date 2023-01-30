@@ -38,7 +38,8 @@ Change all variable names to upper by adding the `base::toupper()` function
 
 ```{r}
 
-d1 %>% purrr::set_names(base::toupper)
+d1 %>% 
+  purrr::set_names(., base::toupper)
 
 ```
 
@@ -46,7 +47,8 @@ d1 %>% purrr::set_names(base::toupper)
 
 ```{r}
 
-d1 %>% purrr::set_names(stringr::str_to_upper)
+d1 %>% 
+  purrr::set_names(., stringr::str_to_upper)
 
 ```
 
@@ -75,7 +77,8 @@ Change all variable names to lower by adding the `base::tolower()` function
 
 ```{r}
 
-d1 %>% dplyr::rename_with(tolower)
+d1 %>% 
+  dplyr::rename_with(., tolower)
 
 ```
 
@@ -103,7 +106,8 @@ Change the variable names to snake_case (the default for `janitor::clean_names()
 
 ```{r}
 
-d3 %>% janitor::clean_names()
+d3 %>% 
+  janitor::clean_names()
 
 ```
 
@@ -124,7 +128,8 @@ Change the variable names to UpperCamelCase
 
 ```{r}
 
-d4 %>% janitor::clean_names(., case = "upper_camel")
+d4 %>% 
+  janitor::clean_names(., case = "upper_camel")
 
 ```
 

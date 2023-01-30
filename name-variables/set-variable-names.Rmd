@@ -25,7 +25,7 @@ knitr::opts_chunk$set(comment = NA,
 
 Review the data (d7)
 
-* Note: In this example you had a file, such as a csv file, with no variable names. You'll see that when you read the file in, R assigned variable names of X1, X2 and X3 in this instance.
+* Note: In this example you had a file, such as a csv file, with no variable names. You'll see that when you read the file in, R assigned variable names of `X1`, `X2` and `X3` in this instance.
 
 ```{r, echo=FALSE}
 
@@ -51,7 +51,8 @@ Add variable names
 
 ```{r}
 
-d7 %>% purrr::set_names("id", "grade", "test1")
+d7 %>% 
+  purrr::set_names("id", "grade", "test1")
 
 ```
 

@@ -91,7 +91,7 @@ d1 %>%
 
 ```
 
-**3\. Concatenate a prefix, "T1_", to only Var2 and Var3**
+**3\. Concatenate a prefix, "T1_", to only `Var2` and `Var3`**
 
 Review the data (d1)
 
@@ -120,7 +120,7 @@ d1 %>%
 
 ```
 
-**4\. Concatenate a prefix, "T1_", to Var1 to Var3 and Var5 **
+**4\. Concatenate a prefix, "T1_", to `Var1` to `Var3` and `Var5` **
 
 Review the data (d8)
 
@@ -131,7 +131,7 @@ d8
 
 ```
 
-Concatenate T1_ by adding the `base::paste0` function.
+Concatenate "T1_" by adding the `base::paste0` function.
 
 ```{r}
 
@@ -164,7 +164,7 @@ d1
 
 ```
 
-Concatenate T1_ by adding the `stringr::str_c()` function.
+Concatenate "T1_" by adding the `stringr::str_c()` function.
 
 * Note: Here we can add the argument *sep = "_"* to add an underscore after T1.
 

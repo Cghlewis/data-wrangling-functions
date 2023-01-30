@@ -25,7 +25,7 @@ knitr::opts_chunk$set(comment = NA,
 
 <br>
 
-**1\. Change the name of Var2**
+**1\. Change the name of `Var2`**
 
 Review the data (d1)
 
@@ -36,7 +36,7 @@ d1
 
 ```
 
-Change "Var2" to "grade"
+Change `Var2` to `grade`
 
 * Note: Quotes are not required around variable names. If your variable names have spaces in them, you will need to put backticks around the variable name (ex: \`Var 2\`)
 

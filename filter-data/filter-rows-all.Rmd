@@ -24,6 +24,8 @@ Examples using criteria that applies to all variables
 
 * Note: Using `dplyr::across()` in `dplyr::filter()` is deprecated. `dplyr::if_any()` and `dplyr::if_all()` are predicate functions used to select columns within `dplyr::filter()`. This function is available in version 1.0.5 of `dplyr`.
 
+<br>
+
 **1\. Remove any row that has -999 for *AT LEAST ONE* variable.**
 
 Review the data (d19)

@@ -1,0 +1,48 @@
+---
+title: "Rename variables in a select statement"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+
+### Package: dplyr
+
+---
+
+#### Function: `select()`
+
+---
+
+**1\. Rename variables when selecting them**
+
+Review the data (d9)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d9
+
+```
+
+
+Select "school name" and "Var1" and rename them in the select statement.
+
+* Note: The formula is the same as `dplyr::rename()`, *new value=old value*
+
+```{r}
+
+d9 %>%
+  dplyr::select(school_name = `school name`, enrollment = `Var1`)
+
+```
+
+Return to [Name Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Name Variables)

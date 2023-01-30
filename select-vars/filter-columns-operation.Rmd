@@ -20,6 +20,10 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
+* Note: `dplyr::across()` function which allows us to use the `dplyr::select()` semantics within functions like `dplyr::summarise()` or `dplyr::mutate()`
+
+<br>
+
 **1\. Round all mean scores to be 2 digits**
 
 Review the data (d5)
@@ -87,7 +91,9 @@ d5 %>%
 
 ---
 
-These functions are used in a filtering capacity and return a logical vector. For `dplyr::if_any()` it returns true when the statement is true for any of the variables. For `dplyr::if_all()` it returns true when the statement is true for all of the variables.
+* Note: `dplyr::if_any()` and `dplyr::if_all()` are predicate functions used to select columns in a filtering capacity and return a logical vector. This function is available in version 1.0.5 of `dplyr`. `dplyr::if_any()` returns a true when the statement is true for **any** of the variables. `dplyr::if_all()` returns a true when the statement is true for **all** of the variables.
+
+<br>
 
 **1\. Create a new variable that states if the survey was complete or not**
 

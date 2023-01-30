@@ -372,6 +372,14 @@ pre code {
 <div id="function-filter" class="section level4">
 <h4>Function: <code>filter()</code></h4>
 <hr />
+<ul>
+<li>Note: Using <code>dplyr::across()</code> in
+<code>dplyr::filter()</code> is deprecated. <code>dplyr::if_any()</code>
+and <code>dplyr::if_all()</code> are predicate functions used to select
+columns within <code>dplyr::filter()</code>. This function is available
+in version 1.0.5 of <code>dplyr</code>.</li>
+</ul>
+<p><br></p>
 <p><strong>1. Remove empty rows</strong></p>
 <p>Review the data (d9)</p>
 <pre><code># A tibble: 6 x 5
@@ -385,10 +393,8 @@ pre code {
 6 e          NA     NA    NA         NA</code></pre>
 <p>Filter out any completely empty row</p>
 <ul>
-<li>Note: Note the use of <code>dplyr::if_all()</code> predicate
-function to select columns. This function is available in version 1.0.5
-of <code>dplyr</code>. You can read this as, keep rows where ALL
-variables are NOT NA (hence the ! on the outside of the
+<li>Note: You can read <code>dplyr::if_all()</code> here as, keep rows
+where ALL variables are NOT NA (hence the ! on the outside of the
 <code>dplyr::if_all()</code> function)</li>
 </ul>
 <pre class="r"><code>d9 %&gt;% 

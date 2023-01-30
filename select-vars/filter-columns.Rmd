@@ -37,7 +37,8 @@ Drop extra1, extra2, extra3
 
 ```{r}
 
-d1 %>% dplyr::select(-c(extra1:extra3))
+d1 %>% 
+  dplyr::select(-c(extra1:extra3))
 
 ```
 
@@ -47,7 +48,8 @@ You can also drop columns based on shared column attributes using `tidyselect` s
 
 ```{r}
 
-d1 %>% dplyr::select(-(tidyselect::starts_with("extra")))
+d1 %>% 
+  dplyr::select(-(tidyselect::starts_with("extra")))
 
 ```
 
@@ -67,7 +69,8 @@ Keep id, test_score1 and test_score2
 
 ```{r}
 
-d2 %>% dplyr::select(id:test_score2)
+d2 %>% 
+  dplyr::select(id:test_score2)
 
 ```
 
@@ -77,7 +80,8 @@ You can also keep columns based on shared column attributes using `tidyselect` s
 
 ```{r}
 
-d2 %>% dplyr::select(id, tidyselect::contains("test"))
+d2 %>% 
+  dplyr::select(id, tidyselect::contains("test"))
 
 ```
 
@@ -85,7 +89,8 @@ You could also write this with both id and test in the `tidyselect::contains` se
 
 ```{r}
 
-d2 %>% dplyr::select(tidyselect::contains(c("id", "test")))
+d2 %>% 
+  dplyr::select(tidyselect::contains(c("id", "test")))
 
 ```
 
@@ -93,7 +98,8 @@ Another way you can write this is using the selection helper `matches()` which m
 
 ```{r}
 
-d2 %>% dplyr::select(tidyselect::matches("id|test"))
+d2 %>% 
+  dplyr::select(tidyselect::matches("id|test"))
 
 ```
 
@@ -115,7 +121,8 @@ Keep numeric columns by adding the selection helper `where()`.
 
 ```{r}
 
-d2 %>% dplyr::select(where(is.numeric))
+d2 %>% 
+  dplyr::select(where(is.numeric))
 
 ```
 
@@ -134,7 +141,8 @@ Similar to above, I could use the *-* to remove columns
 
 ```{r}
 
-d4 %>% dplyr::select(-extra1)
+d4 %>% 
+  dplyr::select(-extra1)
 
 ```
 
@@ -142,7 +150,8 @@ Another way I could select all columns except extra1 is to select extra2 through
 
 ```{r}
 
-d4 %>% dplyr::select(extra2:last_col())
+d4 %>% 
+  dplyr::select(extra2:last_col())
 
 ```
 
@@ -154,7 +163,7 @@ Review the data (d7)
 
 source("data.R")
 d7 %>%
-  relocate(stress1, stress1_reverse, anxiety1, anxiety1_reverse,)
+  relocate(stress1, stress1_reverse, anxiety1, anxiety1_reverse)
 
 ```
 

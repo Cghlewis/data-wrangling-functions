@@ -66,9 +66,9 @@ d13 %>%
 ```
 
 
-There are still other ways to keep NAs as well. As we saw in [NA] there are other ways to keep NA values using the *%in%* operator. 
+There are still other ways to keep NAs as well. As we saw in [Filter rows that contain NA values](https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-na.html) there are other ways to keep NA values using the *%in%* operator. 
 
-However, in this scenario where we are comparing two vectors, you cannot use the *%in%* operator the same way we that we used it in [NA values]. Here you need to add the `dplyr::rowwise()` function. This is also a better method when both q1 and q2 might have NA values and you want to keep rows when either column has NA, but not when both columns have NA.
+However, in this scenario where we are comparing two vectors, you cannot use the *%in%* operator the same way we that we used it in [Filter rows that contain NA values](https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-na.html). Here you need to add the `dplyr::rowwise()` function. This is also a better method when both q1 and q2 might have NA values and you want to keep rows when either column has NA, but not when both columns have NA.
 
 
 ```{r}

@@ -386,7 +386,8 @@ pre code {
 <ul>
 <li>Note: Note the use of <em>-</em> to remove columns.</li>
 </ul>
-<pre class="r"><code>d1 %&gt;% dplyr::select(-c(extra1:extra3))</code></pre>
+<pre class="r"><code>d1 %&gt;% 
+  dplyr::select(-c(extra1:extra3))</code></pre>
 <pre><code># A tibble: 5 x 2
      id test_score
   &lt;dbl&gt;      &lt;dbl&gt;
@@ -403,7 +404,8 @@ pre code {
 <code>contains()</code>, <code>ends_with()</code>, <code>where()</code>,
 <code>matches()</code>, and more.</li>
 </ul>
-<pre class="r"><code>d1 %&gt;% dplyr::select(-(tidyselect::starts_with(&quot;extra&quot;)))</code></pre>
+<pre class="r"><code>d1 %&gt;% 
+  dplyr::select(-(tidyselect::starts_with(&quot;extra&quot;)))</code></pre>
 <pre><code># A tibble: 5 x 2
      id test_score
   &lt;dbl&gt;      &lt;dbl&gt;
@@ -424,7 +426,8 @@ test_score2)</strong></p>
 4 d           4      0    13         217         499
 5 &lt;NA&gt;       NA     NA    NA          NA          NA</code></pre>
 <p>Keep id, test_score1 and test_score2</p>
-<pre class="r"><code>d2 %&gt;% dplyr::select(id:test_score2)</code></pre>
+<pre class="r"><code>d2 %&gt;% 
+  dplyr::select(id:test_score2)</code></pre>
 <pre><code># A tibble: 5 x 3
      id test_score1 test_score2
   &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
@@ -441,7 +444,8 @@ test_score2)</strong></p>
 <code>starts_with()</code>, <code>ends_with()</code>,
 <code>where()</code>, <code>matches()</code>, and more.</li>
 </ul>
-<pre class="r"><code>d2 %&gt;% dplyr::select(id, tidyselect::contains(&quot;test&quot;))</code></pre>
+<pre class="r"><code>d2 %&gt;% 
+  dplyr::select(id, tidyselect::contains(&quot;test&quot;))</code></pre>
 <pre><code># A tibble: 5 x 3
      id test_score1 test_score2
   &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
@@ -453,7 +457,8 @@ test_score2)</strong></p>
 <p>You could also write this with both id and test in the
 <code>tidyselect::contains</code> selection helper. Note the use of
 <code>c()</code> to create a character vector.</p>
-<pre class="r"><code>d2 %&gt;% dplyr::select(tidyselect::contains(c(&quot;id&quot;, &quot;test&quot;)))</code></pre>
+<pre class="r"><code>d2 %&gt;% 
+  dplyr::select(tidyselect::contains(c(&quot;id&quot;, &quot;test&quot;)))</code></pre>
 <pre><code># A tibble: 5 x 3
      id test_score1 test_score2
   &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
@@ -465,7 +470,8 @@ test_score2)</strong></p>
 <p>Another way you can write this is using the selection helper
 <code>matches()</code> which matches based on a regex operator rather
 than a literal string like <code>contains()</code>.</p>
-<pre class="r"><code>d2 %&gt;% dplyr::select(tidyselect::matches(&quot;id|test&quot;))</code></pre>
+<pre class="r"><code>d2 %&gt;% 
+  dplyr::select(tidyselect::matches(&quot;id|test&quot;))</code></pre>
 <pre><code># A tibble: 5 x 3
      id test_score1 test_score2
   &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
@@ -491,7 +497,8 @@ than a literal string like <code>contains()</code>.</p>
 (returns a true/false), in the <code>tidyselect</code> selection helper
 <code>where()</code>.</li>
 </ul>
-<pre class="r"><code>d2 %&gt;% dplyr::select(where(is.numeric))</code></pre>
+<pre class="r"><code>d2 %&gt;% 
+  dplyr::select(where(is.numeric))</code></pre>
 <pre><code># A tibble: 5 x 5
   extra2 extra3    id test_score1 test_score2
    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
@@ -511,7 +518,8 @@ than a literal string like <code>contains()</code>.</p>
 4 d      NA          0     13        217
 5 e      NA         NA     NA         NA</code></pre>
 <p>Similar to above, I could use the <em>-</em> to remove columns</p>
-<pre class="r"><code>d4 %&gt;% dplyr::select(-extra1)</code></pre>
+<pre class="r"><code>d4 %&gt;% 
+  dplyr::select(-extra1)</code></pre>
 <pre><code># A tibble: 5 x 4
   extra2 extra3 stu_id test_score
   &lt;lgl&gt;   &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;
@@ -525,7 +533,8 @@ extra2 through all columns until the last column, using the
 <code>tidyselect</code> selection helper <code>last_col()</code>. This
 is helpful if you don’t always know what the last column is but you know
 you want to keep everything until the end.</p>
-<pre class="r"><code>d4 %&gt;% dplyr::select(extra2:last_col())</code></pre>
+<pre class="r"><code>d4 %&gt;% 
+  dplyr::select(extra2:last_col())</code></pre>
 <pre><code># A tibble: 5 x 4
   extra2 extra3 stu_id test_score
   &lt;lgl&gt;   &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;

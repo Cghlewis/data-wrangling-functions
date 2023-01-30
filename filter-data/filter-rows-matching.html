@@ -412,15 +412,16 @@ of data.</p></li>
   &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; 
 1    10 harris Harris
 2    30 lewis  &lt;NA&gt;  </code></pre>
-<p>There are still other ways to keep NAs as well. As we saw in [NA]
-there are other ways to keep NA values using the <em>%in%</em>
-operator.</p>
+<p>There are still other ways to keep NAs as well. As we saw in <a href="https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-na.html">Filter
+rows that contain NA values</a> there are other ways to keep NA values
+using the <em>%in%</em> operator.</p>
 <p>However, in this scenario where we are comparing two vectors, you
 cannot use the <em>%in%</em> operator the same way we that we used it in
-[NA values]. Here you need to add the <code>dplyr::rowwise()</code>
-function. This is also a better method when both q1 and q2 might have NA
-values and you want to keep rows when either column has NA, but not when
-both columns have NA.</p>
+<a href="https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-na.html">Filter
+rows that contain NA values</a>. Here you need to add the
+<code>dplyr::rowwise()</code> function. This is also a better method
+when both q1 and q2 might have NA values and you want to keep rows when
+either column has NA, but not when both columns have NA.</p>
 <pre class="r"><code>d13 %&gt;% 
   dplyr::rowwise() %&gt;%
   dplyr::filter(!q1 %in% q2)</code></pre>

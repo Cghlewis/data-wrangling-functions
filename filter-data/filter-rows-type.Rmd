@@ -39,11 +39,12 @@ Filter out any row that has -999 for **ALL** numeric variables
 
 * Note: You can read `dplyr::if_all()` here as, keep rows where ALL numeric variables are NOT NA (hence the ! on the outside of the `dplyr::if_all()` function)
 
+Note: You need to wrap `is.numeric`, a predicate function (returns a true/false), in the `tidyselect` selection helper `where()`.
 
 ```{r}
 
 d9 %>% 
-  dplyr::filter(!dplyr::if_all(is.numeric,~ . == -999))
+  dplyr::filter(!dplyr::if_all(where(is.numeric),~ . == -999))
 
 
 ```
@@ -68,7 +69,7 @@ Filter out any row that has -999 for **AT LEAST ONE** numeric variable
 ```{r}
 
 d19 %>% 
-  dplyr::filter(!dplyr::if_any(is.numeric, ~ . == -999))
+  dplyr::filter(!dplyr::if_any(where(is.numeric), ~ . == -999))
 
 ```
 

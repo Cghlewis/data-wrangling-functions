@@ -196,11 +196,13 @@ Filter out any row that has NA for **ALL** numeric variables
 
 * Note: You can read `dplyr::if_all()` here as, keep rows where ALL numeric variables are NOT NA (notice the ! on the outside of the `dplyr::if_all()` function)
 
+Note: You need to wrap `is.numeric`, a predicate function (returns a true/false), in the `tidyselect` selection helper `where()`.
+
 
 ```{r}
 
 d9 %>% 
-  dplyr::filter(!dplyr::if_all(is.numeric, ~ is.na(.)))
+  dplyr::filter(!dplyr::if_all(where(is.numeric), ~ is.na(.)))
 
 
 ```

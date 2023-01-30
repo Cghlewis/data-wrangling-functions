@@ -579,8 +579,11 @@ variables</p>
 where ALL numeric variables are NOT NA (notice the ! on the outside of
 the <code>dplyr::if_all()</code> function)</li>
 </ul>
+<p>Note: You need to wrap <code>is.numeric</code>, a predicate function
+(returns a true/false), in the <code>tidyselect</code> selection helper
+<code>where()</code>.</p>
 <pre class="r"><code>d9 %&gt;% 
-  dplyr::filter(!dplyr::if_all(is.numeric, ~ is.na(.)))</code></pre>
+  dplyr::filter(!dplyr::if_all(where(is.numeric), ~ is.na(.)))</code></pre>
 <pre><code># A tibble: 4 x 5
   extra1 extra2 extra3    id test_score
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;

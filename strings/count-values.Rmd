@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Count the length of item1**
+**1\. Count the length of `item1`**
 
 Review the data (d11)
 
@@ -34,9 +34,9 @@ d11
 
 ```
 
-In this data, "item1" represents student responses of a word. Each letter represents a correct phonetic sound. We want to count the number of correct sounds for each student.
+In this data, `item1` represents student responses of a word. Each letter represents a correct phonetic sound. We want to count the number of correct sounds for each student.
 
-We first create a new variable "item1_score" using `dplyr::mutate()`. We can then use `stringr::str_length()` to count the length of our strings.
+We first create a new variable `item1_score` using `dplyr::mutate()`. We can then use `stringr::str_length()` to count the length of our strings.
 
 ```{r}
 
@@ -53,7 +53,7 @@ d11 %>%
 
 ---
 
-**1\. Count the length of item1**
+**1\. Count the length of `item1`**
 
 Review the data (d12)
 
@@ -65,7 +65,7 @@ d12
 
 ```
 
-Same as above, "item1" represents student responses of a word. Each letter represents a correct phonetic sound. We want to count the number of correct sounds for each student. However, this time, our data has commas between letters so we cannot use `stringr::str_length()` because it will count the commas, giving us incorrect scores.
+Same as above, `item1` represents student responses of a word. Each letter represents a correct phonetic sound. We want to count the number of correct sounds for each student. However, this time, our data has commas between letters so we cannot use `stringr::str_length()` because it will count the commas, giving us incorrect scores.
 
 Instead we use `stringr::str_count()` and add the argument *pattern =* and we add the regex pattern "[a-z]" which says to count any lowercase letter a to z.
 

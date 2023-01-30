@@ -373,8 +373,8 @@ pre code {
 <div id="function-str_c" class="section level4">
 <h4>Function: <code>str_c()</code></h4>
 <hr />
-<p><strong>1. Combine two variables (school and district) with a
-separator</strong></p>
+<p><strong>1. Combine two variables (<code>school</code> and
+<code>district</code>) with a separator (<code>_</code>)</strong></p>
 <p>Review the data (d9)</p>
 <pre><code># A tibble: 4 x 3
      id school  district 
@@ -384,7 +384,7 @@ separator</strong></p>
 3     3 schoolc districte
 4     4 schoold districte</code></pre>
 <p>I will first use <code>dplyr::mutate()</code> to create my new
-variable which I am calling “sch_dist”.</p>
+variable which I am calling <code>sch_dist</code>.</p>
 <p>I can then use my <code>stringr::str_c()</code> function to combine
 or concatenate the two variables which I want to separate by a “,” so I
 will add the argument <em>collapse = “,”</em></p>
@@ -397,8 +397,8 @@ will add the argument <em>collapse = “,”</em></p>
 2     2 schoolb districtb schoolb,districtb
 3     3 schoolc districte schoolc,districte
 4     4 schoold districte schoold,districte</code></pre>
-<p><strong>2. Combine two variables (item1 and measure) with no
-separator</strong></p>
+<p><strong>2. Combine two variables (<code>item1</code> and
+<code>measure</code>) with no separator</strong></p>
 <p>Review the data (d10)</p>
 <pre><code># A tibble: 4 x 3
      id item1 measure
@@ -408,7 +408,7 @@ separator</strong></p>
 3     3    15 cm     
 4     4    20 cm     </code></pre>
 <p>Again, I will use <code>dplyr::mutate()</code> first to create my new
-variable “item1_measure”.</p>
+variable <code>item1_measure</code>.</p>
 <p>Then I can use my <code>stringr</code> function to combine
 values.</p>
 <p>In this case I don’t want any separator between my two values so I

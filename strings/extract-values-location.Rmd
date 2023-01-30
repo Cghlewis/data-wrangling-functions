@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Extract the middle and last initials based on location**
+**1\. Extract the middle and last `initials` based on location**
 
 Review the data (d6)
 
@@ -41,12 +41,12 @@ Pull the middle and last initial.
 ```{r}
 
 d6 %>%
-  dplyr::mutate(fl_init = stringr::str_sub(initials, start = 2, end = -1))
+  dplyr::mutate(ml_init = stringr::str_sub(initials, start = 2, end = -1))
 
 ```
 
 
-**2\. Extract middle initials based on location**
+**2\. Extract middle `initials` based on location**
 
 Review the data (d5)
 
@@ -63,7 +63,7 @@ Notice some names have 2 middle initials.
 ```{r}
 
 d5 %>%
-  dplyr::mutate(f_init = str_sub(initials, start = 2, end = -2))
+  dplyr::mutate(m_init = str_sub(initials, start = 2, end = -2))
 
 ```
 

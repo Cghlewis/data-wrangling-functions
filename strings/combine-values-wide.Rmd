@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Combine two variables (school and district) with a separator**
+**1\. Combine two variables (`school` and `district`) with a separator (`_`)**
 
 Review the data (d9)
 
@@ -34,7 +34,7 @@ d9
 
 ```
 
-I will first use `dplyr::mutate()` to create my new variable which I am calling "sch_dist".
+I will first use `dplyr::mutate()` to create my new variable which I am calling `sch_dist`.
 
 I can then use my `stringr::str_c()` function to combine or concatenate the two variables which I want to separate by a "," so I will add the argument *collapse = ","*
 
@@ -45,7 +45,7 @@ d9 %>%
 
 ```
 
-**2\. Combine two variables (item1 and measure) with no separator**
+**2\. Combine two variables (`item1` and `measure`) with no separator**
 
 Review the data (d10)
 
@@ -57,7 +57,7 @@ d10
 
 ```
 
-Again, I will use `dplyr::mutate()` first to create my new variable "item1_measure".
+Again, I will use `dplyr::mutate()` first to create my new variable `item1_measure`.
 
 Then I can use my `stringr` function to combine values.
 

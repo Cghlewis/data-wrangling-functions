@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Combine subtests based on id and status**
+**1\. Combine subtests based on `id` and `status`**
 
 Review the data (d8)
 
@@ -34,7 +34,7 @@ d8
 
 ```
 
-To combine subtests in long format, I first need to group the data by both "id" and "status" using `dplyr::group_by()`.
+To combine subtests in long format, I first need to group the data by both `id` and `status` using `dplyr::group_by()`.
 
 Then I can create a new variable "subtest" which will be my combined subtests. I can use my `stringr::str_c()` function to combine or concatenate the subtests. I want subtests to be separated by a "," so I will add the argument *collapse = ","*
 

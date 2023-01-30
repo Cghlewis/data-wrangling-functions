@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Remove all "cm" or "CM" from item1**
+**1\. Remove all "cm" or "CM" from `item1`**
 
 Review the data (d3)
 
@@ -57,7 +57,7 @@ d3 %>%
 ```
 
 
-**2\. Remove all instances of the word "and" from item1**
+**2\. Remove all instances of the word "and" from `item1`**
 
 Review the data (d4)
 

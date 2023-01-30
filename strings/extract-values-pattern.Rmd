@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Extract all numeric values from item1**
+**1\. Extract all numeric values from `item1`**
 
 Review the data (d3)
 
@@ -34,7 +34,7 @@ d3
 
 ```
 
-We first need to create our new variable "item1" which will write over our existing "item1" variable since I named it the same name. We do this using `dplyr::mutate()`.
+We first need to create our new variable `item1` which will write over our existing `item1` variable since I named it the same name. We do this using `dplyr::mutate()`.
 
 Next we use the argument *pattern =* in our `stringr` function to denote what pattern we want to extract. If it wasn't for the 2.5 value, this pattern would be fairly simple. We could use something like "\\\\d\*" to say zero or more digits.
 
@@ -60,7 +60,7 @@ d3 %>%
 
 ---
 
-**1\. Extract all numeric values from item1**
+**1\. Extract all numeric values from `item1`**
 
 Review the data (d3)
 
@@ -95,7 +95,7 @@ d3 %>%
 
 ---
 
-**1\. Extract all numeric values from item1**
+**1\. Extract all numeric values from `item1`**
 
 Review the data (d3)
 

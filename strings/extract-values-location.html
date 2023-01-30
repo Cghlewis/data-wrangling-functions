@@ -373,7 +373,7 @@ pre code {
 <div id="function-str_sub" class="section level4">
 <h4>Function: <code>str_sub()</code></h4>
 <hr />
-<p><strong>1. Extract the middle and last initials based on
+<p><strong>1. Extract the middle and last <code>initials</code> based on
 location</strong></p>
 <p>Review the data (d6)</p>
 <pre><code># A tibble: 4 x 2
@@ -389,15 +389,16 @@ location</strong></p>
 end.</li>
 </ul>
 <pre class="r"><code>d6 %&gt;%
-  dplyr::mutate(fl_init = stringr::str_sub(initials, start = 2, end = -1))</code></pre>
+  dplyr::mutate(ml_init = stringr::str_sub(initials, start = 2, end = -1))</code></pre>
 <pre><code># A tibble: 4 x 3
-     id initials fl_init
+     id initials ml_init
   &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;  
 1     1 cgl      gl     
 2     2 fwl      wl     
 3     3 kas      as     
 4     4 rab      ab     </code></pre>
-<p><strong>2. Extract middle initials based on location</strong></p>
+<p><strong>2. Extract middle <code>initials</code> based on
+location</strong></p>
 <p>Review the data (d5)</p>
 <pre><code># A tibble: 4 x 2
      id initials
@@ -408,9 +409,9 @@ end.</li>
 4     4 rkab    </code></pre>
 <p>Notice some names have 2 middle initials.</p>
 <pre class="r"><code>d5 %&gt;%
-  dplyr::mutate(f_init = str_sub(initials, start = 2, end = -2))</code></pre>
+  dplyr::mutate(m_init = str_sub(initials, start = 2, end = -2))</code></pre>
 <pre><code># A tibble: 4 x 3
-     id initials f_init
+     id initials m_init
   &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt; 
 1     1 cgl      g     
 2     2 fwl      w     

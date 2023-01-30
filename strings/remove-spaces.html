@@ -373,7 +373,7 @@ pre code {
 <div id="function-str_trim" class="section level4">
 <h4>Function: <code>str_trim()</code></h4>
 <hr />
-<p><strong>1. Remove spaces from a variable</strong></p>
+<p><strong>1. Remove spaces from <code>item1</code></strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 5 x 2
   stu_id item1  
@@ -383,9 +383,9 @@ pre code {
 3   3456 &quot;maybe&quot;
 4   4567 &quot;no&quot;   
 5   5678 &quot;yes&quot;  </code></pre>
-<p>I can see here that my variable item1 has some values with added
-spaces. This is going to cause issues for me when I try to do things
-like filter or group using this variable.</p>
+<p>I can see here that my variable <code>item1</code> has some values
+with added spaces. This is going to cause issues for me when I try to do
+things like filter or group using this variable.</p>
 <p>For example if I want to get a table of values for item1, we can see
 that the yes values are not grouping together.</p>
 <pre class="r"><code>d1 %&gt;%
@@ -413,7 +413,8 @@ also say “right” or “both” (which is the default argument).</p></li>
 3   3456 maybe
 4   4567 no   
 5   5678 yes  </code></pre>
-<p><strong>2. Remove spaces from multiple variable</strong></p>
+<p><strong>2. Remove spaces from <code>item1</code> and
+<code>item2</code></strong></p>
 <p>Review the data (d2)</p>
 <pre><code># A tibble: 5 x 3
   stu_id item1   item2  
@@ -446,7 +447,7 @@ this.</p>
 <h4>Function: <code>str_squish()</code></h4>
 <hr />
 <p><strong>1. Remove all excessive leading, trailing and middle spaces
-from a variable</strong></p>
+from <code>item1</code></strong></p>
 <p>Review the data (d7)</p>
 <pre><code># A tibble: 4 x 2
      id item1              
@@ -455,7 +456,7 @@ from a variable</strong></p>
 2     2 &quot;1, and 3&quot;         
 3     3 &quot;3&quot;                
 4     4 &quot;1, and 2,  and 3&quot; </code></pre>
-<p>Remove all spaces from “item1”</p>
+<p>Remove all spaces from <code>item1</code></p>
 <pre class="r"><code>d7 %&gt;%
   dplyr::mutate(item1 = stringr::str_squish(item1))</code></pre>
 <pre><code># A tibble: 4 x 2

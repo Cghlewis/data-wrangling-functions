@@ -373,7 +373,7 @@ pre code {
 <div id="function-str_length" class="section level4">
 <h4>Function: <code>str_length()</code></h4>
 <hr />
-<p><strong>1. Count the length of item1</strong></p>
+<p><strong>1. Count the length of <code>item1</code></strong></p>
 <p>Review the data (d11)</p>
 <pre><code># A tibble: 4 x 2
      id item1
@@ -382,10 +382,10 @@ pre code {
 2     2 &quot;ap&quot; 
 3     3 &quot;&quot;   
 4     4 &quot;p&quot;  </code></pre>
-<p>In this data, “item1” represents student responses of a word. Each
-letter represents a correct phonetic sound. We want to count the number
-of correct sounds for each student.</p>
-<p>We first create a new variable “item1_score” using
+<p>In this data, <code>item1</code> represents student responses of a
+word. Each letter represents a correct phonetic sound. We want to count
+the number of correct sounds for each student.</p>
+<p>We first create a new variable <code>item1_score</code> using
 <code>dplyr::mutate()</code>. We can then use
 <code>stringr::str_length()</code> to count the length of our
 strings.</p>
@@ -404,7 +404,7 @@ strings.</p>
 <div id="function-str_count" class="section level4">
 <h4>Function: <code>str_count()</code></h4>
 <hr />
-<p><strong>1. Count the length of item1</strong></p>
+<p><strong>1. Count the length of <code>item1</code></strong></p>
 <p>Review the data (d12)</p>
 <pre><code># A tibble: 4 x 2
      id item1  
@@ -413,10 +413,10 @@ strings.</p>
 2     2 &quot;a,p&quot;  
 3     3 &quot;&quot;     
 4     4 &quot;p&quot;    </code></pre>
-<p>Same as above, “item1” represents student responses of a word. Each
-letter represents a correct phonetic sound. We want to count the number
-of correct sounds for each student. However, this time, our data has
-commas between letters so we cannot use
+<p>Same as above, <code>item1</code> represents student responses of a
+word. Each letter represents a correct phonetic sound. We want to count
+the number of correct sounds for each student. However, this time, our
+data has commas between letters so we cannot use
 <code>stringr::str_length()</code> because it will count the commas,
 giving us incorrect scores.</p>
 <p>Instead we use <code>stringr::str_count()</code> and add the argument

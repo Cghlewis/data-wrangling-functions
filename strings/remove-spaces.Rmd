@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Remove spaces from a variable**
+**1\. Remove spaces from `item1`**
 
 Review the data (d1)
 
@@ -34,7 +34,7 @@ d1
 
 ```
 
-I can see here that my variable item1 has some values with added spaces. This is going to cause issues for me when I try to do things like filter or group using this variable.
+I can see here that my variable `item1` has some values with added spaces. This is going to cause issues for me when I try to do things like filter or group using this variable.
 
 For example if I want to get a table of values for item1, we can see that the yes values are not grouping together.
 
@@ -58,7 +58,7 @@ d1 %>%
 
 ```
 
-**2\. Remove spaces from multiple variable**
+**2\. Remove spaces from `item1` and `item2`**
 
 Review the data (d2)
 
@@ -87,7 +87,7 @@ d2 %>%
 
 ---
 
-**1\. Remove all excessive leading, trailing and middle spaces from a variable**
+**1\. Remove all excessive leading, trailing and middle spaces from `item1`**
 
 Review the data (d7)
 
@@ -99,7 +99,7 @@ d7
 
 ```
 
-Remove all spaces from "item1"
+Remove all spaces from `item1`
 
 ```{r}
 

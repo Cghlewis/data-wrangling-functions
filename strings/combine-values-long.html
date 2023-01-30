@@ -373,7 +373,8 @@ pre code {
 <div id="function-str_c" class="section level4">
 <h4>Function: <code>str_c()</code></h4>
 <hr />
-<p><strong>1. Combine subtests based on id and status</strong></p>
+<p><strong>1. Combine subtests based on <code>id</code> and
+<code>status</code></strong></p>
 <p>Review the data (d8)</p>
 <pre><code># A tibble: 6 x 3
      id status   subtest
@@ -385,7 +386,8 @@ pre code {
 5     2 complete test2  
 6     2 complete test3  </code></pre>
 <p>To combine subtests in long format, I first need to group the data by
-both “id” and “status” using <code>dplyr::group_by()</code>.</p>
+both <code>id</code> and <code>status</code> using
+<code>dplyr::group_by()</code>.</p>
 <p>Then I can create a new variable “subtest” which will be my combined
 subtests. I can use my <code>stringr::str_c()</code> function to combine
 or concatenate the subtests. I want subtests to be separated by a “,” so

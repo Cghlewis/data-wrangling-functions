@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Replace (sr) and sr. with "senior"**
+**1\. Replace values in `school`**
 
 Review the data (d13)
 
@@ -34,7 +34,9 @@ d13
 
 ```
 
-We first need to create a new variable "school" using `dplyr::mutate()` which will overwrite the existing "school" variable. We can then use `stringr::str_replace()` to replace our pattern using the *pattern* argument and denote our replacement using the *replacement* argument. 
+Replace "sr." and "(senior)" with "senior"
+
+We first need to create a new variable "school" using `dplyr::mutate()` which will overwrite the existing `school` variable. We can then use `stringr::str_replace()` to replace our pattern using the *pattern* argument and denote our replacement using the *replacement* argument. 
 
 * Note: The *pattern* argument uses regex arguments. Both periods and parentheses have special meaning but you can escape the special meaning using a double backslash or a bracket (as used in this case).
 
@@ -45,7 +47,7 @@ d13 %>%
 
 ```
 
-**2\. Replace all instances of the word "and" from item1 with "or"**
+**2\. Replace values in `item1`**
 
 Review the data (d4)
 
@@ -56,6 +58,8 @@ source("data.R")
 d4
 
 ```
+
+Replace all instances of the word "and" from `item1` with "or"
 
 Notice here, if we simply use `stringr::str_replace()` we will only replace the first instance of "and".
 

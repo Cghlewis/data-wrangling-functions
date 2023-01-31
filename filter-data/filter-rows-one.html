@@ -375,7 +375,7 @@ variable</h1>
 <p>Examples using one criteria for one variable (character)</p>
 <hr />
 <p><strong>1. Keep any row that has the exact match of “harris” for
-tch_name.</strong></p>
+<code>tch_name</code>.</strong></p>
 <p>Review the data (d8)</p>
 <pre><code># A tibble: 4 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
@@ -384,7 +384,7 @@ tch_name.</strong></p>
 2 b        -999      0     11        220 steve   
 3 c        -999   -999     12        250 harris  
 4 d           4      0     13        217 lewis   </code></pre>
-<p>Keep any row that has “harris” for tch_name.</p>
+<p>Keep any row that has “harris” for <code>tch_name</code>.</p>
 <ul>
 <li>Note: Use the logical operator <em>==</em> to denote exactly equal
 to.</li>
@@ -406,7 +406,7 @@ to.</li>
 1 a           1      2     10        205 harris  
 2 c        -999   -999     12        250 harris  </code></pre>
 <p><strong>2. Remove any row that has the exact match of “harris” for
-tch_name.</strong></p>
+<code>tch_name</code>.</strong></p>
 <p>Review the data (d8)</p>
 <pre><code># A tibble: 4 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
@@ -415,7 +415,7 @@ tch_name.</strong></p>
 2 b        -999      0     11        220 steve   
 3 c        -999   -999     12        250 harris  
 4 d           4      0     13        217 lewis   </code></pre>
-<p>Filter out any row that has “harris” for tch_name.</p>
+<p>Filter out any row that has “harris” for <code>tch_name</code>.</p>
 <ul>
 <li>Note: Use the logical operator <em>!=</em> to denote not equal
 to.</li>
@@ -453,8 +453,8 @@ returns non-matching elements.</p>
 <h4>Function: <code>filter()</code></h4>
 <p>Examples using one criteria for one variable (date)</p>
 <hr />
-<p><strong>3. Keep any row where test_date occurred in the year
-2021.</strong></p>
+<p><strong>3. Keep any row where <code>test_date</code> occurred in the
+year 2021.</strong></p>
 <p>Review the data (d12)</p>
 <pre><code># A tibble: 6 x 5
   sch   stu_id test_date     q1    q2
@@ -465,7 +465,8 @@ returns non-matching elements.</p>
 4 b         22 2019-04-12    13   217
 5 b         22 &lt;NA&gt;          NA    NA
 6 b         22 2021-03-29    14   251</code></pre>
-<p>First lets check to see what type of variable test_date is.</p>
+<p>First lets check to see what type of variable <code>test_date</code>
+is.</p>
 <p>We find that it is a character. In order to filter as a date, we
 either need to convert the variable type to date now, or within our
 filter.</p>
@@ -516,7 +517,7 @@ function.</p>
 <p>Examples using one criteria for one variable (numeric)</p>
 <hr />
 <p><strong>1. Keep any row whose value is greater than or equal to 0 for
-extra2.</strong></p>
+<code>extra2</code>.</strong></p>
 <p>Review the data (d8)</p>
 <pre><code># A tibble: 4 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
@@ -526,7 +527,7 @@ extra2.</strong></p>
 3 c        -999   -999     12        250 harris  
 4 d           4      0     13        217 lewis   </code></pre>
 <p>Keep any row that has a value greater than or equal to zero for
-extra2.</p>
+<code>extra2</code>.</p>
 <ul>
 <li>Note: Use the logical operator <em>&gt;=</em> to denote greater than
 or equal to.</li>

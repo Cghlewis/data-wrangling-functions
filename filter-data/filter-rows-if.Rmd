@@ -1,0 +1,138 @@
+---
+title: "Filter rows using if_all or if_any"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+
+### Package: dplyr
+
+---
+
+#### Function: `filter()`
+
+---
+
+* Note: Using `dplyr::across()` in `dplyr::filter()` is deprecated. `dplyr::if_any()` and `dplyr::if_all()` are predicate functions used to select columns within `dplyr::filter()`. This function is available in version 1.0.5 of `dplyr`. `dplyr::if_any()` returns a true when the statement is true for **any** of the variables. `dplyr::if_all()` returns a true when the statement is true for **all** of the variables.
+
+
+<br>
+
+**1\. Keep rows where respondent has responses that are _not_ missing for ANY variable (var1:var4). Missing data is denoted by "MR"**
+
+Review the data (d20)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d20
+
+```
+
+You can read this as "If a row has a value that is **NOT** \"MR" for ANY variable (var1:var4), return the row"
+
+```{r}
+
+d20 %>%
+  dplyr::filter(dplyr::if_any(var1:var4, ~ . != "MR"))
+
+```
+
+**2\. Keep rows where respondent has missing reponses for ALL variables (var1:var4). Missing data is denoted by "MR"**
+
+Review the data (d20)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d20
+
+```
+
+You can read this as "If a row has a value of \"MR" for ALL variables (var1:var4), return the row"
+
+```{r}
+
+d20 %>%
+  dplyr::filter(dplyr::if_all(var1:var4, ~ . == "MR"))
+
+```
+
+
+**3\. Keep rows where respondent has missing responses for ANY variable (var1:var4). Missing data is denoted by "MR"**
+
+Review the data (d20)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d20
+
+```
+
+You can read this as "If a row has a value of \"MR" for ANY variables (var1:var4), return the row"
+
+
+```{r}
+
+d20 %>%
+  dplyr::filter(dplyr::if_any(var1:var4, ~ . == "MR"))
+
+```
+
+**4\. Keep rows where respondent has _no_ missing responses for ALL variables (var1:var4). Missing data is denoted by "MR"**
+
+Review the data (d20)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d20
+
+```
+
+You can read this as "If values for ALL variables (var1:var4) in a row are **NOT** \"MR", return the row"
+
+
+```{r}
+
+d20 %>%
+  dplyr::filter(dplyr::if_all(var1:var4, ~ . != "MR"))
+
+```
+
+**5\. Remove rows where respondent has missing responses for ALL variables (var1:var4). Missing data is denoted by "MR"**
+
+Review the data (d20)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d20
+
+```
+
+Removing rows is where things get complicated. 
+
+So above (in #2) we returned every row that has "MR" for ALL our variables (var1:var4). And it seems like to get the opposite, we would just use `!=` instead of `==`, but as we see above (in #4) that gives us a different result. That gives us rows that do not contain "MR" as a value across ALL of our variables.
+
+So if we want to **remove** the rows that we grabbed in #2, we actually need to move our `!` to a new location, to before our `dplyr::if_all()` statement. This way we still grab the rows from #2, but we are saying to "drop" them this time.
+
+```{r}
+
+d20 %>%
+  dplyr::filter(!dplyr::if_all(var1:var4, ~ . == "MR"))
+
+```
+
+
+
+
+Return to [Filter](https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter)

@@ -21,11 +21,11 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-* Note: Using `dplyr::across()` in `dplyr::filter()` is deprecated. `dplyr::if_any()` and `dplyr::if_all()` are predicate functions used to select columns within `dplyr::filter()`. This function is available in version 1.0.5 of `dplyr`.
+* Note: Using `dplyr::across()` in `dplyr::filter()` is deprecated. `dplyr::if_any()` and `dplyr::if_all()` are predicate functions used to select columns within `dplyr::filter()`. This function is available in version 1.0.5 of `dplyr`. `dplyr::if_any()` returns a true when the statement is true for **any** of the variables. `dplyr::if_all()` returns a true when the statement is true for **all** of the variables. See [Filter using if_all or if_any](https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-if.html) for further explanation
 
 <br>
 
-**1\. Return rows where form is not empty, and any variable var1:var4 is not equal to "MR".**
+**1\. Return rows where `form` is empty, but ANY values for variables (var1:var4) are NOT missing. Missing is denoted by "MR" as well as NA.**
 
 Review the data (d17)
 
@@ -38,19 +38,45 @@ d17
 
 We can see here that form is a character variable and missing values are denoted by "", so we will need to account for that in our formula.
 
-* Note: You can read `dplyr::if_any()` here as, keep rows where ANY variable (var1:var4) is not equal to "MR" (notice the ! on the outside of the `dplyr::if_all()` function)
+* Note: You'll notice here that I did NOT use `%in%` too keep NA values. Remember from [Filter rows with NA values](https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-na.html), NA values are not evaluated and are dropped automatically when you use `!=`. In this case, since both "MR" and NA are missing values, I am okay with NA values being dropped by default.
 
-* Note: You'll notice here that I used *%in%* rather than *==* to ensure I keep the NA values for var1:var4. See [Filter rows with NA values](https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-na.html) to learn more.
 
 ```{r}
 
 d17 %>%
-  filter(form != "" & !dplyr::if_any(var1:var4, ~ . %in% "MR"))
+  filter(form == "" & dplyr::if_any(var1:var4, ~ . != "MR"))
+
+```
+
+I could get the same outcome by being more explicit and using this formula instead.
+
+```{r}
+
+d17 %>%
+  filter(form == "" & dplyr::if_any(var1:var4, ~ !. %in% c("MR", NA)))
+
+```
+
+Or using something like this.
+
+```{r}
+
+d17 %>%
+  filter(form == "" & dplyr::if_any(var1:var4, ~ !(. == "MR"|is.na(.))))
+
+```
+
+Or I could also get the same result this way, to say "return the rows where form is missing but ALL values for variables (var1:var4) are not missing."
+
+```{r}
+
+d17 %>%
+  filter(form == "" & !dplyr::if_all(var1:var4, ~ . %in% c("MR", NA)))
 
 ```
 
 
-**2\. Return rows where form is empty, and var1:var4 are NOT ALL empty.**
+**2\. Return rows where `form` is _not_ empty, and ALL variables (var1:var4) are empty.**
 
 Review the data (d17)
 
@@ -61,27 +87,11 @@ d17
 
 ```
 
-You can see that this data has some funky things going on, var1:var4 have a mixture of empty character values as well as NA values. Both of these will be considered "empty". I will need to account for this when I filter.
-
-There are many ways I can filter this data.
-
-The first is very explicit.
-
-* Note: You can read `dplyr::if_all()` here as, remove rows where ALL variables (var1:var4) are NOT equal to "" AND/OR NA (notice the ! on the outside of the `dplyr::if_all()` function)
 
 ```{r}
 
 d17 %>%
-  filter(form == "" & !dplyr::if_all(var1:var4, ~ (.== "" | is.na(.))))
-
-```
-
-But ultimately, I don't need to make my explicit call for NA values because they will be dropped anyway. See [Filter](https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter) to read more about this.
-
-```{r}
-
-d17 %>%
-  filter(form == "" & !dplyr::if_all(var1:var4, ~ . == ""))
+  filter(form != "" & dplyr::if_all(var1:var4, ~ . %in% c("MR", NA)))
 
 ```
 

@@ -22,7 +22,7 @@ Examples using one criteria for one variable (character)
 
 ---
 
-**1\. Keep any row that has the exact match of "harris" for tch_name.**
+**1\. Keep any row that has the exact match of "harris" for `tch_name`.**
 
 Review the data (d8)
 
@@ -33,7 +33,7 @@ d8
 
 ```
 
-Keep any row that has "harris" for tch_name. 
+Keep any row that has "harris" for `tch_name`. 
 
 * Note: Use the logical operator *==* to denote exactly equal to.
 
@@ -53,7 +53,7 @@ d8 %>%
 
 ```
 
-**2\. Remove any row that has the exact match of "harris" for tch_name.**
+**2\. Remove any row that has the exact match of "harris" for `tch_name`.**
 
 Review the data (d8)
 
@@ -65,7 +65,7 @@ d8
 ```
 
 
-Filter out any row that has "harris" for tch_name. 
+Filter out any row that has "harris" for `tch_name`. 
 
 * Note: Use the logical operator *!=* to denote not equal to.
 
@@ -102,7 +102,7 @@ Examples using one criteria for one variable (date)
 
 ---
 
-**3\. Keep any row where test_date occurred in the year 2021.**
+**3\. Keep any row where `test_date` occurred in the year 2021.**
 
 Review the data (d12)
 
@@ -113,7 +113,7 @@ d12
 
 ```
 
-First lets check to see what type of variable test_date is.
+First lets check to see what type of variable `test_date` is.
 
 We find that it is a character. In order to filter as a date, we either need to convert the variable type to date now, or within our filter.
 
@@ -167,7 +167,7 @@ Examples using one criteria for one variable (numeric)
 ---
 
 
-**1\. Keep any row whose value is greater than or equal to 0 for extra2.**
+**1\. Keep any row whose value is greater than or equal to 0 for `extra2`.**
 
 Review the data (d8)
 
@@ -178,7 +178,7 @@ d8
 
 ```
 
-Keep any row that has a value greater than or equal to zero for extra2. 
+Keep any row that has a value greater than or equal to zero for `extra2`. 
 
 * Note: Use the logical operator *>=* to denote greater than or equal to.
 

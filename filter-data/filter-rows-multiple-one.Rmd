@@ -18,11 +18,12 @@ knitr::opts_chunk$set(comment = NA,
 
 #### Function: `filter()`
 
-Examples selecting specific variables
-
 ---
 
-**1\. Keep rows that have -999 for extra1 *AND/OR* -999 for extra2.**
+* Note: Using `dplyr::across()` in `dplyr::filter()` is deprecated. `dplyr::if_any()` and `dplyr::if_all()` are predicate functions used to select columns within `dplyr::filter()`. This function is available in version 1.0.5 of `dplyr`. `dplyr::if_any()` returns a true when the statement is true for **any** of the variables. `dplyr::if_all()` returns a true when the statement is true for **all** of the variables. See [Filter using if_all or if_any](https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-if.html) for further explanation
+<br>
+
+**1\. Keep rows that have -999 for `extra1` *AND/OR* -999 for `extra2`.**
 
 Review the data (d8)
 
@@ -45,7 +46,18 @@ d8 %>%
 
 ```
 
-**2\. Keep rows that have -999 for extra1 *OR* -999 for extra2 (not for both).**
+Another way I could write this is using `dplyr::if_any()`
+
+
+```{r}
+
+d8 %>%
+  dplyr::filter(dplyr::if_any(extra2:extra3, ~ . == -999))
+
+```
+
+
+**2\. Keep rows that have -999 for `extra1` *OR* -999 for `extra2` (not for both).**
 
 Review the data (d8)
 
@@ -56,7 +68,7 @@ d8
 
 ```
 
-Keep rows that have -999 for extra2 OR -999 for extra3 (but not -999 for both). 
+Keep rows that have -999 for `extra2` OR -999 for `extra3` (but not -999 for both). 
 
 * Note: Use the *xor* operator to request OR (not both).
 
@@ -68,7 +80,7 @@ d8 %>%
 
 ```
 
-**3\. Keep rows that have *BOTH* -999 for extra1 *AND* -999 for extra2.**
+**3\. Keep rows that have *BOTH* -999 for `extra1` *AND* -999 for `extra2`.**
 
 Review the data (d8)
 
@@ -90,8 +102,17 @@ d8 %>%
 
 ```
 
-**4\. Remove any row that has -999 for extra2 *AND/OR* has -999 for extra3.**
+Another way I could write this is using `dplyr::if_all()`
 
+```{r}
+
+d8 %>%
+  dplyr::filter(dplyr::if_all(extra2:extra3, ~ . == -999))
+
+```
+
+**4\. Remove any row that has -999 for `extra2` *AND/OR* has -999 for `extra3`.**
+  
 Review the data (d8)
 
 ```{r, echo=FALSE}
@@ -101,20 +122,28 @@ d8
 
 ```
 
-Filter out any row that has -999 for extra2 and/or has -999 extra3. 
+Filter out any row that has -999 for `extra2` and/or has -999 `extra3`. 
 
 * Note: Notice that I put the operator *!* outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on removal criteria from multiple variables.
 
 ```{r}
 
 d8 %>% 
-  dplyr::filter(!(extra2 ==-999 | extra3 ==-999))
+  dplyr::filter(!(extra2 == -999 | extra3 == -999))
 
 ```
 
+I could also write this using `dplyr::if_any()`
 
-**5\. Remove any row that has -999 for *BOTH* extra2 *AND* for extra3.**
+```{r}
 
+d8 %>% 
+  dplyr::filter(!dplyr::if_any(extra2:extra3, ~ . == -999))
+
+```
+
+**5\. Remove any row that has -999 for *BOTH* `extra2` *AND* for `extra3`.**
+  
 Review the data (d8)
 
 ```{r, echo=FALSE}
@@ -124,7 +153,7 @@ d8
 
 ```
 
-Filter out any row that has -999 for extra2 and has -999 extra3. 
+Filter out any row that has -999 for `extra2` and has -999 `extra3`. 
 
 * Note: Notice that I put the operator *!* outside of the parentheses. While there are other ways to write this equation, I find this the least confusing way to remove rows based on removal criteria from multiple variables.
 
@@ -137,30 +166,28 @@ d8 %>%
 
 ```
 
----
+I could also write this using `dplyr::if_all()`
 
-#### Function: `filter()`
+```{r}
 
-Examples selecting across variables
+d8 %>% 
+  dplyr::filter(!dplyr::if_all(extra2:extra3, ~ . == -999))
 
----
+```
 
-* Note: Using `dplyr::across()` in `dplyr::filter()` is deprecated. `dplyr::if_any()` and `dplyr::if_all()` are predicate functions used to select columns within `dplyr::filter()`. This function is available in version 1.0.5 of `dplyr`.
 
-<br>
-
-**1\. Keep rows where any variable that starts with the word "item" contains the value "MR".**
+**6\. Keep rows where any variable that starts with the word "item" contains the value "MR".**
 
 Review the data (d16)
 
 ```{r, echo=FALSE}
+
 source("data.R")
 d16
+
 ```
 
-Keep rows where any of the item variables contains the value "MR"
-
-* Note: You can read `dplyr::if_any()` here as, keep rows where ANY variable that starts with "item" is equal to "MR"
+Keep rows where any of the "item" variables contains the value "MR"
 
 * Note: We use the `tidyverse` selection helper `starts_with()` to select variables.
 
@@ -169,7 +196,7 @@ d16 %>%
   dplyr::filter(dplyr::if_any(tidyselect::starts_with("item"), ~ . == "MR"))
 ```
 
-**2\. Keep rows where any variable that starts with the word "item" contain letters.**
+**7\. Keep rows where any variable that starts with the word "item" contain letters.**
 
 Review the data (d16)
 
@@ -177,9 +204,7 @@ Review the data (d16)
 d16
 ```
 
-We want to review any rows where either item1 OR item2 contain letters.
-
-* Note: You can read `dplyr::if_any()` here as, keep rows where ANY of the variables we denoted (item1 or item2), contain letters.
+We want to review any rows where either `item1` OR `item2` contain letters.
 
 * Note: We use `stringr::str_detect()` to detect a specific pattern, assigned in the *pattern* argument. Here we use a regular expression to denote that we would like to identify zero or more letters from the A-Z alphabet, lower or upper case.
 

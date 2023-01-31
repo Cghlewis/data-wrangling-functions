@@ -378,79 +378,91 @@ multiple variables</h1>
 <code>dplyr::filter()</code> is deprecated. <code>dplyr::if_any()</code>
 and <code>dplyr::if_all()</code> are predicate functions used to select
 columns within <code>dplyr::filter()</code>. This function is available
-in version 1.0.5 of <code>dplyr</code>.</li>
+in version 1.0.5 of <code>dplyr</code>. <code>dplyr::if_any()</code>
+returns a true when the statement is true for <strong>any</strong> of
+the variables. <code>dplyr::if_all()</code> returns a true when the
+statement is true for <strong>all</strong> of the variables. See <a href="https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-if.html">Filter
+using if_all or if_any</a> for further explanation</li>
 </ul>
 <p><br></p>
-<p><strong>1. Return rows where form is not empty, and any variable
-var1:var4 is not equal to “MR”.</strong></p>
+<p><strong>1. Return rows where <code>form</code> is empty, but ANY
+values for variables (var1:var4) are NOT missing. Missing is denoted by
+“MR” as well as NA.</strong></p>
 <p>Review the data (d17)</p>
-<pre><code># A tibble: 7 x 6
+<pre><code># A tibble: 9 x 6
      id form  var1  var2  var3  var4 
   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1    10 &quot;a&quot;   &quot;3&quot;   &quot;4&quot;   &quot;3&quot;   &quot;3&quot;  
-2    11 &quot;b&quot;   &quot;3&quot;   &quot;MR&quot;  &quot;2&quot;   &quot;&quot;   
-3    12 &quot;b&quot;   &lt;NA&gt;  &quot;3&quot;   &quot;1&quot;   &quot;MR&quot; 
-4    13 &quot;&quot;    &quot;&quot;    &quot;&quot;    &quot;&quot;    &quot;&quot;   
-5    14 &quot;&quot;    &lt;NA&gt;  &quot;&quot;    &quot;&quot;    &quot;&quot;   
-6    15 &quot;&quot;    &quot;1&quot;   &quot;&quot;    &quot;3&quot;   &quot;MR&quot; 
-7    16 &quot;c&quot;   &lt;NA&gt;  &quot;2&quot;   &quot;1&quot;   &quot;2&quot;  </code></pre>
+1    10 &quot;a&quot;   3     4     3     &quot;3&quot;  
+2    11 &quot;b&quot;   3     MR    2     &quot;&quot;   
+3    12 &quot;b&quot;   &lt;NA&gt;  3     1     &quot;MR&quot; 
+4    13 &quot;&quot;    MR    MR    MR    &quot;MR&quot; 
+5    14 &quot;&quot;    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
+6    15 &quot;&quot;    1     MR    3     &quot;MR&quot; 
+7    16 &quot;c&quot;   MR    2     1     &quot;2&quot;  
+8    17 &quot;&quot;    MR    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
+9    18 &quot;a&quot;   MR    MR    &lt;NA&gt;  &lt;NA&gt; </code></pre>
 <p>We can see here that form is a character variable and missing values
 are denoted by ““, so we will need to account for that in our
 formula.</p>
 <ul>
-<li><p>Note: You can read <code>dplyr::if_any()</code> here as, keep
-rows where ANY variable (var1:var4) is not equal to “MR” (notice the !
-on the outside of the <code>dplyr::if_all()</code> function)</p></li>
-<li><p>Note: You’ll notice here that I used <em>%in%</em> rather than
-<em>==</em> to ensure I keep the NA values for var1:var4. See <a href="https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-na.html">Filter
-rows with NA values</a> to learn more.</p></li>
+<li>Note: You’ll notice here that I did NOT use <code>%in%</code> too
+keep NA values. Remember from <a href="https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-na.html">Filter
+rows with NA values</a>, NA values are not evaluated and are dropped
+automatically when you use <code>!=</code>. In this case, since both
+“MR” and NA are missing values, I am okay with NA values being dropped
+by default.</li>
 </ul>
 <pre class="r"><code>d17 %&gt;%
-  filter(form != &quot;&quot; &amp; !dplyr::if_any(var1:var4, ~ . %in% &quot;MR&quot;))</code></pre>
-<pre><code># A tibble: 2 x 6
+  filter(form == &quot;&quot; &amp; dplyr::if_any(var1:var4, ~ . != &quot;MR&quot;))</code></pre>
+<pre><code># A tibble: 1 x 6
      id form  var1  var2  var3  var4 
   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1    10 a     3     4     3     3    
-2    16 c     &lt;NA&gt;  2     1     2    </code></pre>
-<p><strong>2. Return rows where form is empty, and var1:var4 are NOT ALL
-empty.</strong></p>
+1    15 &quot;&quot;    1     MR    3     MR   </code></pre>
+<p>I could get the same outcome by being more explicit and using this
+formula instead.</p>
+<pre class="r"><code>d17 %&gt;%
+  filter(form == &quot;&quot; &amp; dplyr::if_any(var1:var4, ~ !. %in% c(&quot;MR&quot;, NA)))</code></pre>
+<pre><code># A tibble: 1 x 6
+     id form  var1  var2  var3  var4 
+  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+1    15 &quot;&quot;    1     MR    3     MR   </code></pre>
+<p>Or using something like this.</p>
+<pre class="r"><code>d17 %&gt;%
+  filter(form == &quot;&quot; &amp; dplyr::if_any(var1:var4, ~ !(. == &quot;MR&quot;|is.na(.))))</code></pre>
+<pre><code># A tibble: 1 x 6
+     id form  var1  var2  var3  var4 
+  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+1    15 &quot;&quot;    1     MR    3     MR   </code></pre>
+<p>Or I could also get the same result this way, to say “return the rows
+where form is missing but ALL values for variables (var1:var4) are not
+missing.”</p>
+<pre class="r"><code>d17 %&gt;%
+  filter(form == &quot;&quot; &amp; !dplyr::if_all(var1:var4, ~ . %in% c(&quot;MR&quot;, NA)))</code></pre>
+<pre><code># A tibble: 1 x 6
+     id form  var1  var2  var3  var4 
+  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+1    15 &quot;&quot;    1     MR    3     MR   </code></pre>
+<p><strong>2. Return rows where <code>form</code> is <em>not</em> empty,
+and ALL variables (var1:var4) are empty.</strong></p>
 <p>Review the data (d17)</p>
-<pre><code># A tibble: 7 x 6
+<pre><code># A tibble: 9 x 6
      id form  var1  var2  var3  var4 
   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1    10 &quot;a&quot;   &quot;3&quot;   &quot;4&quot;   &quot;3&quot;   &quot;3&quot;  
-2    11 &quot;b&quot;   &quot;3&quot;   &quot;MR&quot;  &quot;2&quot;   &quot;&quot;   
-3    12 &quot;b&quot;   &lt;NA&gt;  &quot;3&quot;   &quot;1&quot;   &quot;MR&quot; 
-4    13 &quot;&quot;    &quot;&quot;    &quot;&quot;    &quot;&quot;    &quot;&quot;   
-5    14 &quot;&quot;    &lt;NA&gt;  &quot;&quot;    &quot;&quot;    &quot;&quot;   
-6    15 &quot;&quot;    &quot;1&quot;   &quot;&quot;    &quot;3&quot;   &quot;MR&quot; 
-7    16 &quot;c&quot;   &lt;NA&gt;  &quot;2&quot;   &quot;1&quot;   &quot;2&quot;  </code></pre>
-<p>You can see that this data has some funky things going on, var1:var4
-have a mixture of empty character values as well as NA values. Both of
-these will be considered “empty”. I will need to account for this when I
-filter.</p>
-<p>There are many ways I can filter this data.</p>
-<p>The first is very explicit.</p>
-<ul>
-<li>Note: You can read <code>dplyr::if_all()</code> here as, remove rows
-where ALL variables (var1:var4) are NOT equal to “” AND/OR NA (notice
-the ! on the outside of the <code>dplyr::if_all()</code> function)</li>
-</ul>
+1    10 &quot;a&quot;   3     4     3     &quot;3&quot;  
+2    11 &quot;b&quot;   3     MR    2     &quot;&quot;   
+3    12 &quot;b&quot;   &lt;NA&gt;  3     1     &quot;MR&quot; 
+4    13 &quot;&quot;    MR    MR    MR    &quot;MR&quot; 
+5    14 &quot;&quot;    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
+6    15 &quot;&quot;    1     MR    3     &quot;MR&quot; 
+7    16 &quot;c&quot;   MR    2     1     &quot;2&quot;  
+8    17 &quot;&quot;    MR    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
+9    18 &quot;a&quot;   MR    MR    &lt;NA&gt;  &lt;NA&gt; </code></pre>
 <pre class="r"><code>d17 %&gt;%
-  filter(form == &quot;&quot; &amp; !dplyr::if_all(var1:var4, ~ (.== &quot;&quot; | is.na(.))))</code></pre>
+  filter(form != &quot;&quot; &amp; dplyr::if_all(var1:var4, ~ . %in% c(&quot;MR&quot;, NA)))</code></pre>
 <pre><code># A tibble: 1 x 6
      id form  var1  var2  var3  var4 
   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1    15 &quot;&quot;    1     &quot;&quot;    3     MR   </code></pre>
-<p>But ultimately, I don’t need to make my explicit call for NA values
-because they will be dropped anyway. See <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter">Filter</a>
-to read more about this.</p>
-<pre class="r"><code>d17 %&gt;%
-  filter(form == &quot;&quot; &amp; !dplyr::if_all(var1:var4, ~ . == &quot;&quot;))</code></pre>
-<pre><code># A tibble: 1 x 6
-     id form  var1  var2  var3  var4 
-  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1    15 &quot;&quot;    1     &quot;&quot;    3     MR   </code></pre>
+1    18 a     MR    MR    &lt;NA&gt;  &lt;NA&gt; </code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter">Filter</a></p>
 </div>
 </div>

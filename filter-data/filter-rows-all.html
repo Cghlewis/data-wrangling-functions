@@ -372,14 +372,17 @@ apply to all variables</h1>
 <hr />
 <div id="function-filter" class="section level4">
 <h4>Function: <code>filter()</code></h4>
-<p>Examples using criteria that applies to all variables</p>
 <hr />
 <ul>
 <li>Note: Using <code>dplyr::across()</code> in
 <code>dplyr::filter()</code> is deprecated. <code>dplyr::if_any()</code>
 and <code>dplyr::if_all()</code> are predicate functions used to select
 columns within <code>dplyr::filter()</code>. This function is available
-in version 1.0.5 of <code>dplyr</code>.</li>
+in version 1.0.5 of <code>dplyr</code>. <code>dplyr::if_any()</code>
+returns a true when the statement is true for <strong>any</strong> of
+the variables. <code>dplyr::if_all()</code> returns a true when the
+statement is true for <strong>all</strong> of the variables. See <a href="https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-if.html">Filter
+using if_all or if_any</a> for further explanation</li>
 </ul>
 <p><br></p>
 <p><strong>1. Remove any row that has -999 for <em>AT LEAST ONE</em>
@@ -396,14 +399,11 @@ variable.</strong></p>
 6   -999   -999  -999       -999</code></pre>
 <p>Filter out any row that has -999 for at least one variable</p>
 <ul>
-<li><p>Note: You can read <code>dplyr::if_any()</code> here as, keep
-rows where ANY variable is NOT -999 (hence the ! on the outside of the
-<code>dplyr::if_any()</code> function)</p></li>
-<li><p>Note: We use the <code>tidyselect</code> selection helper
-<code>everything()</code> to refer to all variables.</p></li>
+<li>Note: We use the <code>tidyselect</code> selection helper
+<code>everything()</code> to refer to all variables.</li>
 </ul>
 <pre class="r"><code>d19 %&gt;% 
-  dplyr::filter(!dplyr::if_any(everything(), ~ . %in% -999))</code></pre>
+  dplyr::filter(!dplyr::if_any(tidyselect::everything(), ~ . == -999))</code></pre>
 <pre><code># A tibble: 1 x 4
   extra2 extra3    id test_score
    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
@@ -421,12 +421,8 @@ variables.</strong></p>
 5   -999   -999  -999       -999
 6   -999   -999  -999       -999</code></pre>
 <p>Keep any row that has -999 for all variables</p>
-<ul>
-<li>Note: You can read <code>dplyr::if_all()</code> here as, keep rows
-where ALL variables are -999</li>
-</ul>
 <pre class="r"><code>d19 %&gt;% 
-  dplyr::filter(dplyr::if_all(everything(), ~ . == -999))</code></pre>
+  dplyr::filter(dplyr::if_all(tidyselect::everything(), ~ . == -999))</code></pre>
 <pre><code># A tibble: 2 x 4
   extra2 extra3    id test_score
    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;

@@ -372,10 +372,20 @@ multiple variables</h1>
 <hr />
 <div id="function-filter" class="section level4">
 <h4>Function: <code>filter()</code></h4>
-<p>Examples selecting specific variables</p>
 <hr />
-<p><strong>1. Keep rows that have -999 for extra1 <em>AND/OR</em> -999
-for extra2.</strong></p>
+<ul>
+<li>Note: Using <code>dplyr::across()</code> in
+<code>dplyr::filter()</code> is deprecated. <code>dplyr::if_any()</code>
+and <code>dplyr::if_all()</code> are predicate functions used to select
+columns within <code>dplyr::filter()</code>. This function is available
+in version 1.0.5 of <code>dplyr</code>. <code>dplyr::if_any()</code>
+returns a true when the statement is true for <strong>any</strong> of
+the variables. <code>dplyr::if_all()</code> returns a true when the
+statement is true for <strong>all</strong> of the variables. See <a href="https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-if.html">Filter
+using if_all or if_any</a> for further explanation <br></li>
+</ul>
+<p><strong>1. Keep rows that have -999 for <code>extra1</code>
+<em>AND/OR</em> -999 for <code>extra2</code>.</strong></p>
 <p>Review the data (d8)</p>
 <pre><code># A tibble: 4 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
@@ -395,8 +405,17 @@ for extra2.</strong></p>
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
 1 b        -999      0     11        220 steve   
 2 c        -999   -999     12        250 harris  </code></pre>
-<p><strong>2. Keep rows that have -999 for extra1 <em>OR</em> -999 for
-extra2 (not for both).</strong></p>
+<p>Another way I could write this is using
+<code>dplyr::if_any()</code></p>
+<pre class="r"><code>d8 %&gt;%
+  dplyr::filter(dplyr::if_any(extra2:extra3, ~ . == -999))</code></pre>
+<pre><code># A tibble: 2 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 b        -999      0     11        220 steve   
+2 c        -999   -999     12        250 harris  </code></pre>
+<p><strong>2. Keep rows that have -999 for <code>extra1</code>
+<em>OR</em> -999 for <code>extra2</code> (not for both).</strong></p>
 <p>Review the data (d8)</p>
 <pre><code># A tibble: 4 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
@@ -405,8 +424,8 @@ extra2 (not for both).</strong></p>
 2 b        -999      0     11        220 steve   
 3 c        -999   -999     12        250 harris  
 4 d           4      0     13        217 lewis   </code></pre>
-<p>Keep rows that have -999 for extra2 OR -999 for extra3 (but not -999
-for both).</p>
+<p>Keep rows that have -999 for <code>extra2</code> OR -999 for
+<code>extra3</code> (but not -999 for both).</p>
 <ul>
 <li>Note: Use the <em>xor</em> operator to request OR (not both).</li>
 </ul>
@@ -416,8 +435,9 @@ for both).</p>
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
 1 b        -999      0     11        220 steve   </code></pre>
-<p><strong>3. Keep rows that have <em>BOTH</em> -999 for extra1
-<em>AND</em> -999 for extra2.</strong></p>
+<p><strong>3. Keep rows that have <em>BOTH</em> -999 for
+<code>extra1</code> <em>AND</em> -999 for
+<code>extra2</code>.</strong></p>
 <p>Review the data (d8)</p>
 <pre><code># A tibble: 4 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
@@ -436,8 +456,16 @@ for both).</p>
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
 1 c        -999   -999     12        250 harris  </code></pre>
-<p><strong>4. Remove any row that has -999 for extra2 <em>AND/OR</em>
-has -999 for extra3.</strong></p>
+<p>Another way I could write this is using
+<code>dplyr::if_all()</code></p>
+<pre class="r"><code>d8 %&gt;%
+  dplyr::filter(dplyr::if_all(extra2:extra3, ~ . == -999))</code></pre>
+<pre><code># A tibble: 1 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 c        -999   -999     12        250 harris  </code></pre>
+<p><strong>4. Remove any row that has -999 for <code>extra2</code>
+<em>AND/OR</em> has -999 for <code>extra3</code>.</strong></p>
 <p>Review the data (d8)</p>
 <pre><code># A tibble: 4 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
@@ -446,8 +474,8 @@ has -999 for extra3.</strong></p>
 2 b        -999      0     11        220 steve   
 3 c        -999   -999     12        250 harris  
 4 d           4      0     13        217 lewis   </code></pre>
-<p>Filter out any row that has -999 for extra2 and/or has -999
-extra3.</p>
+<p>Filter out any row that has -999 for <code>extra2</code> and/or has
+-999 <code>extra3</code>.</p>
 <ul>
 <li>Note: Notice that I put the operator <em>!</em> outside of the
 parentheses. While there are other ways to write this equation, I find
@@ -455,14 +483,22 @@ this the least confusing way to remove rows based on removal criteria
 from multiple variables.</li>
 </ul>
 <pre class="r"><code>d8 %&gt;% 
-  dplyr::filter(!(extra2 ==-999 | extra3 ==-999))</code></pre>
+  dplyr::filter(!(extra2 == -999 | extra3 == -999))</code></pre>
 <pre><code># A tibble: 2 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
 1 a           1      2     10        205 harris  
 2 d           4      0     13        217 lewis   </code></pre>
-<p><strong>5. Remove any row that has -999 for <em>BOTH</em> extra2
-<em>AND</em> for extra3.</strong></p>
+<p>I could also write this using <code>dplyr::if_any()</code></p>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(!dplyr::if_any(extra2:extra3, ~ . == -999))</code></pre>
+<pre><code># A tibble: 2 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 d           4      0     13        217 lewis   </code></pre>
+<p><strong>5. Remove any row that has -999 for <em>BOTH</em>
+<code>extra2</code> <em>AND</em> for <code>extra3</code>.</strong></p>
 <p>Review the data (d8)</p>
 <pre><code># A tibble: 4 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
@@ -471,7 +507,8 @@ from multiple variables.</li>
 2 b        -999      0     11        220 steve   
 3 c        -999   -999     12        250 harris  
 4 d           4      0     13        217 lewis   </code></pre>
-<p>Filter out any row that has -999 for extra2 and has -999 extra3.</p>
+<p>Filter out any row that has -999 for <code>extra2</code> and has -999
+<code>extra3</code>.</p>
 <ul>
 <li>Note: Notice that I put the operator <em>!</em> outside of the
 parentheses. While there are other ways to write this equation, I find
@@ -486,21 +523,16 @@ from multiple variables.</li>
 1 a           1      2     10        205 harris  
 2 b        -999      0     11        220 steve   
 3 d           4      0     13        217 lewis   </code></pre>
-<hr />
-</div>
-<div id="function-filter-1" class="section level4">
-<h4>Function: <code>filter()</code></h4>
-<p>Examples selecting across variables</p>
-<hr />
-<ul>
-<li>Note: Using <code>dplyr::across()</code> in
-<code>dplyr::filter()</code> is deprecated. <code>dplyr::if_any()</code>
-and <code>dplyr::if_all()</code> are predicate functions used to select
-columns within <code>dplyr::filter()</code>. This function is available
-in version 1.0.5 of <code>dplyr</code>.</li>
-</ul>
-<p><br></p>
-<p><strong>1. Keep rows where any variable that starts with the word
+<p>I could also write this using <code>dplyr::if_all()</code></p>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(!dplyr::if_all(extra2:extra3, ~ . == -999))</code></pre>
+<pre><code># A tibble: 3 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 b        -999      0     11        220 steve   
+3 d           4      0     13        217 lewis   </code></pre>
+<p><strong>6. Keep rows where any variable that starts with the word
 “item” contains the value “MR”.</strong></p>
 <p>Review the data (d16)</p>
 <pre><code># A tibble: 3 x 5
@@ -509,13 +541,11 @@ in version 1.0.5 of <code>dplyr</code>.</li>
 1    10 harris       6 5     3    
 2    11 lewis        4 3     MR   
 3    12 harris       6 4     1    </code></pre>
-<p>Keep rows where any of the item variables contains the value “MR”</p>
+<p>Keep rows where any of the “item” variables contains the value
+“MR”</p>
 <ul>
-<li><p>Note: You can read <code>dplyr::if_any()</code> here as, keep
-rows where ANY variable that starts with “item” is equal to
-“MR”</p></li>
-<li><p>Note: We use the <code>tidyverse</code> selection helper
-<code>starts_with()</code> to select variables.</p></li>
+<li>Note: We use the <code>tidyverse</code> selection helper
+<code>starts_with()</code> to select variables.</li>
 </ul>
 <pre class="r"><code>d16 %&gt;%
   dplyr::filter(dplyr::if_any(tidyselect::starts_with(&quot;item&quot;), ~ . == &quot;MR&quot;))</code></pre>
@@ -523,7 +553,7 @@ rows where ANY variable that starts with “item” is equal to
      id tch_name grade item1 item2
   &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
 1    11 lewis        4 3     MR   </code></pre>
-<p><strong>2. Keep rows where any variable that starts with the word
+<p><strong>7. Keep rows where any variable that starts with the word
 “item” contain letters.</strong></p>
 <p>Review the data (d16)</p>
 <pre><code># A tibble: 3 x 5
@@ -532,16 +562,13 @@ rows where ANY variable that starts with “item” is equal to
 1    10 harris       6 5     3    
 2    11 lewis        4 3     MR   
 3    12 harris       6 4     1    </code></pre>
-<p>We want to review any rows where either item1 OR item2 contain
-letters.</p>
+<p>We want to review any rows where either <code>item1</code> OR
+<code>item2</code> contain letters.</p>
 <ul>
-<li><p>Note: You can read <code>dplyr::if_any()</code> here as, keep
-rows where ANY of the variables we denoted (item1 or item2), contain
-letters.</p></li>
-<li><p>Note: We use <code>stringr::str_detect()</code> to detect a
-specific pattern, assigned in the <em>pattern</em> argument. Here we use
-a regular expression to denote that we would like to identify zero or
-more letters from the A-Z alphabet, lower or upper case.</p></li>
+<li>Note: We use <code>stringr::str_detect()</code> to detect a specific
+pattern, assigned in the <em>pattern</em> argument. Here we use a
+regular expression to denote that we would like to identify zero or more
+letters from the A-Z alphabet, lower or upper case.</li>
 </ul>
 <pre class="r"><code>d16 %&gt;% 
   dplyr::filter(dplyr::if_any(item1:item2, 

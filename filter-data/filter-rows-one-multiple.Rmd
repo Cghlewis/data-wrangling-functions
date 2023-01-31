@@ -23,7 +23,7 @@ Examples using multiple criteria same variable (numeric)
 ---
 
 
-**1\. Keep any row that has -999 *OR* 0 for extra3.**
+**1\. Keep any row that has -999 *OR* 0 for `extra3`.**
 
 Review the data (d8).
 
@@ -34,7 +34,7 @@ d8
 
 ```
 
-Keep any row that has -999 or 0 for extra2. 
+Keep any row that has -999 or 0 for `extra3`. 
 
 * Note: Use of the operator *|* to denote and/or (*and* doesn't really apply since it's the same variable).
 
@@ -54,8 +54,17 @@ d8 %>%
 
 ```
 
+Last, you can use the *%in%* operator as well.
 
-**2\. Keep any row whose value for extra3 is between 0 and 10.**
+```{r}
+
+d8 %>% 
+  dplyr::filter(extra3 %in% c(-999,0))
+
+```
+
+
+**2\. Keep any row whose value for `extra3` is between 0 and 10.**
 
 Review the data (d8).
 
@@ -67,7 +76,7 @@ d8
 ```
 
 
-Keep any row that has a value between 0 and 10 for extra3. 
+Keep any row that has a value between 0 and 10 for `extra3`. 
 
 * Note: Use the operator *&* to denote that both criteria must be met.
 
@@ -97,7 +106,7 @@ Examples using multiple criteria same variable (character)
 
 ---
 
-**1\. Keep any row whose tch_name is either "harris" *OR* "lewis".**
+**1\. Keep any row whose `tch_name` is either "harris" *OR* "lewis".**
 
 Review the data (d8).
 
@@ -108,7 +117,7 @@ d8
 
 ```
 
-Keep any row where tch_name is "harris" or "lewis".
+Keep any row where `tch_name` is "harris" or "lewis".
 
 * Note: Use of the operator *|* to denote and/or (*and* doesn't really apply since it's the same variable).
 

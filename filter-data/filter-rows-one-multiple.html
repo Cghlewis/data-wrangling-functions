@@ -375,7 +375,7 @@ one variable</h1>
 <p>Examples using multiple criteria same variable (numeric)</p>
 <hr />
 <p><strong>1. Keep any row that has -999 <em>OR</em> 0 for
-extra3.</strong></p>
+<code>extra3</code>.</strong></p>
 <p>Review the data (d8).</p>
 <pre><code># A tibble: 4 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
@@ -384,7 +384,7 @@ extra3.</strong></p>
 2 b        -999      0     11        220 steve   
 3 c        -999   -999     12        250 harris  
 4 d           4      0     13        217 lewis   </code></pre>
-<p>Keep any row that has -999 or 0 for extra2.</p>
+<p>Keep any row that has -999 or 0 for <code>extra3</code>.</p>
 <ul>
 <li>Note: Use of the operator <em>|</em> to denote and/or (<em>and</em>
 doesn’t really apply since it’s the same variable).</li>
@@ -406,8 +406,17 @@ doesn’t really apply since it’s the same variable).</li>
 1 b        -999      0     11        220 steve   
 2 c        -999   -999     12        250 harris  
 3 d           4      0     13        217 lewis   </code></pre>
-<p><strong>2. Keep any row whose value for extra3 is between 0 and
-10.</strong></p>
+<p>Last, you can use the <em>%in%</em> operator as well.</p>
+<pre class="r"><code>d8 %&gt;% 
+  dplyr::filter(extra3 %in% c(-999,0))</code></pre>
+<pre><code># A tibble: 3 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 b        -999      0     11        220 steve   
+2 c        -999   -999     12        250 harris  
+3 d           4      0     13        217 lewis   </code></pre>
+<p><strong>2. Keep any row whose value for <code>extra3</code> is
+between 0 and 10.</strong></p>
 <p>Review the data (d8).</p>
 <pre><code># A tibble: 4 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
@@ -416,7 +425,8 @@ doesn’t really apply since it’s the same variable).</li>
 2 b        -999      0     11        220 steve   
 3 c        -999   -999     12        250 harris  
 4 d           4      0     13        217 lewis   </code></pre>
-<p>Keep any row that has a value between 0 and 10 for extra3.</p>
+<p>Keep any row that has a value between 0 and 10 for
+<code>extra3</code>.</p>
 <ul>
 <li>Note: Use the operator <em>&amp;</em> to denote that both criteria
 must be met.</li>
@@ -447,8 +457,8 @@ function. It includes both 0 and 10.</p>
 <h4>Function: <code>filter()</code></h4>
 <p>Examples using multiple criteria same variable (character)</p>
 <hr />
-<p><strong>1. Keep any row whose tch_name is either “harris” <em>OR</em>
-“lewis”.</strong></p>
+<p><strong>1. Keep any row whose <code>tch_name</code> is either
+“harris” <em>OR</em> “lewis”.</strong></p>
 <p>Review the data (d8).</p>
 <pre><code># A tibble: 4 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
@@ -457,7 +467,7 @@ function. It includes both 0 and 10.</p>
 2 b        -999      0     11        220 steve   
 3 c        -999   -999     12        250 harris  
 4 d           4      0     13        217 lewis   </code></pre>
-<p>Keep any row where tch_name is “harris” or “lewis”.</p>
+<p>Keep any row where <code>tch_name</code> is “harris” or “lewis”.</p>
 <ul>
 <li>Note: Use of the operator <em>|</em> to denote and/or (<em>and</em>
 doesn’t really apply since it’s the same variable).</li>

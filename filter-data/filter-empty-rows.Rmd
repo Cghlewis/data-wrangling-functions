@@ -20,7 +20,8 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-* Note: Using `dplyr::across()` in `dplyr::filter()` is deprecated. `dplyr::if_any()` and `dplyr::if_all()` are predicate functions used to select columns within `dplyr::filter()`. This function is available in version 1.0.5 of `dplyr`.
+* Note: Using `dplyr::across()` in `dplyr::filter()` is deprecated. `dplyr::if_any()` and `dplyr::if_all()` are predicate functions used to select columns within `dplyr::filter()`. This function is available in version 1.0.5 of `dplyr`. `dplyr::if_any()` returns a true when the statement is true for **any** of the variables. `dplyr::if_all()` returns a true when the statement is true for **all** of the variables. See [Filter using if_all or if_any](https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-if.html) for further explanation
+
 
 <br>
 
@@ -37,12 +38,13 @@ d9
 
 Filter out any completely empty row
 
-* Note: You can read `dplyr::if_all()` here as, keep rows where ALL variables are NOT NA (hence the ! on the outside of the `dplyr::if_all()` function)
+* Note: Note the use of `tidyselect::everything()` to select all variables
+
 
 ```{r}
 
 d9 %>% 
-  dplyr::filter(!(dplyr::if_all(everything(), ~ is.na(.))))
+  dplyr::filter(!dplyr::if_all(tidyselect::everything(), ~ is.na(.)))
 
 
 ```

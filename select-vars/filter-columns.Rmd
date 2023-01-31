@@ -126,6 +126,16 @@ d2 %>%
 
 ```
 
+And if I wanted all numeric columns except `extra2`, I could simply add this to my statement with the `-` operator.
+
+```{r}
+
+d2 %>% 
+  dplyr::select(where(is.numeric), -extra2)
+
+```
+
+
 **4\. Select all columns except extra1**
 
 Review the data (d4)

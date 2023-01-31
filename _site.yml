@@ -58,6 +58,8 @@ navbar:
     href: filter-data\filter-rows-one.html
   - text: "Filter rows multiple criteria, one variable"
     href: filter-data\filter-rows-one-multiple.html
+  - text: "Filter rows using if_any or if_all"
+    href: filter-data\filter-rows-if.html
   - text: "Filter rows one criteria, multiple variables"
     href: filter-data\filter-rows-multiple-one.html
   - text: "Filter rows multiple criteria, multiple variables"

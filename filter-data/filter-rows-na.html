@@ -371,10 +371,24 @@ pre code {
 <hr />
 <div id="function-filter" class="section level4">
 <h4>Function: <code>filter()</code></h4>
-<p>Examples of filtering while keeping NA values</p>
+<p>Examples of removing rows through filtering while keeping NA
+values</p>
 <hr />
-<p><strong>1. Remove any row where extra2 is equal to -999, while also
-keeping rows that have NA for extra2.</strong></p>
+<ul>
+<li>Note: Using <code>dplyr::across()</code> in
+<code>dplyr::filter()</code> is deprecated. <code>dplyr::if_any()</code>
+and <code>dplyr::if_all()</code> are predicate functions used to select
+columns within <code>dplyr::filter()</code>. This function is available
+in version 1.0.5 of <code>dplyr</code>. <code>dplyr::if_any()</code>
+returns a true when the statement is true for <strong>any</strong> of
+the variables. <code>dplyr::if_all()</code> returns a true when the
+statement is true for <strong>all</strong> of the variables. See <a href="https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-if.html">Filter
+using if_all or if_any</a> for further explanation</li>
+</ul>
+<p><br></p>
+<p><strong>1. Remove any row where <code>extra2</code> is equal to -999,
+while also keeping rows that have NA for
+<code>extra2</code>.</strong></p>
 <p>Review the data (d5).</p>
 <pre><code># A tibble: 5 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
@@ -387,13 +401,14 @@ keeping rows that have NA for extra2.</strong></p>
 <p>Filter out any row that has -999 for extra2.</p>
 <ul>
 <li>Note: You’ll notice that I make an explicit call to keep rows with
-NA values for extra2 in addition to removing rows with the value of -999
-for extra2, using the <em>|</em> operator to denote and/or. A drawback
-of the filter function is that if you filter on a certain variable (such
-as extra2) it will not only filter out the values you request but it
-will also drop any row that has NA for that variable. And we may not
-necessarily want that. In this case, I want to keep the last row of data
-that has NA for extra2.</li>
+NA values for <code>extra2</code> in addition to removing rows with the
+value of -999 for <code>extra2</code>, using the <em>|</em> operator to
+denote and/or. A drawback of the filter function is that if you filter
+on a certain variable (such as <code>extra2</code>) it will not only
+filter out the values you request but it will also drop any row that has
+NA for that variable. And we may not necessarily want that. In this
+case, I want to keep the last row of data that has NA for
+<code>extra2</code>.</li>
 </ul>
 <pre class="r"><code>d5 %&gt;% 
   dplyr::filter(extra2 != -999 | is.na(extra2))</code></pre>
@@ -406,11 +421,11 @@ that has NA for extra2.</li>
 4 e          NA     NA     NA         NA ogunti  </code></pre>
 <p>Another way to get around the issue of dropping NAs is to use the
 within operator <em>%in%</em> rather than <em>==</em> to make sure we
-keep the NA values for extra2. The <em>==</em> (or <em>!=</em>) is a
-logical operator that retains/drops rows that produce a value of TRUE
-for all conditions (and NA cannot be evaluated and is therefore
-dropped). However <em>%in%</em> matches values and therefore doesn’t
-drop NA.</p>
+keep the NA values for <code>extra2</code>. The <em>==</em> (or
+<em>!=</em>) is a logical operator that retains/drops rows that produce
+a value of TRUE for all conditions (and NA cannot be evaluated and is
+therefore dropped). However <em>%in%</em> matches values and therefore
+doesn’t drop NA.</p>
 <pre class="r"><code>d5 %&gt;% 
   dplyr::filter(!(extra2 %in% -999))</code></pre>
 <pre><code># A tibble: 4 x 6
@@ -420,9 +435,9 @@ drop NA.</p>
 2 c           3   -999     12        250 harris  
 3 d           4      0     13        217 lewis   
 4 e          NA     NA     NA         NA ogunti  </code></pre>
-<p><strong>2. Remove any row that has -999 for extra2 <em>AND/OR</em>
-has -999 for extra3, while also keeping rows that have NA values for
-those variables.</strong></p>
+<p><strong>2. Remove any row that has -999 for <code>extra2</code>
+<em>AND/OR</em> has -999 for <code>extra3</code>, while also keeping
+rows that have NA values for those variables.</strong></p>
 <p>Review the data (d5)</p>
 <pre><code># A tibble: 5 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
@@ -432,12 +447,14 @@ those variables.</strong></p>
 3 c           3   -999     12        250 harris  
 4 d           4      0     13        217 lewis   
 5 e          NA     NA     NA         NA ogunti  </code></pre>
-<p>Filter out any row that has -999 for extra2 and/or -999 for extra3
-(retaining any row that has NA values for those variables).</p>
+<p>Filter out any row that has -999 for <code>extra2</code> and/or -999
+for <code>extra3</code> (retaining any row that has NA values for those
+variables).</p>
 <ul>
 <li><p>Note: You’ll notice that I again make an explicit call to
-<strong>keep</strong> rows with NA values for extra2 and extra3, using
-the <code>|</code> operator to denote and/or.</p></li>
+<strong>keep</strong> rows with NA values for <code>extra2</code> and
+<code>extra3</code>, using the <code>|</code> operator to denote
+and/or.</p></li>
 <li><p>Note: Notice that for the first part of the equation I put the
 operator <em>!</em> outside of the parentheses. While there are other
 ways to write this equation, I find this the least confusing way to
@@ -461,8 +478,19 @@ the within operator <em>%in%</em> rather than <em>==</em>.</p>
 1 a           1      2     10        205 harris  
 2 d           4      0     13        217 lewis   
 3 e          NA     NA     NA         NA ogunti  </code></pre>
+<p>And yet one other way to write this is using
+<code>dplyr::if_all()</code>.</p>
+<pre class="r"><code>d5 %&gt;% 
+  dplyr::filter(dplyr::if_all(extra2:extra3, ~ !. %in% -999))</code></pre>
+<pre><code># A tibble: 3 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     10        205 harris  
+2 d           4      0     13        217 lewis   
+3 e          NA     NA     NA         NA ogunti  </code></pre>
 <p><strong>3. Remove any row that has -999 for <em>AT LEAST ONE</em>
-numeric variable.</strong></p>
+numeric variable, while also keeping rows that have NA values for those
+variables.</strong></p>
 <p>Review the data (d9)</p>
 <pre><code># A tibble: 6 x 5
   extra1 extra2 extra3    id test_score
@@ -476,14 +504,14 @@ numeric variable.</strong></p>
 <p>Filter out any row that has -999 for <strong>AT LEAST ONE</strong>
 numeric variable</p>
 <ul>
-<li><p>Note: You can read <code>dplyr::if_any()</code> here as, keep
-rows where ANY numeric variables are NOT -999 (notice the ! on the
-outside of the <code>dplyr::if_any()</code> function)</p></li>
-<li><p>Note: You’ll notice here that I used <em>%in%</em> rather than
-<em>==</em> to ensure I keep the NA values.</p></li>
+<li>Note: You’ll notice here that I used <em>%in%</em> rather than
+<em>==</em> to ensure I keep the NA values.</li>
 </ul>
+<p>Note: You need to wrap <code>is.numeric</code>, a predicate function
+(returns a true/false), in the <code>tidyselect</code> selection helper
+<code>where()</code>.</p>
 <pre class="r"><code>d9 %&gt;% 
-  dplyr::filter(!dplyr::if_any(is.numeric, ~ . %in% -999))</code></pre>
+  dplyr::filter(dplyr::if_all(where(is.numeric), ~ !. %in% -999))</code></pre>
 <pre><code># A tibble: 4 x 5
   extra1 extra2 extra3    id test_score
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
@@ -497,7 +525,8 @@ outside of the <code>dplyr::if_any()</code> function)</p></li>
 <h4>Function: <code>filter()</code></h4>
 <p>Examples of filtering on NA values</p>
 <hr />
-<p><strong>1. Remove any row that has NA for extra2.</strong></p>
+<p><strong>1. Remove any row that has NA for
+<code>extra2</code>.</strong></p>
 <p>Review the data (d7).</p>
 <pre><code># A tibble: 4 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
@@ -506,7 +535,7 @@ outside of the <code>dplyr::if_any()</code> function)</p></li>
 2 b          NA      0     11        220 steve   
 3 c           3     NA     12        250 harris  
 4 d           4      0     13        217 lewis   </code></pre>
-<p>Remove any row that has NA for extra2.</p>
+<p>Remove any row that has NA for <code>extra2</code>.</p>
 <ul>
 <li>Note: Use the logical operator <em>!</em> to denote NOT.</li>
 </ul>
@@ -518,8 +547,8 @@ outside of the <code>dplyr::if_any()</code> function)</p></li>
 1 a           1      2     NA        205 harris  
 2 c           3     NA     12        250 harris  
 3 d           4      0     13        217 lewis   </code></pre>
-<p><strong>2. Remove any row that has NA for extra2 AND/OR
-extra3.</strong></p>
+<p><strong>2. Remove any row that has NA for <code>extra2</code> AND/OR
+<code>extra3</code>.</strong></p>
 <p>Review the data (d7).</p>
 <pre><code># A tibble: 4 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
@@ -541,8 +570,17 @@ variables.</li>
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
 1 a           1      2     NA        205 harris  
 2 d           4      0     13        217 lewis   </code></pre>
-<p><strong>3. Keep rows where extra2 is NA but extra3 is not
-NA</strong></p>
+<p>And yet one other way to write this is using
+<code>dplyr::if_any()</code>.</p>
+<pre class="r"><code>d7 %&gt;%
+  dplyr::filter(!dplyr::if_any(extra2:extra3, ~ is.na(.)))</code></pre>
+<pre><code># A tibble: 2 x 6
+  extra1 extra2 extra3 stu_id test_score tch_name
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+1 a           1      2     NA        205 harris  
+2 d           4      0     13        217 lewis   </code></pre>
+<p><strong>3. Keep rows where <code>extra2</code> is NA but
+<code>extra3</code> is not NA</strong></p>
 <p>Review the data (d10).</p>
 <pre><code># A tibble: 6 x 4
   extra2 extra3    id test_score
@@ -553,7 +591,8 @@ NA</strong></p>
 4     NA      0    13        217
 5     NA     NA    NA         NA
 6   -999   -999  -999       -999</code></pre>
-<p>Keep rows where extra2 is NA but extra3 is not NA</p>
+<p>Keep rows where <code>extra2</code> is NA but <code>extra3</code> is
+not NA</p>
 <pre class="r"><code>d10 %&gt;%
   dplyr::filter(is.na(extra2) &amp; !is.na(extra3))</code></pre>
 <pre><code># A tibble: 1 x 4
@@ -575,22 +614,19 @@ variables.</strong></p>
 <p>Filter out any row that has NA for <strong>ALL</strong> numeric
 variables</p>
 <ul>
-<li>Note: You can read <code>dplyr::if_all()</code> here as, keep rows
-where ALL numeric variables are NOT NA (notice the ! on the outside of
-the <code>dplyr::if_all()</code> function)</li>
+<li>Note: We use the <code>tidyselect</code> selection helper
+<code>everything()</code> to refer to all variables.</li>
 </ul>
-<p>Note: You need to wrap <code>is.numeric</code>, a predicate function
-(returns a true/false), in the <code>tidyselect</code> selection helper
-<code>where()</code>.</p>
 <pre class="r"><code>d9 %&gt;% 
-  dplyr::filter(!dplyr::if_all(where(is.numeric), ~ is.na(.)))</code></pre>
-<pre><code># A tibble: 4 x 5
+  dplyr::filter(!dplyr::if_all(tidyselect::everything(), ~ is.na(.)))</code></pre>
+<pre><code># A tibble: 5 x 5
   extra1 extra2 extra3    id test_score
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
 1 a           1      2    10        205
 2 b        -999      0    11        220
 3 c           3   -999    12        250
-4 d          NA      0    13        217</code></pre>
+4 d          NA      0    13        217
+5 e          NA     NA    NA         NA</code></pre>
 </div>
 </div>
 <div id="package-tidyr" class="section level3">
@@ -599,7 +635,8 @@ the <code>dplyr::if_all()</code> function)</li>
 <div id="function-tidyrdrop_na" class="section level4">
 <h4>Function: <code>tidyr::drop_na()</code></h4>
 <hr />
-<p><strong>1. Remove any rows where stu_id is NA</strong></p>
+<p><strong>1. Remove any rows where <code>stu_id</code> is
+NA</strong></p>
 <p>Review the data (d7)</p>
 <pre><code># A tibble: 4 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
@@ -608,7 +645,7 @@ the <code>dplyr::if_all()</code> function)</li>
 2 b          NA      0     11        220 steve   
 3 c           3     NA     12        250 harris  
 4 d           4      0     13        217 lewis   </code></pre>
-<p>Filter out any row that has NA for stu_id.</p>
+<p>Filter out any row that has NA for <code>stu_id</code>.</p>
 <pre class="r"><code>d7 %&gt;% 
   tidyr::drop_na(stu_id)</code></pre>
 <pre><code># A tibble: 3 x 6

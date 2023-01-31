@@ -20,7 +20,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-*Note: Using `dplyr::across()` in `dplyr::filter()` is deprecated. `dplyr::if_any()` and `dplyr::if_all()` are predicate functions used to select columns within `dplyr::filter()`. This function is available in version 1.0.5 of `dplyr`.
+* Note: Using `dplyr::across()` in `dplyr::filter()` is deprecated. `dplyr::if_any()` and `dplyr::if_all()` are predicate functions used to select columns within `dplyr::filter()`. This function is available in version 1.0.5 of `dplyr`. `dplyr::if_any()` returns a true when the statement is true for **any** of the variables. `dplyr::if_all()` returns a true when the statement is true for **all** of the variables. See [Filter using if_all or if_any](https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-if.html) for further explanation
 
 <br>
 
@@ -36,8 +36,6 @@ d19
 ```
 
 Filter out any row that has -999 for **ALL** numeric variables
-
-* Note: You can read `dplyr::if_all()` here as, keep rows where ALL numeric variables are NOT NA (hence the ! on the outside of the `dplyr::if_all()` function)
 
 Note: You need to wrap `is.numeric`, a predicate function (returns a true/false), in the `tidyselect` selection helper `where()`.
 
@@ -62,8 +60,6 @@ d19
 ```
 
 Filter out any row that has -999 for **AT LEAST ONE** numeric variable
-
-* Note: You can read `dplyr::if_any()` here as, keep rows where ANY numeric variables are NOT -999 (notice the ! on the outside of the `dplyr::if_any()` function)
 
 
 ```{r}

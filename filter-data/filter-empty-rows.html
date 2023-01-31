@@ -377,7 +377,11 @@ pre code {
 <code>dplyr::filter()</code> is deprecated. <code>dplyr::if_any()</code>
 and <code>dplyr::if_all()</code> are predicate functions used to select
 columns within <code>dplyr::filter()</code>. This function is available
-in version 1.0.5 of <code>dplyr</code>.</li>
+in version 1.0.5 of <code>dplyr</code>. <code>dplyr::if_any()</code>
+returns a true when the statement is true for <strong>any</strong> of
+the variables. <code>dplyr::if_all()</code> returns a true when the
+statement is true for <strong>all</strong> of the variables. See <a href="https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-if.html">Filter
+using if_all or if_any</a> for further explanation</li>
 </ul>
 <p><br></p>
 <p><strong>1. Remove empty rows</strong></p>
@@ -393,12 +397,11 @@ in version 1.0.5 of <code>dplyr</code>.</li>
 6 e          NA     NA    NA         NA</code></pre>
 <p>Filter out any completely empty row</p>
 <ul>
-<li>Note: You can read <code>dplyr::if_all()</code> here as, keep rows
-where ALL variables are NOT NA (hence the ! on the outside of the
-<code>dplyr::if_all()</code> function)</li>
+<li>Note: Note the use of <code>tidyselect::everything()</code> to
+select all variables</li>
 </ul>
 <pre class="r"><code>d9 %&gt;% 
-  dplyr::filter(!(dplyr::if_all(everything(), ~ is.na(.))))</code></pre>
+  dplyr::filter(!dplyr::if_all(tidyselect::everything(), ~ is.na(.)))</code></pre>
 <pre><code># A tibble: 5 x 5
   extra1 extra2 extra3    id test_score
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;

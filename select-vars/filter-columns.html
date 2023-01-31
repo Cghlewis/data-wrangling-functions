@@ -507,6 +507,19 @@ than a literal string like <code>contains()</code>.</p>
 3      3   -999    12         250         540
 4      4      0    13         217         499
 5     NA     NA    NA          NA          NA</code></pre>
+<p>And if I wanted all numeric columns except <code>extra2</code>, I
+could simply add this to my statement with the <code>-</code>
+operator.</p>
+<pre class="r"><code>d2 %&gt;% 
+  dplyr::select(where(is.numeric), -extra2)</code></pre>
+<pre><code># A tibble: 5 x 4
+  extra3    id test_score1 test_score2
+   &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
+1      2    10         205         500
+2      0    11         220         480
+3   -999    12         250         540
+4      0    13         217         499
+5     NA    NA          NA          NA</code></pre>
 <p><strong>4. Select all columns except extra1</strong></p>
 <p>Review the data (d4)</p>
 <pre><code># A tibble: 5 x 5

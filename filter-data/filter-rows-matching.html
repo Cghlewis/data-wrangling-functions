@@ -373,7 +373,8 @@ values</h1>
 <div id="function-filter" class="section level4">
 <h4>Function: <code>filter()</code></h4>
 <hr />
-<p><strong>1. Keep any row where q1 equals q2.</strong></p>
+<p><strong>1. Keep any row where <code>q1</code> equals
+<code>q2</code>.</strong></p>
 <p>Review the data (d13)</p>
 <pre><code># A tibble: 3 x 3
      id q1     q2    
@@ -388,8 +389,9 @@ values</h1>
      id q1    q2   
   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
 1    20 steve steve</code></pre>
-<p><strong>2. Remove any row where q1 does not equal q2, while also
-keeping rows that have NA for q2.</strong></p>
+<p><strong>2. Remove any row where <code>q1</code> does not equal
+<code>q2</code>, while also keeping rows that have NA for
+<code>q2</code>.</strong></p>
 <p>Review the data (d13)</p>
 <pre><code># A tibble: 3 x 3
      id q1     q2    
@@ -397,13 +399,14 @@ keeping rows that have NA for q2.</strong></p>
 1    10 harris Harris
 2    20 steve  steve 
 3    30 lewis  &lt;NA&gt;  </code></pre>
-<p>Filter out any row where q1 is not equal to q2</p>
+<p>Filter out any row where <code>q1</code> is not equal to
+<code>q2</code></p>
 <ul>
 <li><p>Note: Use the logical operator <em>!=</em> to denote not equal
 to.</p></li>
 <li><p>Note: I make an explicit call to <strong>keep</strong> rows with
-NA values for q2. If I did not do this, filter would drop the last row
-of data.</p></li>
+NA values for <code>q2</code>. If I did not do this, filter would drop
+the last row of data.</p></li>
 </ul>
 <pre class="r"><code>d13 %&gt;% 
   dplyr::filter(q1 != q2 | is.na(q2))</code></pre>

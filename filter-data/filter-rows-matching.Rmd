@@ -20,7 +20,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Keep any row where q1 equals q2.**
+**1\. Keep any row where `q1` equals `q2`.**
 
 Review the data (d13)
 
@@ -41,7 +41,7 @@ d13 %>%
 ```
 
 
-**2\. Remove any row where q1 does not equal q2, while also keeping rows that have NA for q2.**
+**2\. Remove any row where `q1` does not equal `q2`, while also keeping rows that have NA for `q2`.**
 
 Review the data (d13)
 
@@ -52,11 +52,11 @@ d13
 
 ```
 
-Filter out any row where q1 is not equal to q2
+Filter out any row where `q1` is not equal to `q2`
 
 * Note: Use the logical operator *!=* to denote not equal to.
 
-* Note: I make an explicit call to **keep** rows with NA values for q2. If I did not do this, filter would drop the last row of data.
+* Note: I make an explicit call to **keep** rows with NA values for `q2`. If I did not do this, filter would drop the last row of data.
 
 ```{r}
 

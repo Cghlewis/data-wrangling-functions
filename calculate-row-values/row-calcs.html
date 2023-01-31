@@ -430,7 +430,7 @@ to still calculate a sum despite missing values, you can set the
 argument to <em>na.rm = TRUE</em>.</p></li>
 <li><p>Note: I think it’s <strong>really important</strong> to point out
 that the closing parentheses for <code>dplyr::across()</code> goes at
-the end of <code>item3</code>, rather than at the outside of of the
+the end of <code>item3</code>, rather than at the end of of the
 <code>rowMeans</code> function. This is different than how you add
 parentheses when using <code>dplyr::across()</code> for something like a
 <code>dplyr::case_when()</code> function. And if you do not put the
@@ -786,7 +786,7 @@ want rows summed across columns rather than the default which is column
 totals</p></li>
 <li><p>Note: We can add the argument <em>name = </em> to rename the new
 column what we want rather than the default “Total”</p></li>
-<li><p>Note: The argument default for the NA argumen tis <em>na.rm =
+<li><p>Note: The argument default for the NA argument is <em>na.rm =
 TRUE</em> so in this case, if we don’t want a sum when there is missing
 data, we need to change it to FALSE.</p></li>
 </ul>

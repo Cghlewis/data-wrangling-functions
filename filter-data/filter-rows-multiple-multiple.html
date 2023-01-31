@@ -389,18 +389,17 @@ using if_all or if_any</a> for further explanation</li>
 values for variables (var1:var4) are NOT missing. Missing is denoted by
 “MR” as well as NA.</strong></p>
 <p>Review the data (d17)</p>
-<pre><code># A tibble: 9 x 6
+<pre><code># A tibble: 8 x 6
      id form  var1  var2  var3  var4 
   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1    10 &quot;a&quot;   3     4     3     &quot;3&quot;  
-2    11 &quot;b&quot;   3     MR    2     &quot;&quot;   
-3    12 &quot;b&quot;   &lt;NA&gt;  3     1     &quot;MR&quot; 
-4    13 &quot;&quot;    MR    MR    MR    &quot;MR&quot; 
+1    10 &quot;a&quot;   3     4     3     3    
+2    11 &quot;b&quot;   3     MR    2     1    
+3    12 &quot;b&quot;   &lt;NA&gt;  3     1     MR   
+4    13 &quot;&quot;    MR    MR    MR    MR   
 5    14 &quot;&quot;    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
-6    15 &quot;&quot;    1     MR    3     &quot;MR&quot; 
-7    16 &quot;c&quot;   MR    2     1     &quot;2&quot;  
-8    17 &quot;&quot;    MR    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
-9    18 &quot;a&quot;   MR    MR    &lt;NA&gt;  &lt;NA&gt; </code></pre>
+6    15 &quot;&quot;    1     MR    3     MR   
+7    17 &quot;&quot;    MR    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
+8    18 &quot;a&quot;   MR    MR    &lt;NA&gt;  &lt;NA&gt; </code></pre>
 <p>We can see here that form is a character variable and missing values
 are denoted by ““, so we will need to account for that in our
 formula.</p>
@@ -445,18 +444,17 @@ missing.”</p>
 <p><strong>2. Return rows where <code>form</code> is <em>not</em> empty,
 and ALL variables (var1:var4) are empty.</strong></p>
 <p>Review the data (d17)</p>
-<pre><code># A tibble: 9 x 6
+<pre><code># A tibble: 8 x 6
      id form  var1  var2  var3  var4 
   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1    10 &quot;a&quot;   3     4     3     &quot;3&quot;  
-2    11 &quot;b&quot;   3     MR    2     &quot;&quot;   
-3    12 &quot;b&quot;   &lt;NA&gt;  3     1     &quot;MR&quot; 
-4    13 &quot;&quot;    MR    MR    MR    &quot;MR&quot; 
+1    10 &quot;a&quot;   3     4     3     3    
+2    11 &quot;b&quot;   3     MR    2     1    
+3    12 &quot;b&quot;   &lt;NA&gt;  3     1     MR   
+4    13 &quot;&quot;    MR    MR    MR    MR   
 5    14 &quot;&quot;    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
-6    15 &quot;&quot;    1     MR    3     &quot;MR&quot; 
-7    16 &quot;c&quot;   MR    2     1     &quot;2&quot;  
-8    17 &quot;&quot;    MR    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
-9    18 &quot;a&quot;   MR    MR    &lt;NA&gt;  &lt;NA&gt; </code></pre>
+6    15 &quot;&quot;    1     MR    3     MR   
+7    17 &quot;&quot;    MR    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
+8    18 &quot;a&quot;   MR    MR    &lt;NA&gt;  &lt;NA&gt; </code></pre>
 <pre class="r"><code>d17 %&gt;%
   filter(form != &quot;&quot; &amp; dplyr::if_all(var1:var4, ~ . %in% c(&quot;MR&quot;, NA)))</code></pre>
 <pre><code># A tibble: 1 x 6

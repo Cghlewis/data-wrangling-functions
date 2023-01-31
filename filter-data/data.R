@@ -186,12 +186,11 @@ d16 <- tibble::tribble(~id, ~tch_name, ~grade, ~item1, ~item2,
 
 d17 <- tibble::tribble(~id, ~form, ~var1, ~var2, ~var3, ~var4,
                        10, "a", "3", "4", "3", "3",
-                       11, "b", "3", "MR", "2", "",
+                       11, "b", "3", "MR", "2", "1",
                        12, "b", NA, "3", "1", "MR",
                        13, "", "MR", "MR", "MR", "MR",
                        14, "", NA, NA, NA, NA,
                        15, "", "1", "MR", "3", "MR",
-                       16, "c", "MR", "2", "1", "2",
                        17, "", "MR", NA, NA, NA,
                        18, "a", "MR", "MR", NA, NA)
 

@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Calculate the sum of NA values in a specific measure**
+**1\. Calculate the sum of NA values across all items in the "toca" measure**
 
 Review the data (d5)
 
@@ -37,7 +37,7 @@ Calculate the sum score
 
 * Note: We are calculating a new variable using `dplyr::mutate()`
 
-* Note: Adding `dplyr::across()` allows you to select the specific columns you want to calculate the rowSums for. Otherwise rowSums will be applied across all columns.
+* Note: Adding `dplyr::across()` allows you to select the specific columns you want to calculate the `base::rowSums()` for. Otherwise rowSums will be applied across all columns.
 
 * Note: We use the `tidyselect` selection helper `contains()` to refer to all variables that contain with the word "toca".
 

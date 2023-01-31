@@ -373,8 +373,8 @@ pre code {
 <div id="function-rowsums" class="section level4">
 <h4>Function: <code>rowSums()</code></h4>
 <hr />
-<p><strong>1. Calculate the sum of NA values in a specific
-measure</strong></p>
+<p><strong>1. Calculate the sum of NA values across all items in the
+“toca” measure</strong></p>
 <p>Review the data (d5)</p>
 <pre><code># A tibble: 5 x 5
   stu_id toca1 toca2 toca3 toca4
@@ -389,8 +389,9 @@ measure</strong></p>
 <li><p>Note: We are calculating a new variable using
 <code>dplyr::mutate()</code></p></li>
 <li><p>Note: Adding <code>dplyr::across()</code> allows you to select
-the specific columns you want to calculate the rowSums for. Otherwise
-rowSums will be applied across all columns.</p></li>
+the specific columns you want to calculate the
+<code>base::rowSums()</code> for. Otherwise rowSums will be applied
+across all columns.</p></li>
 <li><p>Note: We use the <code>tidyselect</code> selection helper
 <code>contains()</code> to refer to all variables that contain with the
 word “toca”.</p></li>

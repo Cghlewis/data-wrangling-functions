@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Calculate a sum score for each student called "measure_sum"**
+**1\. Calculate a sum score for each student called `measure_sum`**
 
 Review the data (d2)
 
@@ -44,7 +44,7 @@ Calculate the sum score
 ```{r}
 
 d2 %>% 
-  dplyr::mutate(measure_sum = rowSums(dplyr::across(c(item1:item3))))
+  dplyr::mutate(measure_sum = rowSums(dplyr::across(c(item1, item2, item3))))
 
 ```
 
@@ -56,7 +56,7 @@ d2 %>%
 ---
 
 
-**1\. Calculate a mean score ("measure_mean") for each student even with missing data**
+**1\. Calculate a mean score (`measure_mean`) for each student even with missing data**
 
 Review the data (d2)
 
@@ -71,10 +71,12 @@ Calculate the mean score of item1, item2, and item3
  
 * Note: The default for NA values in your columns is to **not** calculate a sum if any NA value exists. If you want to still calculate a sum despite missing values, you can set the argument to *na.rm = TRUE*.
 
+* Note: I think it's **really important** to point out that the closing parentheses for `dplyr::across()` goes at the end of `item3`, rather than at the outside of of the `rowMeans` function. This is different than how you add parentheses when using `dplyr::across()` for something like a `dplyr::case_when()` function. And if you do not put the parentheses at the end of `item3`, the `rowMeans` function will still run, but the *na.rm = TRUE* argument will not be evaluated!
+
 ```{r}
 
 d2 %>% 
-  dplyr::mutate(measure_mean = rowMeans(dplyr::across(c(item1:item3)), na.rm=TRUE))
+  dplyr::mutate(measure_mean = rowMeans(dplyr::across(item1:item3), na.rm = TRUE))
 
 ```
 
@@ -85,11 +87,11 @@ You can set the number of decimal places you want the new variable to have by wr
 ```{r}
 
 d2 %>% 
-  dplyr::mutate(measure_mean = round(rowMeans(dplyr::across(c(item1:item3)), na.rm=TRUE), digits= 1))
+  dplyr::mutate(measure_mean = round(rowMeans(dplyr::across(item1:item3), na.rm=TRUE), digits= 1))
 
 ```
 
-**2\. Calculate a mean score ("toca_mean") for all the variables that begin with "toca", for each student even with missing data**
+**2\. Calculate a mean score (`toca_mean`) for all the variables that begin with "toca", for each student even with missing data**
 
 Review the data (d5)
 
@@ -126,7 +128,7 @@ d5 %>%
 
 ```
 
-**3\. Calculate a mean score ("toca_mean") for all the variables that begin with "toca", when the toca variables contain _labelled na values_**
+**3\. Calculate a mean score (`toca_mean`) for all the variables that begin with "toca", when the toca variables contain _labelled na values_**
 
 Review the data (d6)
 
@@ -184,9 +186,9 @@ d6 %>%
                 ~ ifelse(.==-99,NA,.),
                 .names = "{col}_temp"),
                 toca_mean = rowMeans(
-           dplyr::across(tidyselect::contains("temp"), 
-           na.rm = TRUE))) %>%
-  dplyr::select(-tidyselect::contains("temp"))
+           dplyr::across(tidyselect::contains("temp")), 
+           na.rm = TRUE)) %>%
+  select(-contains("temp"))
 
 
 ```
@@ -202,7 +204,7 @@ d6 %>%
 
 ---
 
-**1\. Calculate a sum score for each student called "measure_sum"**
+**1\. Calculate a sum score for each student called `measure_sum`**
 
 Review the data (d2)
 
@@ -242,7 +244,7 @@ d2 %>%
 
 ```
 
-**2\. Calculate a mean score ("measure_mean") for each student even with missing data**
+**2\. Calculate a mean score (`measure_mean`) for each student even with missing data**
 
 Review the data (d2)
 
@@ -255,7 +257,6 @@ d2
 
 Calculate the mean score 
 
-* Note: Again we are using `dplyr::mutate()` to create a new variable
 * Note: We use `base::mean()` here to calculate mean
 * Note: We use `dplyr::c_across()` to select the variables of interest
 
@@ -281,7 +282,7 @@ d2 %>%
 ```
 
 
-**3\. Calculate a mean score ("toca_mean") for all the variables that contain the word "toca", for each student even with missing data**
+**3\. Calculate a mean score (`toca_mean`) for all the variables that contain the word "toca", for each student even with missing data**
 
 Review the data (d4)
 
@@ -326,7 +327,7 @@ d4 %>%
 
 ---
 
-**1\. Calculate a sum score for each student called "measure_sum"**
+**1\. Calculate a sum score for each student called `measure_sum`**
 
 Review the data (d2)
 

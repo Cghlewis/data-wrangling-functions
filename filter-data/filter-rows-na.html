@@ -448,8 +448,7 @@ rows that have NA values for those variables.</strong></p>
 4 d           4      0     13        217 lewis   
 5 e          NA     NA     NA         NA ogunti  </code></pre>
 <p>Filter out any row that has -999 for <code>extra2</code> and/or -999
-for <code>extra3</code> (retaining any row that has NA values for those
-variables).</p>
+for <code>extra3</code>.</p>
 <ul>
 <li><p>Note: You’ll notice that I again make an explicit call to
 <strong>keep</strong> rows with NA values for <code>extra2</code> and
@@ -510,6 +509,18 @@ numeric variable</p>
 <p>Note: You need to wrap <code>is.numeric</code>, a predicate function
 (returns a true/false), in the <code>tidyselect</code> selection helper
 <code>where()</code>.</p>
+<pre class="r"><code>d9 %&gt;% 
+  dplyr::filter(!dplyr::if_any(where(is.numeric), ~ . %in% -999))</code></pre>
+<pre><code># A tibble: 4 x 5
+  extra1 extra2 extra3    id test_score
+  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
+1 a           1      2    10        205
+2 d          NA      0    13        217
+3 &lt;NA&gt;       NA     NA    NA         NA
+4 e          NA     NA    NA         NA</code></pre>
+<p>I could also write this using <code>dplyr::if_all()</code>, saying
+“If all values for numeric variables are NOT -999, then return the
+rows.</p>
 <pre class="r"><code>d9 %&gt;% 
   dplyr::filter(dplyr::if_all(where(is.numeric), ~ !. %in% -999))</code></pre>
 <pre><code># A tibble: 4 x 5

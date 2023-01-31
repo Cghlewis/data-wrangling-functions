@@ -386,7 +386,7 @@ months)</strong></p>
 <p>Many times, in order to de-identify data we will remove date of birth
 and testing date from our data. However, age may still be relevant in
 our analysis, so we can calculate an age variable to be added to our
-data.</p>
+data before removing <code>dob</code> and <code>test_date</code>.</p>
 <p>Here we can use <code>dplyr::mutate()</code> to create our new age
 variable.</p>
 <p>Then, we can calculate our age variable.</p>
@@ -463,8 +463,8 @@ two numbers and returns the integer part of the result.</p>
 4    13 2011-12-13 2021-10-17        118</code></pre>
 <p>You could also use <code>base::round()</code> but as I’ve mentioned
 in other parts of this wiki, pay attention to how this function rounds.
-It rounds to the even number when rounding at 5. See documentation on
-rounding for more information.</p>
+See <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Rounding">Rounding</a>
+for more information.</p>
 <pre class="r"><code>d4 %&gt;%
   dplyr::mutate(age_months = base::round(lubridate::interval(start = dob, end = test_date)/months(1)))</code></pre>
 <pre><code># A tibble: 4 x 4

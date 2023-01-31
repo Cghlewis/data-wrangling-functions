@@ -21,7 +21,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Convert a character variable (Var1) to a factor**
+**1\. Convert a character variable (`Var1`) to a factor**
 
 Review the data (d2)
 
@@ -32,7 +32,7 @@ d2
 
 ```
 
-View the class for Var1
+View the class for `Var1`
 
 ```{r}
 
@@ -40,7 +40,7 @@ class(d2$Var1)
 
 ```
 
-Convert Var1 to a factor. 
+Convert `Var1` to a factor. 
 
 * Note: In the case of a character variable, the levels will be chosen based on the order in which they appear. In the case of a numeric variable, the levels will be numerically ordered. You can view levels using the `base::levels()` function.
 
@@ -79,7 +79,7 @@ levels(d2$Var1)
 
 ---
 
-**1\. Another function to convert a variable (in this case character variable Var1) to a factor is `base::as.factor()**
+**1\. Convert a character variable (`Var1`) to a factor**
 
 Review the data (d2)
 
@@ -90,7 +90,7 @@ d2
 
 ```
 
-View the class for Var1
+View the class for `Var1`
 
 ```{r}
 
@@ -101,8 +101,6 @@ class(d2$Var1)
 Convert Var1 to a factor. 
 
 * Note: The levels will be chosen alphabetically or numerically. You can view levels using the `base::levels()` function.
-
-* Note: We are recoding into a new variable using `dplyr::mutate()` and saving over the original variable by naming the new variable the same name as the original. 
 
 ```{r}
 

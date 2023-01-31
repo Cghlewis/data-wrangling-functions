@@ -40,13 +40,13 @@ base::basename(fs::dir_ls(here::here("file-system", "obs_2023-01-19")))
 
 I see "summary_obs.xlsx" exists in today's folder but I'm not sure if it has been moved over to the "all_files" folder yet and renamed to "summary_obs_2023-01-19".
 
-(01) To check this, I first need to set the path to where the file should live if it has already been moved. I assign this to the object "summary_files". 
+(01) To check this, I first need to set the path to where the file should live if it has already been moved. I assign this to the object `summary_files`. 
 
 * Note: I could just simply list the name of the file like this.
 
 ```{r, eval = FALSE}
 
-summary_file <- here::here("file-system", "all_files",  "summary_obs_2023-01-19.xlsx"))
+summary_file <- here::here("file-system", "all_files",  "summary_obs_2023-01-19.xlsx")
 
 
 ```
@@ -66,7 +66,7 @@ summary_file <- here::here("file-system", "all_files",  "summary_obs_2023-01-19.
 
 ```
 
-(02) Next, I need to set the path of where the file originates from. I assign this to an object called "file_to_copy".
+(02) Next, I need to set the path of where the file originates from. I assign this to an object called `file_to_copy`.
 
 ```{r, eval = FALSE}
 
@@ -126,7 +126,7 @@ fs::file_copy(path = file_to_copy, new_path = summary_file, overwrite = TRUE)
 
 Similar to checking if a file exists, I think its worth pointing out that you can also check to see if objects exist in your environment using `base::exists()`. For example if you run a series of functions, you might want to confirm certain objects were created.
 
-So for example, our hypothetical function should create the object summary_obs by binding each days observations into one large data frame. Let's see if our object already exists.
+So for example, our hypothetical function should create the object `summary_obs` by binding each days observations into one large data frame. Let's see if our object already exists.
 
 ```{r}
 

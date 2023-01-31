@@ -389,7 +389,7 @@ data</strong></p>
 <p>In this case, a student can be re-recruited back into our study each
 year. We now want to count how many years each student has been in our
 study.</p>
-<p>In order to do this we can first group by our student id using
+<p>In order to do this we can first group by <code>stu_id</code> using
 <code>dplyr::group_by()</code> and then do a count.</p>
 <pre class="r"><code>d4 %&gt;%
   dplyr::group_by(stu_id) %&gt;%

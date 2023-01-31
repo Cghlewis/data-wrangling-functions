@@ -372,9 +372,9 @@ pre code {
 <div id="function-filter" class="section level4">
 <h4>Function: <code>filter()</code></h4>
 <hr />
-<p><strong>1. Filter to only <code>grade</code> = 1 for <code>sch</code>
-= “a” and only <code>grade</code> = 9 for <code>sch</code> =
-“b”</strong></p>
+<p><strong>1. Filter to only (<code>grade</code> = 1 for
+<code>sch</code> = “a”) and only (<code>grade</code> = 9 for
+<code>sch</code> = “b”)</strong></p>
 <p>Review the data (d11)</p>
 <pre><code># A tibble: 7 x 5
   sch   stu_id grade  var2  var3
@@ -412,9 +412,9 @@ but get all grades &gt;= 9 for school b.</p>
 3 b         22     9    13   217
 4 b         31    10    NA    NA
 5 b         32    10    14   251</code></pre>
-<p><strong>2. Filter to <code>grade</code> between 1 &amp; 2 for
-<code>sch</code> = “a” and <code>grade</code> = 9 for <code>sch</code> =
-“b”</strong></p>
+<p><strong>2. Filter to (<code>grade</code> between 1 &amp; 2 for
+<code>sch</code> = “a”) and (<code>grade</code> = 9 for <code>sch</code>
+= “b”)</strong></p>
 <p>Review the data (d11)</p>
 <pre><code># A tibble: 7 x 5
   sch   stu_id grade  var2  var3
@@ -447,7 +447,7 @@ in this situation.</p>
 2 a         15     1    14   201
 3 a         11     2    15   220
 4 b         22     9    13   217</code></pre>
-<p>I also could have used `%in%</p>
+<p>Or, I also could have used `%in%</p>
 <pre class="r"><code>d11 %&gt;%
   filter((sch == &quot;a&quot; &amp; (grade %in% 1:2)) | (sch == &quot;b&quot; &amp; grade == 9))</code></pre>
 <pre><code># A tibble: 4 x 5
@@ -457,9 +457,10 @@ in this situation.</p>
 2 a         15     1    14   201
 3 a         11     2    15   220
 4 b         22     9    13   217</code></pre>
-<p><strong>3. Filter to only <code>grade</code> = 1 for <code>sch</code>
-= “a” and <code>grade</code> = 9 for <code>sch</code> = “b”, but also
-keep all other schools, no matter the grade level</strong></p>
+<p><strong>3. Filter to only (<code>grade</code> = 1 for
+<code>sch</code> = “a”) and (<code>grade</code> = 9 for <code>sch</code>
+= “b”), but also keep all other schools, no matter the grade
+level</strong></p>
 <p>Review the data (d15)</p>
 <p>Notice this dataset also has a school c</p>
 <pre><code># A tibble: 9 x 5

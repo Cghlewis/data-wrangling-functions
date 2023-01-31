@@ -64,7 +64,7 @@ janitor::compare_df_cols(entry1, entry3)
 
 ```
 
-If we only wanted to see the differences, we could add the argument *return = "mismatch"*. We can easily see here that grade is a different variable type across files and we will need to transform the variable in entry1 or entry 3 in if we want to bind the two data frames.
+If we only wanted to see the differences, we could add the argument *return = "mismatch"*. We can easily see here that `grade` is a different variable type across files and we will need to transform the variable in entry1 or entry3 in if we want to bind the two data frames.
 
 ```{r}
 

@@ -385,10 +385,10 @@ pre code {
 5 c          18     25
 6 c          18     35</code></pre>
 <p>Count the distinct number of schools</p>
-<p>Because groups inherently occur more than once in a dataset, you need
-to consider how to remove duplicates to get distinct values. Similar to
-what we did in “count values” we can use <code>dplyr::distinct()</code>
-to get our distinct school names and then do a count.</p>
+<p>Because schools inherently occur more than once in a dataset, you
+need to consider how to remove duplicates to get distinct values. We can
+use <code>dplyr::distinct()</code> to get our distinct school names and
+then do a count.</p>
 <pre class="r"><code>d1 %&gt;%
   dplyr::distinct(school) %&gt;%
   dplyr::count()</code></pre>
@@ -398,9 +398,8 @@ to get our distinct school names and then do a count.</p>
 1     3</code></pre>
 <p>We could also use another function <code>dplyr::n_groups()</code>
 which requires you to first group by your variable of interest (in this
-case school) and then use the function.</p>
-<p>Note: Similar to what was mentioned in “count values”, it is
-important to note that the output between using
+case <code>school</code>) and then use the function.</p>
+<p>Note: It is important to note that the output between using
 <code>dplyr::count()</code> and <code>dplyr::n_groups()</code> is
 different. The former produces a tibble and the latter produces a
 numeric vector.</p>

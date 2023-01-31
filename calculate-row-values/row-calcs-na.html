@@ -384,7 +384,7 @@ pre code {
 3   3456     2    NA     1    NA
 4   4567     4     5     1     6
 5   5678     1     3     2     2</code></pre>
-<p>Calculate the sum score</p>
+<p>Calculate the sum of NAs</p>
 <ul>
 <li><p>Note: We are calculating a new variable using
 <code>dplyr::mutate()</code></p></li>
@@ -395,6 +395,8 @@ across all columns.</p></li>
 <li><p>Note: We use the <code>tidyselect</code> selection helper
 <code>contains()</code> to refer to all variables that contain with the
 word “toca”.</p></li>
+<li><p>Note: Adding <code>base::is.na()</code> returns a logical value
+which can be counted/summed.</p></li>
 </ul>
 <pre class="r"><code>d5 %&gt;% 
   dplyr::mutate(toca_na_sum = rowSums(is.na(dplyr::across(tidyselect::contains(&quot;toca&quot;)))))</code></pre>

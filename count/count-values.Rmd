@@ -35,7 +35,7 @@ d1
 
 Count our number of students.
 
-Since each row is a student, we can simply count the number of rows in the data frame.
+Since each row in our data should be a unique student, we can simply count the number of rows in the data frame.
 
 ```{r}
 

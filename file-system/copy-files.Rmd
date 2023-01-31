@@ -51,8 +51,8 @@ base::basename(fs::dir_ls(here::here("file-system", "all_obs")))
 
 Now let's copy the "summary_obs.xlsx" file. 
 
-(01) We grab our existing file names and put them in the object "file_to_copy"  
-(02) We put our new directory in the object "new_directory"  
+(01) We grab our existing file names and put them in the object `file_to_copy`   
+(02) We put our new directory in the object `new_directory`   
 (03) Then we copy the files  
 
 * Note: We use the argument *glob = "\*summary\*"* to grab the file with the word "summary" in it.
@@ -97,9 +97,9 @@ base::basename(fs::dir_ls(here::here("file-system"))) %>%
 
 We notice we have 2 date folders currently. 
 
-(1) First, we can grab the files we want to move over and put them into an object "file_to_copy_all".
+(1) First, we can grab the files we want to move over and put them into an object `file_to_copy_all`.
 
-* Note: We use the argument *glob = "\*summary\*"* to grab the files with the word summary in it.
+* Note: We use the argument *glob = "\*summary\*"* to grab the files with the word "summary" in it.
 
 * Note: I am using the argument *recurse = TRUE* to pull **all** of the summary files.
 

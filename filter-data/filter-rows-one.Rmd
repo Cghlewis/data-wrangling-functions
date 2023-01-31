@@ -125,7 +125,7 @@ class(d12$test_date)
 
 Keep any row where the test date occurred in the year 2021.
 
-* Note: We added lubridate::as_date in order to change the variable class to date
+* Note: We added `lubridate::as_date()` in order to change the variable class to date
 
 * Note: Use the logical operator *>=* to denote greater than or equal to.
 

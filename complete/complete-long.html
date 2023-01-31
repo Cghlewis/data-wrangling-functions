@@ -374,8 +374,8 @@ values</h1>
 <div id="function-fill" class="section level4">
 <h4>Function: <code>fill()</code></h4>
 <hr />
-<p><strong>1. Fill NA values for both school and year with existing
-values</strong></p>
+<p><strong>1. Fill NA values for both <code>school</code> and
+<code>year</code> with existing values</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 12 x 4
    school    year grade n_students
@@ -411,8 +411,8 @@ values</strong></p>
 10 School B  2010     6        155
 11 School B  2010     7        151
 12 School B  2010     8        160</code></pre>
-<p><strong>2. Fill NA values for cohort with existing values (grouped by
-the School Name)</strong></p>
+<p><strong>2. Fill NA values for <code>cohort</code> with existing
+values (grouped by the <code>school</code>)</strong></p>
 <p>Review the data (d4)</p>
 <pre><code># A tibble: 11 x 4
    school    year enroll cohort
@@ -431,7 +431,7 @@ the School Name)</strong></p>
 <p>Fill values using the default argument <em>direction =
 “down”</em>.</p>
 <p>You have two options. You can either use
-<code>dplyr::group_by()</code> to group by school.</p>
+<code>dplyr::group_by()</code> to group by <code>school</code>.</p>
 <pre class="r"><code>d4 %&gt;% 
   dplyr::group_by(school) %&gt;% 
   tidyr::fill(cohort) %&gt;% 
@@ -450,7 +450,7 @@ the School Name)</strong></p>
  9 School B  2011    465      1
 10 School C  2011    660      2
 11 School D  2011    260      3</code></pre>
-<p>Or you can arrange your data by school using
+<p>Or you can arrange your data by <code>school</code> using
 <code>dplyr::arrange()</code> and then fill values.</p>
 <pre class="r"><code>d4 %&gt;% 
   dplyr::arrange(school) %&gt;% 

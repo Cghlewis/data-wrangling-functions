@@ -24,7 +24,7 @@ knitr::opts_chunk$set(comment = NA,
 
 <br>
 
-**1\. Convert a character variable (Var4) to a date**
+**1\. Convert a character variable (`Var4`) to a date**
 
 Review the data (d2)
 
@@ -35,7 +35,7 @@ d2
 
 ```
 
-View the class for Var4
+View the class for `Var4`
 
 ```{r}
 
@@ -43,11 +43,11 @@ class(d2$Var4)
 
 ```
 
-Convert Var4 to a date
+Convert `Var4` to a date
 
 * Note: We are recoding into a new variable using `dplyr::mutate()` and saving over the original variable by naming the new variable the same name as the original. 
 
-* Note: `mdy()` is just the format for Var4, you can adjust the format for your character variable and use functions such as `dmy()`, `ymd()`, `ymd_hms()`.
+* Note: `mdy()` is just the format for `Var4`, you can adjust the format for your character variable and use functions such as `dmy()`, `ymd()`, `ymd_hms()`.
 
 ```{r}
 
@@ -66,7 +66,7 @@ class(d2$Var4)
 
 ---
 
-**1\. Convert a character variable that appears numeric (created_timestamp) to a datetime (POSIXct)**
+**1\. Convert a character variable that appears numeric (`created_timestamp`) to a datetime (POSIXct)**
 
 * Note: Sometimes dates will come in as numeric, epoch time, typically number of seconds (sometimes a different unit) since a start date, usually Jan 1, 1970. This happens a lot when importing data from Excel but can also happen with other sources. For example, I've imported data from the Twitter API and had dates in epoch time in milliseconds. You will need to know information about your data before converting a variable.
 
@@ -79,7 +79,7 @@ d5
 
 ```
 
-View the class for created_timestamp
+View the class for `created_timestamp`
 
 * Note: You'll notice this variable appeared numeric but is actually character which is important to know.
 
@@ -89,7 +89,7 @@ class(d5$created_timestamp)
 
 ```
 
-Convert created_timestamp to a datetime
+Convert `created_timestamp` to a datetime
 
 * Note: I know for this timestamp variable that the value is in milliseconds, not seconds. So in order to use the function I want to use, `lubridate::as_datetime()`, I need to convert my character variable to numeric using `base::as.numeric()` and then divide it by 1000. If the time was in seconds, I would not need to convert the character variable to numeric before applying the `lubridate` function.
 
@@ -137,7 +137,7 @@ d6
 
 ```
 
-View the class for date
+View the class for `date`
 
 ```{r}
 
@@ -181,7 +181,7 @@ d6
 
 ```
 
-View the class for date
+View the class for `date`
 
 ```{r}
 

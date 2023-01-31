@@ -33,13 +33,15 @@ d5
 
 ```
 
-Calculate the sum score
+Calculate the sum of NAs
 
 * Note: We are calculating a new variable using `dplyr::mutate()`
 
 * Note: Adding `dplyr::across()` allows you to select the specific columns you want to calculate the `base::rowSums()` for. Otherwise rowSums will be applied across all columns.
 
 * Note: We use the `tidyselect` selection helper `contains()` to refer to all variables that contain with the word "toca".
+
+* Note: Adding `base::is.na()` returns a logical value which can be counted/summed.
 
 ```{r}
 

@@ -391,13 +391,15 @@ and 13. I want to assign treatment teachers a 1 and control teachers a
 <p>I will first create a vector of the IDs that will be assigned to
 treatment. I could also do this within the variable creation function
 but for clarity I am pulling out the IDs and assigning those to a vector
-called “treat”.</p>
-<p>Next I can create my new variable “int” by using the
-<code>dplyr::mutate()</code> function. Then to assign 1s to treatment
-teachers and 0s to control teachers I chose to use
-<code>dplyr::case_when()</code>. Now I can use my vector “treat” and say
-when an “id” is my “treat” vector, assign it a value of 1, otherwise
-(which is denoted by the word <em>TRUE</em>) assign it a 0.</p>
+called <code>treat</code>.</p>
+<p>Next I can create my new variable <code>int</code> by using the
+<code>dplyr::mutate()</code> function.</p>
+<p>Then to assign 1s to treatment teachers and 0s to control teachers I
+chose to use <code>dplyr::case_when()</code>.</p>
+<p>Now I can use my vector <code>treat</code> and say when an
+<code>id</code> is in my <code>treat</code> vector, assign it a value of
+1, otherwise (which is denoted by the word <em>TRUE</em>) assign it a
+0.</p>
 <pre class="r"><code>treat &lt;- c(10, 12, 13)
 
 d3 %&gt;%

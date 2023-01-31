@@ -80,9 +80,9 @@ purrr::map(d1, typeof)
 
 ```
 
-* Note: You will notice that our date variable (Var4) returns a data type of double (or numeric). This is because internally, R stores dates as numeric values. The class of Var4 remains date though.
+* Note: You will notice that our date variable (`Var4`) returns a data type of double (or numeric). This is because internally, R stores dates as numeric values. The class of Var4 remains date though.
 
-* Note: You will also notice that the data type for our factor variable (Var1) is integer even though the values appear to be character. This is because internally, R stores factor values as integers in order to create ordered levels. To learn more about your factor levels, you can use another function called `base::attributes()`.
+* Note: You will also notice that the data type for our factor variable (`Var1`) is integer even though the values appear to be character. This is because internally, R stores factor values as integers in order to create ordered levels. To learn more about your factor levels, you can use another function called `base::attributes()`.
 
 ```{r}
 
@@ -119,7 +119,7 @@ utils::str(d1)
 ```
 
 
-### Package: tibble
+### Package: dplyr
 
 ---
 
@@ -142,7 +142,7 @@ View the structure of the data frame/tibble as well as the class of each variabl
 
 ```{r}
 
-tibble::glimpse(d1)
+dplyr::glimpse(d1)
 
 ```
 

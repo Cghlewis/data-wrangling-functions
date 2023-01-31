@@ -374,8 +374,8 @@ values</h1>
 <div id="function-coalesce" class="section level4">
 <h4>Function: <code>coalesce()</code></h4>
 <hr />
-<p><strong>1. Create a complete 20-21 gender variable with no missing
-data</strong></p>
+<p><strong>1. Create a complete 20-21 gender variable
+(<code>gender_2021</code>) with no missing data</strong></p>
 <p>Review the data (d3)</p>
 <pre><code># A tibble: 5 x 5
    s_id gender_1718 gender_1819 gender_1920 gender_2021
@@ -388,8 +388,8 @@ data</strong></p>
 <p>Fill in missing 20-21 self-reported gender information from the most
 recently available year of data.</p>
 <ul>
-<li>Note: We are creating a new variable (gender_2021_new) by using
-<code>dplyr::mutate()</code>.</li>
+<li>Note: We are creating a new variable (<code>gender_2021_new</code>)
+by using <code>dplyr::mutate()</code>.</li>
 <li>Note: The values will be filled in the order that variables are
 presented. In the example below, if data is not available for 2021, then
 the function will look for data in 1920, then 1819, then 1718. And the
@@ -409,11 +409,11 @@ value will be filled by the first available data in that order.</li>
 <li>Note: Coalesce works when your missing values are denoted as actual
 NAs (NA, NA_character, etc.). If you are working with a character
 variable where blanks are not denoted as NAs but are instead shown as
-blanks or ” “, then coalesce will not work. It will assume the” ” are
-actual values. In this case you can either first recode all ” ” to
-NA_character or you can use something like
+blanks or ” “, <strong>then coalesce will not work</strong>. It will
+assume the” ” are actual values. In this case you can either first
+recode all ” ” to NA_character or you can use something like
 <code>dplyr::case_when()</code> to fill empty values (similar to what we
-did in the <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode">Recode</a>
+did in the <a href="https://cghlewis.github.io/data-wrangling-functions/recode-values/collapse-categories.html">Recode</a>
 section). If you are planning to coalesce using many variables, I think
 recoding blanks to NA_character first would be your best option.</li>
 </ul>
@@ -434,7 +434,8 @@ NAs.</p>
 using <code>dplyr::na_if()</code>. Now that my blank values are coded to
 NA, coalesce will work fine.</p>
 <pre class="r"><code>d6 %&gt;%
-  dplyr::mutate(dplyr::across(tidyselect::contains(&quot;gender&quot;), ~ dplyr::na_if(., &quot;&quot;))) %&gt;%
+  dplyr::mutate(dplyr::across(tidyselect::contains(&quot;gender&quot;), 
+                              ~ dplyr::na_if(., &quot;&quot;))) %&gt;%
   dplyr::mutate(gender_2021_new = dplyr::coalesce(gender_2021, gender_1920, gender_1819, gender_1718))</code></pre>
 <pre><code># A tibble: 5 x 6
    s_id gender_1718 gender_1819 gender_1920 gender_2021 gender_2021_new

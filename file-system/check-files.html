@@ -389,12 +389,12 @@ it has been moved over to the “all_files” folder yet and renamed to
 <ol style="list-style-type: decimal">
 <li>To check this, I first need to set the path to where the file should
 live if it has already been moved. I assign this to the object
-“summary_files”.</li>
+<code>summary_files</code>.</li>
 </ol>
 <ul>
 <li>Note: I could just simply list the name of the file like this.</li>
 </ul>
-<pre class="r"><code>summary_file &lt;- here::here(&quot;file-system&quot;, &quot;all_files&quot;,  &quot;summary_obs_2023-01-19.xlsx&quot;))</code></pre>
+<pre class="r"><code>summary_file &lt;- here::here(&quot;file-system&quot;, &quot;all_files&quot;,  &quot;summary_obs_2023-01-19.xlsx&quot;)</code></pre>
 <p>However, because I want to use this function every day, I need to
 write this in a way that updates based on the current day. Here I use
 <code>base::paste0()</code> to combine “summary_obs_”, with the current
@@ -403,7 +403,7 @@ date in YYYY-MM-DD format, grabbed using
 <pre class="r"><code>summary_file &lt;- here::here(&quot;file-system&quot;, &quot;all_files&quot;,  base::paste0(&quot;summary_obs_&quot;, lubridate::today(), &quot;.xlsx&quot;))</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Next, I need to set the path of where the file originates from. I
-assign this to an object called “file_to_copy”.</li>
+assign this to an object called <code>file_to_copy</code>.</li>
 </ol>
 <pre class="r"><code>file_to_copy &lt;- here::here(&quot;file-system&quot;,  base::paste0(&quot;obs_&quot;, lubridate::today()), &quot;summary_obs.xlsx&quot;)</code></pre>
 <ol start="3" style="list-style-type: decimal">
@@ -457,8 +457,8 @@ that you can also check to see if objects exist in your environment
 using <code>base::exists()</code>. For example if you run a series of
 functions, you might want to confirm certain objects were created.</p>
 <p>So for example, our hypothetical function should create the object
-summary_obs by binding each days observations into one large data frame.
-Let’s see if our object already exists.</p>
+<code>summary_obs</code> by binding each days observations into one
+large data frame. Let’s see if our object already exists.</p>
 <pre class="r"><code>if(!exists(&quot;summary_obs&quot;)) {
   summary_obs &lt;- fs::dir_ls(path = here::here(&quot;file-system&quot;, &quot;all_files&quot;), glob =&quot;*.xlsx&quot;) %&gt;%
   purrr::map_dfr(readxl::read_excel)

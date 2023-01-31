@@ -374,6 +374,7 @@ pre code {
 <hr />
 <p><strong>1. Filter your data to only those who are in your study
 sample using a participant roster.</strong></p>
+<p>Review the data (pretest)</p>
 <pre><code># A tibble: 4 x 3
      id pre_var1 pre_var2
   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
@@ -420,9 +421,8 @@ that. We may only want the variables in our original dataset.</p>
 1    20        3        4 yes    
 2    21        4        5 yes    
 3    22        3        1 yes    </code></pre>
-<p><strong>2. Filter to only schools (<code>sch</code>) <em>and</em>
-grade levels (<code>grade</code>) that appear in a second
-dataset.</strong></p>
+<p><strong>2. Filter to only schools <em>and</em> grade levels that
+appear in a second dataset.</strong></p>
 <p>Review the data (d15)</p>
 <pre><code># A tibble: 9 x 5
   sch   stu_id grade  var2  var3
@@ -561,9 +561,9 @@ appear in a second dataset.</strong></p>
 2 a         2
 3 b         9</code></pre>
 <p>This time our dataset contains more than one grade levels per school.
-We will be filtering to <code>grade</code> = 1 &amp; 2 for
-<code>sch</code> = “a” and <code>grade</code> = 9 for <code>sch</code> =
-“b”</p>
+We will be filtering to (<code>grade</code> = 1 &amp; 2 for
+<code>sch</code> = “a”) and (<code>grade</code> = 9 for <code>sch</code>
+= “b”)</p>
 <p>Similar to above, we could conditionally filter grade levels based on
 school name using the <code>dplyr::filter()</code> function (see <a href="https://cghlewis.github.io/data-wrangling-functions/filter-data/conditional-filtering.html">conditional-filtering</a>),
 but in this case we are going to filter using a second dataset

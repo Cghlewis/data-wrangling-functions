@@ -374,7 +374,8 @@ pre code {
 <h4>Function: <code>lubridate::mdy()</code></h4>
 <hr />
 <p><br></p>
-<p><strong>1. Convert a character variable (Var4) to a date</strong></p>
+<p><strong>1. Convert a character variable (<code>Var4</code>) to a
+date</strong></p>
 <p>Review the data (d2)</p>
 <pre><code># A tibble: 3 x 5
   Var1   Var2 Var3  Var4       Var5 
@@ -382,17 +383,18 @@ pre code {
 1 b         2 3.6   10/10/2004 TRUE 
 2 a        NA 8.5   12/14/2007 FALSE
 3 c         3 X     08/09/2020 TRUE </code></pre>
-<p>View the class for Var4</p>
+<p>View the class for <code>Var4</code></p>
 <pre class="r"><code>class(d2$Var4)</code></pre>
 <pre><code>[1] &quot;character&quot;</code></pre>
-<p>Convert Var4 to a date</p>
+<p>Convert <code>Var4</code> to a date</p>
 <ul>
 <li><p>Note: We are recoding into a new variable using
 <code>dplyr::mutate()</code> and saving over the original variable by
 naming the new variable the same name as the original.</p></li>
-<li><p>Note: <code>mdy()</code> is just the format for Var4, you can
-adjust the format for your character variable and use functions such as
-<code>dmy()</code>, <code>ymd()</code>, <code>ymd_hms()</code>.</p></li>
+<li><p>Note: <code>mdy()</code> is just the format for
+<code>Var4</code>, you can adjust the format for your character variable
+and use functions such as <code>dmy()</code>, <code>ymd()</code>,
+<code>ymd_hms()</code>.</p></li>
 </ul>
 <pre class="r"><code>d2 &lt;- d2 %&gt;% 
   dplyr::mutate(Var4 = lubridate::mdy(Var4))
@@ -408,7 +410,7 @@ d2$Var4</code></pre>
 <code>lubridate::as_datetime()</code></h4>
 <hr />
 <p><strong>1. Convert a character variable that appears numeric
-(created_timestamp) to a datetime (POSIXct)</strong></p>
+(<code>created_timestamp</code>) to a datetime (POSIXct)</strong></p>
 <ul>
 <li>Note: Sometimes dates will come in as numeric, epoch time, typically
 number of seconds (sometimes a different unit) since a start date,
@@ -424,14 +426,14 @@ variable.</li>
   &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;            
 1 b       333 1643909614746    
 2 a       444 1644593624206    </code></pre>
-<p>View the class for created_timestamp</p>
+<p>View the class for <code>created_timestamp</code></p>
 <ul>
 <li>Note: You’ll notice this variable appeared numeric but is actually
 character which is important to know.</li>
 </ul>
 <pre class="r"><code>class(d5$created_timestamp)</code></pre>
 <pre><code>[1] &quot;character&quot;</code></pre>
-<p>Convert created_timestamp to a datetime</p>
+<p>Convert <code>created_timestamp</code> to a datetime</p>
 <ul>
 <li><p>Note: I know for this timestamp variable that the value is in
 milliseconds, not seconds. So in order to use the function I want to
@@ -481,7 +483,7 @@ date</strong></p>
   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
 1 b       333 44491
 2 a       444 44530</code></pre>
-<p>View the class for date</p>
+<p>View the class for <code>date</code></p>
 <pre class="r"><code>class(d6$date)</code></pre>
 <pre><code>[1] &quot;numeric&quot;</code></pre>
 <ul>
@@ -515,7 +517,7 @@ date</strong></p>
   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
 1 b       333 44491
 2 a       444 44530</code></pre>
-<p>View the class for date</p>
+<p>View the class for <code>date</code></p>
 <pre class="r"><code>class(d6$date)</code></pre>
 <pre><code>[1] &quot;numeric&quot;</code></pre>
 <p>If you don’t want to stress over remembering the origin date, another

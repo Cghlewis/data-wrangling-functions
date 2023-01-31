@@ -401,10 +401,11 @@ entry2 &lt;- readr::read_csv(&quot;project-a_forms_entry2.csv&quot;)</code></pre
 4   1237     3     3     2     4</code></pre>
 <p>Now check if there are any differences in the two data frames.</p>
 <ul>
-<li><p>Note: For the <em>keys</em> argument I added “stu_id”. This is
-because “stu_id” is what makes each row unique. If you needed multiple
-variables to make a row unique, you can simply add them all using
-combine. For example, <em>keys = c(“stu_id”, “tch_id”)</em>.</p></li>
+<li><p>Note: For the <em>keys</em> argument I added <code>stu_id</code>.
+This is because <code>stu_id</code> is what makes each row unique. If
+you needed multiple variables to make a row unique, you can simply add
+them all using combine. For example, <em>keys = c(“stu_id”,
+“tch_id”)</em>.</p></li>
 <li><p>Note: I’ve included the base arguments you need for the function
 to run. Run <em>?diffdf</em> in the console to see additional arguments
 that can be added.</p></li>
@@ -515,8 +516,8 @@ can simply choose one to work with and archive the other.</p>
 <pre class="r"><code>dplyr::all_equal(file1, file1_copy2)</code></pre>
 <pre><code>Different types for column `stu_id`: double vs character.</code></pre>
 <p>We find out that the files are <strong>not</strong> identical!
-Student ID is now a character variable rather than numeric. We would
-need to make a decision regarding which file to use.</p>
+<code>stu_id</code> is now a character variable rather than numeric. We
+would need to make a decision regarding which file to use.</p>
 <p>Let’s read in yet another copy to see what differences might exist,
 file1_copy3.</p>
 <pre><code># A tibble: 4 x 5

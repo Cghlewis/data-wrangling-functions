@@ -69,7 +69,7 @@ d5
 
 ```
 
-Filter out any row that has -999 for `extra2` and/or -999 for `extra3` (retaining any row that has NA values for those variables). 
+Filter out any row that has -999 for `extra2` and/or -999 for `extra3`.
 
 * Note: You'll notice that I again make an explicit call to **keep** rows with NA values for `extra2` and `extra3`, using the `|` operator to denote and/or.
 
@@ -117,6 +117,15 @@ Filter out any row that has -999 for **AT LEAST ONE** numeric variable
 * Note: You'll notice here that I used *%in%* rather than *==* to ensure I keep the NA values.
 
 Note: You need to wrap `is.numeric`, a predicate function (returns a true/false), in the `tidyselect` selection helper `where()`.
+
+```{r}
+
+d9 %>% 
+  dplyr::filter(!dplyr::if_any(where(is.numeric), ~ . %in% -999))
+
+```
+
+I could also write this using `dplyr::if_all()`, saying "If all values for numeric variables are NOT -999, then return the rows.
 
 ```{r}
 
@@ -227,6 +236,7 @@ d9 %>%
 
 
 ```
+
 
 ### Package: tidyr
 

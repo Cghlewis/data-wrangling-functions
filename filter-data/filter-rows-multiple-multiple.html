@@ -385,9 +385,9 @@ statement is true for <strong>all</strong> of the variables. See <a href="https:
 using if_all or if_any</a> for further explanation</li>
 </ul>
 <p><br></p>
-<p><strong>1. Return rows where <code>form</code> is empty, but ANY
-values for variables (var1:var4) are NOT missing. Missing is denoted by
-“MR” as well as NA.</strong></p>
+<p><strong>1. Return rows where <code>form</code> is empty (denoted by
+““), but ANY values for variables (var1:var4) are NOT missing (denoted
+by”MR” as well as NA).</strong></p>
 <p>Review the data (d17)</p>
 <pre><code># A tibble: 8 x 6
      id form  var1  var2  var3  var4 
@@ -400,12 +400,9 @@ values for variables (var1:var4) are NOT missing. Missing is denoted by
 6    15 &quot;&quot;    1     MR    3     MR   
 7    17 &quot;&quot;    MR    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
 8    18 &quot;a&quot;   MR    MR    &lt;NA&gt;  &lt;NA&gt; </code></pre>
-<p>We can see here that form is a character variable and missing values
-are denoted by ““, so we will need to account for that in our
-formula.</p>
 <ul>
-<li>Note: You’ll notice here that I did NOT use <code>%in%</code> too
-keep NA values. Remember from <a href="https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-na.html">Filter
+<li>Note: You’ll notice here that I did NOT use <code>%in%</code> to
+keep NA values for var1:var4. Remember from <a href="https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-na.html">Filter
 rows with NA values</a>, NA values are not evaluated and are dropped
 automatically when you use <code>!=</code>. In this case, since both
 “MR” and NA are missing values, I am okay with NA values being dropped
@@ -432,9 +429,9 @@ formula instead.</p>
      id form  var1  var2  var3  var4 
   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
 1    15 &quot;&quot;    1     MR    3     MR   </code></pre>
-<p>Or I could also get the same result this way, to say “return the rows
-where form is missing but ALL values for variables (var1:var4) are not
-missing.”</p>
+<p>Or I could also get the same result this way, where I am saying
+“return the rows where form is missing but ALL values for variables
+(var1:var4) are not missing.”</p>
 <pre class="r"><code>d17 %&gt;%
   filter(form == &quot;&quot; &amp; !dplyr::if_all(var1:var4, ~ . %in% c(&quot;MR&quot;, NA)))</code></pre>
 <pre><code># A tibble: 1 x 6

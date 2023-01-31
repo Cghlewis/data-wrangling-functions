@@ -373,8 +373,8 @@ pre code {
 <div id="function-separate" class="section level4">
 <h4>Function: <code>separate()</code></h4>
 <hr />
-<p><strong>1. Split a character variable (name) into first name and last
-name</strong></p>
+<p><strong>1. Split a character variable (<code>name</code>) into first
+name and last name</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 3 x 3
   name            age test_score
@@ -382,7 +382,7 @@ name</strong></p>
 1 Marge Simpson    30        3.6
 2 Homer Simpson    34        8.5
 3 Ned Flanders     35       NA  </code></pre>
-<p>Split name into two variables</p>
+<p>Split <code>name</code> into two variables</p>
 <ul>
 <li><p>Note: The values for the <em>into</em> argument need to be
 provided as a character vector.</p></li>
@@ -446,7 +446,8 @@ last name, you will have missing data in your new variables.</li>
 1 Marge Simpson    30        3.6
 2 Simpson          34        8.5
 3 Ned Flanders     35       NA  </code></pre>
-<pre class="r"><code>d3 %&gt;% tidyr::separate(name, into = c(&quot;first_name&quot;, &quot;last_name&quot;))</code></pre>
+<pre class="r"><code>d3 %&gt;% 
+  tidyr::separate(name, into = c(&quot;first_name&quot;, &quot;last_name&quot;))</code></pre>
 <pre><code># A tibble: 3 x 4
   first_name last_name   age test_score
   &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;
@@ -467,7 +468,8 @@ the console.</p>
 2 &lt;NA&gt;       Simpson      34        8.5
 3 Ned        Flanders     35       NA  </code></pre>
 <p><strong>2. Split only some of the cells in a character column
-(school_name) and keep only one column of the split</strong></p>
+(<code>school_name</code>) and keep only one column of the
+split</strong></p>
 <p>Review the data (d6)</p>
 <pre><code># A tibble: 4 x 2
   school_name                  city          
@@ -489,11 +491,11 @@ separating on any capitalized letter “[A-Z]” followed by a period “\.”
 and last followed by a white space “\s”. Notice the use of “\” as an
 escape to tell the regex to match the period exactly, rather than using
 it for its special behavior which is to match <em>any</em> character.
-You can also put the period in [] and call it as a character class,
-similar to the “[A-Z]” above.</p></li>
+You can also put the period in [] as an escape used to match characters
+within the brackets, similar to the “[A-Z]” above.</p></li>
 <li><p>Note: I added the argument <em>fill=“left”</em> to bring any
-value that did not separate into our new “school_name” column from the
-left side to the right column “school_name”.</p></li>
+value that did not separate into our new <code>school_name</code> column
+from the left side to the right column “school_name”.</p></li>
 </ul>
 <pre class="r"><code>d6 %&gt;% 
   tidyr::separate(school_name, sep = &quot;[A-Z]\\.\\s&quot;, into = c(&quot;name1&quot;, &quot;school_name&quot;), fill=&quot;left&quot;)</code></pre>
@@ -504,10 +506,11 @@ left side to the right column “school_name”.</p></li>
 2 &quot;Muriel &quot; Battle High School         Columbia      
 3  &lt;NA&gt;     Rock Bridge Sr. High       Columbia      
 4  &lt;NA&gt;     Webster Groves High School Webster Groves</code></pre>
-<p>Notice now that we have an extra column “name1” that I don’t want. I
-could either remove this using a <code>dplyr::select()</code> statement
-OR I could name this “name1” column NA in my function above and the
-column would drop automatically.</p>
+<p>Notice now that we have an extra column <code>name1</code> that I
+don’t want. I could either remove this using a
+<code>dplyr::select()</code> statement OR I could name this “name1”
+column NA in my function above and the column would drop
+automatically.</p>
 <pre class="r"><code>d6 %&gt;% 
   tidyr::separate(school_name, sep = &quot;[A-Z]\\.\\s&quot;, into = c(NA, &quot;school_name&quot;), fill=&quot;left&quot;)</code></pre>
 <pre><code># A tibble: 4 x 2
@@ -517,8 +520,8 @@ column would drop automatically.</p>
 2 Battle High School         Columbia      
 3 Rock Bridge Sr. High       Columbia      
 4 Webster Groves High School Webster Groves</code></pre>
-<p><strong>3. Split a numeric variable (stid_schid) into state id and
-school id</strong></p>
+<p><strong>3. Split a numeric variable (<code>stid_schid</code>) into
+<code>state_id</code> and <code>school_id</code></strong></p>
 <p>Review the data (d7)</p>
 <pre><code># A tibble: 3 x 2
   stid_schid students

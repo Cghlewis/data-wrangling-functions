@@ -23,7 +23,7 @@ knitr::opts_chunk$set(comment = NA,
 ---
 
 
-**1\. Create new dummy coded variables from a categorical column with multiple items selected per cell (cat)**
+**1\. Create new dummy coded variables from a categorical column with multiple items selected per cell (`cat`)**
 
 Review the data (d2)
 
@@ -34,7 +34,7 @@ d2
 
 ```
 
-We see here that our "cat" variable was a select all that apply question (where options are separated by a comma). We want these options to separated out into their own dummy coded variables that are 1 if the selection was chosen and 0 if the selection was not chosen.
+We see here that our `cat` variable was a select all that apply question (where options are separated by a comma). We want these options to separated out into their own dummy coded variables that are 1 if the selection was chosen and 0 if the selection was not chosen.
 
 We can create our new variables using `dplyr::mutate()`, adding all variables in our one `mutate` function.
 
@@ -93,7 +93,7 @@ d2 %>%
 
 ---
 
-**1\. Create new dummy coded variables from a string categorical column (cert)**
+**1\. Create new dummy coded variables from a string categorical column (`cert`)**
 
 Review the data (d3)
 
@@ -134,7 +134,7 @@ d3 %>%
 
 ```
 
-**2\. Create new dummy coded variables from a categorical column with multiple items selected per cell (cert)**
+**2\. Create new dummy coded variables from a categorical column with multiple items selected per cell (`cert`)**
 
 Review the data (d7)
 
@@ -147,11 +147,11 @@ d7
 
 Now we have a select all question where multiple responses may exist in the cert variable. This is okay, we can still use `dplyr::pivot_wider()` here.
 
-First we need to separate our variable into multiple rows. We can do this using `tidyr::separate_rows()` like we did in the [separate](https://github.com/Cghlewis/data-wrangling-functions/wiki/Separate) section. When we do the separation, I save the output over the original "cert" variable. I could have also created a new variable if I wanted to.
+First we need to separate our variable into multiple rows. We can do this using `tidyr::separate_rows()` like we did in the [separate](https://cghlewis.github.io/data-wrangling-functions/separate/split-rows.html) section. When we do the separation, I save the output over the original "cert" variable. I could have also created a new variable if I wanted to.
 
-Once we do that our cases will repeat with each response to the "cert" variable appearing on a new line. This may be scary at first but we will clean it up in just a second.
+Once we do that our cases will repeat with each response to the `cert` variable appearing on a new line. This may be scary at first but we will clean it up in just a second.
 
-Next we can create a count variable like we did above using `dplyr::mutate()`. We can call this variable whatever we want. Here I am calling it "count".
+Next we can create a count variable like we did above using `dplyr::mutate()`. We can call this variable whatever we want. Here I am calling it `count`.
 
 Now we can pivot. After we pivot, we notice that our data has been regrouped to one line per case again. No more duplicate rows. And our columns such as age are still in our dataset, which is what we wanted.
 
@@ -186,8 +186,18 @@ d7 %>%
 
 ```
 
+**3\. Create new dummy coded variables from a categorical column with multiple items selected per cell (cat)**
 
-* Note: We can use this same method for the numeric categorical variable above in d2 and it would save us so much time compared to the `stringr::str_count()` or `stringr::str_detect()` method.
+Review the data (d2)
+
+```{r, echo = FALSE}
+
+source("data.R")
+d2
+
+```
+
+This is the same example from #1 at the top of this page. However, now we can create our dummy coded variables using `tidy::pivot_wider()` saving us so much time compared to the `stringr::str_count()` or `stringr::str_detect()` method.
 
 The only thing I am adding here, compared to the example directly above, is the *names_prefix* argument.
 

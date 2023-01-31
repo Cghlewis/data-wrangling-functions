@@ -386,7 +386,8 @@ pre code {
 6 c          18     35</code></pre>
 <p>In this case our dataset is student level, so both teacher and school
 are grouping variables.</p>
-<p>Count our number of students per grouping variable teacher.</p>
+<p>Count our number of students per grouping variable
+<code>tch_id</code>.</p>
 <pre class="r"><code>d1 %&gt;%
   dplyr::count(tch_id)</code></pre>
 <pre><code># A tibble: 4 x 2
@@ -398,10 +399,11 @@ are grouping variables.</p>
 4     18     2</code></pre>
 <p>You’ll notice above that <code>dplyr::count()</code> does the
 grouping for you. But if you want to more explicitly see the steps, you
-could first group by “tch_id” using <code>dplyr::group_by()</code> and
-then using <code>dplyr::summarize()</code> to create a new variable
-“n_stud” and use the <code>dplyr::n()</code> function to count the
-number of rows per group.</p>
+could first group by <code>tch_id</code> using
+<code>dplyr::group_by()</code> and then using
+<code>dplyr::summarize()</code> to create a new variable
+<code>n_stud</code> and use the <code>dplyr::n()</code> function to
+count the number of rows per group.</p>
 <pre class="r"><code>d1 %&gt;%
   dplyr::group_by(tch_id) %&gt;%
   dplyr::summarize(n_stud = dplyr::n())</code></pre>
@@ -434,7 +436,7 @@ duplicate teachers and then do our count.</p>
 <ul>
 <li>Note: You will need to add the argument <em>.keep_all = TRUE</em> in
 order to keep all variables after using the distinct function (otherwise
-it will only keep the “tch_id” variable).</li>
+it will only keep the <code>tch_id</code> variable).</li>
 </ul>
 <pre class="r"><code>d1 %&gt;%
   dplyr::distinct(tch_id, .keep_all = TRUE) %&gt;%
@@ -445,9 +447,10 @@ it will only keep the “tch_id” variable).</li>
 1 a          1
 2 b          2
 3 c          1</code></pre>
-<p>Or, like above, if you want to more explicitly group by “school”, you
-can first group using <code>dplyr::group_by()</code> and then create our
-new variable “n_tch” using <code>dplyr::summmarize()</code> and use
+<p>Or, like above, if you want to more explicitly group by
+<code>school</code>, you can first group using
+<code>dplyr::group_by()</code> and then create our new variable
+<code>n_tch</code> using <code>dplyr::summmarize()</code> and use
 <code>dplyr::n_distinct()</code> to count the distinct number of
 teachers per group.</p>
 <pre class="r"><code>d1 %&gt;%

@@ -410,10 +410,10 @@ will successfully bind together by rows.</p>
 4          q3 numeric   numeric
 5      stu_id numeric   numeric</code></pre>
 <p>If we only wanted to see the differences, we could add the argument
-<em>return = “mismatch”</em>. We can easily see here that grade is a
-different variable type across files and we will need to transform the
-variable in entry1 or entry 3 in if we want to bind the two data
-frames.</p>
+<em>return = “mismatch”</em>. We can easily see here that
+<code>grade</code> is a different variable type across files and we will
+need to transform the variable in entry1 or entry3 in if we want to bind
+the two data frames.</p>
 <pre class="r"><code>janitor::compare_df_cols(entry1, entry3, return = &quot;mismatch&quot;)</code></pre>
 <pre><code>  column_name  entry1    entry3
 1       grade numeric character</code></pre>

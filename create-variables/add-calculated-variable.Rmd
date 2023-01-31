@@ -34,7 +34,7 @@ d4
 
 ```
 
-Many times, in order to de-identify data we will remove date of birth and testing date from our data. However, age may still be relevant in our analysis, so we can calculate an age variable to be added to our data.
+Many times, in order to de-identify data we will remove date of birth and testing date from our data. However, age may still be relevant in our analysis, so we can calculate an age variable to be added to our data before removing `dob` and `test_date`.
 
 Here we can use `dplyr::mutate()` to create our new age variable. 
 
@@ -89,7 +89,7 @@ d4 %>%
 
 ```
 
-You could also use `base::round()` but as I've mentioned in other parts of this wiki, pay attention to how this function rounds. It rounds to the even number when rounding at 5. See documentation on rounding for more information.
+You could also use `base::round()` but as I've mentioned in other parts of this wiki, pay attention to how this function rounds. See [Rounding](https://github.com/Cghlewis/data-wrangling-functions/wiki/Rounding) for more information.
 
 ```{r}
 

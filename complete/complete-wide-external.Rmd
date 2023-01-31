@@ -34,7 +34,7 @@ d5
 
 ```
 
-Notice we are missing data for id 25 and 26, items 1 and 2
+Notice we are missing data for id 25 and 26, `item1` and `item2`
 
 Luckily that data was collected later on another form.
 

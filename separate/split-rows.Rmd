@@ -24,7 +24,7 @@ knitr::opts_chunk$set(comment = NA,
 
 * Note: Unlike `tidyr::separate()` which splits columns into new columns, `tidyr::separate_rows()` splits a column with multiple delimited values into new rows.
 
-**1\. Split a variable (toppings) into multiple rows**
+**1\. Split a variable (`toppings`) into multiple rows**
 
 Review the data (d5)
 
@@ -35,7 +35,7 @@ d5
 
 ```
 
-Split toppings into new rows
+Split `toppings` into new rows
 
 * Note: The original variable will be removed unless you add the argument *remove=FALSE*
 * Note: If no separator is indicated, the function will split values wherever a non-alphanumeric character appears. If you want to be clear where to separate, add the argument *sep=","* as I did below otherwise the words *red* and *pepper* will be split into separate rows.
@@ -58,7 +58,7 @@ d5 %>%
 
 ```
 
-You'll also notice that you do not get a normal character vector for toppings. You get a nested list-column that now requires us to `tidyr::unnest()` in order to see the information.
+You'll also notice that you do not get a normal character vector for `toppings`. You get a nested list-column that now requires us to `tidyr::unnest()` in order to see the information.
 
 So while this method does work, you can see what `tidyr::separte_rows()` is much simpler for this use case.
 

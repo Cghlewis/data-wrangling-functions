@@ -378,7 +378,7 @@ pre code {
 into new columns, <code>tidyr::separate_rows()</code> splits a column
 with multiple delimited values into new rows.</li>
 </ul>
-<p><strong>1. Split a variable (toppings) into multiple
+<p><strong>1. Split a variable (<code>toppings</code>) into multiple
 rows</strong></p>
 <p>Review the data (d5)</p>
 <pre><code># A tibble: 3 x 2
@@ -387,7 +387,7 @@ rows</strong></p>
 1 Marge anchovies,garlic,tomato
 2 Homer sausage,red pepper     
 3 Ned   cheese                 </code></pre>
-<p>Split toppings into new rows</p>
+<p>Split <code>toppings</code> into new rows</p>
 <ul>
 <li>Note: The original variable will be removed unless you add the
 argument <em>remove=FALSE</em></li>
@@ -426,8 +426,8 @@ column).</p>
 2 Homer &lt;chr [2]&gt;
 3 Ned   &lt;chr [1]&gt;</code></pre>
 <p>You’ll also notice that you do not get a normal character vector for
-toppings. You get a nested list-column that now requires us to
-<code>tidyr::unnest()</code> in order to see the information.</p>
+<code>toppings</code>. You get a nested list-column that now requires us
+to <code>tidyr::unnest()</code> in order to see the information.</p>
 <p>So while this method does work, you can see what
 <code>tidyr::separte_rows()</code> is much simpler for this use
 case.</p>

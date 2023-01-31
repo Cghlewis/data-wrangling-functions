@@ -373,7 +373,7 @@ pre code {
 <div id="function-as.character" class="section level4">
 <h4>Function: <code>as.character()</code></h4>
 <hr />
-<p><strong>1. Convert a factor (Var1) to a character
+<p><strong>1. Convert a factor (<code>Var1</code>) to a character
 variable</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 3 x 5
@@ -382,10 +382,10 @@ variable</strong></p>
 1 a         2   3.6 2004-10-10 TRUE 
 2 b        NA   8.5 2007-12-14 FALSE
 3 c         3  NA   2020-08-09 TRUE </code></pre>
-<p>View the class for Var1</p>
+<p>View the class for <code>Var1</code></p>
 <pre class="r"><code>class(d1$Var1)</code></pre>
 <pre><code>[1] &quot;factor&quot;</code></pre>
-<p>Convert Var1 to a character.</p>
+<p>Convert <code>Var1</code> to a character.</p>
 <ul>
 <li>Note: We are recoding into a new variable using
 <code>dplyr::mutate()</code> and saving over the original variable by

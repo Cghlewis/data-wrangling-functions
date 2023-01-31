@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Convert a factor (Var1) to a character variable**
+**1\. Convert a factor (`Var1`) to a character variable**
 
 Review the data (d1)
 
@@ -33,7 +33,7 @@ d1
 
 ```
 
-View the class for Var1
+View the class for `Var1`
 
 ```{r}
 
@@ -41,7 +41,7 @@ class(d1$Var1)
 
 ```
 
-Convert Var1 to a character.
+Convert `Var1` to a character.
 
 * Note: We are recoding into a new variable using `dplyr::mutate()` and saving over the original variable by naming the new variable the same name as the original. 
 

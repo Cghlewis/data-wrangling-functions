@@ -35,7 +35,7 @@ d4
 
 In this case, a student can be re-recruited back into our study each year. We now want to count how many years each student has been in our study.
 
-In order to do this we can first group by our student id using `dplyr::group_by()` and then do a count.
+In order to do this we can first group by `stu_id` using `dplyr::group_by()` and then do a count.
 
 ```{r}
 

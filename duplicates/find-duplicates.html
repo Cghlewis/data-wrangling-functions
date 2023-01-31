@@ -385,7 +385,8 @@ data</strong></p>
 4    106 2022-11-16     2     1     1
 5    100 2022-11-17     2     2     4
 6    102 2022-11-18     3     4     1</code></pre>
-<p>I can see that I have one “stu_id” that is duplicated in my data.</p>
+<p>I can see that I have one <code>stu_id</code> that is duplicated in
+my data.</p>
 <pre class="r"><code>d1 %&gt;% 
   janitor::get_dupes(stu_id)</code></pre>
 <pre><code># A tibble: 2 x 6
@@ -403,18 +404,19 @@ data</strong></p>
 <hr />
 <p><strong>1. Remove the duplicate student IDs in our data</strong></p>
 <p>In the case of the data above, I only expect to have one row per
-student id (“stu_id”). It appears one student completed the survey
-twice.</p>
+student id (<code>stu_id</code>). It appears one student completed the
+survey twice.</p>
 <p>The duplicate entries are not identical. I need to make a plan for
 how to remove duplicate data. For example purposes, let’s say I have
 made the decision to always keep the most recently completed survey.</p>
 <p>In order to ensure I remove duplicates in that specific manner, I
-need to first arrange my data descending by date. I need to do this
-because <code>dplyr::distinct()</code> always keeps the first instance
-of a survey (based on order).</p>
+need to first arrange my data descending by <code>date</code>. I need to
+do this because <code>dplyr::distinct()</code> <strong>always keeps the
+first instance of a survey (based on order)</strong>.</p>
 <ul>
-<li>Note: I need to add the argument <em>.keep_all = TRUE</em>,
-otherwise all variables except for “stu_id” will be dropped</li>
+<li>Note: I need to add the <code>dplyr::distinct()</code> argument
+<em>.keep_all = TRUE</em>, otherwise all variables except for
+<code>stu_id</code> will be dropped</li>
 </ul>
 <pre class="r"><code>d1 %&gt;%
   dplyr::arrange(desc(date)) %&gt;%
@@ -427,12 +429,12 @@ otherwise all variables except for “stu_id” will be dropped</li>
 3    106 2022-11-16     2     1     1
 4    103 2022-11-15     2     5     2
 5    105 2022-11-15     5     4     3</code></pre>
-<p>It is really important to never randomly drop duplicate data. This
-means, that you will ALWAYS want to arrange your data before using the
-<code>dplyr::distinct()</code> function. The reason for this is that if
-for some reason your raw data is ever rearranged, when you run this
-function again, you may be dropping a different duplicate than you
-intended to.</p>
+<p><strong>It is really important to never randomly drop duplicate
+data.</strong> This means, that you will ALWAYS want to arrange your
+data before using the <code>dplyr::distinct()</code> function. The
+reason for this is that if for some reason your raw data is ever
+rearranged, when you run this function again, you may be dropping a
+different duplicate than you intended to.</p>
 <p><strong>2. Remove incomplete data for duplicate student IDs in our
 data</strong></p>
 <p>Review the data (d2)</p>
@@ -448,8 +450,8 @@ data</strong></p>
 7    103 2022-11-18     2     4     2
 8    105 2022-11-18     5     4     1</code></pre>
 <p>We can see in our new data we have several instances of duplicate
-data. Sometimes those duplicates have both incomplete and complete
-data.</p>
+data (for IDS 100, 103, and 105). Sometimes those duplicates have both
+incomplete and complete data.</p>
 <p>In this new scenario, my new decision rule for keeping duplicates is
 to keep data based on 2 criteria:<br />
 1. First I want to keep the record that is complete (if one is
@@ -460,17 +462,17 @@ record.</p>
 <ol style="list-style-type: decimal">
 <li><p>First, creating a way calculate completeness. In this case I just
 calculate a new variable using <code>dplyr::mutate()</code> called
-“incomplete”. Using <code>base::rowSums()</code> I calculate the number
-of NA values across the main survey items. If the incomplete value is 0,
-it means the survey is missing no data.</p></li>
-<li><p>Next we can arrange by both the “incomplete” variable and “date”
-descending again.</p></li>
+<code>incomplete</code>. Using <code>base::rowSums()</code> I calculate
+the number of NA values across the main survey items. If the incomplete
+value is 0, it means the survey is missing no data.</p></li>
+<li><p>Next we can arrange by both the <code>incomplete</code> variable
+and <code>date</code> descending again.</p></li>
 </ol>
 <p>Doing both of these steps, we can see that we will ultimately keep
 the surveys we want when we use <code>dplyr::distinct()</code> because
 the function keeps the first instance of the survey in your data.</p>
-<p>IDs 103, 105 and 100 all have the most complete, most recently
-completed surveys at the top.</p>
+<p>Duplicate IDs 103, 105 and 100 all have the most complete, most
+recently completed surveys at the top.</p>
 <pre class="r"><code>d2 %&gt;%
   dplyr::mutate(incomplete = rowSums(is.na(dplyr::across(item1:item3)))) %&gt;%
   dplyr::arrange(incomplete, desc(date))</code></pre>

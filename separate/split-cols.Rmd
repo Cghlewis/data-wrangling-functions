@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Split a character variable (name) into first name and last name**
+**1\. Split a character variable (`name`) into first name and last name**
 
 Review the data (d1)
 
@@ -33,7 +33,7 @@ d1
 
 ```
 
-Split name into two variables
+Split `name` into two variables
 
 * Note: The values for the *into* argument need to be provided as a character vector.
 
@@ -83,7 +83,8 @@ d3
 
 ```{r}
 
-d3 %>% tidyr::separate(name, into = c("first_name", "last_name"))
+d3 %>% 
+  tidyr::separate(name, into = c("first_name", "last_name"))
 
 ```
 
@@ -98,7 +99,7 @@ d3 %>%
 
 ```
 
-**2\. Split only some of the cells in a character column (school_name) and keep only one column of the split**
+**2\. Split only some of the cells in a character column (`school_name`) and keep only one column of the split**
 
 Review the data (d6)
 
@@ -113,9 +114,9 @@ In this example, I want to clean up the school names by removing any first name 
 
 With only a few values, I could easily do a recode. However, if there were hundreds of schools with similar first name and middle initial patterns, that would take too long. So here we use `tidyr::separate()`.
 
-* Note: We use regular expressions (regex) here to denote we are separating on any capitalized letter "[A-Z]" followed by a period "\\." and last followed by a white space "\\s". Notice the use of "\\" as an escape to tell the regex to match the period exactly, rather than using it for its special behavior which is to match *any* character. You can also put the period in [] and call it as a character class, similar to the "[A-Z]" above.
+* Note: We use regular expressions (regex) here to denote we are separating on any capitalized letter "[A-Z]" followed by a period "\\." and last followed by a white space "\\s". Notice the use of "\\" as an escape to tell the regex to match the period exactly, rather than using it for its special behavior which is to match *any* character. You can also put the period in [] as an escape used to match characters within the brackets, similar to the "[A-Z]" above.
 
-* Note: I added the argument *fill="left"* to bring any value that did not separate into our new "school_name" column from the left side to the right column "school_name".
+* Note: I added the argument *fill="left"* to bring any value that did not separate into our new `school_name` column from the left side to the right column "school_name".
 
 ```{r}
 
@@ -124,7 +125,7 @@ d6 %>%
 
 ```
 
-Notice now that we have an extra column "name1" that I don't want. I could either remove this using a `dplyr::select()` statement OR I could name this "name1" column NA in my function above and the column would drop automatically.
+Notice now that we have an extra column `name1` that I don't want. I could either remove this using a `dplyr::select()` statement OR I could name this "name1" column NA in my function above and the column would drop automatically.
 
 ```{r}
 
@@ -135,7 +136,7 @@ d6 %>%
 
 
 
-**3\. Split a numeric variable (stid_schid) into state id and school id**
+**3\. Split a numeric variable (`stid_schid`) into `state_id` and `school_id`**
 
 Review the data (d7)
 

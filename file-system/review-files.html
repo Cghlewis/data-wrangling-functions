@@ -375,17 +375,20 @@ pre code {
 <hr />
 <p><strong>1. Review files in the folder “obs_2022-03-15”</strong></p>
 <ul>
-<li>Note: I used the <code>here::here()</code> function which implicitly
-sets my directory to the top level (root directory) of my current
-project. Then any subsequent folders can be listed in descending order.
-In this case my folder “obs_2022-03-15” is within another folder called
-“file-system” which is located in the top level of my project directory.
-You could also just list your entire file path.</li>
+<li><p>Note: I am currently working in an R project. I used the
+<code>here::here()</code> function which implicitly sets my directory to
+the top level (root directory) of my current project. Then any
+subsequent folders can be listed in descending order. In this case my
+folder “obs_2022-03-15” is within another folder called “file-system”
+which is located in the top level of my project directory.</p></li>
+<li><p>If you aren’t working in R projects you can list your entire file
+path, or set a relative file path using something like
+<code>fs::path()</code> inside <code>fs::dir_ls()</code>.</p></li>
 </ul>
 <pre class="r"><code>fs::dir_ls(here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;))</code></pre>
-<pre><code>[1] &quot;C:/Users/Me/project/file-system/obs_2022-03-15/obs_a.xlsx&quot;      
-[2] &quot;C:/Users/Me/project/file-system/obs_2022-03-15/obs_b.xlsx&quot;      
-[3] &quot;C:/Users/Me/project/file-system/obs_2022-03-15/obs_c.xlsx&quot;      
+<pre><code>[1] &quot;C:/Users/Me/project/file-system/obs_2022-03-15/obs1.xlsx&quot;       
+[2] &quot;C:/Users/Me/project/file-system/obs_2022-03-15/obs2.xlsx&quot;       
+[3] &quot;C:/Users/Me/project/file-system/obs_2022-03-15/obs3.xlsx&quot;       
 [4] &quot;C:/Users/Me/project/file-system/obs_2022-03-15/summary_obs.xlsx&quot;</code></pre>
 <p>Notice you will get the <strong>full path names</strong> here.
 <code>fs::dir_ls()</code> creates a character vector of file names.</p>
@@ -411,7 +414,7 @@ may appear as doc1, doc10, doc2 in RStudio.</li>
 <p><code>base::basename()</code> removes all of the path up to and
 including the last path separator</p>
 <pre class="r"><code>base::basename(fs::dir_ls(here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;)))</code></pre>
-<pre><code>[1] &quot;obs_a.xlsx&quot;       &quot;obs_b.xlsx&quot;       &quot;obs_c.xlsx&quot;       &quot;summary_obs.xlsx&quot;</code></pre>
+<pre><code>[1] &quot;obs1.xlsx&quot;        &quot;obs2.xlsx&quot;        &quot;obs3.xlsx&quot;        &quot;summary_obs.xlsx&quot;</code></pre>
 <p>You can also use <code>base::dir()</code> or
 <code>base::list.files()</code> to retrieve just the file names. If you
 add the argument <em>full.names = TRUE</em> to
@@ -421,12 +424,12 @@ add the argument <em>full.names = TRUE</em> to
 <code>base::list.files()</code></li>
 </ul>
 <pre class="r"><code>base::list.files(here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;))</code></pre>
-<pre><code>[1] &quot;obs_a.xlsx&quot;       &quot;obs_b.xlsx&quot;       &quot;obs_c.xlsx&quot;       &quot;summary_obs.xlsx&quot;</code></pre>
+<pre><code>[1] &quot;obs1.xlsx&quot;        &quot;obs2.xlsx&quot;        &quot;obs3.xlsx&quot;        &quot;summary_obs.xlsx&quot;</code></pre>
 <p>Last, there is also a function from the <code>fs</code> package that
 you can use to pull just the file names,
 <code>fs::path_file()</code></p>
 <pre class="r"><code>fs::path_file(fs::dir_ls(here::here(&quot;file-system&quot;, &quot;obs_2022-03-15&quot;)))</code></pre>
-<pre><code>[1] &quot;obs_a.xlsx&quot;       &quot;obs_b.xlsx&quot;       &quot;obs_c.xlsx&quot;       &quot;summary_obs.xlsx&quot;</code></pre>
+<pre><code>[1] &quot;obs1.xlsx&quot;        &quot;obs2.xlsx&quot;        &quot;obs3.xlsx&quot;        &quot;summary_obs.xlsx&quot;</code></pre>
 </div>
 </div>
 <div id="package-fs-1" class="section level3">

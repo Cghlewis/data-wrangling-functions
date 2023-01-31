@@ -24,6 +24,8 @@ knitr::opts_chunk$set(comment = NA,
 
 **1\. Filter your data to only those who are in your study sample using a participant roster.**
 
+Review the data (pretest)
+
 ```{r, echo = FALSE}
 
 source("data.R")
@@ -63,7 +65,7 @@ pretest %>%
 ```
 
 
-**2\. Filter to only schools (`sch`) _and_ grade levels (`grade`) that appear in a second dataset.**
+**2\. Filter to only schools _and_ grade levels that appear in a second dataset.**
 
 Review the data (d15)
 
@@ -176,7 +178,7 @@ s_g_more
 
 ```
 
-This time our dataset contains more than one grade levels per school. We will be filtering to `grade` = 1 & 2 for `sch` = "a" and `grade` = 9 for `sch` = "b"
+This time our dataset contains more than one grade levels per school. We will be filtering to (`grade` = 1 & 2 for `sch` = "a") and (`grade` = 9 for `sch` = "b")
 
 Similar to above, we could conditionally filter grade levels based on school name using the `dplyr::filter()` function (see [conditional-filtering](https://cghlewis.github.io/data-wrangling-functions/filter-data/conditional-filtering.html)), but in this case we are going to filter using a second dataset (s_g_more).
 

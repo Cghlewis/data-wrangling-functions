@@ -374,7 +374,7 @@ pre code {
 <h4>Function: <code>mutate()</code></h4>
 <hr />
 <p><strong>1. Create new dummy coded variables from a categorical column
-with multiple items selected per cell (cat)</strong></p>
+with multiple items selected per cell (<code>cat</code>)</strong></p>
 <p>Review the data (d2)</p>
 <pre><code># A tibble: 5 x 2
      id cat     
@@ -384,10 +384,10 @@ with multiple items selected per cell (cat)</strong></p>
 3    12 5, 2, 11
 4    13 5, 1    
 5    14 &lt;NA&gt;    </code></pre>
-<p>We see here that our “cat” variable was a select all that apply
-question (where options are separated by a comma). We want these options
-to separated out into their own dummy coded variables that are 1 if the
-selection was chosen and 0 if the selection was not chosen.</p>
+<p>We see here that our <code>cat</code> variable was a select all that
+apply question (where options are separated by a comma). We want these
+options to separated out into their own dummy coded variables that are 1
+if the selection was chosen and 0 if the selection was not chosen.</p>
 <p>We can create our new variables using <code>dplyr::mutate()</code>,
 adding all variables in our one <code>mutate</code> function.</p>
 <p>cat1 = 1<br />
@@ -458,7 +458,7 @@ recode NA values back to NA, otherwise they will be coded to 0.</li>
 <h4>Function: <code>pivot_wider()</code></h4>
 <hr />
 <p><strong>1. Create new dummy coded variables from a string categorical
-column (cert)</strong></p>
+column (<code>cert</code>)</strong></p>
 <p>Review the data (d3)</p>
 <pre><code># A tibble: 5 x 2
      id cert        
@@ -512,7 +512,7 @@ option.</p>
 4    13 special ed         0
 5    14 secondary ed       0</code></pre>
 <p><strong>2. Create new dummy coded variables from a categorical column
-with multiple items selected per cell (cert)</strong></p>
+with multiple items selected per cell (<code>cert</code>)</strong></p>
 <p>Review the data (d7)</p>
 <pre><code># A tibble: 5 x 3
      id cert                                age
@@ -526,16 +526,16 @@ with multiple items selected per cell (cert)</strong></p>
 in the cert variable. This is okay, we can still use
 <code>dplyr::pivot_wider()</code> here.</p>
 <p>First we need to separate our variable into multiple rows. We can do
-this using <code>tidyr::separate_rows()</code> like we did in the <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Separate">separate</a>
+this using <code>tidyr::separate_rows()</code> like we did in the <a href="https://cghlewis.github.io/data-wrangling-functions/separate/split-rows.html">separate</a>
 section. When we do the separation, I save the output over the original
 “cert” variable. I could have also created a new variable if I wanted
 to.</p>
 <p>Once we do that our cases will repeat with each response to the
-“cert” variable appearing on a new line. This may be scary at first but
-we will clean it up in just a second.</p>
+<code>cert</code> variable appearing on a new line. This may be scary at
+first but we will clean it up in just a second.</p>
 <p>Next we can create a count variable like we did above using
 <code>dplyr::mutate()</code>. We can call this variable whatever we
-want. Here I am calling it “count”.</p>
+want. Here I am calling it <code>count</code>.</p>
 <p>Now we can pivot. After we pivot, we notice that our data has been
 regrouped to one line per case again. No more duplicate rows. And our
 columns such as age are still in our dataset, which is what we
@@ -578,12 +578,22 @@ over.</p>
 3    12    23       1            1          1
 4    13    51       0            1          1
 5    14    29       0            1          0</code></pre>
-<ul>
-<li>Note: We can use this same method for the numeric categorical
-variable above in d2 and it would save us so much time compared to the
+<p><strong>3. Create new dummy coded variables from a categorical column
+with multiple items selected per cell (cat)</strong></p>
+<p>Review the data (d2)</p>
+<pre><code># A tibble: 5 x 2
+     id cat     
+  &lt;dbl&gt; &lt;chr&gt;   
+1    10 1, 4, 11
+2    11 4, 5, 10
+3    12 5, 2, 11
+4    13 5, 1    
+5    14 &lt;NA&gt;    </code></pre>
+<p>This is the same example from #1 at the top of this page. However,
+now we can create our dummy coded variables using
+<code>tidy::pivot_wider()</code> saving us so much time compared to the
 <code>stringr::str_count()</code> or <code>stringr::str_detect()</code>
-method.</li>
-</ul>
+method.</p>
 <p>The only thing I am adding here, compared to the example directly
 above, is the <em>names_prefix</em> argument.</p>
 <p>I am also adding a <code>dplyr::select()</code> statement at the end

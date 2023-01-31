@@ -373,7 +373,7 @@ pre code {
 <div id="function-as.numeric" class="section level4">
 <h4>Function: <code>as.numeric()</code></h4>
 <hr />
-<p><strong>1. Convert a character variable (Var3) to
+<p><strong>1. Convert a character variable (<code>Var3</code>) to
 numeric</strong></p>
 <p>Review the data (d2)</p>
 <pre><code># A tibble: 3 x 5
@@ -382,19 +382,19 @@ numeric</strong></p>
 1 b         2 3.6   10/10/2004 TRUE 
 2 a        NA 8.5   12/14/2007 FALSE
 3 c         3 X     08/09/2020 TRUE </code></pre>
-<p>View the class for Var3</p>
+<p>View the class for <code>Var3</code></p>
 <ul>
-<li>Note: Var3 will read in as character because an X was used to denote
-missing values in the data.</li>
+<li>Note: <code>Var3</code> will read in as character because an “X” was
+used to denote missing values in the data.</li>
 </ul>
 <pre class="r"><code>class(d2$Var3)</code></pre>
 <pre><code>[1] &quot;character&quot;</code></pre>
-<p>Convert Var3 to numeric.</p>
+<p>Convert <code>Var3</code> to numeric.</p>
 <ul>
-<li>Note: In the case of Var3 you will get a warning message that says
-“NAs were introduced in conversion”. In this case, I am okay with that
-because “X”s were used to denote NAs previously and I want those to be
-converted to NA.</li>
+<li>Note: In the case of <code>Var3</code> you will get a warning
+message that says “NAs were introduced in conversion”. In this case, I
+am okay with that because “X”s were used to denote NAs previously and I
+want those to be converted to NA.</li>
 </ul>
 <p>HOWEVER, if your variable contains any unexpected character values
 (spaces, extra decimal points, letters) and you were unaware of these
@@ -412,7 +412,8 @@ naming the new variable the same name as the original.</li>
 
 class(d2$Var3)</code></pre>
 <pre><code>[1] &quot;numeric&quot;</code></pre>
-<p><strong>2. Convert a logical variable (Var5) to numeric</strong></p>
+<p><strong>2. Convert a logical variable (<code>Var5</code>) to
+numeric</strong></p>
 <p>Review the data (d2)</p>
 <pre><code># A tibble: 3 x 5
   Var1   Var2 Var3  Var4       Var5 
@@ -420,15 +421,10 @@ class(d2$Var3)</code></pre>
 1 b         2 3.6   10/10/2004 TRUE 
 2 a        NA 8.5   12/14/2007 FALSE
 3 c         3 X     08/09/2020 TRUE </code></pre>
-<p>View the class for Var5</p>
+<p>View the class for <code>Var5</code></p>
 <pre class="r"><code>class(d2$Var5)</code></pre>
 <pre><code>[1] &quot;logical&quot;</code></pre>
-<p>Convert Var5 to numeric.</p>
-<ul>
-<li>Note: We are recoding into a new variable using
-<code>dplyr::mutate()</code> and saving over the original variable by
-naming the new variable the same name as the original.</li>
-</ul>
+<p>Convert <code>Var5</code> to numeric.</p>
 <pre class="r"><code>d2 &lt;- d2 %&gt;% 
   dplyr::mutate(Var5 = as.numeric(Var5))
 
@@ -446,8 +442,9 @@ d2$Var5</code></pre>
 3     3 2.5   X     X    </code></pre>
 <p>View the class for all variables</p>
 <ul>
-<li><p>Note: Var2, Var3 and Var4 are read in as character variables
-because an “X” was used to denote missing values in the data.</p></li>
+<li><p>Note: <code>Var2</code>, <code>Var3</code> and <code>Var4</code>
+are read in as character variables because an “X” was used to denote
+missing values in the data.</p></li>
 <li><p>Note: Another way to have dealt with these columns that have “X”
 denoting NA, is to have read in the data using a function where you
 explicitly state what the missing values are. Example:
@@ -467,7 +464,7 @@ applying a transformation across multiple columns</li>
 <li>Note: You must wrap <em>is.character</em>, a predicate function
 (returns a true/false), in the <code>tidyselect</code> selection helper
 <code>where()</code>.</li>
-<li>Note: We are recoding into a new variable using
+<li>Note: We are recoding into new variables using
 <code>dplyr::mutate()</code> and saving over the original
 variables.</li>
 </ul>
@@ -490,8 +487,8 @@ variables.</li>
 2     2  NA     8.5     6
 3     3   2.5  NA      NA</code></pre>
 <p>Or in the case of this data frame, since you essentially want all
-variables to be numeric (Var1 just happens to already be numeric), you
-could convert <em>all</em> variables to numeric using the
+variables to be numeric (<code>Var1</code> just happens to already be
+numeric), you could convert <em>all</em> variables to numeric using the
 <code>tidyselect</code> selection helper <code>everything()</code>.</p>
 <pre class="r"><code>d4 %&gt;% 
   dplyr::mutate(dplyr::across(tidyselect::everything(), as.numeric))</code></pre>
@@ -501,7 +498,8 @@ could convert <em>all</em> variables to numeric using the
 1     1   2     3.6     4
 2     2  NA     8.5     6
 3     3   2.5  NA      NA</code></pre>
-<p><strong>4. Convert a factor variable (Var3) to numeric</strong></p>
+<p><strong>4. Convert a factor variable (<code>Var3</code>) to
+numeric</strong></p>
 <p>Review the data (d3)</p>
 <pre><code># A tibble: 3 x 4
   Var1   Var2 Var3  Var4      
@@ -509,19 +507,16 @@ could convert <em>all</em> variables to numeric using the
 1 b         2 3     10/10/2004
 2 a        NA 8     12/14/2007
 3 c         3 2     08/09/2020</code></pre>
-<p>View the class for Var3</p>
+<p>View the class for <code>Var3</code></p>
 <pre class="r"><code>class(d3$Var3)</code></pre>
 <pre><code>[1] &quot;factor&quot;</code></pre>
-<p>Convert Var3 to numeric.</p>
+<p>Convert <code>Var3</code> to numeric.</p>
 <ul>
-<li><p>Note: We are recoding into a new variable using
-<code>dplyr::mutate()</code> and saving over the original variable by
-naming the new variable the same name as the original.</p></li>
-<li><p>Note: We MUST convert the factor variable to character before
+<li>Note: We MUST convert the factor variable to character before
 converting to numeric or we will not retain our original values.
 Instead, <code>base::as.numeric()</code> will convert our factor values
 to their factor levels (3=2, 8=3, 1=1) which is not what we want. See
-the first example vs the second example.</p></li>
+the first example vs the second example.</li>
 </ul>
 <p><strong>Don’t do this</strong></p>
 <pre class="r"><code>d3 %&gt;% 

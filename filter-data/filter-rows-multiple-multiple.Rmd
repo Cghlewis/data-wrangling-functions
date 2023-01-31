@@ -25,7 +25,7 @@ knitr::opts_chunk$set(comment = NA,
 
 <br>
 
-**1\. Return rows where `form` is empty, but ANY values for variables (var1:var4) are NOT missing. Missing is denoted by "MR" as well as NA.**
+**1\. Return rows where `form` is empty (denoted by ""), but ANY values for variables (var1:var4) are NOT missing (denoted by "MR" as well as NA).**
 
 Review the data (d17)
 
@@ -36,9 +36,7 @@ d17
 
 ```
 
-We can see here that form is a character variable and missing values are denoted by "", so we will need to account for that in our formula.
-
-* Note: You'll notice here that I did NOT use `%in%` too keep NA values. Remember from [Filter rows with NA values](https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-na.html), NA values are not evaluated and are dropped automatically when you use `!=`. In this case, since both "MR" and NA are missing values, I am okay with NA values being dropped by default.
+* Note: You'll notice here that I did NOT use `%in%` to keep NA values for var1:var4. Remember from [Filter rows with NA values](https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-na.html), NA values are not evaluated and are dropped automatically when you use `!=`. In this case, since both "MR" and NA are missing values, I am okay with NA values being dropped by default.
 
 
 ```{r}
@@ -66,7 +64,7 @@ d17 %>%
 
 ```
 
-Or I could also get the same result this way, to say "return the rows where form is missing but ALL values for variables (var1:var4) are not missing."
+Or I could also get the same result this way, where I am saying "return the rows where form is missing but ALL values for variables (var1:var4) are not missing."
 
 ```{r}
 

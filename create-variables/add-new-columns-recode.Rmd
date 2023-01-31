@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Create new scored variables for all of the _item_ variables**
+**1\. Create new scored variables for all of the "item" variables**
 
 Review the data (d1)
 
@@ -33,18 +33,22 @@ d1
 
 ```
 
-item1 through item4 were all multiple choice variables with one correct answer. We now want to score these variables to be correct (1) or incorrect (0).
+`item1` through `item4` were all multiple choice variables with one correct answer. We now want to score these variables to be correct (1) or incorrect (0).
 
 Item1: correct answer = 3  
 Item2: correct answer = 5  
 Item3: correct answer = 3  
 Item4: correct answer = 5  
 
-Since Item 1 and 3 and Items 2 and 4 have the same correct answers, we can use `dplyr::across()` within `dplyr::mutate()` to score these variables at the same time. We use `.` to denote we want the criteria to apply to the variables we have selected.
+Since `item1` and `item3` have the same correct answers, and `item2` and `item4` have the same correct answers, we can use `dplyr::across()` within `dplyr::mutate()` to score these variables at the same time. We use `.` to denote we want the criteria to apply to the variables we have selected.
 
 * Note: We use the `dplyr::across()` argument *.names* to rename our newly scored variables. You can use {col} to stand for the selected column name.
 
 * Note: We have NA values in our variables, so since `dplyr::case_when()` recodes in order of how statements are provided, we will first want to say we want NA values to stay as NA values (NA_real_).
+
+Note: In the `dplyr::case_when()` function, TRUE means if a value was not evaluated in my arguments above, replace with the value I give. In this case, I am saying replace remaining values with 0.
+
+* Note: We are adding the `dplyr::across()` argument *.names* to rename our newly created variables with the suffix "_scored".
 
 ```{r}
 

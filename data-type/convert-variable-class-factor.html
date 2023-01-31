@@ -373,7 +373,7 @@ pre code {
 <div id="function-as_factor" class="section level4">
 <h4>Function: <code>as_factor()</code></h4>
 <hr />
-<p><strong>1. Convert a character variable (Var1) to a
+<p><strong>1. Convert a character variable (<code>Var1</code>) to a
 factor</strong></p>
 <p>Review the data (d2)</p>
 <pre><code># A tibble: 3 x 5
@@ -382,10 +382,10 @@ factor</strong></p>
 1 b         2 3.6   10/10/2004 TRUE 
 2 a        NA 8.5   12/14/2007 FALSE
 3 c         3 X     08/09/2020 TRUE </code></pre>
-<p>View the class for Var1</p>
+<p>View the class for <code>Var1</code></p>
 <pre class="r"><code>class(d2$Var1)</code></pre>
 <pre><code>[1] &quot;character&quot;</code></pre>
-<p>Convert Var1 to a factor.</p>
+<p>Convert <code>Var1</code> to a factor.</p>
 <ul>
 <li><p>Note: In the case of a character variable, the levels will be
 chosen based on the order in which they appear. In the case of a numeric
@@ -424,8 +424,8 @@ class(d2$Var1)</code></pre>
 <div id="function-as.factor" class="section level4">
 <h4>Function: <code>as.factor()</code></h4>
 <hr />
-<p><strong>1. Another function to convert a variable (in this case
-character variable Var1) to a factor is `base::as.factor()</strong></p>
+<p><strong>1. Convert a character variable (<code>Var1</code>) to a
+factor</strong></p>
 <p>Review the data (d2)</p>
 <pre><code># A tibble: 3 x 5
   Var1   Var2 Var3  Var4       Var5 
@@ -433,17 +433,13 @@ character variable Var1) to a factor is `base::as.factor()</strong></p>
 1 b         2 3.6   10/10/2004 TRUE 
 2 a        NA 8.5   12/14/2007 FALSE
 3 c         3 X     08/09/2020 TRUE </code></pre>
-<p>View the class for Var1</p>
+<p>View the class for <code>Var1</code></p>
 <pre class="r"><code>class(d2$Var1)</code></pre>
 <pre><code>[1] &quot;character&quot;</code></pre>
 <p>Convert Var1 to a factor.</p>
 <ul>
-<li><p>Note: The levels will be chosen alphabetically or numerically.
-You can view levels using the <code>base::levels()</code>
-function.</p></li>
-<li><p>Note: We are recoding into a new variable using
-<code>dplyr::mutate()</code> and saving over the original variable by
-naming the new variable the same name as the original.</p></li>
+<li>Note: The levels will be chosen alphabetically or numerically. You
+can view levels using the <code>base::levels()</code> function.</li>
 </ul>
 <pre class="r"><code>d2 &lt;- d2 %&gt;% 
   dplyr::mutate(Var1 = as.factor(Var1))

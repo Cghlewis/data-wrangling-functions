@@ -33,7 +33,7 @@ d1
 
 ```
 
-I can see that I have one "stu_id" that is duplicated in my data. 
+I can see that I have one `stu_id` that is duplicated in my data. 
 
 ```{r}
 
@@ -53,13 +53,13 @@ d1 %>%
 
 **1\. Remove the duplicate student IDs in our data**
 
-In the case of the data above, I only expect to have one row per student id ("stu_id"). It appears one student completed the survey twice. 
+In the case of the data above, I only expect to have one row per student id (`stu_id`). It appears one student completed the survey twice. 
 
 The duplicate entries are not identical. I need to make a plan for how to remove duplicate data. For example purposes, let's say I have made the decision to always keep the most recently completed survey.
 
-In order to ensure I remove duplicates in that specific manner, I need to first arrange my data descending by date. I need to do this because `dplyr::distinct()` always keeps the first instance of a survey (based on order).
+In order to ensure I remove duplicates in that specific manner, I need to first arrange my data descending by `date`. I need to do this because `dplyr::distinct()` **always keeps the first instance of a survey (based on order)**.
 
-* Note: I need to add the argument *.keep_all = TRUE*, otherwise all variables except for "stu_id" will be dropped
+* Note: I need to add the `dplyr::distinct()` argument *.keep_all = TRUE*, otherwise all variables except for `stu_id` will be dropped
 
 ```{r}
 
@@ -69,7 +69,7 @@ d1 %>%
 
 ```
 
-It is really important to never randomly drop duplicate data. This means, that you will ALWAYS want to arrange your data before using the `dplyr::distinct()` function. The reason for this is that if for some reason your raw data is ever rearranged, when you run this function again, you may be dropping a different duplicate than you intended to.
+**It is really important to never randomly drop duplicate data.** This means, that you will ALWAYS want to arrange your data before using the `dplyr::distinct()` function. The reason for this is that if for some reason your raw data is ever rearranged, when you run this function again, you may be dropping a different duplicate than you intended to.
 
 **2\. Remove incomplete data for duplicate student IDs in our data**
 
@@ -82,7 +82,7 @@ d2
 
 ```
 
-We can see in our new data we have several instances of duplicate data. Sometimes those duplicates have both incomplete and complete data.
+We can see in our new data we have several instances of duplicate data (for IDS 100, 103, and 105). Sometimes those duplicates have both incomplete and complete data.
 
 In this new scenario, my new decision rule for keeping duplicates is to keep data based on 2 criteria:  
 1. First I want to keep the record that is complete (if one is incomplete).  
@@ -90,13 +90,13 @@ In this new scenario, my new decision rule for keeping duplicates is to keep dat
 
 We can ensure we meet this criteria by doing 2 things:
 
-1. First, creating a way calculate completeness. In this case I just calculate a new variable using `dplyr::mutate()` called "incomplete". Using `base::rowSums()` I calculate the number of NA values across the main survey items. If the incomplete value is 0, it means the survey is missing no data.
+1. First, creating a way calculate completeness. In this case I just calculate a new variable using `dplyr::mutate()` called `incomplete`. Using `base::rowSums()` I calculate the number of NA values across the main survey items. If the incomplete value is 0, it means the survey is missing no data.
 
-2. Next we can arrange by both the "incomplete" variable and "date" descending again.
+2. Next we can arrange by both the `incomplete` variable and `date` descending again.
 
 Doing both of these steps, we can see that we will ultimately keep the surveys we want when we use `dplyr::distinct()` because the function keeps the first instance of the survey in your data.
 
-IDs 103, 105 and 100 all have the most complete, most recently completed surveys at the top.
+Duplicate IDs 103, 105 and 100 all have the most complete, most recently completed surveys at the top.
 
 ```{r}
 

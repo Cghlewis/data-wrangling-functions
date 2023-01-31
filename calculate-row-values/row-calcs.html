@@ -384,17 +384,18 @@ pre code {
 3   3456    NA     1     1
 4   4567     4     5     1
 5   5678     1     3     2</code></pre>
-<p>Calculate the sum score</p>
+<p>Calculate a sum score across <code>item1</code>, <code>item2</code>
+and <code>item</code></p>
 <ul>
 <li><p>Note: We are calculating a new variable using
 <code>dplyr::mutate()</code></p></li>
 <li><p>Note: Adding <code>dplyr::across()</code> allows you to select
 the specific columns you want to calculate the rowSums for. Otherwise
 rowSums will be applied across all columns.</p></li>
-<li><p>Note: The default for NA values in your columns is to
+<li><p>Note: The default for <code>rowSums()</code> is to
 <strong>not</strong> calculate a sum if any NA value exists. If you want
-to still calculate a sum despite missing values, you can set the
-argument to <em>na.rm = TRUE</em>.</p></li>
+to still calculate a sum despite missing values, you can add the
+argument <em>na.rm = TRUE</em>.</p></li>
 </ul>
 <pre class="r"><code>d2 %&gt;% 
   dplyr::mutate(measure_sum = rowSums(dplyr::across(c(item1, item2, item3))))</code></pre>
@@ -422,7 +423,8 @@ each student even with missing data</strong></p>
 3   3456    NA     1     1
 4   4567     4     5     1
 5   5678     1     3     2</code></pre>
-<p>Calculate the mean score of item1, item2, and item3</p>
+<p>Calculate the mean score of <code>item1</code>, <code>item2</code>,
+and <code>item3</code></p>
 <ul>
 <li><p>Note: The default for NA values in your columns is to
 <strong>not</strong> calculate a sum if any NA value exists. If you want
@@ -502,7 +504,7 @@ word “toca”.</p></li>
 5   5678     1     3     2     2      2   </code></pre>
 <p>If you wanted to exclude some of the “toca” items (say just toca2),
 you could exclude them this way, by wrapping your selected and excluded
-variables in c().</p>
+variables in <code>c()</code>.</p>
 <pre class="r"><code>d5 %&gt;% 
   dplyr::mutate(
     toca_mean = rowMeans(
@@ -556,14 +558,14 @@ score.</p>
 <li><p>Note: We use <code>dplyr::mutate()</code> to create new temporary
 versions of our toca variables.</p></li>
 <li><p>Note: We use <code>base::ifelse()</code> to say if our current
-toca variables (denoted by .) are equal to 6, then make them NA,
+toca variables (denoted by .) are equal to -99, then make them NA,
 otherwise keep the value as is. Using <code>dplyr::if_else()</code>
 gives us errors in this process. I’m not sure why except that I read the
 function is more strict in checking that all alternatives are of the
 same variable type compared to using
 <code>base::ifelse()</code>.</p></li>
 <li><p>Note: We use the <code>dplyr::across()</code> <em>.names</em>
-arugment to rename these variable to have the suffix “_temp” because we
+argument to rename these variable to have the suffix “_temp” because we
 do not want to alter our original toca variables.</p></li>
 </ul>
 <p>Second we calculate our mean score within
@@ -572,8 +574,9 @@ do not want to alter our original toca variables.</p></li>
 <li><p>Note: We add <code>dplyr::across()</code> to select multiple
 variables and use <code>tidyselect::contains()</code> to select all
 variables with the word “temp”.</p></li>
-<li><p>Note: We also use the <em>na.rm</em> = TRUE argument to calculate
-the mean despite missing values.</p></li>
+<li><p>Note: We also use the <em>na.rm</em> = TRUE argument from
+<code>rowMeans</code> to calculate the mean despite missing
+values.</p></li>
 <li><p>Note: Again we could add <code>base::round()</code> to round the
 number of decimal places in our mean if we wanted to</p></li>
 </ul>
@@ -581,7 +584,7 @@ number of decimal places in our mean if we wanted to</p></li>
 <code>dplyr::select()</code>. We don’t need them anymore.</p>
 <pre class="r"><code>d6 %&gt;% 
   dplyr::mutate(dplyr::across(contains(&quot;toca&quot;), 
-                ~ ifelse(.==-99,NA,.),
+                ~ ifelse(.== -99 , NA, .),
                 .names = &quot;{col}_temp&quot;),
                 toca_mean = rowMeans(
            dplyr::across(tidyselect::contains(&quot;temp&quot;)), 
@@ -615,7 +618,8 @@ number of decimal places in our mean if we wanted to</p></li>
 3   3456    NA     1     1
 4   4567     4     5     1
 5   5678     1     3     2</code></pre>
-<p>Calculate the sum score.</p>
+<p>Calculate the sum score across <code>item1</code>,
+<code>item2</code>, and <code>item3</code>.</p>
 <p>Here we use <code>dplyr::rowwise()</code> to calculate values across
 rows, in conjunction with <code>base::sum()</code> to calculate a sum
 score.</p>
@@ -624,8 +628,8 @@ score.</p>
 new variable</p></li>
 <li><p>Note: The default for <code>base::sum()</code> is to not
 calculate a sum if any NA value exists in your columns. If you want to
-still calculate a sum despite missing values, you can set the argument
-to <em>na.rm = TRUE</em>.</p></li>
+still calculate a sum despite missing values, you can add the argument
+<em>na.rm = TRUE</em>.</p></li>
 </ul>
 <pre class="r"><code>d2 %&gt;%
   dplyr::rowwise() %&gt;%
@@ -641,8 +645,8 @@ to <em>na.rm = TRUE</em>.</p></li>
 5   5678     1     3     2           6</code></pre>
 <p>If you don’t want to list out every single item in a measure, you can
 use <code>dplyr::c_across()</code> which uses tidy selection syntax to
-select variables. It is essentially a combination of c() and
-<code>dplyr::across()</code>. So instead of
+select variables. It is essentially a combination of
+<code>base::c()</code> and <code>dplyr::across()</code>. So instead of
 <code>mutate(measure_sum = dplyr::across(c(item1:item3)))</code>, you
 can simplify to the code below.</p>
 <ul>
@@ -746,7 +750,7 @@ more.</p></li>
 5   5678     1     3     2     2     6      2   </code></pre>
 <p>Again, if you wanted to exclude some of the “toca” items (say toca2
 and toca4 this time), you could exclude them this way, by wrapping your
-selected and excluded variables in c().</p>
+selected and excluded variables in <code>c()</code>.</p>
 <pre class="r"><code>d4 %&gt;%
   dplyr::rowwise() %&gt;%
   dplyr::mutate(toca_mean = mean(dplyr::c_across(c(tidyselect::contains(&quot;toca&quot;), -c(toca2, toca4))), na.rm=TRUE))</code></pre>
@@ -779,7 +783,8 @@ selected and excluded variables in c().</p>
 3   3456    NA     1     1
 4   4567     4     5     1
 5   5678     1     3     2</code></pre>
-<p>Calculate the sum score</p>
+<p>Calculate the sum score across <code>item1</code>, <code>item2</code>
+and <code>item3</code></p>
 <ul>
 <li><p>Note: We can add the argument <em>where = “col”</em> to denote we
 want rows summed across columns rather than the default which is column

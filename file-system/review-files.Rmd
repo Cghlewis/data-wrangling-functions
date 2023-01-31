@@ -28,7 +28,9 @@ library(tidyverse)
 
 **1\. Review files in the folder "obs_2022-03-15"**
 
-* Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "obs_2022-03-15" is within another folder called "file-system" which is located in the top level of my project directory. You could also just list your entire file path.
+* Note: I am currently working in an R project. I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "obs_2022-03-15" is within another folder called "file-system" which is located in the top level of my project directory. 
+
+* If you aren't working in R projects you can list your entire file path, or set a relative file path using something like `fs::path()` inside `fs::dir_ls()`.
 
 ```{r, eval = FALSE}
 

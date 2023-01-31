@@ -35,9 +35,13 @@ d3
 
 I have preassigned teachers to treatment in another database and I know which teachers are in the treatment condition of my study and which are in the control condition. The teachers in treatment are IDs 10, 12, and 13. I want to assign treatment teachers a 1 and control teachers a 0.
 
-I will first create a vector of the IDs that will be assigned to treatment. I could also do this within the variable creation function but for clarity I am pulling out the IDs and assigning those to a vector called "treat".
+I will first create a vector of the IDs that will be assigned to treatment. I could also do this within the variable creation function but for clarity I am pulling out the IDs and assigning those to a vector called `treat`.
 
-Next I can create my new variable "int" by using the `dplyr::mutate()` function. Then to assign 1s to treatment teachers and 0s to control teachers I chose to use `dplyr::case_when()`. Now I can use my vector "treat" and say when an "id" is my "treat" vector, assign it a value of 1, otherwise (which is denoted by the word *TRUE*) assign it a 0.
+Next I can create my new variable `int` by using the `dplyr::mutate()` function. 
+
+Then to assign 1s to treatment teachers and 0s to control teachers I chose to use `dplyr::case_when()`. 
+
+Now I can use my vector `treat` and say when an `id` is in my `treat` vector, assign it a value of 1, otherwise (which is denoted by the word *TRUE*) assign it a 0.
 
 ```{r}
 

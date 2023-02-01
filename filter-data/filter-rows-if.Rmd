@@ -25,48 +25,7 @@ knitr::opts_chunk$set(comment = NA,
 
 <br>
 
-**1\. Keep rows where respondent has responses that are _not_ missing for ANY variable (var1:var4). Missing data is denoted by "MR"**
-
-Review the data (d20)
-
-```{r, echo=FALSE}
-
-source("data.R")
-d20
-
-```
-
-You can read this as "If a row has a value that is **NOT** \"MR" for ANY variable (var1:var4), return the row"
-
-```{r}
-
-d20 %>%
-  dplyr::filter(dplyr::if_any(var1:var4, ~ . != "MR"))
-
-```
-
-**2\. Keep rows where respondent has missing reponses for ALL variables (var1:var4). Missing data is denoted by "MR"**
-
-Review the data (d20)
-
-```{r, echo=FALSE}
-
-source("data.R")
-d20
-
-```
-
-You can read this as "If a row has a value of \"MR" for ALL variables (var1:var4), return the row"
-
-```{r}
-
-d20 %>%
-  dplyr::filter(dplyr::if_all(var1:var4, ~ . == "MR"))
-
-```
-
-
-**3\. Keep rows where respondent has missing responses for ANY variable (var1:var4). Missing data is denoted by "MR"**
+**1\. Keep rows where respondent has missing responses for AT LEAST ONE variable (var1:var4). Missing data is denoted by "MR"**
 
 Review the data (d20)
 
@@ -87,7 +46,7 @@ d20 %>%
 
 ```
 
-**4\. Keep rows where respondent has _no_ missing responses for ALL variables (var1:var4). Missing data is denoted by "MR"**
+**2\. Keep rows where respondent has missing responses for ALL variables (var1:var4). Missing data is denoted by "MR"**
 
 Review the data (d20)
 
@@ -98,17 +57,16 @@ d20
 
 ```
 
-You can read this as "If values for ALL variables (var1:var4) in a row are **NOT** \"MR", return the row"
-
+You can read this as "If a row has a value of \"MR" for ALL variables (var1:var4), return the row"
 
 ```{r}
 
 d20 %>%
-  dplyr::filter(dplyr::if_all(var1:var4, ~ . != "MR"))
+  dplyr::filter(dplyr::if_all(var1:var4, ~ . == "MR"))
 
 ```
 
-**5\. Remove rows where respondent has missing responses for ALL variables (var1:var4). Missing data is denoted by "MR"**
+**3\. Remove rows where respondent has missing responses for ALL variables (var1:var4). Missing data is denoted by "MR"**
 
 Review the data (d20)
 
@@ -119,11 +77,13 @@ d20
 
 ```
 
-Removing rows is where things get complicated. 
+This example can be solved in one of two ways. Use whichever makes the most sense to you.
 
-So above (in #2) we returned every row that has "MR" for ALL our variables (var1:var4). And it seems like to get the opposite, we would just use `!=` instead of `==`, but as we see above (in #4) that gives us a different result. That gives us rows that do not contain "MR" as a value across ALL of our variables.
+The first and probably least confusing way to me is using `dplyr::if_all()`.
 
-So if we want to **remove** the rows that we grabbed in #2, we actually need to move our `!` to a new location, to before our `dplyr::if_all()` statement. This way we still grab the rows from #2, but we are saying to "drop" them this time.
+Here we use the same formula that we used in #2, where we first use `dplyr::if_all()` to pull rows that have values of \"MR" for ALL variables. 
+
+But then, we add the `!` operator outside of `dplyr::if_all()` to say, after we grab those rows, we want to drop them.
 
 ```{r}
 
@@ -132,6 +92,61 @@ d20 %>%
 
 ```
 
+The other way we can solve this is reframing our question to say, **"Keep rows where respondent has responses that are NOT missing for ANY variable (var1:var4)".**
+
+Reframing our question this way allows us to see how we can also you `dplyr::if_any()` to get the rows we want.
+
+You can read the code below as "If a row has a value that is **NOT** \"MR" for ANY variable (var1:var4), return the row"
+
+Because if a row has a value that is NOT \"MR" for any variable (var1:var4) then they are NOT missing all responses and should be returned.
+
+```{r}
+
+d20 %>%
+  dplyr::filter(dplyr::if_any(var1:var4, ~ . != "MR"))
+
+```
+
+
+**4\. Remove rows where respondent has missing responses for AT LEAST ONE variable (var1:var4). Missing data is denoted by "MR"**
+
+Review the data (d20)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d20
+
+```
+
+Again, this example can be solved in one of two ways. Use whichever makes the most sense to you.
+
+The first and probably least confusing way to me is using `dplyr::if_any()`.
+
+Here we use the same formula that we used in #1, where we first use `dplyr::if_any()` to pull rows that have values of \"MR" for ANY variables. 
+
+But then, we add the `!` operator outside of `dplyr::if_any()` to say, after we grab those rows, we want to drop them.
+
+```{r}
+
+d20 %>%
+  dplyr::filter(!dplyr::if_any(var1:var4, ~ . == "MR"))
+
+```
+
+The other way we can solve this is reframing our question to say, **"Keep rows where respondent has NO missing responses across ALL variables (var1:var4)".**
+
+Reframing our question this way allows us to see how we can also you `dplyr::if_all()` to get the rows we want.
+
+You can read the code below as “If values for ALL variables (var1:var4) in a row are NOT \"MR”, return the row”
+
+
+```{r}
+
+d20 %>%
+  dplyr::filter(dplyr::if_all(var1:var4, ~ . != "MR"))
+
+```
 
 
 

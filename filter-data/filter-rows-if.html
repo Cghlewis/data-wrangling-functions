@@ -383,54 +383,9 @@ the variables. <code>dplyr::if_all()</code> returns a true when the
 statement is true for <strong>all</strong> of the variables.</li>
 </ul>
 <p><br></p>
-<p><strong>1. Keep rows where respondent has responses that are
-<em>not</em> missing for ANY variable (var1:var4). Missing data is
-denoted by “MR”</strong></p>
-<p>Review the data (d20)</p>
-<pre><code># A tibble: 6 x 6
-     id form  var1  var2  var3  var4 
-  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1    10 &quot;a&quot;   3     4     3     3    
-2    11 &quot;b&quot;   3     MR    2     4    
-3    12 &quot;b&quot;   1     3     1     MR   
-4    13 &quot;&quot;    MR    MR    MR    MR   
-5    14 &quot;&quot;    MR    MR    MR    MR   
-6    15 &quot;&quot;    1     2     3     MR   </code></pre>
-<p>You can read this as “If a row has a value that is
-<strong>NOT</strong> &quot;MR” for ANY variable (var1:var4), return the
-row”</p>
-<pre class="r"><code>d20 %&gt;%
-  dplyr::filter(dplyr::if_any(var1:var4, ~ . != &quot;MR&quot;))</code></pre>
-<pre><code># A tibble: 4 x 6
-     id form  var1  var2  var3  var4 
-  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1    10 &quot;a&quot;   3     4     3     3    
-2    11 &quot;b&quot;   3     MR    2     4    
-3    12 &quot;b&quot;   1     3     1     MR   
-4    15 &quot;&quot;    1     2     3     MR   </code></pre>
-<p><strong>2. Keep rows where respondent has missing reponses for ALL
-variables (var1:var4). Missing data is denoted by “MR”</strong></p>
-<p>Review the data (d20)</p>
-<pre><code># A tibble: 6 x 6
-     id form  var1  var2  var3  var4 
-  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1    10 &quot;a&quot;   3     4     3     3    
-2    11 &quot;b&quot;   3     MR    2     4    
-3    12 &quot;b&quot;   1     3     1     MR   
-4    13 &quot;&quot;    MR    MR    MR    MR   
-5    14 &quot;&quot;    MR    MR    MR    MR   
-6    15 &quot;&quot;    1     2     3     MR   </code></pre>
-<p>You can read this as “If a row has a value of &quot;MR” for ALL variables
-(var1:var4), return the row”</p>
-<pre class="r"><code>d20 %&gt;%
-  dplyr::filter(dplyr::if_all(var1:var4, ~ . == &quot;MR&quot;))</code></pre>
-<pre><code># A tibble: 2 x 6
-     id form  var1  var2  var3  var4 
-  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1    13 &quot;&quot;    MR    MR    MR    MR   
-2    14 &quot;&quot;    MR    MR    MR    MR   </code></pre>
-<p><strong>3. Keep rows where respondent has missing responses for ANY
-variable (var1:var4). Missing data is denoted by “MR”</strong></p>
+<p><strong>1. Keep rows where respondent has missing responses for AT
+LEAST ONE variable (var1:var4). Missing data is denoted by
+“MR”</strong></p>
 <p>Review the data (d20)</p>
 <pre><code># A tibble: 6 x 6
      id form  var1  var2  var3  var4 
@@ -453,28 +408,7 @@ variable (var1:var4). Missing data is denoted by “MR”</strong></p>
 3    13 &quot;&quot;    MR    MR    MR    MR   
 4    14 &quot;&quot;    MR    MR    MR    MR   
 5    15 &quot;&quot;    1     2     3     MR   </code></pre>
-<p><strong>4. Keep rows where respondent has <em>no</em> missing
-responses for ALL variables (var1:var4). Missing data is denoted by
-“MR”</strong></p>
-<p>Review the data (d20)</p>
-<pre><code># A tibble: 6 x 6
-     id form  var1  var2  var3  var4 
-  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1    10 &quot;a&quot;   3     4     3     3    
-2    11 &quot;b&quot;   3     MR    2     4    
-3    12 &quot;b&quot;   1     3     1     MR   
-4    13 &quot;&quot;    MR    MR    MR    MR   
-5    14 &quot;&quot;    MR    MR    MR    MR   
-6    15 &quot;&quot;    1     2     3     MR   </code></pre>
-<p>You can read this as “If values for ALL variables (var1:var4) in a
-row are <strong>NOT</strong> &quot;MR”, return the row”</p>
-<pre class="r"><code>d20 %&gt;%
-  dplyr::filter(dplyr::if_all(var1:var4, ~ . != &quot;MR&quot;))</code></pre>
-<pre><code># A tibble: 1 x 6
-     id form  var1  var2  var3  var4 
-  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1    10 a     3     4     3     3    </code></pre>
-<p><strong>5. Remove rows where respondent has missing responses for ALL
+<p><strong>2. Keep rows where respondent has missing responses for ALL
 variables (var1:var4). Missing data is denoted by “MR”</strong></p>
 <p>Review the data (d20)</p>
 <pre><code># A tibble: 6 x 6
@@ -486,16 +420,37 @@ variables (var1:var4). Missing data is denoted by “MR”</strong></p>
 4    13 &quot;&quot;    MR    MR    MR    MR   
 5    14 &quot;&quot;    MR    MR    MR    MR   
 6    15 &quot;&quot;    1     2     3     MR   </code></pre>
-<p>Removing rows is where things get complicated.</p>
-<p>So above (in #2) we returned every row that has “MR” for ALL our
-variables (var1:var4). And it seems like to get the opposite, we would
-just use <code>!=</code> instead of <code>==</code>, but as we see above
-(in #4) that gives us a different result. That gives us rows that do not
-contain “MR” as a value across ALL of our variables.</p>
-<p>So if we want to <strong>remove</strong> the rows that we grabbed in
-#2, we actually need to move our <code>!</code> to a new location, to
-before our <code>dplyr::if_all()</code> statement. This way we still
-grab the rows from #2, but we are saying to “drop” them this time.</p>
+<p>You can read this as “If a row has a value of &quot;MR” for ALL variables
+(var1:var4), return the row”</p>
+<pre class="r"><code>d20 %&gt;%
+  dplyr::filter(dplyr::if_all(var1:var4, ~ . == &quot;MR&quot;))</code></pre>
+<pre><code># A tibble: 2 x 6
+     id form  var1  var2  var3  var4 
+  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+1    13 &quot;&quot;    MR    MR    MR    MR   
+2    14 &quot;&quot;    MR    MR    MR    MR   </code></pre>
+<p><strong>3. Remove rows where respondent has missing responses for ALL
+variables (var1:var4). Missing data is denoted by “MR”</strong></p>
+<p>Review the data (d20)</p>
+<pre><code># A tibble: 6 x 6
+     id form  var1  var2  var3  var4 
+  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+1    10 &quot;a&quot;   3     4     3     3    
+2    11 &quot;b&quot;   3     MR    2     4    
+3    12 &quot;b&quot;   1     3     1     MR   
+4    13 &quot;&quot;    MR    MR    MR    MR   
+5    14 &quot;&quot;    MR    MR    MR    MR   
+6    15 &quot;&quot;    1     2     3     MR   </code></pre>
+<p>This example can be solved in one of two ways. Use whichever makes
+the most sense to you.</p>
+<p>The first and probably least confusing way to me is using
+<code>dplyr::if_all()</code>.</p>
+<p>Here we use the same formula that we used in #2, where we first use
+<code>dplyr::if_all()</code> to pull rows that have values of &quot;MR” for
+ALL variables.</p>
+<p>But then, we add the <code>!</code> operator outside of
+<code>dplyr::if_all()</code> to say, after we grab those rows, we want
+to drop them.</p>
 <pre class="r"><code>d20 %&gt;%
   dplyr::filter(!dplyr::if_all(var1:var4, ~ . == &quot;MR&quot;))</code></pre>
 <pre><code># A tibble: 4 x 6
@@ -505,6 +460,68 @@ grab the rows from #2, but we are saying to “drop” them this time.</p>
 2    11 &quot;b&quot;   3     MR    2     4    
 3    12 &quot;b&quot;   1     3     1     MR   
 4    15 &quot;&quot;    1     2     3     MR   </code></pre>
+<p>The other way we can solve this is reframing our question to say,
+<strong>“Keep rows where respondent has responses that are NOT missing
+for ANY variable (var1:var4)”.</strong></p>
+<p>Reframing our question this way allows us to see how we can also you
+<code>dplyr::if_any()</code> to get the rows we want.</p>
+<p>You can read the code below as “If a row has a value that is
+<strong>NOT</strong> &quot;MR” for ANY variable (var1:var4), return the
+row”</p>
+<p>Because if a row has a value that is NOT &quot;MR” for any variable
+(var1:var4) then they are NOT missing all responses and should be
+returned.</p>
+<pre class="r"><code>d20 %&gt;%
+  dplyr::filter(dplyr::if_any(var1:var4, ~ . != &quot;MR&quot;))</code></pre>
+<pre><code># A tibble: 4 x 6
+     id form  var1  var2  var3  var4 
+  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+1    10 &quot;a&quot;   3     4     3     3    
+2    11 &quot;b&quot;   3     MR    2     4    
+3    12 &quot;b&quot;   1     3     1     MR   
+4    15 &quot;&quot;    1     2     3     MR   </code></pre>
+<p><strong>4. Remove rows where respondent has missing responses for AT
+LEAST ONE variable (var1:var4). Missing data is denoted by
+“MR”</strong></p>
+<p>Review the data (d20)</p>
+<pre><code># A tibble: 6 x 6
+     id form  var1  var2  var3  var4 
+  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+1    10 &quot;a&quot;   3     4     3     3    
+2    11 &quot;b&quot;   3     MR    2     4    
+3    12 &quot;b&quot;   1     3     1     MR   
+4    13 &quot;&quot;    MR    MR    MR    MR   
+5    14 &quot;&quot;    MR    MR    MR    MR   
+6    15 &quot;&quot;    1     2     3     MR   </code></pre>
+<p>Again, this example can be solved in one of two ways. Use whichever
+makes the most sense to you.</p>
+<p>The first and probably least confusing way to me is using
+<code>dplyr::if_any()</code>.</p>
+<p>Here we use the same formula that we used in #1, where we first use
+<code>dplyr::if_any()</code> to pull rows that have values of &quot;MR” for
+ANY variables.</p>
+<p>But then, we add the <code>!</code> operator outside of
+<code>dplyr::if_any()</code> to say, after we grab those rows, we want
+to drop them.</p>
+<pre class="r"><code>d20 %&gt;%
+  dplyr::filter(!dplyr::if_any(var1:var4, ~ . == &quot;MR&quot;))</code></pre>
+<pre><code># A tibble: 1 x 6
+     id form  var1  var2  var3  var4 
+  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+1    10 a     3     4     3     3    </code></pre>
+<p>The other way we can solve this is reframing our question to say,
+<strong>“Keep rows where respondent has NO missing responses across ALL
+variables (var1:var4)”.</strong></p>
+<p>Reframing our question this way allows us to see how we can also you
+<code>dplyr::if_all()</code> to get the rows we want.</p>
+<p>You can read the code below as “If values for ALL variables
+(var1:var4) in a row are NOT &quot;MR”, return the row”</p>
+<pre class="r"><code>d20 %&gt;%
+  dplyr::filter(dplyr::if_all(var1:var4, ~ . != &quot;MR&quot;))</code></pre>
+<pre><code># A tibble: 1 x 6
+     id form  var1  var2  var3  var4 
+  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+1    10 a     3     4     3     3    </code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter">Filter</a></p>
 </div>
 </div>

@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Relevel the factor s_grade to have the following level order: 2, 3, K, 1 (for demonstration purposes)**
+**1\. Relevel the factor `s_grade` to have the following level order: 2, 3, K, 1 (for demonstration purposes)**
 
 Review the data (d2)
 
@@ -37,12 +37,13 @@ d2
 
 # Convert s_grade to factor
 
-d2 <- d2 %>% mutate(s_grade = as_factor(s_grade))
+d2 <- d2 %>% 
+  mutate(s_grade = as_factor(s_grade))
 
 ```
 
 
-Review the structure of s_grade
+Review the structure of `s_grade`
 
 ```{r}
 
@@ -54,7 +55,8 @@ Relevel s_grade
 
 ```{r}
 
-d2 <- d2 %>% mutate(s_grade = fct_relevel(s_grade, "2", "3", "K", "1"))
+d2 <- d2 %>% 
+  mutate(s_grade = fct_relevel(s_grade, "2", "3", "K", "1"))
 
 str(d2$s_grade)
 
@@ -62,7 +64,7 @@ str(d2$s_grade)
 
 
 
-**2\. Relevel the factor s_grade to be 1,2,3,K**
+**2\. Relevel the factor `s_grade` to be 1,2,3,K**
 
 Review the data (d2)
 
@@ -73,11 +75,12 @@ d2
 
 ```
 
-Review the structure of s_grade
+Review the structure of `s_grade`
 
 ```{r, echo=FALSE}
 
-d2 <- d2 %>% mutate(s_grade = forcats::as_factor(s_grade))
+d2 <- d2 %>% 
+  mutate(s_grade = forcats::as_factor(s_grade))
 
 ```
 
@@ -91,14 +94,15 @@ Relevel "K" after the 3rd position. Since the 4th position is last, you could al
 
 ```{r}
 
-d2 <- d2 %>% mutate(s_grade = fct_relevel(s_grade, "K", after = 3))
+d2 <- d2 %>% 
+  mutate(s_grade = fct_relevel(s_grade, "K", after = 3))
 
 str(d2$s_grade)
 
 ```
 
 
-**3\. Relevel the factor s_grade to be 1,K,2,3**
+**3\. Relevel the factor `s_grade` to be 1,K,2,3**
 
 Review the data (d2)
 
@@ -109,11 +113,12 @@ d2
 
 ```
 
-Review the structure of s_grade
+Review the structure of `s_grade`
 
 ```{r, echo=FALSE}
 
-d2 <- d2 %>% mutate(s_grade = forcats::as_factor(s_grade))
+d2 <- d2 %>% 
+  mutate(s_grade = forcats::as_factor(s_grade))
 
 ```
 
@@ -127,7 +132,8 @@ Relevel "1" to be first. Since I only want "1" to be first and to keep the order
 
 ```{r}
 
-d2 <- d2 %>% mutate(s_grade = fct_relevel(s_grade, "1"))
+d2 <- d2 %>% 
+  mutate(s_grade = fct_relevel(s_grade, "1"))
 
 str(d2$s_grade)
 
@@ -145,7 +151,7 @@ str(d2$s_grade)
 
 In the rare occasion where you have a labelled variable that you want to convert to a factor and then order those levels, you can use `labelled::to_factor()`.
 
-**1\. Order s_grade levels: K,1,2,3**
+**1\. Order `s_grade` levels: K,1,2,3**
 
 Review the data (d3)
 
@@ -156,11 +162,12 @@ d3
 
 ```
 
-Review the structure of s_grade
+Review the structure of `s_grade`
 
 ```{r, echo=FALSE}
 
-d3 <- d3 %>% labelled::set_value_labels (
+d3 <- d3 %>% 
+  labelled::set_value_labels (
   s_grade = c( "First"=1, "Second"=2, "Third"=3, "Kindergarten"=0))
 
 ```
@@ -173,7 +180,7 @@ utils::str(d3$s_grade)
 ```
 
 
-Convert s_grade to a factor and then order those levels according to their original values using the argument *sort_levels = "v"*.
+Convert `s_grade` to a factor and then order those levels according to their original values using the argument *sort_levels = "v"*.
 
 ```{r}
 

@@ -36,7 +36,7 @@ d1
 Round our score values using `base::round()`.
 
 * Note: We need to use `dplyr::mutate()` in order to modify our existing columns.
-* Note: We use `dplyr::across()` to mutate both "scorex" and "scorey" with the same function.
+* Note: We use `dplyr::across()` to mutate both `scorex` and `scorey` with the same function.
 
 ```{r}
 

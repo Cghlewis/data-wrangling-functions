@@ -372,7 +372,8 @@ pre code {
 <div id="function-select" class="section level4">
 <h4>Function: <code>select()</code></h4>
 <hr />
-<p><strong>1. Drop columns (extra1, extra2, extra3)</strong></p>
+<p><strong>1. Drop columns (<code>extra1</code>, <code>extra2</code>,
+<code>extra3</code>)</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 5 x 5
   extra1 extra2 extra3    id test_score
@@ -382,7 +383,8 @@ pre code {
 3 c           3   -999    12        250
 4 d           4      0    13        217
 5 &lt;NA&gt;       NA     NA    NA         NA</code></pre>
-<p>Drop extra1, extra2, extra3</p>
+<p>Drop <code>extra1</code>, <code>extra2</code>,
+<code>extra3</code></p>
 <ul>
 <li>Note: Note the use of <em>-</em> to remove columns.</li>
 </ul>
@@ -414,8 +416,8 @@ pre code {
 3    12        250
 4    13        217
 5    NA         NA</code></pre>
-<p><strong>2. Keep selected columns (id, test_score1,
-test_score2)</strong></p>
+<p><strong>2. Keep selected columns (<code>id</code>,
+<code>test_score1</code>, <code>test_score2</code>)</strong></p>
 <p>Review the data (d2)</p>
 <pre><code># A tibble: 5 x 6
   extra1 extra2 extra3    id test_score1 test_score2
@@ -425,7 +427,8 @@ test_score2)</strong></p>
 3 c           3   -999    12         250         540
 4 d           4      0    13         217         499
 5 &lt;NA&gt;       NA     NA    NA          NA          NA</code></pre>
-<p>Keep id, test_score1 and test_score2</p>
+<p>Keep <code>id</code>, <code>test_score1</code> and
+<code>test_score2</code></p>
 <pre class="r"><code>d2 %&gt;% 
   dplyr::select(id:test_score2)</code></pre>
 <pre><code># A tibble: 5 x 3
@@ -541,11 +544,12 @@ operator.</p>
 3 NA       -999     12        250
 4 NA          0     13        217
 5 NA         NA     NA         NA</code></pre>
-<p>Another way I could select all columns except extra1 is to select
-extra2 through all columns until the last column, using the
-<code>tidyselect</code> selection helper <code>last_col()</code>. This
-is helpful if you don’t always know what the last column is but you know
-you want to keep everything until the end.</p>
+<p>Another way I could select all columns except <code>extra1</code> is
+to select <code>extra2</code> through all columns until the last column,
+using the <code>tidyselect</code> selection helper
+<code>last_col()</code>. This is helpful if you don’t always know what
+the last column is but you know you want to keep everything until the
+end.</p>
 <pre class="r"><code>d4 %&gt;% 
   dplyr::select(extra2:last_col())</code></pre>
 <pre><code># A tibble: 5 x 4
@@ -556,8 +560,8 @@ you want to keep everything until the end.</p>
 3 NA       -999     12        250
 4 NA          0     13        217
 5 NA         NA     NA         NA</code></pre>
-<p><strong>5. Keep selected columns (stress1_reverse,
-anxiety1_reverse)</strong></p>
+<p><strong>5. Keep selected columns (<code>stress1_reverse</code>,
+<code>anxiety1_reverse</code>)</strong></p>
 <p>Review the data (d7)</p>
 <pre><code># A tibble: 3 x 6
   stress1 stress1_reverse anxiety1 anxiety1_reverse extra1 extra1_reverse

@@ -20,7 +20,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Drop columns (extra1, extra2, extra3)**
+**1\. Drop columns (`extra1`, `extra2`, `extra3`)**
 
 Review the data (d1)
 
@@ -31,7 +31,7 @@ d1
 
 ```
 
-Drop extra1, extra2, extra3
+Drop `extra1`, `extra2`, `extra3`
 
 * Note: Note the use of *-* to remove columns.
 
@@ -54,7 +54,7 @@ d1 %>%
 ```
 
 
-**2\. Keep selected columns (id, test_score1, test_score2)**
+**2\. Keep selected columns (`id`, `test_score1`, `test_score2`)**
 
 Review the data (d2)
 
@@ -65,7 +65,7 @@ d2
 
 ```
 
-Keep id, test_score1 and test_score2
+Keep `id`, `test_score1` and `test_score2`
 
 ```{r}
 
@@ -156,7 +156,7 @@ d4 %>%
 
 ```
 
-Another way I could select all columns except extra1 is to select extra2 through all columns until the last column, using the `tidyselect` selection helper `last_col()`. This is helpful if you don't always know what the last column is but you know you want to keep everything until the end.
+Another way I could select all columns except `extra1` is to select `extra2` through all columns until the last column, using the `tidyselect` selection helper `last_col()`. This is helpful if you don't always know what the last column is but you know you want to keep everything until the end.
 
 ```{r}
 
@@ -165,7 +165,7 @@ d4 %>%
 
 ```
 
-**5\. Keep selected columns (stress1_reverse, anxiety1_reverse)**
+**5\. Keep selected columns (`stress1_reverse`, `anxiety1_reverse`)**
 
 Review the data (d7)
 

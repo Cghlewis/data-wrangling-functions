@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Move Var3 to be ahead of Var2**
+**1\. Move `Var3` to be ahead of `Var2`**
 
 Review the data (d1)
 
@@ -33,16 +33,17 @@ d1
 
 ```
 
-Move Var3 in front of Var2 by using the *.before* argument
+Move `Var3` in front of `Var2` by using the *.before* argument
 
 ```{r}
 
-d1 %>% dplyr::relocate(Var3, .before = Var2)
+d1 %>% 
+  dplyr::relocate(Var3, .before = Var2)
 
 ```
 
 
-**2\. Move Var2 and Var3 to be ahead of Var1**
+**2\. Move `Var2` and `Var3` to be ahead of `Var1`**
 
 Review the data (d1)
 
@@ -53,13 +54,14 @@ d1
 
 ```
 
-Move Var2 and Var3 in front of Var1
+Move `Var2` and `Var3` in front of `Var1`
 
 * Note: No argument is needed because the unmentioned variables will be placed after the mentioned variables.
 
 ```{r}
 
-d1 %>% dplyr::relocate(Var2, Var3)
+d1 %>% 
+  dplyr::relocate(Var2, Var3)
 
 
 ```
@@ -68,13 +70,14 @@ You would get the same result listing all variables
 
 ```{r}
 
-d1 %>% dplyr::relocate(Var2, Var3, Var1)
+d1 %>% 
+  dplyr::relocate(Var2, Var3, Var1)
 
 
 ```
 
 
-**3\. Move Var1 after Var2**
+**3\. Move `Var1` after `Var2`**
 
 Review the data (d1)
 
@@ -85,11 +88,12 @@ d1
 
 ```
 
-Move Var1 after Var2 by using the *.after* argument
+Move `Var1` after `Var2` by using the *.after* argument
 
 ```{r}
 
-d1 %>% dplyr::relocate(Var1, .after = Var2)
+d1 %>% 
+  dplyr::relocate(Var1, .after = Var2)
 
 ```
 
@@ -99,7 +103,7 @@ d1 %>% dplyr::relocate(Var1, .after = Var2)
 
 ---
 
-**1\. Move Var3 to the front**
+**1\. Move `Var3` to the front**
 
 Review the data (d1)
 
@@ -110,11 +114,12 @@ d1
 
 ```
 
-Move Var3 to the front using the `dplyr::select()` function in addition to the `tidyselect` selection helper `everything()`.
+Move `Var3` to the front using the `dplyr::select()` function in addition to the `tidyselect` selection helper `everything()`.
 
 ```{r}
 
-d1 %>% dplyr::select(Var3, tidyselect::everything())
+d1 %>% 
+  dplyr::select(Var3, tidyselect::everything())
 
 ```
 

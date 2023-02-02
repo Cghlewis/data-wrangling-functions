@@ -388,8 +388,8 @@ pre code {
 <ul>
 <li>Note: We need to use <code>dplyr::mutate()</code> in order to modify
 our existing columns.</li>
-<li>Note: We use <code>dplyr::across()</code> to mutate both “scorex”
-and “scorey” with the same function.</li>
+<li>Note: We use <code>dplyr::across()</code> to mutate both
+<code>scorex</code> and <code>scorey</code> with the same function.</li>
 </ul>
 <pre class="r"><code>d1 %&gt;% 
   dplyr::mutate(dplyr::across(scorex:scorey, ~ round(.)))</code></pre>

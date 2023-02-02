@@ -11,7 +11,7 @@
 
 
 
-<title>Import multiple files as separate data frames</title>
+<title>Import files from multiple urls and bind them</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,8 +361,8 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Import multiple files as separate data
-frames</h1>
+<h1 class="title toc-ignore">Import files from multiple urls and bind
+them</h1>
 
 </div>
 
@@ -370,128 +370,79 @@ frames</h1>
 <div id="package-purrr" class="section level3">
 <h3>Package: purrr</h3>
 <hr />
-<div id="function-map" class="section level4">
-<h4>Function: <code>map()</code></h4>
+<div id="function-map_dfr" class="section level4">
+<h4>Function: <code>map_dfr()</code></h4>
 <hr />
-<p><strong>1. Read in all Excel files from the directory and create
-individual data frames for each file.</strong></p>
-<p>Review the files in our directory</p>
+<p><br></p>
+<p><strong>1. Read in all csv files (from an existing file with a list
+of links) and bind all files into one data frame.</strong></p>
+<p>In this instance, we are using a file downloaded on 2022-05-05 from
+Health and Human Services that provides a link to all archived datasets
+from the <a href="https://healthdata.gov/dataset/COVID-19-Community-Profile-Report-County-Level-di4/pcq6-asfs">COVID-19
+Community Profile Report County Level Data</a>.</p>
+<p>View the data</p>
+<p>There are many columns in this dataset, but the one we care about it
+the column <em>Archive Link</em> that provides the link to the csv files
+stored in AWS.</p>
+<pre class="r"><code>archive &lt;- readr::read_csv(here::here(&quot;import-data&quot;, &quot;data&quot;, &quot;hhs_archive.csv&quot;)) 
+
+archive %&gt;%
+  dplyr::select(`Archive Link`) %&gt;%
+  head()</code></pre>
+<pre><code># A tibble: 6 x 1
+  `Archive Link`                                                                
+  &lt;chr&gt;                                                                         
+1 https://us-dhhs-aa.s3.us-east-2.amazonaws.com/di4u-7yu6_2022-04-18T16-41-42.c~
+2 https://us-dhhs-aa.s3.us-east-2.amazonaws.com/di4u-7yu6_2021-02-23T22-06-38.c~
+3 https://us-dhhs-aa.s3.us-east-2.amazonaws.com/di4u-7yu6_2021-02-24T20-51-14.c~
+4 https://us-dhhs-aa.s3.us-east-2.amazonaws.com/di4u-7yu6_2021-02-24T23-25-42.c~
+5 https://us-dhhs-aa.s3.us-east-2.amazonaws.com/di4u-7yu6_2021-02-25T23-32-48.c~
+6 https://us-dhhs-aa.s3.us-east-2.amazonaws.com/di4u-7yu6_2021-02-27T00-25-08.c~</code></pre>
+<p>In order to create a character vector to read into
+<code>purrr::map_dfr()</code> we must select this column and then use
+<code>dplyr::pull()</code>.</p>
+<pre class="r"><code>files &lt;- archive %&gt;%
+  dplyr::select(`Archive Link`) %&gt;%
+  dplyr::pull()
+
+class(files)</code></pre>
+<pre><code>[1] &quot;character&quot;</code></pre>
+<p>Last we can use this character vector in our
+<code>purrr::map_dfr()</code> function along with the
+<code>readr::read_csv</code> function to read in all of our files and
+bind them into one data frame.</p>
 <ul>
-<li>Note: I am currently working in an R project. I used the
-<code>here::here()</code> function which implicitly sets my directory to
-the top level (root directory) of my current project. Then any
-subsequent folders can be listed in descending order. In this case my
-folder “attendance” is within another folder called “import-data” which
-is located in the top level of my project directory. You could also just
-list your entire file path.</li>
+<li><p>Note: There is a variable in the files called
+<em>fema_region</em> that is not the same class across all files. We
+know from earlier that the files will not bind if the classes are not
+the same across files, so for the purpose of this example, I am removing
+that variable using the <code>readr::read_csv()</code> argument,
+<em>col_select</em>.</p></li>
+<li><p>Note: Some files have 37 variables and other files have 39
+variables. As mentioned above, this is okay, the appended file will
+include all variables and whatever data is available for those
+variables.</p></li>
+<li><p>Note: While <code>purrr::map_dfr()</code> has an argument,
+<em>.id</em>, it will not provide us much information outside of the
+index of the file in this case. However, <code>readr::read_csv()</code>
+has it’s own <em>id</em> argument which will tell us the value in the
+character vector so we can track which link the data came from.</p></li>
 </ul>
-<pre class="r"><code>fs::dir_ls(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;))</code></pre>
-<pre><code>[1] &quot;C:/Users/Me/project/import-data/attendance/school-1_attendance.csv&quot; 
-[2] &quot;C:/Users/Me/project/import-data/attendance/school-2_attendance.xlsx&quot;
-[3] &quot;C:/Users/Me/project/import-data/attendance/school-3_attendance.xlsx&quot;
-[4] &quot;C:/Users/Me/project/import-data/attendance/school-4_attendance.xlsx&quot;
-[5] &quot;C:/Users/Me/project/import-data/attendance/school-5_attendance.xlsx&quot;</code></pre>
-<p>We see that there are 4 Excel files in the directory and one csv
-file. We only want to import the Excel files.</p>
-<p>There are several ways to do this.</p>
-<ol style="list-style-type: decimal">
-<li>First, we can read in our files using <code>fs::dir_ls()</code>. By
-adding the <code>fs::dir_ls()</code> argument <em>glob = “*.xlsx”</em>
-we are saying we only want to read in the Excel files with the extension
-“.xlsx”. In this case, while there are 5 files in the directory, only 4
-of them were Excel files, one file was csv format.</li>
-</ol>
-<ul>
-<li><p>Then when I use that path in the
-<code>readxl::read_excel()</code> function, I use base R bracket
-indexing <code>[]</code> to extract the element we are referencing (only
-shown for 2 of the 4 files here)</p></li>
-<li><p>Note: In the function <code>readxl::read_excel()</code> I added
-the argument <em>na=</em> because I know the files I am reading in use
-“*” to denote missing values.</p></li>
-</ul>
-<pre class="r"><code># Create a list of files
-files &lt;- fs::dir_ls(here::here(&quot;import-data&quot;, &quot;attendance&quot;), glob = &quot;*.xlsx&quot;)
+<pre class="r"><code>all_files &lt;- purrr::map_dfr(files, read_csv, col_select = -fema_region, id = &quot;source&quot;)
 
-# Read in each file
-File1 &lt;- readxl::read_excel(path = files[1], na = &quot;*&quot;)
-
-File2 &lt;- readxl::read_excel(path = files[2], na = &quot;*&quot;)</code></pre>
-<ol start="2" style="list-style-type: decimal">
-<li>Another approach if you have several files to read in, is that you
-can make a function to retrieve all of your separate data frames</li>
-</ol>
-<pre class="r"><code>f &lt;- function(x) {
-  fs::dir_ls(here::here(&quot;import-data&quot;, &quot;attendance&quot;), glob = &quot;*.xlsx&quot;)[x] %&gt;%
-    readxl::read_excel(path = ., na = &quot;*&quot;)
-}
-
-File1 &lt;- f(1)
-File2 &lt;- f(2)
-File3 &lt;- f(3)
-File4 &lt;- f(4)</code></pre>
-<ol start="3" style="list-style-type: decimal">
-<li>Last, and probably the best solution I have for now, is to use
-<code>purrr::map()</code> in conjunction with the
-<code>base::list2env()</code> function, which creates environment
-variables from a named list.</li>
-</ol>
-<ul>
-<li><p>Note: We use <code>fs::dir_ls()</code> to read the names of our
-files into a vector and we use <code>purrr::set_names()</code> (to
-create a named vector), in conjunction with
-<code>base::basename()</code> and <code>stringr::str_remove()</code> to
-create more usable names.</p></li>
-<li><p>Note: We use <code>purrr::map()</code> to first create a list of
-our files. The main arguments you include for <code>purrr::map()</code>
-are .x, a list or atomic vector (files to read), and .f, which in this
-scenario is a function. Below “.” refers to the character vector we
-created in the previous step.</p></li>
-</ul>
-<pre class="r"><code># Create our list of data frames
-
-my_file_list &lt;- fs::dir_ls(here::here(&quot;import-data&quot;, &quot;attendance&quot;), 
-                glob =&quot;*.xlsx&quot;) %&gt;%
-  purrr::set_names(basename(stringr::str_remove(., &quot;.xlsx&quot;))) %&gt;%
-  purrr::map(., .f = readxl::read_excel, na=&quot;*&quot;)
-
-# Create environment variables from our list
-
-list2env(my_file_list, envir=.GlobalEnv)</code></pre>
-<pre><code>&lt;environment: R_GlobalEnv&gt;</code></pre>
-<pre class="r"><code># Review all objects in environment
-
-ls()</code></pre>
-<pre><code>[1] &quot;my_file_list&quot;        &quot;school-2_attendance&quot; &quot;school-3_attendance&quot;
-[4] &quot;school-4_attendance&quot; &quot;school-5_attendance&quot;</code></pre>
-<p><strong>2. Read in all Excel files from the directory, select the
-same variables from each file, and create individual data frames for
-each file.</strong></p>
-<p>Using the same files as above, if we only cared about certain
-variables in our data frames, we could add a
-<code>dplyr::select()</code> statement in a <code>purrr::map()</code>
-function to select our variables from our list of data frames before
-creating our environment variables.</p>
-<ul>
-<li>Note: If your variable names change across files (for instance they
-have different prefix or suffix) you’ll need to use a
-<code>tidyselection</code> helper to grab similar names across files,
-such as <code>tidyselect::contains()</code>.</li>
-</ul>
-<pre class="r"><code># Create our list of data frames
-my_file_list &lt;- fs::dir_ls(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;), 
-                glob =&quot;*.xlsx&quot;) %&gt;%
-  purrr::set_names(basename(stringr::str_remove(., &quot;.xlsx&quot;))) %&gt;%
-  purrr::map(., .f = readxl::read_excel, na=&quot;*&quot;) %&gt;%
-  purrr::map(., .f = . %&gt;% dplyr::select(YEAR, tidyselect::contains(&quot;TOTAL&quot;)))
-
-# Create environment variables from our list
-list2env(my_file_list, envir=.GlobalEnv)</code></pre>
-<pre><code>&lt;environment: R_GlobalEnv&gt;</code></pre>
-<pre class="r"><code># Review names of one object
-names(`school-2_attendance`)</code></pre>
-<pre><code>[1] &quot;YEAR&quot;                                &quot;PROPORTIONAL_ATTENDANCE_TOTAL_90ABV&quot;
-[3] &quot;PROPORTIONAL_ATTENDANCE_TOTAL&quot;       &quot;PROPORTIONAL_ATTENDANCE_TOTAL_PCT&quot;  </code></pre>
+all_files %&gt;%
+  dplyr::select(`source`:cases_last_7_days) %&gt;%
+  head()</code></pre>
+<pre><code># A tibble: 6 x 6
+  source                                         fips county state date  cases~1
+  &lt;chr&gt;                                         &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;
+1 https://us-dhhs-aa.s3.us-east-2.amazonaws.co~  1000 Unall~ AL    04/1~       0
+2 https://us-dhhs-aa.s3.us-east-2.amazonaws.co~  1001 Autau~ AL    04/1~       8
+3 https://us-dhhs-aa.s3.us-east-2.amazonaws.co~  1003 Baldw~ AL    04/1~      58
+4 https://us-dhhs-aa.s3.us-east-2.amazonaws.co~  1005 Barbo~ AL    04/1~       0
+5 https://us-dhhs-aa.s3.us-east-2.amazonaws.co~  1007 Bibb ~ AL    04/1~       6
+6 https://us-dhhs-aa.s3.us-east-2.amazonaws.co~  1009 Bloun~ AL    04/1~      30
+# ... with abbreviated variable name 1: cases_last_7_days</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Import%20Files">Import
 Files</a></p>
 </div>

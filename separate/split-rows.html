@@ -374,10 +374,14 @@ pre code {
 <h4>Function: <code>separate_rows()</code></h4>
 <hr />
 <ul>
-<li>Note: Unlike <code>tidyr::separate()</code> which splits columns
+<li><p>Note: Unlike <code>tidyr::separate()</code> which splits columns
 into new columns, <code>tidyr::separate_rows()</code> splits a column
-with multiple delimited values into new rows.</li>
+with multiple delimited values into new rows.</p></li>
+<li><p>Note: Since writing this, <code>tidyr::separate_rows()</code> has
+been superseded by <code>separate_longer_delim()</code>. See this <a href="https://tidyr.tidyverse.org/reference/separate_rows.html">link</a>
+for more info.</p></li>
 </ul>
+<p><br></p>
 <p><strong>1. Split a variable (<code>toppings</code>) into multiple
 rows</strong></p>
 <p>Review the data (d5)</p>

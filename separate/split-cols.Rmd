@@ -22,6 +22,10 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
+* Note: Since writing this, `tidyr::separate()` has been superseded by `separate_wider_position()` and `separate_wider_delim()`. See this [link](https://tidyr.tidyverse.org/reference/separate.html) for more info.
+
+<br>
+
 **1\. Split a character variable (`name`) into first name and last name**
 
 Review the data (d1)

@@ -23,12 +23,13 @@ library(tidyverse)
 
 ---
 
+<br>
 
 **1a\. Read in all Excel files from the "attendance" folder and bind them together. Note that an asterisk was used to denote NAs and we need to notify R of that.**
 
 Review the files in our directory
 
-* Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "attendance" is within another folder called "import-data" which is located in the top level of my project directory. You could also just list your entire file path.
+* Note: I am currently working in an R project. I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "attendance" is within another folder called "import-data" which is located in the top level of my project directory. You could also just list your entire file path.
 
 ```{r, eval = FALSE}
 
@@ -49,7 +50,7 @@ We see that there are 4 Excel files in the directory and one csv file. We only w
 
 We can read in all of our files using `fs::dir_ls()` and bind them together using `purrr::map_dfr()`
 
-* Note: By adding the `dir_ls()` argument *glob = "\*.xlsx"* you are saying you only want to read in the Excel files with the extension ".xlsx". In this case, while there are 5 files in the directory, only 4 of them were Excel files, one file was csv format.
+* Note: By adding the `dir_ls()` argument *glob = "\*.xlsx"* you are saying you only want to read in the names of all Excel files with the extension ".xlsx". In this case, while there are 5 files in the directory, only 4 of them were Excel files, one file was csv format.
 
 * Note: While basic `purrr::map()` always returns a list, `purrr::map_dfr()` combines and returns tibbles (data frames) by stacking them on top of each other. The main arguments you include are *.x*, a list or atomic vector (files to read), and *.f*, which in this scenario is a function.
 
@@ -59,7 +60,7 @@ We can read in all of our files using `fs::dir_ls()` and bind them together usin
 
 * Note: If not all files you read in have the same variables, the appended file will include all variables and whatever data is available for those variables.
 
-* Note: If files contain the same variable names but the variable classes aren't the same for a variable (ex: V1 = character in one file and V1 = numeric in another file) then datasets cannot be combined. In the case of `readxl::read_excel()`, you could add the *col_types* argument to make that variable type the same across all files. If you are unsure what types of variables exist in each dataset, you can use `janitor::compare_df_cols()` to see an output of each data frames' variables and variable types. By adding the argument *return = "mismatch"* the output will only show any variables that are different types across data frames.
+* Note: If files contain the same variable names but the variable classes aren't the same for a variable (ex: `V1` = character in one file and `V1` = numeric in another file) then datasets cannot be combined. In the case of `readxl::read_excel()`, you could add the *col_types* argument to make that variable type the same across all files. If you are unsure what types of variables exist in each dataset, you can use `janitor::compare_df_cols()` to see an output of each data frames' variables and variable types. By adding the argument *return = "mismatch"* the output will only show any variables that are different types across data frames.
 
 * Note: In the function `readxl::read_excel()` I added the argument *na=* because I know the files I am reading in use "*" to denote missing values.
 
@@ -72,7 +73,7 @@ head(d, n = c(10,5))
 
 ```
 
-* Note: Again if you did not want to use `here::here()` you could just list the full file path.
+* Note: If you did not want to use `here::here()` you could just list the full file path.
 
 ```{r, eval=FALSE}
 
@@ -113,7 +114,7 @@ base::dir(path = here::here("import-data", "attendance"))
 
 ```
 
-Read in all files except "school-5_attendance"
+Read in all files except "school-5_attendance.xlsx"
 
 * Note: You do not have to write the entire file name "school-5_attendance.xlsx" because `stringr::str_subset()` includes an argument to detect a pattern.
 
@@ -137,89 +138,5 @@ d <- fs::dir_ls(path = here::here("import-data", "attendance"),
 
 
 ```
-
-
-**3\. Read in all csv files (from an existing file with a list of links) and bind all files into one dataframe.**
-
-In this instance, we are using a file downloaded on 2022-05-05 from Health and Human Services that provides a link to all archived datasets from the [COVID-19 Community Profile Report County Level Data](https://healthdata.gov/dataset/COVID-19-Community-Profile-Report-County-Level-di4/pcq6-asfs).
-
-View the data
-
-There are many columns in this dataset, but the one we care about it the column *Archive Link* that provides the link to the csv files stored in AWS.
-
-```{r}
-
-archive <- readr::read_csv(here::here("import-data", "data", "hhs_archive.csv")) 
-
-archive %>%
-  dplyr::select(`Archive Link`) %>%
-  head()
-
-```
-
-```{r, echo = FALSE}
-
-archive <- readr::read_csv(here::here("import-data", "data", "hhs_archive.csv")) %>%
-  dplyr::slice_head(n = 5)
-
-
-```
-
-In order to create a character vector to read into `purrr::map_dfr()` we must select this column and then use `dplyr::pull()`.
-
-```{r}
-
-files <- archive %>%
-  dplyr::select(`Archive Link`) %>%
-  dplyr::pull()
-
-class(files)
-
-```
-
-Last we can use this character vector in our `purrr::map_dfr()` function along with the `readr::read_csv` function to read in all of our files and bind them into one data frame.
-
-* Note: There is a variable in the files called *fema_region* that is not the same class across all files. We know from earlier that the files will not bind if the classes are not the same across files, so for the purpose of this example, I am removing that variable using the `readr::read_csv()` argument, *col_select*.
-
-* Note: Some files have 37 variables and other files have 39 variables. As mentioned above, this is okay, the appended file will include all variables and whatever data is available for those variables.
-
-* Note: While `purrr::map_dfr()` has an argument, *.id*, it will not provide us much information outside of the index of the file in this case. However, `readr::read_csv()` has it's own *id* argument which will tell us the value in the character vector so we can track which link the data came from.
-
-```{r, message = FALSE, error = FALSE}
-
-all_files <- purrr::map_dfr(files, read_csv, col_select = -fema_region, .id = "source")
-
-all_files %>%
-  dplyr::select(source:cases_last_7_days) %>%
-  head()
-
-```
-
-
-
-**4\. Read in all sheets of an Excel file and bind them into one large data frame.**
-
-View the sheets in our workbook
-
-```{r}
-
-path <- (here::here("import-data", "data", "all-school_attendance.xlsx"))
-
-path %>% 
-readxl::excel_sheets()
-
-```
-
-
-```{r, eval=FALSE}
-
-data <- path %>% 
-  readxl::excel_sheets() %>% 
-  purrr::set_names() %>% 
-  purrr::map_dfr(readxl::read_excel, path = path, .id = "source")
-
-
-```
-
 
 Return to [Import Files](https://github.com/Cghlewis/data-wrangling-functions/wiki/Import Files)

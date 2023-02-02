@@ -90,6 +90,10 @@ navbar:
     href: import-data\import-multiple-files-separate.html
   - text: "Import Excel sheets and keep separate"
     href: import-data\import-sheets-separate.html
+  - text: "Import multiple urls"
+    href: import-data\import-from-list-url.Rmd
+  - text: "Import Excel sheets and bind"
+    href: import-data\import-sheets-bind.Rmd
   - text: "Set all variable names"
     href: name-variables\set-variable-names.html
   - text: "Rename variables"

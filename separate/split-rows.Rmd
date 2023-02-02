@@ -24,6 +24,10 @@ knitr::opts_chunk$set(comment = NA,
 
 * Note: Unlike `tidyr::separate()` which splits columns into new columns, `tidyr::separate_rows()` splits a column with multiple delimited values into new rows.
 
+* Note: Since writing this, `tidyr::separate_rows()` has been superseded by `separate_longer_delim()`. See this [link](https://tidyr.tidyverse.org/reference/separate_rows.html) for more info.
+
+<br>
+
 **1\. Split a variable (`toppings`) into multiple rows**
 
 Review the data (d5)

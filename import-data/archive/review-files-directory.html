@@ -11,7 +11,7 @@
 
 
 
-<title>Import multiple files as separate data frames</title>
+<title>Reviewing files in a folder</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,21 +361,18 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Import multiple files as separate data
-frames</h1>
+<h1 class="title toc-ignore">Reviewing files in a folder</h1>
 
 </div>
 
 
-<div id="package-purrr" class="section level3">
-<h3>Package: purrr</h3>
+<div id="package-fs" class="section level3">
+<h3>Package: fs</h3>
 <hr />
-<div id="function-map" class="section level4">
-<h4>Function: <code>map()</code></h4>
+<div id="function-dir_ls" class="section level4">
+<h4>Function: <code>dir_ls()</code></h4>
 <hr />
-<p><strong>1. Read in all Excel files from the directory and create
-individual data frames for each file.</strong></p>
-<p>Review the files in our directory</p>
+<p><strong>1. Review files in my folder named “attendance”</strong></p>
 <ul>
 <li>Note: I am currently working in an R project. I used the
 <code>here::here()</code> function which implicitly sets my directory to
@@ -391,107 +388,43 @@ list your entire file path.</li>
 [3] &quot;C:/Users/Me/project/import-data/attendance/school-3_attendance.xlsx&quot;
 [4] &quot;C:/Users/Me/project/import-data/attendance/school-4_attendance.xlsx&quot;
 [5] &quot;C:/Users/Me/project/import-data/attendance/school-5_attendance.xlsx&quot;</code></pre>
-<p>We see that there are 4 Excel files in the directory and one csv
-file. We only want to import the Excel files.</p>
-<p>There are several ways to do this.</p>
-<ol style="list-style-type: decimal">
-<li>First, we can read in our files using <code>fs::dir_ls()</code>. By
-adding the <code>fs::dir_ls()</code> argument <em>glob = “*.xlsx”</em>
-we are saying we only want to read in the Excel files with the extension
-“.xlsx”. In this case, while there are 5 files in the directory, only 4
-of them were Excel files, one file was csv format.</li>
-</ol>
+<p>Notice you will get the full path names here.
+<code>fs::dir_ls()</code> creates a character vector of file names.</p>
+<p>You can also use <code>base::dir()</code> or
+<code>base::list.files()</code> to retrieve just the file names.</p>
 <ul>
-<li><p>Then when I use that path in the
-<code>readxl::read_excel()</code> function, I use base R bracket
-indexing <code>[]</code> to extract the element we are referencing (only
-shown for 2 of the 4 files here)</p></li>
-<li><p>Note: In the function <code>readxl::read_excel()</code> I added
-the argument <em>na=</em> because I know the files I am reading in use
-“*” to denote missing values.</p></li>
+<li>Note: <code>base::dir()</code> is an alias for
+<code>base::list.files()</code></li>
 </ul>
-<pre class="r"><code># Create a list of files
-files &lt;- fs::dir_ls(here::here(&quot;import-data&quot;, &quot;attendance&quot;), glob = &quot;*.xlsx&quot;)
-
-# Read in each file
-File1 &lt;- readxl::read_excel(path = files[1], na = &quot;*&quot;)
-
-File2 &lt;- readxl::read_excel(path = files[2], na = &quot;*&quot;)</code></pre>
-<ol start="2" style="list-style-type: decimal">
-<li>Another approach if you have several files to read in, is that you
-can make a function to retrieve all of your separate data frames</li>
-</ol>
-<pre class="r"><code>f &lt;- function(x) {
-  fs::dir_ls(here::here(&quot;import-data&quot;, &quot;attendance&quot;), glob = &quot;*.xlsx&quot;)[x] %&gt;%
-    readxl::read_excel(path = ., na = &quot;*&quot;)
-}
-
-File1 &lt;- f(1)
-File2 &lt;- f(2)
-File3 &lt;- f(3)
-File4 &lt;- f(4)</code></pre>
-<ol start="3" style="list-style-type: decimal">
-<li>Last, and probably the best solution I have for now, is to use
-<code>purrr::map()</code> in conjunction with the
-<code>base::list2env()</code> function, which creates environment
-variables from a named list.</li>
-</ol>
+<pre class="r"><code>base::list.files(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;))</code></pre>
+<pre><code>[1] &quot;school-1_attendance.csv&quot;  &quot;school-2_attendance.xlsx&quot;
+[3] &quot;school-3_attendance.xlsx&quot; &quot;school-4_attendance.xlsx&quot;
+[5] &quot;school-5_attendance.xlsx&quot;</code></pre>
+<p>And if you add the argument <em>full.names = TRUE</em> you will get
+the same result as <code>fs::dir_ls()</code></p>
+<pre class="r"><code>base::list.files(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;), full.names = TRUE)</code></pre>
 <ul>
-<li><p>Note: We use <code>fs::dir_ls()</code> to read the names of our
-files into a vector and we use <code>purrr::set_names()</code> (to
-create a named vector), in conjunction with
-<code>base::basename()</code> and <code>stringr::str_remove()</code> to
-create more usable names.</p></li>
-<li><p>Note: We use <code>purrr::map()</code> to first create a list of
-our files. The main arguments you include for <code>purrr::map()</code>
-are .x, a list or atomic vector (files to read), and .f, which in this
-scenario is a function. Below “.” refers to the character vector we
-created in the previous step.</p></li>
+<li>Note: Again if you did not want to use <code>here::here()</code> you
+could just list the full file path.</li>
 </ul>
-<pre class="r"><code># Create our list of data frames
+<pre class="r"><code>fs::dir_ls(path = &quot;C:/Users/Name/project/import-data/attendance&quot;)</code></pre>
+<p>And last, if you’ve collected all of your files in an object, you can
+also use <code>base::basename()</code> to retrieve just file names.</p>
+<pre class="r"><code>path &lt;- fs::dir_ls(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;))
 
-my_file_list &lt;- fs::dir_ls(here::here(&quot;import-data&quot;, &quot;attendance&quot;), 
-                glob =&quot;*.xlsx&quot;) %&gt;%
-  purrr::set_names(basename(stringr::str_remove(., &quot;.xlsx&quot;))) %&gt;%
-  purrr::map(., .f = readxl::read_excel, na=&quot;*&quot;)
-
-# Create environment variables from our list
-
-list2env(my_file_list, envir=.GlobalEnv)</code></pre>
-<pre><code>&lt;environment: R_GlobalEnv&gt;</code></pre>
-<pre class="r"><code># Review all objects in environment
-
-ls()</code></pre>
-<pre><code>[1] &quot;my_file_list&quot;        &quot;school-2_attendance&quot; &quot;school-3_attendance&quot;
-[4] &quot;school-4_attendance&quot; &quot;school-5_attendance&quot;</code></pre>
-<p><strong>2. Read in all Excel files from the directory, select the
-same variables from each file, and create individual data frames for
-each file.</strong></p>
-<p>Using the same files as above, if we only cared about certain
-variables in our data frames, we could add a
-<code>dplyr::select()</code> statement in a <code>purrr::map()</code>
-function to select our variables from our list of data frames before
-creating our environment variables.</p>
+base::basename(path)</code></pre>
+<pre><code>[1] &quot;school-1_attendance.csv&quot;  &quot;school-2_attendance.xlsx&quot;
+[3] &quot;school-3_attendance.xlsx&quot; &quot;school-4_attendance.xlsx&quot;
+[5] &quot;school-5_attendance.xlsx&quot;</code></pre>
 <ul>
-<li>Note: If your variable names change across files (for instance they
-have different prefix or suffix) you’ll need to use a
-<code>tidyselection</code> helper to grab similar names across files,
-such as <code>tidyselect::contains()</code>.</li>
+<li>Note: One thing to note here is that your files may not print out in
+the order that you see them in your directory (i.e. the order your
+operating system puts them in). That is because your operating system,
+such as Windows, has it’s own ordering system. However, when the files
+are displayed in R, you will see the files in alphabetical order. So if
+you have files doc1, doc2, doc10, in that order in your directory, they
+may appear as doc1, doc10, doc2 in RStudio.</li>
 </ul>
-<pre class="r"><code># Create our list of data frames
-my_file_list &lt;- fs::dir_ls(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;), 
-                glob =&quot;*.xlsx&quot;) %&gt;%
-  purrr::set_names(basename(stringr::str_remove(., &quot;.xlsx&quot;))) %&gt;%
-  purrr::map(., .f = readxl::read_excel, na=&quot;*&quot;) %&gt;%
-  purrr::map(., .f = . %&gt;% dplyr::select(YEAR, tidyselect::contains(&quot;TOTAL&quot;)))
-
-# Create environment variables from our list
-list2env(my_file_list, envir=.GlobalEnv)</code></pre>
-<pre><code>&lt;environment: R_GlobalEnv&gt;</code></pre>
-<pre class="r"><code># Review names of one object
-names(`school-2_attendance`)</code></pre>
-<pre><code>[1] &quot;YEAR&quot;                                &quot;PROPORTIONAL_ATTENDANCE_TOTAL_90ABV&quot;
-[3] &quot;PROPORTIONAL_ATTENDANCE_TOTAL&quot;       &quot;PROPORTIONAL_ATTENDANCE_TOTAL_PCT&quot;  </code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Import%20Files">Import
 Files</a></p>
 </div>

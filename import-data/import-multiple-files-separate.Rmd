@@ -27,7 +27,7 @@ library(tidyverse)
 
 Review the files in our directory
 
-* Note: I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "attendance" is within another folder called "import-data" which is located in the top level of my project directory. You could also just list your entire file path.
+* Note: I am currently working in an R project. I used the `here::here()` function which implicitly sets my directory to the top level (root directory) of my current project. Then any subsequent folders can be listed in descending order. In this case my folder "attendance" is within another folder called "import-data" which is located in the top level of my project directory. You could also just list your entire file path.
 
 ```{r, eval = FALSE}
 
@@ -48,9 +48,9 @@ We see that there are 4 Excel files in the directory and one csv file. We only w
 
 There are several ways to do this. 
 
-First, we can read in our files using `fs::dir_ls()` and then use base R bracket indexing `[]` to extract the element we are referencing (only shown for 2 of the 4 files here)
+(1) First, we can read in our files using `fs::dir_ls()`. By adding the `fs::dir_ls()` argument *glob = "\*.xlsx"* we are saying we only want to read in the Excel files with the extension “.xlsx”. In this case, while there are 5 files in the directory, only 4 of them were Excel files, one file was csv format.
 
-* Note: By adding the `fs::dir_ls()` argument *glob = "\*.xlsx"* we are saying we only want to read in the Excel files with the extension “.xlsx”. In this case, while there are 5 files in the directory, only 4 of them were Excel files, one file was csv format.
+* Then when I use that path in the `readxl::read_excel()` function, I use base R bracket indexing `[]` to extract the element we are referencing (only shown for 2 of the 4 files here)
 
 * Note: In the function `readxl::read_excel()` I added the argument *na=* because I know the files I am reading in use “*” to denote missing values.
 
@@ -66,7 +66,7 @@ File2 <- readxl::read_excel(path = files[2], na = "*")
 
 ```
 
-Second, if you have several files to read in, you can make a function to retrieve all of your separate data frames
+(2) Another approach if you have several files to read in, is that you can make a function to retrieve all of your separate data frames
 
 ```{r, eval=FALSE}
 
@@ -82,11 +82,11 @@ File4 <- f(4)
 
 ```
 
-Last, and probably the best solution I have for now, is to use `purrr::map()` in conjunction with the `base::list2env()` function, which creates environment variables from a named list.
+(3) Last, and probably the best solution I have for now, is to use `purrr::map()` in conjunction with the `base::list2env()` function, which creates environment variables from a named list.
 
-* Note: We use `purrr::map()` to first create a list. We also use `purrr::set_names()` (to create a named list), in conjunction with `base::basename()` and `stringr::str_remove()` to create more usable data frame names.
+* Note: We use `fs::dir_ls()` to read the names of our files into a vector and we use `purrr::set_names()` (to create a named vector), in conjunction with `base::basename()` and `stringr::str_remove()` to create more usable names.
 
-* Note: The main arguments you include for `purrr::map()` are .x, a list or atomic vector (files to read), and .f, which in this scenario is a function. Below “.” refers to the character vector we created in the previous step. 
+* Note: We use `purrr::map()` to first create a list of our files.  The main arguments you include for `purrr::map()` are .x, a list or atomic vector (files to read), and .f, which in this scenario is a function. Below “.” refers to the character vector we created in the previous step. 
 
 ```{r, echo = FALSE}
 
@@ -98,15 +98,18 @@ rm(list = ls())
 ```{r}
 
 # Create our list of data frames
-my_file_list <- fs::dir_ls(path = here::here("import-data", "attendance"), 
+
+my_file_list <- fs::dir_ls(here::here("import-data", "attendance"), 
                 glob ="*.xlsx") %>%
   purrr::set_names(basename(stringr::str_remove(., ".xlsx"))) %>%
   purrr::map(., .f = readxl::read_excel, na="*")
 
 # Create environment variables from our list
+
 list2env(my_file_list, envir=.GlobalEnv)
 
 # Review all objects in environment
+
 ls()
 
 ```
@@ -114,7 +117,7 @@ ls()
 
 **2\. Read in all Excel files from the directory, select the same variables from each file, and create individual data frames for each file.**
 
-Using the same files as above, if we only cared about certain variables in our data frames, we could add a `dplyr::select()` statement in a `purrr::map()` function to select our variables from our list of data frames before creating our environment variables.
+Using the same files as above, if we only cared about certain variables in our data frames, we could add a `dplyr::select()` statement in a `purrr::map()` function to select our variables from our list of data frames before creating our environment variables. 
 
 * Note: If your variable names change across files (for instance they have different prefix or suffix) you'll need to use a `tidyselection` helper to grab similar names across files, such as `tidyselect::contains()`.
 
@@ -125,7 +128,7 @@ my_file_list <- fs::dir_ls(path = here::here("import-data", "attendance"),
                 glob ="*.xlsx") %>%
   purrr::set_names(basename(stringr::str_remove(., ".xlsx"))) %>%
   purrr::map(., .f = readxl::read_excel, na="*") %>%
-  purrr::map(., .f = list(. %>% dplyr::select(YEAR, tidyselect::contains("TOTAL"))))
+  purrr::map(., .f = . %>% dplyr::select(YEAR, tidyselect::contains("TOTAL")))
 
 # Create environment variables from our list
 list2env(my_file_list, envir=.GlobalEnv)

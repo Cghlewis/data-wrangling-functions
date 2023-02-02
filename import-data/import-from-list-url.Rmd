@@ -1,0 +1,85 @@
+---
+title: "Import files from multiple urls and bind them"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+
+library(tidyverse)
+
+```
+
+
+### Package: purrr
+
+---
+
+#### Function: `map_dfr()`
+
+---
+
+<br>
+
+**1\. Read in all csv files (from an existing file with a list of links) and bind all files into one data frame.**
+
+In this instance, we are using a file downloaded on 2022-05-05 from Health and Human Services that provides a link to all archived datasets from the [COVID-19 Community Profile Report County Level Data](https://healthdata.gov/dataset/COVID-19-Community-Profile-Report-County-Level-di4/pcq6-asfs).
+
+View the data
+
+There are many columns in this dataset, but the one we care about it the column *Archive Link* that provides the link to the csv files stored in AWS.
+
+```{r}
+
+archive <- readr::read_csv(here::here("import-data", "data", "hhs_archive.csv")) 
+
+archive %>%
+  dplyr::select(`Archive Link`) %>%
+  head()
+
+```
+
+```{r, echo = FALSE}
+
+archive <- readr::read_csv(here::here("import-data", "data", "hhs_archive.csv")) %>%
+  dplyr::slice_head(n = 5)
+
+
+```
+
+In order to create a character vector to read into `purrr::map_dfr()` we must select this column and then use `dplyr::pull()`.
+
+```{r}
+
+files <- archive %>%
+  dplyr::select(`Archive Link`) %>%
+  dplyr::pull()
+
+class(files)
+
+```
+
+Last we can use this character vector in our `purrr::map_dfr()` function along with the `readr::read_csv` function to read in all of our files and bind them into one data frame.
+
+* Note: There is a variable in the files called *fema_region* that is not the same class across all files. We know from earlier that the files will not bind if the classes are not the same across files, so for the purpose of this example, I am removing that variable using the `readr::read_csv()` argument, *col_select*.
+
+* Note: Some files have 37 variables and other files have 39 variables. As mentioned above, this is okay, the appended file will include all variables and whatever data is available for those variables.
+
+* Note: While `purrr::map_dfr()` has an argument, *.id*, it will not provide us much information outside of the index of the file in this case. However, `readr::read_csv()` has it's own *id* argument which will tell us the value in the character vector so we can track which link the data came from.
+
+```{r, message = FALSE, error = FALSE}
+
+all_files <- purrr::map_dfr(files, read_csv, col_select = -fema_region, id = "source")
+
+all_files %>%
+  dplyr::select(`source`:cases_last_7_days) %>%
+  head()
+
+```
+
+
+Return to [Import Files](https://github.com/Cghlewis/data-wrangling-functions/wiki/Import Files)

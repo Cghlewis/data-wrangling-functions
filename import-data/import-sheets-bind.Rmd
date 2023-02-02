@@ -1,0 +1,57 @@
+---
+title: "Import sheets and bind into one data frame"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+
+library(tidyverse)
+
+```
+
+
+### Package: purrr
+
+---
+
+#### Function: `map_dfr()`
+
+---
+
+**1\. Read in all sheets of an Excel file and bind them into one large data frame.**
+
+View the sheets in our workbook
+
+```{r}
+
+path <- (here::here("import-data", "data", "all-school_attendance.xlsx"))
+
+path %>% 
+readxl::excel_sheets()
+
+```
+
+We import the sheets using `readxl::excel_sheets()` to grab the sheet names and put them into a character vector.
+Then we set the names of the sheets in the vector using `purrr::set_names()`. 
+Last we read the sheets in using `readxl::read_excel()` and bind them using `purrr::map_dfr()`.
+We add the `purrr::map_dfr()` argument *.id* to add a new variable that we call `source` so we know which sheet each row comes from.
+
+```{r}
+
+data <- path %>% 
+  readxl::excel_sheets() %>% 
+  purrr::set_names() %>% 
+  purrr::map_dfr(readxl::read_excel, path = path, .id = "source")
+
+head(data)
+
+
+```
+
+
+Return to [Import Files](https://github.com/Cghlewis/data-wrangling-functions/wiki/Import Files)

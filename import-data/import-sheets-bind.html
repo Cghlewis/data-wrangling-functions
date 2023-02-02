@@ -11,7 +11,7 @@
 
 
 
-<title>Reviewing files in a folder</title>
+<title>Import sheets and bind into one data frame</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,69 +361,56 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Reviewing files in a folder</h1>
+<h1 class="title toc-ignore">Import sheets and bind into one data
+frame</h1>
 
 </div>
 
 
-<div id="package-fs" class="section level3">
-<h3>Package: fs</h3>
+<div id="package-purrr" class="section level3">
+<h3>Package: purrr</h3>
 <hr />
-<div id="function-dir_ls" class="section level4">
-<h4>Function: <code>dir_ls()</code></h4>
+<div id="function-map_dfr" class="section level4">
+<h4>Function: <code>map_dfr()</code></h4>
 <hr />
-<p><strong>1. Review files in my folder named “attendance”</strong></p>
-<ul>
-<li>Note: I used the <code>here::here()</code> function which implicitly
-sets my directory to the top level (root directory) of my current
-project. Then any subsequent folders can be listed in descending order.
-In this case my folder “attendance” is within another folder called
-“import-data” which is located in the top level of my project directory.
-You could also just list your entire file path.</li>
-</ul>
-<pre class="r"><code>fs::dir_ls(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;))</code></pre>
-<pre><code>[1] &quot;C:/Users/Me/project/import-data/attendance/school-1_attendance.csv&quot; 
-[2] &quot;C:/Users/Me/project/import-data/attendance/school-2_attendance.xlsx&quot;
-[3] &quot;C:/Users/Me/project/import-data/attendance/school-3_attendance.xlsx&quot;
-[4] &quot;C:/Users/Me/project/import-data/attendance/school-4_attendance.xlsx&quot;
-[5] &quot;C:/Users/Me/project/import-data/attendance/school-5_attendance.xlsx&quot;</code></pre>
-<p>Notice you will get the full path names here.
-<code>fs::dir_ls()</code> creates a character vector of file names.</p>
-<p>You can also use <code>base::dir()</code> or
-<code>base::list.files()</code> to retrieve just the file names.</p>
-<ul>
-<li>Note: <code>base::dir()</code> is an alias for
-<code>base::list.files()</code></li>
-</ul>
-<pre class="r"><code>base::list.files(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;))</code></pre>
-<pre><code>[1] &quot;school-1_attendance.csv&quot;  &quot;school-2_attendance.xlsx&quot;
-[3] &quot;school-3_attendance.xlsx&quot; &quot;school-4_attendance.xlsx&quot;
-[5] &quot;school-5_attendance.xlsx&quot;</code></pre>
-<p>And if you add the argument <em>full.names = TRUE</em> you will get
-the same result as <code>fs::dir_ls()</code></p>
-<pre class="r"><code>base::list.files(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;), full.names = TRUE)</code></pre>
-<ul>
-<li>Note: Again if you did not want to use <code>here::here()</code> you
-could just list the full file path.</li>
-</ul>
-<pre class="r"><code>fs::dir_ls(path = &quot;C:/Users/Name/project/import-data/attendance&quot;)</code></pre>
-<p>And last, if you’ve collected all of your files in an object, you can
-also use <code>base::basename()</code> to retrieve just file names.</p>
-<pre class="r"><code>path &lt;- fs::dir_ls(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;))
+<p><strong>1. Read in all sheets of an Excel file and bind them into one
+large data frame.</strong></p>
+<p>View the sheets in our workbook</p>
+<pre class="r"><code>path &lt;- (here::here(&quot;import-data&quot;, &quot;data&quot;, &quot;all-school_attendance.xlsx&quot;))
 
-base::basename(path)</code></pre>
-<pre><code>[1] &quot;school-1_attendance.csv&quot;  &quot;school-2_attendance.xlsx&quot;
-[3] &quot;school-3_attendance.xlsx&quot; &quot;school-4_attendance.xlsx&quot;
-[5] &quot;school-5_attendance.xlsx&quot;</code></pre>
-<ul>
-<li>Note: One thing to note here is that your files may not print out in
-the order that you see them in your directory (i.e. the order your
-operating system puts them in). That is because your operating system,
-such as Windows, has it’s own ordering system. However, when the files
-are displayed in R, you will see the files in alphabetical order. So if
-you have files doc1, doc2, doc10, in that order in your directory, they
-may appear as doc1, doc10, doc2 in RStudio.</li>
-</ul>
+path %&gt;% 
+readxl::excel_sheets()</code></pre>
+<pre><code>[1] &quot;Sheet1&quot; &quot;Sheet2&quot; &quot;Sheet3&quot;</code></pre>
+<p>We import the sheets using <code>readxl::excel_sheets()</code> to
+grab the sheet names and put them into a character vector. Then we set
+the names of the sheets in the vector using
+<code>purrr::set_names()</code>. Last we read the sheets in using
+<code>readxl::read_excel()</code> and bind them using
+<code>purrr::map_dfr()</code>. We add the <code>purrr::map_dfr()</code>
+argument <em>.id</em> to add a new variable that we call
+<code>source</code> so we know which sheet each row comes from.</p>
+<pre class="r"><code>data &lt;- path %&gt;% 
+  readxl::excel_sheets() %&gt;% 
+  purrr::set_names() %&gt;% 
+  purrr::map_dfr(readxl::read_excel, path = path, .id = &quot;source&quot;)
+
+head(data)</code></pre>
+<pre><code># A tibble: 6 x 26
+  source  YEAR PROPORT~1 PROPO~2 PROPO~3 PROPO~4 PROPO~5 PROPO~6 PROPO~7 PROPO~8
+  &lt;chr&gt;  &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 Sheet1  2015      518.    534     96.9 11.079~ 12.079~ 91.721~    28      30  
+2 Sheet1  2016      519     534     97.2 *       *       *          36      37  
+3 Sheet1  2017      528     551     95.9 10      10      100        35      37  
+4 Sheet1  2018      529.    564.    93.8 14.2302 16.169~ 88.004~    32.2    35.0
+5 Sheet1  2019      558.    582.    95.9 *       *       *          31.0    32.0
+6 Sheet2  2015      518.    534     96.9 11.079~ 12.079~ 91.721~    28      30  
+# ... with 16 more variables: PROPORTIONAL_ATTENDANCE_HISPANIC_PCT &lt;dbl&gt;,
+#   PROPORTIONAL_ATTENDANCE_WHITE_90ABV &lt;dbl&gt;,
+#   PROPORTIONAL_ATTENDANCE_WHITE &lt;dbl&gt;,
+#   PROPORTIONAL_ATTENDANCE_WHITE_PCT &lt;dbl&gt;,
+#   PROPORTIONAL_ATTENDANCE_OTHER_90ABV &lt;dbl&gt;,
+#   PROPORTIONAL_ATTENDANCE_OTHER &lt;dbl&gt;,
+#   PROPORTIONAL_ATTENDANCE_OTHER_PCT &lt;dbl&gt;, ...</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Import%20Files">Import
 Files</a></p>
 </div>

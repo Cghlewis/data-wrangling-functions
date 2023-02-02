@@ -1,0 +1,155 @@
+---
+title: "Add value labels using a data dictionary"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+
+### Package: labelled
+
+---
+
+#### Function: `set_value_labels()`
+
+---
+
+**1\. Set labels for `Var2` using another data frame**
+
+Review the data (d10)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d10
+
+```
+
+In this scenario, we have an existing dataset that provides the labels for our variables. 
+
+Review our data dictionary (labels)
+
+Note that this dataset is not in the usual data dictionary format I would think of (with each row corresponding to one variable). In this case, this would be a specialized long format type of codebook that you may have received or created solely for the purpose of working with value labels.
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+labels
+
+```
+
+
+Add value labels
+
+* Note: First we need to create a named character vector. We can do this using `dplyr::pull()`. Note that the `label` variable is provided second. This is important because the second variable will become the "names".
+
+```{r}
+
+var_labels <- labels %>%
+  dplyr::filter(var == "Var2") %>%
+  dplyr::pull(value, label) 
+
+```
+
+We can also do this using `tibble::deframe()`. You will get the same result. 
+
+HOWEVER, do note that the order that you list variables is **different**. In this method, the label (which will be the "names") will need to be provided first. 
+
+```{r, eval = FALSE}
+
+var_labels <- labels %>%
+  dplyr::filter(var == "Var2") %>%
+  dplyr::select(label, value) %>%
+  tibble::deframe()
+
+```
+
+Now we can use this vector to add our variable labels using the argument *.labels*.
+
+```{r}
+
+d10 <- d10 %>%
+  labelled::set_value_labels(Var2 = var_labels)
+
+labelled::val_labels(d10)
+
+```
+
+### Package: labelled
+
+---
+
+#### Function: `labelled()`
+
+---
+
+<br>
+
+**1\. Set labels for multiple variables (`Var2` and `Var3`) using another data frame**
+
+Review the data (d5)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d5
+
+```
+
+This time there are several variables that have the same labels so we want to apply our labels across multiple variables.
+
+Review our data dictionary (labels2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+labels2
+
+```
+
+Since labels are repeated in our data dictionary, filter to just one of the variables that have the labels we need.
+
+```{r}
+
+var_labels <- labels2 %>%
+  filter(var == "Var2") %>%
+  dplyr::pull(value, label) 
+
+```
+
+Or you could remove duplicate labels using `dplyr::distinct()`
+
+```{r, eval = FALSE}
+
+var_labels <- labels2 %>%
+  distinct(label, .keep_all = TRUE) %>%
+  dplyr::pull(value, label) 
+
+```
+
+
+```{r}
+
+d5 <- d5 %>% 
+  dplyr::mutate(dplyr::across(Var2:Var3, 
+            ~labelled::labelled(., labels = var_labels)))
+
+d5 %>% 
+  labelled::val_labels()
+
+```
+
+
+Return to [Label Data](https://github.com/Cghlewis/data-wrangling-functions/wiki/Label Data)

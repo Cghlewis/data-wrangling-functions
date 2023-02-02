@@ -11,7 +11,7 @@
 
 
 
-<title>Add missing value labels</title>
+<title>Add value labels using a data dictionary</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,115 +361,134 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Add missing value labels</h1>
+<h1 class="title toc-ignore">Add value labels using a data
+dictionary</h1>
 
 </div>
 
 
+<p><br></p>
 <div id="package-labelled" class="section level3">
 <h3>Package: labelled</h3>
-<p><strong>Note</strong>: Using the <code>labelled</code> package,
-adding missing label values will not allow these values to be treated as
-NA in R. However, they will be labelled as missing when you export to a
-file type such as .sav and will be treated as missing values in those
-programs.</p>
 <hr />
-<div id="function-set_na_values" class="section level4">
-<h4>Function: <code>set_na_values()</code></h4>
+<div id="function-set_value_labels" class="section level4">
+<h4>Function: <code>set_value_labels()</code></h4>
 <hr />
-<p><strong>1.Add a label for one missing value (-999), for one variable
-(<code>Var3</code>).</strong></p>
-<p>Review the data (d1)</p>
+<p><strong>1. Set labels for <code>Var2</code> using another data
+frame</strong></p>
+<p>Review the data (d10)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         1     2
-2 b      -999     0
-3 c         3  -999</code></pre>
-<p>Add NA label for -999</p>
-<pre class="r"><code>d1 &lt;- d1 %&gt;% 
-  labelled::set_na_values(Var3=-999)
+1 a         1     3
+2 b      -999     1
+3 c         2  -999</code></pre>
+<p>In this scenario, we have an existing dataset that provides the
+labels for our variables.</p>
+<p>Review our data dictionary (labels)</p>
+<p>Note that this dataset is not in the usual data dictionary format I
+would think of (with each row corresponding to one variable). In this
+case, this would be a specialized long format type of codebook that you
+may have received or created solely for the purpose of working with
+value labels.</p>
+<pre><code># A tibble: 7 x 3
+  var   value label    
+  &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;    
+1 Var2      1 yes      
+2 Var2      2 no       
+3 Var2   -999 missing  
+4 Var3      1 never    
+5 Var3      2 sometimes
+6 Var3      3 always   
+7 Var3   -999 missing  </code></pre>
+<p>Add value labels</p>
+<ul>
+<li>Note: First we need to create a named character vector. We can do
+this using <code>dplyr::pull()</code>. Note that the <code>label</code>
+variable is provided second. This is important because the second
+variable will become the “names”.</li>
+</ul>
+<pre class="r"><code>var_labels &lt;- labels %&gt;%
+  dplyr::filter(var == &quot;Var2&quot;) %&gt;%
+  dplyr::pull(value, label) </code></pre>
+<p>We can also do this using <code>tibble::deframe()</code>. You will
+get the same result.</p>
+<p>HOWEVER, do note that the order that you list variables is
+<strong>different</strong>. In this method, the label (which will be the
+“names”) will need to be provided first.</p>
+<pre class="r"><code>var_labels &lt;- labels %&gt;%
+  dplyr::filter(var == &quot;Var2&quot;) %&gt;%
+  dplyr::select(label, value) %&gt;%
+  tibble::deframe()</code></pre>
+<p>Now we can use this vector to add our variable labels using the
+argument <em>.labels</em>.</p>
+<pre class="r"><code>d10 &lt;- d10 %&gt;%
+  labelled::set_value_labels(Var2 = var_labels)
 
-labelled::na_values(d1$Var3)</code></pre>
-<pre><code>[1] -999</code></pre>
-<p><strong>2. Add labels for multiple missing values (-999, 0), for one
-variable (<code>Var3</code>)</strong></p>
-<p>Review the data (d1)</p>
-<pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         1     2
-2 b      -999     0
-3 c         3  -999</code></pre>
-<p>Add NA labels for -999 and 0</p>
-<pre class="r"><code>d1 &lt;- d1 %&gt;% 
-  labelled::set_na_values(Var3=c(-999,0))
-
-labelled::na_values(d1$Var3)</code></pre>
-<pre><code>[1] -999    0</code></pre>
-<p>If all values -999 to 0 are considered missing you could use the
-<code>labelled::set_na_range()</code> function instead. This is a good
-alternative if you have more user-defined missing values than are
-allowed in other statistical programs such as SPSS, which only allow 3
-distinct values.</p>
-<p>Note that the range will not appear when you use
-<code>labelled::na_values()</code> to review the values. However, if you
-export the data to a program like SPSS, the ranges will appear as user
-defined missing values.</p>
-<pre class="r"><code>d1 &lt;- d1 %&gt;% 
-  labelled::set_na_range(Var3=c(-999,0))</code></pre>
-<p><strong>3. Add labels to multiple variables (<code>Var2</code> and
-<code>Var3</code>) with the same missing value</strong></p>
-<p>Review the data (d1)</p>
-<pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         1     2
-2 b      -999     0
-3 c         3  -999</code></pre>
-<p>Add NA labels for -999 and 0</p>
-<pre class="r"><code>d1 &lt;- d1 %&gt;% 
-  labelled::set_na_values(Var2 = c(-999,0), 
-                                     Var3= c(-999, 0))
-
-labelled::na_values(d1)</code></pre>
+labelled::val_labels(d10)</code></pre>
 <pre><code>$Var1
 NULL
 
 $Var2
-[1] -999    0
+    yes      no missing 
+      1       2    -999 
 
 $Var3
-[1] -999    0</code></pre>
-<p>If I wanted to just review NA value labels for specific variables, I
-can select my variables of interest using <code>dplyr::select()</code>
-and then iterate the <code>labelled::na_values()</code> function over
-those variables using the <code>purrr::map()</code> function</p>
-<pre class="r"><code>d1 %&gt;%
-  dplyr::select(Var2, Var3) %&gt;%
-  purrr::map(labelled::na_values)</code></pre>
-<pre><code>$Var2
-[1] -999    0
+NULL</code></pre>
+</div>
+</div>
+<div id="package-labelled-1" class="section level3">
+<h3>Package: labelled</h3>
+<hr />
+<div id="function-labelled" class="section level4">
+<h4>Function: <code>labelled()</code></h4>
+<hr />
+<p><br></p>
+<p><strong>1. Set labels for multiple variables (<code>Var2</code> and
+<code>Var3</code>) using another data frame</strong></p>
+<p>Review the data (d5)</p>
+<pre><code># A tibble: 3 x 3
+  Var1   Var2  Var3
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 d         1    NA
+2 e         2     2
+3 f         1     1</code></pre>
+<p>This time there are several variables that have the same labels so we
+want to apply our labels across multiple variables.</p>
+<p>Review our data dictionary (labels2)</p>
+<pre><code># A tibble: 4 x 3
+  var   value label
+  &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;
+1 Var2      1 yes  
+2 Var2      2 no   
+3 Var3      1 yes  
+4 Var3      2 no   </code></pre>
+<p>Since labels are repeated in our data dictionary, filter to just one
+of the variables that have the labels we need.</p>
+<pre class="r"><code>var_labels &lt;- labels2 %&gt;%
+  filter(var == &quot;Var2&quot;) %&gt;%
+  dplyr::pull(value, label) </code></pre>
+<p>Or you could remove duplicate labels using
+<code>dplyr::distinct()</code></p>
+<pre class="r"><code>var_labels &lt;- labels2 %&gt;%
+  distinct(label, .keep_all = TRUE) %&gt;%
+  dplyr::pull(value, label) </code></pre>
+<pre class="r"><code>d5 &lt;- d5 %&gt;% 
+  dplyr::mutate(dplyr::across(Var2:Var3, 
+            ~labelled::labelled(., labels = var_labels)))
+
+d5 %&gt;% 
+  labelled::val_labels()</code></pre>
+<pre><code>$Var1
+NULL
+
+$Var2
+yes  no 
+  1   2 
 
 $Var3
-[1] -999    0</code></pre>
-<p>Since both of these variables have the same missing value labels, I
-could write the function like this.</p>
-<ul>
-<li>Note: The <code>na_values&lt;-</code> needs to be in backticks with
-no spaces. And you also need to have the <code>labelled</code> package
-loaded.</li>
-</ul>
-<pre class="r"><code>d1 %&gt;% 
-  dplyr::mutate(
-  dplyr::across(Var2:Var3, ~(`na_values&lt;-`
-                                (., c(-999, 0)))))</code></pre>
-<p>And again, if all values between -999 and 0 are missing values, I
-could use <code>labelled::na_range()</code> instead.</p>
-<pre class="r"><code>d1 %&gt;% 
-  dplyr::mutate(
-  dplyr::across(Var2:Var3, ~(`na_range&lt;-`
-                                (., c(-999, 0)))))</code></pre>
+yes  no 
+  1   2 </code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Label%20Data">Label
 Data</a></p>
 </div>

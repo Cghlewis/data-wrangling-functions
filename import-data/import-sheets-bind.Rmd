@@ -36,7 +36,7 @@ readxl::excel_sheets()
 
 ```
 
-We import the sheets using `readxl::excel_sheets()` to grab the sheet names and put them into a character vector.
+We first use `readxl::excel_sheets()` to grab the sheet names and put them into a character vector.
 Then we set the names of the sheets in the vector using `purrr::set_names()`. 
 Last we read the sheets in using `readxl::read_excel()` and bind them using `purrr::map_dfr()`.
 We add the `purrr::map_dfr()` argument *.id* to add a new variable that we call `source` so we know which sheet each row comes from.

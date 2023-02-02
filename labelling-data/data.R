@@ -88,3 +88,20 @@ dict2 <- tibble::tribble(
   "q1", "do you get along with your teacher?",
   "q2", "something"
 )
+
+labels <- tibble::tribble(
+  ~var, ~value, ~label,
+  "Var2", 1, "yes",
+  "Var2", 2, "no",
+  "Var2", -999, "missing",
+  "Var3", 1, "never",
+  "Var3", 2, "sometimes",
+  "Var3", 3, "always",
+  "Var3", -999, "missing")
+
+labels2 <- tibble::tribble(
+  ~var, ~value, ~label,
+  "Var2", 1, "yes",
+  "Var2", 2, "no",
+  "Var3", 1, "yes",
+  "Var3", 2, "no")

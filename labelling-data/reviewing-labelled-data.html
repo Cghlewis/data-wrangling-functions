@@ -394,7 +394,7 @@ format</strong></p>
 <p>Review labelled information</p>
 <ul>
 <li><p>Note: The argument <em>details=TRUE</em> is added to get
-na_values for variables</p></li>
+<em>na_values</em> for variables</p></li>
 <li><p>Note: <code>knitr::kable()</code> function used to make output
 more readable but we lose the value labels. If you run the
 <code>labelled::look_for()</code> function without adding
@@ -462,7 +462,8 @@ double</td>
 2 b     -999 (NA)                   1 [none]
 3 c        2 [mildly interested] -999 (NA)  </code></pre>
 <p>Review variable labels</p>
-<pre class="r"><code>d10 %&gt;% labelled::var_label()</code></pre>
+<pre class="r"><code>d10 %&gt;% 
+  labelled::var_label()</code></pre>
 <pre><code>$Var1
 [1] &quot;Name&quot;
 
@@ -485,7 +486,8 @@ $Var3
 2 b     -999 (NA)                   1 [none]
 3 c        2 [mildly interested] -999 (NA)  </code></pre>
 <p>Review value labels</p>
-<pre class="r"><code>d10 %&gt;% labelled::val_labels()</code></pre>
+<pre class="r"><code>d10 %&gt;% 
+  labelled::val_labels()</code></pre>
 <pre><code>$Var1
 NULL
 
@@ -541,11 +543,12 @@ format</strong></p>
 <li>Note: You will notice that we do not get NA labels here like we do
 using the <code>labelled::look_for()</code> function. We also do not get
 the variable class. Instead we can ask for the variable type by adding
-the argument <em>show.type=TRUE</em>, which shows us that Var2 for
-instance is numeric but does not let us know that the class is
-haven_labelled_spss.</li>
+the argument <em>show.type=TRUE</em>, which shows us that
+<code>Var2</code> for instance is numeric but does not let us know that
+the class is haven_labelled_spss.</li>
 </ul>
-<pre class="r"><code>d10 %&gt;% sjPlot::view_df(show.type=TRUE)</code></pre>
+<pre class="r"><code>d10 %&gt;% 
+  sjPlot::view_df(show.type=TRUE)</code></pre>
 <table style="border-collapse:collapse; border:none;">
 <caption>
 Data frame: .

@@ -74,9 +74,11 @@ Copy labels from d4 to d5
 
 ```{r}
 
-d5 <- d5 %>% labelled::copy_labels_from(d4)
+d5 <- d5 %>% 
+  labelled::copy_labels_from(d4)
 
-d5 %>% labelled::var_label()
+d5 %>% 
+  labelled::var_label()
 
 ```
 
@@ -133,9 +135,11 @@ Copy labels from d4 to d6
 
 ```{r}
 
-d6 <- d6 %>% labelled::copy_labels_from(d4)
+d6 <- d6 %>% 
+  labelled::copy_labels_from(d4)
 
-d6 %>% labelled::var_label()
+d6 %>% 
+  labelled::var_label()
 
 ```
 
@@ -204,7 +208,8 @@ Copy labels from d4 to d5
 
 d5 <- labelled::copy_labels(d4, d5)
 
-d5 %>% labelled::var_label()
+d5 %>% 
+  labelled::var_label()
 
 ```
 

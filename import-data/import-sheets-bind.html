@@ -381,14 +381,14 @@ large data frame.</strong></p>
 path %&gt;% 
 readxl::excel_sheets()</code></pre>
 <pre><code>[1] &quot;Sheet1&quot; &quot;Sheet2&quot; &quot;Sheet3&quot;</code></pre>
-<p>We import the sheets using <code>readxl::excel_sheets()</code> to
-grab the sheet names and put them into a character vector. Then we set
-the names of the sheets in the vector using
-<code>purrr::set_names()</code>. Last we read the sheets in using
-<code>readxl::read_excel()</code> and bind them using
-<code>purrr::map_dfr()</code>. We add the <code>purrr::map_dfr()</code>
-argument <em>.id</em> to add a new variable that we call
-<code>source</code> so we know which sheet each row comes from.</p>
+<p>We first use <code>readxl::excel_sheets()</code> to grab the sheet
+names and put them into a character vector. Then we set the names of the
+sheets in the vector using <code>purrr::set_names()</code>. Last we read
+the sheets in using <code>readxl::read_excel()</code> and bind them
+using <code>purrr::map_dfr()</code>. We add the
+<code>purrr::map_dfr()</code> argument <em>.id</em> to add a new
+variable that we call <code>source</code> so we know which sheet each
+row comes from.</p>
 <pre class="r"><code>data &lt;- path %&gt;% 
   readxl::excel_sheets() %&gt;% 
   purrr::set_names() %&gt;% 

@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Set labels for one or more variables (id, gradelevel, q1) using a data dictionary**
+**1\. Set labels for one or more variables (`id`, `gradelevel`, `q1`) using a data dictionary**
 
 Review the data (d11)
 
@@ -46,7 +46,9 @@ dict
 
 Add variable labels
 
-* Note: First we need to create a named list. We use `tibble::deframe()` to create a named character vector and turn it into a list using `base::as.list()`.
+* Note: First we need to create a named list. `labelled::set_variable_labels()` works with named lists or character vectors. I prefer to work with named lists which matches based on variable name. With a character vector, if the variables are not in the exact same order as our data frame variables, labels will be incorrectly assigned.
+
+We can use `tibble::deframe()` to create a named character vector and turn it into a list using `base::as.list()`. Make sure your `varname` variable is first in your data frame and your `label` variable is second. The first variable will become your "names".
 
 ```{r}
 
@@ -55,6 +57,17 @@ var_labels <- dict %>%
   base::as.list()
 
 ```
+
+We could also get the same named list using `dplyr::pull()` in conjunction with `base::as.list()`. HOWEVER, note that the order of variables will need to change. Now we need the `label` to be first and the `varname` to be second in order for `varname` to become our "names".
+
+```{r, eval = FALSE}
+
+var_labels <- dict %>%
+  dplyr::pull(label, varname) %>%
+  base::as.list()
+
+```
+
 
 Now we can use this list to add our variable labels using the argument *.labels*.
 
@@ -80,7 +93,7 @@ source("data.R")
 ```
 
 
-You'll see labels are only added to gradelevel and q1.
+You'll see labels are only added to `gradelevel` and `q1`.
 ```{r}
 
 var_labels <- dict %>%
@@ -97,7 +110,7 @@ labelled::var_label(d11)
 
 If "id" already had a label, like in the example below, and that variable was not in the data dictionary, that label would be retained.
 
-Again, we narrow the data dictionary to only gradelevel and q1 to demonstrate this point.
+Again, we narrow the data dictionary to only `gradelevel` and `q1` to demonstrate this point.
 
 ```{r, echo = FALSE}
 

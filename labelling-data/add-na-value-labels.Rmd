@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\.Add a label for one missing value (-999), for one variable (Var3).**
+**1\.Add a label for one missing value (-999), for one variable (`Var3`).**
 
 Review the data (d1)
 
@@ -37,14 +37,15 @@ Add NA label for -999
 
 ```{r}
 
-d1 <- d1 %>% labelled::set_na_values(Var3=-999)
+d1 <- d1 %>% 
+  labelled::set_na_values(Var3=-999)
 
 labelled::na_values(d1$Var3)
 
 ```
 
 
-**2\. Add labels for multiple missing values (-999, 0), for one variable (Var3)**
+**2\. Add labels for multiple missing values (-999, 0), for one variable (`Var3`)**
 
 Review the data (d1)
 
@@ -78,7 +79,7 @@ d1 <- d1 %>%
 ```
 
 
-**3\. Add labels to multiple variables (Var2 and Var3) with the same missing value**
+**3\. Add labels to multiple variables (`Var2` and `Var3`) with the same missing value**
 
 Review the data (d1)
 
@@ -93,7 +94,8 @@ Add NA labels for -999 and 0
 
 ```{r}
 
-d1 <- d1 %>% labelled::set_na_values(Var2 = c(-999,0), 
+d1 <- d1 %>% 
+  labelled::set_na_values(Var2 = c(-999,0), 
                                      Var3= c(-999, 0))
 
 labelled::na_values(d1)

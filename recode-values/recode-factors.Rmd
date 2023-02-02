@@ -112,13 +112,13 @@ levels(d7$lunch)
 
 ---
 
-**Note:** The `forcats::fct_recode()` formula is: new value=old value, this is opposite of dplyr::recode() but the same as `dplyr::rename()`
+**Note:** The `forcats::fct_recode()` formula is: new value = old value, this is opposite of `dplyr::recode()` but the same as `dplyr::rename()`
 
 **Note:** The function `forcats::fct_recode` will convert your variable to factor **and** recode it.
 
 <br>
 
-**1\. Recode a numeric variable (lunch) into a factor**
+**1\. Recode a numeric variable (`lunch`) into a factor**
 
 Review the data (d7)
 

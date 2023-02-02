@@ -25,7 +25,7 @@ knitr::opts_chunk$set(comment = NA,
 
 <br>
 
-**1\. Reverse code multiple variables (Var2 and Var3) in the same way**
+**1\. Reverse code multiple variables (`Var2` and `Var3`) in the same way**
 
 Review the data (d2)
 
@@ -36,7 +36,7 @@ d2
 
 ```
 
-Reverse code Var2 and Var3 and rename the variables with *\_r* at the end.
+Reverse code `Var2` and `Var3` and rename the variables with *\_r* at the end.
 
 * Note: We are modifying existing variables using `dplyr::mutate()`. 
 
@@ -98,7 +98,7 @@ d2
 
 ```
 
-Check the values of Var2
+Check the values of `Var2`
 
 ```{r}
 
@@ -106,7 +106,7 @@ d2 %>% janitor::tabyl(Var2)
 
 ```
 
-Reverse code Var2 and name it with *_r* at the end. 
+Reverse code `Var2` and name it with *_r* at the end. 
 
 * Note: We are recoding into a new variable using `dplyr::mutate()` and naming the new variable a different name than the original. It keeps both the new and old versions of the variable. If we used `dplyr::transmute()` instead it would keep the new version and remove the old version.
 
@@ -144,7 +144,7 @@ d2
 
 ```
 
-Check the values of Var2 and Var3
+Check the values of `Var2` and `Var3`
 
 ```{r}
 
@@ -174,7 +174,7 @@ reverse_scale <- function(Var) {
 ```
 
 
-Reverse code Var2 and Var3 using your function and rename the new variables with *_r* at the end
+Reverse code `Var2` and `Var3` using your function and rename the new variables with *_r* at the end
 
 * Note: We are recoding into new variables using `dplyr::mutate()` and naming the new variables different names than the original. It keeps both the new and old versions of the variables. 
 
@@ -205,7 +205,7 @@ source("data.R")
 
 ```
 
-Reverse code Var2 and Var3 using your function and rename the new variables with *\_r* at the end
+Reverse code `Var2` and `Var3` using your function and rename the new variables with *\_r* at the end
 
 * Note: We are modifying existing variables using `dplyr::mutate()`
 

@@ -377,8 +377,8 @@ pre code {
 old value=new value, this is opposite of
 <code>dplyr::rename()</code></p>
 <p><br></p>
-<p><strong>1. Reverse code multiple variables (Var2 and Var3) in the
-same way</strong></p>
+<p><strong>1. Reverse code multiple variables (<code>Var2</code> and
+<code>Var3</code>) in the same way</strong></p>
 <p>Review the data (d2)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -386,8 +386,8 @@ same way</strong></p>
 1 a         1     4
 2 b        NA     5
 3 c         3     1</code></pre>
-<p>Reverse code Var2 and Var3 and rename the variables with <em>_r</em>
-at the end.</p>
+<p>Reverse code <code>Var2</code> and <code>Var3</code> and rename the
+variables with <em>_r</em> at the end.</p>
 <ul>
 <li><p>Note: We are modifying existing variables using
 <code>dplyr::mutate()</code>.</p></li>
@@ -453,13 +453,13 @@ d2</code></pre>
 1 a         1     4
 2 b        NA     5
 3 c         3     1</code></pre>
-<p>Check the values of Var2</p>
+<p>Check the values of <code>Var2</code></p>
 <pre class="r"><code>d2 %&gt;% janitor::tabyl(Var2)</code></pre>
 <pre><code> Var2 n   percent valid_percent
     1 1 0.3333333           0.5
     3 1 0.3333333           0.5
    NA 1 0.3333333            NA</code></pre>
-<p>Reverse code Var2 and name it with *_r* at the end.</p>
+<p>Reverse code <code>Var2</code> and name it with *_r* at the end.</p>
 <ul>
 <li>Note: We are recoding into a new variable using
 <code>dplyr::mutate()</code> and naming the new variable a different
@@ -492,7 +492,7 @@ example)</strong></p>
 1 a         1     4
 2 b        NA     5
 3 c         3     1</code></pre>
-<p>Check the values of Var2 and Var3</p>
+<p>Check the values of <code>Var2</code> and <code>Var3</code></p>
 <pre class="r"><code>d2 %&gt;% 
   janitor::tabyl(Var2)</code></pre>
 <pre><code> Var2 n   percent valid_percent
@@ -516,8 +516,8 @@ example)</strong></p>
     TRUE ~ NA_real_
   )
 }</code></pre>
-<p>Reverse code Var2 and Var3 using your function and rename the new
-variables with *_r* at the end</p>
+<p>Reverse code <code>Var2</code> and <code>Var3</code> using your
+function and rename the new variables with *_r* at the end</p>
 <ul>
 <li>Note: We are recoding into new variables using
 <code>dplyr::mutate()</code> and naming the new variables different
@@ -541,8 +541,8 @@ variables.</li>
     4 0 1 0
     5 1 0 0</code></pre>
 <p>You can also use your function this way</p>
-<p>Reverse code Var2 and Var3 using your function and rename the new
-variables with <em>_r</em> at the end</p>
+<p>Reverse code <code>Var2</code> and <code>Var3</code> using your
+function and rename the new variables with <em>_r</em> at the end</p>
 <ul>
 <li><p>Note: We are modifying existing variables using
 <code>dplyr::mutate()</code></p></li>

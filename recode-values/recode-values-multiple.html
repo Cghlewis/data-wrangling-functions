@@ -389,8 +389,8 @@ variables)</strong></p>
 3 n     N     n    </code></pre>
 <p>When this data was entered it appears that both lower and upper case
 letters were used.</p>
-<p>We want to recode all “y” to “Y” and all “n” to “N” for Var1, Var2
-and Var3.</p>
+<p>We want to recode all “y” to “Y” and all “n” to “N” for
+<code>Var1</code>, <code>Var2</code> and <code>Var3</code>.</p>
 <ul>
 <li><p>Note: Unlike <code>dplyr::recode()</code> where we did not have
 to put quotes around the old character values, we now have to put quotes
@@ -431,7 +431,7 @@ something like <code>stringr::str_to_upper()</code> though.</p>
 2 Y     N     Y    
 3 N     N     N    </code></pre>
 <p><strong>2. Recode across multiple character variables
-(Var1:Var3</strong></p>
+(Var1:Var3)</strong></p>
 <p>Review the data (d15)</p>
 <pre><code># A tibble: 3 x 4
      id Var1  Var2  Var3 
@@ -441,7 +441,8 @@ something like <code>stringr::str_to_upper()</code> though.</p>
 3   345 MR    5.4   MR   </code></pre>
 <p>In this example, missing values were entered as character values in a
 numeric column. So now these columns are considered character.</p>
-<p>Recode “MR” to -98 and “UI” to -99 for Var1, Var2, Var3.</p>
+<p>Recode “MR” to -98 and “UI” to -99 for <code>Var1</code>,
+<code>Var2</code>, <code>Var3</code>.</p>
 <p>Notice that I am putting -98 and -99 in quotes. That is because this
 variable is currently considered a character variable. So we will recode
 first, and then convert the variable to numeric.</p>

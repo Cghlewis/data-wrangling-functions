@@ -373,8 +373,8 @@ pre code {
 <div id="function-case_when" class="section level4">
 <h4>Function: <code>case_when()</code></h4>
 <hr />
-<p><strong>1. Recode all missing “svy_dates” to the midpoint of the date
-range for id 3 and 6</strong></p>
+<p><strong>1. Recode all missing survey dates to the midpoint of the
+date range for id 3 and 6</strong></p>
 <p>Review the data (d17)</p>
 <pre><code># A tibble: 7 x 2
      id svy_date  
@@ -386,8 +386,8 @@ range for id 3 and 6</strong></p>
 5     5 NA        
 6     6 NA        
 7     7 2022-10-07</code></pre>
-<p>But first we need to find the midpoint of the “svy_date” variable. We
-can do that by getting the min and max (using
+<p>But first we need to find the midpoint of the <code>svy_date</code>
+variable. We can do that by getting the min and max (using
 <code>base::range()</code>) and then taking the mean using
 <code>base::mean()</code> of that range. We need to make sure to add the
 argument <em>na_rm = TRUE</em> to calculate the range despite having NA
@@ -405,7 +405,8 @@ date_mid</code></pre>
 <code>dplyr::case_when()</code> to recode the NA values.</p>
 <ul>
 <li><p>Note: I am using <code>dplyr::mutate()</code> to create a new
-svy_date variable which will replace the existing variable.</p></li>
+<code>svy_date</code> variable which will replace the existing
+variable.</p></li>
 <li><p>Note: TRUE means, if a value was not evaluated in my arguments
 above, replace with the value I give. In this case, I am saying just
 replace with the existing value.</p></li>

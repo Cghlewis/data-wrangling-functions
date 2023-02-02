@@ -22,14 +22,15 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Recode all missing "svy_dates" to the midpoint of the date range for id 3 and 6**
+**1\. Recode all missing survey dates to the midpoint of the date range for id 3 and 6**
 
 Review the data (d17)
 
 ```{r, echo=FALSE}
 
 source("data.R")
-d17 <- d17 %>% mutate(svy_date = as.Date(svy_date))
+d17 <- d17 %>% 
+  mutate(svy_date = as.Date(svy_date))
 
 d17
 
@@ -37,7 +38,7 @@ d17
 
 
 
-But first we need to find the midpoint of the "svy_date" variable. We can do that by getting the min and max (using `base::range()`) and then taking the mean using `base::mean()` of that range. We need to make sure to add the argument *na_rm = TRUE* to calculate the range despite having NA values. We can save the value in a vector to be used later.
+But first we need to find the midpoint of the `svy_date` variable. We can do that by getting the min and max (using `base::range()`) and then taking the mean using `base::mean()` of that range. We need to make sure to add the argument *na_rm = TRUE* to calculate the range despite having NA values. We can save the value in a vector to be used later.
 
 * Note: Notice that the class of our "svy_date" variable is date (we can see above). If it was character we would need to convert it to date before performing calculations.
 
@@ -50,7 +51,7 @@ date_mid
 ```
 Now we can use this vector in our recoding statement. We can use `dplyr::case_when()` to recode the NA values. 
 
-* Note: I am using `dplyr::mutate()` to create a new svy_date variable which will replace the existing variable.
+* Note: I am using `dplyr::mutate()` to create a new `svy_date` variable which will replace the existing variable.
 
 * Note: TRUE means, if a value was not evaluated in my arguments above, replace with the value I give. In this case, I am saying just replace with the existing value.
 

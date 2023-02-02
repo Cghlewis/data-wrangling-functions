@@ -373,7 +373,8 @@ pre code {
 <div id="function-replace_na" class="section level4">
 <h4>Function: <code>replace_na()</code></h4>
 <hr />
-<p><strong>1. Replace NA values for one variable (Var2)</strong></p>
+<p><strong>1. Replace NA values for one variable
+(<code>Var2</code>)</strong></p>
 <p>Review the data (d18)</p>
 <pre><code># A tibble: 3 x 3
    Var1  Var2  Var3
@@ -395,8 +396,8 @@ variable by changing the name of <em>Var3</em>.</li>
 1    NA     0     3
 2     1     0     4
 3     1     0     2</code></pre>
-<p><strong>2. Replace NA for multiple variables (Var1 and Var2) with the
-same NA value</strong></p>
+<p><strong>2. Replace NA for multiple variables (<code>Var1</code> and
+<code>Var2</code>) with the same NA value</strong></p>
 <p>Review the data (d18)</p>
 <pre><code># A tibble: 3 x 3
    Var1  Var2  Var3
@@ -404,7 +405,7 @@ same NA value</strong></p>
 1    NA    NA     3
 2     1    NA     4
 3     1     0     2</code></pre>
-<p>Recode NA for Var1 and Var2 to 0</p>
+<p>Recode NA for <code>Var1</code> and <code>Var2</code> to 0</p>
 <ul>
 <li>Note: We are recoding back into the same variable using
 <code>dplyr::mutate()</code>.</li>
@@ -419,8 +420,9 @@ transformation to multiple columns.</li>
 1     0     0     3
 2     1     0     4
 3     1     0     2</code></pre>
-<p><strong>3. Replace NA for multiple variables (Var2 and Var3) with the
-same NA value using your project data dictionary</strong></p>
+<p><strong>3. Replace NA for multiple variables (<code>Var2</code> and
+<code>Var3</code>) with the same NA value using your project data
+dictionary</strong></p>
 <p>Review the data (d18)</p>
 <pre><code># A tibble: 3 x 3
    Var1  Var2  Var3
@@ -468,7 +470,7 @@ selecting variable names from an external vector (“vars”).</li>
 2     1     0     4
 3     1     0     2</code></pre>
 <p><strong>4. Replace NA for multiple variables of the same class with
-the same NA value (Var2 and Var3)</strong></p>
+the same NA value (<code>Var2</code> and <code>Var3</code>)</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -476,7 +478,7 @@ the same NA value (Var2 and Var3)</strong></p>
 1 a         2   3.6
 2 b        NA   8.5
 3 c         3  NA  </code></pre>
-<p>Recode NA for Var2 and Var3 to -999</p>
+<p>Recode NA for <code>Var2</code> and <code>Var3</code> to -999</p>
 <ul>
 <li>Note: We are recoding back into the same variable using
 <code>dplyr::mutate()</code>.</li>
@@ -494,8 +496,8 @@ transformation to multiple columns.</li>
 1 a         2    3.6
 2 b      -999    8.5
 3 c         3 -999  </code></pre>
-<p><strong>5. Replace NA Var2 and Var3 with different
-values</strong></p>
+<p><strong>5. Replace NA <code>Var2</code> and <code>Var3</code> with
+different values</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -503,7 +505,8 @@ values</strong></p>
 1 a         2   3.6
 2 b        NA   8.5
 3 c         3  NA  </code></pre>
-<p>Replace NA with -999 for Var2 and replace NA with 0 for Var3.</p>
+<p>Replace NA with -999 for <code>Var2</code> and replace NA with 0 for
+<code>Var3</code>.</p>
 <p>Here we can use <code>base::list()</code> to list the variables we
 want to transform. Because we are not replacing NAs in a vector, we do
 not have to use <code>dplyr::mutate()</code> to do our
@@ -542,8 +545,8 @@ NA</strong></p>
 1 a         1     2
 2 b        NA     0
 3 c         3    NA</code></pre>
-<p><strong>2. Replace a value for select variables (Var2 and Var3) with
-NA</strong></p>
+<p><strong>2. Replace a value for select variables (<code>Var2</code>
+and <code>Var3</code>) with NA</strong></p>
 <p>Review the data (d3)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -551,7 +554,8 @@ NA</strong></p>
 1 a         1     2
 2 b      -999     0
 3 c         3  -999</code></pre>
-<p>Replace -999 for for Var2 and Var3 with NA</p>
+<p>Replace -999 for for <code>Var2</code> and <code>Var3</code> with
+NA</p>
 <ul>
 <li>Note: We are recoding back into the same variable using
 <code>dplyr::mutate()</code>.</li>

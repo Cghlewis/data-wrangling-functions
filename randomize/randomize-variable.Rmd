@@ -34,7 +34,7 @@ d1
 
 ```
 
-I want to randomly assign a treatment variable to cases. 1 = treatment and 0 = control. I want an even disbursement.
+I want to randomly assign a treatment variable (`treat`) to cases. 1 = treatment and 0 = control. I want an even disbursement.
 
 First we need to use `base::set.seed()` and choose any number to add as my seed. Setting this seed ensures that if I ever run this code again at a later time, I will get the same random sample each time. Very important!
 
@@ -63,7 +63,7 @@ d1_new %>%
 ```
 
 
-If I cared about grade level and wanted to randomly assign treatment evenly within grade, I could add a `dplyr::group_by()` statement and group by grade before randomly assigning.
+If I cared about grade level and wanted to randomly assign treatment evenly within `grade`, I could add a `dplyr::group_by()` statement and group by grade before randomly assigning.
 
 Notice now that treatment cannot evenly divided though (each grade level has 7 participants). In this case you can assign different numbers of times to repeat each value. For example, here I chose to repeat 1 three times and 0 four times.
 

@@ -39,7 +39,7 @@ d19
 
 When this data was entered it appears that both lower and upper case letters were used. 
 
-We want to recode all "y" to "Y" and all "n" to "N" for Var1, Var2 and Var3.
+We want to recode all "y" to "Y" and all "n" to "N" for `Var1`, `Var2` and `Var3`.
 
 * Note: Unlike `dplyr::recode()` where we did not have to put quotes around the old character values, we now have to put quotes around the old and new character values.
 
@@ -73,7 +73,7 @@ d19 %>%
 
 ```
 
-**2\. Recode across multiple character variables (Var1:Var3**
+**2\. Recode across multiple character variables (Var1:Var3)**
 
 Review the data (d15)
 
@@ -86,7 +86,7 @@ d15
 
 In this example, missing values were entered as character values in a numeric column. So now these columns are considered character.
 
-Recode "MR" to -98 and "UI" to -99 for Var1, Var2, Var3. 
+Recode "MR" to -98 and "UI" to -99 for `Var1`, `Var2`, `Var3`. 
 
 Notice that I am putting -98 and -99 in quotes. That is because this variable is currently considered a character variable. So we will recode first, and then convert the variable to numeric.
 

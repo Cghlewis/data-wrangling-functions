@@ -23,7 +23,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Add a new column (study_id) to the data**
+**1\. Add a new column (`study_id`) to the data**
 
 Review the data (d5)
 

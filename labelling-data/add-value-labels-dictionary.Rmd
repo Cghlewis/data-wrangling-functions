@@ -61,6 +61,12 @@ var_labels <- labels %>%
 
 ```
 
+```{r}
+
+var_labels
+
+```
+
 We can also do this using `tibble::deframe()`. You will get the same result. 
 
 HOWEVER, do note that the order that you list variables is **different**. In this method, the label (which will be the "names") will need to be provided first. 

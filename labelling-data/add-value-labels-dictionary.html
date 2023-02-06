@@ -411,6 +411,9 @@ variable will become the “names”.</li>
 <pre class="r"><code>var_labels &lt;- labels %&gt;%
   dplyr::filter(var == &quot;Var2&quot;) %&gt;%
   dplyr::pull(value, label) </code></pre>
+<pre class="r"><code>var_labels</code></pre>
+<pre><code>    yes      no missing 
+      1       2    -999 </code></pre>
 <p>We can also do this using <code>tibble::deframe()</code>. You will
 get the same result.</p>
 <p>HOWEVER, do note that the order that you list variables is

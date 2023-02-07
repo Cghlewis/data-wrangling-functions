@@ -261,6 +261,15 @@ d21 %>%
 
 ```
 
+This could also be written with `is.na()` wrapping the `dplyr::across()` statement.
+
+```{r}
+
+d21 %>%
+  dplyr::filter(rowSums(is.na(dplyr::across(var1:var3))) <= 1)
+
+```
+
 
 ### Package: tidyr
 

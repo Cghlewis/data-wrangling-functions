@@ -1,0 +1,79 @@
+---
+title: "Filter based on row sums or means"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+
+### Package: dplyr
+
+---
+
+#### Function: `filter()`
+
+---
+
+**1\. Keep rows that have two or less values of "MR" across var1:var4.**
+
+Review the data (d23)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d23
+
+```
+
+Keep rows that have two or less values of "MR" across var1:var4
+
+* Note: Here I am not using `if_any()` or `if_all()` like we typically use in a filter statement. I am using `dplyr::across()` because we are selecting variables within `base::rowSums()`.
+
+* Note: I am using an anonymous function within our `dplyr::across()` statement to check if the values of our variables are equal to "MR".
+
+* Note: I add the `base::rowSums()` argument, *na.rm = TRUE* because there are NA values in my data and I still want my "MR" values summed for rows where there are NA values.
+
+```{r}
+
+d23 %>%
+  dplyr::filter(rowSums(dplyr::across(var1:var4, ~ . == "MR"), na.rm = TRUE) < 2)
+
+```
+
+If the pattern we were trying to count was not always exactly the same across variables, we could use something like `stringr::str_detect()` to capture values instead.
+
+```{r}
+
+d23 %>%
+  dplyr::filter(rowSums(dplyr::across(var1:var4, ~ stringr::str_detect(., "MR")), na.rm = TRUE) < 2)
+
+```
+
+**2\. Keep rows where the mean of `var1` and `var2` is greater than 2.**
+
+Review the data (d24)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d24
+
+```
+
+Here we don't need to add an anonymous function within `dplyr::across()`.
+
+```{r}
+
+d24 %>%
+  dplyr::filter(rowMeans(dplyr::across(var1:var2), na.rm = TRUE) > 2)
+
+```
+
+
+Return to [Filter](https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter)

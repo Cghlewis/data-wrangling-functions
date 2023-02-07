@@ -137,35 +137,31 @@ d15 %>%
 
 ```
 
-**3\. Recode across multiple numeric variables (sum and means variables)**
+**3\. Recode across multiple numeric variables (sum and mean variables)**
 
-Review the data (d15)
+Review the data (d20)
 
 ```{r, echo=FALSE}
 
 source("data.R")
-d16
+d20
 
 ```
 
 In this situation, -80 means the item was not provided to a student. If a student has a -80 for all items in a scale, we want to assign a -80 for the sum and mean of that scale to denote that this scale was not provided (to differentiate between a value of NA meaning the data are actually missing).
 
-The two scales are "sc" and "tr" and each are made up of 2 items.
+The scale "sc" is made up of 2 items.
 
 * Note: I am using the `dplyr::if_all()` predicate function to select columns where the condition applies to all columns. This function is available in version 1.0.5 of `dplyr`.
 
 
 ```{r}
 
-d16 %>%
+d20 %>%
   dplyr::mutate(dplyr::across(sc_sum:sc_mean,
                  ~dplyr::case_when(
                     dplyr::if_all(sc_1:sc_2, ~ . == -80) ~ -80,
-                    TRUE ~ .)),
-  dplyr::mutate(dplyr::across(tr_sum:tr_mean,
-                  ~dplyr::case_when(
-                    dplyr::if_all(tr_1:tr_2, ~ . == -80) ~ -80,
-                    TRUE ~ .))))
+                    TRUE ~ .)))
     
 ```
 

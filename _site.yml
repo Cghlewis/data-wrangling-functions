@@ -66,6 +66,8 @@ navbar:
     href: filter-data\filter-rows-multiple-one.html
   - text: "Filter rows multiple criteria, multiple variables"
     href: filter-data\filter-rows-multiple-multiple.html
+  - text: "Filter rows based on row sums or means"
+    href: filter-data\filter-rows-rowssums.html
   - text: "Filter rows matching"
     href: filter-data\filter-rows-matching.html
   - text: "Filter rows type"

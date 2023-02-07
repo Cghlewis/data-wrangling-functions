@@ -47,5 +47,14 @@ d7 %>%
 
 ```
 
+I could also write this using the exact text.
+
+```{r}
+
+d7 %>%
+  dplyr::mutate(prefer_sum = 
+           rowSums(dplyr::across(q1:q4, ~ . == "prefer not to answer")), na.rm = TRUE)
+
+```
 
 Return to [Calculate Row Values](https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate Row Values)

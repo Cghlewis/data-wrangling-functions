@@ -59,5 +59,14 @@ d5 %>%
 
 ```
 
+And last, we can also write this where, rather than wrapping the `is.na()` function around our `dplyr::across()` function, we call our variables first and then add `is.na()` in an anonymous function.
+
+```{r}
+
+d5 %>%
+  dplyr::mutate(toca_na_sum = rowSums(dplyr::across(toca1:toca4, ~ is.na(.))))
+
+```
+
 
 Return to [Calculate Row Values](https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate Row Values)

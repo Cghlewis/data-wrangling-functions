@@ -668,6 +668,18 @@ within <code>base::rowSums()</code></p></li>
 3 a         21     3    12    NA
 4 b         22     9    NA   217
 5 b         32    10    14   251</code></pre>
+<p>This could also be written with <code>is.na()</code> wrapping the
+<code>dplyr::across()</code> statement.</p>
+<pre class="r"><code>d21 %&gt;%
+  dplyr::filter(rowSums(is.na(dplyr::across(var1:var3))) &lt;= 1)</code></pre>
+<pre><code># A tibble: 5 x 5
+  sch   stu_id  var1  var2  var3
+  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 a         10     1    20   205
+2 a         11     2    15   220
+3 a         21     3    12    NA
+4 b         22     9    NA   217
+5 b         32    10    14   251</code></pre>
 </div>
 </div>
 <div id="package-tidyr" class="section level3">

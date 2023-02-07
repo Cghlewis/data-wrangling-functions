@@ -167,3 +167,10 @@ d19 <- tibble::tribble(
   "Y", "N", "Y",
   "n","N", "n",
 )
+
+d20 <- tibble::tribble(
+  ~id, ~sc_1, ~sc_2, ~sc_sum, ~sc_mean,
+  10, 1, 2, 3, 1.5,
+  11, -80, -80, NA, NA,
+  12, 2, 3, 5, 2.5,
+  13, NA, NA, NA, NA)

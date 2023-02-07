@@ -420,6 +420,20 @@ just as well.</p>
 3   3456     2    NA     1    NA           2
 4   4567     4     5     1     6           0
 5   5678     1     3     2     2           0</code></pre>
+<p>And last, we can also write this where, rather than wrapping the
+<code>is.na()</code> function around our <code>dplyr::across()</code>
+function, we call our variables first and then add <code>is.na()</code>
+in an anonymous function.</p>
+<pre class="r"><code>d5 %&gt;%
+  dplyr::mutate(toca_na_sum = rowSums(dplyr::across(toca1:toca4, ~ is.na(.))))</code></pre>
+<pre><code># A tibble: 5 x 6
+  stu_id toca1 toca2 toca3 toca4 toca_na_sum
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;
+1   1234     3     2    NA     3           1
+2   2345     4     3     1     4           0
+3   3456     2    NA     1    NA           2
+4   4567     4     5     1     6           0
+5   5678     1     3     2     2           0</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate%20Row%20Values">Calculate
 Row Values</a></p>
 </div>

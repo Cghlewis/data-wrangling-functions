@@ -11,7 +11,7 @@
 
 
 
-<title>Recode values for multiple variables</title>
+<title>Filter based on row sums or means</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,177 +361,84 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Recode values for multiple variables</h1>
+<h1 class="title toc-ignore">Filter based on row sums or means</h1>
 
 </div>
 
 
-<p><br></p>
 <div id="package-dplyr" class="section level3">
 <h3>Package: dplyr</h3>
 <hr />
-<div id="function-case_when" class="section level4">
-<h4>Function: <code>case_when()</code></h4>
+<div id="function-filter" class="section level4">
+<h4>Function: <code>filter()</code></h4>
 <hr />
-<p><strong>Note:</strong> <code>dplyr::case_when()</code> will evaluate
-in order, so proceed from most specific to most general. The function
-will not write over a previous evaluation even if something meets a new
-criteria.</p>
-<p><br></p>
-<p><strong>1. Recode across multiple character variables (all
-variables)</strong></p>
-<p>Review the data (d19)</p>
-<pre><code># A tibble: 3 x 3
-  Var1  Var2  Var3 
-  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1 y     n     Y    
-2 Y     N     Y    
-3 n     N     n    </code></pre>
-<p>When this data was entered it appears that both lower and upper case
-letters were used.</p>
-<p>We want to recode all “y” to “Y” and all “n” to “N” for
-<code>Var1</code>, <code>Var2</code> and <code>Var3</code>.</p>
+<p><strong>1. Keep rows that have two or less values of “MR” across
+var1:var4.</strong></p>
+<p>Review the data (d23)</p>
+<pre><code># A tibble: 6 x 6
+     id form  var1  var2  var3  var4 
+  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+1    10 a     3     4     3     3    
+2    11 b     3     MR    2     4    
+3    12 b     1     3     1     MR   
+4    13 c     MR    MR    MR    MR   
+5    14 c     MR    MR    &lt;NA&gt;  MR   
+6    15 a     1     2     3     MR   </code></pre>
+<p>Keep rows that have two or less values of “MR” across var1:var4</p>
 <ul>
-<li><p>Note: Unlike <code>dplyr::recode()</code> where we did not have
-to put quotes around the old character values, we now have to put quotes
-around the old and new character values.</p></li>
-<li><p>Note: I use <code>dplyr::across()</code> to select multiple
-variables to apply my function to.</p></li>
-<li><p>Note: We use the <code>tidyselect</code> selection helper
-<code>everything()</code> to refer to all variables. I could also have
-selected variables Var1:Var3.</p></li>
-<li><p>Note: The . is used here to say apply this function to all of the
-variables I selected above.</p></li>
-<li><p>Note: TRUE means, if a value was not evaluated in my arguments
-above, replace with the value I give. In this case, I am saying just
-replace with the existing value.</p></li>
+<li><p>Note: Here I am not using <code>if_any()</code> or
+<code>if_all()</code> like we typically use in a filter statement. I am
+using <code>dplyr::across()</code> because we are selecting variables
+within <code>base::rowSums()</code>.</p></li>
+<li><p>Note: I am using an anonymous function within our
+<code>dplyr::across()</code> statement to check if the values of our
+variables are equal to “MR”.</p></li>
+<li><p>Note: I add the <code>base::rowSums()</code> argument, <em>na.rm
+= TRUE</em> because there are NA values in my data and I still want my
+“MR” values summed for rows where there are NA values.</p></li>
 </ul>
-<pre class="r"><code>d19 %&gt;%
-  dplyr::mutate(dplyr::across(everything(),
-                                 ~case_when(
-                                   . == &quot;y&quot; ~ &quot;Y&quot;,
-                                   . == &quot;n&quot; ~ &quot;N&quot;,
-                                   TRUE ~ .
-                                 )))</code></pre>
+<pre class="r"><code>d23 %&gt;%
+  dplyr::filter(rowSums(dplyr::across(var1:var4, ~ . == &quot;MR&quot;), na.rm = TRUE) &lt; 2)</code></pre>
+<pre><code># A tibble: 4 x 6
+     id form  var1  var2  var3  var4 
+  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+1    10 a     3     4     3     3    
+2    11 b     3     MR    2     4    
+3    12 b     1     3     1     MR   
+4    15 a     1     2     3     MR   </code></pre>
+<p>If the pattern we were trying to count was not always exactly the
+same across variables, we could use something like
+<code>stringr::str_detect()</code> to capture values instead.</p>
+<pre class="r"><code>d23 %&gt;%
+  dplyr::filter(rowSums(dplyr::across(var1:var4, ~ stringr::str_detect(., &quot;MR&quot;)), na.rm = TRUE) &lt; 2)</code></pre>
+<pre><code># A tibble: 4 x 6
+     id form  var1  var2  var3  var4 
+  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+1    10 a     3     4     3     3    
+2    11 b     3     MR    2     4    
+3    12 b     1     3     1     MR   
+4    15 a     1     2     3     MR   </code></pre>
+<p><strong>2. Keep rows where the mean of <code>var1</code> and
+<code>var2</code> is greater than 2.</strong></p>
+<p>Review the data (d24)</p>
+<pre><code># A tibble: 4 x 3
+     id  var1  var2
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1    20     3     4
+2    21     4     5
+3    22     3     1
+4    23     5    NA</code></pre>
+<p>Here we don’t need to add an anonymous function within
+<code>dplyr::across()</code>.</p>
+<pre class="r"><code>d24 %&gt;%
+  dplyr::filter(rowMeans(dplyr::across(var1:var2), na.rm = TRUE) &gt; 2)</code></pre>
 <pre><code># A tibble: 3 x 3
-  Var1  Var2  Var3 
-  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1 Y     N     Y    
-2 Y     N     Y    
-3 N     N     N    </code></pre>
-<p>A more sophisticated way to do this might be to bypass the
-<code>dplyr::case_when()</code> statement all together though and use
-something like <code>stringr::str_to_upper()</code> though.</p>
-<pre class="r"><code>d19 %&gt;%
-  dplyr::mutate(dplyr::across(everything(), ~stringr::str_to_upper(.)))</code></pre>
-<pre><code># A tibble: 3 x 3
-  Var1  Var2  Var3 
-  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1 Y     N     Y    
-2 Y     N     Y    
-3 N     N     N    </code></pre>
-<p><strong>2. Recode across multiple character variables
-(Var1:Var3)</strong></p>
-<p>Review the data (d15)</p>
-<pre><code># A tibble: 3 x 4
-     id Var1  Var2  Var3 
-  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1   123 1.5   2.2   3.0  
-2   234 2.2   UI    6.9  
-3   345 MR    5.4   MR   </code></pre>
-<p>In this example, missing values were entered as character values in a
-numeric column. So now these columns are considered character.</p>
-<p>Recode “MR” to -98 and “UI” to -99 for <code>Var1</code>,
-<code>Var2</code>, <code>Var3</code>.</p>
-<p>Notice that I am putting -98 and -99 in quotes. That is because this
-variable is currently considered a character variable. So we will recode
-first, and then convert the variable to numeric.</p>
-<pre class="r"><code>d15 &lt;- d15 %&gt;%
-  dplyr::mutate(dplyr::across(Var1:Var3,
-                       ~ case_when(
-                       . == &quot;MR&quot; ~ &quot;-98&quot;,
-                       . == &quot;UI&quot; ~ &quot;-99&quot;,
-                       TRUE ~ .)))
-
-d15</code></pre>
-<pre><code># A tibble: 3 x 4
-     id Var1  Var2  Var3 
-  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-1   123 1.5   2.2   3.0  
-2   234 2.2   -99   6.9  
-3   345 -98   5.4   -98  </code></pre>
-<p>Remember I still need to do one additional step to convert this
-variable to numeric (using the <code>base::as.numeric()</code>
-function).</p>
-<p>However, before I do that, I want to be certain I have no other
-character values left in my variables. If I do still have other
-character values and I try to use <code>base::as.numeric()</code> those
-values will be converted to NA.</p>
-<p>I can check that there are no more instances of MR or UI using
-<code>dplyr::filter()</code> in conjunction with the
-<code>dplyr::if_any()</code> predicate function to select columns where
-the condition applies to any of the columns. This function is available
-in version 1.0.5 of <code>dplyr</code>.</p>
-<ul>
-<li>.x (or just .) is used to say, for all of the variables I have
-selected</li>
-</ul>
-<pre class="r"><code>d15 %&gt;% 
-  dplyr::filter(dplyr::if_any(everything(), ~ .x %in% c(&#39;MR&#39;, &#39;UI&#39;)))</code></pre>
-<pre><code># A tibble: 0 x 4
-# ... with 4 variables: id &lt;dbl&gt;, Var1 &lt;chr&gt;, Var2 &lt;chr&gt;, Var3 &lt;chr&gt;</code></pre>
-<p>If I wanted to be more general, I could also just check for
-<em>any</em> alphabetical character left in my variables using
-<code>stringr::str_detect()</code> and including the regex pattern
-<em>[a-zA-Z]</em></p>
-<pre class="r"><code>d15 %&gt;% 
-  dplyr::filter(dplyr::if_any(everything(), ~ stringr::str_detect(., pattern = &quot;[a-zA-Z]&quot;)))</code></pre>
-<pre><code># A tibble: 0 x 4
-# ... with 4 variables: id &lt;dbl&gt;, Var1 &lt;chr&gt;, Var2 &lt;chr&gt;, Var3 &lt;chr&gt;</code></pre>
-<p>Now that I know my variable has all character values removed, I can
-convert them to numeric.</p>
-<pre class="r"><code>d15 %&gt;%
-  dplyr::mutate(dplyr::across(Var1:Var3, as.numeric))</code></pre>
-<pre><code># A tibble: 3 x 4
-     id  Var1  Var2  Var3
-  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1   123   1.5   2.2   3  
-2   234   2.2 -99     6.9
-3   345 -98     5.4 -98  </code></pre>
-<p><strong>3. Recode across multiple numeric variables (sum and mean
-variables)</strong></p>
-<p>Review the data (d20)</p>
-<pre><code># A tibble: 4 x 5
-     id  sc_1  sc_2 sc_sum sc_mean
-  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
-1    10     1     2      3     1.5
-2    11   -80   -80     NA    NA  
-3    12     2     3      5     2.5
-4    13    NA    NA     NA    NA  </code></pre>
-<p>In this situation, -80 means the item was not provided to a student.
-If a student has a -80 for all items in a scale, we want to assign a -80
-for the sum and mean of that scale to denote that this scale was not
-provided (to differentiate between a value of NA meaning the data are
-actually missing).</p>
-<p>The scale “sc” is made up of 2 items.</p>
-<ul>
-<li>Note: I am using the <code>dplyr::if_all()</code> predicate function
-to select columns where the condition applies to all columns. This
-function is available in version 1.0.5 of <code>dplyr</code>.</li>
-</ul>
-<pre class="r"><code>d20 %&gt;%
-  dplyr::mutate(dplyr::across(sc_sum:sc_mean,
-                 ~dplyr::case_when(
-                    dplyr::if_all(sc_1:sc_2, ~ . == -80) ~ -80,
-                    TRUE ~ .)))</code></pre>
-<pre><code># A tibble: 4 x 5
-     id  sc_1  sc_2 sc_sum sc_mean
-  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
-1    10     1     2      3     1.5
-2    11   -80   -80    -80   -80  
-3    12     2     3      5     2.5
-4    13    NA    NA     NA    NA  </code></pre>
-<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode">Recode</a></p>
+     id  var1  var2
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1    20     3     4
+2    21     4     5
+3    23     5    NA</code></pre>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter">Filter</a></p>
 </div>
 </div>
 

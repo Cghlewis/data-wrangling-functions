@@ -402,8 +402,9 @@ my data.</p>
 <div id="function-distinct" class="section level4">
 <h4>Function: <code>distinct()</code></h4>
 <hr />
-<p><strong>1. Remove the duplicate student IDs in our data</strong></p>
-<p>In the case of the data above, I only expect to have one row per
+<p><strong>1. Remove rows associated with duplicate student IDs in our
+data</strong></p>
+<p>In the case of the data above (d1), I only expect to have one row per
 student id (<code>stu_id</code>). It appears one student completed the
 survey twice.</p>
 <p>The duplicate entries are not identical. I need to make a plan for
@@ -435,8 +436,8 @@ data before using the <code>dplyr::distinct()</code> function. The
 reason for this is that if for some reason your raw data is ever
 rearranged, when you run this function again, you may be dropping a
 different duplicate than you intended to.</p>
-<p><strong>2. Remove incomplete data for duplicate student IDs in our
-data</strong></p>
+<p><strong>2. Remove rows associated with duplicate student IDs in our
+data (according to specific decision rules)</strong></p>
 <p>Review the data (d2)</p>
 <pre><code># A tibble: 8 x 5
   stu_id date       item1 item2 item3
@@ -500,6 +501,38 @@ recently completed surveys at the top.</p>
 3    105 2022-11-18     5     4     1          0
 4    106 2022-11-16     2     1     1          0
 5    100 2022-11-15     3     4     2          0</code></pre>
+<p><strong>3. Remove duplicate rows according to two variables
+(<code>first_name</code> and <code>last_name</code>)</strong></p>
+<p>Review the data (d3)</p>
+<pre><code># A tibble: 4 x 3
+  first_name last_name    q1
+  &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt;
+1 micah      lewis         4
+2 amy        henry         2
+3 oscar      bobsen        1
+4 micah      lewis         3</code></pre>
+<p>Now our data are uniquely identified by more than one variable.</p>
+<pre class="r"><code>d3 %&gt;%
+  dplyr::distinct(first_name, last_name, .keep_all = TRUE)</code></pre>
+<pre><code># A tibble: 3 x 3
+  first_name last_name    q1
+  &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt;
+1 micah      lewis         4
+2 amy        henry         2
+3 oscar      bobsen        1</code></pre>
+<p>To select columns using tidy selection, you can use
+<code>dplyr::pick()</code>, available in version 1.1.0. Complementary to
+<code>dplyr::across()</code>, however with <code>pick</code> you
+typically apply a function to the full data frame, while with
+<code>select</code> you typically apply a function to each column.</p>
+<pre class="r"><code>d3 %&gt;%
+  dplyr::distinct(pick(contains(&quot;name&quot;)), .keep_all = TRUE)</code></pre>
+<pre><code># A tibble: 3 x 3
+  first_name last_name    q1
+  &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt;
+1 micah      lewis         4
+2 amy        henry         2
+3 oscar      bobsen        1</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Duplicates">Duplicates</a></p>
 </div>
 </div>

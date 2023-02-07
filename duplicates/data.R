@@ -26,3 +26,10 @@ d2 <- tibble::tribble(~stu_id, ~date, ~item1, ~item2, ~item3,
 
 d2 <- d2 %>%
   mutate(date = as.Date(date))
+
+d3 <- tibble::tribble(
+  ~first_name, ~last_name, ~q1,
+  "micah", "lewis", 4,
+  "amy", "henry", 2,
+  "oscar", "bobsen", 1,
+  "micah", "lewis", 3)

@@ -51,9 +51,9 @@ d1 %>%
 
 ---
 
-**1\. Remove the duplicate student IDs in our data**
+**1\. Remove rows associated with duplicate student IDs in our data**
 
-In the case of the data above, I only expect to have one row per student id (`stu_id`). It appears one student completed the survey twice. 
+In the case of the data above (d1), I only expect to have one row per student id (`stu_id`). It appears one student completed the survey twice. 
 
 The duplicate entries are not identical. I need to make a plan for how to remove duplicate data. For example purposes, let's say I have made the decision to always keep the most recently completed survey.
 
@@ -71,7 +71,7 @@ d1 %>%
 
 **It is really important to never randomly drop duplicate data.** This means, that you will ALWAYS want to arrange your data before using the `dplyr::distinct()` function. The reason for this is that if for some reason your raw data is ever rearranged, when you run this function again, you may be dropping a different duplicate than you intended to.
 
-**2\. Remove incomplete data for duplicate student IDs in our data**
+**2\. Remove rows associated with duplicate student IDs in our data (according to specific decision rules)**
 
 Review the data (d2)
 
@@ -114,6 +114,36 @@ d2 %>%
   dplyr::mutate(incomplete = rowSums(is.na(dplyr::across(item1:item3)))) %>%
   dplyr::arrange(incomplete, desc(date)) %>%
   dplyr::distinct(stu_id, .keep_all = TRUE)
+
+```
+
+**3\. Remove duplicate rows according to two variables (`first_name` and `last_name`)**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d3
+
+```
+
+Now our data are uniquely identified by more than one variable.
+
+
+```{r}
+
+d3 %>%
+  dplyr::distinct(first_name, last_name, .keep_all = TRUE)
+
+```
+
+To select columns using tidy selection, you can use `dplyr::pick()`, available in version 1.1.0. Complementary to `dplyr::across()`, however with `pick` you typically apply a function to the full data frame, while with `select` you typically apply a function to each column.
+
+```{r}
+
+d3 %>%
+  dplyr::distinct(pick(contains("name")), .keep_all = TRUE)
 
 ```
 

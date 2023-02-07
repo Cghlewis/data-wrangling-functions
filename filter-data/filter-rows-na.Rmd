@@ -237,6 +237,30 @@ d9 %>%
 
 ```
 
+**5\. Remove any row where the sum of NA values is greater than 1 across selected variables (var1:var3).**
+
+Review the data (d21)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d21
+
+```
+
+Filter out any row that has more than 1 NA across var1:var3
+
+* Note: We use the `base::rowSums()` to calculate the number of NA values across var1:var3.
+
+* Note: We use `dplyr::across()` to select our variables within `base::rowSums()`
+
+```{r}
+
+d21 %>%
+  dplyr::filter(rowSums(dplyr::across(var1:var3, ~ is.na(.))) <= 1)
+
+```
+
 
 ### Package: tidyr
 

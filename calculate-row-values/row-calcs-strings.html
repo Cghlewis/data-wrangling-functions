@@ -11,7 +11,7 @@
 
 
 
-<title>Filter rows with NA values</title>
+<title>Calculate row occurrences of strings</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,358 +361,47 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Filter rows with NA values</h1>
+<h1 class="title toc-ignore">Calculate row occurrences of strings</h1>
 
 </div>
 
 
-<div id="package-dplyr" class="section level3">
-<h3>Package: dplyr</h3>
-<hr />
-<div id="function-filter" class="section level4">
-<h4>Function: <code>filter()</code></h4>
-<p>Examples of removing rows through filtering while keeping NA
-values</p>
-<hr />
-<ul>
-<li>Note: Using <code>dplyr::across()</code> in
-<code>dplyr::filter()</code> is deprecated. <code>dplyr::if_any()</code>
-and <code>dplyr::if_all()</code> are predicate functions used to select
-columns within <code>dplyr::filter()</code>. This function is available
-in version 1.0.5 of <code>dplyr</code>. <code>dplyr::if_any()</code>
-returns a true when the statement is true for <strong>any</strong> of
-the variables. <code>dplyr::if_all()</code> returns a true when the
-statement is true for <strong>all</strong> of the variables. See <a href="https://cghlewis.github.io/data-wrangling-functions/filter-data/filter-rows-if.html">Filter
-using if_all or if_any</a> for further explanation</li>
-</ul>
 <p><br></p>
-<p><strong>1. Remove any row where <code>extra2</code> is equal to -999,
-while also keeping rows that have NA for
-<code>extra2</code>.</strong></p>
-<p>Review the data (d5).</p>
-<pre><code># A tibble: 5 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     10        205 harris  
-2 b        -999      0     11        220 steve   
-3 c           3   -999     12        250 harris  
-4 d           4      0     13        217 lewis   
-5 e          NA     NA     NA         NA ogunti  </code></pre>
-<p>Filter out any row that has -999 for extra2.</p>
-<ul>
-<li>Note: You’ll notice that I make an explicit call to keep rows with
-NA values for <code>extra2</code> in addition to removing rows with the
-value of -999 for <code>extra2</code>, using the <em>|</em> operator to
-denote and/or. A drawback of the filter function is that if you filter
-on a certain variable (such as <code>extra2</code>) it will not only
-filter out the values you request but it will also drop any row that has
-NA for that variable. And we may not necessarily want that. In this
-case, I want to keep the last row of data that has NA for
-<code>extra2</code>.</li>
-</ul>
-<pre class="r"><code>d5 %&gt;% 
-  dplyr::filter(extra2 != -999 | is.na(extra2))</code></pre>
-<pre><code># A tibble: 4 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     10        205 harris  
-2 c           3   -999     12        250 harris  
-3 d           4      0     13        217 lewis   
-4 e          NA     NA     NA         NA ogunti  </code></pre>
-<p>Another way to get around the issue of dropping NAs is to use the
-within operator <em>%in%</em> rather than <em>==</em> to make sure we
-keep the NA values for <code>extra2</code>. The <em>==</em> (or
-<em>!=</em>) is a logical operator that retains/drops rows that produce
-a value of TRUE for all conditions (and NA cannot be evaluated and is
-therefore dropped). However <em>%in%</em> matches values and therefore
-doesn’t drop NA.</p>
-<pre class="r"><code>d5 %&gt;% 
-  dplyr::filter(!(extra2 %in% -999))</code></pre>
-<pre><code># A tibble: 4 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     10        205 harris  
-2 c           3   -999     12        250 harris  
-3 d           4      0     13        217 lewis   
-4 e          NA     NA     NA         NA ogunti  </code></pre>
-<p><strong>2. Remove any row that has -999 for <code>extra2</code>
-<em>AND/OR</em> has -999 for <code>extra3</code>, while also keeping
-rows that have NA values for those variables.</strong></p>
-<p>Review the data (d5)</p>
-<pre><code># A tibble: 5 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     10        205 harris  
-2 b        -999      0     11        220 steve   
-3 c           3   -999     12        250 harris  
-4 d           4      0     13        217 lewis   
-5 e          NA     NA     NA         NA ogunti  </code></pre>
-<p>Filter out any row that has -999 for <code>extra2</code> and/or -999
-for <code>extra3</code>.</p>
-<ul>
-<li><p>Note: You’ll notice that I again make an explicit call to
-<strong>keep</strong> rows with NA values for <code>extra2</code> and
-<code>extra3</code>, using the <code>|</code> operator to denote
-and/or.</p></li>
-<li><p>Note: Notice that for the first part of the equation I put the
-operator <em>!</em> outside of the parentheses. While there are other
-ways to write this equation, I find this the least confusing way to
-remove rows based on criteria from multiple variables.</p></li>
-</ul>
-<pre class="r"><code>d5 %&gt;% 
-  dplyr::filter(!(extra2 == -999 | extra3 == -999) | (is.na(extra2) | is.na(extra3)))</code></pre>
-<pre><code># A tibble: 3 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     10        205 harris  
-2 d           4      0     13        217 lewis   
-3 e          NA     NA     NA         NA ogunti  </code></pre>
-<p>Again, another way to get around the issue of dropping NAs is to use
-the within operator <em>%in%</em> rather than <em>==</em>.</p>
-<pre class="r"><code>d5 %&gt;% 
-  dplyr::filter(!(extra2 %in% -999 | extra3 %in% -999))</code></pre>
-<pre><code># A tibble: 3 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     10        205 harris  
-2 d           4      0     13        217 lewis   
-3 e          NA     NA     NA         NA ogunti  </code></pre>
-<p>And yet one other way to write this is using
-<code>dplyr::if_all()</code>.</p>
-<pre class="r"><code>d5 %&gt;% 
-  dplyr::filter(dplyr::if_all(extra2:extra3, ~ !. %in% -999))</code></pre>
-<pre><code># A tibble: 3 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     10        205 harris  
-2 d           4      0     13        217 lewis   
-3 e          NA     NA     NA         NA ogunti  </code></pre>
-<p><strong>3. Remove any row that has -999 for <em>AT LEAST ONE</em>
-numeric variable, while also keeping rows that have NA values for those
-variables.</strong></p>
-<p>Review the data (d9)</p>
-<pre><code># A tibble: 6 x 5
-  extra1 extra2 extra3    id test_score
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
-1 a           1      2    10        205
-2 b        -999      0    11        220
-3 c           3   -999    12        250
-4 d          NA      0    13        217
-5 &lt;NA&gt;       NA     NA    NA         NA
-6 e          NA     NA    NA         NA</code></pre>
-<p>Filter out any row that has -999 for <strong>AT LEAST ONE</strong>
-numeric variable</p>
-<ul>
-<li>Note: You’ll notice here that I used <em>%in%</em> rather than
-<em>==</em> to ensure I keep the NA values.</li>
-</ul>
-<p>Note: You need to wrap <code>is.numeric</code>, a predicate function
-(returns a true/false), in the <code>tidyselect</code> selection helper
-<code>where()</code>.</p>
-<pre class="r"><code>d9 %&gt;% 
-  dplyr::filter(!dplyr::if_any(where(is.numeric), ~ . %in% -999))</code></pre>
-<pre><code># A tibble: 4 x 5
-  extra1 extra2 extra3    id test_score
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
-1 a           1      2    10        205
-2 d          NA      0    13        217
-3 &lt;NA&gt;       NA     NA    NA         NA
-4 e          NA     NA    NA         NA</code></pre>
-<p>I could also write this using <code>dplyr::if_all()</code>, saying
-“If all values for numeric variables are NOT -999, then return the
-rows.</p>
-<pre class="r"><code>d9 %&gt;% 
-  dplyr::filter(dplyr::if_all(where(is.numeric), ~ !. %in% -999))</code></pre>
-<pre><code># A tibble: 4 x 5
-  extra1 extra2 extra3    id test_score
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
-1 a           1      2    10        205
-2 d          NA      0    13        217
-3 &lt;NA&gt;       NA     NA    NA         NA
-4 e          NA     NA    NA         NA</code></pre>
+<div id="package-base" class="section level3">
+<h3>Package: base</h3>
 <hr />
-</div>
-<div id="function-filter-1" class="section level4">
-<h4>Function: <code>filter()</code></h4>
-<p>Examples of filtering on NA values</p>
+<div id="function-rowsums" class="section level4">
+<h4>Function: <code>rowSums()</code></h4>
 <hr />
-<p><strong>1. Remove any row that has NA for
-<code>extra2</code>.</strong></p>
-<p>Review the data (d7).</p>
-<pre><code># A tibble: 4 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     NA        205 harris  
-2 b          NA      0     11        220 steve   
-3 c           3     NA     12        250 harris  
-4 d           4      0     13        217 lewis   </code></pre>
-<p>Remove any row that has NA for <code>extra2</code>.</p>
-<ul>
-<li>Note: Use the logical operator <em>!</em> to denote NOT.</li>
-</ul>
-<pre class="r"><code>d7 %&gt;% 
-  dplyr::filter(!is.na(extra2))</code></pre>
-<pre><code># A tibble: 3 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     NA        205 harris  
-2 c           3     NA     12        250 harris  
-3 d           4      0     13        217 lewis   </code></pre>
-<p><strong>2. Remove any row that has NA for <code>extra2</code> AND/OR
-<code>extra3</code>.</strong></p>
-<p>Review the data (d7).</p>
-<pre><code># A tibble: 4 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     NA        205 harris  
-2 b          NA      0     11        220 steve   
-3 c           3     NA     12        250 harris  
-4 d           4      0     13        217 lewis   </code></pre>
-<ul>
-<li>Note: Notice that I put the operator ! outside of the parentheses.
-While there are other ways to write this equation, I find this the least
-confusing way to remove rows based on removal criteria from multiple
-variables.</li>
-</ul>
-<pre class="r"><code>d7 %&gt;% 
-  dplyr::filter(!(is.na(extra2) | is.na(extra3)))</code></pre>
-<pre><code># A tibble: 2 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     NA        205 harris  
-2 d           4      0     13        217 lewis   </code></pre>
-<p>And yet one other way to write this is using
-<code>dplyr::if_any()</code>.</p>
+<p><strong>1. Calculate all occurrences of “prefer not to answer” across
+a selection of variables (q1:q4)</strong></p>
+<p>Review the data (d7)</p>
+<pre><code># A tibble: 3 x 5
+     id q1                   q2                   q3    q4                  
+  &lt;dbl&gt; &lt;chr&gt;                &lt;chr&gt;                &lt;chr&gt; &lt;chr&gt;               
+1     1 no                   yes                  no    &lt;NA&gt;                
+2     2 prefer not to answer no                   yes   no                  
+3     3 no                   prefer not to answer yes   prefer not to answer</code></pre>
+<p>Here, using <code>dplyr::mutate()</code> I can create a new variable
+<code>prefer_sum</code>.</p>
+<p>Then I can use <code>base::rowSums()</code> to calculate the
+occurrences of the string “prefer”, detected using
+<code>stringr:str_detect()</code>, across my variables, selected using
+<code>dplyr::across()</code>.</p>
+<p>I add the <code>rowSums()</code> argument <em>na.rm</em> = TRUE to
+calculate sums despite NA values in my variables.</p>
 <pre class="r"><code>d7 %&gt;%
-  dplyr::filter(!dplyr::if_any(extra2:extra3, ~ is.na(.)))</code></pre>
-<pre><code># A tibble: 2 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     NA        205 harris  
-2 d           4      0     13        217 lewis   </code></pre>
-<p><strong>3. Keep rows where <code>extra2</code> is NA but
-<code>extra3</code> is not NA</strong></p>
-<p>Review the data (d10).</p>
-<pre><code># A tibble: 6 x 4
-  extra2 extra3    id test_score
-   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
-1      1      2    10        205
-2   -999      0    11        220
-3      3   -999    12        250
-4     NA      0    13        217
-5     NA     NA    NA         NA
-6   -999   -999  -999       -999</code></pre>
-<p>Keep rows where <code>extra2</code> is NA but <code>extra3</code> is
-not NA</p>
-<pre class="r"><code>d10 %&gt;%
-  dplyr::filter(is.na(extra2) &amp; !is.na(extra3))</code></pre>
-<pre><code># A tibble: 1 x 4
-  extra2 extra3    id test_score
-   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
-1     NA      0    13        217</code></pre>
-<p><strong>4. Remove any row that has NA for <em>ALL</em> numeric
-variables.</strong></p>
-<p>Review the data (d9)</p>
-<pre><code># A tibble: 6 x 5
-  extra1 extra2 extra3    id test_score
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
-1 a           1      2    10        205
-2 b        -999      0    11        220
-3 c           3   -999    12        250
-4 d          NA      0    13        217
-5 &lt;NA&gt;       NA     NA    NA         NA
-6 e          NA     NA    NA         NA</code></pre>
-<p>Filter out any row that has NA for <strong>ALL</strong> numeric
-variables</p>
-<ul>
-<li>Note: We use the <code>tidyselect</code> selection helper
-<code>everything()</code> to refer to all variables.</li>
-</ul>
-<pre class="r"><code>d9 %&gt;% 
-  dplyr::filter(!dplyr::if_all(tidyselect::everything(), ~ is.na(.)))</code></pre>
-<pre><code># A tibble: 5 x 5
-  extra1 extra2 extra3    id test_score
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
-1 a           1      2    10        205
-2 b        -999      0    11        220
-3 c           3   -999    12        250
-4 d          NA      0    13        217
-5 e          NA     NA    NA         NA</code></pre>
-<p><strong>5. Remove any row where the sum of NA values is greater than
-1 across selected variables (var1:var3).</strong></p>
-<p>Review the data (d21)</p>
-<pre><code># A tibble: 7 x 5
-  sch   stu_id  var1  var2  var3
-  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         10     1    20   205
-2 a         15    NA    NA    NA
-3 a         11     2    15   220
-4 a         21     3    12    NA
-5 b         22     9    NA   217
-6 b         31    10    NA    NA
-7 b         32    10    14   251</code></pre>
-<p>Filter out any row that has more than 1 NA across var1:var3</p>
-<ul>
-<li><p>Note: We use the <code>base::rowSums()</code> to calculate the
-number of NA values across var1:var3.</p></li>
-<li><p>Note: We use <code>dplyr::across()</code> to select our variables
-within <code>base::rowSums()</code></p></li>
-</ul>
-<pre class="r"><code>d21 %&gt;%
-  dplyr::filter(rowSums(dplyr::across(var1:var3, ~ is.na(.))) &lt;= 1)</code></pre>
-<pre><code># A tibble: 5 x 5
-  sch   stu_id  var1  var2  var3
-  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         10     1    20   205
-2 a         11     2    15   220
-3 a         21     3    12    NA
-4 b         22     9    NA   217
-5 b         32    10    14   251</code></pre>
-</div>
-</div>
-<div id="package-tidyr" class="section level3">
-<h3>Package: tidyr</h3>
-<hr />
-<div id="function-tidyrdrop_na" class="section level4">
-<h4>Function: <code>tidyr::drop_na()</code></h4>
-<hr />
-<p><strong>1. Remove any rows where <code>stu_id</code> is
-NA</strong></p>
-<p>Review the data (d7)</p>
-<pre><code># A tibble: 4 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     NA        205 harris  
-2 b          NA      0     11        220 steve   
-3 c           3     NA     12        250 harris  
-4 d           4      0     13        217 lewis   </code></pre>
-<p>Filter out any row that has NA for <code>stu_id</code>.</p>
-<pre class="r"><code>d7 %&gt;% 
-  tidyr::drop_na(stu_id)</code></pre>
+  dplyr::mutate(prefer_sum = 
+           rowSums(dplyr::across(q1:q4, ~ stringr::str_detect(., &quot;prefer&quot;)), na.rm = TRUE))</code></pre>
 <pre><code># A tibble: 3 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 b          NA      0     11        220 steve   
-2 c           3     NA     12        250 harris  
-3 d           4      0     13        217 lewis   </code></pre>
-<p><strong>2. Remove any row that has an NA value for any
-variable</strong></p>
-<p>Review the data (d7)</p>
-<pre><code># A tibble: 4 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 a           1      2     NA        205 harris  
-2 b          NA      0     11        220 steve   
-3 c           3     NA     12        250 harris  
-4 d           4      0     13        217 lewis   </code></pre>
-<p>Filter out any row that has NA for any variable.</p>
-<pre class="r"><code>d7 %&gt;% 
-  tidyr::drop_na()</code></pre>
-<pre><code># A tibble: 1 x 6
-  extra1 extra2 extra3 stu_id test_score tch_name
-  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-1 d           4      0     13        217 lewis   </code></pre>
-<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Filter">Filter</a></p>
+     id q1                   q2                   q3    q4               prefe~1
+  &lt;dbl&gt; &lt;chr&gt;                &lt;chr&gt;                &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt;
+1     1 no                   yes                  no    &lt;NA&gt;                   0
+2     2 prefer not to answer no                   yes   no                     1
+3     3 no                   prefer not to answer yes   prefer not to a~       2
+# ... with abbreviated variable name 1: prefer_sum</code></pre>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate%20Row%20Values">Calculate
+Row Values</a></p>
 </div>
 </div>
 

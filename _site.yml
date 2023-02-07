@@ -130,6 +130,8 @@ navbar:
     href: complete\complete-wide-external.html
   - text: "Calculate row values"
     href: calculate-row-values\row-calcs.html
+  - text: "Calculate occurrences of strings"
+    href: calculate-row-values\row-calcs-strings.html
   - text: "Calculate NA row values"
     href: calculate-row-values\row-calcs-na.html 
   - text: "Compare data frames"

@@ -222,3 +222,14 @@ d20 <- tibble::tribble(~id, ~form, ~var1, ~var2, ~var3, ~var4,
                        13, "", "MR", "MR", "MR", "MR",
                        14, "", "MR", "MR", "MR", "MR",
                        15, "", "1", "2", "3", "MR")
+
+d21 <- tibble::tribble(
+  ~sch, ~stu_id, ~var1, ~var2, ~var3,
+  "a", 10, 1, 20, 205,
+  "a", 15, NA, NA, NA,
+  "a", 11, 2, 15, 220,
+  "a", 21, 3, 12, NA,
+  "b", 22, 9, NA, 217,
+  "b", 31, 10, NA, NA,
+  "b", 32, 10, 14, 251
+)

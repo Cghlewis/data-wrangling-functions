@@ -1,0 +1,51 @@
+---
+title: "Calculate row occurrences of strings"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: base
+
+---
+
+#### Function: `rowSums()`
+
+---
+
+**1\. Calculate all occurrences of "prefer not to answer" across a selection of variables (q1:q4)**
+
+Review the data (d7)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d7
+
+```
+
+Here, using `dplyr::mutate()` I can create a new variable `prefer_sum`.
+
+Then I can use `base::rowSums()` to calculate the occurrences of the string "prefer", detected using `stringr:str_detect()`, across my variables, selected using `dplyr::across()`.
+
+I add the `rowSums()` argument *na.rm* = TRUE to calculate sums despite NA values in my variables.
+
+```{r}
+
+d7 %>%
+  dplyr::mutate(prefer_sum = 
+           rowSums(dplyr::across(q1:q4, ~ stringr::str_detect(., "prefer")), na.rm = TRUE))
+
+```
+
+
+Return to [Calculate Row Values](https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate Row Values)

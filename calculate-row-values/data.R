@@ -50,5 +50,10 @@ d6 <- tibble::tribble(
   3456, 2, 1, -99, 5, 5,
   4567, 4, 5, 1, 6, 1,
   5678, -99, 3, 2, 2, 6)
-  
+
+d7 <- tibble::tribble(
+  ~id, ~q1, ~q2, ~q3, ~q4,
+  1, "no", "yes", "no", NA,
+  2, "prefer not to answer", "no", "yes", "no",
+  3, "no", "prefer not to answer", "yes", "prefer not to answer")
 

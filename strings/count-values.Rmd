@@ -53,7 +53,7 @@ d11 %>%
 
 ---
 
-**1\. Count the length of `item1`**
+**1\. Count the number of letters in `item1`**
 
 Review the data (d12)
 

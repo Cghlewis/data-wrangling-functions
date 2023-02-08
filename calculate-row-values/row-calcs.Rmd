@@ -106,7 +106,6 @@ Calculate the mean toca score
 
 * Note: We use the `tidyselect` selection helper `starts_with()` to refer to all variables that start with the word "toca".
 
-* Note: Other `tidyselect` selection helpers include `contains()`, `ends_with()`, `matches`, `num_range`, `where` and more.
 
 ```{r}
 
@@ -117,7 +116,7 @@ d5 %>%
 
 ```
 
-If you wanted to exclude some of the "toca" items (say just toca2), you could exclude them this way, by wrapping your selected and excluded variables in `c()`. 
+If you wanted to exclude some of the "toca" items (say just `toca2`), you could exclude them this way, by wrapping your selected and excluded variables in `c()`. 
 
 ```{r}
 
@@ -160,7 +159,7 @@ d6 %>%
 
 We see that **-99** is labelled as an NA value for the toca variables. However, R does not recognize this as an NA value when calculating row scores. 
 
-So first we will need to recode these to NA before creating our mean score.
+(1) So first we will need to recode these to NA before creating our mean score.
 
 * Note: We use `dplyr::mutate()` to create new temporary versions of our toca variables.
 
@@ -168,7 +167,7 @@ So first we will need to recode these to NA before creating our mean score.
 
 * Note: We use the `dplyr::across()` *.names* argument to rename these variable to have the suffix "_temp" because we do not want to alter our original toca variables.
 
-Second we calculate our mean score within `dplyr::mutate()` statement.
+(2) Second we calculate our mean score within `dplyr::mutate()` statement.
 
 * Note: We add `dplyr::across()` to select multiple variables and use `tidyselect::contains()` to select all variables with the word "temp".
 
@@ -297,8 +296,6 @@ Calculate the mean toca score
 
 * Note: We use the `tidyselect` selection helper `contains()` to refer to all variables.
 
-* Note: Other `tidyselect` selection helpers include `startswith()`, `ends_with()`, `matches`, `num_range`, `where` and more.
-
 ```{r}
 
 d4 %>%
@@ -307,7 +304,7 @@ d4 %>%
 
 ```
 
-Again, if you wanted to exclude some of the "toca" items (say toca2 and toca4 this time), you could exclude them this way, by wrapping your selected and excluded variables in `c()`. 
+Again, if you wanted to exclude some of the "toca" items (say `toca2` and `toca4` this time), you could exclude them this way, by wrapping your selected and excluded variables in `c()`. 
 
 ```{r}
 

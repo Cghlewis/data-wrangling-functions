@@ -394,15 +394,8 @@ use the <code>dplyr::across()</code> function which allows us to use the
 <li><p>Note: I am using the <code>dplyr::mutate()</code> function to
 modify our existing variables.</p></li>
 <li><p>Note: I am using the <code>base::round()</code> function to round
-our variables with the <em>digits</em> argument. <strong>It is very
-important to note how this function does rounding, which is, it rounds
-to the even number when rounding at 5</strong>. This is not your normal
-way of thinking of rounding. When you have a value of 23.5, it will
-round up to 24. When you have a value of 22.5, it will round down to 22.
-However, when you round with 1 or more digits, since decimal places are
-not represented exactly, you may get different results depending on your
-OS: 1.75 may round to 1.7 or 1.8. See documentation on
-<code>round</code> for more information.</p></li>
+our variables with the <em>digits</em> argument. To learn more about how
+base R does rounding, see <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Rounding">Rounding</a>.</p></li>
 </ul>
 <pre class="r"><code>d5 %&gt;%
   dplyr::mutate(dplyr::across(scale1_mean:scale3_mean,
@@ -419,11 +412,6 @@ variables by using a character vector</p>
   dplyr::mutate(dplyr::across(c(scale1_mean, scale2_mean, scale3_mean),
                 round, digits = 2))</code></pre>
 <p>Or using <code>tidyselect</code> selection helpers.</p>
-<ul>
-<li>Note: Other <code>tidyselect</code> selection helpers include
-<code>starts_with()</code>, <code>ends_with()</code>,
-<code>where()</code>, <code>matches()</code>, and more.</li>
-</ul>
 <pre class="r"><code>d5 %&gt;%
   dplyr::mutate(dplyr::across(contains(&quot;mean&quot;),
                 round, digits = 2))</code></pre>

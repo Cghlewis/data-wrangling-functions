@@ -44,7 +44,6 @@ d1 %>%
 
 You can also drop columns based on shared column attributes using `tidyselect` selection helpers such as `starts_with()`.
 
-* Note: Other `tidyselect` selection helpers include `contains()`, `ends_with()`, `where()`, `matches()`, and more.
 
 ```{r}
 
@@ -75,8 +74,6 @@ d2 %>%
 ```
 
 You can also keep columns based on shared column attributes using `tidyselect` selection helpers such as `contains()`.
-
-* Note: Other `tidyselect` selection helpers include `starts_with()`, `ends_with()`, `where()`, `matches()`, and more.
 
 ```{r}
 

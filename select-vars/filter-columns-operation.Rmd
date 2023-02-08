@@ -44,7 +44,7 @@ Since we want to apply a transformation to multiple variables, we can use the `d
 
 * Note: I am using the `dplyr::mutate()` function to modify our existing variables.
 
-* Note: I am using the `base::round()` function to round our variables with the *digits* argument. **It is very important to note how this function does rounding, which is, it rounds to the even number when rounding at 5**. This is not your normal way of thinking of rounding. When you have a value of 23.5, it will round up to 24. When you have a value of 22.5, it will round down to 22. However, when you round with 1 or more digits, since decimal places are not represented exactly, you may get different results depending on your OS: 1.75 may round to 1.7 or 1.8. See documentation on `round` for more information.
+* Note: I am using the `base::round()` function to round our variables with the *digits* argument. To learn more about how base R does rounding, see [Rounding](https://github.com/Cghlewis/data-wrangling-functions/wiki/Rounding).
 
 ```{r, eval = FALSE}
 
@@ -75,7 +75,6 @@ d5 %>%
 
 Or using `tidyselect` selection helpers.
 
-* Note: Other `tidyselect` selection helpers include `starts_with()`, `ends_with()`, `where()`, `matches()`, and more.
 
 ```{r, eval = FALSE}
 

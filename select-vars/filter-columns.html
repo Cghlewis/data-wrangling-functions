@@ -401,11 +401,6 @@ pre code {
 <p>You can also drop columns based on shared column attributes using
 <code>tidyselect</code> selection helpers such as
 <code>starts_with()</code>.</p>
-<ul>
-<li>Note: Other <code>tidyselect</code> selection helpers include
-<code>contains()</code>, <code>ends_with()</code>, <code>where()</code>,
-<code>matches()</code>, and more.</li>
-</ul>
 <pre class="r"><code>d1 %&gt;% 
   dplyr::select(-(tidyselect::starts_with(&quot;extra&quot;)))</code></pre>
 <pre><code># A tibble: 5 x 2
@@ -442,11 +437,6 @@ pre code {
 <p>You can also keep columns based on shared column attributes using
 <code>tidyselect</code> selection helpers such as
 <code>contains()</code>.</p>
-<ul>
-<li>Note: Other <code>tidyselect</code> selection helpers include
-<code>starts_with()</code>, <code>ends_with()</code>,
-<code>where()</code>, <code>matches()</code>, and more.</li>
-</ul>
 <pre class="r"><code>d2 %&gt;% 
   dplyr::select(id, tidyselect::contains(&quot;test&quot;))</code></pre>
 <pre><code># A tibble: 5 x 3

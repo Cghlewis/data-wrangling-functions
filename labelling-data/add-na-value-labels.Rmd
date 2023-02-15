@@ -44,6 +44,29 @@ labelled::na_values(d1$Var3)
 
 ```
 
+Let's review what this data looks like now.
+
+You can see that -999 has a label of "NA" for `Var3` now.
+
+```{r}
+d1
+
+```
+
+You can also see that R recognizes these values as NA.
+
+```{r}
+
+is.na(d1)
+
+```
+
+Be careful though, many functions, however, will not recognize these values as NA. As just one example, both `rowSums()` and `sum()` have the argument *na.rm*. However, these labelled NA values will not be recognized as NA and will be included in your sum, giving you very large negative numbers.
+
+On the flip side, other functions, such as those within the `pointblank` package and even the function `tidyr::replace_na()` both seem to recognize labelled NA as true NA values.
+
+As a rule, test the function first to see how it interacts with labelled missing values. You may need to convert these to true NAs in order to interact with them in your normal capacity.
+
 
 **2\. Add labels for multiple missing values (-999, 0), for one variable (`Var3`)**
 

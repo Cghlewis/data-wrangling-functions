@@ -392,6 +392,34 @@ programs.</p>
 
 labelled::na_values(d1$Var3)</code></pre>
 <pre><code>[1] -999</code></pre>
+<p>Let’s review what this data looks like now.</p>
+<p>You can see that -999 has a label of “NA” for <code>Var3</code>
+now.</p>
+<pre class="r"><code>d1</code></pre>
+<pre><code># A tibble: 3 x 3
+  Var1   Var2       Var3
+  &lt;chr&gt; &lt;dbl&gt; &lt;hvn_lbl_&gt;
+1 a         1     2     
+2 b      -999     0     
+3 c         3  -999 (NA)</code></pre>
+<p>You can also see that R recognizes these values as NA.</p>
+<pre class="r"><code>is.na(d1)</code></pre>
+<pre><code>      Var1  Var2  Var3
+[1,] FALSE FALSE FALSE
+[2,] FALSE FALSE FALSE
+[3,] FALSE FALSE  TRUE</code></pre>
+<p>Be careful though, many functions, however, will not recognize these
+values as NA. As just one example, both <code>rowSums()</code> and
+<code>sum()</code> have the argument <em>na.rm</em>. However, these
+labelled NA values will not be recognized as NA and will be included in
+your sum, giving you very large negative numbers.</p>
+<p>On the flip side, other functions, such as those within the
+<code>pointblank</code> package and even the function
+<code>tidyr::replace_na()</code> both seem to recognize labelled NA as
+true NA values.</p>
+<p>As a rule, test the function first to see how it interacts with
+labelled missing values. You may need to convert these to true NAs in
+order to interact with them in your normal capacity.</p>
 <p><strong>2. Add labels for multiple missing values (-999, 0), for one
 variable (<code>Var3</code>)</strong></p>
 <p>Review the data (d1)</p>

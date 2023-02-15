@@ -104,8 +104,6 @@ d5
 
 Calculate the mean toca score
 
-* Note: We use the `tidyselect` selection helper `starts_with()` to refer to all variables that start with the word "toca".
-
 
 ```{r}
 
@@ -173,8 +171,6 @@ We see that **-99** is labelled as an NA value for the toca variables. However, 
 
 * Note: We also use the *na.rm* = TRUE argument from `rowMeans` to calculate the mean despite missing values.
 
-* Note: Again we could add `base::round()` to round the number of decimal places in our mean if we wanted to
-
 Last we drop our temporary toca variables using `dplyr::select()`. We don't need them anymore.
 
 
@@ -218,8 +214,6 @@ Calculate the sum score across `item1`, `item2`, and `item3`.
 
 Here we use `dplyr::rowwise()` to calculate values across rows, in conjunction with `base::sum()` to calculate a sum score.
 
-* Note: Again we are using `dplyr::mutate()` to create a new variable
-
 * Note: The default for `base::sum()` is to not calculate a sum if any NA value exists in your columns. If you want to still calculate a sum despite missing values, you can add the argument *na.rm = TRUE*.
 
 ```{r}
@@ -256,9 +250,6 @@ d2
 
 Calculate the mean score 
 
-* Note: We use `base::mean()` here to calculate mean
-* Note: We use `dplyr::c_across()` to select the variables of interest
-
 ```{r}
 
 d2 %>%
@@ -269,8 +260,6 @@ d2 %>%
 
 
 You can set the number of decimal places you want the new variable to have by wrapping the calculation in the function `base::round()` and setting the digits equal to the number you want.
-
-* Note: To learn more about how base R does rounding, see [Rounding](https://github.com/Cghlewis/data-wrangling-functions/wiki/Rounding).
 
 ```{r}
 
@@ -294,8 +283,6 @@ d4
 
 Calculate the mean toca score
 
-* Note: We use the `tidyselect` selection helper `contains()` to refer to all variables.
-
 ```{r}
 
 d4 %>%
@@ -304,13 +291,13 @@ d4 %>%
 
 ```
 
-Again, if you wanted to exclude some of the "toca" items (say `toca2` and `toca4` this time), you could exclude them this way, by wrapping your selected and excluded variables in `c()`. 
+If you wanted to exclude some of the "toca" items (say `toca2` and `toca4` this time), you could exclude them this way, by wrapping your selected and excluded variables in `c()`. 
 
 ```{r}
 
 d4 %>%
   dplyr::rowwise() %>%
-  dplyr::mutate(toca_mean = mean(dplyr::c_across(c(tidyselect::contains("toca"), -c(toca2, toca4))), na.rm=TRUE))
+  dplyr::mutate(toca_mean = mean(dplyr::c_across(c(tidyselect::contains("toca"), -toca2, -toca4)), na.rm=TRUE))
 
 ```
 

@@ -53,7 +53,7 @@ I could also write this using the exact text.
 
 d7 %>%
   dplyr::mutate(prefer_sum = 
-           rowSums(dplyr::across(q1:q4, ~ . == "prefer not to answer")), na.rm = TRUE)
+           rowSums(dplyr::across(q1:q4, ~ . == "prefer not to answer"), na.rm = TRUE))
 
 ```
 

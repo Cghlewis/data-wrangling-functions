@@ -18,11 +18,9 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-#### Function: `lubridate::mdy()`
+#### Function: `mdy()`
 
 ---
-
-<br>
 
 **1\. Convert a character variable (`Var4`) to a date**
 
@@ -60,9 +58,55 @@ class(d2$Var4)
 
 ```
 
+<br>
 ---
 
-#### Function: `lubridate::as_date()`, `lubridate::as_datetime()`
+#### Function: `parse_date_time()`
+
+---
+
+**1\. Convert a character variable with various date formats (`svy_date`) to a date**
+
+Review the data (d7)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d7
+
+```
+
+Convert all dates to a standard date format
+
+I currently see both "mdy" and "dmy" formats so I will add both of those to the *orders* argument.
+
+Make sure to check your work to ensure everything converted as expected. Unfortunately with an open text format date like this, you can never know for sure, what date someone intended to input (for example "02-03-2023" could be February 3rd or March 2nd)
+
+```{r}
+
+d7 %>%
+  dplyr::mutate(svy_date_fixed = 
+           lubridate::parse_date_time(svy_date, orders = c('mdy', 'dmy')))
+
+```
+
+If I wanted this format without time, I can wrap this in `lubridate::as_date()`
+
+```{r}
+
+d7 %>%
+  dplyr::mutate(svy_date_fixed = 
+           lubridate::as_date(lubridate::parse_date_time(svy_date, orders = c('mdy', 'dmy'))))
+
+```
+
+
+<br>
+
+
+---
+
+#### Function: `as_date()`, `as_datetime()`
 
 ---
 

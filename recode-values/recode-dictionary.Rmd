@@ -1,5 +1,5 @@
 ---
-title: "Recode using a dictionary"
+title: "Recode using a packaged dictionary"
 output: 
   html_document:
     anchor_sections: FALSE

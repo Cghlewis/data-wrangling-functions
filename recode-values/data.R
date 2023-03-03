@@ -174,3 +174,18 @@ d20 <- tibble::tribble(
   11, -80, -80, NA, NA,
   12, 2, 3, 5, 2.5,
   13, NA, NA, NA, NA)
+
+svy <- tibble::tribble (~id, ~house, ~car, ~bike, ~weather, ~food, ~animals,
+                        10, 1, NA, NA, 1, 3, 2,
+                        11, NA, 1, 1, 2, 1, 3,
+                        12, 1, 1, NA, 2, 2, 3) %>%
+  relocate(animals, .before = car)
+
+dict_internal <- tibble::tribble(~var_name, ~type, ~recode, ~recode_type,
+                        "house", "numeric", "NA -> 0", "binary",
+                        "animals", "numeric", "1 -> 0; 2 -> 1; 3 -> 2", "likert",
+                        "car", "numeric", "NA -> 0", 'binary',
+                        "bike", "numeric", "NA -> 0", "binary",
+                        "weather", "numeric", "1 -> 0; 2 -> 1; 3 -> 2", "likert",
+                        "food", "numeric", "1 -> 0; 2 -> 1; 3 -> 2", "likert"
+)

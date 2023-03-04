@@ -411,6 +411,40 @@ calculate sums despite NA values in my variables.</p>
 2     2 prefer not to answer no                   yes   no                     1
 3     3 no                   prefer not to answer yes   prefer not to a~       2
 # ... with abbreviated variable name 1: prefer_sum</code></pre>
+<p><strong>2. Calculate a sum of occurences of kids between ages 1 and
+17 (kid1:kid3)</strong></p>
+<p>Review the data (d8)</p>
+<pre><code># A tibble: 4 x 4
+     id  kid1  kid2  kid3
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1    10     8    10    NA
+2    11    15    19    20
+3    12    NA    NA    NA
+4    13     4    NA    NA</code></pre>
+<p>Similar to above I can use <code>stringr::str_detect()</code> in
+combination with regex to only grab values 1-17.</p>
+<pre class="r"><code>d8 %&gt;%
+  dplyr::mutate(minor_kids = 
+           rowSums(dplyr::across(kid1:kid3, ~ stringr::str_detect(., &quot;^[1-9]$|^[1]{1}[0-7]$&quot;)), na.rm = TRUE))</code></pre>
+<pre><code># A tibble: 4 x 5
+     id  kid1  kid2  kid3 minor_kids
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
+1    10     8    10    NA          2
+2    11    15    19    20          1
+3    12    NA    NA    NA          0
+4    13     4    NA    NA          1</code></pre>
+<p>But also, since the values are all numeric, I could simplify the code
+to this.</p>
+<pre class="r"><code>d8 %&gt;%
+  dplyr::mutate(minor_kids = 
+           rowSums(dplyr::across(kid1:kid3, ~ . &lt;18), na.rm = TRUE))</code></pre>
+<pre><code># A tibble: 4 x 5
+     id  kid1  kid2  kid3 minor_kids
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
+1    10     8    10    NA          2
+2    11    15    19    20          1
+3    12    NA    NA    NA          0
+4    13     4    NA    NA          1</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate%20Row%20Values">Calculate
 Row Values</a></p>
 </div>

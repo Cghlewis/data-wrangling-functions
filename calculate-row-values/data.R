@@ -57,3 +57,9 @@ d7 <- tibble::tribble(
   2, "prefer not to answer", "no", "yes", "no",
   3, "no", "prefer not to answer", "yes", "prefer not to answer")
 
+d8 <- tibble::tribble (~id, ~kid1, ~kid2, ~kid3,
+                       10, 8, 10, NA,
+                       11, 15, 19, 20,
+                       12, NA, NA, NA,
+                       13, 4, NA, NA)
+

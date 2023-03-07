@@ -414,7 +414,8 @@ count the number of rows per group.</p>
 2     13      1
 3     17      1
 4     18      2</code></pre>
-<p><strong>2. Count the number of teachers per school</strong></p>
+<p><strong>2. Count the number of distinct teachers per
+school</strong></p>
 <p>Review the data (d1)</p>
 <pre><code># A tibble: 6 x 3
   school tch_id stu_id
@@ -462,6 +463,51 @@ teachers per group.</p>
 1 a          1
 2 b          2
 3 c          1</code></pre>
+<p><strong>3. Count the number of students in each of our demographic
+grouping variables</strong></p>
+<p>Review the data (d5)</p>
+<pre><code># A tibble: 7 x 4
+  stu_id   frl gender  race
+   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+1     30     1      1     1
+2     30     2      1     2
+3     31     2      3     1
+4     32     3      2     4
+5     33     1      1     3
+6     33     3      2     5
+7     24     3      4     6</code></pre>
+<p>Here we can use <code>purrr::map()</code> to map our count function
+across all of our selected variables, returning a list.</p>
+<pre class="r"><code>d5 %&gt;%
+     dplyr::select(frl, gender, race) %&gt;%
+     purrr::map(~dplyr::count(d5,{{.x}}))</code></pre>
+<pre><code>$frl
+# A tibble: 3 x 2
+  `&lt;dbl&gt;`     n
+    &lt;dbl&gt; &lt;int&gt;
+1       1     2
+2       2     2
+3       3     3
+
+$gender
+# A tibble: 4 x 2
+  `&lt;dbl&gt;`     n
+    &lt;dbl&gt; &lt;int&gt;
+1       1     3
+2       2     2
+3       3     1
+4       4     1
+
+$race
+# A tibble: 6 x 2
+  `&lt;dbl&gt;`     n
+    &lt;dbl&gt; &lt;int&gt;
+1       1     2
+2       2     1
+3       3     1
+4       4     1
+5       5     1
+6       6     1</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Count">Count</a></p>
 </div>
 </div>

@@ -55,8 +55,7 @@ d1 %>%
 
 ```
 
-
-**2\. Count the number of teachers per school**
+**2\. Count the number of distinct teachers per school**
 
 Review the data (d1)
 
@@ -90,6 +89,27 @@ Or, like above, if you want to more explicitly group by `school`, you can first 
 d1 %>%
   dplyr::group_by(school) %>%
   dplyr::summarize(n_tch = dplyr::n_distinct(tch_id))
+
+```
+
+**3\. Count the number of students in each of our demographic grouping variables**
+
+Review the data (d5)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d5
+
+```
+
+Here we can use `purrr::map()` to map our count function across all of our selected variables, returning a list.
+
+```{r}
+
+d5 %>%
+     dplyr::select(frl, gender, race) %>%
+     purrr::map(~dplyr::count(d5,{{.x}}))
 
 ```
 

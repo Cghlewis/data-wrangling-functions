@@ -190,6 +190,8 @@ navbar:
     href: strings\remove-values.html
   - text: "Extract values by location"
     href: strings\extract-values-location.html
+  - text: "Truncate strings"
+    href: strings\truncate-strings.html
   - text: "Find duplicates"
     href: duplicates\find-duplicates.html
 output:

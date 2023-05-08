@@ -11,7 +11,7 @@
 
 
 
-<title>Remove values</title>
+<title>Truncate strings</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,7 +361,7 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Remove values</h1>
+<h1 class="title toc-ignore">Truncate strings</h1>
 
 </div>
 
@@ -370,147 +370,87 @@ pre code {
 <div id="package-stringr" class="section level3">
 <h3>Package: stringr</h3>
 <hr />
-<div id="function-str_remove" class="section level4">
-<h4>Function: <code>str_remove()</code></h4>
+<div id="function-str_trunc" class="section level4">
+<h4>Function: <code>str_trunc()</code></h4>
 <hr />
-<p><strong>1. Remove all “cm” or “CM” from
-<code>item1</code></strong></p>
-<p>Review the data (d3)</p>
-<pre><code># A tibble: 4 x 2
-     id item1
-  &lt;dbl&gt; &lt;chr&gt;
-1     1 12cm 
-2     2 4cm  
-3     3 6cm  
-4     4 2.5CM</code></pre>
-<p>In this case I only want the number, not the measurement type, so I
-need to remove all versions of “cm”.</p>
+<p><strong>1. Truncate all <code>_text</code> variables to a max of 10
+characters</strong></p>
+<p>Review the data (d14)</p>
+<pre><code># A tibble: 3 x 5
+     id item1_text   item2_text item3_text                               item4~1
+  &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      &lt;chr&gt;                                    &lt;lgl&gt;  
+1     1 &lt;NA&gt;         -1         broccoli                                 NA     
+2     2 cheese pizza -1         I love pancakes in the morning and I lo~ NA     
+3     3 &lt;NA&gt;         -8         strawberries                             NA     
+# ... with abbreviated variable name 1: item4_text</code></pre>
+<p>In this case, we need to import this data into a program but the
+program only allows character columns to have a max of 10
+characters.</p>
+<p>We can see what our max count is for each variable right now.</p>
 <ul>
-<li><p>Note: I am using <code>dplyr::mutate()</code> to create a new
-variable “item1” that will replace the existing “item1”.</p></li>
-<li><p>Note: I am using <code>|</code> to say remove “cm” AND/OR
-“CM”.</p></li>
+<li>Note: Some variables contain NA. If we don’t add any additional
+arguments to our <code>base::nchar</code> function, the value returned
+for those columns will be NA.</li>
 </ul>
-<pre class="r"><code>d3 %&gt;%
-  dplyr::mutate(item1 = stringr::str_remove(item1, &quot;cm|CM&quot;))</code></pre>
-<pre><code># A tibble: 4 x 2
-     id item1
-  &lt;dbl&gt; &lt;chr&gt;
-1     1 12   
-2     2 4    
-3     3 6    
-4     4 2.5  </code></pre>
-<p>If I did not want to list both the upper and lower case versions of
-“cm” I could add the pattern argument <em>regex</em> and add
-“ignore_case = TRUE*.</p>
-<pre class="r"><code>d3 %&gt;%
-  dplyr::mutate(item1 = stringr::str_remove(item1, regex(&quot;cm&quot;, ignore_case = TRUE)))</code></pre>
-<pre><code># A tibble: 4 x 2
-     id item1
-  &lt;dbl&gt; &lt;chr&gt;
-1     1 12   
-2     2 4    
-3     3 6    
-4     4 2.5  </code></pre>
-<p><strong>2. Remove all variations of the word “year” from
-<code>tch_years</code></strong></p>
-<p>Review the data (d15)</p>
-<pre><code># A tibble: 5 x 2
-  tch_id tch_years
-   &lt;dbl&gt; &lt;chr&gt;    
-1    100 10 years 
-2    101 3        
-3    102 2.5      
-4    103 15 yrs   
-5    107 1.5 Years</code></pre>
-<p>Here since everything is written as years, we can simply use
-<em>regex</em> to quickly remove all letters and white space.</p>
-<ul>
-<li>Note: Pay attention to what is written. If someone wrote 8 months,
-then more consideration would be needed for how to deal with this
-variable.</li>
-</ul>
-<pre class="r"><code>d15 %&gt;%
-  dplyr::mutate(tch_years = stringr::str_remove(tch_years, &quot;\\s\\w+&quot;))</code></pre>
-<pre><code># A tibble: 5 x 2
-  tch_id tch_years
-   &lt;dbl&gt; &lt;chr&gt;    
-1    100 10       
-2    101 3        
-3    102 2.5      
-4    103 15       
-5    107 1.5      </code></pre>
-<p>We could now go one step further and recode this variable to numeric
-if we wanted to.</p>
-<p><strong>3. Remove all instances of the word “and” from
-<code>item1</code></strong></p>
-<p>Review the data (d4)</p>
-<pre><code># A tibble: 4 x 2
-     id item1          
-  &lt;dbl&gt; &lt;chr&gt;          
-1     1 1, and 2, and 3
-2     2 1, and 3       
-3     3 3              
-4     4 1, and 2, and 3</code></pre>
-<p>Notice here, if we simply use <code>stringr::str_remove()</code> we
-will only remove the first instance of “and”.</p>
-<pre class="r"><code>d4 %&gt;%
-  dplyr::mutate(item1 = stringr::str_remove(item1, &quot;and&quot;))</code></pre>
-<pre><code># A tibble: 4 x 2
-     id item1       
-  &lt;dbl&gt; &lt;chr&gt;       
-1     1 1,  2, and 3
-2     2 1,  3       
-3     3 3           
-4     4 1,  2, and 3</code></pre>
-<p>So therefore, if we want to remove all instances, we need to use
-<code>stringr::str_remove_all()</code></p>
-<pre class="r"><code>d4 %&gt;%
-  dplyr::mutate(item1 = stringr::str_remove_all(item1, &quot;and&quot;))</code></pre>
-<pre><code># A tibble: 4 x 2
-     id item1    
-  &lt;dbl&gt; &lt;chr&gt;    
-1     1 1,  2,  3
-2     2 1,  3    
-3     3 3        
-4     4 1,  2,  3</code></pre>
-<p><strong>4. Read in files and remove the date from the file
-name</strong></p>
-<p>See what files we have</p>
-<pre class="r"><code>base::basename(fs::dir_ls(here::here(&quot;strings&quot;, &quot;data&quot;)))</code></pre>
-<pre><code>[1] &quot;scoresa_2023-01-23.xlsx&quot; &quot;scoresb_2023-01-24.xlsx&quot;</code></pre>
-<p>Read in all files from the data folder, remove the underscore and
-date from the file name, and create individual data frames.</p>
-<ul>
-<li>Note: The <code>\\</code> is used as an escape character so that the
-“d” is seen as digits rather than the letter d.</li>
-</ul>
-<pre class="r"><code># Create our list of data frames
+<pre class="r"><code>d14 %&gt;%
+  dplyr::select(contains(&quot;text&quot;)) %&gt;%
+  lapply(., \(x) max(nchar(x)))</code></pre>
+<pre><code>$item1_text
+[1] NA
 
-my_file_list &lt;- fs::dir_ls(path = here::here(&quot;strings&quot;, &quot;data&quot;), 
-                glob =&quot;*.xlsx&quot;) %&gt;%
-  purrr::set_names(basename(stringr::str_remove(., &quot;_\\d{4}-\\d{2}-\\d{2}&quot;))) %&gt;%
-  purrr::map(readxl::read_excel)
+$item2_text
+[1] 2
 
-# Create environment variables from our list
-list2env(my_file_list, envir=.GlobalEnv)</code></pre>
-<pre><code>&lt;environment: R_GlobalEnv&gt;</code></pre>
-<pre class="r"><code># Review all objects in environment
-ls()</code></pre>
-<pre><code>[1] &quot;my_file_list&quot; &quot;scoresa.xlsx&quot; &quot;scoresb.xlsx&quot;</code></pre>
-<p>But there are many ways we can grab date patterns, so we can choose
-whatever makes the most sense to us. The brackets here are also used as
-escape character to say look for <em>any</em> number between 0 and 9
-that is represented 4 times, 2 times, and 2 times.</p>
-<pre class="r"><code># Create our list of data frames
-my_file_list &lt;- fs::dir_ls(path = here::here(&quot;strings&quot;, &quot;data&quot;), 
-                glob =&quot;*.xlsx&quot;) %&gt;%
-  purrr::set_names(basename(stringr::str_remove(., &quot;_[0-9]{4}-{1}[0-9]{2}-{1}[0-9]{2}&quot;))) %&gt;%
-  purrr::map(readxl::read_excel)
+$item3_text
+[1] 66
 
-# Create environment variables from our list
-list2env(my_file_list, envir=.GlobalEnv)</code></pre>
-<pre><code>&lt;environment: R_GlobalEnv&gt;</code></pre>
+$item4_text
+[1] NA</code></pre>
+<p>That is probably not what we want. So we can add the argument
+<em>keepNA = FALSE</em> to return a value when the column contains NA.
+If the column is all NAs, it will return a value of 2, the number of
+printing characters used when strings are written to output.</p>
+<pre class="r"><code>d14 %&gt;%
+  dplyr::select(contains(&quot;text&quot;)) %&gt;%
+  lapply(., \(x) max(nchar(x, keepNA = FALSE)))</code></pre>
+<pre><code>$item1_text
+[1] 12
+
+$item2_text
+[1] 2
+
+$item3_text
+[1] 66
+
+$item4_text
+[1] 2</code></pre>
+<p>Now we can truncate our text variables.</p>
+<pre class="r"><code>d14 &lt;- d14 %&gt;%
+  dplyr::mutate(dplyr::across(contains(&quot;text&quot;),
+                ~stringr::str_trunc(., 10, &quot;right&quot;)))</code></pre>
+<p>Let’s see what the data looks like now</p>
+<pre class="r"><code>d14</code></pre>
+<pre><code># A tibble: 3 x 5
+     id item1_text item2_text item3_text item4_text
+  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     
+1     1 &lt;NA&gt;       -1         broccoli   &lt;NA&gt;      
+2     2 cheese ... -1         I love ... &lt;NA&gt;      
+3     3 &lt;NA&gt;       -8         strawbe... &lt;NA&gt;      </code></pre>
+<p>And let’s see what the new max values are</p>
+<pre class="r"><code>d14 %&gt;%
+  dplyr::select(contains(&quot;text&quot;)) %&gt;%
+  lapply(., \(x) max(nchar(x, keepNA = FALSE)))</code></pre>
+<pre><code>$item1_text
+[1] 10
+
+$item2_text
+[1] 2
+
+$item3_text
+[1] 10
+
+$item4_text
+[1] 2</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Strings">Strings</a></p>
 </div>
 </div>

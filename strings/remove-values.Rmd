@@ -47,17 +47,41 @@ d3 %>%
 
 ```
 
-If I did not want to list both the upper and lower case versions of "cm" I could also use another `stringr` function `str_to_lower()` first.
+If I did not want to list both the upper and lower case versions of "cm" I could add the pattern argument *regex* and add "ignore_case = TRUE*. 
 
 ```{r}
 
 d3 %>%
-  dplyr::mutate(item1 = stringr::str_remove(stringr::str_to_lower(item1), "cm"))
+  dplyr::mutate(item1 = stringr::str_remove(item1, regex("cm", ignore_case = TRUE)))
 
 ```
 
+**2\. Remove all variations of the word "year" from `tch_years`**
 
-**2\. Remove all instances of the word "and" from `item1`**
+Review the data (d15)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d15
+
+```
+
+Here since everything is written as years, we can simply use *regex* to quickly remove all letters and white space. 
+
+* Note: Pay attention to what is written. If someone wrote 8 months, then more consideration would be needed for how to deal with this variable.
+
+```{r}
+
+d15 %>%
+  dplyr::mutate(tch_years = stringr::str_remove(tch_years, "\\s\\w+"))
+
+```
+
+We could now go one step further and recode this variable to numeric if we wanted to.
+
+**3\. Remove all instances of the word "and" from `item1`**
 
 Review the data (d4)
 
@@ -87,7 +111,7 @@ d4 %>%
 
 ```
 
-**3\. Read in files and remove the date from the file name**
+**4\. Read in files and remove the date from the file name**
 
 ```{r, echo = FALSE}
 

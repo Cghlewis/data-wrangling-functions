@@ -427,7 +427,7 @@ a value of TRUE for all conditions (and NA cannot be evaluated and is
 therefore dropped). However <em>%in%</em> matches values and therefore
 doesn’t drop NA.</p>
 <pre class="r"><code>d5 %&gt;% 
-  dplyr::filter(!(extra2 %in% -999))</code></pre>
+  dplyr::filter(!extra2 %in% -999)</code></pre>
 <pre><code># A tibble: 4 x 6
   extra1 extra2 extra3 stu_id test_score tch_name
   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   

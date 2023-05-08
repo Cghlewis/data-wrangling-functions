@@ -53,7 +53,7 @@ Another way to get around the issue of dropping NAs is to use the within operato
 ```{r}
 
 d5 %>% 
-  dplyr::filter(!(extra2 %in% -999))
+  dplyr::filter(!extra2 %in% -999)
 
 ```
 

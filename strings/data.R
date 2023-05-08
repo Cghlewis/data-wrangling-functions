@@ -103,5 +103,17 @@ d13 <- tibble::tribble(
   30, "east sr. high school"
 )
 
+d14 <- tribble(~id, ~item1_text, ~item2_text, ~item3_text, ~item4_text,
+              1, NA, "-1", "broccoli", NA,
+              2, "cheese pizza", "-1", "I love pancakes in the morning and I love cereal and I love donuts", NA,
+              3, NA, "-8", "strawberries", NA)
+
+d15 <- tibble::tribble(~tch_id, ~tch_years,
+          100, "10 years",
+          101, "3",
+          102, "2.5",
+          103, "15 yrs",
+          107, "1.5 Years")
+
 
 

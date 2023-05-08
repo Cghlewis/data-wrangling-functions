@@ -1,0 +1,92 @@
+---
+title: "Truncate strings"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: stringr
+
+---
+
+#### Function: `str_trunc()`
+
+---
+
+**1\. Truncate all `_text` variables to a max of 10 characters**
+
+Review the data (d14)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d14
+
+```
+
+In this case, we need to import this data into a program but the program only allows character columns to have a max of 10 characters.
+
+We can see what our max count is for each variable right now.
+
+* Note: Some variables contain NA. If we don't add any additional arguments to our `base::nchar` function, the value returned for those columns will be NA.
+
+
+```{r}
+
+d14 %>%
+  dplyr::select(contains("text")) %>%
+  lapply(., \(x) max(nchar(x)))
+
+```
+
+That is probably not what we want. So we can add the argument *keepNA = FALSE* to return a value when the column contains NA. If the column is all NAs, it will return a value of 2, the number of printing characters used when strings are written to output.
+
+```{r}
+
+d14 %>%
+  dplyr::select(contains("text")) %>%
+  lapply(., \(x) max(nchar(x, keepNA = FALSE)))
+
+```
+
+
+Now we can truncate our text variables.
+
+```{r}
+
+d14 <- d14 %>%
+  dplyr::mutate(dplyr::across(contains("text"),
+                ~stringr::str_trunc(., 10, "right")))
+
+```
+
+Let's see what the data looks like now
+
+```{r}
+
+d14
+
+```
+
+And let's see what the new max values are
+
+```{r}
+
+d14 %>%
+  dplyr::select(contains("text")) %>%
+  lapply(., \(x) max(nchar(x, keepNA = FALSE)))
+
+```
+
+
+Return to [Strings](https://github.com/Cghlewis/data-wrangling-functions/wiki/Strings)

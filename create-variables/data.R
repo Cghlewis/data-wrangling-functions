@@ -27,7 +27,8 @@ d4 <- tibble::tribble(~id, ~dob, ~test_date,
                       10, "2010-11-12", "2021-10-14",
                       11, "2011-07-08", "2021-10-15",
                       12, "2012-01-22", "2021-10-15",
-                      13, "2011-12-13", "2021-10-17")
+                      13, "2011-12-13", "2021-10-17") %>%
+  mutate(across(dob:test_date, ~ lubridate::ymd(.)))
 
 d5 <- tibble::tribble(~f_name, ~l_name, ~item1, ~item2, ~item3, ~item4,
                       "randi", "ivana", 3, 5, 3, NA,

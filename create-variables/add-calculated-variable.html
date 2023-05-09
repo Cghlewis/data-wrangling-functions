@@ -378,7 +378,7 @@ months)</strong></p>
 <p>Review the data (d4)</p>
 <pre><code># A tibble: 4 x 3
      id dob        test_date 
-  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;     
+  &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;    
 1    10 2010-11-12 2021-10-14
 2    11 2011-07-08 2021-10-15
 3    12 2012-01-22 2021-10-15
@@ -394,7 +394,7 @@ variable.</p>
   dplyr::mutate(age_months = lubridate::interval(start = dob, end = test_date)/base::months(1))</code></pre>
 <pre><code># A tibble: 4 x 4
      id dob        test_date  age_months
-  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;
+  &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;          &lt;dbl&gt;
 1    10 2010-11-12 2021-10-14  131.06452
 2    11 2011-07-08 2021-10-15  123.22581
 3    12 2012-01-22 2021-10-15  116.76667
@@ -413,7 +413,7 @@ our ending date to the <em>end</em> argument.</p>
 d4_new</code></pre>
 <pre><code># A tibble: 4 x 4
      id dob        test_date  age_interval                  
-  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;Interval&gt;                    
+  &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;     &lt;Interval&gt;                    
 1    10 2010-11-12 2021-10-14 2010-11-12 UTC--2021-10-14 UTC
 2    11 2011-07-08 2021-10-15 2011-07-08 UTC--2021-10-15 UTC
 3    12 2012-01-22 2021-10-15 2012-01-22 UTC--2021-10-15 UTC
@@ -424,7 +424,7 @@ function <code>base::as.numeric()</code>.</p>
   dplyr::mutate(age_interval_seconds = base::as.numeric(age_interval))</code></pre>
 <pre><code># A tibble: 4 x 5
      id dob        test_date  age_interval                   age_interval_seco~1
-  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;Interval&gt;                                   &lt;dbl&gt;
+  &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;     &lt;Interval&gt;                                   &lt;dbl&gt;
 1    10 2010-11-12 2021-10-14 2010-11-12 UTC--2021-10-14 UTC           344649600
 2    11 2011-07-08 2021-10-15 2011-07-08 UTC--2021-10-15 UTC           324172800
 3    12 2012-01-22 2021-10-15 2012-01-22 UTC--2021-10-15 UTC           307065600
@@ -442,7 +442,7 @@ an interval of time.</p>
   dplyr::mutate(age_months = age_interval/base::months(1))</code></pre>
 <pre><code># A tibble: 4 x 5
      id dob        test_date  age_interval                   age_months
-  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;Interval&gt;                          &lt;dbl&gt;
+  &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;     &lt;Interval&gt;                          &lt;dbl&gt;
 1    10 2010-11-12 2021-10-14 2010-11-12 UTC--2021-10-14 UTC  131.06452
 2    11 2011-07-08 2021-10-15 2011-07-08 UTC--2021-10-15 UTC  123.22581
 3    12 2012-01-22 2021-10-15 2012-01-22 UTC--2021-10-15 UTC  116.76667
@@ -454,7 +454,7 @@ an interval of time.</p>
      dplyr::mutate(age_months = lubridate::time_length(age_interval, &quot;months&quot;))</code></pre>
 <pre><code># A tibble: 4 x 5
      id dob        test_date  age_interval                   age_months
-  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;Interval&gt;                          &lt;dbl&gt;
+  &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;     &lt;Interval&gt;                          &lt;dbl&gt;
 1    10 2010-11-12 2021-10-14 2010-11-12 UTC--2021-10-14 UTC  131.06452
 2    11 2011-07-08 2021-10-15 2011-07-08 UTC--2021-10-15 UTC  123.22581
 3    12 2012-01-22 2021-10-15 2012-01-22 UTC--2021-10-15 UTC  116.76667
@@ -464,7 +464,7 @@ an interval of time.</p>
   dplyr::mutate(age_years = lubridate::time_length(age_interval, &quot;years&quot;))</code></pre>
 <pre><code># A tibble: 4 x 5
      id dob        test_date  age_interval                    age_years
-  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;Interval&gt;                          &lt;dbl&gt;
+  &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;     &lt;Interval&gt;                          &lt;dbl&gt;
 1    10 2010-11-12 2021-10-14 2010-11-12 UTC--2021-10-14 UTC 10.920548 
 2    11 2011-07-08 2021-10-15 2011-07-08 UTC--2021-10-15 UTC 10.271233 
 3    12 2012-01-22 2021-10-15 2012-01-22 UTC--2021-10-15 UTC  9.7287671
@@ -478,7 +478,7 @@ two numbers and returns the integer part of the result.</p>
   dplyr::mutate(age_months = lubridate::interval(start = dob, end = test_date)%/%months(1))</code></pre>
 <pre><code># A tibble: 4 x 4
      id dob        test_date  age_months
-  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;
+  &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;          &lt;dbl&gt;
 1    10 2010-11-12 2021-10-14        131
 2    11 2011-07-08 2021-10-15        123
 3    12 2012-01-22 2021-10-15        116
@@ -491,7 +491,7 @@ for more information.</p>
   dplyr::mutate(age_months = base::round(lubridate::interval(start = dob, end = test_date)/months(1)))</code></pre>
 <pre><code># A tibble: 4 x 4
      id dob        test_date  age_months
-  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;
+  &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;          &lt;dbl&gt;
 1    10 2010-11-12 2021-10-14        131
 2    11 2011-07-08 2021-10-15        123
 3    12 2012-01-22 2021-10-15        117
@@ -502,7 +502,7 @@ for more information.</p>
   dplyr::mutate(age_months = base::ceiling(lubridate::interval(start = dob, end = test_date)/months(1)))</code></pre>
 <pre><code># A tibble: 4 x 4
      id dob        test_date  age_months
-  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;
+  &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;          &lt;dbl&gt;
 1    10 2010-11-12 2021-10-14        132
 2    11 2011-07-08 2021-10-15        124
 3    12 2012-01-22 2021-10-15        117

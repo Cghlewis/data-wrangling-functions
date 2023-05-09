@@ -403,7 +403,24 @@ variables and then renaming them by using the
 </ul>
 <pre class="r"><code>d2_new &lt;- d2 %&gt;% 
   dplyr::mutate(dplyr::across(Var2:Var3, ~dplyr::recode(.,`1`=5, `2`=4, `3`=3, `4`=2, `5`=1))) %&gt;%
-  dplyr::rename_with(~paste0(., &quot;_r&quot;), c(Var2:Var3))
+  dplyr::rename_with(~paste0(., &quot;_r&quot;), Var2:Var3)
+
+d2_new</code></pre>
+<pre><code># A tibble: 3 x 3
+  Var1  Var2_r Var3_r
+  &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1 a          5      2
+2 b         NA      1
+3 c          3      5</code></pre>
+<p>We could also do this using the formula (1 + highest possible scale
+value) - original value. In this case I know that the highest possible
+value for this scale is 5.</p>
+<p>Note that I don’t need to use the <code>dplyr::recode()</code>
+function here. I can simply apply a formula across my selected
+variables.</p>
+<pre class="r"><code>d2_new &lt;- d2 %&gt;%
+  dplyr::mutate(dplyr::across(Var2:Var3, ~ 6 - .x)) %&gt;%
+  dplyr::rename_with(~paste0(., &quot;_r&quot;), Var2:Var3)
 
 d2_new</code></pre>
 <pre><code># A tibble: 3 x 3

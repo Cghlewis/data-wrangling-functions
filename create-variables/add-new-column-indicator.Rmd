@@ -22,7 +22,44 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Create a new indicator column (`at_risk`)**
+**1\. Create an indicator column (`scale1_risk`)**
+
+```{r, echo = FALSE}
+
+source("data.R")
+d9
+
+```
+
+I have a sum score and a cut score for a scale. The cut scores are different depending on grade level. 
+
+I want to create an indicator of risk level:
+
+sum score < cut score = 0
+score score >= cut score = 1 
+
+* Note: I use `dplyr::case_when()` to recode my sum variable into a dichotomous variable.
+
+My logic says:  
+
+- If either `grade` or my selected sum score variable is NA, then my new variable should be coded to NA.  
+- Then if my selected sum score variable is less than my selected cut score variable, code my new variable to 0.  
+- Else (`TRUE`) code to 1.
+
+```{r}
+
+d9 %>%
+  dplyr::mutate(scale1_risk =
+                  dplyr::case_when(
+    is.na(grade) | is.na(scale1_sum) ~ NA_real_,
+    scale1_sum < cut_scale1 ~ 0,
+    TRUE ~ 1
+  ))
+
+```
+
+
+**2\. Create multiple `_risk` indicator columns**
 
 Review the data (d6)
 
@@ -33,7 +70,7 @@ d6
 
 ```
 
-I have several sum scores for 3 different scales. I also have 3 different cut scores for each of those scales. The cut scores are different depending on grade level. 
+This time I have sum scores for 3 different scales. I also have 3 different cut scores for each of those scales. The cut scores are different depending on grade level. 
 
 I want to create an indicator of risk level:
 
@@ -48,14 +85,6 @@ In this function I call my data frame and I use `dplyr::mutate()` to create my n
 
 * Note: In order to name this variable dynamically I have to use `:=`. I also have to surround all data frame variables with `{{}}` to denote that I am referring to data frame variables, not environment variables.
 
-* Note: I use `dplyr::case_when()` to recode my sum variable into a dichotomous variable. 
-
-My logic says:  
-
-- If either `grade` or my selected sum score variable is NA, then my new variable should be coded to NA.  
-- Then if my selected sum score variable is less than my selected cut score variable, code my new variable to 0.  
-- Else (`TRUE`) code to 1.
-
 
 ```{r}
 
@@ -69,7 +98,7 @@ cutoff <- function(df, new_name, cut_score, sum_score) {
 
 ```
 
-Now I can use my new function to create my new `at_risk` variables.
+Now I can use my new function to create my new `_risk` variables.
 
 ```{r}
 

@@ -272,5 +272,145 @@ d13 %>%
 
 ```
 
+<br>
+
+
+---
+
+#### Function: `case_when()`
+
+---
+
+
+**1\. Recode `Var3` based on `decision_var`**
+
+Review the data (d21)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d21
+
+```
+
+My logic is
+
+If `decision_var` !=4 then `Var3` should be -99,
+else it should be it's current value
+
+```{r}
+
+d21 %>%
+  dplyr::mutate(
+    Var3 =
+      dplyr::case_when(
+        !decision_var %in% 4 ~ -99,
+        TRUE ~ Var3
+      )
+  )
+
+```
+
+Notice that I use the `!` outside of `decision_var` and use `%in%` instead of `!=`. This is just one way to deal with the NA values that exist in `decision_var`. In this case I wanted values to be recoded to -99 even if `decision_var` is NA.
+
+Let's see what would happen if I wrote this the other way.
+
+```{r}
+
+d21 %>%
+  dplyr::mutate(
+    Var3 =
+      dplyr::case_when(
+        decision_var != 4 ~ -99,
+        TRUE ~ Var3
+      )
+  )
+
+```
+
+Using `!=` above, the NAs in `decision_var` are not evaluated and so the value of `Var3` remains the same value. I could solve this problem another way by adding an explicit call to recode NAs like this below.
+
+```{r}
+
+d21 %>%
+  dplyr::mutate(
+    Var3 =
+      dplyr::case_when(
+        decision_var != 4 ~ -99,
+        is.na(decision_var) ~ -99,
+        TRUE ~ Var3
+      )
+  )
+
+```
+
+And last, if I wanted NAs in the `decision_var` to be dealt with in a different way from the other values, I would **not** want to use %in%. See example below.
+
+My new logic is
+
+If `decision_var` !=4 then `Var3` should be -99,
+If `decision_var` is NA then `Var3` should be NA,
+else it should be it's current value
+
+```{r}
+
+d21 %>%
+  dplyr::mutate(
+    Var3 =
+      dplyr::case_when(
+        decision_var != 4 ~ -99,
+        is.na(decision_var) ~ NA_real_,
+        TRUE ~ Var3
+      )
+  )
+
+```
+
+**2\. Recode `Var3` into a dichotomous variable**
+
+Review the data (d22)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d22
+
+```
+
+My logic is
+
+If `Var3` !=4 then 0,
+else 1
+
+```{r}
+
+d22 %>%
+  dplyr::mutate(
+    Var3 =
+      dplyr::case_when(
+        !Var3 %in% 4 ~ 0,
+        TRUE ~ 1
+      )
+  )
+
+```
+
+Similar to above, using `!` and `%in%` ensures that the NA is accounted for. If however, I wanted NA to stay NA, I would want to write something like this.
+
+```{r}
+
+d22 %>%
+  dplyr::mutate(
+    Var3 =
+      dplyr::case_when(
+        Var3 !=4 ~ 0,
+        is.na(Var3) ~ NA_real_,
+        TRUE ~ 1
+      )
+  )
+
+```
+
+
 
 Return to [Recode](https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode)

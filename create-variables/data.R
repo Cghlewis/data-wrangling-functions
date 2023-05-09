@@ -47,3 +47,20 @@ d7 <- tibble::tribble(~id, ~cert, ~age,
                       12, "elem ed, special ed, secondary ed", 23,
                       13, "special ed, secondary ed", 51,
                       14, "secondary ed", 29)
+
+d8 <- tibble::tribble(
+  ~Var1, ~Var2, ~Var3,
+  2, 5, 4,
+  1, 4, 4,
+  1, 0, 2,
+  2, 4, 1,
+  4, 5, 3,
+  4, 1, NA
+)
+
+d9 <- tibble::tribble(~id, ~ grade, ~cut_scale1, ~scale1_sum,
+                      1, 2, 2.5, 1,
+                      2, 3, 2, 4,
+                      3, 3, 2, 1,
+                      4, NA, NA, 3,
+                      5, 2, 2.5, 4)

@@ -615,6 +615,166 @@ d13 %&gt;%
 <pre><code>$Var3
  no yes 
   0   1 </code></pre>
+<p><br></p>
+<hr />
+</div>
+<div id="function-case_when" class="section level4">
+<h4>Function: <code>case_when()</code></h4>
+<hr />
+<p><strong>1. Recode <code>Var3</code> based on
+<code>decision_var</code></strong></p>
+<p>Review the data (d21)</p>
+<pre><code># A tibble: 6 x 3
+  decision_var  Var2  Var3
+         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1            2     5    NA
+2            4     4    NA
+3           NA     0     4
+4            2     4     1
+5            4     5     3
+6            3     1    NA</code></pre>
+<p>My logic is</p>
+<p>If <code>decision_var</code> !=4 then <code>Var3</code> should be
+-99, else it should be it’s current value</p>
+<pre class="r"><code>d21 %&gt;%
+  dplyr::mutate(
+    Var3 =
+      dplyr::case_when(
+        !decision_var %in% 4 ~ -99,
+        TRUE ~ Var3
+      )
+  )</code></pre>
+<pre><code># A tibble: 6 x 3
+  decision_var  Var2  Var3
+         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1            2     5   -99
+2            4     4    NA
+3           NA     0   -99
+4            2     4   -99
+5            4     5     3
+6            3     1   -99</code></pre>
+<p>Notice that I use the <code>!</code> outside of
+<code>decision_var</code> and use <code>%in%</code> instead of
+<code>!=</code>. This is just one way to deal with the NA values that
+exist in <code>decision_var</code>. In this case I wanted values to be
+recoded to -99 even if <code>decision_var</code> is NA.</p>
+<p>Let’s see what would happen if I wrote this the other way.</p>
+<pre class="r"><code>d21 %&gt;%
+  dplyr::mutate(
+    Var3 =
+      dplyr::case_when(
+        decision_var != 4 ~ -99,
+        TRUE ~ Var3
+      )
+  )</code></pre>
+<pre><code># A tibble: 6 x 3
+  decision_var  Var2  Var3
+         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1            2     5   -99
+2            4     4    NA
+3           NA     0     4
+4            2     4   -99
+5            4     5     3
+6            3     1   -99</code></pre>
+<p>Using <code>!=</code> above, the NAs in <code>decision_var</code> are
+not evaluated and so the value of <code>Var3</code> remains the same
+value. I could solve this problem another way by adding an explicit call
+to recode NAs like this below.</p>
+<pre class="r"><code>d21 %&gt;%
+  dplyr::mutate(
+    Var3 =
+      dplyr::case_when(
+        decision_var != 4 ~ -99,
+        is.na(decision_var) ~ -99,
+        TRUE ~ Var3
+      )
+  )</code></pre>
+<pre><code># A tibble: 6 x 3
+  decision_var  Var2  Var3
+         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1            2     5   -99
+2            4     4    NA
+3           NA     0   -99
+4            2     4   -99
+5            4     5     3
+6            3     1   -99</code></pre>
+<p>And last, if I wanted NAs in the <code>decision_var</code> to be
+dealt with in a different way from the other values, I would
+<strong>not</strong> want to use %in%. See example below.</p>
+<p>My new logic is</p>
+<p>If <code>decision_var</code> !=4 then <code>Var3</code> should be
+-99, If <code>decision_var</code> is NA then <code>Var3</code> should be
+NA, else it should be it’s current value</p>
+<pre class="r"><code>d21 %&gt;%
+  dplyr::mutate(
+    Var3 =
+      dplyr::case_when(
+        decision_var != 4 ~ -99,
+        is.na(decision_var) ~ NA_real_,
+        TRUE ~ Var3
+      )
+  )</code></pre>
+<pre><code># A tibble: 6 x 3
+  decision_var  Var2  Var3
+         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1            2     5   -99
+2            4     4    NA
+3           NA     0    NA
+4            2     4   -99
+5            4     5     3
+6            3     1   -99</code></pre>
+<p><strong>2. Recode <code>Var3</code> into a dichotomous
+variable</strong></p>
+<p>Review the data (d22)</p>
+<pre><code># A tibble: 6 x 3
+   Var1  Var2  Var3
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     2     5     4
+2     4     4     3
+3    NA     0     4
+4     2     4     1
+5     4     5     3
+6     3     1    NA</code></pre>
+<p>My logic is</p>
+<p>If <code>Var3</code> !=4 then 0, else 1</p>
+<pre class="r"><code>d22 %&gt;%
+  dplyr::mutate(
+    Var3 =
+      dplyr::case_when(
+        !Var3 %in% 4 ~ 0,
+        TRUE ~ 1
+      )
+  )</code></pre>
+<pre><code># A tibble: 6 x 3
+   Var1  Var2  Var3
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     2     5     1
+2     4     4     0
+3    NA     0     1
+4     2     4     0
+5     4     5     0
+6     3     1     0</code></pre>
+<p>Similar to above, using <code>!</code> and <code>%in%</code> ensures
+that the NA is accounted for. If however, I wanted NA to stay NA, I
+would want to write something like this.</p>
+<pre class="r"><code>d22 %&gt;%
+  dplyr::mutate(
+    Var3 =
+      dplyr::case_when(
+        Var3 !=4 ~ 0,
+        is.na(Var3) ~ NA_real_,
+        TRUE ~ 1
+      )
+  )</code></pre>
+<pre><code># A tibble: 6 x 3
+   Var1  Var2  Var3
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     2     5     1
+2     4     4     0
+3    NA     0     1
+4     2     4     0
+5     4     5     0
+6     3     1    NA</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode">Recode</a></p>
 </div>
 </div>

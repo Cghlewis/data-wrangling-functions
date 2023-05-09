@@ -40,7 +40,7 @@ Here we can use `dplyr::mutate()` to create our new age variable.
 
 Then, we can calculate our age variable. 
 
-```{r R.options=list(pillar.sigfig = 10)}
+```{r R.options=list(pillar.sigfig = 8)}
 
 d4 %>%
   dplyr::mutate(age_months = lubridate::interval(start = dob, end = test_date)/base::months(1))
@@ -72,7 +72,7 @@ d4_new %>%
 
 The next step in the above function is to calculate the number of months that occur in that interval. To do that we can use the `base::months()` function. Adding the input of 1 to this function generates a duration of one month in seconds (2629800). You can get this number by typing `as.numeric(months(1))` in your console. Then we can divide our interval (which is in seconds) by our number of seconds in a month to get our total number of months (age) in an interval of time.
 
-```{r R.options=list(pillar.sigfig = 10)}
+```{r R.options=list(pillar.sigfig = 8)}
 
 d4_new %>%
   dplyr::mutate(age_months = age_interval/base::months(1))
@@ -81,16 +81,19 @@ d4_new %>%
 
 Similarly, we could use `lubridate::duration()` instead of the base function. The outcome is not quite identical but it's pretty close.
 
-```{r R.options=list(pillar.sigfig = 10)}
+
+```{r R.options=list(pillar.sigfig = 8)}
 
 d4_new %>%
   dplyr::mutate(age_months = age_interval/lubridate::duration(n = 1, units = "months"))
 
 ```
 
+Another option is to divide by `lubridate::dmonths(1)` which produces the same result as above.
+
 You could even do this by year if you wanted to. However, you'll see in the `lubridate::duration()` documentation, units larger than weeks are not necessarily advised due to their variability.
 
-```{r R.options=list(pillar.sigfig = 10)}
+```{r R.options=list(pillar.sigfig = 8)}
 
 d4_new %>%
   dplyr::mutate(age_years = age_interval/lubridate::duration(n = 1, units = "years"))

@@ -189,3 +189,23 @@ dict_internal <- tibble::tribble(~var_name, ~type, ~recode, ~recode_type,
                         "weather", "numeric", "1 -> 0; 2 -> 1; 3 -> 2", "likert",
                         "food", "numeric", "1 -> 0; 2 -> 1; 3 -> 2", "likert"
 )
+
+d21 <- tibble::tribble(
+  ~decision_var, ~Var2, ~Var3,
+  2, 5, NA,
+  4, 4, NA,
+  NA, 0, 4,
+  2, 4, 1,
+  4, 5, 3,
+  3, 1, NA
+)
+
+d22 <- tibble::tribble(
+  ~Var1, ~Var2, ~Var3,
+  2, 5, 4,
+  4, 4, 3,
+  NA, 0, 4,
+  2, 4, 1,
+  4, 5, 3,
+  3, 1, NA
+)

@@ -447,32 +447,28 @@ an interval of time.</p>
 2    11 2011-07-08 2021-10-15 2011-07-08 UTC--2021-10-15 UTC  123.22581
 3    12 2012-01-22 2021-10-15 2012-01-22 UTC--2021-10-15 UTC  116.76667
 4    13 2011-12-13 2021-10-17 2011-12-13 UTC--2021-10-17 UTC  118.12903</code></pre>
-<p>Similarly, we could use <code>lubridate::duration()</code> instead of
-the base function. The outcome is not quite identical but it’s pretty
-close.</p>
+<p>Another option is to wrap our interval in
+<code>lubridate::time_length()</code> rather than dividing by
+<code>base::months()</code></p>
 <pre class="r"><code>d4_new %&gt;%
-  dplyr::mutate(age_months = age_interval/lubridate::duration(n = 1, units = &quot;months&quot;))</code></pre>
+     dplyr::mutate(age_months = lubridate::time_length(age_interval, &quot;months&quot;))</code></pre>
 <pre><code># A tibble: 4 x 5
      id dob        test_date  age_interval                   age_months
   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;Interval&gt;                          &lt;dbl&gt;
-1    10 2010-11-12 2021-10-14 2010-11-12 UTC--2021-10-14 UTC  131.05544
-2    11 2011-07-08 2021-10-15 2011-07-08 UTC--2021-10-15 UTC  123.26899
-3    12 2012-01-22 2021-10-15 2012-01-22 UTC--2021-10-15 UTC  116.76386
-4    13 2011-12-13 2021-10-17 2011-12-13 UTC--2021-10-17 UTC  118.14374</code></pre>
-<p>Another option is to divide by <code>lubridate::dmonths(1)</code>
-which produces the same result as above.</p>
-<p>You could even do this by year if you wanted to. However, you’ll see
-in the <code>lubridate::duration()</code> documentation, units larger
-than weeks are not necessarily advised due to their variability.</p>
+1    10 2010-11-12 2021-10-14 2010-11-12 UTC--2021-10-14 UTC  131.06452
+2    11 2011-07-08 2021-10-15 2011-07-08 UTC--2021-10-15 UTC  123.22581
+3    12 2012-01-22 2021-10-15 2012-01-22 UTC--2021-10-15 UTC  116.76667
+4    13 2011-12-13 2021-10-17 2011-12-13 UTC--2021-10-17 UTC  118.12903</code></pre>
+<p>You could even do this by year if you wanted to.</p>
 <pre class="r"><code>d4_new %&gt;%
-  dplyr::mutate(age_years = age_interval/lubridate::duration(n = 1, units = &quot;years&quot;))</code></pre>
+  dplyr::mutate(age_years = lubridate::time_length(age_interval, &quot;years&quot;))</code></pre>
 <pre><code># A tibble: 4 x 5
      id dob        test_date  age_interval                    age_years
   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;Interval&gt;                          &lt;dbl&gt;
-1    10 2010-11-12 2021-10-14 2010-11-12 UTC--2021-10-14 UTC 10.921287 
-2    11 2011-07-08 2021-10-15 2011-07-08 UTC--2021-10-15 UTC 10.272416 
-3    12 2012-01-22 2021-10-15 2012-01-22 UTC--2021-10-15 UTC  9.7303217
-4    13 2011-12-13 2021-10-17 2011-12-13 UTC--2021-10-17 UTC  9.8453114</code></pre>
+1    10 2010-11-12 2021-10-14 2010-11-12 UTC--2021-10-14 UTC 10.920548 
+2    11 2011-07-08 2021-10-15 2011-07-08 UTC--2021-10-15 UTC 10.271233 
+3    12 2012-01-22 2021-10-15 2012-01-22 UTC--2021-10-15 UTC  9.7287671
+4    13 2011-12-13 2021-10-17 2011-12-13 UTC--2021-10-17 UTC  9.8438356</code></pre>
 <p>Last if you want a clean round number of months (and you most likely
 will want the number to be rounded to create more anonymity) you have
 several options. One option is to use the integral division operator

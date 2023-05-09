@@ -79,24 +79,21 @@ d4_new %>%
 
 ```
 
-Similarly, we could use `lubridate::duration()` instead of the base function. The outcome is not quite identical but it's pretty close.
-
+Another option is to wrap our interval in `lubridate::time_length()` rather than dividing by `base::months()`
 
 ```{r R.options=list(pillar.sigfig = 8)}
 
 d4_new %>%
-  dplyr::mutate(age_months = age_interval/lubridate::duration(n = 1, units = "months"))
+     dplyr::mutate(age_months = lubridate::time_length(age_interval, "months"))
 
 ```
 
-Another option is to divide by `lubridate::dmonths(1)` which produces the same result as above.
-
-You could even do this by year if you wanted to. However, you'll see in the `lubridate::duration()` documentation, units larger than weeks are not necessarily advised due to their variability.
+You could even do this by year if you wanted to. 
 
 ```{r R.options=list(pillar.sigfig = 8)}
 
 d4_new %>%
-  dplyr::mutate(age_years = age_interval/lubridate::duration(n = 1, units = "years"))
+  dplyr::mutate(age_years = lubridate::time_length(age_interval, "years"))
 
 ```
 

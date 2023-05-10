@@ -125,7 +125,33 @@ d5 %>%
 
 ```
 
-**3\. Calculate a mean score (`toca_mean`) for all the variables that begin with "toca", when the toca variables contain _labelled na values_**
+**3\. Calculate a mean score (`toca_mean`) for all the variables that contain the word "toca", for each student who is missing one or less values for an item**
+
+Review the data (d5)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d5
+
+```
+
+Calculate the mean toca score
+
+```{r}
+
+d5 %>% 
+  dplyr::mutate(
+    toca_mean = 
+      dplyr::case_when(
+        rowSums(is.na(across(starts_with("toca")))) <= 1 ~ 
+          rowMeans(dplyr::across(tidyselect::starts_with("toca")), na.rm=TRUE),
+    TRUE ~ NA_real_))
+
+```
+
+
+**4\. Calculate a mean score (`toca_mean`) for all the variables that begin with "toca", when the toca variables contain _labelled na values_**
 
 Review the data (d6)
 
@@ -300,6 +326,7 @@ d4 %>%
   dplyr::mutate(toca_mean = mean(dplyr::c_across(c(tidyselect::contains("toca"), -toca2, -toca4)), na.rm=TRUE))
 
 ```
+
 
 <br>
 

@@ -377,13 +377,14 @@ pre code {
 format</strong></p>
 <p>Let’s create some labelled data</p>
 <pre class="r"><code>d10 &lt;- d10 %&gt;%
-  labelled::set_variable_labels (Var1 = &quot;Name&quot;, 
-                                 Var2=&quot;Interest in Homework&quot;, 
-                                 Var3 =&quot;Lunch Status&quot;) %&gt;%
-  labelled::set_value_labels(Var2= c(&quot;not interested&quot;=1, &quot;mildly interested&quot;=2, 
-                                     &quot;very  interested&quot;=3), Var3=c(&quot;none&quot;=1, 
-                                    &quot;reduced-price&quot;=2, &quot;free&quot;=3)) %&gt;%
-  labelled::set_na_values(Var2=-999, Var3=-999)</code></pre>
+  labelled::set_variable_labels(
+    Var1 = &quot;Name&quot;,
+    Var2 = &quot;Interest in Homework&quot;,
+    Var3 = &quot;Lunch Status&quot;) %&gt;%
+  labelled::set_value_labels(
+    Var2 = c(&quot;not interested&quot; = 1, &quot;mildly interested&quot; = 2, &quot;very  interested&quot; = 3), 
+    Var3 = c(&quot;none&quot; = 1, &quot;reduced-price&quot; = 2, &quot;free&quot; = 3)) %&gt;%
+  labelled::set_na_values(Var2 = -999, Var3 = -999)</code></pre>
 <p>View the labelled data (d10)</p>
 <pre><code># A tibble: 3 x 3
   Var1                      Var2        Var3
@@ -403,8 +404,8 @@ more readable but we lose the value labels. If you run the
 is another function equivalent to <code>labelled::look_for()</code>. You
 can use either function.</p></li>
 </ul>
-<pre class="r"><code>knitr::kable(labelled::look_for(d10, details = TRUE) %&gt;% 
-               dplyr::select(variable, label, class, value_labels, na_values))</code></pre>
+<pre class="r"><code>knitr::kable(labelled::look_for(d10, details = TRUE) %&gt;%
+  dplyr::select(variable, label, class, value_labels, na_values))</code></pre>
 <table>
 <colgroup>
 <col width="7%" />
@@ -462,7 +463,7 @@ double</td>
 2 b     -999 (NA)                   1 [none]
 3 c        2 [mildly interested] -999 (NA)  </code></pre>
 <p>Review variable labels</p>
-<pre class="r"><code>d10 %&gt;% 
+<pre class="r"><code>d10 %&gt;%
   labelled::var_label()</code></pre>
 <pre><code>$Var1
 [1] &quot;Name&quot;
@@ -486,7 +487,7 @@ $Var3
 2 b     -999 (NA)                   1 [none]
 3 c        2 [mildly interested] -999 (NA)  </code></pre>
 <p>Review value labels</p>
-<pre class="r"><code>d10 %&gt;% 
+<pre class="r"><code>d10 %&gt;%
   labelled::val_labels()</code></pre>
 <pre><code>$Var1
 NULL
@@ -512,7 +513,8 @@ $Var3
 2 b     -999 (NA)                   1 [none]
 3 c        2 [mildly interested] -999 (NA)  </code></pre>
 <p>Review NA value labels</p>
-<pre class="r"><code>d10 %&gt;% labelled::na_values()</code></pre>
+<pre class="r"><code>d10 %&gt;% 
+  labelled::na_values()</code></pre>
 <pre><code>$Var1
 NULL
 
@@ -547,8 +549,8 @@ the argument <em>show.type=TRUE</em>, which shows us that
 <code>Var2</code> for instance is numeric but does not let us know that
 the class is haven_labelled_spss.</li>
 </ul>
-<pre class="r"><code>d10 %&gt;% 
-  sjPlot::view_df(show.type=TRUE)</code></pre>
+<pre class="r"><code>d10 %&gt;%
+  sjPlot::view_df(show.type = TRUE)</code></pre>
 <table style="border-collapse:collapse; border:none;">
 <caption>
 Data frame: .

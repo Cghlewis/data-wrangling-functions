@@ -6,9 +6,11 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(comment = NA,
-                      message = FALSE,
-                      warning = FALSE)
+knitr::opts_chunk$set(
+  comment = NA,
+  message = FALSE,
+  warning = FALSE
+)
 ```
 
 <br>
@@ -30,7 +32,6 @@ Review the data (d4)
 
 source("data.R")
 d4
-
 ```
 
 Add variable labels
@@ -38,11 +39,12 @@ Add variable labels
 ```{r}
 
 d4 <- d4 %>%
-  labelled::set_variable_labels (Var1 = "Name", Var2="Interest in Homework", 
-                                 Var3 ="Interest in School")
+  labelled::set_variable_labels(
+    Var1 = "Name", Var2 = "Interest in Homework",
+    Var3 = "Interest in School"
+  )
 
 labelled::var_label(d4)
-
 ```
 
 **2\. Derive variable labels from variable names (simple example)**
@@ -53,18 +55,17 @@ Review the data (d7)
 
 source("data.R")
 d7
-
 ```
 
 Set variable labels by adding the `base::names()` function which retrieves the names of objects
 
 ```{r}
 
-d7 <- d7 %>% 
-  labelled::set_variable_labels(.labels=names(d7))
+d7 <- d7 %>%
+  labelled::set_variable_labels(.labels = names(d7))
 
-d7 %>% labelled::var_label()
-
+d7 %>%
+  labelled::var_label()
 ```
 
 **3\. Derive variable labels from variable names (add sentence case)**
@@ -75,20 +76,18 @@ Review the data (d7)
 
 source("data.R")
 d7
-
 ```
 
 Set variable labels by adding the `snakecase::to_sentence_case()` function in addition to the `base::names()` function.
 
 ```{r}
 
-d7 <- d7 %>% 
-  labelled::set_variable_labels(.labels=snakecase::to_sentence_case(names(d7)))
+d7 <- d7 %>%
+  labelled::set_variable_labels(.labels = snakecase::to_sentence_case(names(d7)))
 
 
-d7 %>% labelled::var_label()
-
-
+d7 %>%
+  labelled::var_label()
 ```
 
 **4\. Derive variable labels from variable names (add additional info to labels)**
@@ -99,23 +98,25 @@ Review the data (d7)
 
 source("data.R")
 d7
-
 ```
 
 Set variable labels by adding the `stringr::str_replace_all()` function in addition to the `base::names()` function
 
 ```{r}
 
-d7 <- d7 %>% 
+d7 <- d7 %>%
   labelled::set_variable_labels(
-    .labels = stringr::str_replace_all(names(.),c("_"=" ", 
-                                         "map"="map score",
-                                         "math"="in mathematics",
-                                         "ela"= "in english language arts",
-                                         "20"="19-20 school year")))
+    .labels = stringr::str_replace_all(names(.), c(
+      "_" = " ",
+      "map" = "map score",
+      "math" = "in mathematics",
+      "ela" = "in english language arts",
+      "20" = "19-20 school year"
+    ))
+  )
 
-d7 %>% labelled::var_label()
-
+d7 %>%
+  labelled::var_label()
 ```
 
 **5\. Derive variable labels from variable names (add additional info to labels and use sentence case)**
@@ -126,24 +127,25 @@ Review the data (d7)
 
 source("data.R")
 d7
-
 ```
 
 Set variable labels by adding the `stringr::str_replace_all()` function in addition to the `snakecase::to_sentence_case()` and the `base::names()` function
 
 ```{r}
 
-d7 <- d7 %>% 
+d7 <- d7 %>%
   labelled::set_variable_labels(
-    .labels = snakecase::to_sentence_case(stringr::str_replace_all(names(.),c("_"=" ", 
-                                         "map"="map score",
-                                         "math"="in mathematics",
-                                         "ela"= "in english language arts",
-                                         "20"="19-20 school year"))))
+    .labels = snakecase::to_sentence_case(stringr::str_replace_all(names(.), c(
+      "_" = " ",
+      "map" = "map score",
+      "math" = "in mathematics",
+      "ela" = "in english language arts",
+      "20" = "19-20 school year"
+    )))
+  )
 
-d7 %>% labelled::var_label()
-
-
+d7 %>%
+  labelled::var_label()
 ```
 
 

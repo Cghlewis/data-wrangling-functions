@@ -388,10 +388,11 @@ pre code {
 am using them around multi-word labels with spaces. Also using them
 around all labels will not hurt anything.</li>
 </ul>
-<pre class="r"><code>d3 &lt;- d3 %&gt;% 
+<pre class="r"><code>d3 &lt;- d3 %&gt;%
   labelled::set_value_labels(
-  Var2= c(&quot;not interested&quot;=1, &quot;mildly interested&quot;=2,&quot;very interested&quot;=3),
-                                      Var3=c(none=1, &quot;reduced-price&quot;=2, free=3))
+    Var2 = c(&quot;not interested&quot; = 1, &quot;mildly interested&quot; = 2, &quot;very interested&quot; = 3),
+    Var3 = c(none = 1, &quot;reduced-price&quot; = 2, free = 3)
+  )
 
 labelled::val_labels(d3)</code></pre>
 <pre><code>$Var1
@@ -418,12 +419,12 @@ $Var3
 <li>Note: Parentheses are <em>not</em> required around labels here,
 although adding them will not hurt.</li>
 </ul>
-<pre class="r"><code>lab &lt;- c(disagree=1, neutral=2, agree=3)</code></pre>
+<pre class="r"><code>lab &lt;- c(disagree = 1, neutral = 2, agree = 3)</code></pre>
 <p>Add value labels to <code>Var2</code> and <code>Var3</code></p>
-<pre class="r"><code>d3 &lt;- d3 %&gt;% 
-  labelled::set_value_labels(Var2=lab, Var3=lab)
+<pre class="r"><code>d3 &lt;- d3 %&gt;%
+  labelled::set_value_labels(Var2 = lab, Var3 = lab)
 
-d3 %&gt;% 
+d3 %&gt;%
   labelled::val_labels()</code></pre>
 <pre><code>$Var1
 NULL
@@ -465,10 +466,10 @@ $Var3
 <li>Note: Parentheses are <em>not</em> required around labels here,
 although adding them will not hurt.</li>
 </ul>
-<pre class="r"><code>d3 &lt;- d3 %&gt;% 
-  labelled::add_value_labels(Var3=c(paid=1))
+<pre class="r"><code>d3 &lt;- d3 %&gt;%
+  labelled::add_value_labels(Var3 = c(paid = 1))
 
-d3 %&gt;% 
+d3 %&gt;%
   labelled::val_labels()</code></pre>
 <pre><code>$Var1
 NULL
@@ -534,7 +535,8 @@ label for 3 using <code>labelled::remove_value_labels()</code></li>
   labelled::remove_value_labels(Var3 = 3) %&gt;%
   labelled::add_value_labels(Var3 = c(&quot;none&quot; = 0))
 
-d3 %&gt;% labelled::val_labels()</code></pre>
+d3 %&gt;% 
+  labelled::val_labels()</code></pre>
 <pre><code>$Var1
 NULL
 
@@ -573,11 +575,14 @@ meet our criteria</p></li>
 <li><p>Note: Parentheses are <em>not</em> required around labels here,
 although adding them will not hurt.</p></li>
 </ul>
-<pre class="r"><code>d3 &lt;- d3 %&gt;% 
-  dplyr::mutate(across(tidyselect::starts_with(&#39;Var&#39;), 
-            ~labelled::labelled(., labels = c(disagree=1, neutral=2, agree=3))))
+<pre class="r"><code>d3 &lt;- d3 %&gt;%
+  dplyr::mutate(across(
+    tidyselect::starts_with(&quot;Var&quot;),
+    ~ labelled::labelled(., labels = c(disagree = 1, neutral = 2, agree = 3))
+  ))
 
-d3 %&gt;% labelled::val_labels()</code></pre>
+d3 %&gt;% 
+  labelled::val_labels()</code></pre>
 <pre><code>$Var1
 disagree  neutral    agree 
        1        2        3 
@@ -611,11 +616,13 @@ variables</p></li>
 <li><p>Note: Parentheses are <em>not</em> required around labels here,
 although adding them will not hurt.</p></li>
 </ul>
-<pre class="r"><code>d3 &lt;- d3 %&gt;% 
-  dplyr::mutate(dplyr::across(tidyselect::everything(), 
-            ~labelled::labelled(., labels = c(disagree=1, neutral=2, agree=3))))
+<pre class="r"><code>d3 &lt;- d3 %&gt;%
+  dplyr::mutate(dplyr::across(
+    tidyselect::everything(),
+    ~ labelled::labelled(., labels = c(disagree = 1, neutral = 2, agree = 3))
+  ))
 
-d3 %&gt;% 
+d3 %&gt;%
   labelled::val_labels()</code></pre>
 <pre><code>$Var1
 disagree  neutral    agree 

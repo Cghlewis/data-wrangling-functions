@@ -6,9 +6,11 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(comment = NA,
-                      message = FALSE,
-                      warning = FALSE)
+knitr::opts_chunk$set(
+  comment = NA,
+  message = FALSE,
+  warning = FALSE
+)
 ```
 
 <br>
@@ -30,7 +32,6 @@ Review the data (d3)
 
 source("data.R")
 d3
-
 ```
 
 
@@ -38,19 +39,19 @@ Add labels
 
 ```{r}
 
-d3 <- d3 %>% 
+d3 <- d3 %>%
   labelled::set_value_labels(
-  Var2= c("not interested"=1, "mildly interested"=2,"very interested"=3),
-  Var3=c("none"=1, "reduced-price"=2, "free"=3))
-
+    Var2 = c("not interested" = 1, "mildly interested" = 2, "very interested" = 3),
+    Var3 = c("none" = 1, "reduced-price" = 2, "free" = 3)
+  )
 ```
 
 Convert to factor
 
 ```{r}
 
-d3 %>% labelled::to_factor()
-
+d3 %>% 
+  labelled::to_factor()
 
 ```
 
@@ -62,7 +63,6 @@ Review the data (d3)
 
 source("data.R")
 d3
-
 ```
 
 
@@ -70,10 +70,11 @@ Add value labels to only some values in Var3 (as you can see we skipped 2)
 
 ```{r}
 
-d3 <- d3 %>% 
+d3 <- d3 %>%
   labelled::set_value_labels(
-  Var2= c("not interested"=1, "mildly interested"=2,"very interested"=3),
-  Var3=c("none"=1, "free"=3))
+    Var2 = c("not interested" = 1, "mildly interested" = 2, "very interested" = 3),
+    Var3 = c("none" = 1, "free" = 3)
+  )
 
 ```
 
@@ -83,8 +84,8 @@ Convert to factor by adding the argument *nolabel_to_na=TRUE* to turn unlabelled
 
 ```{r}
 
-d3 %>% 
-  labelled::to_factor(nolabel_to_na=TRUE)
+d3 %>%
+  labelled::to_factor(nolabel_to_na = TRUE)
 
 ```
 
@@ -113,20 +114,19 @@ Add labels
 
 ```{r}
 
-d3 <- d3 %>% 
+d3 <- d3 %>%
   labelled::set_value_labels(
-  Var2= c("not interested"=1, "mildly interested"=2,"very interested"=3),
-  Var3=c("none"=1, "reduced-price"=2, "free"=3))
-
+    Var2 = c("not interested" = 1, "mildly interested" = 2, "very interested" = 3),
+    Var3 = c("none" = 1, "reduced-price" = 2, "free" = 3)
+  )
 ```
 
 Convert to factor
 
 ```{r}
 
-d3 %>% 
+d3 %>%
   rio::factorize()
-
 
 ```
 
@@ -144,7 +144,6 @@ Review the data (d3)
 
 source("data.R")
 d3
-
 ```
 
 
@@ -152,20 +151,19 @@ Add labels
 
 ```{r}
 
-d3 <- d3 %>% 
+d3 <- d3 %>%
   labelled::set_value_labels(
-  Var2= c("not interested"=1, "mildly interested"=2,"very interested"=3),
-  Var3=c("none"=1, "reduced-price"=2, "free"=3))
-
+    Var2 = c("not interested" = 1, "mildly interested" = 2, "very interested" = 3),
+    Var3 = c("none" = 1, "reduced-price" = 2, "free" = 3)
+  )
 ```
 
 Convert to character
 
 ```{r}
 
-d3 %>% 
+d3 %>%
   rio::characterize()
-
 ```
 
 
@@ -186,7 +184,6 @@ Review the data (d3)
 
 source("data.R")
 d3
-
 ```
 
 
@@ -194,11 +191,11 @@ Add labels
 
 ```{r}
 
-d3 <- d3 %>% 
+d3 <- d3 %>%
   labelled::set_value_labels(
-  Var2= c("not interested"=1, "mildly interested"=2,"very interested"=3),
-  Var3=c("none"=1, "reduced-price"=2, "free"=3))
-
+    Var2 = c("not interested" = 1, "mildly interested" = 2, "very interested" = 3),
+    Var3 = c("none" = 1, "reduced-price" = 2, "free" = 3)
+  )
 ```
 
 Convert Var2 and Var3 to factor. 
@@ -207,19 +204,16 @@ Convert Var2 and Var3 to factor.
 
 ```{r}
 
-d3 %>% 
+d3 %>%
   haven::as_factor()
-
-
 ```
 
 You can also specifically convert only labelled variables (`haven::is.labelled()`) in your data frame (even though `haven::as_factor` will only convert variables with labels anyway) using the functions `dplyr::mutate()` in conjunction with `dplyr::across()` to edit selected variables. 
 
 ```{r}
 
-d3 %>% 
+d3 %>%
   dplyr::mutate(across(where(haven::is.labelled), haven::as_factor))
-
 ```
 
 
@@ -232,17 +226,16 @@ Review the data (d3)
 
 source("data.R")
 d3
-
 ```
 
 Add labels
 
 ```{r}
 
-d3 <- d3 %>% 
+d3 <- d3 %>%
   labelled::set_value_labels(
-  Var2= c("not interested"=1, "mildly interested"=2,"very interested"=3))
-
+    Var2 = c("not interested" = 1, "mildly interested" = 2, "very interested" = 3)
+  )
 ```
 
 
@@ -250,10 +243,8 @@ Convert Var2 to a factor by including the `dplyr::mutate()` function to create a
 
 ```{r}
 
-d3 %>% 
+d3 %>%
   dplyr::mutate(Var2 = haven::as_factor(Var2))
-
-
 ```
 
 Return to [Label Data](https://github.com/Cghlewis/data-wrangling-functions/wiki/Label Data)

@@ -384,12 +384,14 @@ labels)</strong></p>
 2     2     3     3
 3     3     3     1</code></pre>
 <p>Add labels</p>
-<pre class="r"><code>d3 &lt;- d3 %&gt;% 
+<pre class="r"><code>d3 &lt;- d3 %&gt;%
   labelled::set_value_labels(
-  Var2= c(&quot;not interested&quot;=1, &quot;mildly interested&quot;=2,&quot;very interested&quot;=3),
-  Var3=c(&quot;none&quot;=1, &quot;reduced-price&quot;=2, &quot;free&quot;=3))</code></pre>
+    Var2 = c(&quot;not interested&quot; = 1, &quot;mildly interested&quot; = 2, &quot;very interested&quot; = 3),
+    Var3 = c(&quot;none&quot; = 1, &quot;reduced-price&quot; = 2, &quot;free&quot; = 3)
+  )</code></pre>
 <p>Convert to factor</p>
-<pre class="r"><code>d3 %&gt;% labelled::to_factor()</code></pre>
+<pre class="r"><code>d3 %&gt;% 
+  labelled::to_factor()</code></pre>
 <pre><code># A tibble: 3 x 3
    Var1 Var2            Var3         
   &lt;dbl&gt; &lt;fct&gt;           &lt;fct&gt;        
@@ -408,10 +410,11 @@ values is not labelled, turn that value to NA</strong></p>
 3     3     3     1</code></pre>
 <p>Add value labels to only some values in Var3 (as you can see we
 skipped 2)</p>
-<pre class="r"><code>d3 &lt;- d3 %&gt;% 
+<pre class="r"><code>d3 &lt;- d3 %&gt;%
   labelled::set_value_labels(
-  Var2= c(&quot;not interested&quot;=1, &quot;mildly interested&quot;=2,&quot;very interested&quot;=3),
-  Var3=c(&quot;none&quot;=1, &quot;free&quot;=3))</code></pre>
+    Var2 = c(&quot;not interested&quot; = 1, &quot;mildly interested&quot; = 2, &quot;very interested&quot; = 3),
+    Var3 = c(&quot;none&quot; = 1, &quot;free&quot; = 3)
+  )</code></pre>
 <p>Convert to factor by adding the argument <em>nolabel_to_na=TRUE</em>
 to turn unlabelled values to NA.</p>
 <ul>
@@ -419,8 +422,8 @@ to turn unlabelled values to NA.</p>
 default <em>nolabel_to_na=FALSE</em>, unlabelled values will return as
 their numeric values rather than NA.</li>
 </ul>
-<pre class="r"><code>d3 %&gt;% 
-  labelled::to_factor(nolabel_to_na=TRUE)</code></pre>
+<pre class="r"><code>d3 %&gt;%
+  labelled::to_factor(nolabel_to_na = TRUE)</code></pre>
 <pre><code># A tibble: 3 x 3
    Var1 Var2            Var3 
   &lt;dbl&gt; &lt;fct&gt;           &lt;fct&gt;
@@ -446,12 +449,13 @@ labels)</strong></p>
 2     2     3     3
 3     3     3     1</code></pre>
 <p>Add labels</p>
-<pre class="r"><code>d3 &lt;- d3 %&gt;% 
+<pre class="r"><code>d3 &lt;- d3 %&gt;%
   labelled::set_value_labels(
-  Var2= c(&quot;not interested&quot;=1, &quot;mildly interested&quot;=2,&quot;very interested&quot;=3),
-  Var3=c(&quot;none&quot;=1, &quot;reduced-price&quot;=2, &quot;free&quot;=3))</code></pre>
+    Var2 = c(&quot;not interested&quot; = 1, &quot;mildly interested&quot; = 2, &quot;very interested&quot; = 3),
+    Var3 = c(&quot;none&quot; = 1, &quot;reduced-price&quot; = 2, &quot;free&quot; = 3)
+  )</code></pre>
 <p>Convert to factor</p>
-<pre class="r"><code>d3 %&gt;% 
+<pre class="r"><code>d3 %&gt;%
   rio::factorize()</code></pre>
 <pre><code># A tibble: 3 x 3
    Var1 Var2            Var3         
@@ -475,12 +479,13 @@ labels)</strong></p>
 2     2     3     3
 3     3     3     1</code></pre>
 <p>Add labels</p>
-<pre class="r"><code>d3 &lt;- d3 %&gt;% 
+<pre class="r"><code>d3 &lt;- d3 %&gt;%
   labelled::set_value_labels(
-  Var2= c(&quot;not interested&quot;=1, &quot;mildly interested&quot;=2,&quot;very interested&quot;=3),
-  Var3=c(&quot;none&quot;=1, &quot;reduced-price&quot;=2, &quot;free&quot;=3))</code></pre>
+    Var2 = c(&quot;not interested&quot; = 1, &quot;mildly interested&quot; = 2, &quot;very interested&quot; = 3),
+    Var3 = c(&quot;none&quot; = 1, &quot;reduced-price&quot; = 2, &quot;free&quot; = 3)
+  )</code></pre>
 <p>Convert to character</p>
-<pre class="r"><code>d3 %&gt;% 
+<pre class="r"><code>d3 %&gt;%
   rio::characterize()</code></pre>
 <pre><code># A tibble: 3 x 3
    Var1 Var2            Var3         
@@ -507,10 +512,11 @@ labels)</strong></p>
 2     2     3     3
 3     3     3     1</code></pre>
 <p>Add labels</p>
-<pre class="r"><code>d3 &lt;- d3 %&gt;% 
+<pre class="r"><code>d3 &lt;- d3 %&gt;%
   labelled::set_value_labels(
-  Var2= c(&quot;not interested&quot;=1, &quot;mildly interested&quot;=2,&quot;very interested&quot;=3),
-  Var3=c(&quot;none&quot;=1, &quot;reduced-price&quot;=2, &quot;free&quot;=3))</code></pre>
+    Var2 = c(&quot;not interested&quot; = 1, &quot;mildly interested&quot; = 2, &quot;very interested&quot; = 3),
+    Var3 = c(&quot;none&quot; = 1, &quot;reduced-price&quot; = 2, &quot;free&quot; = 3)
+  )</code></pre>
 <p>Convert Var2 and Var3 to factor.</p>
 <ul>
 <li>Note: The default for <code>haven::as_factor()</code> is to assign
@@ -520,7 +526,7 @@ pasting together the label and value using the argument <em>levels =
 “both”</em>. You can see all arguments by typing <em>?as_factor</em> in
 the console and choosing the <code>haven</code> package.</li>
 </ul>
-<pre class="r"><code>d3 %&gt;% 
+<pre class="r"><code>d3 %&gt;%
   haven::as_factor()</code></pre>
 <pre><code># A tibble: 3 x 3
    Var1 Var2            Var3         
@@ -533,7 +539,7 @@ the console and choosing the <code>haven</code> package.</li>
 <code>haven::as_factor</code> will only convert variables with labels
 anyway) using the functions <code>dplyr::mutate()</code> in conjunction
 with <code>dplyr::across()</code> to edit selected variables.</p>
-<pre class="r"><code>d3 %&gt;% 
+<pre class="r"><code>d3 %&gt;%
   dplyr::mutate(across(where(haven::is.labelled), haven::as_factor))</code></pre>
 <pre><code># A tibble: 3 x 3
    Var1 Var2            Var3         
@@ -552,13 +558,14 @@ labels)</strong></p>
 2     2     3     3
 3     3     3     1</code></pre>
 <p>Add labels</p>
-<pre class="r"><code>d3 &lt;- d3 %&gt;% 
+<pre class="r"><code>d3 &lt;- d3 %&gt;%
   labelled::set_value_labels(
-  Var2= c(&quot;not interested&quot;=1, &quot;mildly interested&quot;=2,&quot;very interested&quot;=3))</code></pre>
+    Var2 = c(&quot;not interested&quot; = 1, &quot;mildly interested&quot; = 2, &quot;very interested&quot; = 3)
+  )</code></pre>
 <p>Convert Var2 to a factor by including the
 <code>dplyr::mutate()</code> function to create a new variable (which
 replaces the old variable because we named it the same).</p>
-<pre class="r"><code>d3 %&gt;% 
+<pre class="r"><code>d3 %&gt;%
   dplyr::mutate(Var2 = haven::as_factor(Var2))</code></pre>
 <pre><code># A tibble: 3 x 3
    Var1 Var2             Var3

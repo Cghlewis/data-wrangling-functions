@@ -26,7 +26,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ```{r, eval=FALSE}
 
-d <- haven::read_sav("name-of-import.sav")
+df <- haven::read_sav("name-of-import.sav")
 
 ```
 
@@ -37,7 +37,7 @@ d <- haven::read_sav("name-of-import.sav")
 
 ```{r, eval=FALSE}
 
-d <- haven::read_sav("file.sav", user_na=TRUE)
+df <- haven::read_sav("file.sav", user_na=TRUE)
 
 ```
 
@@ -52,7 +52,7 @@ d <- haven::read_sav("file.sav", user_na=TRUE)
 
 ```{r, eval=FALSE}
 
-haven::write_sav(d, "name-of-export.sav")
+haven::write_sav(df, "name-of-export.sav")
 
 ```
 
@@ -71,7 +71,7 @@ haven::write_sav(d, "name-of-export.sav")
 
 ```{r, eval=FALSE}
 
-openxlsx::write.xlsx(rio::characterize(d), "name-of-export.xlsx")
+openxlsx::write.xlsx(rio::characterize(df), "name-of-export.xlsx")
 
 ```
 

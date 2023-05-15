@@ -120,8 +120,7 @@ Add NA labels for -999 and 0
 d1 <- d1 %>%
   labelled::set_na_values(
     Var2 = c(-999, 0),
-    Var3 = c(-999, 0)
-  )
+    Var3 = c(-999, 0))
 
 labelled::na_values(d1)
 

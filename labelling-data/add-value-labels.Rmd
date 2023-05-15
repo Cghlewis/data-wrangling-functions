@@ -41,8 +41,7 @@ Add value labels to `Var2` and `Var3`
 d3 <- d3 %>%
   labelled::set_value_labels(
     Var2 = c("not interested" = 1, "mildly interested" = 2, "very interested" = 3),
-    Var3 = c(none = 1, "reduced-price" = 2, free = 3)
-  )
+    Var3 = c(none = 1, "reduced-price" = 2, free = 3))
 
 labelled::val_labels(d3)
 
@@ -105,8 +104,7 @@ View current labels for `Var3`
 
 d3 <- d3 %>%
   labelled::set_value_labels(
-    Var3 = c("none" = 1, "reduced-price" = 2, "free" = 3)
-  )
+    Var3 = c("none" = 1, "reduced-price" = 2, "free" = 3))
 
 d3 %>%
   labelled::val_labels()
@@ -144,8 +142,7 @@ View current labels for `Var3`
 
 d3 <- d3 %>%
   labelled::set_value_labels(
-    Var3 = c("some" = 1, "a lot" = 2, "none" = 3)
-  )
+    Var3 = c("some" = 1, "a lot" = 2, "none" = 3))
 
 d3 %>%
   labelled::val_labels()
@@ -223,8 +220,7 @@ Add the same value labels to multiple variables
 d3 <- d3 %>%
   dplyr::mutate(across(
     tidyselect::starts_with("Var"),
-    ~ labelled::labelled(., labels = c(disagree = 1, neutral = 2, agree = 3))
-  ))
+    ~ labelled::labelled(., labels = c(disagree = 1, neutral = 2, agree = 3))))
 
 d3 %>% 
   labelled::val_labels()
@@ -257,8 +253,7 @@ Add the same value labels to all variables
 d3 <- d3 %>%
   dplyr::mutate(dplyr::across(
     tidyselect::everything(),
-    ~ labelled::labelled(., labels = c(disagree = 1, neutral = 2, agree = 3))
-  ))
+    ~ labelled::labelled(., labels = c(disagree = 1, neutral = 2, agree = 3))))
 
 d3 %>%
   labelled::val_labels()

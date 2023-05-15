@@ -391,8 +391,7 @@ around all labels will not hurt anything.</li>
 <pre class="r"><code>d3 &lt;- d3 %&gt;%
   labelled::set_value_labels(
     Var2 = c(&quot;not interested&quot; = 1, &quot;mildly interested&quot; = 2, &quot;very interested&quot; = 3),
-    Var3 = c(none = 1, &quot;reduced-price&quot; = 2, free = 3)
-  )
+    Var3 = c(none = 1, &quot;reduced-price&quot; = 2, free = 3))
 
 labelled::val_labels(d3)</code></pre>
 <pre><code>$Var1
@@ -578,8 +577,7 @@ although adding them will not hurt.</p></li>
 <pre class="r"><code>d3 &lt;- d3 %&gt;%
   dplyr::mutate(across(
     tidyselect::starts_with(&quot;Var&quot;),
-    ~ labelled::labelled(., labels = c(disagree = 1, neutral = 2, agree = 3))
-  ))
+    ~ labelled::labelled(., labels = c(disagree = 1, neutral = 2, agree = 3))))
 
 d3 %&gt;% 
   labelled::val_labels()</code></pre>
@@ -619,8 +617,7 @@ although adding them will not hurt.</p></li>
 <pre class="r"><code>d3 &lt;- d3 %&gt;%
   dplyr::mutate(dplyr::across(
     tidyselect::everything(),
-    ~ labelled::labelled(., labels = c(disagree = 1, neutral = 2, agree = 3))
-  ))
+    ~ labelled::labelled(., labels = c(disagree = 1, neutral = 2, agree = 3))))
 
 d3 %&gt;%
   labelled::val_labels()</code></pre>

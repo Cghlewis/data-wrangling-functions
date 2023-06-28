@@ -435,6 +435,57 @@ which unlike <code>base::paste()</code> has no separator.</li>
 2     2    10 in      10in         
 3     3    15 cm      15cm         
 4     4    20 cm      20cm         </code></pre>
+<p><br></p>
+</div>
+</div>
+<div id="package-tidyr" class="section level3">
+<h3>Package: tidyr</h3>
+<hr />
+<div id="function-unite" class="section level4">
+<h4>Function: <code>unite()</code></h4>
+<hr />
+<p><strong>1. Combine multiple dummy variables into one
+variable</strong></p>
+<p>Review the data (d16)</p>
+<pre><code># A tibble: 3 x 4
+     id cheese pepperoni mushrooms
+  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;    
+1    10 cheese &lt;NA&gt;      mushrooms
+2    11 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;     
+3    12 &lt;NA&gt;   pepperoni &lt;NA&gt;     </code></pre>
+<p>Combine responses to the question “Which pizza toppings do you
+like?”</p>
+<p>The problem with <code>stringr::str_c()</code> and
+<code>base::paste0()</code> is that they don’t handle NA values well.
+Since this was a select all question, answers were provided when
+selected, and NA otherwise.</p>
+<pre class="r"><code>d16 %&gt;%
+  mutate(toppings = str_c(cheese, pepperoni, mushrooms, sep = &quot;,&quot;))</code></pre>
+<pre><code># A tibble: 3 x 5
+     id cheese pepperoni mushrooms toppings
+  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;   
+1    10 cheese &lt;NA&gt;      mushrooms &lt;NA&gt;    
+2    11 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;      &lt;NA&gt;    
+3    12 &lt;NA&gt;   pepperoni &lt;NA&gt;      &lt;NA&gt;    </code></pre>
+<pre class="r"><code>d16 %&gt;%
+  mutate(toppings = paste0(cheese, pepperoni, mushrooms, collapse = &quot;,&quot;))</code></pre>
+<pre><code># A tibble: 3 x 5
+     id cheese pepperoni mushrooms toppings                              
+  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;                                 
+1    10 cheese &lt;NA&gt;      mushrooms cheeseNAmushrooms,NANANA,NApepperoniNA
+2    11 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;      cheeseNAmushrooms,NANANA,NApepperoniNA
+3    12 &lt;NA&gt;   pepperoni &lt;NA&gt;      cheeseNAmushrooms,NANANA,NApepperoniNA</code></pre>
+<p>A great alternative is to use <code>tidyr::unite()</code>. Here we
+can use the argument <em>na.rm = TRUE</em></p>
+<p>*Note: <code>dplyr::mutate()</code> is not needed here</p>
+<pre class="r"><code>d16 %&gt;%
+  unite(col = toppings, cheese, pepperoni, mushrooms, sep = &quot;,&quot;, na.rm = TRUE)</code></pre>
+<pre><code># A tibble: 3 x 2
+     id toppings          
+  &lt;dbl&gt; &lt;chr&gt;             
+1    10 &quot;cheese,mushrooms&quot;
+2    11 &quot;&quot;                
+3    12 &quot;pepperoni&quot;       </code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Strings">Strings</a></p>
 </div>
 </div>

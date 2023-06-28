@@ -79,5 +79,56 @@ d10 %>%
 
 ```
 
+<br>
+
+### Package: tidyr
+
+---
+
+#### Function: `unite()`
+
+---
+
+**1\. Combine multiple dummy variables into one variable**
+
+Review the data (d16)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d16
+
+```
+
+Combine responses to the question "Which pizza toppings do you like?"
+
+The problem with `stringr::str_c()` and `base::paste0()` is that they don't handle NA values well. Since this was a select all question, answers were provided when selected, and NA otherwise.
+
+```{r}
+
+d16 %>%
+  mutate(toppings = str_c(cheese, pepperoni, mushrooms, sep = ","))
+
+```
+
+```{r}
+
+d16 %>%
+  mutate(toppings = paste0(cheese, pepperoni, mushrooms, collapse = ","))
+
+```
+
+A great alternative is to use `tidyr::unite()`. Here we can use the argument *na.rm = TRUE*
+
+*Note: `dplyr::mutate()` is not needed here
+
+```{r}
+
+d16 %>%
+  unite(col = toppings, cheese, pepperoni, mushrooms, sep = ",", na.rm = TRUE)
+
+```
+
 
 Return to [Strings](https://github.com/Cghlewis/data-wrangling-functions/wiki/Strings)

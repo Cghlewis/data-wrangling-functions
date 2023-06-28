@@ -115,5 +115,8 @@ d15 <- tibble::tribble(~tch_id, ~tch_years,
           103, "15 yrs",
           107, "1.5 Years")
 
-
+d16 <- tibble::tribble(~id, ~cheese, ~pepperoni, ~mushrooms,
+                       10, "cheese", NA, "mushrooms",
+                       11, NA, NA, NA,
+                       12, NA, "pepperoni", NA)
 

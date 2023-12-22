@@ -1,5 +1,5 @@
 ---
-title: "Calculate percent reliable"
+title: "Calculate percent agreement"
 output: 
   html_document:
     toc: false
@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Calculate the percent reliable across all variables for each teacher/pair of raters**
+**1\. Calculate the percent agreement across all variables for each teacher/pair of raters**
 
 Review the data (rater_data)
 
@@ -34,7 +34,7 @@ rater_data
 ```
 
 First get a reliability score for each variable.
-0 = not reliable, 1 = reliable
+0 = no agreement, 1 = agreement
 
 We can do this using `base::diff()` and then recoding values to 0 or 1.
 

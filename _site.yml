@@ -136,6 +136,8 @@ navbar:
     href: calculate-row-values\row-calcs-strings.html
   - text: "Calculate NA row values"
     href: calculate-row-values\row-calcs-na.html 
+  - text: "Cacluate percent reliability"
+    href: calculate-row-values\row-calcs-percent-reliable.html
   - text: "Compare data frames"
     href: compare-data-frames\compare-df.html
   - text: "Compare data frame columns"

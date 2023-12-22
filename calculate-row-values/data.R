@@ -63,3 +63,12 @@ d8 <- tibble::tribble (~id, ~kid1, ~kid2, ~kid3,
                        12, NA, NA, NA,
                        13, 4, NA, NA)
 
+rater_data <- tibble::tribble(~tch_id, ~rater_id, 
+                              ~item1, ~item2, ~item3,
+                              100, 5, 1, 0, 3,
+                              100, 10, 1, 1, 3,
+                              101, 5, 0, 1, 2,
+                              101, 8, 0, 0, 2,
+                              102, 6, 1, 1, 1,
+                              102, 8, 1, 1, 1)
+

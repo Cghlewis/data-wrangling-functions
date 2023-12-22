@@ -1,0 +1,69 @@
+---
+title: "Calculate percent reliable"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: base
+
+---
+
+#### Function: `rowMeans()`
+
+---
+
+**1\. Calculate the percent reliable across all variables for each teacher/pair of raters**
+
+Review the data (rater_data)
+
+```{r, echo=FALSE}
+
+source("data.R")
+rater_data
+
+```
+
+First get a reliability score for each variable.
+0 = not reliable, 1 = reliable
+
+We can do this using `base::diff()` and then recoding values to 0 or 1.
+
+```{r}
+
+rater_summarize <- rater_data %>% 
+  group_by(tch_id) %>%
+  dplyr::summarise(across(item1:item3, diff)) %>%
+  dplyr::mutate(across(item1:item3,
+                       ~ case_when(
+                         . == 0 ~ 1,
+                         TRUE ~ 0
+                       )))
+
+rater_summarize
+
+```
+
+Next we can calculate a row mean (using `base::rowMeans()`) to get a percent reliability per teacher/rater pair.
+
+```{r}
+
+rater_summarize %>%
+  mutate(rater_reliability = 
+           base::round(
+             base::rowMeans(across(item1:item3), na.rm = TRUE),
+         digits = 2))
+
+```
+
+
+Return to [Calculate Row Values](https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate Row Values)

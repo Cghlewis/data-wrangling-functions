@@ -40,7 +40,7 @@ We can do this using `base::diff()` and then recoding values to 0 or 1.
 
 ```{r}
 
-rater_summarize <- rater_data %>% 
+rater_summary <- rater_data %>% 
   group_by(tch_id) %>%
   dplyr::summarise(across(item1:item3, diff)) %>%
   dplyr::mutate(across(item1:item3,
@@ -49,7 +49,7 @@ rater_summarize <- rater_data %>%
                          TRUE ~ 0
                        )))
 
-rater_summarize
+rater_summary
 
 ```
 
@@ -57,11 +57,10 @@ Next we can calculate a row mean (using `base::rowMeans()`) to get a percent agr
 
 ```{r}
 
-rater_summarize %>%
-  mutate(percent_agreement = 
-           base::round(
-             base::rowMeans(across(item1:item3), na.rm = TRUE),
-         digits = 2))
+rater_summary %>%
+  mutate(percent_agree =
+           base::round(base::rowMeans(across(item1:item3), na.rm = TRUE),
+                       digits = 2))
 
 ```
 

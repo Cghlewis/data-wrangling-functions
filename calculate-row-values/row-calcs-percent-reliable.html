@@ -389,7 +389,7 @@ each teacher/pair of raters</strong></p>
 agreement</p>
 <p>We can do this using <code>base::diff()</code> and then recoding
 values to 0 or 1.</p>
-<pre class="r"><code>rater_summarize &lt;- rater_data %&gt;% 
+<pre class="r"><code>rater_summary &lt;- rater_data %&gt;% 
   group_by(tch_id) %&gt;%
   dplyr::summarise(across(item1:item3, diff)) %&gt;%
   dplyr::mutate(across(item1:item3,
@@ -398,7 +398,7 @@ values to 0 or 1.</p>
                          TRUE ~ 0
                        )))
 
-rater_summarize</code></pre>
+rater_summary</code></pre>
 <pre><code># A tibble: 3 x 4
   tch_id item1 item2 item3
    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -408,17 +408,16 @@ rater_summarize</code></pre>
 <p>Next we can calculate a row mean (using
 <code>base::rowMeans()</code>) to get a percent agreement per
 teacher/rater pair.</p>
-<pre class="r"><code>rater_summarize %&gt;%
-  mutate(percent_agreement = 
-           base::round(
-             base::rowMeans(across(item1:item3), na.rm = TRUE),
-         digits = 2))</code></pre>
+<pre class="r"><code>rater_summary %&gt;%
+  mutate(percent_agree =
+           base::round(base::rowMeans(across(item1:item3), na.rm = TRUE),
+                       digits = 2))</code></pre>
 <pre><code># A tibble: 3 x 5
-  tch_id item1 item2 item3 percent_agreement
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;             &lt;dbl&gt;
-1    100     1     0     1              0.67
-2    101     1     0     1              0.67
-3    102     1     1     1              1   </code></pre>
+  tch_id item1 item2 item3 percent_agree
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;         &lt;dbl&gt;
+1    100     1     0     1          0.67
+2    101     1     0     1          0.67
+3    102     1     1     1          1   </code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate%20Row%20Values">Calculate
 Row Values</a></p>
 </div>

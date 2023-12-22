@@ -33,7 +33,7 @@ rater_data
 
 ```
 
-First get a reliability score for each variable.
+First get an agreement score for each variable.
 0 = no agreement, 1 = agreement
 
 We can do this using `base::diff()` and then recoding values to 0 or 1.
@@ -53,12 +53,12 @@ rater_summarize
 
 ```
 
-Next we can calculate a row mean (using `base::rowMeans()`) to get a percent reliability per teacher/rater pair.
+Next we can calculate a row mean (using `base::rowMeans()`) to get a percent agreement per teacher/rater pair.
 
 ```{r}
 
 rater_summarize %>%
-  mutate(rater_reliability = 
+  mutate(percent_agreement = 
            base::round(
              base::rowMeans(across(item1:item3), na.rm = TRUE),
          digits = 2))

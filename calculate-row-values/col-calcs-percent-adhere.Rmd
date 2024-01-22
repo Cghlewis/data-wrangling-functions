@@ -43,7 +43,7 @@ Here we want to know the percentage of teachers that implemented `item1` in time
 ```{r}
 
 obs_data %>%
-  dplyr::summarise(item1_t1_per = sum(item1_t1, na.rm = TRUE)/n())
+  dplyr::summarise(item1_t1_per = base::sum(item1_t1, na.rm = TRUE)/dplyr::n())
 
 ```
 
@@ -79,7 +79,40 @@ Then calculate percent adherence
 ```{r}
 
 obs_data_long %>%
-  dplyr::summarise(item1_per = sum(item1, na.rm = TRUE)/n())
+  dplyr::summarise(item1_per = base::sum(item1, na.rm = TRUE)/dplyr::n())
+
+```
+
+
+**3\. Calculate percent adherence for multiple items across all time periods**
+
+Review the data (obs_data2)
+
+```{r, echo=FALSE}
+
+source("data.R")
+obs_data2
+
+```
+
+Similar to above, first we restructure
+
+```{r}
+obs_data2_long <- obs_data2 %>%
+  tidyr::pivot_longer(
+    cols = starts_with("item"),
+    names_sep = ("_"),
+    names_to = c(".value", "time"))
+
+head(obs_data2_long)
+```
+
+Then calculate percent adherence for `item1` and `item2`
+
+```{r}
+
+obs_data2_long %>%
+  dplyr::summarise(across(contains("item"), ~base::sum(., na.rm = TRUE)/dplyr::n(), .names = "{.col}_per"))
 
 ```
 

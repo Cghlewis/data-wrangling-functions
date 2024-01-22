@@ -64,7 +64,7 @@ Calculate a the total number of students across all schools.
 ```{r}
 
 d9 %>% 
-  dplyr::summarise(total_students = sum(n_students, na.rm = TRUE))
+  dplyr::summarise(total_students = base::sum(n_students, na.rm = TRUE))
 
 ```
 

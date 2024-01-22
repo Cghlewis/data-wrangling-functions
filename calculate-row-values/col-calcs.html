@@ -11,7 +11,7 @@
 
 
 
-<title>Calculate column values</title>
+<title>Calculate percent adherence</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,7 +361,7 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Calculate column values</h1>
+<h1 class="title toc-ignore">Calculate percent adherence</h1>
 
 </div>
 
@@ -408,8 +408,14 @@ all schools</strong></p>
 3     12        189
 4     13        215</code></pre>
 <p>Calculate a the total number of students across all schools.</p>
+<ul>
+<li>Note: The default for <code>sum()</code> is to <strong>not</strong>
+calculate a sum if any NA value exists. If you want to still calculate a
+sum despite missing values, you can add the argument <em>na.rm =
+TRUE</em>.</li>
+</ul>
 <pre class="r"><code>d9 %&gt;% 
-  dplyr::summarise(total_students = sum(n_students, na.rm = TRUE))</code></pre>
+  dplyr::summarise(total_students = base::sum(n_students, na.rm = TRUE))</code></pre>
 <pre><code># A tibble: 1 x 1
   total_students
            &lt;dbl&gt;

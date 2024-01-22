@@ -72,3 +72,17 @@ rater_data <- tibble::tribble(~tch_id, ~rater_id,
                               102, 6, 1, 1, 1,
                               102, 8, 1, 1, 1)
 
+d9 <- tibble::tribble(~sch_id, ~n_students,
+                      10, 150,
+                      11, 223,
+                      12, 189,
+                      13, 215)
+
+obs_data <- tibble::tribble(~tch_id,
+                              ~item1_t1, ~item1_t2, ~item1_t3,
+                              100, 1, 0, 1,
+                              101,  1, 1, 1,
+                              102, 0, 1, 1,
+                              104, 1, 1, 1,
+                              107, 1, 1, 0,
+                              109, 1, 1, 0)

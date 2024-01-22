@@ -365,4 +365,4 @@ d2 %>%
 
 ```
 
-Return to [Calculate Row Values](https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate Row Values)
+Return to [Calculate Values](https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate-Values)

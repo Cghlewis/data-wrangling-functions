@@ -43,7 +43,7 @@ Here we want to know the percentage of teachers that implemented `item1` in time
 ```{r}
 
 obs_data %>%
-  summarise(item1_t1_per = sum(item1_t1, na.rm = TRUE)/n())
+  dplyr::summarise(item1_t1_per = sum(item1_t1, na.rm = TRUE)/n())
 
 ```
 
@@ -70,7 +70,7 @@ obs_data_long <- obs_data %>%
     names_sep = ("_"),
     names_to = c(".value", "time"))
 
-obs_data_long
+head(obs_data_long)
 
 ```
 
@@ -79,7 +79,7 @@ Then calculate percent adherence
 ```{r}
 
 obs_data_long %>%
-  summarise(item1_per = sum(item1, na.rm = TRUE)/n())
+  dplyr::summarise(item1_per = sum(item1, na.rm = TRUE)/n())
 
 ```
 

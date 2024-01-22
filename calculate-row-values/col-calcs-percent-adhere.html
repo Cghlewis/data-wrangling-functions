@@ -396,7 +396,7 @@ sum despite missing values, you can add the argument <em>na.rm =
 TRUE</em>.</li>
 </ul>
 <pre class="r"><code>obs_data %&gt;%
-  summarise(item1_t1_per = sum(item1_t1, na.rm = TRUE)/n())</code></pre>
+  dplyr::summarise(item1_t1_per = sum(item1_t1, na.rm = TRUE)/n())</code></pre>
 <pre><code># A tibble: 1 x 1
   item1_t1_per
          &lt;dbl&gt;
@@ -423,31 +423,19 @@ so that all item1 values are in the same column.</p>
     names_sep = (&quot;_&quot;),
     names_to = c(&quot;.value&quot;, &quot;time&quot;))
 
-obs_data_long</code></pre>
-<pre><code># A tibble: 18 x 3
-   tch_id time  item1
-    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
- 1    100 t1        1
- 2    100 t2        0
- 3    100 t3        1
- 4    101 t1        1
- 5    101 t2        1
- 6    101 t3        1
- 7    102 t1        0
- 8    102 t2        1
- 9    102 t3        1
-10    104 t1        1
-11    104 t2        1
-12    104 t3        1
-13    107 t1        1
-14    107 t2        1
-15    107 t3        0
-16    109 t1        1
-17    109 t2        1
-18    109 t3        0</code></pre>
+head(obs_data_long)</code></pre>
+<pre><code># A tibble: 6 x 3
+  tch_id time  item1
+   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
+1    100 t1        1
+2    100 t2        0
+3    100 t3        1
+4    101 t1        1
+5    101 t2        1
+6    101 t3        1</code></pre>
 <p>Then calculate percent adherence</p>
 <pre class="r"><code>obs_data_long %&gt;%
-  summarise(item1_per = sum(item1, na.rm = TRUE)/n())</code></pre>
+  dplyr::summarise(item1_per = sum(item1, na.rm = TRUE)/n())</code></pre>
 <pre><code># A tibble: 1 x 1
   item1_per
       &lt;dbl&gt;

@@ -42,9 +42,9 @@ We can do this using `base::diff()` and then recoding values to 0 or 1.
 
 rater_summary <- rater_data %>% 
   group_by(tch_id) %>%
-  dplyr::summarise(across(item1:item3, diff)) %>%
-  dplyr::mutate(across(item1:item3,
-                       ~ case_when(
+  dplyr::summarise(dplyr::across(item1:item3, diff)) %>%
+  dplyr::mutate(dplyr::across(item1:item3,
+                       ~ dplyr::case_when(
                          . == 0 ~ 1,
                          TRUE ~ 0
                        )))
@@ -58,8 +58,8 @@ Next we can calculate a row mean (using `base::rowMeans()`) to get a percent agr
 ```{r}
 
 rater_summary %>%
-  mutate(percent_agree =
-           base::round(base::rowMeans(across(item1:item3), na.rm = TRUE),
+  dplyr::mutate(percent_agree =
+           round(rowMeans(dplyr::across(item1:item3), na.rm = TRUE),
                        digits = 2))
 
 ```

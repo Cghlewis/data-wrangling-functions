@@ -39,3 +39,8 @@ d5 <- tibble::tribble(~f_name, ~l_name, ~item1, ~item2, ~item3, ~item4,
                       "nellie", "lorie", 3, 5, 1, 5,
                       "mike", "skuld", 3, 1, 3, 5)
 
+
+d6 <- tibble::tribble(~f_name, ~l_name, ~item1, ~item2, ~item3, ~item4,
+                      "oscar", "lewis", 3, 1, 3, 4,
+                      "nate", "purdy", 2, 5, 1, 1)
+

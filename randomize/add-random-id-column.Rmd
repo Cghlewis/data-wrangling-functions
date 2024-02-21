@@ -68,5 +68,65 @@ d5 %>%
 
 ```
 
+**2\. Add `study_id` values for newly added participants**
+
+Review the new data (d6)
+
+```{r, echo = FALSE}
+
+source("data.R")
+d6
+
+```
+
+First we need to get a vector of the `study_id` values that we have already used
+
+```{r echo = FALSE}
+
+base::set.seed(3456)
+
+d5 <- d5 %>% 
+  dplyr::mutate(study_id = base::sample(400:500, size = base::length(f_name)), .after = l_name)
+
+
+```
+
+```{r}
+
+used_ids <- d5 %>%
+  dplyr::pull(study_id)
+
+```
+
+
+Now we can create a vector of available `study_id` values
+
+```{r}
+
+new_ids <- tibble::tibble(study_id = 400:500) %>%
+  dplyr::filter(!study_id %in% used_ids) %>%
+  dplyr::pull(study_id)
+
+```
+
+Now we can randomly assign an ID to our new students that doesn't overlap with the IDs we've already used
+
+```{r}
+
+d6 <- d6 %>%
+  dplyr::mutate(study_id = base::sample(new_ids, size = base::length(f_name)), .after = l_name)
+
+d6
+
+```
+
+Now we can append the two datasets to get our full sample.
+
+```{r}
+
+bind_rows(d5, d6)
+
+```
+
 
 Return to [Randomize](https://github.com/Cghlewis/data-wrangling-functions/wiki/Randomize)

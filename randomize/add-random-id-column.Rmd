@@ -56,14 +56,14 @@ d5 %>%
 
 ```
 
-Instead of typing in the exact *size* argument, I could also use the `base::length()` argument and choose first or last name to get the number of cases.
+Instead of typing in the exact *size* argument, I could also use `dplyr::n()` to get the number of cases.
 
 ```{r}
 
 base::set.seed(3456)
 
 d5 %>% 
-  dplyr::mutate(study_id = base::sample(400:500, size = base::length(f_name)), .after = l_name)
+  dplyr::mutate(study_id = base::sample(400:500, size = n()), .after = l_name)
 
 
 ```
@@ -86,7 +86,7 @@ First we need to get a vector of the `study_id` values that we have already used
 base::set.seed(3456)
 
 d5 <- d5 %>% 
-  dplyr::mutate(study_id = base::sample(400:500, size = base::length(f_name)), .after = l_name)
+  dplyr::mutate(study_id = base::sample(400:500, size = n()), .after = l_name)
 
 
 ```
@@ -114,7 +114,7 @@ Now we can randomly assign an ID to our new students that doesn't overlap with t
 ```{r}
 
 d6 <- d6 %>%
-  dplyr::mutate(study_id = base::sample(new_ids, size = base::length(f_name)), .after = l_name)
+  dplyr::mutate(study_id = base::sample(new_ids, size = n()), .after = l_name)
 
 d6
 
@@ -124,9 +124,54 @@ Now we can append the two datasets to get our full sample.
 
 ```{r}
 
-bind_rows(d5, d6)
+dplyr::bind_rows(d5, d6)
 
 ```
 
+**3\. Add a new column (`study_id`) to the data but keep the ID the same within groups**
+
+Review the data (d7)
+
+```{r, echo = FALSE}
+
+source("data.R")
+d7
+
+```
+
+Here I have duplicate names in my list but I'm not sure which email is correct so I want to assign all duplicates the same ID.
+
+First I will want to standardize capitalization in names. Then I can assign random IDs across groups, and same IDs within groups.
+
+Here I am using `tidyr::nest()` rather than `dplyr::group_by()` because the latter applies rowwise sampling, allowing IDs to repeat across groups. 
+
+```{r}
+
+set.seed(2489)
+
+d7 %>%
+  dplyr::mutate(dplyr::across(c(f_name, l_name), stringr::str_to_title)) %>%
+  tidyr::nest(data = c(-l_name, -f_name)) %>%
+  dplyr::mutate(id = base::sample(200:205, n(), replace = FALSE)) %>%
+  tidyr::unnest(data)
+
+```
+
+Similarly we could assing IDs to unique names and then join those IDs to the full file.
+
+```{r}
+
+set.seed(2489)
+
+ids <- d7 %>%
+  dplyr::mutate(dplyr::across(c(f_name, l_name), stringr::str_to_title)) %>%
+  dplyr::distinct(f_name, l_name) %>%
+  dplyr::mutate(id = base::sample(200:205, n()))
+
+d7 %>%
+  dplyr::mutate(dplyr::across(c(f_name, l_name), stringr::str_to_title)) %>%  
+  dplyr::left_join(ids, by = c("f_name", "l_name"))
+
+```
 
 Return to [Randomize](https://github.com/Cghlewis/data-wrangling-functions/wiki/Randomize)

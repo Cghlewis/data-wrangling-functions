@@ -38,7 +38,7 @@ I want to randomly assign a treatment variable (`treat`) to cases. 1 = treatment
 
 First we need to use `base::set.seed()` and choose any number to add as my seed. Setting this seed ensures that if I ever run this code again at a later time, I will get the same random sample each time. Very important!
 
-Within my `base::sample()` function I can use `base::rep()` to replicate the values of 0 and 1 and assign the number of times to use each value in the *times* argument. I could put the literal number `7` in this argument, or if I wanted R to do the calculation for me, I could use `base::length()` to calculate the number of rows and divide it by 2.
+Within my `base::sample()` function I can use `base::rep()` to replicate the values of 0 and 1 and assign the number of times to use each value in the *times* argument. I could put the literal number `7` in this argument, or if I wanted R to do the calculation for me, I could use `dplyr::n()` to calculate the number of rows and divide it by 2.
 
 * Note: I am using `dplyr::mutate()` to create my new "treat" variable.
 
@@ -47,7 +47,7 @@ Within my `base::sample()` function I can use `base::rep()` to replicate the val
 base::set.seed(1234)
 
 d1_new <- d1 %>%
-  dplyr::mutate(treat = base::sample(base::rep(c(1,0), times = base::length(id)/2)))
+  dplyr::mutate(treat = base::sample(base::rep(c(1,0), times = dplyr::n()/2)))
 
 d1_new
 
@@ -87,5 +87,6 @@ d1_new %>%
   janitor::tabyl(grade, treat)
 
 ```
+
 
 Return to [Randomize](https://github.com/Cghlewis/data-wrangling-functions/wiki/Randomize)

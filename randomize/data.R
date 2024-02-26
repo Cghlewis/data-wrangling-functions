@@ -44,3 +44,14 @@ d6 <- tibble::tribble(~f_name, ~l_name, ~item1, ~item2, ~item3, ~item4,
                       "oscar", "lewis", 3, 1, 3, 4,
                       "nate", "purdy", 2, 5, 1, 1)
 
+
+d7 <- tribble(~email, ~f_name, ~l_name, 
+              "crystal@email.com", "crystal", "harris", 
+              "randy@email.com", "randy", "lewis", 
+              "crystalharris@email.com", "crystal", "harris",
+              "charris@email.com", "Crystal", "harris",
+              "andy@email.com", "Andrew", "lemon",
+              "vince@email.com", "Vince", "lewis",
+              "kristin@email.com", "kristin", "black",
+              "andrewl@email.com", "andrew", "lemon")
+

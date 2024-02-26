@@ -404,8 +404,8 @@ time. Very important!</p>
 the number of times to use each value in the <em>times</em> argument. I
 could put the literal number <code>7</code> in this argument, or if I
 wanted R to do the calculation for me, I could use
-<code>base::length()</code> to calculate the number of rows and divide
-it by 2.</p>
+<code>dplyr::n()</code> to calculate the number of rows and divide it by
+2.</p>
 <ul>
 <li>Note: I am using <code>dplyr::mutate()</code> to create my new
 “treat” variable.</li>
@@ -413,7 +413,7 @@ it by 2.</p>
 <pre class="r"><code>base::set.seed(1234)
 
 d1_new &lt;- d1 %&gt;%
-  dplyr::mutate(treat = base::sample(base::rep(c(1,0), times = base::length(id)/2)))
+  dplyr::mutate(treat = base::sample(base::rep(c(1,0), times = dplyr::n()/2)))
 
 d1_new</code></pre>
 <pre><code># A tibble: 14 x 3

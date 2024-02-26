@@ -413,12 +413,11 @@ d5 %&gt;%
 2 nellie lorie       409     3     5     1     5
 3 mike   skuld       405     3     1     3     5</code></pre>
 <p>Instead of typing in the exact <em>size</em> argument, I could also
-use the <code>base::length()</code> argument and choose first or last
-name to get the number of cases.</p>
+use <code>dplyr::n()</code> to get the number of cases.</p>
 <pre class="r"><code>base::set.seed(3456)
 
 d5 %&gt;% 
-  dplyr::mutate(study_id = base::sample(400:500, size = base::length(f_name)), .after = l_name)</code></pre>
+  dplyr::mutate(study_id = base::sample(400:500, size = n()), .after = l_name)</code></pre>
 <pre><code># A tibble: 3 x 7
   f_name l_name study_id item1 item2 item3 item4
   &lt;chr&gt;  &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -445,7 +444,7 @@ values</p>
 <p>Now we can randomly assign an ID to our new students that doesn’t
 overlap with the IDs we’ve already used</p>
 <pre class="r"><code>d6 &lt;- d6 %&gt;%
-  dplyr::mutate(study_id = base::sample(new_ids, size = base::length(f_name)), .after = l_name)
+  dplyr::mutate(study_id = base::sample(new_ids, size = n()), .after = l_name)
 
 d6</code></pre>
 <pre><code># A tibble: 2 x 7
@@ -454,7 +453,7 @@ d6</code></pre>
 1 oscar  lewis       404     3     1     3     4
 2 nate   purdy       490     2     5     1     1</code></pre>
 <p>Now we can append the two datasets to get our full sample.</p>
-<pre class="r"><code>bind_rows(d5, d6)</code></pre>
+<pre class="r"><code>dplyr::bind_rows(d5, d6)</code></pre>
 <pre><code># A tibble: 5 x 7
   f_name l_name study_id item1 item2 item3 item4
   &lt;chr&gt;  &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -463,6 +462,68 @@ d6</code></pre>
 3 mike   skuld       405     3     1     3     5
 4 oscar  lewis       404     3     1     3     4
 5 nate   purdy       490     2     5     1     1</code></pre>
+<p><strong>3. Add a new column (<code>study_id</code>) to the data but
+keep the ID the same within groups</strong></p>
+<p>Review the data (d7)</p>
+<pre><code># A tibble: 8 x 3
+  email                   f_name  l_name
+  &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt; 
+1 crystal@email.com       crystal harris
+2 randy@email.com         randy   lewis 
+3 crystalharris@email.com crystal harris
+4 charris@email.com       Crystal harris
+5 andy@email.com          Andrew  lemon 
+6 vince@email.com         Vince   lewis 
+7 kristin@email.com       kristin black 
+8 andrewl@email.com       andrew  lemon </code></pre>
+<p>Here I have duplicate names in my list but I’m not sure which email
+is correct so I want to assign all duplicates the same ID.</p>
+<p>First I will want to standardize capitalization in names. Then I can
+assign random IDs across groups, and same IDs within groups.</p>
+<p>Here I am using <code>tidyr::nest()</code> rather than
+<code>dplyr::group_by()</code> because the latter applies rowwise
+sampling, allowing IDs to repeat across groups.</p>
+<pre class="r"><code>set.seed(2489)
+
+d7 %&gt;%
+  dplyr::mutate(dplyr::across(c(f_name, l_name), stringr::str_to_title)) %&gt;%
+  tidyr::nest(data = c(-l_name, -f_name)) %&gt;%
+  dplyr::mutate(id = base::sample(200:205, n(), replace = FALSE)) %&gt;%
+  tidyr::unnest(data)</code></pre>
+<pre><code># A tibble: 8 x 4
+  f_name  l_name email                      id
+  &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;                   &lt;int&gt;
+1 Crystal Harris crystal@email.com         201
+2 Crystal Harris crystalharris@email.com   201
+3 Crystal Harris charris@email.com         201
+4 Randy   Lewis  randy@email.com           200
+5 Andrew  Lemon  andy@email.com            203
+6 Andrew  Lemon  andrewl@email.com         203
+7 Vince   Lewis  vince@email.com           204
+8 Kristin Black  kristin@email.com         202</code></pre>
+<p>Similarly we could assing IDs to unique names and then join those IDs
+to the full file.</p>
+<pre class="r"><code>set.seed(2489)
+
+ids &lt;- d7 %&gt;%
+  dplyr::mutate(dplyr::across(c(f_name, l_name), stringr::str_to_title)) %&gt;%
+  dplyr::distinct(f_name, l_name) %&gt;%
+  dplyr::mutate(id = base::sample(200:205, n()))
+
+d7 %&gt;%
+  dplyr::mutate(dplyr::across(c(f_name, l_name), stringr::str_to_title)) %&gt;%  
+  dplyr::left_join(ids, by = c(&quot;f_name&quot;, &quot;l_name&quot;))</code></pre>
+<pre><code># A tibble: 8 x 4
+  email                   f_name  l_name    id
+  &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt;  &lt;int&gt;
+1 crystal@email.com       Crystal Harris   201
+2 randy@email.com         Randy   Lewis    200
+3 crystalharris@email.com Crystal Harris   201
+4 charris@email.com       Crystal Harris   201
+5 andy@email.com          Andrew  Lemon    203
+6 vince@email.com         Vince   Lewis    204
+7 kristin@email.com       Kristin Black    202
+8 andrewl@email.com       Andrew  Lemon    203</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Randomize">Randomize</a></p>
 </div>
 </div>

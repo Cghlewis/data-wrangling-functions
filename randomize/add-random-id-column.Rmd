@@ -157,7 +157,7 @@ d7 %>%
 
 ```
 
-Similarly we could assing IDs to unique names and then join those IDs to the full file.
+Similarly we could assign IDs to unique names and then join those IDs to the full file.
 
 ```{r}
 

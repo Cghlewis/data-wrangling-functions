@@ -11,7 +11,7 @@
 
 
 
-<title>Recode values</title>
+<title>Recode values using a named vector</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,7 +361,7 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Recode values</h1>
+<h1 class="title toc-ignore">Recode values using a named vector</h1>
 
 </div>
 
@@ -377,405 +377,45 @@ pre code {
 old value=new value, this is opposite of
 <code>dplyr::rename()</code>.</p>
 <p><br></p>
-<p><strong>1. Recode character values into different character values
-(for <code>gender</code>)</strong></p>
-<p>Review the data (d4)</p>
-<pre><code># A tibble: 3 x 3
-  id    gender lunch
-  &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;
-1 a     m      f    
-2 b     f      r    
-3 c     n      p    </code></pre>
-<p>Recode <code>gender</code></p>
-<ul>
-<li><p>Note: We did not have to put quotes around the old character
-values because <code>dplyr::recode()</code> replaces character or factor
-values by their name.</p></li>
-<li><p>Note: Parentheses <em>are</em> required around the new value when
-recoding into a character/factor variable.</p></li>
-<li><p>Note: We are recoding back into the same variable using
-<code>dplyr::mutate()</code>. However, we could have recoded into a new
-variable by changing the name of <em>gender</em>.</p></li>
-</ul>
-<pre class="r"><code>d4 %&gt;% 
-  dplyr::mutate(gender=dplyr::recode(gender, m=&quot;male&quot;, f=&quot;female&quot;, n=&quot;nonbinary&quot;))</code></pre>
-<pre><code># A tibble: 3 x 3
-  id    gender    lunch
-  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;
-1 a     male      f    
-2 b     female    r    
-3 c     nonbinary p    </code></pre>
-<p><strong>2. Recode a character variable (<code>gender</code>) into a
-numeric variable</strong></p>
-<p>Review the data (d4)</p>
-<pre><code># A tibble: 3 x 3
-  id    gender lunch
-  &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;
-1 a     m      f    
-2 b     f      r    
-3 c     n      p    </code></pre>
-<p>Recode <code>gender</code></p>
-<ul>
-<li><p>Note: Since we are recoding into a numeric variable, no quotes
-are necessary for the numeric new value.</p></li>
-<li><p>Note: We are recoding back into the same variable using
-<code>dplyr::mutate()</code>. However, we could have recoded into a new
-variable by changing the name of <em>gender</em>.</p></li>
-</ul>
-<pre class="r"><code>d4 %&gt;% 
-  dplyr::mutate(gender=dplyr::recode(gender, m=1, f=2, n=3))</code></pre>
-<pre><code># A tibble: 3 x 3
-  id    gender lunch
-  &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;
-1 a          1 f    
-2 b          2 r    
-3 c          3 p    </code></pre>
-<p><strong>3. Recode just one value in a numeric variable
-(<code>Var2</code>)</strong></p>
-<p>Review the data (d5)</p>
-<pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         1     2
-2 b        16     0
-3 c         3     1</code></pre>
-<p>Recode 16 -&gt; 4 in <code>Var2</code></p>
-<p>Note: We <em>did</em> have to put quotes around the old values
-because <code>dplyr::recode()</code> replaces numeric values by either
-their name or their position. If a number with no quotes/backticks is
-given, it will assume it is a position.</p>
-<p>Note: Since we are recoding into a numeric variable, no quotes are
-necessary are the numeric new value.</p>
-<p>Note: Notice here that we are only recoding one value in the
-variable. There is a <em>default</em> option that you can set all not
-recoded values to, and if no default is supplied and the replacement
-values are the same variable class as the original values (ex: numeric
-and numeric), then unmatched values are unchanged. <em>However</em>, if
-the replacement value is a new variable class (ex: numeric to character)
-then all other values will be recoded to NA.</p>
-<pre class="r"><code>d5 %&gt;% 
-  dplyr::mutate(Var2=dplyr::recode(Var2, `16`=4))</code></pre>
-<pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         1     2
-2 b         4     0
-3 c         3     1</code></pre>
-<p><strong>4. Recode just one value in a character variable
-(<code>Var</code>)</strong></p>
-<p>Review the data (d5)</p>
-<pre><code># A tibble: 3 x 2
-     id Var1 
-  &lt;dbl&gt; &lt;chr&gt;
-1   123 1.5  
-2   234 2.2  
-3   345 MR   </code></pre>
-<p>In this case I want Var1 to be numeric. However, missing values were
-entered as character values (“MR” for missing response) so I need to
-recode these values before I can convert this variable to numeric.</p>
-<ul>
-<li><p>Note: We did not have to put quotes around the old values because
-<code>dplyr::recode()</code> replaces character or factor values by
-their name.</p></li>
-<li><p>Note: Parentheses <em>are</em> required around the new value when
-recoding because the values in Var1 are still considered character even
-though they all appear as numeric after recoding.</p></li>
-</ul>
-<pre class="r"><code>d14 &lt;- d14 %&gt;%
-  dplyr::mutate(Var1 = dplyr::recode(Var1, MR = &quot;-99&quot;))
-
-d14</code></pre>
-<pre><code># A tibble: 3 x 2
-     id Var1 
-  &lt;dbl&gt; &lt;chr&gt;
-1   123 1.5  
-2   234 2.2  
-3   345 -99  </code></pre>
-<p>Note: Notice again that we are only recoding one value in the
-variable. If no default replacement option is supplied and the
-replacement values are the same variable class as the original values
-(ex: character to character), then unmatched values are unchanged.</p>
-<p>I can then now convert my variable to numeric without having my
-character values converted to NAs. If I tried to convert my Var1
-variable to numeric before recoding “MR” to -99, the
-<code>dplyr::recode()</code> function would convert “MR” to NA.</p>
-<pre class="r"><code>d14 %&gt;%
-  dplyr::mutate(Var1 = base::as.numeric(Var1))</code></pre>
-<pre><code># A tibble: 3 x 2
-     id  Var1
-  &lt;dbl&gt; &lt;dbl&gt;
-1   123   1.5
-2   234   2.2
-3   345 -99  </code></pre>
-<p><strong>5. Recode one value in a numeric haven labelled variable
-(<code>Var3</code>)</strong></p>
-<p>Review the data (d5)</p>
-<pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         1     2
-2 b        16     0
-3 c         3     1</code></pre>
-<p>View the variable labels for <code>Var3</code></p>
-<ul>
-<li>Note: You’ll see in this example there are three values and two
-value labels. In this instance, 2s are supposed to also be yes, but they
-do not contain a value label.</li>
-</ul>
-<pre class="r"><code>labelled::val_labels(d5$Var3)</code></pre>
-<pre><code> no yes 
-  0   1 </code></pre>
-<p>Recode 2 -&gt; 1 in <code>Var3</code></p>
-<p>Note: We <em>did</em> have to put quotes around the old values
-because <code>dplyr::recode()</code> replaces numeric values by either
-their name or their position. If a number with no quotes/backticks is
-given, it will assume it is a position.</p>
-<p>Note: Since we are recoding into a numeric variable, no quotes are
-necessary for the numeric new value.</p>
-<p>Note: Notice here that we are only recoding one value in the
-variable. There is a <em>.default</em> option that you can set all not
-recoded values to, and if no default is supplied and the replacement
-values are the same variable class as the original values (ex: numeric
-and numeric), then unmatched values are unchanged. <em>However</em>, if
-the replacement value is a new variable class (ex: numeric to character)
-then all other values will be recoded to NA.</p>
-<pre class="r"><code>d5 &lt;- d5 %&gt;% 
-  dplyr::mutate(Var3 = dplyr::recode(Var3, `2`=1))
-
-d5</code></pre>
-<pre><code># A tibble: 3 x 3
-  Var1   Var2      Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl+lbl&gt;
-1 a         1   1 [yes]
-2 b        16   0 [no] 
-3 c         3   1 [yes]</code></pre>
-<p>View the variable labels for <code>Var3</code></p>
-<p>Note: The value labels are retained. If the <code>labelled</code>
-package is loaded, additional functionality is available for
-<code>dplyr::recode()</code>, such as additional arguments for value
-labels. For example, there is an argument, <em>.keep_value_labels</em>,
-that you can add to <code>dplyr::recode()</code> and the default is
-TRUE. However, if you do not want to keep the value labels you can set
-the option to FALSE.</p>
-<pre class="r"><code>labelled::val_labels(d5$Var3)</code></pre>
-<pre><code> no yes 
-  0   1 </code></pre>
-<p><strong>6. Recode multiple values in a numeric haven labelled
-variable (<code>Var3</code>)</strong></p>
-<p>Review the data (d13)</p>
-<pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         1     6
-2 b        16     5
-3 c         3     6</code></pre>
-<p>View the variable labels for <code>Var3</code></p>
-<pre class="r"><code>d13 %&gt;%
-  dplyr::select(Var3) %&gt;%
-  labelled::val_labels()</code></pre>
-<pre><code>$Var3
- no yes 
-  5   6 </code></pre>
-<p>Recode 5 -&gt; 0 and 6 -&gt; 1 in <code>Var3</code></p>
-<p>Note: We <em>did</em> have to put quotes around the old values
-because <code>dplyr::recode()</code> replaces numeric values by either
-their name or their position. If a number with no quotes/backticks is
-given, it will assume it is a position.</p>
-<p>Note: Since we are recoding into a numeric variable, no quotes are
-necessary are the numeric new value.</p>
-<pre class="r"><code>d13 &lt;- d13 %&gt;% 
-  dplyr::mutate(Var3 = dplyr::recode(Var3, `5`=0, `6` = 1))
-
-d13</code></pre>
-<pre><code># A tibble: 3 x 3
-  Var1   Var2      Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl+lbl&gt;
-1 a         1         1
-2 b        16         0
-3 c         3         1</code></pre>
-<p>View the variable labels for <code>Var3</code></p>
-<p>Note: We left the <code>labelled</code> and
-<code>dplyr::recode()</code> default of <em>.keep_value_labels</em> is
-TRUE so our value labels are still funky.</p>
-<pre class="r"><code>d13 %&gt;%
-  dplyr::select(Var3) %&gt;%
-  labelled::val_labels()</code></pre>
-<pre><code>$Var3
- no yes 
-  5   6 </code></pre>
-<p>In this instance I don’t want to keep the original value labels. I
-don’t necessarily need to set the <em>.keep_value_labels</em> to FALSE
-though. I can just add new value labels and they will overwrite the
-previous labels.</p>
-<pre class="r"><code>d13 &lt;- d13 %&gt;% 
-  labelled::set_value_labels(Var3 = c(no = 0, yes = 1))
-
-d13 %&gt;%
-  dplyr::select(Var3) %&gt;%
-  labelled::val_labels()</code></pre>
-<pre><code>$Var3
- no yes 
-  0   1 </code></pre>
-<p><br></p>
-<hr />
-</div>
-<div id="function-case_when" class="section level4">
-<h4>Function: <code>case_when()</code></h4>
-<hr />
-<p><strong>1. Recode <code>Var3</code> based on
-<code>decision_var</code></strong></p>
-<p>Review the data (d21)</p>
-<pre><code># A tibble: 6 x 3
-  decision_var  Var2  Var3
-         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1            2     5    NA
-2            4     4    NA
-3           NA     0     4
-4            2     4     1
-5            4     5     3
-6            3     1    NA</code></pre>
-<p>My logic is</p>
-<p>If <code>decision_var</code> !=4 then <code>Var3</code> should be
--99, else it should be it’s current value</p>
-<pre class="r"><code>d21 %&gt;%
-  dplyr::mutate(
-    Var3 =
-      dplyr::case_when(
-        !decision_var %in% 4 ~ -99,
-        TRUE ~ Var3
-      )
-  )</code></pre>
-<pre><code># A tibble: 6 x 3
-  decision_var  Var2  Var3
-         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1            2     5   -99
-2            4     4    NA
-3           NA     0   -99
-4            2     4   -99
-5            4     5     3
-6            3     1   -99</code></pre>
-<p>Notice that I use the <code>!</code> outside of
-<code>decision_var</code> and use <code>%in%</code> instead of
-<code>!=</code>. This is just one way to deal with the NA values that
-exist in <code>decision_var</code>. In this case I wanted values to be
-recoded to -99 even if <code>decision_var</code> is NA.</p>
-<p>Let’s see what would happen if I wrote this the other way.</p>
-<pre class="r"><code>d21 %&gt;%
-  dplyr::mutate(
-    Var3 =
-      dplyr::case_when(
-        decision_var != 4 ~ -99,
-        TRUE ~ Var3
-      )
-  )</code></pre>
-<pre><code># A tibble: 6 x 3
-  decision_var  Var2  Var3
-         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1            2     5   -99
-2            4     4    NA
-3           NA     0     4
-4            2     4   -99
-5            4     5     3
-6            3     1   -99</code></pre>
-<p>Using <code>!=</code> above, the NAs in <code>decision_var</code> are
-not evaluated and so the value of <code>Var3</code> remains the same
-value. I could solve this problem another way by adding an explicit call
-to recode NAs like this below.</p>
-<pre class="r"><code>d21 %&gt;%
-  dplyr::mutate(
-    Var3 =
-      dplyr::case_when(
-        decision_var != 4 ~ -99,
-        is.na(decision_var) ~ -99,
-        TRUE ~ Var3
-      )
-  )</code></pre>
-<pre><code># A tibble: 6 x 3
-  decision_var  Var2  Var3
-         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1            2     5   -99
-2            4     4    NA
-3           NA     0   -99
-4            2     4   -99
-5            4     5     3
-6            3     1   -99</code></pre>
-<p>And last, if I wanted NAs in the <code>decision_var</code> to be
-dealt with in a different way from the other values, I would
-<strong>not</strong> want to use %in%. See example below.</p>
-<p>My new logic is</p>
-<p>If <code>decision_var</code> !=4 then <code>Var3</code> should be
--99, If <code>decision_var</code> is NA then <code>Var3</code> should be
-NA, else it should be it’s current value</p>
-<pre class="r"><code>d21 %&gt;%
-  dplyr::mutate(
-    Var3 =
-      dplyr::case_when(
-        decision_var != 4 ~ -99,
-        is.na(decision_var) ~ NA_real_,
-        TRUE ~ Var3
-      )
-  )</code></pre>
-<pre><code># A tibble: 6 x 3
-  decision_var  Var2  Var3
-         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1            2     5   -99
-2            4     4    NA
-3           NA     0    NA
-4            2     4   -99
-5            4     5     3
-6            3     1   -99</code></pre>
-<p><strong>2. Recode <code>Var3</code> into a dichotomous
-variable</strong></p>
-<p>Review the data (d22)</p>
-<pre><code># A tibble: 6 x 3
-   Var1  Var2  Var3
-  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1     2     5     4
-2     4     4     3
-3    NA     0     4
-4     2     4     1
-5     4     5     3
-6     3     1    NA</code></pre>
-<p>My logic is</p>
-<p>If <code>Var3</code> !=4 then 0, else 1</p>
-<pre class="r"><code>d22 %&gt;%
-  dplyr::mutate(
-    Var3 =
-      dplyr::case_when(
-        !Var3 %in% 4 ~ 0,
-        TRUE ~ 1
-      )
-  )</code></pre>
-<pre><code># A tibble: 6 x 3
-   Var1  Var2  Var3
-  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1     2     5     1
-2     4     4     0
-3    NA     0     1
-4     2     4     0
-5     4     5     0
-6     3     1     0</code></pre>
-<p>Similar to above, using <code>!</code> and <code>%in%</code> ensures
-that the NA is accounted for. If however, I wanted NA to stay NA, I
-would want to write something like this.</p>
-<pre class="r"><code>d22 %&gt;%
-  dplyr::mutate(
-    Var3 =
-      dplyr::case_when(
-        Var3 !=4 ~ 0,
-        is.na(Var3) ~ NA_real_,
-        TRUE ~ 1
-      )
-  )</code></pre>
-<pre><code># A tibble: 6 x 3
-   Var1  Var2  Var3
-  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1     2     5     1
-2     4     4     0
-3    NA     0     1
-4     2     4     0
-5     4     5     0
-6     3     1    NA</code></pre>
+<p><strong>1. Recode values using a long formatted data
+dictionary</strong></p>
+<p>Review the data 23</p>
+<pre><code># A tibble: 4 x 3
+  org_id org_name   city       
+   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      
+1    123 Org Name C London     
+2    124 Org Name D New York   
+3    125 Org Name F London     
+4    127 Org Name A Los Angeles</code></pre>
+<p>Review our current long formatted data dictionary that contains the
+old values of our variable <code>org_name</code> (old_values) and the
+new values that we want instead (new_values)</p>
+<pre><code># A tibble: 6 x 2
+  old_value  new_value     
+  &lt;chr&gt;      &lt;chr&gt;         
+1 Org Name A New Org Name A
+2 Org Name B New Org Name B
+3 Org Name C New Org Name C
+4 Org Name D &lt;NA&gt;          
+5 Org Name E Org Name D    
+6 Org Name F &lt;NA&gt;          </code></pre>
+<p>In order to use this information to recode our values, we first need
+to pull a named vector.</p>
+<pre class="r"><code>dict_org &lt;- dict_org %&gt;%
+  dplyr::filter(!is.na(new_value)) %&gt;%
+  tibble::deframe()</code></pre>
+<p>We can now use the named vector to recode our values. We can use
+<code>!!!</code> !!! to splice a our vector into the argument of a
+quoting expression.</p>
+<pre class="r"><code>d23 %&gt;% 
+  dplyr::mutate(org_name = dplyr::recode(org_name, !!!dict_org))</code></pre>
+<pre><code># A tibble: 4 x 3
+  org_id org_name       city       
+   &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;      
+1    123 New Org Name C London     
+2    124 Org Name D     New York   
+3    125 Org Name F     London     
+4    127 New Org Name A Los Angeles</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode">Recode</a></p>
 </div>
 </div>

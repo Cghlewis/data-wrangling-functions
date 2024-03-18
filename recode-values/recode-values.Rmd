@@ -48,7 +48,8 @@ Recode `gender`
 
 ```{r}
 
-d4 %>% dplyr::mutate(gender=dplyr::recode(gender, m="male", f="female", n="nonbinary"))
+d4 %>% 
+  dplyr::mutate(gender=dplyr::recode(gender, m="male", f="female", n="nonbinary"))
 
 ```
 

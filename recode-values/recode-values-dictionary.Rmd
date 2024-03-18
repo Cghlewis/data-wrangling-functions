@@ -1,0 +1,78 @@
+---
+title: "Recode values using a named vector"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `recode()`
+
+---
+
+**Note:** The `dplyr::recode()` formula is: old value=new value, this is opposite of `dplyr::rename()`.
+
+<br>
+
+
+**1\. Recode values using a long formatted data dictionary**
+
+Review the data 23
+
+```{r, echo=FALSE}
+
+source("data.R")
+d23
+
+```
+
+Review our current long formatted data dictionary that contains the old values of our variable `org_name` (old_values) and the new values that we want instead (new_values)
+
+```{r, echo = FALSE}
+
+
+dict_org <- tribble(~old_value, ~new_value,
+                    "Org Name A", "New Org Name A",
+                    "Org Name B", "New Org Name B",
+                    "Org Name C", "New Org Name C",
+                    "Org Name D", NA_character_,
+                    "Org Name E", "Org Name D",
+                    "Org Name F", NA_character_)
+
+dict_org
+
+```
+
+In order to use this information to recode our values, we first need to pull a named vector.
+
+```{r}
+
+dict_org <- dict_org %>%
+  dplyr::filter(!is.na(new_value)) %>%
+  tibble::deframe()
+
+```
+
+We can now use the named vector to recode our values. We can use `!!!` !!! to splice a our vector into the argument of a quoting expression.
+
+```{r}
+
+d23 %>% 
+  dplyr::mutate(org_name = dplyr::recode(org_name, !!!dict_org))
+
+```
+
+
+Return to [Recode](https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode)

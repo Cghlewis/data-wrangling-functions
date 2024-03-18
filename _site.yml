@@ -38,6 +38,8 @@ navbar:
     href: recode-values\collapse-categories.html
   - text: "Recode dictionary"
     href: recode-values\recode-dictionary.html
+  - text: "Recode personal dictionary"
+    href: recode-values\recode-values-dictionary.html
   - text: "Review data type"
     href: data-type\review-data-type.html
   - text: "Convert to factor"

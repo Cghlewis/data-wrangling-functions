@@ -209,3 +209,18 @@ d22 <- tibble::tribble(
   4, 5, 3,
   3, 1, NA
 )
+
+dict_org <- tribble(~old_value, ~new_value,
+                    "Org Name A", "New Org Name A",
+                    "Org Name B", "New Org Name B",
+                    "Org Name C", "New Org Name C",
+                    "Org Name D", NA_character_,
+                    "Org Name E", "Org Name D",
+                    "Org Name F", NA_character_)
+
+d23 <- tribble(~org_id, ~org_name, ~city,
+              123, "Org Name C", "London",
+              124, "Org Name D", "New York",
+              125, "Org Name F", "London",
+              127, "Org Name A", "Los Angeles"
+)

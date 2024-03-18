@@ -11,7 +11,7 @@
 
 
 
-<title>Recode values using a named vector</title>
+<title>Recode values using a long formatted data dictionary</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,7 +361,8 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Recode values using a named vector</h1>
+<h1 class="title toc-ignore">Recode values using a long formatted data
+dictionary</h1>
 
 </div>
 
@@ -405,8 +406,8 @@ to pull a named vector.</p>
   dplyr::filter(!is.na(new_value)) %&gt;%
   tibble::deframe()</code></pre>
 <p>We can now use the named vector to recode our values. We can use
-<code>!!!</code> !!! to splice a our vector into the argument of a
-quoting expression.</p>
+<code>!!!</code> to splice a our vector into the argument of a quoting
+expression.</p>
 <pre class="r"><code>d23 %&gt;% 
   dplyr::mutate(org_name = dplyr::recode(org_name, !!!dict_org))</code></pre>
 <pre><code># A tibble: 4 x 3

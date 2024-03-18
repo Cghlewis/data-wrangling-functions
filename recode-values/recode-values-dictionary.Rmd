@@ -1,5 +1,5 @@
 ---
-title: "Recode values using a named vector"
+title: "Recode values using a long formatted data dictionary"
 output: 
   html_document:
     toc: false
@@ -65,7 +65,7 @@ dict_org <- dict_org %>%
 
 ```
 
-We can now use the named vector to recode our values. We can use `!!!` !!! to splice a our vector into the argument of a quoting expression.
+We can now use the named vector to recode our values. We can use `!!!` to splice a our vector into the argument of a quoting expression.
 
 ```{r}
 

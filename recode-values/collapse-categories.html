@@ -396,18 +396,20 @@ to specifically evaluate NAs you will need to call out NAs.</p>
 7    113 &lt;NA&gt;           </code></pre>
 <p>Collapse all spellings of Google Meet into one uniform category</p>
 <ul>
-<li><p>Note: We are recoding into a new variable using
-<code>dplyr::mutate()</code> and naming the new variable a different
-name than the original. It keeps both the new and old versions of the
-variable.</p></li>
-<li><p>Note: Using <code>stringr::str_detect()</code> we can detect
+<li>Note: Using <code>stringr::str_detect()</code> we can detect
 different spellings of google meet. I enter a pattern (“google|meet”)
 that means to look for any value in online_platform that contains the
-word “google” OR “meet” and recategorize those to “Google Meet”</p></li>
+word “google” OR “meet” and recategorize those to “Google Meet”</li>
 </ul>
-<pre class="r"><code>d6 %&gt;%  
-  dplyr::mutate(online_platform_new=dplyr::if_else(
-  stringr::str_detect(online_platform, &quot;google|meet&quot;), &quot;Google Meet&quot;, online_platform))</code></pre>
+<pre class="r"><code>d6 %&gt;%
+  dplyr::mutate(
+    online_platform_new =
+      dplyr::if_else(
+        stringr::str_detect(online_platform, &quot;google|meet&quot;),
+        &quot;Google Meet&quot;,
+        online_platform
+      )
+  )</code></pre>
 <pre><code># A tibble: 7 x 3
   tch_id online_platform online_platform_new
    &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;              
@@ -420,9 +422,15 @@ word “google” OR “meet” and recategorize those to “Google Meet”</p><
 7    113 &lt;NA&gt;            &lt;NA&gt;               </code></pre>
 <p>We can also do this using <code>%in%</code> instead of
 <code>stringr::str_detect()</code></p>
-<pre class="r"><code>d6 %&gt;%  
-  dplyr::mutate(online_platform_new=dplyr::if_else(
-  online_platform %in% c(&quot;google&quot;,&quot;meet&quot;, &quot;Google Meet&quot;), &quot;Google Meet&quot;, online_platform))</code></pre>
+<pre class="r"><code>d6 %&gt;%
+  dplyr::mutate(
+    online_platform_new =
+      dplyr::if_else(
+        online_platform %in% c(&quot;google&quot;, &quot;meet&quot;, &quot;Google Meet&quot;),
+        &quot;Google Meet&quot;,
+        online_platform
+      )
+  )</code></pre>
 <pre><code># A tibble: 7 x 3
   tch_id online_platform online_platform_new
    &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;              
@@ -457,9 +465,18 @@ function is case sensitive. As we saw above in the data, the
 way we will try is by adding stringr::regex() and adding the argument
 <em>ignore_case = TRUE</em>.</li>
 </ul>
-<pre class="r"><code>d12 %&gt;%  
-  dplyr::mutate(online_platform_new=dplyr::if_else(
-  stringr::str_detect(online_platform, stringr::regex(&quot;google|meet&quot;, ignore_case = TRUE)), &quot;Google Meet&quot;, online_platform))</code></pre>
+<pre class="r"><code>d12 %&gt;%
+  dplyr::mutate(
+    online_platform_new =
+      dplyr::if_else(
+        stringr::str_detect(
+          online_platform,
+          stringr::regex(&quot;google|meet&quot;, ignore_case = TRUE)
+        ),
+        &quot;Google Meet&quot;,
+        online_platform
+      )
+  )</code></pre>
 <pre><code># A tibble: 7 x 3
   tch_id online_platform online_platform_new
    &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;              
@@ -472,9 +489,14 @@ way we will try is by adding stringr::regex() and adding the argument
 7    113 &lt;NA&gt;            &lt;NA&gt;               </code></pre>
 <p>We can also do this by adding (?i) to the pattern, which means match
 case insensitive.</p>
-<pre class="r"><code>d12 %&gt;%  
-  dplyr::mutate(online_platform_new=dplyr::if_else(
-  stringr::str_detect(online_platform, &quot;(?i)google|meet&quot;), &quot;Google Meet&quot;, online_platform))</code></pre>
+<pre class="r"><code>d12 %&gt;%
+  dplyr::mutate(
+    online_platform_new = dplyr::if_else(
+      stringr::str_detect(online_platform, &quot;(?i)google|meet&quot;),
+      &quot;Google Meet&quot;,
+      online_platform
+    )
+  )</code></pre>
 <pre><code># A tibble: 7 x 3
   tch_id online_platform online_platform_new
    &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;              
@@ -485,55 +507,7 @@ case insensitive.</p>
 5    109 Google Meet     Google Meet        
 6    112 Microsoft Teams Microsoft Teams    
 7    113 &lt;NA&gt;            &lt;NA&gt;               </code></pre>
-<p><strong>3. Collapse a numeric variable (Var2) into discrete character
-categories</strong></p>
-<p>Review the data (d8)</p>
-<pre><code># A tibble: 5 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         1     2
-2 b        16     0
-3 c         3     1
-4 d         4     3
-5 e        14     0</code></pre>
-<p>Collapse Var2 into low, medium, high categories.</p>
-<ul>
-<li><p>Note: We are using a nested if-else statement here to meet
-multiple criteria and multiple outputs</p></li>
-<li><p>Note: We use the &amp; operator to say if a value meets both
-conditions</p></li>
-<li><p>Note: We cannot use <code>dplyr::between</code> because our left
-side is not &gt;=</p></li>
-</ul>
-<pre class="r"><code>d8 %&gt;%  
-  dplyr::mutate(Var2_new = dplyr::if_else(Var2 &gt;14, &quot;high&quot;,
-                                        dplyr::if_else((Var2 &gt;6 &amp; Var2 &lt;=14), &quot;medium&quot;, &quot;low&quot;)))</code></pre>
-<pre><code># A tibble: 5 x 4
-  Var1   Var2  Var3 Var2_new
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;   
-1 a         1     2 low     
-2 b        16     0 high    
-3 c         3     1 low     
-4 d         4     3 low     
-5 e        14     0 medium  </code></pre>
-<ul>
-<li>Note: Because <code>dplyr::if_else()</code> evaluates in order, we
-don’t actually have to add the right side of our “medium” logic because
-all of the highs have been assigned and will not be written over by the
-mediums</li>
-</ul>
-<pre class="r"><code>d8 %&gt;%  
-  dplyr::mutate(Var2_new = dplyr::if_else(Var2 &gt;14, &quot;high&quot;,
-                                        dplyr::if_else((Var2 &gt;6), &quot;medium&quot;, &quot;low&quot;)))</code></pre>
-<pre><code># A tibble: 5 x 4
-  Var1   Var2  Var3 Var2_new
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;   
-1 a         1     2 low     
-2 b        16     0 high    
-3 c         3     1 low     
-4 d         4     3 low     
-5 e        14     0 medium  </code></pre>
-<p><strong>4. Collapse a numeric variable (Var2) into discrete numeric
+<p><strong>3. Collapse a numeric variable (Var2) into discrete numeric
 categories</strong></p>
 <p>Review the data (d10)</p>
 <pre><code># A tibble: 5 x 2
@@ -547,7 +521,7 @@ categories</strong></p>
 <p>Create an indicator variable. 1 = 8 or lower, 0 = 9 or higher</p>
 <p>*Note: NA will remain as NA because if_else does not evaluate it as
 TRUE or FALSE.</p>
-<pre class="r"><code>d10 %&gt;%  
+<pre class="r"><code>d10 %&gt;%
   dplyr::mutate(Var2_new = dplyr::if_else(Var2 &lt;= 8, 1, 0))</code></pre>
 <pre><code># A tibble: 5 x 3
   Var1   Var2 Var2_new
@@ -559,8 +533,9 @@ TRUE or FALSE.</p>
 5 e        NA       NA</code></pre>
 <p>*Note: If you want to evaluate NA, you will need to specifically add
 it</p>
-<pre class="r"><code>d10 %&gt;%  
-  dplyr::mutate(Var2_new = dplyr::if_else(Var2 &lt;= 8 | is.na(Var2), 1, 0))</code></pre>
+<pre class="r"><code>d10 %&gt;%
+  dplyr::mutate(Var2_new = dplyr::if_else(Var2 &lt;= 8 |
+                                            is.na(Var2), 1, 0))</code></pre>
 <pre><code># A tibble: 5 x 3
   Var1   Var2 Var2_new
   &lt;chr&gt; &lt;dbl&gt;    &lt;dbl&gt;
@@ -570,8 +545,9 @@ it</p>
 4 d         4        1
 5 e        NA        1</code></pre>
 <p>You could also specifically add NA this way as well</p>
-<pre class="r"><code>d10 %&gt;%  
-  dplyr::mutate(Var2_new = dplyr::if_else(Var2 &gt;8 &amp; !is.na(Var2), 0, 1))</code></pre>
+<pre class="r"><code>d10 %&gt;%
+  dplyr::mutate(Var2_new = dplyr::if_else(Var2 &gt; 8 &amp;
+                                            !is.na(Var2), 0, 1))</code></pre>
 <pre><code># A tibble: 5 x 3
   Var1   Var2 Var2_new
   &lt;chr&gt; &lt;dbl&gt;    &lt;dbl&gt;
@@ -603,22 +579,14 @@ criteria.</p>
 6    112 Microsoft Teams
 7    113 &lt;NA&gt;           </code></pre>
 <p>Collapse all spellings of Google Meet into one uniform category</p>
-<ul>
-<li><p>Note: We are recoding into a new variable using
-<code>dplyr::mutate()</code> and naming the new variable a different
-name than the original. It keeps both the new and old versions of the
-variable.</p></li>
-<li><p>Note: Using <code>stringr::str_detect()</code> we can detect
-different spellings of google meet</p></li>
-<li><p>Note: You can also combine the pattern “google|meet” like we did
-above in <code>dplyr::if_else()</code> rather than separate the patterns
-out.</p></li>
-</ul>
-<pre class="r"><code>d6 %&gt;%  
-  dplyr::mutate(online_platform_new = dplyr::case_when(
-  stringr::str_detect(online_platform,&quot;google&quot;) ~ &quot;Google Meet&quot;, 
-  stringr::str_detect(online_platform,&quot;meet&quot;) ~ &quot;Google Meet&quot;, 
-  TRUE ~ online_platform))</code></pre>
+<pre class="r"><code>d6 %&gt;%
+  dplyr::mutate(
+    online_platform_new =
+      dplyr::case_when(
+        stringr::str_detect(online_platform, &quot;google|meet&quot;) ~ &quot;Google Meet&quot;,
+        TRUE ~ online_platform
+      )
+  )</code></pre>
 <pre><code># A tibble: 7 x 3
   tch_id online_platform online_platform_new
    &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;              
@@ -634,10 +602,11 @@ out.</p></li>
 get NA for all categories that are not specifically mentioned in the
 statement.</li>
 </ul>
-<pre class="r"><code>d6 %&gt;%  
-  dplyr::mutate(online_platform_new = dplyr::case_when(
-  stringr::str_detect(online_platform,&quot;google&quot;) ~ &quot;Google Meet&quot;, 
-  stringr::str_detect(online_platform,&quot;meet&quot;) ~ &quot;Google Meet&quot;))</code></pre>
+<pre class="r"><code>d6 %&gt;%
+  dplyr::mutate(online_platform_new =
+                  dplyr::case_when(
+                    stringr::str_detect(online_platform, &quot;google|meet&quot;) ~ &quot;Google Meet&quot;
+                  ))</code></pre>
 <pre><code># A tibble: 7 x 3
   tch_id online_platform online_platform_new
    &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;              
@@ -654,11 +623,14 @@ always collapse the remaining categories into another name, such as
 “other”. Notice here that our NA value will be recoded into
 “Other”.</li>
 </ul>
-<pre class="r"><code>d6 %&gt;%  
-  dplyr::mutate(online_platform_new = dplyr::case_when(
-  stringr::str_detect(online_platform,&quot;google&quot;) ~ &quot;Google Meet&quot;, 
-  stringr::str_detect(online_platform,&quot;meet&quot;) ~ &quot;Google Meet&quot;, 
-  TRUE ~ &quot;Other&quot;))</code></pre>
+<pre class="r"><code>d6 %&gt;%
+  dplyr::mutate(
+    online_platform_new =
+      dplyr::case_when(
+        stringr::str_detect(online_platform, &quot;google|meet&quot;) ~ &quot;Google Meet&quot;,
+        TRUE ~ &quot;Other&quot;
+      )
+  )</code></pre>
 <pre><code># A tibble: 7 x 3
   tch_id online_platform online_platform_new
    &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;              
@@ -670,16 +642,20 @@ always collapse the remaining categories into another name, such as
 6    112 Microsoft Teams Other              
 7    113 &lt;NA&gt;            Other              </code></pre>
 <ul>
-<li>Note: If you want to keep NA as NA, you would need to specifically
-call out NA. For <code>dplyr::case_when()</code> you need to call out
-the specific type of NA. In this case <em>NA_character_</em>.</li>
+<li>Note: If you want to keep NA as NA, while recoding the rest to
+“other”, you would need to specifically call out NA. For
+<code>dplyr::case_when()</code> you need to call out the specific type
+of NA. In this case <em>NA_character_</em>.</li>
 </ul>
-<pre class="r"><code>d6 %&gt;%  
-  dplyr::mutate(online_platform_new = dplyr::case_when(
-  is.na(online_platform) ~ NA_character_,
-  stringr::str_detect(online_platform,&quot;google&quot;) ~ &quot;Google Meet&quot;, 
-  stringr::str_detect(online_platform,&quot;meet&quot;) ~ &quot;Google Meet&quot;, 
-  TRUE ~ &quot;Other&quot;))</code></pre>
+<pre class="r"><code>d6 %&gt;%
+  dplyr::mutate(
+    online_platform_new =
+      dplyr::case_when(
+        is.na(online_platform) ~ NA_character_,
+        stringr::str_detect(online_platform, &quot;google|meet&quot;) ~ &quot;Google Meet&quot;,
+        TRUE ~ &quot;Other&quot;
+      )
+  )</code></pre>
 <pre><code># A tibble: 7 x 3
   tch_id online_platform online_platform_new
    &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;              
@@ -709,8 +685,6 @@ that “google” means Google Hangouts</strong></p>
 <p>Collapse all spellings of Google Meet into one uniform category and
 clarify that google means Google Hangouts</p>
 <ul>
-<li><p>Note: Using <code>stringr::str_detect()</code> we can detect
-different spellings of google meet</p></li>
 <li><p>Note: Here I am adding the <code>base::tolower()</code> function
 to deal with the varying capitalization. You can also use the solutions
 we showed above in <code>dplyr::if_else()</code> where we add either
@@ -720,14 +694,17 @@ pattern with the argument <em>ignore_case = TRUE</em>.</p></li>
 did, all instances of “google” would be recoded to google
 hangouts.</p></li>
 </ul>
-<pre class="r"><code>d9 %&gt;%  
-  dplyr::mutate(online_platform=tolower(online_platform)) %&gt;%
-  dplyr::mutate(online_platform_new = dplyr::case_when(
-  stringr::str_detect(online_platform,&quot;met&quot;) ~ &quot;google meet&quot;, 
-  stringr::str_detect(online_platform,&quot;meet&quot;) ~ &quot;google meet&quot;, 
-  stringr::str_detect(online_platform, &quot;google&quot;) ~ &quot;google hangouts&quot;,
-  stringr::str_detect(online_platform, &quot;hangouts&quot;) ~ &quot;google hangouts&quot;,
-  TRUE ~ online_platform))</code></pre>
+<pre class="r"><code>d9 %&gt;%
+  dplyr::mutate(online_platform =
+                  tolower(online_platform)) %&gt;%
+  dplyr::mutate(
+    online_platform_new =
+      dplyr::case_when(
+        stringr::str_detect(online_platform, &quot;met|meet&quot;) ~ &quot;google meet&quot;,
+        stringr::str_detect(online_platform, &quot;google|hangouts&quot;) ~ &quot;google hangouts&quot;,
+        TRUE ~ online_platform
+      )
+  )</code></pre>
 <pre><code># A tibble: 10 x 3
    tch_id online_platform online_platform_new
     &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;              
@@ -746,14 +723,17 @@ hangouts.</p></li>
 top. The ordering matters. Once a statement is evaluated, it will not be
 rewritten.</li>
 </ul>
-<pre class="r"><code>d9 %&gt;%  
-  dplyr::mutate(online_platform=tolower(online_platform)) %&gt;%
-  dplyr::mutate(online_platform_new = dplyr::case_when(
-  stringr::str_detect(online_platform, &quot;google&quot;) ~ &quot;google hangouts&quot;,
-  stringr::str_detect(online_platform,&quot;met&quot;) ~ &quot;google meet&quot;, 
-  stringr::str_detect(online_platform,&quot;meet&quot;) ~ &quot;google meet&quot;,
-  stringr::str_detect(online_platform, &quot;hangouts&quot;) ~ &quot;google hangouts&quot;,
-  TRUE ~ online_platform))</code></pre>
+<pre class="r"><code>d9 %&gt;%
+  dplyr::mutate(online_platform =
+                  tolower(online_platform)) %&gt;%
+  dplyr::mutate(
+    online_platform_new =
+      dplyr::case_when(
+        stringr::str_detect(online_platform, &quot;google|hangouts&quot;) ~ &quot;google hangouts&quot;,
+        stringr::str_detect(online_platform, &quot;met|meet&quot;) ~ &quot;google meet&quot;,
+        TRUE ~ online_platform
+      )
+  )</code></pre>
 <pre><code># A tibble: 10 x 3
    tch_id online_platform online_platform_new
     &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;              
@@ -767,6 +747,56 @@ rewritten.</li>
  8    114 google met      google hangouts    
  9    115 hangouts        google hangouts    
 10    116 &lt;NA&gt;            &lt;NA&gt;               </code></pre>
+<p><strong>3. Collapse a numeric variable (Var2) into discrete character
+categories</strong></p>
+<p>Review the data (d8)</p>
+<pre><code># A tibble: 5 x 3
+  Var1   Var2  Var3
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 a         1     2
+2 b        16     0
+3 c         3     1
+4 d         4     3
+5 e        14     0</code></pre>
+<p>Collapse Var2 into low, medium, high categories.</p>
+<ul>
+<li><p>Note: We use the &amp; operator to say if a value meets both
+conditions</p></li>
+<li><p>Note: We cannot use <code>dplyr::between</code> because our left
+side is not &gt;=</p></li>
+</ul>
+<pre class="r"><code>d8 %&gt;%
+  dplyr::mutate(Var2_new =
+                  dplyr::case_when(Var2 &gt; 14 ~ &quot;high&quot;,
+                                   Var2 &gt; 6 &amp; Var2 &lt;= 14 ~ &quot;medium&quot;,
+                                   TRUE ~ &quot;low&quot;))</code></pre>
+<pre><code># A tibble: 5 x 4
+  Var1   Var2  Var3 Var2_new
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;   
+1 a         1     2 low     
+2 b        16     0 high    
+3 c         3     1 low     
+4 d         4     3 low     
+5 e        14     0 medium  </code></pre>
+<ul>
+<li>Note: Because <code>dplyr::case_when()</code> evaluates in order, we
+don’t actually have to add the right side of our “medium” logic because
+all of the highs have been assigned and will not be written over by the
+mediums</li>
+</ul>
+<pre class="r"><code>d8 %&gt;%
+  dplyr::mutate(Var2_new =
+                  dplyr::case_when(Var2 &gt; 14 ~ &quot;high&quot;,
+                                   Var2 &gt; 6 ~ &quot;medium&quot;,
+                                   TRUE ~ &quot;low&quot;))</code></pre>
+<pre><code># A tibble: 5 x 4
+  Var1   Var2  Var3 Var2_new
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;   
+1 a         1     2 low     
+2 b        16     0 high    
+3 c         3     1 low     
+4 d         4     3 low     
+5 e        14     0 medium  </code></pre>
 <hr />
 </div>
 <div id="function-recode" class="section level4">
@@ -785,10 +815,11 @@ rewritten.</li>
 6    112 Microsoft Teams
 7    113 &lt;NA&gt;           </code></pre>
 <p>Collapse all spellings of Google Meet into one uniform category</p>
-<pre class="r"><code>d6 %&gt;%  
-  dplyr::mutate(online_platform_new =
-                  dplyr::recode(
-  online_platform, google = &quot;Google Meet&quot;, meet = &quot;Google Meet&quot;))</code></pre>
+<pre class="r"><code>d6 %&gt;%
+  dplyr::mutate(
+    online_platform_new =
+      dplyr::recode(online_platform, google = &quot;Google Meet&quot;, meet = &quot;Google Meet&quot;)
+  )</code></pre>
 <pre><code># A tibble: 7 x 3
   tch_id online_platform online_platform_new
    &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;              

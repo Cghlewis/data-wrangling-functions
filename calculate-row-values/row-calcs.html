@@ -387,15 +387,10 @@ pre code {
 <p>Calculate a sum score across <code>item1</code>, <code>item2</code>
 and <code>item</code></p>
 <ul>
-<li><p>Note: We are calculating a new variable using
-<code>dplyr::mutate()</code></p></li>
-<li><p>Note: Adding <code>dplyr::across()</code> allows you to select
-the specific columns you want to calculate the rowSums for. Otherwise
-rowSums will be applied across all columns.</p></li>
-<li><p>Note: The default for <code>rowSums()</code> is to
+<li>Note: The default for <code>rowSums()</code> is to
 <strong>not</strong> calculate a sum if any NA value exists. If you want
 to still calculate a sum despite missing values, you can add the
-argument <em>na.rm = TRUE</em>.</p></li>
+argument <em>na.rm = TRUE</em>.</li>
 </ul>
 <pre class="r"><code>d2 %&gt;% 
   dplyr::mutate(measure_sum = rowSums(dplyr::across(c(item1, item2, item3))))</code></pre>
@@ -577,8 +572,6 @@ calculating row scores.</p>
 score.</li>
 </ol>
 <ul>
-<li><p>Note: We use <code>dplyr::mutate()</code> to create new temporary
-versions of our toca variables.</p></li>
 <li><p>Note: We use <code>base::ifelse()</code> to say if our current
 toca variables (denoted by .) are equal to -99, then make them NA,
 otherwise keep the value as is. Using <code>dplyr::if_else()</code>
@@ -591,22 +584,32 @@ argument to rename these variable to have the suffix “_temp” because we
 do not want to alter our original toca variables.</p></li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
-<li>Second we calculate our mean score within
-<code>dplyr::mutate()</code> statement.</li>
+<li><p>Second we calculate our mean score within
+<code>dplyr::mutate()</code> statement.</p></li>
+<li><p>Last we drop our temporary toca variables using
+<code>dplyr::select()</code>. We don’t need them anymore.</p></li>
 </ol>
-<ul>
-<li><p>Note: We add <code>dplyr::across()</code> to select multiple
-variables and use <code>tidyselect::contains()</code> to select all
-variables with the word “temp”.</p></li>
-<li><p>Note: We also use the <em>na.rm</em> = TRUE argument from
-<code>rowMeans</code> to calculate the mean despite missing
-values.</p></li>
-</ul>
-<p>Last we drop our temporary toca variables using
-<code>dplyr::select()</code>. We don’t need them anymore.</p>
 <pre class="r"><code>d6 %&gt;% 
   dplyr::mutate(dplyr::across(contains(&quot;toca&quot;), 
                 ~ ifelse(.== -99 , NA, .),
+                .names = &quot;{col}_temp&quot;),
+                toca_mean = rowMeans(
+           dplyr::across(tidyselect::contains(&quot;temp&quot;)), 
+           na.rm = TRUE)) %&gt;%
+  select(-contains(&quot;temp&quot;))</code></pre>
+<pre><code># A tibble: 5 x 7
+  stu_id      toca1      toca2      toca3 item1 item2 toca_mean
+   &lt;dbl&gt; &lt;hvn_lbl_&gt; &lt;hvn_lbl_&gt; &lt;hvn_lbl_&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
+1   1234     3               2     4          3     4      3   
+2   2345     4               3     1          4     5      2.67
+3   3456     2               1   -99 (NA)     5     5      1.5 
+4   4567     4               5     1          6     1      3.33
+5   5678   -99 (NA)          3     2          2     6      2.5 </code></pre>
+<p>We could also use <code>haven::zap_missing()</code> rather than
+<code>base::ifelse()</code></p>
+<pre class="r"><code>d6 %&gt;% 
+  dplyr::mutate(dplyr::across(contains(&quot;toca&quot;), 
+               haven::zap_missing,
                 .names = &quot;{col}_temp&quot;),
                 toca_mean = rowMeans(
            dplyr::across(tidyselect::contains(&quot;temp&quot;)), 

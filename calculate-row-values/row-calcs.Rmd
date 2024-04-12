@@ -34,10 +34,6 @@ d2
 ```
 
 Calculate a sum score across `item1`, `item2` and `item`
-
-* Note: We are calculating a new variable using `dplyr::mutate()`
-
-* Note: Adding `dplyr::across()` allows you to select the specific columns you want to calculate the rowSums for. Otherwise rowSums will be applied across all columns.
  
 * Note: The default for `rowSums()` is to **not** calculate a sum if any NA value exists. If you want to still calculate a sum despite missing values, you can add the argument *na.rm = TRUE*.
 
@@ -185,19 +181,13 @@ We see that **-99** is labelled as an NA value for the toca variables. However, 
 
 (1) So first we will need to recode these to NA before creating our mean score.
 
-* Note: We use `dplyr::mutate()` to create new temporary versions of our toca variables.
-
 * Note: We use `base::ifelse()` to say if our current toca variables (denoted by .) are equal to -99, then make them NA, otherwise keep the value as is. Using `dplyr::if_else()` gives us errors in this process. I'm not sure why except that I read the function is more strict in checking that all alternatives are of the same variable type compared to using `base::ifelse()`. 
 
 * Note: We use the `dplyr::across()` *.names* argument to rename these variable to have the suffix "_temp" because we do not want to alter our original toca variables.
 
 (2) Second we calculate our mean score within `dplyr::mutate()` statement.
 
-* Note: We add `dplyr::across()` to select multiple variables and use `tidyselect::contains()` to select all variables with the word "temp".
-
-* Note: We also use the *na.rm* = TRUE argument from `rowMeans` to calculate the mean despite missing values.
-
-Last we drop our temporary toca variables using `dplyr::select()`. We don't need them anymore.
+(3) Last we drop our temporary toca variables using `dplyr::select()`. We don't need them anymore.
 
 
 ```{r}
@@ -213,6 +203,23 @@ d6 %>%
 
 
 ```
+
+We could also use `haven::zap_missing()` rather than `base::ifelse()`
+
+```{r}
+
+d6 %>% 
+  dplyr::mutate(dplyr::across(contains("toca"), 
+               haven::zap_missing,
+                .names = "{col}_temp"),
+                toca_mean = rowMeans(
+           dplyr::across(tidyselect::contains("temp")), 
+           na.rm = TRUE)) %>%
+  select(-contains("temp"))
+
+
+```
+
 
 
 <br>

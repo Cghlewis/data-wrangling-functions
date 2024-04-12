@@ -11,7 +11,7 @@
 
 
 
-<title>Replace values</title>
+<title>Extract values and combine</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,7 +361,7 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Replace values</h1>
+<h1 class="title toc-ignore">Extract values and combine</h1>
 
 </div>
 
@@ -370,78 +370,11 @@ pre code {
 <div id="package-stringr" class="section level3">
 <h3>Package: stringr</h3>
 <hr />
-<div id="function-str_replace" class="section level4">
-<h4>Function: <code>str_replace()</code></h4>
+<div id="function-str_extract" class="section level4">
+<h4>Function: <code>str_extract()</code></h4>
 <hr />
-<p><strong>1. Replace values in <code>school</code></strong></p>
-<p>Review the data (d13)</p>
-<pre><code># A tibble: 3 x 2
-     id school                   
-  &lt;dbl&gt; &lt;chr&gt;                    
-1    10 hickman sr. high school  
-2    20 west (senior) high school
-3    30 east sr. high school     </code></pre>
-<p>Replace “sr.” and “(senior)” with “senior”</p>
-<p>We first need to create a new variable “school” using
-<code>dplyr::mutate()</code> which will overwrite the existing
-<code>school</code> variable. We can then use
-<code>stringr::str_replace()</code> to replace our pattern using the
-<em>pattern</em> argument and denote our replacement using the
-<em>replacement</em> argument.</p>
-<ul>
-<li>Note: The <em>pattern</em> argument uses regex arguments. Both
-periods and parentheses have special meaning but you can escape the
-special meaning using a double backslash or a bracket (as used in this
-case).</li>
-</ul>
-<pre class="r"><code>d13 %&gt;%
-  dplyr::mutate(school = stringr::str_replace(school, pattern = &quot;sr[.]|[(]senior[)]&quot;, replacement = &quot;senior&quot;))</code></pre>
-<pre><code># A tibble: 3 x 2
-     id school                    
-  &lt;dbl&gt; &lt;chr&gt;                     
-1    10 hickman senior high school
-2    20 west senior high school   
-3    30 east senior high school   </code></pre>
-<p><strong>2. Replace values in <code>item1</code></strong></p>
-<p>Review the data (d4)</p>
-<pre><code># A tibble: 4 x 2
-     id item1          
-  &lt;dbl&gt; &lt;chr&gt;          
-1     1 1, and 2, and 3
-2     2 1, and 3       
-3     3 3              
-4     4 1, and 2, and 3</code></pre>
-<p>Replace all instances of the word “and” from <code>item1</code> with
-“or”</p>
-<p>Notice here, if we simply use <code>stringr::str_replace()</code> we
-will only replace the first instance of “and”.</p>
-<pre class="r"><code>d4 %&gt;%
-  dplyr::mutate(item1 = stringr::str_replace(item1, &quot;and&quot;, &quot;or&quot;))</code></pre>
-<pre><code># A tibble: 4 x 2
-     id item1         
-  &lt;dbl&gt; &lt;chr&gt;         
-1     1 1, or 2, and 3
-2     2 1, or 3       
-3     3 3             
-4     4 1, or 2, and 3</code></pre>
-<p>So therefore, if we want to replace all instances, we need to use
-<code>stringr::str_replace_all()</code></p>
-<pre class="r"><code>d4 %&gt;%
-  dplyr::mutate(item1 = stringr::str_replace_all(item1, &quot;and&quot;, &quot;or&quot;))</code></pre>
-<pre><code># A tibble: 4 x 2
-     id item1        
-  &lt;dbl&gt; &lt;chr&gt;        
-1     1 1, or 2, or 3
-2     2 1, or 3      
-3     3 3            
-4     4 1, or 2, or 3</code></pre>
-<hr />
-</div>
-<div id="function-str_replace_all" class="section level4">
-<h4>Function: <code>str_replace_all()</code></h4>
-<hr />
-<p><strong>1. Replace values in <code>tags</code> with a named vector of
-new values</strong></p>
+<p><strong>1. Extract specified phrases from a list of tags in a
+variable</strong></p>
 <p>Review the data (d17)</p>
 <pre><code># A tibble: 4 x 2
      id tags                                    
@@ -450,26 +383,34 @@ new values</strong></p>
 2   124 other long tag 2, long tag 3            
 3   126 long tag 1, other long tag 2, long tag 6
 4   127 long tag 6                              </code></pre>
-<p>First let’s create our named vector of replacement information.</p>
-<pre class="r"><code>name_replace &lt;- tibble::tribble(~old_name, ~new_name,
-                &quot;long tag 1&quot;, &quot;tag1&quot;,
-                &quot;other long tag 2&quot;, &quot;tag2&quot;,
-                &quot;long tag 3&quot;, &quot;tag3&quot;,
-                &quot;long tag 5&quot;, &quot;tag5&quot;,
-                &quot;long tag 6&quot;, &quot;tag6&quot;) |&gt;
-  tibble::deframe()</code></pre>
-<p>Now we can use this vector to replace the values in our
-<code>tags</code> variable.</p>
+<p>We have a variable with several tags included but we want to create a
+new variable which only includes tags from a specified list. First we
+create a vector of the tags of interest.</p>
+<pre class="r"><code>tags_of_interest &lt;- c(&quot;long tag 1&quot;, &quot;other long tag 2&quot;, &quot;long tag 6&quot;)</code></pre>
+<p>Now we want to create our new variable, <code>special_tags</code>
+that pulls out any tag from that list in our current <code>tag</code>
+variable and places it in our new variable.</p>
+<ul>
+<li>Note: Because we are adding <code>dplyr::rowwise()</code> we will
+need to <code>ungroup()</code> at the end so that that it doesn’t slow
+down our future operations.</li>
+</ul>
 <pre class="r"><code>d17 %&gt;%
-  dplyr::mutate(tags = 
-                  stringr::str_replace_all(tags, name_replace))</code></pre>
-<pre><code># A tibble: 4 x 2
-     id tags            
-  &lt;dbl&gt; &lt;chr&gt;           
-1   123 tag1, tag3, tag5
-2   124 tag2, tag3      
-3   126 tag1, tag2, tag6
-4   127 tag6            </code></pre>
+  dplyr::rowwise() %&gt;%
+  dplyr::mutate(
+    special_tags =
+      stringr::str_extract(tags, tags_of_interest) %&gt;%
+      na.omit() %&gt;%
+      paste0(collapse = &quot;; &quot;)
+  ) %&gt;%
+  dplyr::ungroup()</code></pre>
+<pre><code># A tibble: 4 x 3
+     id tags                                     special_tags                   
+  &lt;dbl&gt; &lt;chr&gt;                                    &lt;chr&gt;                          
+1   123 long tag 1, long tag 3, long tag 5       long tag 1                     
+2   124 other long tag 2, long tag 3             other long tag 2               
+3   126 long tag 1, other long tag 2, long tag 6 long tag 1; other long tag 2; ~
+4   127 long tag 6                               long tag 6                     </code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Strings">Strings</a></p>
 </div>
 </div>

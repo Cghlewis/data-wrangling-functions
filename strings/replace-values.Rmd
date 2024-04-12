@@ -79,4 +79,47 @@ d4 %>%
 
 ```
 
+---
+
+#### Function: `str_replace_all()`
+
+---
+
+**1\. Replace values in `tags` with a named vector of new values**
+
+Review the data (d17)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d17
+
+```
+
+First let's create our named vector of replacement information.
+
+```{r}
+
+name_replace <- tibble::tribble(~old_name, ~new_name,
+                "long tag 1", "tag1",
+                "other long tag 2", "tag2",
+                "long tag 3", "tag3",
+                "long tag 5", "tag5",
+                "long tag 6", "tag6") |>
+  tibble::deframe()
+
+```
+
+Now we can use this vector to replace the values in our `tags` variable.
+
+```{r}
+
+d17 %>%
+  dplyr::mutate(tags = 
+                  stringr::str_replace_all(tags, name_replace))
+
+```
+
+
 Return to [Strings](https://github.com/Cghlewis/data-wrangling-functions/wiki/Strings)

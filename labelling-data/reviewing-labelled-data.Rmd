@@ -58,19 +58,19 @@ Review labelled information
 
 * Note: The argument *details=TRUE* is added to get *na_values* for variables
 
-* Note: `knitr::kable()` function used to make output more readable but we lose the value labels. If you run the `labelled::look_for()` function without adding `knitr::kable()` you will see the value labels.
-
 * Note: The function `labelled::generate_dictionary()` is another function equivalent to `labelled::look_for()`. You can use either function.
 
 ```{r}
 
-knitr::kable(labelled::look_for(d10, details = TRUE) %>%
-  dplyr::select(variable, label, class, value_labels, na_values))
+labelled::look_for(d10, details = "full") %>%
+  labelled::lookfor_to_long_format() %>%
+  labelled::convert_list_columns_to_character() %>%
+  dplyr::select(variable, label, value_labels, na_values)
 ```
 
 ```{r, echo=FALSE, include=FALSE}
 
-dictionary <- labelled::generate_dictionary(d10, details = TRUE) %>%
+dictionary <- labelled::generate_dictionary(d10, details = "full") %>%
   select(c(variable, label, value_labels, class, na_values))
 ```
 

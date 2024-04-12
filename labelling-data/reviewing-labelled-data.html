@@ -396,59 +396,24 @@ format</strong></p>
 <ul>
 <li><p>Note: The argument <em>details=TRUE</em> is added to get
 <em>na_values</em> for variables</p></li>
-<li><p>Note: <code>knitr::kable()</code> function used to make output
-more readable but we lose the value labels. If you run the
-<code>labelled::look_for()</code> function without adding
-<code>knitr::kable()</code> you will see the value labels.</p></li>
 <li><p>Note: The function <code>labelled::generate_dictionary()</code>
 is another function equivalent to <code>labelled::look_for()</code>. You
 can use either function.</p></li>
 </ul>
-<pre class="r"><code>knitr::kable(labelled::look_for(d10, details = TRUE) %&gt;%
-  dplyr::select(variable, label, class, value_labels, na_values))</code></pre>
-<table>
-<colgroup>
-<col width="7%" />
-<col width="17%" />
-<col width="56%" />
-<col width="10%" />
-<col width="8%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">variable</th>
-<th align="left">label</th>
-<th align="left">class</th>
-<th align="left">value_labels</th>
-<th align="left">na_values</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Var1</td>
-<td align="left">Name</td>
-<td align="left">character</td>
-<td align="left">NULL</td>
-<td align="left">NULL</td>
-</tr>
-<tr class="even">
-<td align="left">Var2</td>
-<td align="left">Interest in Homework</td>
-<td align="left">haven_labelled_spss, haven_labelled , vctrs_vctr ,
-double</td>
-<td align="left">1, 2, 3</td>
-<td align="left">-999</td>
-</tr>
-<tr class="odd">
-<td align="left">Var3</td>
-<td align="left">Lunch Status</td>
-<td align="left">haven_labelled_spss, haven_labelled , vctrs_vctr ,
-double</td>
-<td align="left">1, 2, 3</td>
-<td align="left">-999</td>
-</tr>
-</tbody>
-</table>
+<pre class="r"><code>labelled::look_for(d10, details = &quot;full&quot;) %&gt;%
+  labelled::lookfor_to_long_format() %&gt;%
+  labelled::convert_list_columns_to_character() %&gt;%
+  dplyr::select(variable, label, value_labels, na_values)</code></pre>
+<pre><code># A tibble: 7 x 4
+  variable label                value_labels          na_values
+  &lt;chr&gt;    &lt;chr&gt;                &lt;chr&gt;                 &lt;chr&gt;    
+1 Var1     Name                 &lt;NA&gt;                  &quot;&quot;       
+2 Var2     Interest in Homework [1] not interested    &quot;-999&quot;   
+3 Var2     Interest in Homework [2] mildly interested &quot;-999&quot;   
+4 Var2     Interest in Homework [3] very  interested  &quot;-999&quot;   
+5 Var3     Lunch Status         [1] none              &quot;-999&quot;   
+6 Var3     Lunch Status         [2] reduced-price     &quot;-999&quot;   
+7 Var3     Lunch Status         [3] free              &quot;-999&quot;   </code></pre>
 <hr />
 </div>
 <div id="function-var_label" class="section level4">

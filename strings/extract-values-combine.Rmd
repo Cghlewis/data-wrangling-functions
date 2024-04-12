@@ -1,0 +1,65 @@
+---
+title: "Extract values and combine"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: stringr
+
+---
+
+#### Function: `str_extract()`
+
+---
+
+**1\. Extract specified phrases from a list of tags in a variable**
+
+Review the data (d17)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d17
+
+```
+
+We have a variable with several tags included but we want to create a new variable which only includes tags from a specified list. First we create a vector of the tags of interest.
+
+```{r}
+
+tags_of_interest <- c("long tag 1", "other long tag 2", "long tag 6")
+
+```
+
+Now we want to create our new variable, `special_tags` that pulls out any tag from that list in our current   `tag` variable and places it in our new variable.
+
+* Note: Because we are adding `dplyr::rowwise()` we will need to `ungroup()` at the end so that that it doesn't slow down our future operations.
+
+
+```{r}
+
+d17 %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(
+    special_tags =
+      stringr::str_extract(tags, tags_of_interest) %>%
+      na.omit() %>%
+      paste0(collapse = "; ")
+  ) %>%
+  dplyr::ungroup()
+
+```
+
+
+Return to [Strings](https://github.com/Cghlewis/data-wrangling-functions/wiki/Strings)

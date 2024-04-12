@@ -120,3 +120,9 @@ d16 <- tibble::tribble(~id, ~cheese, ~pepperoni, ~mushrooms,
                        11, NA, NA, NA,
                        12, NA, "pepperoni", NA)
 
+d17 <- tribble(~id, ~tags,
+              123, "long tag 1, long tag 3, long tag 5",
+              124, "other long tag 2, long tag 3",
+              126, "long tag 1, other long tag 2, long tag 6",
+              127, "long tag 6")
+

@@ -65,7 +65,7 @@ d2
 
 Calculate the mean score of `item1`, `item2`, and `item3`
  
-* Note: The default for NA values in your columns is to **not** calculate a sum if any NA value exists. If you want to still calculate a sum despite missing values, you can set the argument to *na.rm = TRUE*.
+* Note: The default for NA values in your columns is to **not** calculate a mean if any NA value exists. If you want to still calculate a mean despite missing values, you can set the argument to *na.rm = TRUE*.
 
 * Note: I think it's **really important** to point out that the closing parentheses for `dplyr::across()` goes at the end of `item3`, rather than at the end of of the `rowMeans` function. This is different than how you add parentheses when using `dplyr::across()` for something like a `dplyr::case_when()` function. And if you do not put the parentheses at the end of `item3`, the `rowMeans` function will still run, but the *na.rm = TRUE* argument will not be evaluated!
 

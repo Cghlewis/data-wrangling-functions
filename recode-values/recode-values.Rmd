@@ -48,8 +48,8 @@ Recode `gender`
 
 ```{r}
 
-d4 %>% 
-  dplyr::mutate(gender=dplyr::recode(gender, m="male", f="female", n="nonbinary"))
+d4 %>%
+  dplyr::mutate(gender = dplyr::recode(gender, m = "male", f = "female", n = "nonbinary"))
 
 ```
 
@@ -73,8 +73,8 @@ Recode `gender`
 
 ```{r}
 
-d4 %>% 
-  dplyr::mutate(gender=dplyr::recode(gender, m=1, f=2, n=3))
+d4 %>%
+  dplyr::mutate(gender = dplyr::recode(gender, m = 1, f = 2, n = 3))
 
 ```
 
@@ -92,17 +92,15 @@ d5
 
 Recode 16 -> 4 in `Var2`
 
-Note: We *did* have to put quotes around the old values because `dplyr::recode()` replaces numeric values by either their name or their position. If a number with no quotes/backticks is given, it will assume it is a position.
-
-Note: Since we are recoding into a numeric variable, no quotes are necessary are the numeric new value.
+Note: We *did* have to put tick marks around the old values because `dplyr::recode()` replaces numeric values by either their name or their position. If a number with no quotes/backticks is given, it will assume it is a position.
 
 Note: Notice here that we are only recoding one value in the variable. There is a *default* option that you can set all not recoded values to, and if no default is supplied and the replacement values are the same variable class as the original values (ex: numeric and numeric), then unmatched values are unchanged. *However*, if the replacement value is a new variable class (ex: numeric to character) then all other values will be recoded to NA.
 
 
 ```{r}
 
-d5 %>% 
-  dplyr::mutate(Var2=dplyr::recode(Var2, `16`=4))
+d5 %>%
+  dplyr::mutate(Var2 = dplyr::recode(Var2, `16` = 4))
 
 ```
 
@@ -119,8 +117,6 @@ d14
 ```
 
 In this case I want Var1 to be numeric. However, missing values were entered as character values ("MR" for missing response) so I need to recode these values before I can convert this variable to numeric.
-
-* Note: We did not have to put quotes around the old values because `dplyr::recode()` replaces character or factor values by their name.
 
 * Note: Parentheses *are* required around the new value when recoding because the values in Var1 are still considered character even though they all appear as numeric after recoding.
 
@@ -177,12 +173,6 @@ labelled::val_labels(d5$Var3)
 
 Recode 2 -> 1 in `Var3`
 
-Note: We *did* have to put quotes around the old values because `dplyr::recode()` replaces numeric values by either their name or their position. If a number with no quotes/backticks is given, it will assume it is a position.
-
-Note: Since we are recoding into a numeric variable, no quotes are necessary for the numeric new value.
-
-Note: Notice here that we are only recoding one value in the variable. There is a *.default* option that you can set all not recoded values to, and if no default is supplied and the replacement values are the same variable class as the original values (ex: numeric and numeric), then unmatched values are unchanged. *However*, if the replacement value is a new variable class (ex: numeric to character) then all other values will be recoded to NA.
-
 ```{r}
 
 d5 <- d5 %>% 
@@ -234,14 +224,12 @@ d13 %>%
 
 Recode 5 -> 0 and 6 -> 1 in `Var3`
 
-Note: We *did* have to put quotes around the old values because `dplyr::recode()` replaces numeric values by either their name or their position. If a number with no quotes/backticks is given, it will assume it is a position.
-
-Note: Since we are recoding into a numeric variable, no quotes are necessary are the numeric new value.
 
 ```{r}
 
-d13 <- d13 %>% 
-  dplyr::mutate(Var3 = dplyr::recode(Var3, `5`=0, `6` = 1))
+
+d13 <- d13 %>%
+  dplyr::mutate(Var3 = dplyr::recode(Var3, `5` = 0, `6` = 1))
 
 d13
 
@@ -296,7 +284,7 @@ d21
 
 My logic is
 
-If `decision_var` !=4 then `Var3` should be -99,
+If `decision_var` != 4 then `Var3` should be -99,
 else it should be it's current value
 
 ```{r}

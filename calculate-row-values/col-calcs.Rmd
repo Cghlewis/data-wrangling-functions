@@ -1,5 +1,5 @@
 ---
-title: "Calculate percent adherence"
+title: "Calculate column values"
 output: 
   html_document:
     toc: false
@@ -57,7 +57,7 @@ d9
 
 ```
 
-Calculate a the total number of students across all schools.
+Calculate the total number of students across all schools.
 
 * Note: The default for `sum()` is to **not** calculate a sum if any NA value exists. If you want to still calculate a sum despite missing values, you can add the argument *na.rm = TRUE*.
 

@@ -23,7 +23,7 @@ knitr::opts_chunk$set(comment = NA,
 ---
 
 
-**1\. Add a new column (participation year) to the data**
+**1\. Add a new column (`year`) to the data**
 
 Review the data (d1)
 
@@ -34,6 +34,7 @@ d1
 
 ```
 
+Add participation year equal to "2018-19" for all IDs.
 
 ```{r}
 
@@ -61,7 +62,7 @@ d1 %>%
 
 ---
 
-**1\. Add a new column (participation year) to the data**
+**1\. Add a new column (`year`) to the data**
 
 Review the data (d1)
 

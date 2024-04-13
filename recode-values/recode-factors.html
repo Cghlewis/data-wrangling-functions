@@ -400,8 +400,8 @@ recoding into a character/factor variable.</p></li>
 <code>dplyr::mutate()</code>. However, we could have recoded into a new
 variable by changing the name of <em>lunch</em>.</p></li>
 </ul>
-<pre class="r"><code>d4 &lt;- d4 %&gt;% 
-  dplyr::mutate(lunch=dplyr::recode_factor(lunch, p=&quot;paid&quot;, r=&quot;reduced&quot;, f=&quot;free&quot;))
+<pre class="r"><code>d4 &lt;- d4 %&gt;%
+  dplyr::mutate(lunch = dplyr::recode_factor(lunch, p = &quot;paid&quot;, r = &quot;reduced&quot;, f = &quot;free&quot;))
 
 d4</code></pre>
 <pre><code># A tibble: 3 x 3
@@ -423,20 +423,17 @@ factor</strong></p>
 2 b     f          2
 3 c     n          3</code></pre>
 <p>Recode lunch status</p>
-<p>Note: We <em>did</em> have to put quotes around the old values
+<p>Note: We <em>did</em> have to put back ticks around the old values
 because <code>dplyr::recode_factor()</code> replaces numeric values by
 either their name or their position. If a number with no
 quotes/backticks is given, it will assume it is a position.</p>
-<ul>
-<li><p>Note: Quotes are required around new value when recoding into a
-character/factor variable.</p></li>
-<li><p>Note: We are recoding back into the same variable using
-<code>dplyr::mutate()</code>. However, we could have recoded into a new
-variable by changing the name of <em>lunch</em>.</p></li>
-</ul>
-<pre class="r"><code>d7 &lt;- d7 %&gt;% 
-  dplyr::mutate(lunch=dplyr::recode_factor(
-  lunch, &quot;1&quot;=&quot;paid&quot;, &quot;2&quot;=&quot;reduced&quot;, &quot;3&quot;=&quot;free&quot;))
+<pre class="r"><code>d7 &lt;- d7 %&gt;%
+  dplyr::mutate(lunch = dplyr::recode_factor(
+    lunch,
+    &quot;1&quot; = &quot;paid&quot;,
+    &quot;2&quot; = &quot;reduced&quot;,
+    &quot;3&quot; = &quot;free&quot;
+  ))
 
 d7</code></pre>
 <pre><code># A tibble: 3 x 3
@@ -480,17 +477,19 @@ character variables. If your variable is numeric, you will need to
 convert it to character or factor before using recode factor. As you see
 below, I converted our numeric variable to character in order to use the
 function.</p></li>
-<li><p>Note: Completely counterintuitive to what we’ve seen with
-<code>dplyr::recode()</code>, 1) you <em>do</em> have to put quotes
-around your character old value, 2) if you new values are character, you
-do <em>not</em> have to put quotes around them, 3) however, if your new
-values are numeric, you <em>do</em> need quotes around them.</p></li>
-<li><p>Note: We are recoding back into the same variable using
-<code>dplyr::mutate()</code>. However, we could have recoded into a new
-variable by changing the name of <em>lunch</em>.</p></li>
+<li><p>Note: Counterintuitive to <code>dplyr::recode()</code>, 1) you
+<em>do</em> have to put quotes around your character old value, 2) if
+you new values are character, you do <em>not</em> have to put quotes
+around them, 3) however, if your new values are numeric, you <em>do</em>
+need quotes around them.</p></li>
 </ul>
-<pre class="r"><code>d7 &lt;- d7 %&gt;% 
-  dplyr::mutate(lunch=forcats::fct_recode(as.character(lunch), paid=&quot;1&quot;, reduced=&quot;2&quot;, free=&quot;3&quot;))
+<pre class="r"><code>d7 &lt;- d7 %&gt;%
+  dplyr::mutate(lunch = forcats::fct_recode(
+    as.character(lunch),
+    paid = &quot;1&quot;,
+    reduced = &quot;2&quot;,
+    free = &quot;3&quot;
+  ))
 
 d7</code></pre>
 <pre><code># A tibble: 3 x 3

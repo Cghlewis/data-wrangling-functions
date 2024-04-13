@@ -49,8 +49,8 @@ Recode lunch status
 
 ```{r}
 
-d4 <- d4 %>% 
-  dplyr::mutate(lunch=dplyr::recode_factor(lunch, p="paid", r="reduced", f="free"))
+d4 <- d4 %>%
+  dplyr::mutate(lunch = dplyr::recode_factor(lunch, p = "paid", r = "reduced", f = "free"))
 
 d4
 
@@ -77,17 +77,17 @@ d7
 
 Recode lunch status
 
-Note: We *did* have to put quotes around the old values because `dplyr::recode_factor()` replaces numeric values by either their name or their position. If a number with no quotes/backticks is given, it will assume it is a position.
-
-* Note: Quotes are required around new value when recoding into a character/factor variable.
-
-* Note: We are recoding back into the same variable using `dplyr::mutate()`. However, we could have recoded into a new variable by changing the name of *lunch*.
+Note: We *did* have to put back ticks around the old values because `dplyr::recode_factor()` replaces numeric values by either their name or their position. If a number with no quotes/backticks is given, it will assume it is a position.
 
 ```{r}
 
-d7 <- d7 %>% 
-  dplyr::mutate(lunch=dplyr::recode_factor(
-  lunch, "1"="paid", "2"="reduced", "3"="free"))
+d7 <- d7 %>%
+  dplyr::mutate(lunch = dplyr::recode_factor(
+    lunch,
+    "1" = "paid",
+    "2" = "reduced",
+    "3" = "free"
+  ))
 
 d7
 
@@ -133,14 +133,17 @@ Recode lunch status
 
 * Note: `forcats::fct_recode` will only recode factor or character variables. If your variable is numeric, you will need to convert it to character or factor before using recode factor. As you see below, I converted our numeric variable to character in order to use the function.
 
-* Note: Completely counterintuitive to what we've seen with `dplyr::recode()`, 1) you *do* have to put quotes around your character old value, 2) if you new values are character, you do *not* have to put quotes around them, 3) however, if your new values are numeric, you *do* need quotes around them.
-
-* Note: We are recoding back into the same variable using `dplyr::mutate()`. However, we could have recoded into a new variable by changing the name of *lunch*.
+* Note: Counterintuitive to `dplyr::recode()`, 1) you *do* have to put quotes around your character old value, 2) if you new values are character, you do *not* have to put quotes around them, 3) however, if your new values are numeric, you *do* need quotes around them.
 
 ```{r}
 
-d7 <- d7 %>% 
-  dplyr::mutate(lunch=forcats::fct_recode(as.character(lunch), paid="1", reduced="2", free="3"))
+d7 <- d7 %>%
+  dplyr::mutate(lunch = forcats::fct_recode(
+    as.character(lunch),
+    paid = "1",
+    reduced = "2",
+    free = "3"
+  ))
 
 d7
 

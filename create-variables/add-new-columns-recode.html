@@ -413,18 +413,22 @@ I give. In this case, I am saying replace remaining values with 0.</p>
 “_scored”.</li>
 </ul>
 <pre class="r"><code>d1 %&gt;%
-  dplyr::mutate(dplyr::across(c(item1, item3),
-                ~dplyr::case_when(
-                  is.na(.) ~ NA_real_,
-                  . == 3 ~ 1,
-                  TRUE ~ 0),
-                .names = &quot;{col}_scored&quot;),
-                dplyr::across(c(item2, item4),
-                ~dplyr::case_when(
-                  is.na(.) ~ NA_real_,
-                  . == 5 ~ 1,
-                  TRUE ~ 0),
-                .names = &quot;{col}_scored&quot;)) %&gt;%
+  dplyr::mutate(
+    dplyr::across(
+      c(item1, item3),
+      ~ dplyr::case_when(is.na(.) ~ NA_real_,
+                         . == 3 ~ 1,
+                         TRUE ~ 0),
+      .names = &quot;{col}_scored&quot;
+    ),
+    dplyr::across(
+      c(item2, item4),
+      ~ dplyr::case_when(is.na(.) ~ NA_real_,
+                         . == 5 ~ 1,
+                         TRUE ~ 0),
+      .names = &quot;{col}_scored&quot;
+    )
+  ) %&gt;%
   dplyr::select(id, tidyselect::contains(&quot;scored&quot;))</code></pre>
 <pre><code># A tibble: 3 x 5
      id item1_scored item3_scored item2_scored item4_scored
@@ -436,18 +440,22 @@ I give. In this case, I am saying replace remaining values with 0.</p>
 values to be recoded to 0 and recoding NA at the end, but this is a bit
 longer.</p>
 <pre class="r"><code>d1 %&gt;%
-  dplyr::mutate(dplyr::across(c(item1, item3),
-                ~dplyr::case_when(
-                  . == 3 ~ 1,
-                  . %in% c(1,2,4,5) ~ 0,
-                  TRUE ~ .),
-                .names = &quot;{col}_scored&quot;),
-                dplyr::across(c(item2, item4),
-                ~dplyr::case_when(
-                  . == 5 ~ 1,
-                  . %in% c(1,2,3,4) ~ 0,
-                  TRUE ~ .),
-                .names = &quot;{col}_scored&quot;)) %&gt;%
+  dplyr::mutate(
+    dplyr::across(
+      c(item1, item3),
+      ~ dplyr::case_when(. == 3 ~ 1,
+                         . %in% c(1, 2, 4, 5) ~ 0,
+                         TRUE ~ .),
+      .names = &quot;{col}_scored&quot;
+    ),
+    dplyr::across(
+      c(item2, item4),
+      ~ dplyr::case_when(. == 5 ~ 1,
+                         . %in% c(1, 2, 3, 4) ~ 0,
+                         TRUE ~ .),
+      .names = &quot;{col}_scored&quot;
+    )
+  ) %&gt;%
   dplyr::select(id, tidyselect::contains(&quot;scored&quot;))</code></pre>
 <pre><code># A tibble: 3 x 5
      id item1_scored item3_scored item2_scored item4_scored

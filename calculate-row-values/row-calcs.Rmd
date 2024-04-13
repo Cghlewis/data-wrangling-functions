@@ -220,8 +220,6 @@ d6 %>%
 
 ```
 
-
-
 <br>
 
 ### Package: dplyr
@@ -330,7 +328,9 @@ If you wanted to exclude some of the "toca" items (say `toca2` and `toca4` this 
 
 d4 %>%
   dplyr::rowwise() %>%
-  dplyr::mutate(toca_mean = mean(dplyr::c_across(c(tidyselect::contains("toca"), -toca2, -toca4)), na.rm=TRUE))
+  dplyr::mutate(toca_mean = mean(dplyr::c_across(c(
+    tidyselect::contains("toca"),-toca2,-toca4
+  )), na.rm = TRUE))
 
 ```
 

@@ -383,11 +383,6 @@ pre code {
 2     1    NA     4
 3     1     0     2</code></pre>
 <p>Recode NA to 0</p>
-<ul>
-<li>Note: We are recoding back into the same variable using
-<code>dplyr::mutate()</code>. However, we could have recoded into a new
-variable by changing the name of <em>Var3</em>.</li>
-</ul>
 <pre class="r"><code>d18 %&gt;% 
   dplyr::mutate(Var2 = tidyr::replace_na(Var2, replace = 0))</code></pre>
 <pre><code># A tibble: 3 x 3
@@ -407,13 +402,11 @@ variable by changing the name of <em>Var3</em>.</li>
 3     1     0     2</code></pre>
 <p>Recode NA for <code>Var1</code> and <code>Var2</code> to 0</p>
 <ul>
-<li>Note: We are recoding back into the same variable using
-<code>dplyr::mutate()</code>.</li>
 <li>Note: We are using <code>dplyr::across()</code> to apply a
 transformation to multiple columns.</li>
 </ul>
-<pre class="r"><code>d18 %&gt;% 
-  dplyr::mutate(dplyr::across(Var1:Var2, ~tidyr::replace_na(., 0)))</code></pre>
+<pre class="r"><code>d18 %&gt;%
+  dplyr::mutate(dplyr::across(Var1:Var2, ~ tidyr::replace_na(., 0)))</code></pre>
 <pre><code># A tibble: 3 x 3
    Var1  Var2  Var3
   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -480,10 +473,6 @@ the same NA value (<code>Var2</code> and <code>Var3</code>)</strong></p>
 3 c         3  NA  </code></pre>
 <p>Recode NA for <code>Var2</code> and <code>Var3</code> to -999</p>
 <ul>
-<li>Note: We are recoding back into the same variable using
-<code>dplyr::mutate()</code>.</li>
-<li>Note: We are using <code>dplyr::across()</code> to apply a
-transformation to multiple columns.</li>
 <li>Note: You must wrap <em>is.numeric</em>, a predicate function
 (returns a true/false), in the <code>tidyselect</code> selection helper
 <code>where()</code>.</li>
@@ -556,12 +545,6 @@ and <code>Var3</code>) with NA</strong></p>
 3 c         3  -999</code></pre>
 <p>Replace -999 for for <code>Var2</code> and <code>Var3</code> with
 NA</p>
-<ul>
-<li>Note: We are recoding back into the same variable using
-<code>dplyr::mutate()</code>.</li>
-<li>Note: We are using <code>dplyr::across()</code> to apply a
-transformation to multiple columns.</li>
-</ul>
 <pre class="r"><code>d3 %&gt;% 
   dplyr::mutate(dplyr::across(Var2:Var3, ~dplyr::na_if(., -999)))</code></pre>
 <pre><code># A tibble: 3 x 3
@@ -580,17 +563,8 @@ transformation to multiple columns.</li>
 2 b      -999     0
 3 c         3  -999</code></pre>
 <p>Replace -999 for numeric variables with NA</p>
-<ul>
-<li>Note: We are recoding back into the same variable using
-<code>dplyr::mutate()</code>.</li>
-<li>Note: We are using <code>dplyr::across()</code> to apply a
-transformation to multiple columns.</li>
-<li>Note: You must wrap <em>is.numeric</em>, a predicate function
-(returns a true/false), in the <code>tidyselect</code> selection helper
-<code>where()</code>.</li>
-</ul>
-<pre class="r"><code>d3 %&gt;% 
-  dplyr::mutate(dplyr::across(where(is.numeric), ~dplyr::na_if(., -999)))</code></pre>
+<pre class="r"><code>d3 %&gt;%
+  dplyr::mutate(dplyr::across(where(is.numeric), ~ dplyr::na_if(.,-999)))</code></pre>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;

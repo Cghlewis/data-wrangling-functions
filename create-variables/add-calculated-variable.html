@@ -391,7 +391,8 @@ data before removing <code>dob</code> and <code>test_date</code>.</p>
 variable.</p>
 <p>Then, we can calculate our age variable.</p>
 <pre class="r"><code>d4 %&gt;%
-  dplyr::mutate(age_months = lubridate::interval(start = dob, end = test_date)/base::months(1))</code></pre>
+  dplyr::mutate(age_months = lubridate::interval(start = dob, end = test_date) /
+                  base::months(1))</code></pre>
 <pre><code># A tibble: 4 x 4
      id dob        test_date  age_months
   &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;          &lt;dbl&gt;

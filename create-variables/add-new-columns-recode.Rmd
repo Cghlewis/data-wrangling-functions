@@ -52,19 +52,24 @@ Note: In the `dplyr::case_when()` function, TRUE means if a value was not evalua
 
 ```{r}
 
+
 d1 %>%
-  dplyr::mutate(dplyr::across(c(item1, item3),
-                ~dplyr::case_when(
-                  is.na(.) ~ NA_real_,
-                  . == 3 ~ 1,
-                  TRUE ~ 0),
-                .names = "{col}_scored"),
-                dplyr::across(c(item2, item4),
-                ~dplyr::case_when(
-                  is.na(.) ~ NA_real_,
-                  . == 5 ~ 1,
-                  TRUE ~ 0),
-                .names = "{col}_scored")) %>%
+  dplyr::mutate(
+    dplyr::across(
+      c(item1, item3),
+      ~ dplyr::case_when(is.na(.) ~ NA_real_,
+                         . == 3 ~ 1,
+                         TRUE ~ 0),
+      .names = "{col}_scored"
+    ),
+    dplyr::across(
+      c(item2, item4),
+      ~ dplyr::case_when(is.na(.) ~ NA_real_,
+                         . == 5 ~ 1,
+                         TRUE ~ 0),
+      .names = "{col}_scored"
+    )
+  ) %>%
   dplyr::select(id, tidyselect::contains("scored"))
 
 ```
@@ -74,18 +79,22 @@ We could also write the formula this way, with explicitly listing the values to 
 ```{r}
 
 d1 %>%
-  dplyr::mutate(dplyr::across(c(item1, item3),
-                ~dplyr::case_when(
-                  . == 3 ~ 1,
-                  . %in% c(1,2,4,5) ~ 0,
-                  TRUE ~ .),
-                .names = "{col}_scored"),
-                dplyr::across(c(item2, item4),
-                ~dplyr::case_when(
-                  . == 5 ~ 1,
-                  . %in% c(1,2,3,4) ~ 0,
-                  TRUE ~ .),
-                .names = "{col}_scored")) %>%
+  dplyr::mutate(
+    dplyr::across(
+      c(item1, item3),
+      ~ dplyr::case_when(. == 3 ~ 1,
+                         . %in% c(1, 2, 4, 5) ~ 0,
+                         TRUE ~ .),
+      .names = "{col}_scored"
+    ),
+    dplyr::across(
+      c(item2, item4),
+      ~ dplyr::case_when(. == 5 ~ 1,
+                         . %in% c(1, 2, 3, 4) ~ 0,
+                         TRUE ~ .),
+      .names = "{col}_scored"
+    )
+  ) %>%
   dplyr::select(id, tidyselect::contains("scored"))
 
 ```

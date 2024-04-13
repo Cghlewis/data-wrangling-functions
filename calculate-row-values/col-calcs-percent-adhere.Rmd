@@ -54,6 +54,7 @@ Review the data (obs_data)
 ```{r, echo=FALSE}
 
 source("data.R")
+
 obs_data
 
 ```
@@ -112,7 +113,11 @@ Then calculate percent adherence for `item1` and `item2`
 ```{r}
 
 obs_data2_long %>%
-  dplyr::summarise(across(contains("item"), ~base::sum(., na.rm = TRUE)/dplyr::n(), .names = "{.col}_per"))
+  dplyr::summarise(across(
+    contains("item"),
+    ~ base::sum(., na.rm = TRUE) / dplyr::n(),
+    .names = "{.col}_per"
+  ))
 
 ```
 

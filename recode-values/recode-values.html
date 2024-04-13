@@ -397,8 +397,8 @@ recoding into a character/factor variable.</p></li>
 <code>dplyr::mutate()</code>. However, we could have recoded into a new
 variable by changing the name of <em>gender</em>.</p></li>
 </ul>
-<pre class="r"><code>d4 %&gt;% 
-  dplyr::mutate(gender=dplyr::recode(gender, m=&quot;male&quot;, f=&quot;female&quot;, n=&quot;nonbinary&quot;))</code></pre>
+<pre class="r"><code>d4 %&gt;%
+  dplyr::mutate(gender = dplyr::recode(gender, m = &quot;male&quot;, f = &quot;female&quot;, n = &quot;nonbinary&quot;))</code></pre>
 <pre><code># A tibble: 3 x 3
   id    gender    lunch
   &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;
@@ -422,8 +422,8 @@ are necessary for the numeric new value.</p></li>
 <code>dplyr::mutate()</code>. However, we could have recoded into a new
 variable by changing the name of <em>gender</em>.</p></li>
 </ul>
-<pre class="r"><code>d4 %&gt;% 
-  dplyr::mutate(gender=dplyr::recode(gender, m=1, f=2, n=3))</code></pre>
+<pre class="r"><code>d4 %&gt;%
+  dplyr::mutate(gender = dplyr::recode(gender, m = 1, f = 2, n = 3))</code></pre>
 <pre><code># A tibble: 3 x 3
   id    gender lunch
   &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;
@@ -440,12 +440,10 @@ variable by changing the name of <em>gender</em>.</p></li>
 2 b        16     0
 3 c         3     1</code></pre>
 <p>Recode 16 -&gt; 4 in <code>Var2</code></p>
-<p>Note: We <em>did</em> have to put quotes around the old values
+<p>Note: We <em>did</em> have to put tick marks around the old values
 because <code>dplyr::recode()</code> replaces numeric values by either
 their name or their position. If a number with no quotes/backticks is
 given, it will assume it is a position.</p>
-<p>Note: Since we are recoding into a numeric variable, no quotes are
-necessary are the numeric new value.</p>
 <p>Note: Notice here that we are only recoding one value in the
 variable. There is a <em>default</em> option that you can set all not
 recoded values to, and if no default is supplied and the replacement
@@ -453,8 +451,8 @@ values are the same variable class as the original values (ex: numeric
 and numeric), then unmatched values are unchanged. <em>However</em>, if
 the replacement value is a new variable class (ex: numeric to character)
 then all other values will be recoded to NA.</p>
-<pre class="r"><code>d5 %&gt;% 
-  dplyr::mutate(Var2=dplyr::recode(Var2, `16`=4))</code></pre>
+<pre class="r"><code>d5 %&gt;%
+  dplyr::mutate(Var2 = dplyr::recode(Var2, `16` = 4))</code></pre>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -474,12 +472,9 @@ then all other values will be recoded to NA.</p>
 entered as character values (“MR” for missing response) so I need to
 recode these values before I can convert this variable to numeric.</p>
 <ul>
-<li><p>Note: We did not have to put quotes around the old values because
-<code>dplyr::recode()</code> replaces character or factor values by
-their name.</p></li>
-<li><p>Note: Parentheses <em>are</em> required around the new value when
+<li>Note: Parentheses <em>are</em> required around the new value when
 recoding because the values in Var1 are still considered character even
-though they all appear as numeric after recoding.</p></li>
+though they all appear as numeric after recoding.</li>
 </ul>
 <pre class="r"><code>d14 &lt;- d14 %&gt;%
   dplyr::mutate(Var1 = dplyr::recode(Var1, MR = &quot;-99&quot;))
@@ -526,19 +521,6 @@ do not contain a value label.</li>
 <pre><code> no yes 
   0   1 </code></pre>
 <p>Recode 2 -&gt; 1 in <code>Var3</code></p>
-<p>Note: We <em>did</em> have to put quotes around the old values
-because <code>dplyr::recode()</code> replaces numeric values by either
-their name or their position. If a number with no quotes/backticks is
-given, it will assume it is a position.</p>
-<p>Note: Since we are recoding into a numeric variable, no quotes are
-necessary for the numeric new value.</p>
-<p>Note: Notice here that we are only recoding one value in the
-variable. There is a <em>.default</em> option that you can set all not
-recoded values to, and if no default is supplied and the replacement
-values are the same variable class as the original values (ex: numeric
-and numeric), then unmatched values are unchanged. <em>However</em>, if
-the replacement value is a new variable class (ex: numeric to character)
-then all other values will be recoded to NA.</p>
 <pre class="r"><code>d5 &lt;- d5 %&gt;% 
   dplyr::mutate(Var3 = dplyr::recode(Var3, `2`=1))
 
@@ -577,14 +559,8 @@ variable (<code>Var3</code>)</strong></p>
  no yes 
   5   6 </code></pre>
 <p>Recode 5 -&gt; 0 and 6 -&gt; 1 in <code>Var3</code></p>
-<p>Note: We <em>did</em> have to put quotes around the old values
-because <code>dplyr::recode()</code> replaces numeric values by either
-their name or their position. If a number with no quotes/backticks is
-given, it will assume it is a position.</p>
-<p>Note: Since we are recoding into a numeric variable, no quotes are
-necessary are the numeric new value.</p>
-<pre class="r"><code>d13 &lt;- d13 %&gt;% 
-  dplyr::mutate(Var3 = dplyr::recode(Var3, `5`=0, `6` = 1))
+<pre class="r"><code>d13 &lt;- d13 %&gt;%
+  dplyr::mutate(Var3 = dplyr::recode(Var3, `5` = 0, `6` = 1))
 
 d13</code></pre>
 <pre><code># A tibble: 3 x 3
@@ -635,7 +611,7 @@ d13 %&gt;%
 5            4     5     3
 6            3     1    NA</code></pre>
 <p>My logic is</p>
-<p>If <code>decision_var</code> !=4 then <code>Var3</code> should be
+<p>If <code>decision_var</code> != 4 then <code>Var3</code> should be
 -99, else it should be it’s current value</p>
 <pre class="r"><code>d21 %&gt;%
   dplyr::mutate(

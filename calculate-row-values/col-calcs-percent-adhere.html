@@ -472,7 +472,11 @@ head(obs_data2_long)</code></pre>
 <p>Then calculate percent adherence for <code>item1</code> and
 <code>item2</code></p>
 <pre class="r"><code>obs_data2_long %&gt;%
-  dplyr::summarise(across(contains(&quot;item&quot;), ~base::sum(., na.rm = TRUE)/dplyr::n(), .names = &quot;{.col}_per&quot;))</code></pre>
+  dplyr::summarise(across(
+    contains(&quot;item&quot;),
+    ~ base::sum(., na.rm = TRUE) / dplyr::n(),
+    .names = &quot;{.col}_per&quot;
+  ))</code></pre>
 <pre><code># A tibble: 1 x 2
   item1_per item2_per
       &lt;dbl&gt;     &lt;dbl&gt;

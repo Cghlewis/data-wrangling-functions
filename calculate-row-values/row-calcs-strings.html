@@ -391,8 +391,8 @@ occurrences of the string “prefer”, detected using
 <p>I add the <code>rowSums()</code> argument <em>na.rm</em> = TRUE to
 calculate sums despite NA values in my variables.</p>
 <pre class="r"><code>d7 %&gt;%
-  dplyr::mutate(prefer_sum = 
-           rowSums(dplyr::across(q1:q4, ~ stringr::str_detect(., &quot;prefer&quot;)), na.rm = TRUE))</code></pre>
+  dplyr::mutate(prefer_sum =
+                  rowSums(dplyr::across(q1:q4, ~ stringr::str_detect(., &quot;prefer&quot;)), na.rm = TRUE))</code></pre>
 <pre><code># A tibble: 3 x 6
      id q1                   q2                   q3    q4               prefe~1
   &lt;dbl&gt; &lt;chr&gt;                &lt;chr&gt;                &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt;
@@ -402,8 +402,8 @@ calculate sums despite NA values in my variables.</p>
 # ... with abbreviated variable name 1: prefer_sum</code></pre>
 <p>I could also write this using the exact text.</p>
 <pre class="r"><code>d7 %&gt;%
-  dplyr::mutate(prefer_sum = 
-           rowSums(dplyr::across(q1:q4, ~ . == &quot;prefer not to answer&quot;), na.rm = TRUE))</code></pre>
+  dplyr::mutate(prefer_sum =
+                  rowSums(dplyr::across(q1:q4, ~ . == &quot;prefer not to answer&quot;), na.rm = TRUE))</code></pre>
 <pre><code># A tibble: 3 x 6
      id q1                   q2                   q3    q4               prefe~1
   &lt;dbl&gt; &lt;chr&gt;                &lt;chr&gt;                &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt;
@@ -424,8 +424,10 @@ calculate sums despite NA values in my variables.</p>
 <p>Similar to above I can use <code>stringr::str_detect()</code> in
 combination with regex to only grab values 1-17.</p>
 <pre class="r"><code>d8 %&gt;%
-  dplyr::mutate(minor_kids = 
-           rowSums(dplyr::across(kid1:kid3, ~ stringr::str_detect(., &quot;^[1-9]$|^[1]{1}[0-7]$&quot;)), na.rm = TRUE))</code></pre>
+  dplyr::mutate(minor_kids =
+                  rowSums(dplyr::across(
+                    kid1:kid3, ~ stringr::str_detect(., &quot;^[1-9]$|^[1]{1}[0-7]$&quot;)
+                  ), na.rm = TRUE))</code></pre>
 <pre><code># A tibble: 4 x 5
      id  kid1  kid2  kid3 minor_kids
   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
@@ -436,8 +438,8 @@ combination with regex to only grab values 1-17.</p>
 <p>But also, since the values are all numeric, I could simplify the code
 to this.</p>
 <pre class="r"><code>d8 %&gt;%
-  dplyr::mutate(minor_kids = 
-           rowSums(dplyr::across(kid1:kid3, ~ . &lt;18), na.rm = TRUE))</code></pre>
+  dplyr::mutate(minor_kids =
+                  rowSums(dplyr::across(kid1:kid3, ~ . &lt; 18), na.rm = TRUE))</code></pre>
 <pre><code># A tibble: 4 x 5
      id  kid1  kid2  kid3 minor_kids
   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;

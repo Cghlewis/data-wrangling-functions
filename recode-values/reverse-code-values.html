@@ -401,9 +401,16 @@ variables and then renaming them by using the
 <code>dplyr::rename_with()</code> function along with
 <code>base::paste0()</code>.</p></li>
 </ul>
-<pre class="r"><code>d2_new &lt;- d2 %&gt;% 
-  dplyr::mutate(dplyr::across(Var2:Var3, ~dplyr::recode(.,`1`=5, `2`=4, `3`=3, `4`=2, `5`=1))) %&gt;%
-  dplyr::rename_with(~paste0(., &quot;_r&quot;), Var2:Var3)
+<pre class="r"><code>d2_new &lt;- d2 %&gt;%
+  dplyr::mutate(dplyr::across(Var2:Var3, ~ dplyr::recode(
+    .,
+    `1` = 5,
+    `2` = 4,
+    `3` = 3,
+    `4` = 2,
+    `5` = 1
+  ))) %&gt;%
+  dplyr::rename_with( ~ paste0(., &quot;_r&quot;), Var2:Var3)
 
 d2_new</code></pre>
 <pre><code># A tibble: 3 x 3
@@ -420,7 +427,7 @@ function here. I can simply apply a formula across my selected
 variables.</p>
 <pre class="r"><code>d2_new &lt;- d2 %&gt;%
   dplyr::mutate(dplyr::across(Var2:Var3, ~ 6 - .x)) %&gt;%
-  dplyr::rename_with(~paste0(., &quot;_r&quot;), Var2:Var3)
+  dplyr::rename_with( ~ paste0(., &quot;_r&quot;), Var2:Var3)
 
 d2_new</code></pre>
 <pre><code># A tibble: 3 x 3
@@ -446,9 +453,19 @@ created variables, you can add the argument <em>.names</em> to the
 <code>dplyr::across()</code> function to rename your recoded variables
 as you create them, rather than writing over the old variables by adding
 the <code>dplyr::rename_with()</code> function as a second step.</p>
-<pre class="r"><code>d2 &lt;- d2 %&gt;% 
-  dplyr::mutate(dplyr::across(Var2:Var3, ~dplyr::recode(.,`1`=5, `2`=4, `3`=3, `4`=2, `5`=1), 
-                              .names = &#39;{col}_r&#39;))
+<pre class="r"><code>d2 &lt;- d2 %&gt;%
+  dplyr::mutate(dplyr::across(
+    Var2:Var3,
+    ~ dplyr::recode(
+      .,
+      `1` = 5,
+      `2` = 4,
+      `3` = 3,
+      `4` = 2,
+      `5` = 1
+    ),
+    .names = &#39;{col}_r&#39;
+  ))
 
 d2</code></pre>
 <pre><code># A tibble: 3 x 5
@@ -471,7 +488,8 @@ d2</code></pre>
 2 b        NA     5
 3 c         3     1</code></pre>
 <p>Check the values of <code>Var2</code></p>
-<pre class="r"><code>d2 %&gt;% janitor::tabyl(Var2)</code></pre>
+<pre class="r"><code>d2 %&gt;% 
+  janitor::tabyl(Var2)</code></pre>
 <pre><code> Var2 n   percent valid_percent
     1 1 0.3333333           0.5
     3 1 0.3333333           0.5
@@ -543,7 +561,7 @@ variables.</li>
 </ul>
 <pre class="r"><code>d2 &lt;- d2 %&gt;%
   dplyr::mutate(Var2_r = reverse_scale(Var2),
-         Var3_r = reverse_scale(Var3))</code></pre>
+                Var3_r = reverse_scale(Var3))</code></pre>
 <p>Check that the recode worked</p>
 <pre class="r"><code>d2 %&gt;% 
   janitor::tabyl(Var2, Var2_r)</code></pre>
@@ -568,9 +586,9 @@ transformation to select columns and then adding the argument
 <em>names</em> to rename your recoded variables as you create them,
 rather than writing over the old variables.</p></li>
 </ul>
-<pre class="r"><code>d2 &lt;- d2 %&gt;% 
-  dplyr::mutate(across(Var2:Var3, reverse_scale, 
-                              .names = &#39;{col}_r&#39;))</code></pre>
+<pre class="r"><code>d2 &lt;- d2 %&gt;%
+  dplyr::mutate(across(Var2:Var3, reverse_scale,
+                       .names = &#39;{col}_r&#39;))</code></pre>
 <p>Check that the recode worked</p>
 <pre class="r"><code>base::table(d2$Var2, d2$Var2_r)</code></pre>
 <pre><code>   

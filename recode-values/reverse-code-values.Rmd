@@ -49,9 +49,16 @@ Reverse code `Var2` and `Var3` and rename the variables with *\_r* at the end.
 
 ```{r}
 
-d2_new <- d2 %>% 
-  dplyr::mutate(dplyr::across(Var2:Var3, ~dplyr::recode(.,`1`=5, `2`=4, `3`=3, `4`=2, `5`=1))) %>%
-  dplyr::rename_with(~paste0(., "_r"), Var2:Var3)
+d2_new <- d2 %>%
+  dplyr::mutate(dplyr::across(Var2:Var3, ~ dplyr::recode(
+    .,
+    `1` = 5,
+    `2` = 4,
+    `3` = 3,
+    `4` = 2,
+    `5` = 1
+  ))) %>%
+  dplyr::rename_with( ~ paste0(., "_r"), Var2:Var3)
 
 d2_new
 
@@ -65,7 +72,7 @@ Note that I don't need to use the `dplyr::recode()` function here. I can simply 
 
 d2_new <- d2 %>%
   dplyr::mutate(dplyr::across(Var2:Var3, ~ 6 - .x)) %>%
-  dplyr::rename_with(~paste0(., "_r"), Var2:Var3)
+  dplyr::rename_with( ~ paste0(., "_r"), Var2:Var3)
 
 d2_new
 
@@ -86,9 +93,19 @@ If you want to keep *both* the old variables and the newly created variables, yo
 
 ```{r}
 
-d2 <- d2 %>% 
-  dplyr::mutate(dplyr::across(Var2:Var3, ~dplyr::recode(.,`1`=5, `2`=4, `3`=3, `4`=2, `5`=1), 
-                              .names = '{col}_r'))
+d2 <- d2 %>%
+  dplyr::mutate(dplyr::across(
+    Var2:Var3,
+    ~ dplyr::recode(
+      .,
+      `1` = 5,
+      `2` = 4,
+      `3` = 3,
+      `4` = 2,
+      `5` = 1
+    ),
+    .names = '{col}_r'
+  ))
 
 d2
 
@@ -116,7 +133,8 @@ Check the values of `Var2`
 
 ```{r}
 
-d2 %>% janitor::tabyl(Var2)
+d2 %>% 
+  janitor::tabyl(Var2)
 
 ```
 
@@ -196,7 +214,7 @@ Reverse code `Var2` and `Var3` using your function and rename the new variables 
 
 d2 <- d2 %>%
   dplyr::mutate(Var2_r = reverse_scale(Var2),
-         Var3_r = reverse_scale(Var3))
+                Var3_r = reverse_scale(Var3))
 
 ```
 
@@ -227,9 +245,9 @@ Reverse code `Var2` and `Var3` using your function and rename the new variables 
 
 ```{r}
 
-d2 <- d2 %>% 
-  dplyr::mutate(across(Var2:Var3, reverse_scale, 
-                              .names = '{col}_r'))
+d2 <- d2 %>%
+  dplyr::mutate(across(Var2:Var3, reverse_scale,
+                       .names = '{col}_r'))
 
 ```
 

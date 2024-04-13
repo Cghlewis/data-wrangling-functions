@@ -761,7 +761,9 @@ them this way, by wrapping your selected and excluded variables in
 <code>c()</code>.</p>
 <pre class="r"><code>d4 %&gt;%
   dplyr::rowwise() %&gt;%
-  dplyr::mutate(toca_mean = mean(dplyr::c_across(c(tidyselect::contains(&quot;toca&quot;), -toca2, -toca4)), na.rm=TRUE))</code></pre>
+  dplyr::mutate(toca_mean = mean(dplyr::c_across(c(
+    tidyselect::contains(&quot;toca&quot;),-toca2,-toca4
+  )), na.rm = TRUE))</code></pre>
 <pre><code># A tibble: 5 x 7
 # Rowwise: 
   stu_id toca1 toca2 toca3 toca4 item1 toca_mean

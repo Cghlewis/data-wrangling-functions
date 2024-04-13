@@ -423,7 +423,7 @@ replace with the existing value.</p></li>
 <code>dplyr::case_when()</code> statement all together though and use
 something like <code>stringr::str_to_upper()</code> though.</p>
 <pre class="r"><code>d19 %&gt;%
-  dplyr::mutate(dplyr::across(everything(), ~stringr::str_to_upper(.)))</code></pre>
+  dplyr::mutate(dplyr::across(everything(), ~ stringr::str_to_upper(.)))</code></pre>
 <pre><code># A tibble: 3 x 3
   Var1  Var2  Var3 
   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
@@ -484,7 +484,7 @@ selected</li>
 <em>any</em> alphabetical character left in my variables using
 <code>stringr::str_detect()</code> and including the regex pattern
 <em>[a-zA-Z]</em></p>
-<pre class="r"><code>d15 %&gt;% 
+<pre class="r"><code>d15 %&gt;%
   dplyr::filter(dplyr::if_any(everything(), ~ stringr::str_detect(., pattern = &quot;[a-zA-Z]&quot;)))</code></pre>
 <pre><code># A tibble: 0 x 4
 # ... with 4 variables: id &lt;dbl&gt;, Var1 &lt;chr&gt;, Var2 &lt;chr&gt;, Var3 &lt;chr&gt;</code></pre>
@@ -520,10 +520,10 @@ to select columns where the condition applies to all columns. This
 function is available in version 1.0.5 of <code>dplyr</code>.</li>
 </ul>
 <pre class="r"><code>d20 %&gt;%
-  dplyr::mutate(dplyr::across(sc_sum:sc_mean,
-                 ~dplyr::case_when(
-                    dplyr::if_all(sc_1:sc_2, ~ . == -80) ~ -80,
-                    TRUE ~ .)))</code></pre>
+  dplyr::mutate(dplyr::across(
+    sc_sum:sc_mean,
+    ~ dplyr::case_when(dplyr::if_all(sc_1:sc_2, ~ . == -80) ~ -80, TRUE ~ .)
+  ))</code></pre>
 <pre><code># A tibble: 4 x 5
      id  sc_1  sc_2 sc_sum sc_mean
   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;

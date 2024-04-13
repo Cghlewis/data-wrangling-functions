@@ -43,7 +43,8 @@ Then, we can calculate our age variable.
 ```{r R.options=list(pillar.sigfig = 8)}
 
 d4 %>%
-  dplyr::mutate(age_months = lubridate::interval(start = dob, end = test_date)/base::months(1))
+  dplyr::mutate(age_months = lubridate::interval(start = dob, end = test_date) /
+                  base::months(1))
 
 
 ```

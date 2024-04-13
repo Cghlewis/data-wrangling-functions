@@ -34,7 +34,6 @@ d18
 
 Recode NA to 0
 
-* Note: We are recoding back into the same variable using `dplyr::mutate()`. However, we could have recoded into a new variable by changing the name of *Var3*.
 
 ```{r}
 
@@ -57,13 +56,12 @@ d18
 
 Recode NA for `Var1` and `Var2` to 0
 
-* Note: We are recoding back into the same variable using `dplyr::mutate()`. 
 * Note: We are using `dplyr::across()` to apply a transformation to multiple columns.
 
 ```{r}
 
-d18 %>% 
-  dplyr::mutate(dplyr::across(Var1:Var2, ~tidyr::replace_na(., 0)))
+d18 %>%
+  dplyr::mutate(dplyr::across(Var1:Var2, ~ tidyr::replace_na(., 0)))
 
 ```
 
@@ -128,8 +126,6 @@ d1
 
 Recode NA for `Var2` and `Var3` to -999
 
-* Note: We are recoding back into the same variable using `dplyr::mutate()`. 
-* Note: We are using `dplyr::across()` to apply a transformation to multiple columns.
 * Note: You must wrap *is.numeric*, a predicate function (returns a true/false), in the `tidyselect` selection helper `where()`.
 
 ```{r}
@@ -204,9 +200,6 @@ d3
 
 Replace -999 for for `Var2` and `Var3` with NA
 
-* Note: We are recoding back into the same variable using `dplyr::mutate()`. 
-* Note: We are using `dplyr::across()` to apply a transformation to multiple columns.
-
 ```{r}
 
 d3 %>% 
@@ -227,15 +220,11 @@ d3
 
 Replace -999 for numeric variables with NA
 
-* Note: We are recoding back into the same variable using `dplyr::mutate()`.
-* Note: We are using `dplyr::across()` to apply a transformation to multiple columns.
-* Note: You must wrap *is.numeric*, a predicate function (returns a true/false), in the `tidyselect` selection helper `where()`.
-
 
 ```{r}
 
-d3 %>% 
-  dplyr::mutate(dplyr::across(where(is.numeric), ~dplyr::na_if(., -999)))
+d3 %>%
+  dplyr::mutate(dplyr::across(where(is.numeric), ~ dplyr::na_if(.,-999)))
 
 ```
 

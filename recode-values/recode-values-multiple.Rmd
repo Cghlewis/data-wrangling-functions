@@ -69,7 +69,7 @@ A more sophisticated way to do this might be to bypass the `dplyr::case_when()` 
 ```{r}
 
 d19 %>%
-  dplyr::mutate(dplyr::across(everything(), ~stringr::str_to_upper(.)))
+  dplyr::mutate(dplyr::across(everything(), ~ stringr::str_to_upper(.)))
 
 ```
 
@@ -123,7 +123,7 @@ If I wanted to be more general, I could also just check for *any* alphabetical c
 
 ```{r}
 
-d15 %>% 
+d15 %>%
   dplyr::filter(dplyr::if_any(everything(), ~ stringr::str_detect(., pattern = "[a-zA-Z]")))
 
 ```
@@ -158,11 +158,11 @@ The scale "sc" is made up of 2 items.
 ```{r}
 
 d20 %>%
-  dplyr::mutate(dplyr::across(sc_sum:sc_mean,
-                 ~dplyr::case_when(
-                    dplyr::if_all(sc_1:sc_2, ~ . == -80) ~ -80,
-                    TRUE ~ .)))
-    
+  dplyr::mutate(dplyr::across(
+    sc_sum:sc_mean,
+    ~ dplyr::case_when(dplyr::if_all(sc_1:sc_2, ~ . == -80) ~ -80, TRUE ~ .)
+  ))
+
 ```
 
 

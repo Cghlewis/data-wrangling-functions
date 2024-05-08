@@ -47,7 +47,7 @@ d1 %>%
 
 We could also use another function `dplyr::n_groups()` which requires you to first group by your variable of interest (in this case `school`) and then use the function.
 
-Note: It is important to note that the output between using `dplyr::count()` and `dplyr::n_groups()` is different. The former produces a tibble and the latter produces a numeric vector.
+* Note: It is important to note that the output between using `dplyr::count()` and `dplyr::n_groups()` is different. The former produces a tibble and the latter produces a numeric vector.
 
 ```{r}
 

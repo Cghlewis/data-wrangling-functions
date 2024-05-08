@@ -192,6 +192,8 @@ navbar:
     href: count\count-values-groups.html
   - text: "Count duplicates"
     href: count\count-duplicates.html
+  - text: "Percent per group"
+    href: count\percent-groups.html
   - text: "Remove spaces"
     href: strings\remove-spaces.html
   - text: "Remove values"

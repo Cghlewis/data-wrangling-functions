@@ -1,0 +1,58 @@
+---
+title: "Percent per group"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `count()`
+
+---
+
+**1\. Calculate the percent of students per `frl` group**
+
+Review the data (d5)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d5
+
+```
+
+
+* Note: The *.* is used here as a placeholder for `d5`
+
+```{r}
+
+d5 %>%
+  dplyr::group_by(frl) %>%
+  dplyr::summarise(per_group = round(n()/nrow(.)*100, 2))
+
+```
+
+If you have dplyr 1.1.4 or higher, it is recommended to use `reframe()` rather than `summarise()` which has less requirements than `summarise()` or `mutate()`
+
+```{r eval = FALSE}
+
+d5 %>%
+  dplyr::reframe(per_group = round(n()/nrow(.)*100, 2), .by = frl)
+
+```
+
+
+
+Return to [Count](https://github.com/Cghlewis/data-wrangling-functions/wiki/Count)

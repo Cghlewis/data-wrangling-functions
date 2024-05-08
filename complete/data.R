@@ -33,7 +33,7 @@ d3 <- tibble::tribble(
   145, "non-binary", "non-binary", "non-binary", NA_character_,
   150, "female", "female", "female", "female",
   164, "male", NA_character_, "male", NA_character_,
-  170, "male", "female", NA_character_, "male")
+  170, "female", "male", NA_character_, "male")
 
 d4 <- tibble::tribble(
   ~school, ~year, ~enroll, ~cohort,
@@ -71,4 +71,5 @@ d6 <- tibble::tribble(
   145, "non-binary", "non-binary", "non-binary", "",
   150, "female", "female", "female", "female",
   164, "male", "", "male", "",
-  170, "male", "female", "", "male")
+  170, "female", "male", "", "male")
+

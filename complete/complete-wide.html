@@ -384,7 +384,7 @@ values</h1>
 2   145 non-binary  non-binary  non-binary  &lt;NA&gt;       
 3   150 female      female      female      female     
 4   164 male        &lt;NA&gt;        male        &lt;NA&gt;       
-5   170 male        female      &lt;NA&gt;        male       </code></pre>
+5   170 female      male        &lt;NA&gt;        male       </code></pre>
 <p>Fill in missing 20-21 self-reported gender information from the most
 recently available year of data.</p>
 <ul>
@@ -404,7 +404,26 @@ value will be filled by the first available data in that order.</li>
 2   145 non-binary  non-binary  non-binary  &lt;NA&gt;        non-binary     
 3   150 female      female      female      female      female         
 4   164 male        &lt;NA&gt;        male        &lt;NA&gt;        male           
-5   170 male        female      &lt;NA&gt;        male        male           </code></pre>
+5   170 female      male        &lt;NA&gt;        male        male           </code></pre>
+<p>However, imagine you have 20 years worth of gender variables and you
+do not want to list all of those variables out. Instead you can use the
+splice operator (<code>!!!</code>) to select all variables that meet a
+certain criteria. The coalescing happens by variable order, so if you
+wanted to use the most recent values and fill from there, you would need
+to reorder your variables first.</p>
+<pre class="r"><code>d3 &lt;- d3 %&gt;%
+  dplyr::relocate(s_id, gender_2021, gender_1920, gender_1819)
+
+d3 %&gt;% 
+    dplyr::mutate(gender_2021_new = dplyr::coalesce(!!! dplyr::select(., contains(&quot;gender&quot;))))</code></pre>
+<pre><code># A tibble: 5 x 6
+   s_id gender_2021 gender_1920 gender_1819 gender_1718 gender_2021_new
+  &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;       &lt;chr&gt;       &lt;chr&gt;       &lt;chr&gt;          
+1   123 male        &lt;NA&gt;        male        male        male           
+2   145 &lt;NA&gt;        non-binary  non-binary  non-binary  non-binary     
+3   150 female      female      female      female      female         
+4   164 &lt;NA&gt;        male        &lt;NA&gt;        male        male           
+5   170 male        &lt;NA&gt;        male        female      male           </code></pre>
 <ul>
 <li>Note: Coalesce works when your missing values are denoted as actual
 NAs (NA, NA_character, etc.). If you are working with a character
@@ -427,7 +446,7 @@ NAs.</p>
 2   145 non-binary  &quot;non-binary&quot; &quot;non-binary&quot; &quot;&quot;         
 3   150 female      &quot;female&quot;     &quot;female&quot;     &quot;female&quot;   
 4   164 male        &quot;&quot;           &quot;male&quot;       &quot;&quot;         
-5   170 male        &quot;female&quot;     &quot;&quot;           &quot;male&quot;     </code></pre>
+5   170 female      &quot;male&quot;       &quot;&quot;           &quot;male&quot;     </code></pre>
 <p>I can select all gender variables that I want to recode using
 <code>dplyr::across()</code> along with
 <code>tidyselect::contains()</code> and then recode all “” to NAs by
@@ -444,7 +463,7 @@ NA, coalesce will work fine.</p>
 2   145 non-binary  non-binary  non-binary  &lt;NA&gt;        non-binary     
 3   150 female      female      female      female      female         
 4   164 male        &lt;NA&gt;        male        &lt;NA&gt;        male           
-5   170 male        female      &lt;NA&gt;        male        male           </code></pre>
+5   170 female      male        &lt;NA&gt;        male        male           </code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Complete">Complete</a></p>
 </div>
 </div>

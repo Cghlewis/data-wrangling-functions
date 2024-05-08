@@ -45,6 +45,19 @@ d3 %>%
 
 ```
 
+However, imagine you have 20 years worth of gender variables and you do not want to list all of those variables out. Instead you can use the splice operator (`!!!`) to select all variables that meet a certain criteria. The coalescing happens by variable order, so if you wanted to use the most recent values and fill from there, you would need to reorder your variables first.
+
+```{r}
+
+d3 <- d3 %>%
+  dplyr::relocate(s_id, gender_2021, gender_1920, gender_1819)
+
+d3 %>% 
+    dplyr::mutate(gender_2021_new = dplyr::coalesce(!!! dplyr::select(., contains("gender"))))
+
+```
+
+
 * Note: Coalesce works when your missing values are denoted as actual NAs (NA, NA_character, etc.). If you are working with a character variable where blanks are not denoted as NAs but are instead shown as blanks or " ", **then coalesce will not work**. It will assume the " " are actual values. In this case you can either first recode all " " to NA_character or you can use something like `dplyr::case_when()` to fill empty values (similar to what we did in the [Recode](https://cghlewis.github.io/data-wrangling-functions/recode-values/collapse-categories.html) section). If you are planning to coalesce using many variables, I think recoding blanks to NA_character first would be your best option. 
 
 Here is an example below. Our new data has blanks rather than NAs.
@@ -65,6 +78,8 @@ d6 %>%
   dplyr::mutate(gender_2021_new = dplyr::coalesce(gender_2021, gender_1920, gender_1819, gender_1718))
 
 ```
+
+
 
 
 Return to [Complete](https://github.com/Cghlewis/data-wrangling-functions/wiki/Complete)

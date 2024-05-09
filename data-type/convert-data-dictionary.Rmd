@@ -1,0 +1,85 @@
+---
+title: "Convert data type using a data dictionary"
+output: 
+  html_document:
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: base
+
+---
+
+#### Function: `as.character()`
+
+---
+
+**1\. Recode all ID variables to character**
+
+Review the data (d8)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d8
+
+```
+
+View the class for each variable
+
+```{r}
+
+dplyr::glimpse(d8)
+
+```
+
+I see that my ID variables are stored as numeric but I want them to be stored as character. 
+
+Here I am going to bring in my existing data dictionary to help me choose the variables to recode.
+
+Let's view our data dictionary
+
+```{r, echo=FALSE}
+
+source("data.R")
+dict
+
+```
+
+
+I can pull a vector of all the variables that should be character type.
+
+```{r}
+
+var_char <- dict %>%
+  dplyr::filter(type == "character") %>%
+  dplyr::pull(var_name)
+
+```
+
+And then use this vector to update the type of multiple variables.
+
+```{r}
+
+d8 <- d8 %>%
+  dplyr::mutate(across(all_of(var_char), base::as.character))
+
+```
+
+Now we can check our variable types again.
+
+```{r}
+
+dplyr::glimpse(d8)
+
+```
+
+
+Return to [Data Types](https://github.com/Cghlewis/data-wrangling-functions/wiki/Data Types)

@@ -47,3 +47,14 @@ d7 <- tibble::tribble( ~id, ~svy_date,
                        50, "Feb 3 2023",
                        60, "30 Jan 2012",
                        70, "02282022")
+
+d8 <- tibble::tribble(~stu_id, ~tch_id, ~sch_id, ~grade,
+                        5000, 200, 13, 6,
+                        5002, 201, 13, 7,
+                        5003, 200, 13, 6)
+
+dict <- tibble::tribble(~var_name, ~type, ~label,
+                        "stu_id", "character", "student study ID",
+                        "tch_id", "character", "teacher study ID",
+                        "sch_id", "character", "school study ID",
+                        "grade", "numeric", "student grade level")

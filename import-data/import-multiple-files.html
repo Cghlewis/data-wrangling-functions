@@ -387,12 +387,11 @@ is located in the top level of my project directory. You could also just
 list your entire file path.</li>
 </ul>
 <pre class="r"><code>fs::dir_ls(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;))</code></pre>
-<pre><code>[1] &quot;C:/Users/Me/project/import-data/attendance/school-1_attendance - Copy.csv&quot;
-[2] &quot;C:/Users/Me/project/import-data/attendance/school-1_attendance.csv&quot;       
-[3] &quot;C:/Users/Me/project/import-data/attendance/school-2_attendance.xlsx&quot;      
-[4] &quot;C:/Users/Me/project/import-data/attendance/school-3_attendance.xlsx&quot;      
-[5] &quot;C:/Users/Me/project/import-data/attendance/school-4_attendance.xlsx&quot;      
-[6] &quot;C:/Users/Me/project/import-data/attendance/school-5_attendance.xlsx&quot;      </code></pre>
+<pre><code>[1] &quot;C:/Users/Me/project/import-data/attendance/school-1_attendance.csv&quot; 
+[2] &quot;C:/Users/Me/project/import-data/attendance/school-2_attendance.xlsx&quot;
+[3] &quot;C:/Users/Me/project/import-data/attendance/school-3_attendance.xlsx&quot;
+[4] &quot;C:/Users/Me/project/import-data/attendance/school-4_attendance.xlsx&quot;
+[5] &quot;C:/Users/Me/project/import-data/attendance/school-5_attendance.xlsx&quot;</code></pre>
 <p>We see that there are 4 Excel files in the directory and one csv
 file. We only want to import the Excel files.</p>
 <p>We can read in all of our files using <code>fs::dir_ls()</code> and
@@ -512,9 +511,9 @@ and then adding the argument <em>names_to</em> rather than
 bind them together.</strong></p>
 <p>Review the files in our “attendance” folder again</p>
 <pre class="r"><code>base::dir(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;))</code></pre>
-<pre><code>[1] &quot;school-1_attendance - Copy.csv&quot; &quot;school-1_attendance.csv&quot;       
-[3] &quot;school-2_attendance.xlsx&quot;       &quot;school-3_attendance.xlsx&quot;      
-[5] &quot;school-4_attendance.xlsx&quot;       &quot;school-5_attendance.xlsx&quot;      </code></pre>
+<pre><code>[1] &quot;school-1_attendance.csv&quot;  &quot;school-2_attendance.xlsx&quot;
+[3] &quot;school-3_attendance.xlsx&quot; &quot;school-4_attendance.xlsx&quot;
+[5] &quot;school-5_attendance.xlsx&quot;</code></pre>
 <p>Read in all files except “school-5_attendance.xlsx”</p>
 <ul>
 <li>Note: You do not have to write the entire file name

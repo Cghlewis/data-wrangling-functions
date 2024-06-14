@@ -52,7 +52,7 @@ We can read in all of our files using `fs::dir_ls()` and bind them together usin
 
 * Note: By adding the `dir_ls()` argument *glob = "\*.xlsx"* you are saying you only want to read in the names of all Excel files with the extension ".xlsx". In this case, while there are 5 files in the directory, only 4 of them were Excel files, one file was csv format.
 
-* Note: While basic `purrr::map()` always returns a list, `purrr::map_dfr()` combines and returns tibbles (data frames) by stacking them on top of each other. The main arguments you include are *.x*, a list or atomic vector (files to read), and *.f*, which in this scenario is a function.
+* Note: While basic `purrr::map()` always returns a list, `purrr::map_dfr()` combines and returns tibbles (data frames) by stacking them on top of each other (using `dplyr::bind_rows`). The main arguments you include are *.x*, a list or atomic vector (files to read), and *.f*, which in this scenario is a function.
 
 * Note: Below I have not added a "." for the *.x* argument to denote that I am referring to the character vector we created in the previous step. In this instance, it is implied.
 
@@ -79,7 +79,19 @@ head(d, n = c(10,5))
 
 d <- fs::dir_ls(path = "C:/Users/Name/project/import-data/attendance", 
                 glob ="*.xlsx") %>%
-  map_dfr(readxl::read_excel, na="*")
+  purrr::map_dfr(readxl::read_excel, na="*")
+
+```
+
+* Update 2024-06-13: `purrr::map_dfr()` is now superseded. You can still use it but the preferred method of binding files now is using `purrr::list_rbind()` from `purrr` version 1.0.2
+
+```{r eval = FALSE}
+
+d <-
+  fs::dir_ls(path = here::here("import-data", "attendance"),
+             glob = "*.xlsx") %>%
+  purrr::map(readxl::read_excel, na = "*") %>%
+  purrr::list_rbind()
 
 ```
 
@@ -103,6 +115,17 @@ head(d, n=c(10,5))
 
 ```
 
+* Update 2024-06-13: `purrr::map_dfr()` is now superseded. You can still use it but the preferred method of binding files is using `purrr::list_rbind()` from `purrr` version 1.0.2, and then adding the argument *names_to* rather than *.id*
+
+```{r eval = FALSE}
+
+d <-
+  fs::dir_ls(path = here::here("import-data", "attendance"),
+             glob = "*.xlsx") %>%
+  purrr::map(readxl::read_excel, na = "*") %>%
+  purrr::list_rbind(names_to = "source")
+
+```
 
 **2\. Read in all Excel files except one from the directory and bind them together.**
 

@@ -387,11 +387,12 @@ is located in the top level of my project directory. You could also just
 list your entire file path.</li>
 </ul>
 <pre class="r"><code>fs::dir_ls(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;))</code></pre>
-<pre><code>[1] &quot;C:/Users/Me/project/import-data/attendance/school-1_attendance.csv&quot; 
-[2] &quot;C:/Users/Me/project/import-data/attendance/school-2_attendance.xlsx&quot;
-[3] &quot;C:/Users/Me/project/import-data/attendance/school-3_attendance.xlsx&quot;
-[4] &quot;C:/Users/Me/project/import-data/attendance/school-4_attendance.xlsx&quot;
-[5] &quot;C:/Users/Me/project/import-data/attendance/school-5_attendance.xlsx&quot;</code></pre>
+<pre><code>[1] &quot;C:/Users/Me/project/import-data/attendance/school-1_attendance - Copy.csv&quot;
+[2] &quot;C:/Users/Me/project/import-data/attendance/school-1_attendance.csv&quot;       
+[3] &quot;C:/Users/Me/project/import-data/attendance/school-2_attendance.xlsx&quot;      
+[4] &quot;C:/Users/Me/project/import-data/attendance/school-3_attendance.xlsx&quot;      
+[5] &quot;C:/Users/Me/project/import-data/attendance/school-4_attendance.xlsx&quot;      
+[6] &quot;C:/Users/Me/project/import-data/attendance/school-5_attendance.xlsx&quot;      </code></pre>
 <p>We see that there are 4 Excel files in the directory and one csv
 file. We only want to import the Excel files.</p>
 <p>We can read in all of our files using <code>fs::dir_ls()</code> and
@@ -404,9 +405,10 @@ files in the directory, only 4 of them were Excel files, one file was
 csv format.</p></li>
 <li><p>Note: While basic <code>purrr::map()</code> always returns a
 list, <code>purrr::map_dfr()</code> combines and returns tibbles (data
-frames) by stacking them on top of each other. The main arguments you
-include are <em>.x</em>, a list or atomic vector (files to read), and
-<em>.f</em>, which in this scenario is a function.</p></li>
+frames) by stacking them on top of each other (using
+<code>dplyr::bind_rows</code>). The main arguments you include are
+<em>.x</em>, a list or atomic vector (files to read), and <em>.f</em>,
+which in this scenario is a function.</p></li>
 <li><p>Note: Below I have not added a “.” for the <em>.x</em> argument
 to denote that I am referring to the character vector we created in the
 previous step. In this instance, it is implied.</p></li>
@@ -458,7 +460,18 @@ just list the full file path.</li>
 </ul>
 <pre class="r"><code>d &lt;- fs::dir_ls(path = &quot;C:/Users/Name/project/import-data/attendance&quot;, 
                 glob =&quot;*.xlsx&quot;) %&gt;%
-  map_dfr(readxl::read_excel, na=&quot;*&quot;)</code></pre>
+  purrr::map_dfr(readxl::read_excel, na=&quot;*&quot;)</code></pre>
+<ul>
+<li>Update 2024-06-13: <code>purrr::map_dfr()</code> is now superseded.
+You can still use it but the preferred method of binding files now is
+using <code>purrr::list_rbind()</code> from <code>purrr</code> version
+1.0.2</li>
+</ul>
+<pre class="r"><code>d &lt;-
+  fs::dir_ls(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;),
+             glob = &quot;*.xlsx&quot;) %&gt;%
+  purrr::map(readxl::read_excel, na = &quot;*&quot;) %&gt;%
+  purrr::list_rbind()</code></pre>
 <p><strong>1b. Add an identifier to differentiate which rows came from
 which files, by adding the argument “.id” and have it equal to whatever
 you want that new variable to be called. This will give you the full
@@ -483,13 +496,25 @@ variable whatever you want, in this case “source”</p>
 10 C:/Users/Me/project/import-data/attendance/sch~  2019    536     614     87.3
 # ... with abbreviated variable names 1: PROPORTIONAL_ATTENDANCE_TOTAL_90ABV,
 #   2: PROPORTIONAL_ATTENDANCE_TOTAL, 3: PROPORTIONAL_ATTENDANCE_TOTAL_PCT</code></pre>
+<ul>
+<li>Update 2024-06-13: <code>purrr::map_dfr()</code> is now superseded.
+You can still use it but the preferred method of binding files is using
+<code>purrr::list_rbind()</code> from <code>purrr</code> version 1.0.2,
+and then adding the argument <em>names_to</em> rather than
+<em>.id</em></li>
+</ul>
+<pre class="r"><code>d &lt;-
+  fs::dir_ls(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;),
+             glob = &quot;*.xlsx&quot;) %&gt;%
+  purrr::map(readxl::read_excel, na = &quot;*&quot;) %&gt;%
+  purrr::list_rbind(names_to = &quot;source&quot;)</code></pre>
 <p><strong>2. Read in all Excel files except one from the directory and
 bind them together.</strong></p>
 <p>Review the files in our “attendance” folder again</p>
 <pre class="r"><code>base::dir(path = here::here(&quot;import-data&quot;, &quot;attendance&quot;))</code></pre>
-<pre><code>[1] &quot;school-1_attendance.csv&quot;  &quot;school-2_attendance.xlsx&quot;
-[3] &quot;school-3_attendance.xlsx&quot; &quot;school-4_attendance.xlsx&quot;
-[5] &quot;school-5_attendance.xlsx&quot;</code></pre>
+<pre><code>[1] &quot;school-1_attendance - Copy.csv&quot; &quot;school-1_attendance.csv&quot;       
+[3] &quot;school-2_attendance.xlsx&quot;       &quot;school-3_attendance.xlsx&quot;      
+[5] &quot;school-4_attendance.xlsx&quot;       &quot;school-5_attendance.xlsx&quot;      </code></pre>
 <p>Read in all files except “school-5_attendance.xlsx”</p>
 <ul>
 <li>Note: You do not have to write the entire file name

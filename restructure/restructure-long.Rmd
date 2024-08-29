@@ -190,5 +190,40 @@ d6 %>%
 
 ```
 
+**5\. Restructure our wide repeating data into one row per student**
+
+Review the data (d11)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d11
+
+```
+
+We should be able to pivot similar to how we did with our longitudinal data. However, in order to split the information into multiple columns (student identifier column and then question item columns), we need to have similar patterns across all items. 
+
+So first we will add "_stuid" to the end of all of the student identifier variables so the pattern will match the question items.
+
+```{r}
+
+d11 <- d11 %>%
+  dplyr::rename_with( ~
+                        stringr::str_c(., "_stuid"), .cols = stu1:stu2)
+
+```
+
+
+Now we can pivot using our same arguments from example #2, except now we can change our first *names_to* value to NA (which discards the column), because we have no need for a column that tells us if the student was #1 or #2.
+
+```{r}
+
+d11 %>%
+  tidyr::pivot_longer(
+    cols = stu1_stuid:stu2_q2,
+                      names_to = c(NA, ".value"),
+                      names_sep = "_")
+
+```
 
 Return to [Restructure](https://github.com/Cghlewis/data-wrangling-functions/wiki/Restructure)

@@ -85,3 +85,9 @@ d10 <- tibble::tribble(
   2345, "a", NA, 1, NA,
   3456, "b", 1, 1, NA
 )
+
+d11 <- tibble::tribble(
+  ~tch_id, ~stu1, ~stu2, ~stu1_q1, ~stu2_q1, ~stu1_q2, ~stu2_q2,
+  1001, 20, 21, 1, 1, 2, 1,
+  1002, 25, 27, 2, 3, 2, 4,
+  1004, 30, 23, 4, 3, 1, 2)

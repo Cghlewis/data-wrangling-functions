@@ -591,6 +591,42 @@ be in, and we use the argument <em>values_to</em> rather than
 2 schoolx 7         40
 3 schooly 6         70
 4 schooly 7         80</code></pre>
+<p><strong>5. Restructure our wide repeating data into one row per
+student</strong></p>
+<p>Review the data (d11)</p>
+<pre><code># A tibble: 3 x 7
+  tch_id  stu1  stu2 stu1_q1 stu2_q1 stu1_q2 stu2_q2
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+1   1001    20    21       1       1       2       1
+2   1002    25    27       2       3       2       4
+3   1004    30    23       4       3       1       2</code></pre>
+<p>We should be able to pivot similar to how we did with our
+longitudinal data. However, in order to split the information into
+multiple columns (student identifier column and then question item
+columns), we need to have similar patterns across all items.</p>
+<p>So first we will add “_stuid” to the end of all of the student
+identifier variables so the pattern will match the question items.</p>
+<pre class="r"><code>d11 &lt;- d11 %&gt;%
+  dplyr::rename_with( ~
+                        stringr::str_c(., &quot;_stuid&quot;), .cols = stu1:stu2)</code></pre>
+<p>Now we can pivot using our same arguments from example #2, except now
+we can change our first <em>names_to</em> value to NA (which discards
+the column), because we have no need for a column that tells us if the
+student was #1 or #2.</p>
+<pre class="r"><code>d11 %&gt;%
+  tidyr::pivot_longer(
+    cols = stu1_stuid:stu2_q2,
+                      names_to = c(NA, &quot;.value&quot;),
+                      names_sep = &quot;_&quot;)</code></pre>
+<pre><code># A tibble: 6 x 4
+  tch_id stuid    q1    q2
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1   1001    20     1     2
+2   1001    21     1     1
+3   1002    25     2     2
+4   1002    27     3     4
+5   1004    30     4     1
+6   1004    23     3     2</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Restructure">Restructure</a></p>
 </div>
 </div>

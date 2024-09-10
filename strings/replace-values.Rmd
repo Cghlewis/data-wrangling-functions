@@ -121,7 +121,7 @@ d17 %>%
 
 ```
 
-**2\. Redact names from an open text variable
+**2\. Redact names from an open text variable**
 
 Review the data (d18)
 

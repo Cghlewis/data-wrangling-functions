@@ -470,6 +470,25 @@ new values</strong></p>
 2   124 tag2, tag3      
 3   126 tag1, tag2, tag6
 4   127 tag6            </code></pre>
+<p>**2. Redact names from an open text variable</p>
+<p>Review the data (d18)</p>
+<pre><code># A tibble: 4 x 4
+  tch_id support1 support2 support_other                       
+   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;                               
+1   1234        1        0 &quot;&quot;                                  
+2   1235        0        0 &quot;Mr. Lewis helps me in my classroom&quot;
+3   1237        1        1 &quot;Professional development X&quot;        
+4   1241        0        1 &quot;Sherry provides coaching&quot;          </code></pre>
+<p>Replace names with “<redacted>”</p>
+<pre class="r"><code>d18 %&gt;%
+  mutate(support_other = str_replace_all(support_other, &quot;Mr. Lewis|Sherry&quot;, &quot;&lt;redacted&gt;&quot;))</code></pre>
+<pre><code># A tibble: 4 x 4
+  tch_id support1 support2 support_other                        
+   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;                                
+1   1234        1        0 &quot;&quot;                                   
+2   1235        0        0 &quot;&lt;redacted&gt; helps me in my classroom&quot;
+3   1237        1        1 &quot;Professional development X&quot;         
+4   1241        0        1 &quot;&lt;redacted&gt; provides coaching&quot;       </code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Strings">Strings</a></p>
 </div>
 </div>

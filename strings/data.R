@@ -126,3 +126,8 @@ d17 <- tribble(~id, ~tags,
               126, "long tag 1, other long tag 2, long tag 6",
               127, "long tag 6")
 
+d18 <- tribble(~tch_id, ~support1, ~support2, ~support_other,
+               1234, 1, 0, "",
+               1235, 0, 0, "Mr. Lewis helps me in my classroom",
+               1237, 1, 1, "Professional development X",
+               1241, 0, 1, "Sherry provides coaching")

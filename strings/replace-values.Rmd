@@ -121,5 +121,26 @@ d17 %>%
 
 ```
 
+**2\. Redact names from an open text variable
+
+Review the data (d18)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d18
+
+```
+
+Replace names with "<redacted>"
+
+```{r}
+
+d18 %>%
+  mutate(support_other = str_replace_all(support_other, "Mr. Lewis|Sherry", "<redacted>"))
+
+```
+
 
 Return to [Strings](https://github.com/Cghlewis/data-wrangling-functions/wiki/Strings)

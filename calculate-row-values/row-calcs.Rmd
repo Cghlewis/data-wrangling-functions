@@ -44,6 +44,38 @@ d2 %>%
 
 ```
 
+**2\. Calculate a sum score for each student called `measure_sum` no matter what values are missing**
+
+Review the data (d10)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d10
+
+```
+
+Calculate a sum score across `item1`, `item2` and `item` even if values are missing
+
+```{r}
+
+d10 %>% 
+  dplyr::mutate(measure_sum = rowSums(dplyr::across(c(item1, item2, item3)), na.rm = TRUE))
+
+```
+
+NOTICE that we got a value of **0** when all columns have missing values. Most likely this is not what you want. So in order to return of value of NA when all columns have missing values, you need to add in logic.
+
+```{r}
+
+d10 %>%
+  dplyr::mutate(measure_sum =
+           dplyr::case_when(
+             dplyr::if_all(item1:item3, ~ is.na(.)) ~ NA,
+             .default = base::rowSums(dplyr::across(item1:item3), na.rm = TRUE)))
+
+```
+
 
 ---
 
@@ -280,6 +312,8 @@ d2
 ```
 
 Calculate the mean score 
+
+* Note: If all column values are NA, you will get a value of 0 returned. If you don't want this, you will need to add logic (like we saw in the above `rowSums` example, where you specifically code those values to NA).
 
 ```{r}
 

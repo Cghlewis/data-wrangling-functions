@@ -22,7 +22,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**1\. Set labels for `Var2` using another data frame**
+**1\. Set labels for one variable, `Var2`, using a long formatted data dictionary**
 
 Review the data (d10)
 
@@ -101,7 +101,7 @@ labelled::val_labels(d10)
 
 <br>
 
-**1\. Set labels for multiple variables (`Var2` and `Var3`) using another data frame**
+**1\. Set labels for multiple variables (`Var2` and `Var3`) with the same label values using a long formatted data dictionary**
 
 Review the data (d5)
 
@@ -156,6 +156,66 @@ d5 %>%
   labelled::val_labels()
 
 ```
+
+**2\. Set labels for multiple variables (`Var2` and `Var3`) with the same label values using a wide formatted data dictionary**
+
+Review the data (d5)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d5
+
+```
+
+Here I have a data dictionary that is formatted in wide format (which is more common in my work). So while I can't necessarily pull the labels from a dictionary that is formatted this way, I can at least pull all variables that have the same labels, and label them at the same time, saving me time, especially if there are many variables with the same labels.
+
+Review our data dictionary (dict3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+dict3
+
+```
+
+Pull our all variable names that are recoded as yes = 1 and 2 = no.
+
+```{r}
+
+dict_yesno <- dict3 %>%
+  filter(values == "1 = yes| 2 = no") %>%
+  pull(var)
+
+```
+
+Let's see what variables were pulled
+
+```{r}
+
+dict_yesno
+
+```
+
+
+Now we can apply our value labels to those variables using `dplyr::all_of()`.
+
+```{r}
+
+d5 <- d5 %>% 
+  dplyr::mutate(dplyr::across(all_of(dict_yesno), 
+            ~labelled::labelled(., labels = 
+                                  c("yes" = 1,
+                                    "no" = 2))))
+
+d5 %>% 
+  labelled::val_labels()
+
+
+```
+
 
 
 Return to [Label Data](https://github.com/Cghlewis/data-wrangling-functions/wiki/Label Data)

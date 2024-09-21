@@ -374,8 +374,8 @@ dictionary</h1>
 <div id="function-set_value_labels" class="section level4">
 <h4>Function: <code>set_value_labels()</code></h4>
 <hr />
-<p><strong>1. Set labels for <code>Var2</code> using another data
-frame</strong></p>
+<p><strong>1. Set labels for one variable, <code>Var2</code>, using a
+long formatted data dictionary</strong></p>
 <p>Review the data (d10)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -448,7 +448,8 @@ NULL</code></pre>
 <hr />
 <p><br></p>
 <p><strong>1. Set labels for multiple variables (<code>Var2</code> and
-<code>Var3</code>) using another data frame</strong></p>
+<code>Var3</code>) with the same label values using a long formatted
+data dictionary</strong></p>
 <p>Review the data (d5)</p>
 <pre><code># A tibble: 3 x 3
   Var1   Var2  Var3
@@ -479,6 +480,57 @@ of the variables that have the labels we need.</p>
 <pre class="r"><code>d5 &lt;- d5 %&gt;% 
   dplyr::mutate(dplyr::across(Var2:Var3, 
             ~labelled::labelled(., labels = var_labels)))
+
+d5 %&gt;% 
+  labelled::val_labels()</code></pre>
+<pre><code>$Var1
+NULL
+
+$Var2
+yes  no 
+  1   2 
+
+$Var3
+yes  no 
+  1   2 </code></pre>
+<p><strong>2. Set labels for multiple variables (<code>Var2</code> and
+<code>Var3</code>) with the same label values using a wide formatted
+data dictionary</strong></p>
+<p>Review the data (d5)</p>
+<pre><code># A tibble: 3 x 3
+  Var1   Var2  Var3
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 d         1    NA
+2 e         2     2
+3 f         1     1</code></pre>
+<p>Here I have a data dictionary that is formatted in wide format (which
+is more common in my work). So while I can’t necessarily pull the labels
+from a dictionary that is formatted this way, I can at least pull all
+variables that have the same labels, and label them at the same time,
+saving me time, especially if there are many variables with the same
+labels.</p>
+<p>Review our data dictionary (dict3)</p>
+<pre><code># A tibble: 3 x 3
+  var   label              values         
+  &lt;chr&gt; &lt;chr&gt;              &lt;chr&gt;          
+1 Var1  ID                 a-z            
+2 Var2  Do you like pizza? 1 = yes| 2 = no
+3 Var3  Do you like pasta? 1 = yes| 2 = no</code></pre>
+<p>Pull our all variable names that are recoded as yes = 1 and 2 =
+no.</p>
+<pre class="r"><code>dict_yesno &lt;- dict3 %&gt;%
+  filter(values == &quot;1 = yes| 2 = no&quot;) %&gt;%
+  pull(var)</code></pre>
+<p>Let’s see what variables were pulled</p>
+<pre class="r"><code>dict_yesno</code></pre>
+<pre><code>[1] &quot;Var2&quot; &quot;Var3&quot;</code></pre>
+<p>Now we can apply our value labels to those variables using
+<code>dplyr::all_of()</code>.</p>
+<pre class="r"><code>d5 &lt;- d5 %&gt;% 
+  dplyr::mutate(dplyr::across(all_of(dict_yesno), 
+            ~labelled::labelled(., labels = 
+                                  c(&quot;yes&quot; = 1,
+                                    &quot;no&quot; = 2))))
 
 d5 %&gt;% 
   labelled::val_labels()</code></pre>

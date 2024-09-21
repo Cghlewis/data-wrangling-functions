@@ -105,3 +105,9 @@ labels2 <- tibble::tribble(
   "Var2", 2, "no",
   "Var3", 1, "yes",
   "Var3", 2, "no")
+
+dict3 <- tibble::tribble(
+  ~var, ~ label, ~values,
+  "Var1", "ID", "a-z",
+  "Var2", "Do you like pizza?", "1 = yes| 2 = no",
+  "Var3", "Do you like pasta?", "1 = yes| 2 = no")

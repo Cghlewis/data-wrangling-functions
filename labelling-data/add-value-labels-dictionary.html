@@ -527,7 +527,7 @@ no.</p>
 <p>Now we can apply our value labels to those variables using
 <code>dplyr::all_of()</code>.</p>
 <pre class="r"><code>d5 &lt;- d5 %&gt;% 
-  dplyr::mutate(dplyr::across(all_of(dict_yesno), 
+  dplyr::mutate(dplyr::across(dplyr::all_of(dict_yesno), 
             ~labelled::labelled(., labels = 
                                   c(&quot;yes&quot; = 1,
                                     &quot;no&quot; = 2))))

@@ -396,21 +396,49 @@ row comes from.</p>
 
 head(data)</code></pre>
 <pre><code># A tibble: 6 x 26
-  source  YEAR PROPORT~1 PROPO~2 PROPO~3 PROPO~4 PROPO~5 PROPO~6 PROPO~7 PROPO~8
-  &lt;chr&gt;  &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;
-1 Sheet1  2015      518.    534     96.9 11.079~ 12.079~ 91.721~    28      30  
-2 Sheet1  2016      519     534     97.2 *       *       *          36      37  
-3 Sheet1  2017      528     551     95.9 10      10      100        35      37  
-4 Sheet1  2018      529.    564.    93.8 14.2302 16.169~ 88.004~    32.2    35.0
-5 Sheet1  2019      558.    582.    95.9 *       *       *          31.0    32.0
-6 Sheet2  2015      518.    534     96.9 11.079~ 12.079~ 91.721~    28      30  
-# ... with 16 more variables: PROPORTIONAL_ATTENDANCE_HISPANIC_PCT &lt;dbl&gt;,
-#   PROPORTIONAL_ATTENDANCE_WHITE_90ABV &lt;dbl&gt;,
-#   PROPORTIONAL_ATTENDANCE_WHITE &lt;dbl&gt;,
-#   PROPORTIONAL_ATTENDANCE_WHITE_PCT &lt;dbl&gt;,
-#   PROPORTIONAL_ATTENDANCE_OTHER_90ABV &lt;dbl&gt;,
-#   PROPORTIONAL_ATTENDANCE_OTHER &lt;dbl&gt;,
-#   PROPORTIONAL_ATTENDANCE_OTHER_PCT &lt;dbl&gt;, ...</code></pre>
+  source  YEAR PROPORTIONAL_ATTENDANCE_TOTAL_90ABV PROPORTIONAL_ATTENDANCE_TOTAL
+  &lt;chr&gt;  &lt;dbl&gt;                               &lt;dbl&gt;                         &lt;dbl&gt;
+1 Sheet1  2015                                518.                          534 
+2 Sheet1  2016                                519                           534 
+3 Sheet1  2017                                528                           551 
+4 Sheet1  2018                                529.                          564.
+5 Sheet1  2019                                558.                          582.
+6 Sheet2  2015                                518.                          534 
+# i 22 more variables: PROPORTIONAL_ATTENDANCE_TOTAL_PCT &lt;dbl&gt;,
+#   PROPORTIONAL_ATTENDANCE_BLACK_90ABV &lt;chr&gt;,
+#   PROPORTIONAL_ATTENDANCE_BLACK &lt;chr&gt;,
+#   PROPORTIONAL_ATTENDANCE_BLACK_PCT &lt;chr&gt;,
+#   PROPORTIONAL_ATTENDANCE_HISPANIC_90ABV &lt;dbl&gt;,
+#   PROPORTIONAL_ATTENDANCE_HISPANIC &lt;dbl&gt;,
+#   PROPORTIONAL_ATTENDANCE_HISPANIC_PCT &lt;dbl&gt;, ...</code></pre>
+<ul>
+<li>Update 2024-06-13: <code>purrr::map_dfr()</code> is now superseded.
+You can still use it but the preferred method of binding files now is
+using <code>purrr::list_rbind()</code> from <code>purrr</code> version
+1.0.2</li>
+</ul>
+<pre class="r"><code>data &lt;- path %&gt;% 
+  readxl::excel_sheets() %&gt;% 
+  purrr::map(readxl::read_excel, path = path) %&gt;%
+  purrr::list_rbind(names_to = &quot;file_name&quot;)
+
+head(data)</code></pre>
+<pre><code># A tibble: 6 x 26
+  file_name  YEAR PROPORTIONAL_ATTENDANCE_TOTAL_90ABV PROPORTIONAL_ATTENDANCE_~1
+      &lt;int&gt; &lt;dbl&gt;                               &lt;dbl&gt;                      &lt;dbl&gt;
+1         1  2015                                518.                       534 
+2         1  2016                                519                        534 
+3         1  2017                                528                        551 
+4         1  2018                                529.                       564.
+5         1  2019                                558.                       582.
+6         2  2015                                518.                       534 
+# i abbreviated name: 1: PROPORTIONAL_ATTENDANCE_TOTAL
+# i 22 more variables: PROPORTIONAL_ATTENDANCE_TOTAL_PCT &lt;dbl&gt;,
+#   PROPORTIONAL_ATTENDANCE_BLACK_90ABV &lt;chr&gt;,
+#   PROPORTIONAL_ATTENDANCE_BLACK &lt;chr&gt;,
+#   PROPORTIONAL_ATTENDANCE_BLACK_PCT &lt;chr&gt;,
+#   PROPORTIONAL_ATTENDANCE_HISPANIC_90ABV &lt;dbl&gt;,
+#   PROPORTIONAL_ATTENDANCE_HISPANIC &lt;dbl&gt;, ...</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Import%20Files">Import
 Files</a></p>
 </div>

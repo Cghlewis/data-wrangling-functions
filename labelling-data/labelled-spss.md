@@ -11,7 +11,7 @@ The structure to apply the same na values across many variables in the `labelled
 
 Using `labelled::labelled_spss()`
 
-`d1 %>%`
+`d1 %>%` <br>
   `dplyr::mutate(dplyr::across(c(Var2:Var3),` 
                              `~labelled::labelled_spss(., na_values = c(-999,0))))`
                              
@@ -19,7 +19,7 @@ Using `labelled::labelled_spss()`
                              
 Using `labelled::na_values()`
 
-`d1 %>%` 
+`d1 %>%` <br>
   `dplyr::mutate(`
   `dplyr::across(Var2:Var3, ~('na_values<-'`
                                 `(., c(-999, 0)))))`

@@ -53,14 +53,15 @@ head(data)
 
 ```
 
-* Update 2024-06-13: `purrr::map_dfr()` is now superseded. You can still use it but the preferred method of binding files now is using `purrr::list_rbind()` from `purrr` version 1.0.2
+* Update 2024-06-13: `purrr::map_dfr()` is now superseded. You can still use it but the preferred method of binding files now is using `purrr::list_rbind()` from `purrr` version 1.0.2. Similar to `dplyr::bind_rows()`, `purrr::list_rbind()` matches by variable names and requires variables to be the same types. It also allows some variables to be missing from some sheets (filling with NA as needed).
 
 ```{r}
 
 data <- path %>% 
   readxl::excel_sheets() %>% 
+  purrr::set_names() %>%
   purrr::map(readxl::read_excel, path = path) %>%
-  purrr::list_rbind(names_to = "file_name")
+  purrr::list_rbind(names_to = "sheet_name")
 
 head(data)
 

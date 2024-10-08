@@ -415,23 +415,27 @@ head(data)</code></pre>
 <li>Update 2024-06-13: <code>purrr::map_dfr()</code> is now superseded.
 You can still use it but the preferred method of binding files now is
 using <code>purrr::list_rbind()</code> from <code>purrr</code> version
-1.0.2</li>
+1.0.2. Similar to <code>dplyr::bind_rows()</code>,
+<code>purrr::list_rbind()</code> matches by variable names and requires
+variables to be the same types. It also allows some variables to be
+missing from some sheets (filling with NA as needed).</li>
 </ul>
 <pre class="r"><code>data &lt;- path %&gt;% 
   readxl::excel_sheets() %&gt;% 
+  purrr::set_names() %&gt;%
   purrr::map(readxl::read_excel, path = path) %&gt;%
-  purrr::list_rbind(names_to = &quot;file_name&quot;)
+  purrr::list_rbind(names_to = &quot;sheet_name&quot;)
 
 head(data)</code></pre>
 <pre><code># A tibble: 6 x 26
-  file_name  YEAR PROPORTIONAL_ATTENDANCE_TOTAL_90ABV PROPORTIONAL_ATTENDANCE_~1
-      &lt;int&gt; &lt;dbl&gt;                               &lt;dbl&gt;                      &lt;dbl&gt;
-1         1  2015                                518.                       534 
-2         1  2016                                519                        534 
-3         1  2017                                528                        551 
-4         1  2018                                529.                       564.
-5         1  2019                                558.                       582.
-6         2  2015                                518.                       534 
+  sheet_name  YEAR PROPORTIONAL_ATTENDANCE_TOTAL_90ABV PROPORTIONAL_ATTENDANCE~1
+  &lt;chr&gt;      &lt;dbl&gt;                               &lt;dbl&gt;                     &lt;dbl&gt;
+1 Sheet1      2015                                518.                      534 
+2 Sheet1      2016                                519                       534 
+3 Sheet1      2017                                528                       551 
+4 Sheet1      2018                                529.                      564.
+5 Sheet1      2019                                558.                      582.
+6 Sheet2      2015                                518.                      534 
 # i abbreviated name: 1: PROPORTIONAL_ATTENDANCE_TOTAL
 # i 22 more variables: PROPORTIONAL_ATTENDANCE_TOTAL_PCT &lt;dbl&gt;,
 #   PROPORTIONAL_ATTENDANCE_BLACK_90ABV &lt;chr&gt;,

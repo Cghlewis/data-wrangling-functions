@@ -451,7 +451,11 @@ values (grouped by the <code>school</code>)</strong></p>
 10 School C  2011    660      2
 11 School D  2011    260      3</code></pre>
 <p>Or you can arrange your data by <code>school</code> using
-<code>dplyr::arrange()</code> and then fill values.</p>
+<code>dplyr::arrange()</code> and then fill values. This option is only
+possible because there are consistently 2 rows for each school, and data
+is always missing from the later years. If the data was more
+inconsistent, you would want to stick with the
+<code>dplyr::group_by()</code> option.</p>
 <pre class="r"><code>d4 %&gt;% 
   dplyr::arrange(school) %&gt;% 
   tidyr::fill(cohort)</code></pre>
@@ -469,6 +473,41 @@ values (grouped by the <code>school</code>)</strong></p>
  9 School D  2009    300      3
 10 School D  2010    360      3
 11 School D  2011    260      3</code></pre>
+<p><strong>3. Fill NA values for <code>cohort</code> with existing
+values (grouped by the <code>school</code>)</strong></p>
+<p>Review the data (d7)</p>
+<pre><code># A tibble: 8 x 4
+  school    year enroll cohort
+  &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1 School A  2009    350      1
+2 School B  2009    400      1
+3 School C  2009    500      3
+4 School A  2010    360     NA
+5 School C  2010    560     NA
+6 School D  2010    360     NA
+7 School C  2011    660     NA
+8 School D  2011    260      2</code></pre>
+<p>In this scenario, the data is inconsistently organized. Sometimes we
+only have values in later years and need to fill earlier years,
+sometimes data doesn’t exist at all for certain years. In this case, we
+will need to make sure to use <code>dplyr::group_by()</code> as well as
+the argument <em>direction = “downup”</em> to make sure our values are
+correctly filled in.</p>
+<pre class="r"><code>d7 %&gt;% 
+  dplyr::group_by(school) %&gt;% 
+  tidyr::fill(cohort, .direction = &quot;downup&quot;) %&gt;% 
+  dplyr::ungroup()</code></pre>
+<pre><code># A tibble: 8 x 4
+  school    year enroll cohort
+  &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1 School A  2009    350      1
+2 School B  2009    400      1
+3 School C  2009    500      3
+4 School A  2010    360      1
+5 School C  2010    560      3
+6 School D  2010    360      2
+7 School C  2011    660      3
+8 School D  2011    260      2</code></pre>
 <hr />
 </div>
 <div id="function-complete" class="section level4">

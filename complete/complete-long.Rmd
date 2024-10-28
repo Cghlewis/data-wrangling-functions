@@ -66,7 +66,7 @@ d4 %>%
 
 ```
 
-Or you can arrange your data by `school` using `dplyr::arrange()` and then fill values.
+Or you can arrange your data by `school` using `dplyr::arrange()` and then fill values. This option is only possible because there are consistently 2 rows for each school, and data is always missing from the later years. If the data was more inconsistent, you would want to stick with the `dplyr::group_by()` option.
 
 ```{r}
 
@@ -76,6 +76,28 @@ d4 %>%
 
 ```
 
+
+**3\. Fill NA values for `cohort` with existing values (grouped by the `school`)**
+
+Review the data (d7)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d7
+
+```
+
+In this scenario, the data is inconsistently organized. Sometimes we only have values in later years and need to fill earlier years, sometimes data doesn't exist at all for certain years. In this case, we will need to make sure to use `dplyr::group_by()` as well as the argument *direction = "downup"* to make sure our values are correctly filled in.
+
+```{r}
+
+d7 %>% 
+  dplyr::group_by(school) %>% 
+  tidyr::fill(cohort, .direction = "downup") %>% 
+  dplyr::ungroup()
+
+```
 
 ---
 

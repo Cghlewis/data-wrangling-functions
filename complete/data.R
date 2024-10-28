@@ -73,3 +73,15 @@ d6 <- tibble::tribble(
   164, "male", "", "male", "",
   170, "female", "male", "", "male")
 
+
+d7 <- tibble::tribble(
+  ~school, ~year, ~enroll, ~cohort,
+  "School A", 2009, 350, 1,
+  "School B", 2009, 400, 1,
+  "School C", 2009, 500, 3,
+  "School A", 2010, 360, NA,
+  "School C", 2010, 560, NA,
+  "School D", 2010, 360, NA,
+  "School C", 2011, 660, NA,
+  "School D", 2011, 260, 2)
+

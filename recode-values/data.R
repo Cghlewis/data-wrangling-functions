@@ -235,7 +235,7 @@ d23 <- tribble(~org_id, ~org_name, ~city,
 )
 
 dict_wide <- tribble(~var_name, 
-                             ~type, ~raw_value, ~recode,
+                             ~type, ~raw_value, ~transformation,
                              "stu_id", "numeric", "1-10", "NA",
                              "q1", "numeric", "1 = Selected, -99 = Not selected", "-99 -> 0",
                              "q2", "numeric", "1 = Selected, -99 = Not selected", "-99 -> 0")

@@ -389,23 +389,24 @@ dictionary</strong></p>
 3      3   -99   -99</code></pre>
 <p>Review our current wide formatted data dictionary (dict_wide)</p>
 <pre><code># A tibble: 3 x 4
-  var_name type    raw_value                        recode  
-  &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;                            &lt;chr&gt;   
-1 stu_id   numeric 1-10                             NA      
-2 q1       numeric 1 = Selected, -99 = Not selected -99 -&gt; 0
-3 q2       numeric 1 = Selected, -99 = Not selected -99 -&gt; 0</code></pre>
+  var_name type    raw_value                        transformation
+  &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;                            &lt;chr&gt;         
+1 stu_id   numeric 1-10                             NA            
+2 q1       numeric 1 = Selected, -99 = Not selected -99 -&gt; 0      
+3 q2       numeric 1 = Selected, -99 = Not selected -99 -&gt; 0      </code></pre>
 <p>Select all variables with the same recoding logic (-99 -&gt; 0)</p>
 <pre class="r"><code>recode_multi_select &lt;- dict_wide %&gt;%
-  filter(recode == &quot;-99 -&gt; 0&quot;) %&gt;%
-  pull(var_name)
+  dplyr::filter(transformation == &quot;-99 -&gt; 0&quot;) %&gt;%
+  dplyr::pull(var_name)
 
 recode_multi_select</code></pre>
 <pre><code>[1] &quot;q1&quot; &quot;q2&quot;</code></pre>
 <p>Now we can use that vector of variable names to recode these
-variables all at once.</p>
+variables ll at once.</p>
 <pre class="r"><code>d24 %&gt;%
-  mutate(across(all_of(recode_multi_select),
-                ~case_when(
+  dplyr::mutate(dplyr::across(
+    dplyr::all_of(recode_multi_select),
+                ~dplyr::case_when(
                   . == -99 ~ 0,
                   TRUE ~ .
                 )))</code></pre>

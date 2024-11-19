@@ -51,20 +51,21 @@ Select all variables with the same recoding logic (-99 -> 0)
 ```{r}
 
 recode_multi_select <- dict_wide %>%
-  filter(recode == "-99 -> 0") %>%
-  pull(var_name)
+  dplyr::filter(transformation == "-99 -> 0") %>%
+  dplyr::pull(var_name)
 
 recode_multi_select
 
 ```
 
-Now we can use that vector of variable names to recode these variables all at once.
+Now we can use that vector of variable names to recode these variables ll at once.
 
 ```{r}
 
 d24 %>%
-  mutate(across(all_of(recode_multi_select),
-                ~case_when(
+  dplyr::mutate(dplyr::across(
+    dplyr::all_of(recode_multi_select),
+                ~dplyr::case_when(
                   . == -99 ~ 0,
                   TRUE ~ .
                 )))

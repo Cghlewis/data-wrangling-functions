@@ -385,7 +385,7 @@ long formatted data dictionary</strong></p>
 3 c         2  -999</code></pre>
 <p>In this scenario, we have an existing dataset that provides the
 labels for our variables.</p>
-<p>Review our data dictionary (labels)</p>
+<p>Review our data dictionary (dict_long)</p>
 <p>Note that this dataset is not in the usual data dictionary format I
 would think of (with each row corresponding to one variable). In this
 case, this would be a specialized long format type of codebook that you
@@ -408,7 +408,7 @@ this using <code>dplyr::pull()</code>. Note that the <code>label</code>
 variable is provided second. This is important because the second
 variable will become the “names”.</li>
 </ul>
-<pre class="r"><code>var_labels &lt;- labels %&gt;%
+<pre class="r"><code>var_labels &lt;- dict_long %&gt;%
   dplyr::filter(var == &quot;Var2&quot;) %&gt;%
   dplyr::pull(value, label) </code></pre>
 <pre class="r"><code>var_labels</code></pre>
@@ -454,7 +454,7 @@ data dictionary</strong></p>
 3 f         1     1</code></pre>
 <p>This time there are several variables that have the same labels so we
 want to apply our labels across multiple variables.</p>
-<p>Review our data dictionary (labels2)</p>
+<p>Review our data dictionary (dict_long2)</p>
 <pre><code># A tibble: 4 x 3
   var   value label
   &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;
@@ -464,12 +464,12 @@ want to apply our labels across multiple variables.</p>
 4 Var3      2 no   </code></pre>
 <p>Since labels are repeated in our data dictionary, filter to just one
 of the variables that have the labels we need.</p>
-<pre class="r"><code>var_labels &lt;- labels2 %&gt;%
+<pre class="r"><code>var_labels &lt;- dict_long2 %&gt;%
   filter(var == &quot;Var2&quot;) %&gt;%
   dplyr::pull(value, label) </code></pre>
 <p>Or you could remove duplicate labels using
 <code>dplyr::distinct()</code></p>
-<pre class="r"><code>var_labels &lt;- labels2 %&gt;%
+<pre class="r"><code>var_labels &lt;- dict_long2 %&gt;%
   distinct(label, .keep_all = TRUE) %&gt;%
   dplyr::pull(value, label) </code></pre>
 <pre class="r"><code>d5 &lt;- d5 %&gt;% 

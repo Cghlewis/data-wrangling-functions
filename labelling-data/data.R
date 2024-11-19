@@ -89,7 +89,7 @@ dict2 <- tibble::tribble(
   "q2", "something"
 )
 
-labels <- tibble::tribble(
+dict_long <- tibble::tribble(
   ~var, ~value, ~label,
   "Var2", 1, "yes",
   "Var2", 2, "no",
@@ -99,14 +99,14 @@ labels <- tibble::tribble(
   "Var3", 3, "always",
   "Var3", -999, "missing")
 
-labels2 <- tibble::tribble(
+dict_long2 <- tibble::tribble(
   ~var, ~value, ~label,
   "Var2", 1, "yes",
   "Var2", 2, "no",
   "Var3", 1, "yes",
   "Var3", 2, "no")
 
-dict3 <- tibble::tribble(
+dict_wide <- tibble::tribble(
   ~var, ~ label, ~values,
   "Var1", "ID", "a-z",
   "Var2", "Do you like pizza?", "1 = yes| 2 = no",

@@ -390,7 +390,7 @@ from a dictionary that is formatted this way, I can at least pull all
 variables that have the same labels, and label them at the same time,
 saving me time, especially if there are many variables with the same
 labels.</p>
-<p>Review our data dictionary (dict3)</p>
+<p>Review our data dictionary (dict_wide)</p>
 <pre><code># A tibble: 3 x 3
   var   label              values         
   &lt;chr&gt; &lt;chr&gt;              &lt;chr&gt;          
@@ -399,7 +399,7 @@ labels.</p>
 3 Var3  Do you like pasta? 1 = yes| 2 = no</code></pre>
 <p>Pull our all variable names that are recoded as yes = 1 and 2 =
 no.</p>
-<pre class="r"><code>dict_yesno &lt;- dict3 %&gt;%
+<pre class="r"><code>dict_yesno &lt;- dict_wide %&gt;%
   dplyr::filter(values == &quot;1 = yes| 2 = no&quot;) %&gt;%
   dplyr::pull(var)</code></pre>
 <p>Let’s see what variables were pulled</p>

@@ -40,6 +40,8 @@ d23
 
 Review our current long formatted data dictionary (dict_long) that contains the old values of our variable `org_name` (old_values) and the new values that we want instead (new_values).
 
+Note that this dataset is not in the usual data dictionary format I would think of (with each row corresponding to one variable). In this case, this would be a specialized long format type of codebook that you may have received or created solely for the purpose of recoding values.
+
 ```{r, echo = FALSE}
 
 dict_long

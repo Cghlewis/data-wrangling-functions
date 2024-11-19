@@ -36,13 +36,13 @@ d5
 
 Here I have a data dictionary that is formatted in wide format (which is more common in my work). So while I can't necessarily pull the labels from a dictionary that is formatted this way, I can at least pull all variables that have the same labels, and label them at the same time, saving me time, especially if there are many variables with the same labels.
 
-Review our data dictionary (dict3)
+Review our data dictionary (dict_wide)
 
 ```{r, echo=FALSE}
 
 source("data.R")
 
-dict3
+dict_wide
 
 ```
 
@@ -50,7 +50,7 @@ Pull our all variable names that are recoded as yes = 1 and 2 = no.
 
 ```{r}
 
-dict_yesno <- dict3 %>%
+dict_yesno <- dict_wide %>%
   dplyr::filter(values == "1 = yes| 2 = no") %>%
   dplyr::pull(var)
 

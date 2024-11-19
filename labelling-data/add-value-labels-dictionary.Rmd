@@ -35,7 +35,7 @@ d10
 
 In this scenario, we have an existing dataset that provides the labels for our variables. 
 
-Review our data dictionary (labels)
+Review our data dictionary (dict_long)
 
 Note that this dataset is not in the usual data dictionary format I would think of (with each row corresponding to one variable). In this case, this would be a specialized long format type of codebook that you may have received or created solely for the purpose of working with value labels.
 
@@ -43,7 +43,7 @@ Note that this dataset is not in the usual data dictionary format I would think 
 
 source("data.R")
 
-labels
+dict_long
 
 ```
 
@@ -53,7 +53,7 @@ Add value labels
 
 ```{r}
 
-var_labels <- labels %>%
+var_labels <- dict_long %>%
   dplyr::filter(var == "Var2") %>%
   dplyr::pull(value, label) 
 
@@ -110,13 +110,13 @@ d5
 
 This time there are several variables that have the same labels so we want to apply our labels across multiple variables.
 
-Review our data dictionary (labels2)
+Review our data dictionary (dict_long2)
 
 ```{r, echo=FALSE}
 
 source("data.R")
 
-labels2
+dict_long2
 
 ```
 
@@ -124,7 +124,7 @@ Since labels are repeated in our data dictionary, filter to just one of the vari
 
 ```{r}
 
-var_labels <- labels2 %>%
+var_labels <- dict_long2 %>%
   filter(var == "Var2") %>%
   dplyr::pull(value, label) 
 
@@ -134,7 +134,7 @@ Or you could remove duplicate labels using `dplyr::distinct()`
 
 ```{r, eval = FALSE}
 
-var_labels <- labels2 %>%
+var_labels <- dict_long2 %>%
   distinct(label, .keep_all = TRUE) %>%
   dplyr::pull(value, label) 
 

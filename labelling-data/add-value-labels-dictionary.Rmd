@@ -152,5 +152,6 @@ d5 %>%
 
 ```
 
+Go to [Add value labels using wide formatted data dictionary](https://cghlewis.github.io/data-wrangling-functions/labelling-data/add-value-labels-dictionary-wide.html)
 
 Return to [Label Data](https://github.com/Cghlewis/data-wrangling-functions/wiki/Label Data)

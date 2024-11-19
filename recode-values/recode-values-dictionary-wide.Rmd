@@ -22,8 +22,6 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-**Note:** The `dplyr::recode()` formula is: old value=new value, this is opposite of `dplyr::rename()`.
-
 <br>
 
 
@@ -72,5 +70,7 @@ d24 %>%
 
 ```
 
+
+Go to [Recode using long formatted data dictionary](https://cghlewis.github.io/data-wrangling-functions/recode-values/recode-values-dictionary.html)
 
 Return to [Recode](https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode)

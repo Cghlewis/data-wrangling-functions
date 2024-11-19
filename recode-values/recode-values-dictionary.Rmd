@@ -65,5 +65,6 @@ d23 %>%
 
 ```
 
+Go to [Recode using wide formatted data dictionary](https://cghlewis.github.io/data-wrangling-functions/recode-values/recode-values-dictionary-wide.html)
 
 Return to [Recode](https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode)

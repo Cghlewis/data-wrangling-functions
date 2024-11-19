@@ -81,6 +81,6 @@ d5 %>%
 
 ```
 
-
+Go to [Add value labels using long formatted data dictionary](https://cghlewis.github.io/data-wrangling-functions/labelling-data/add-value-labels-dictionary.html)
 
 Return to [Label Data](https://github.com/Cghlewis/data-wrangling-functions/wiki/Label Data)

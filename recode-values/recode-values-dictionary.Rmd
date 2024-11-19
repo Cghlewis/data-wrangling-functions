@@ -38,9 +38,9 @@ d23
 
 ```
 
-Review our current long formatted data dictionary that contains the old values of our variable `org_name` (old_values) and the new values that we want instead (new_values).
+Review our current long formatted data dictionary (dict_long) that contains the old values of our variable `org_name` (old_values) and the new values that we want instead (new_values).
 
-```{r}
+```{r, echo = FALSE}
 
 dict_long
 

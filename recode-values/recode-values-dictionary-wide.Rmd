@@ -38,7 +38,7 @@ d24
 
 ```
 
-Review our current wide formatted data dictionary
+Review our current wide formatted data dictionary (dict_wide)
 
 ```{r, echo = FALSE}
 

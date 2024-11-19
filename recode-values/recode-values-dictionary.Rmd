@@ -29,7 +29,7 @@ knitr::opts_chunk$set(comment = NA,
 
 **1\. Recode values using a long formatted data dictionary**
 
-Review the data 23
+Review the data (d23)
 
 ```{r, echo=FALSE}
 
@@ -38,28 +38,19 @@ d23
 
 ```
 
-Review our current long formatted data dictionary that contains the old values of our variable `org_name` (old_values) and the new values that we want instead (new_values)
-
-```{r, echo = FALSE}
-
-
-dict_org <- tribble(~old_value, ~new_value,
-                    "Org Name A", "New Org Name A",
-                    "Org Name B", "New Org Name B",
-                    "Org Name C", "New Org Name C",
-                    "Org Name D", NA_character_,
-                    "Org Name E", "Org Name D",
-                    "Org Name F", NA_character_)
-
-dict_org
-
-```
-
-In order to use this information to recode our values, we first need to pull a named vector.
+Review our current long formatted data dictionary that contains the old values of our variable `org_name` (old_values) and the new values that we want instead (new_values).
 
 ```{r}
 
-dict_org <- dict_org %>%
+dict_long
+
+```
+
+In order to use this information to recode our values, we first need to pull a named vector that includes any value that is recoded.
+
+```{r}
+
+dict_long <- dict_long %>%
   dplyr::filter(!is.na(new_value)) %>%
   tibble::deframe()
 
@@ -70,7 +61,7 @@ We can now use the named vector to recode our values. We can use `!!!` to splice
 ```{r}
 
 d23 %>% 
-  dplyr::mutate(org_name = dplyr::recode(org_name, !!!dict_org))
+  dplyr::mutate(org_name = dplyr::recode(org_name, !!!dict_long))
 
 ```
 

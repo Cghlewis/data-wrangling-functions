@@ -11,7 +11,7 @@
 
 
 
-<title>Add value labels using a long formatted data dictionary</title>
+<title>Recode values using a wide formatted data dictionary</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,136 +361,61 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Add value labels using a long formatted
-data dictionary</h1>
+<h1 class="title toc-ignore">Recode values using a wide formatted data
+dictionary</h1>
 
 </div>
 
 
 <p><br></p>
-<div id="package-labelled" class="section level3">
-<h3>Package: labelled</h3>
+<div id="package-dplyr" class="section level3">
+<h3>Package: dplyr</h3>
 <hr />
-<div id="function-set_value_labels" class="section level4">
-<h4>Function: <code>set_value_labels()</code></h4>
+<div id="function-case_when" class="section level4">
+<h4>Function: <code>case_when()</code></h4>
 <hr />
-<p><strong>1. Set labels for one variable, <code>Var2</code>, using a
-long formatted data dictionary</strong></p>
-<p>Review the data (d10)</p>
+<p><strong>Note:</strong> The <code>dplyr::recode()</code> formula is:
+old value=new value, this is opposite of
+<code>dplyr::rename()</code>.</p>
+<p><br></p>
+<p><strong>1. Recode values using a wide formatted data
+dictionary</strong></p>
+<p>Review the data (d24)</p>
 <pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         1     3
-2 b      -999     1
-3 c         2  -999</code></pre>
-<p>In this scenario, we have an existing dataset that provides the
-labels for our variables.</p>
-<p>Review our data dictionary (labels)</p>
-<p>Note that this dataset is not in the usual data dictionary format I
-would think of (with each row corresponding to one variable). In this
-case, this would be a specialized long format type of codebook that you
-may have received or created solely for the purpose of working with
-value labels.</p>
-<pre><code># A tibble: 7 x 3
-  var   value label    
-  &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;    
-1 Var2      1 yes      
-2 Var2      2 no       
-3 Var2   -999 missing  
-4 Var3      1 never    
-5 Var3      2 sometimes
-6 Var3      3 always   
-7 Var3   -999 missing  </code></pre>
-<p>Add value labels</p>
-<ul>
-<li>Note: First we need to create a named character vector. We can do
-this using <code>dplyr::pull()</code>. Note that the <code>label</code>
-variable is provided second. This is important because the second
-variable will become the “names”.</li>
-</ul>
-<pre class="r"><code>var_labels &lt;- labels %&gt;%
-  dplyr::filter(var == &quot;Var2&quot;) %&gt;%
-  dplyr::pull(value, label) </code></pre>
-<pre class="r"><code>var_labels</code></pre>
-<pre><code>    yes      no missing 
-      1       2    -999 </code></pre>
-<p>We can also do this using <code>tibble::deframe()</code>. You will
-get the same result.</p>
-<p>HOWEVER, do note that the order that you list variables is
-<strong>different</strong>. In this method, the label (which will be the
-“names”) will need to be provided first.</p>
-<pre class="r"><code>var_labels &lt;- labels %&gt;%
-  dplyr::filter(var == &quot;Var2&quot;) %&gt;%
-  dplyr::select(label, value) %&gt;%
-  tibble::deframe()</code></pre>
-<p>Now we can use this vector to add our variable labels using the
-argument <em>.labels</em>.</p>
-<pre class="r"><code>d10 &lt;- d10 %&gt;%
-  labelled::set_value_labels(Var2 = var_labels)
+  stu_id    q1    q2
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1      1     1     1
+2      2   -99     1
+3      3   -99   -99</code></pre>
+<p>Review our current wide formatted data dictionary</p>
+<pre><code># A tibble: 3 x 4
+  var_name type    raw_value                        recode  
+  &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;                            &lt;chr&gt;   
+1 stu_id   numeric 1-10                             NA      
+2 q1       numeric 1 = Selected, -99 = Not selected -99 -&gt; 0
+3 q2       numeric 1 = Selected, -99 = Not selected -99 -&gt; 0</code></pre>
+<p>Select all variables with the same recoding logic (-99 -&gt; 0)</p>
+<pre class="r"><code>recode_multi_select &lt;- dict_wide %&gt;%
+  filter(recode == &quot;-99 -&gt; 0&quot;) %&gt;%
+  pull(var_name)
 
-labelled::val_labels(d10)</code></pre>
-<pre><code>$Var1
-NULL
-
-$Var2
-    yes      no missing 
-      1       2    -999 
-
-$Var3
-NULL</code></pre>
-<hr />
-</div>
-<div id="function-labelled" class="section level4">
-<h4>Function: <code>labelled()</code></h4>
-<hr />
-<p><strong>1. Set labels for multiple variables (<code>Var2</code> and
-<code>Var3</code>) with the same label values using a long formatted
-data dictionary</strong></p>
-<p>Review the data (d5)</p>
+recode_multi_select</code></pre>
+<pre><code>[1] &quot;q1&quot; &quot;q2&quot;</code></pre>
+<p>Now we can use that vector of variable names to recode these
+variables all at once.</p>
+<pre class="r"><code>d24 %&gt;%
+  mutate(across(all_of(recode_multi_select),
+                ~case_when(
+                  . == -99 ~ 0,
+                  TRUE ~ .
+                )))</code></pre>
 <pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 d         1    NA
-2 e         2     2
-3 f         1     1</code></pre>
-<p>This time there are several variables that have the same labels so we
-want to apply our labels across multiple variables.</p>
-<p>Review our data dictionary (labels2)</p>
-<pre><code># A tibble: 4 x 3
-  var   value label
-  &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;
-1 Var2      1 yes  
-2 Var2      2 no   
-3 Var3      1 yes  
-4 Var3      2 no   </code></pre>
-<p>Since labels are repeated in our data dictionary, filter to just one
-of the variables that have the labels we need.</p>
-<pre class="r"><code>var_labels &lt;- labels2 %&gt;%
-  filter(var == &quot;Var2&quot;) %&gt;%
-  dplyr::pull(value, label) </code></pre>
-<p>Or you could remove duplicate labels using
-<code>dplyr::distinct()</code></p>
-<pre class="r"><code>var_labels &lt;- labels2 %&gt;%
-  distinct(label, .keep_all = TRUE) %&gt;%
-  dplyr::pull(value, label) </code></pre>
-<pre class="r"><code>d5 &lt;- d5 %&gt;% 
-  dplyr::mutate(dplyr::across(Var2:Var3, 
-            ~labelled::labelled(., labels = var_labels)))
-
-d5 %&gt;% 
-  labelled::val_labels()</code></pre>
-<pre><code>$Var1
-NULL
-
-$Var2
-yes  no 
-  1   2 
-
-$Var3
-yes  no 
-  1   2 </code></pre>
-<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Label%20Data">Label
-Data</a></p>
+  stu_id    q1    q2
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1      1     1     1
+2      2     0     1
+3      3     0     0</code></pre>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode">Recode</a></p>
 </div>
 </div>
 

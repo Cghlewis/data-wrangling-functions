@@ -11,7 +11,7 @@
 
 
 
-<title>Add value labels using a long formatted data dictionary</title>
+<title>Add value labels using a wide formatted data dictionary</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,7 +361,7 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Add value labels using a long formatted
+<h1 class="title toc-ignore">Add value labels using a wide formatted
 data dictionary</h1>
 
 </div>
@@ -371,80 +371,11 @@ data dictionary</h1>
 <div id="package-labelled" class="section level3">
 <h3>Package: labelled</h3>
 <hr />
-<div id="function-set_value_labels" class="section level4">
-<h4>Function: <code>set_value_labels()</code></h4>
-<hr />
-<p><strong>1. Set labels for one variable, <code>Var2</code>, using a
-long formatted data dictionary</strong></p>
-<p>Review the data (d10)</p>
-<pre><code># A tibble: 3 x 3
-  Var1   Var2  Var3
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 a         1     3
-2 b      -999     1
-3 c         2  -999</code></pre>
-<p>In this scenario, we have an existing dataset that provides the
-labels for our variables.</p>
-<p>Review our data dictionary (labels)</p>
-<p>Note that this dataset is not in the usual data dictionary format I
-would think of (with each row corresponding to one variable). In this
-case, this would be a specialized long format type of codebook that you
-may have received or created solely for the purpose of working with
-value labels.</p>
-<pre><code># A tibble: 7 x 3
-  var   value label    
-  &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;    
-1 Var2      1 yes      
-2 Var2      2 no       
-3 Var2   -999 missing  
-4 Var3      1 never    
-5 Var3      2 sometimes
-6 Var3      3 always   
-7 Var3   -999 missing  </code></pre>
-<p>Add value labels</p>
-<ul>
-<li>Note: First we need to create a named character vector. We can do
-this using <code>dplyr::pull()</code>. Note that the <code>label</code>
-variable is provided second. This is important because the second
-variable will become the “names”.</li>
-</ul>
-<pre class="r"><code>var_labels &lt;- labels %&gt;%
-  dplyr::filter(var == &quot;Var2&quot;) %&gt;%
-  dplyr::pull(value, label) </code></pre>
-<pre class="r"><code>var_labels</code></pre>
-<pre><code>    yes      no missing 
-      1       2    -999 </code></pre>
-<p>We can also do this using <code>tibble::deframe()</code>. You will
-get the same result.</p>
-<p>HOWEVER, do note that the order that you list variables is
-<strong>different</strong>. In this method, the label (which will be the
-“names”) will need to be provided first.</p>
-<pre class="r"><code>var_labels &lt;- labels %&gt;%
-  dplyr::filter(var == &quot;Var2&quot;) %&gt;%
-  dplyr::select(label, value) %&gt;%
-  tibble::deframe()</code></pre>
-<p>Now we can use this vector to add our variable labels using the
-argument <em>.labels</em>.</p>
-<pre class="r"><code>d10 &lt;- d10 %&gt;%
-  labelled::set_value_labels(Var2 = var_labels)
-
-labelled::val_labels(d10)</code></pre>
-<pre><code>$Var1
-NULL
-
-$Var2
-    yes      no missing 
-      1       2    -999 
-
-$Var3
-NULL</code></pre>
-<hr />
-</div>
 <div id="function-labelled" class="section level4">
 <h4>Function: <code>labelled()</code></h4>
 <hr />
 <p><strong>1. Set labels for multiple variables (<code>Var2</code> and
-<code>Var3</code>) with the same label values using a long formatted
+<code>Var3</code>) with the same label values using a wide formatted
 data dictionary</strong></p>
 <p>Review the data (d5)</p>
 <pre><code># A tibble: 3 x 3
@@ -453,29 +384,34 @@ data dictionary</strong></p>
 1 d         1    NA
 2 e         2     2
 3 f         1     1</code></pre>
-<p>This time there are several variables that have the same labels so we
-want to apply our labels across multiple variables.</p>
-<p>Review our data dictionary (labels2)</p>
-<pre><code># A tibble: 4 x 3
-  var   value label
-  &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;
-1 Var2      1 yes  
-2 Var2      2 no   
-3 Var3      1 yes  
-4 Var3      2 no   </code></pre>
-<p>Since labels are repeated in our data dictionary, filter to just one
-of the variables that have the labels we need.</p>
-<pre class="r"><code>var_labels &lt;- labels2 %&gt;%
-  filter(var == &quot;Var2&quot;) %&gt;%
-  dplyr::pull(value, label) </code></pre>
-<p>Or you could remove duplicate labels using
-<code>dplyr::distinct()</code></p>
-<pre class="r"><code>var_labels &lt;- labels2 %&gt;%
-  distinct(label, .keep_all = TRUE) %&gt;%
-  dplyr::pull(value, label) </code></pre>
+<p>Here I have a data dictionary that is formatted in wide format (which
+is more common in my work). So while I can’t necessarily pull the labels
+from a dictionary that is formatted this way, I can at least pull all
+variables that have the same labels, and label them at the same time,
+saving me time, especially if there are many variables with the same
+labels.</p>
+<p>Review our data dictionary (dict3)</p>
+<pre><code># A tibble: 3 x 3
+  var   label              values         
+  &lt;chr&gt; &lt;chr&gt;              &lt;chr&gt;          
+1 Var1  ID                 a-z            
+2 Var2  Do you like pizza? 1 = yes| 2 = no
+3 Var3  Do you like pasta? 1 = yes| 2 = no</code></pre>
+<p>Pull our all variable names that are recoded as yes = 1 and 2 =
+no.</p>
+<pre class="r"><code>dict_yesno &lt;- dict3 %&gt;%
+  filter(values == &quot;1 = yes| 2 = no&quot;) %&gt;%
+  pull(var)</code></pre>
+<p>Let’s see what variables were pulled</p>
+<pre class="r"><code>dict_yesno</code></pre>
+<pre><code>[1] &quot;Var2&quot; &quot;Var3&quot;</code></pre>
+<p>Now we can apply our value labels to those variables using
+<code>dplyr::all_of()</code>.</p>
 <pre class="r"><code>d5 &lt;- d5 %&gt;% 
-  dplyr::mutate(dplyr::across(Var2:Var3, 
-            ~labelled::labelled(., labels = var_labels)))
+  dplyr::mutate(dplyr::across(dplyr::all_of(dict_yesno), 
+            ~labelled::labelled(., labels = 
+                                  c(&quot;yes&quot; = 1,
+                                    &quot;no&quot; = 2))))
 
 d5 %&gt;% 
   labelled::val_labels()</code></pre>

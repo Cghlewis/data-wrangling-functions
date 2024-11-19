@@ -218,9 +218,29 @@ dict_org <- tribble(~old_value, ~new_value,
                     "Org Name E", "Org Name D",
                     "Org Name F", NA_character_)
 
+
+dict_long <- tribble(~old_value, ~new_value,
+                     "Org Name A", "New Org Name A",
+                     "Org Name B", NA_character_,
+                     "Org Name C", "New Org Name C",
+                     "Org Name D", NA_character_,
+                     "Org Name E", "New Org Name E",
+                     "Org Name F", NA_character_)
+
 d23 <- tribble(~org_id, ~org_name, ~city,
               123, "Org Name C", "London",
               124, "Org Name D", "New York",
               125, "Org Name F", "London",
               127, "Org Name A", "Los Angeles"
 )
+
+dict_wide <- tribble(~var_name, 
+                             ~type, ~raw_value, ~recode,
+                             "stu_id", "numeric", "1-10", "NA",
+                             "q1", "numeric", "1 = Selected, -99 = Not selected", "-99 -> 0",
+                             "q2", "numeric", "1 = Selected, -99 = Not selected", "-99 -> 0")
+
+d24 <- tribble(~stu_id, ~q1, ~q2,
+               1, 1, 1,
+               2, -99, 1,
+               3, -99, -99)

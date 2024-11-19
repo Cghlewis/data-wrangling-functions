@@ -380,7 +380,7 @@ old value=new value, this is opposite of
 <p><br></p>
 <p><strong>1. Recode values using a long formatted data
 dictionary</strong></p>
-<p>Review the data 23</p>
+<p>Review the data (d23)</p>
 <pre><code># A tibble: 4 x 3
   org_id org_name   city       
    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      
@@ -390,26 +390,27 @@ dictionary</strong></p>
 4    127 Org Name A Los Angeles</code></pre>
 <p>Review our current long formatted data dictionary that contains the
 old values of our variable <code>org_name</code> (old_values) and the
-new values that we want instead (new_values)</p>
+new values that we want instead (new_values).</p>
+<pre class="r"><code>dict_long</code></pre>
 <pre><code># A tibble: 6 x 2
   old_value  new_value     
   &lt;chr&gt;      &lt;chr&gt;         
 1 Org Name A New Org Name A
-2 Org Name B New Org Name B
+2 Org Name B &lt;NA&gt;          
 3 Org Name C New Org Name C
 4 Org Name D &lt;NA&gt;          
-5 Org Name E Org Name D    
+5 Org Name E New Org Name E
 6 Org Name F &lt;NA&gt;          </code></pre>
 <p>In order to use this information to recode our values, we first need
-to pull a named vector.</p>
-<pre class="r"><code>dict_org &lt;- dict_org %&gt;%
+to pull a named vector that includes any value that is recoded.</p>
+<pre class="r"><code>dict_long &lt;- dict_long %&gt;%
   dplyr::filter(!is.na(new_value)) %&gt;%
   tibble::deframe()</code></pre>
 <p>We can now use the named vector to recode our values. We can use
 <code>!!!</code> to splice a our vector into the argument of a quoting
 expression.</p>
 <pre class="r"><code>d23 %&gt;% 
-  dplyr::mutate(org_name = dplyr::recode(org_name, !!!dict_org))</code></pre>
+  dplyr::mutate(org_name = dplyr::recode(org_name, !!!dict_long))</code></pre>
 <pre><code># A tibble: 4 x 3
   org_id org_name       city       
    &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;      

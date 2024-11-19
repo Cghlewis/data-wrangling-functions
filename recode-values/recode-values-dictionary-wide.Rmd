@@ -1,0 +1,75 @@
+---
+title: "Recode values using a wide formatted data dictionary"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `case_when()`
+
+---
+
+**Note:** The `dplyr::recode()` formula is: old value=new value, this is opposite of `dplyr::rename()`.
+
+<br>
+
+
+**1\. Recode values using a wide formatted data dictionary**
+
+Review the data (d24)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d24
+
+```
+
+Review our current wide formatted data dictionary
+
+```{r, echo = FALSE}
+
+dict_wide
+
+```
+
+Select all variables with the same recoding logic (-99 -> 0)
+
+```{r}
+
+recode_multi_select <- dict_wide %>%
+  filter(recode == "-99 -> 0") %>%
+  pull(var_name)
+
+recode_multi_select
+
+```
+
+Now we can use that vector of variable names to recode these variables all at once.
+
+```{r}
+
+d24 %>%
+  mutate(across(all_of(recode_multi_select),
+                ~case_when(
+                  . == -99 ~ 0,
+                  TRUE ~ .
+                )))
+
+```
+
+
+Return to [Recode](https://github.com/Cghlewis/data-wrangling-functions/wiki/Recode)

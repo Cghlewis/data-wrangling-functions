@@ -65,7 +65,7 @@ dict_yesno
 ```
 
 
-Now we can apply our value labels to those variables using `dplyr::all_of()`.
+Now we can apply our value labels to those variables using `dplyr::across()` and `dplyr::all_of()`.
 
 ```{r}
 

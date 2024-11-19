@@ -423,8 +423,7 @@ get the same result.</p>
   dplyr::filter(var == &quot;Var2&quot;) %&gt;%
   dplyr::select(label, value) %&gt;%
   tibble::deframe()</code></pre>
-<p>Now we can use this vector to add our variable labels using the
-argument <em>.labels</em>.</p>
+<p>Now we can use this vector to add our variable labels.</p>
 <pre class="r"><code>d10 &lt;- d10 %&gt;%
   labelled::set_value_labels(Var2 = var_labels)
 

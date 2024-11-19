@@ -400,8 +400,8 @@ labels.</p>
 <p>Pull our all variable names that are recoded as yes = 1 and 2 =
 no.</p>
 <pre class="r"><code>dict_yesno &lt;- dict3 %&gt;%
-  filter(values == &quot;1 = yes| 2 = no&quot;) %&gt;%
-  pull(var)</code></pre>
+  dplyr::filter(values == &quot;1 = yes| 2 = no&quot;) %&gt;%
+  dplyr::pull(var)</code></pre>
 <p>Let’s see what variables were pulled</p>
 <pre class="r"><code>dict_yesno</code></pre>
 <pre><code>[1] &quot;Var2&quot; &quot;Var3&quot;</code></pre>

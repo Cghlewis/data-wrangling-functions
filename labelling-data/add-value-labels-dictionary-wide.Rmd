@@ -51,8 +51,8 @@ Pull our all variable names that are recoded as yes = 1 and 2 = no.
 ```{r}
 
 dict_yesno <- dict3 %>%
-  filter(values == "1 = yes| 2 = no") %>%
-  pull(var)
+  dplyr::filter(values == "1 = yes| 2 = no") %>%
+  dplyr::pull(var)
 
 ```
 

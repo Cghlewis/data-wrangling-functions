@@ -59,21 +59,21 @@ d8 <- tibble::tribble(
 )
 
 dict <- tibble::tribble(
-  ~label, ~question,
+  ~new_name, ~old_name,
   "stu_id", "Var1",
   "read_score", "Var2",
   "math_score", "Var3"
 )
 
 dict2 <- tibble::tribble(
-  ~label, ~question,
+  ~new_name, ~old_name,
   "math_score", "Var3",
   "stu_id", "Var1",
   "read_score", "Var2"
 )
 
 dict3 <- tibble::tribble(
-  ~label, ~question,
+  ~new_name, ~old_name,
   "stu_id", "Var1",
   "read_score", "Var2"
 )

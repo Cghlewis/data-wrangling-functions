@@ -133,7 +133,7 @@ d18
 
 ```
 
-Replace names with "<redacted>"
+Replace names with "\<redacted\>"
 
 ```{r}
 

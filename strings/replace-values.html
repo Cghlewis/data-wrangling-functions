@@ -479,7 +479,7 @@ new values</strong></p>
 2   1235        0        0 &quot;Mr. Lewis helps me in my classroom&quot;
 3   1237        1        1 &quot;Professional development X&quot;        
 4   1241        0        1 &quot;Sherry provides coaching&quot;          </code></pre>
-<p>Replace names with “<redacted>”</p>
+<p>Replace names with “&lt;redacted&gt;”</p>
 <pre class="r"><code>d18 %&gt;%
   mutate(support_other = str_replace_all(support_other, &quot;Mr. Lewis|Sherry&quot;, &quot;&lt;redacted&gt;&quot;))</code></pre>
 <pre><code># A tibble: 4 x 4

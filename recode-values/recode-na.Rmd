@@ -173,7 +173,7 @@ Review the data (d3)
 ```{r, echo=FALSE}
 
 source("data.R")
-d3
+d24
 
 ```
 
@@ -181,8 +181,8 @@ Replace -999 for the entire dataset with NA
 
 ```{r}
 
-d3 %>% 
-  dplyr::na_if(-999)
+d24 %>% 
+  mutate(across(everything(), ~na_if(., -99)))
 
 ```
 
@@ -220,11 +220,19 @@ d3
 
 Replace -999 for numeric variables with NA
 
-
 ```{r}
 
 d3 %>%
   dplyr::mutate(dplyr::across(where(is.numeric), ~ dplyr::na_if(.,-999)))
+
+```
+
+**Note**: A potentially preferred method to using `~` (which comes from {rlang}), is to instead use `\(x)` which is native to R 4.1 and up.
+
+```{r}
+
+d3 %>%
+  dplyr::mutate(dplyr::across(where(is.numeric), \(x) dplyr::na_if(x,-999)))
 
 ```
 

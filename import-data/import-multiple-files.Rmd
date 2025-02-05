@@ -108,7 +108,8 @@ d <- fs::dir_ls(path = here::here("import-data", "attendance"), glob ="*.xlsx") 
 
 ```{r, echo=FALSE}
 
-d <- d %>% mutate(source = stringr::str_replace_all(
+d <- d %>% 
+  mutate(source = stringr::str_replace_all(
   source, "C:/Users/Crystal/Desktop/desktop/R/Working R Stuff/data-wrangling-functions/", "C:/Users/Me/project/")) 
 
 head(d, n=c(10,5))
@@ -161,5 +162,44 @@ d <- fs::dir_ls(path = here::here("import-data", "attendance"),
 
 
 ```
+
+### Package: readr
+
+---
+
+#### Function: `read_csv()`
+
+---
+
+
+**1\. Read in a vector of CSV file names and bind them.**
+
+Review the files in our "csv_data" folder
+
+```{r}
+
+base::dir(path = here::here("import-data", "csv_data"))
+
+```
+
+**Note:** The *file* argument for `read_csv()` allows you to provide "Either a path to a file, a connection, or literal data (either a single string or a raw vector). Since it allows vectors, you directly provide paths to multiple files as a vector in the *file* argument. `read_excel()` does not allows this.
+
+If you want, you can add an identifier using the argument *id=* and name the variable whatever you want, in this case "source"
+
+```{r, eval = FALSE}
+
+readr::read_csv(c("csv_data/school-2_attendance.csv",
+           "csv_data/school-3_attendance.csv"), id = "source")
+
+```
+
+```{r, echo=FALSE}
+
+read_csv(c("csv_data/school-2_attendance.csv",
+           "csv_data/school-3_attendance.csv"), id = "source") %>%
+  filter(!is.na(YEAR))
+
+```
+
 
 Return to [Import Files](https://github.com/Cghlewis/data-wrangling-functions/wiki/Import Files)

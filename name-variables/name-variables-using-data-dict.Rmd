@@ -133,8 +133,37 @@ dict_names
 ```{r}
 
 d1 %>%
- dplyr::rename(tidyselect::all_of(dict_names))
+ dplyr::rename(tidyselect::any_of(dict_names))
 
 ```
+
+Last, if for some reason your data dictionary contains variables that are not in your dataset (for instance, maybe you previously removed/dropped some variables), you can still rename your variables using this data dictionary (without having to filter those variables out). 
+
+Let's take this data dictionary that has one extra variable compared to our dataset.
+
+```{r}
+
+dict4
+
+```
+
+
+```{r}
+
+dict_names <- tibble::deframe(dict4)
+
+dict_names
+
+```
+
+We can still rename if we use dplyr::any_of() rather than dplyr::all_of().
+
+```{r}
+
+d1 %>%
+ dplyr::rename(tidyselect::any_of(dict_names))
+
+```
+
 
 Return to [Name Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Name Variables)

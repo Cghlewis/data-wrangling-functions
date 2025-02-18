@@ -86,4 +86,14 @@ d9 <- tibble::tribble(
 )
 
 
+dict4 <- tibble::tribble(
+  ~new_name, ~old_name,
+  "math_score", "Var3",
+  "stu_id", "Var1",
+  "read_score", "Var2",
+  "DROP", "extra_var"
+)
+
+
+
 

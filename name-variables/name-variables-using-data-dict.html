@@ -470,13 +470,43 @@ dict_names</code></pre>
 <pre><code>    stu_id read_score 
     &quot;Var1&quot;     &quot;Var2&quot; </code></pre>
 <pre class="r"><code>d1 %&gt;%
- dplyr::rename(tidyselect::all_of(dict_names))</code></pre>
+ dplyr::rename(tidyselect::any_of(dict_names))</code></pre>
 <pre><code># A tibble: 3 x 3
   stu_id read_score  Var3
   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;
 1 a               2   3.6
 2 b              NA   8.5
 3 c               3  NA  </code></pre>
+<p>Last, if for some reason your data dictionary contains variables that
+are not in your dataset (for instance, maybe you previously
+removed/dropped some variables), you can still rename your variables
+using this data dictionary (without having to filter those variables
+out).</p>
+<p>Let’s take this data dictionary that has one extra variable compared
+to our dataset.</p>
+<pre class="r"><code>dict4</code></pre>
+<pre><code># A tibble: 4 x 2
+  new_name   old_name 
+  &lt;chr&gt;      &lt;chr&gt;    
+1 math_score Var3     
+2 stu_id     Var1     
+3 read_score Var2     
+4 DROP       extra_var</code></pre>
+<pre class="r"><code>dict_names &lt;- tibble::deframe(dict4)
+
+dict_names</code></pre>
+<pre><code> math_score      stu_id  read_score        DROP 
+     &quot;Var3&quot;      &quot;Var1&quot;      &quot;Var2&quot; &quot;extra_var&quot; </code></pre>
+<p>We can still rename if we use dplyr::any_of() rather than
+dplyr::all_of().</p>
+<pre class="r"><code>d1 %&gt;%
+ dplyr::rename(tidyselect::any_of(dict_names))</code></pre>
+<pre><code># A tibble: 3 x 3
+  stu_id read_score math_score
+  &lt;chr&gt;       &lt;dbl&gt;      &lt;dbl&gt;
+1 a               2        3.6
+2 b              NA        8.5
+3 c               3       NA  </code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Name%20Variables">Name
 Variables</a></p>
 </div>

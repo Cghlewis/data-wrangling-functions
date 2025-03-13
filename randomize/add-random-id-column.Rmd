@@ -113,6 +113,8 @@ Now we can randomly assign an ID to our new students that doesn't overlap with t
 
 ```{r}
 
+base::set.seed(1234)
+
 d6 <- d6 %>%
   dplyr::mutate(study_id = base::sample(new_ids, size = n()), .after = l_name)
 

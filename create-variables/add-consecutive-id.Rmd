@@ -1,0 +1,54 @@
+---
+title: "Add a consecutive ID variable"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: dplyr
+
+---
+
+#### Function: `consecutive_id()`
+
+---
+
+
+**1\. Assign an ID for each combination of two variables**
+
+Review the data (d10)
+
+```{r, echo = FALSE}
+
+source("data.R")
+d10
+
+```
+
+I want to create a new variable `video_id` that assigns an ID value for each unique date within each `tch_id` group. I also want those numbers to be order chronologically.
+
+In order to do this, I first group by `tch_id`, then order dates chronologically, and then use `dplyr::consecutive_id()` to creat a unique identifier that increments every time a variable changes.
+
+Last I make sure to `ungroup()` our data.
+
+```{r}
+
+d10 %>%
+  dplyr::group_by(tch_id) %>%
+  dplyr::arrange(date) %>%
+  dplyr::mutate(video_id = dplyr::consecutive_id(date)) %>%
+  dplyr::ungroup()
+
+```
+
+
+Return to [Create New Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Create New Variables)

@@ -44,8 +44,8 @@ Last I make sure to `ungroup()` our data.
 
 d10 %>%
   dplyr::group_by(tch_id) %>%
-  dplyr::arrange(date) %>%
-  dplyr::mutate(video_id = dplyr::consecutive_id(date)) %>%
+  dplyr::arrange(tch_id, date_observed) %>%
+  dplyr::mutate(video_id = dplyr::consecutive_id(date_observed)) %>%
   dplyr::ungroup()
 
 ```

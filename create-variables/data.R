@@ -67,9 +67,13 @@ d9 <- tibble::tribble(~id, ~ grade, ~cut_scale1, ~scale1_sum,
                       5, 2, 2.5, 4)
 
 
-d10 <- tibble::tribble(~tch_id, ~ date, ~rater,
+d10 <- tibble::tribble(~tch_id, ~ date_observed, ~rater,
                       1, "2025-01-02", 5,
                       1, "2025-01-02", 10,
+                      1, "2024-01-01", 4,
                       2, "2025-01-10", 5,
                       2, "2025-01-15", 5,
-                      2, "2025-01-15", 10)
+                      2, "2025-01-15", 10,
+                      2, "2025-01-07", 4,
+                      3, "2025-01-08", 4) %>%
+  mutate(date_observed = as.Date(date_observed))

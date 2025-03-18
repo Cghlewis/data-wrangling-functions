@@ -376,14 +376,17 @@ pre code {
 <p><strong>1. Assign an ID for each combination of two
 variables</strong></p>
 <p>Review the data (d10)</p>
-<pre><code># A tibble: 5 x 3
+<pre><code># A tibble: 8 x 3
   tch_id date_observed rater
-   &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt;
+   &lt;dbl&gt; &lt;date&gt;        &lt;dbl&gt;
 1      1 2025-01-02        5
 2      1 2025-01-02       10
-3      2 2025-01-10        5
-4      2 2025-01-15        5
-5      2 2025-01-15       10</code></pre>
+3      1 2024-01-01        4
+4      2 2025-01-10        5
+5      2 2025-01-15        5
+6      2 2025-01-15       10
+7      2 2025-01-07        4
+8      3 2025-01-08        4</code></pre>
 <p>I want to create a new variable <code>video_id</code> that assigns an
 ID value for each unique date within each <code>tch_id</code> group. I
 also want those numbers to be order chronologically.</p>
@@ -394,17 +397,20 @@ changes.</p>
 <p>Last I make sure to <code>ungroup()</code> our data.</p>
 <pre class="r"><code>d10 %&gt;%
   dplyr::group_by(tch_id) %&gt;%
-  dplyr::arrange(date_observed) %&gt;%
+  dplyr::arrange(tch_id, date_observed) %&gt;%
   dplyr::mutate(video_id = dplyr::consecutive_id(date_observed)) %&gt;%
   dplyr::ungroup()</code></pre>
-<pre><code># A tibble: 5 x 4
+<pre><code># A tibble: 8 x 4
   tch_id date_observed rater video_id
-   &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt;    &lt;int&gt;
-1      1 2025-01-02        5        1
-2      1 2025-01-02       10        1
-3      2 2025-01-10        5        1
-4      2 2025-01-15        5        2
-5      2 2025-01-15       10        2</code></pre>
+   &lt;dbl&gt; &lt;date&gt;        &lt;dbl&gt;    &lt;int&gt;
+1      1 2024-01-01        4        1
+2      1 2025-01-02        5        2
+3      1 2025-01-02       10        2
+4      2 2025-01-07        4        1
+5      2 2025-01-10        5        2
+6      2 2025-01-15        5        3
+7      2 2025-01-15       10        3
+8      3 2025-01-08        4        1</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Create%20New%20Variables">Create
 New Variables</a></p>
 </div>

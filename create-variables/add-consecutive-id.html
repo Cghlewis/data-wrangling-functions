@@ -411,6 +411,13 @@ changes.</p>
 6      2 2025-01-15        5        3
 7      2 2025-01-15       10        3
 8      3 2025-01-08        4        1</code></pre>
+<p>You could also do this without <code>dplyr::consecutive_id()</code>
+by using `base::as.factor() instead.</p>
+<pre class="r"><code>d10 %&gt;%
+  dplyr::group_by(tch_id) %&gt;%
+  dplyr::arrange(tch_id, date_observed) %&gt;%
+  dplyr::mutate(video_id = as.numeric(base::as.factor(date_observed))) %&gt;%
+  dplyr::ungroup()</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Create%20New%20Variables">Create
 New Variables</a></p>
 </div>

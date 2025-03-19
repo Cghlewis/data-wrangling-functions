@@ -50,5 +50,18 @@ d10 %>%
 
 ```
 
+You could also do this without `dplyr::consecutive_id()` by using `base::as.factor() instead.
+
+```{r eval = FALSE}
+
+d10 %>%
+  dplyr::group_by(tch_id) %>%
+  dplyr::arrange(tch_id, date_observed) %>%
+  dplyr::mutate(video_id = as.numeric(base::as.factor(date_observed))) %>%
+  dplyr::ungroup()
+
+```
+
+
 
 Return to [Create New Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Create New Variables)

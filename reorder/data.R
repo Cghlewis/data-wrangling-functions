@@ -67,3 +67,17 @@ dict3 <- tibble::tribble(
 )
 
 
+dd <- tribble(~var_name, ~label,
+              "p_id", "Study ID",
+              "score1", "Score scale 1",
+              "demo1", "Demographic item 1",
+              "score2", "Score scale 2",
+              "demo2", "Demographic item 2",
+              "score3", "Score scale 3",
+              "demo3", "Demographic item 3")
+
+df <- tribble(~p_id, ~score1, ~score2, ~score3,
+              ~demo1, ~demo2, ~demo3,
+              123, 20, 25, 32, 1, 1, 0,
+              225, 15, 23, 18, 0, 1, 0,
+              194, 22, 24, 29, 0, 1, 1)

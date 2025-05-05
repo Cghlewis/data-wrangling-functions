@@ -11,7 +11,7 @@
 
 
 
-<title>Reorder values</title>
+<title>Reorder factors</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,58 +361,129 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Reorder values</h1>
+<h1 class="title toc-ignore">Reorder factors</h1>
 
 </div>
 
 
 <p><br></p>
-<div id="package-dplyr" class="section level3">
-<h3>Package: dplyr</h3>
+<div id="package-forcats" class="section level3">
+<h3>Package: forcats</h3>
 <hr />
-<div id="function-arrange" class="section level4">
-<h4>Function: <code>arrange()</code></h4>
+<div id="function-fct_relevel" class="section level4">
+<h4>Function: <code>fct_relevel()</code></h4>
 <hr />
-<p><strong>1. Rearrange the variable names in a data dictionary to match
-the order of the variables in the corresponding dataset</strong></p>
-<p>Review the data (df)</p>
-<pre><code># A tibble: 3 x 7
-   p_id score1 score2 score3 demo1 demo2 demo3
-  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1   123     20     25     32     1     1     0
-2   225     15     23     18     0     1     0
-3   194     22     24     29     0     1     1</code></pre>
-<p>Review the data dictionary</p>
-<pre><code># A tibble: 7 x 2
-  var_name label             
-  &lt;chr&gt;    &lt;chr&gt;             
-1 p_id     Study ID          
-2 score1   Score scale 1     
-3 demo1    Demographic item 1
-4 score2   Score scale 2     
-5 demo2    Demographic item 2
-6 score3   Score scale 3     
-7 demo3    Demographic item 3</code></pre>
-<p>First, pull the variable name order from the existing dataset.</p>
-<p>Next, reorder <code>var_name</code> according to
-<code>df_names</code> using <code>dplyr::arrange()</code> and
-<code>base::match()</code>.</p>
-<pre class="r"><code>dd %&gt;%
-  dplyr::arrange(base::match(var_name, df_names))</code></pre>
-<pre><code># A tibble: 7 x 2
-  var_name label             
-  &lt;chr&gt;    &lt;chr&gt;             
-1 p_id     Study ID          
-2 score1   Score scale 1     
-3 score2   Score scale 2     
-4 score3   Score scale 3     
-5 demo1    Demographic item 1
-6 demo2    Demographic item 2
-7 demo3    Demographic item 3</code></pre>
-<p>Another option is to use <code>base::factor()</code> and assign
-levels.</p>
-<pre class="r"><code>dd %&gt;%
-  dplyr::arrange(base::factor(var_name,levels = df_names))</code></pre>
+<p><strong>1. Relevel the factor <code>s_grade</code> to have the
+following level order: 2, 3, K, 1 (for demonstration
+purposes)</strong></p>
+<p>Review the data (d2)</p>
+<pre><code># A tibble: 4 x 3
+  s_id  s_gender s_grade
+  &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;  
+1 a     m        K      
+2 b     f        1      
+3 c     n        3      
+4 f     m        2      </code></pre>
+<p>Review the structure of <code>s_grade</code></p>
+<pre class="r"><code>str(d2$s_grade)</code></pre>
+<pre><code> Factor w/ 4 levels &quot;K&quot;,&quot;1&quot;,&quot;3&quot;,&quot;2&quot;: 1 2 3 4</code></pre>
+<p>Relevel s_grade</p>
+<pre class="r"><code>d2 &lt;- d2 %&gt;% 
+  mutate(s_grade = fct_relevel(s_grade, &quot;2&quot;, &quot;3&quot;, &quot;K&quot;, &quot;1&quot;))
+
+str(d2$s_grade)</code></pre>
+<pre><code> Factor w/ 4 levels &quot;2&quot;,&quot;3&quot;,&quot;K&quot;,&quot;1&quot;: 3 4 2 1</code></pre>
+<p><strong>2. Relevel the factor <code>s_grade</code> to be
+1,2,3,K</strong></p>
+<p>Review the data (d2)</p>
+<pre><code># A tibble: 4 x 3
+  s_id  s_gender s_grade
+  &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;  
+1 a     m        K      
+2 b     f        1      
+3 c     n        3      
+4 f     m        2      </code></pre>
+<p>Review the structure of <code>s_grade</code></p>
+<pre class="r"><code>str(d2$s_grade)</code></pre>
+<pre><code> Factor w/ 4 levels &quot;K&quot;,&quot;1&quot;,&quot;3&quot;,&quot;2&quot;: 1 2 3 4</code></pre>
+<p>Relevel “K” after the 3rd position. Since the 4th position is last,
+you could also use the argument <em>after = Inf</em> to refer to the
+last position.</p>
+<pre class="r"><code>d2 &lt;- d2 %&gt;% 
+  mutate(s_grade = fct_relevel(s_grade, &quot;K&quot;, after = 3))
+
+str(d2$s_grade)</code></pre>
+<pre><code> Factor w/ 4 levels &quot;1&quot;,&quot;3&quot;,&quot;2&quot;,&quot;K&quot;: 4 1 2 3</code></pre>
+<p><strong>3. Relevel the factor <code>s_grade</code> to be
+1,K,2,3</strong></p>
+<p>Review the data (d2)</p>
+<pre><code># A tibble: 4 x 3
+  s_id  s_gender s_grade
+  &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;  
+1 a     m        K      
+2 b     f        1      
+3 c     n        3      
+4 f     m        2      </code></pre>
+<p>Review the structure of <code>s_grade</code></p>
+<pre class="r"><code>str(d2$s_grade)</code></pre>
+<pre><code> Factor w/ 4 levels &quot;K&quot;,&quot;1&quot;,&quot;3&quot;,&quot;2&quot;: 1 2 3 4</code></pre>
+<p>Relevel “1” to be first. Since I only want “1” to be first and to
+keep the order the same otherwise, I can just say to relevel “1” and the
+rest will be implied.</p>
+<pre class="r"><code>d2 &lt;- d2 %&gt;% 
+  mutate(s_grade = fct_relevel(s_grade, &quot;1&quot;))
+
+str(d2$s_grade)</code></pre>
+<pre><code> Factor w/ 4 levels &quot;1&quot;,&quot;K&quot;,&quot;3&quot;,&quot;2&quot;: 2 1 3 4</code></pre>
+</div>
+</div>
+<div id="package-labelled" class="section level3">
+<h3>Package: labelled</h3>
+<hr />
+<div id="function-to_factor" class="section level4">
+<h4>Function: <code>to_factor()</code></h4>
+<hr />
+<p>In the rare occasion where you have a labelled variable that you want
+to convert to a factor and then order those levels, you can use
+<code>labelled::to_factor()</code>.</p>
+<p><strong>1. Order <code>s_grade</code> levels: K,1,2,3</strong></p>
+<p>Review the data (d3)</p>
+<pre><code># A tibble: 4 x 3
+  s_id  s_gender s_grade
+  &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;
+1 a     m              0
+2 b     f              1
+3 c     n              3
+4 f     m              2</code></pre>
+<p>Review the structure of <code>s_grade</code></p>
+<pre class="r"><code>utils::str(d3$s_grade)</code></pre>
+<pre><code> dbl+lbl [1:4] 0, 1, 3, 2
+ @ labels: Named num [1:4] 1 2 3 0
+  ..- attr(*, &quot;names&quot;)= chr [1:4] &quot;First&quot; &quot;Second&quot; &quot;Third&quot; &quot;Kindergarten&quot;</code></pre>
+<p>Convert <code>s_grade</code> to a factor and then order those levels
+according to their original values using the argument <em>sort_levels =
+“v”</em>.</p>
+<pre class="r"><code>d3v &lt;- d3 %&gt;% 
+  dplyr::mutate(s_grade = labelled::to_factor(s_grade, sort_levels = &quot;v&quot;))
+
+base::levels(d3v$s_grade)</code></pre>
+<pre><code>[1] &quot;Kindergarten&quot; &quot;First&quot;        &quot;Second&quot;       &quot;Third&quot;       </code></pre>
+<p>If you want them to be ordered according to labels you can change the
+argument to <em>sort_levels = “l”</em>.</p>
+<pre class="r"><code>d3l &lt;- d3 %&gt;% 
+  dplyr::mutate(s_grade = labelled::to_factor(s_grade, sort_levels = &quot;l&quot;))
+
+base::levels(d3l$s_grade)</code></pre>
+<pre><code>[1] &quot;First&quot;        &quot;Kindergarten&quot; &quot;Second&quot;       &quot;Third&quot;       </code></pre>
+<p>If you want them to be ordered according the order you originally
+assigned labels you can change the argument to <em>sort_levels =
+“n”</em>. This is also the default when you do not add the “sort_levels”
+option.</p>
+<pre class="r"><code>d3n &lt;- d3 %&gt;% 
+  dplyr::mutate(s_grade = labelled::to_factor(s_grade, sort_levels = &quot;n&quot;))
+
+base::levels(d3n$s_grade)</code></pre>
+<pre><code>[1] &quot;First&quot;        &quot;Second&quot;       &quot;Third&quot;        &quot;Kindergarten&quot;</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Reorder">Reorder</a></p>
 </div>
 </div>

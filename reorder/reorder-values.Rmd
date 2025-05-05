@@ -14,203 +14,58 @@ knitr::opts_chunk$set(comment = NA,
 
 <br>
 
-### Package: forcats
+### Package: dplyr
 
 ---
 
-#### Function: `fct_relevel()`
+#### Function: `arrange()`
 
 ---
 
-**1\. Relevel the factor `s_grade` to have the following level order: 2, 3, K, 1 (for demonstration purposes)**
+**1\. Rearrange the variable names in a data dictionary to match the order of the variables in the corresponding dataset**
 
-Review the data (d2)
+Review the data (df)
 
 ```{r, echo=FALSE}
 
 source("data.R")
-d2
+df
 
 ```
+
+Review the data dictionary
 
 ```{r, echo=FALSE}
 
-# Convert s_grade to factor
-
-d2 <- d2 %>% 
-  mutate(s_grade = as_factor(s_grade))
+dd
 
 ```
 
-
-Review the structure of `s_grade`
-
-```{r}
-
-str(d2$s_grade)
-
-```
-
-Relevel s_grade
-
-```{r}
-
-d2 <- d2 %>% 
-  mutate(s_grade = fct_relevel(s_grade, "2", "3", "K", "1"))
-
-str(d2$s_grade)
-
-```
-
-
-
-**2\. Relevel the factor `s_grade` to be 1,2,3,K**
-
-Review the data (d2)
+First, pull the variable name order from the existing dataset.
 
 ```{r, echo=FALSE}
 
-source("data.R")
-d2
+df_names <- base::names(df)
 
 ```
 
-Review the structure of `s_grade`
-
-```{r, echo=FALSE}
-
-d2 <- d2 %>% 
-  mutate(s_grade = forcats::as_factor(s_grade))
-
-```
+Next, reorder `var_name` according to `df_names` using `dplyr::arrange()` and `base::match()`.
 
 ```{r}
 
-str(d2$s_grade)
+dd %>%
+  dplyr::arrange(base::match(var_name, df_names))
 
 ```
 
-Relevel "K" after the 3rd position. Since the 4th position is last, you could also use the argument *after = Inf* to refer to the last position.
+Another option is to use `base::factor()` and assign levels.
 
-```{r}
+```{r eval = FALSE}
 
-d2 <- d2 %>% 
-  mutate(s_grade = fct_relevel(s_grade, "K", after = 3))
-
-str(d2$s_grade)
+dd %>%
+  dplyr::arrange(base::factor(var_name,levels = df_names))
 
 ```
 
-
-**3\. Relevel the factor `s_grade` to be 1,K,2,3**
-
-Review the data (d2)
-
-```{r, echo=FALSE}
-
-source("data.R")
-d2
-
-```
-
-Review the structure of `s_grade`
-
-```{r, echo=FALSE}
-
-d2 <- d2 %>% 
-  mutate(s_grade = forcats::as_factor(s_grade))
-
-```
-
-```{r}
-
-str(d2$s_grade)
-
-```
-
-Relevel "1" to be first. Since I only want "1" to be first and to keep the order the same otherwise, I can just say to relevel "1" and the rest will be implied.
-
-```{r}
-
-d2 <- d2 %>% 
-  mutate(s_grade = fct_relevel(s_grade, "1"))
-
-str(d2$s_grade)
-
-```
-
-
-
-### Package: labelled
-
----
-
-#### Function: `to_factor()`
-
----
-
-In the rare occasion where you have a labelled variable that you want to convert to a factor and then order those levels, you can use `labelled::to_factor()`.
-
-**1\. Order `s_grade` levels: K,1,2,3**
-
-Review the data (d3)
-
-```{r, echo=FALSE}
-
-source("data.R")
-d3
-
-```
-
-Review the structure of `s_grade`
-
-```{r, echo=FALSE}
-
-d3 <- d3 %>% 
-  labelled::set_value_labels (
-  s_grade = c( "First"=1, "Second"=2, "Third"=3, "Kindergarten"=0))
-
-```
-
-
-```{r}
-
-utils::str(d3$s_grade)
-
-```
-
-
-Convert `s_grade` to a factor and then order those levels according to their original values using the argument *sort_levels = "v"*.
-
-```{r}
-
-d3v <- d3 %>% 
-  dplyr::mutate(s_grade = labelled::to_factor(s_grade, sort_levels = "v"))
-
-base::levels(d3v$s_grade)
-
-```
-
-If you want them to be ordered according to labels you can change the argument to *sort_levels = "l"*. 
-
-```{r}
-
-d3l <- d3 %>% 
-  dplyr::mutate(s_grade = labelled::to_factor(s_grade, sort_levels = "l"))
-
-base::levels(d3l$s_grade)
-
-```
-
-If you want them to be ordered according the order you originally assigned labels you can change the argument to *sort_levels = "n"*. This is also the default when you do not add the "sort_levels" option.
-
-```{r}
-
-d3n <- d3 %>% 
-  dplyr::mutate(s_grade = labelled::to_factor(s_grade, sort_levels = "n"))
-
-base::levels(d3n$s_grade)
-
-```
 
 Return to [Reorder](https://github.com/Cghlewis/data-wrangling-functions/wiki/Reorder)

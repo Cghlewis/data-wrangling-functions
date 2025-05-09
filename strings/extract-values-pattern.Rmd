@@ -83,7 +83,7 @@ d3 %>%
 
 ```
 
-
+Note again that the variable is still character and would need to be converted to numeric as a next step.
 
 <br>
 

@@ -11,7 +11,7 @@
 
 
 
-<title>Extract values based on pattern</title>
+<title>Remove everything non-numeric</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,92 +361,12 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Extract values based on pattern</h1>
+<h1 class="title toc-ignore">Remove everything non-numeric</h1>
 
 </div>
 
 
 <p><br></p>
-<div id="package-stringr" class="section level3">
-<h3>Package: stringr</h3>
-<hr />
-<div id="function-str_extract" class="section level4">
-<h4>Function: <code>str_extract()</code></h4>
-<hr />
-<p><strong>1. Extract all numeric values from
-<code>item1</code></strong></p>
-<p>Review the data (d3)</p>
-<pre><code># A tibble: 4 x 2
-     id item1
-  &lt;dbl&gt; &lt;chr&gt;
-1     1 12cm 
-2     2 4cm  
-3     3 6cm  
-4     4 2.5CM</code></pre>
-<p>We first need to create our new variable <code>item1</code> which
-will write over our existing <code>item1</code> variable since I named
-it the same name. We do this using <code>dplyr::mutate()</code>.</p>
-<p>Next we use the argument <em>pattern =</em> in our
-<code>stringr</code> function to denote what pattern we want to extract.
-If it wasn’t for the 2.5 value, this pattern would be fairly simple. We
-could use something like “\\d*” to say zero or more digits.</p>
-<p>But since we have a “2.5” value, the pattern is a little more
-complicated. We say the pattern starts with zero or more digits
-(“^\\d*”) and then an optional period (“\\.?”) and then zero or more
-digits (“\\d*”).</p>
-<pre class="r"><code>d3 %&gt;%
-  dplyr::mutate(item1 = stringr::str_extract(item1, pattern = &quot;^\\d*\\.?\\d*&quot;))</code></pre>
-<pre><code># A tibble: 4 x 2
-     id item1
-  &lt;dbl&gt; &lt;chr&gt;
-1     1 12   
-2     2 4    
-3     3 6    
-4     4 2.5  </code></pre>
-<ul>
-<li>Note: It is important to note above that item1 continues to be a
-character variable. If we want to work with this as a numeric variable,
-we would need to further transform this variable into numeric.</li>
-</ul>
-<p><br></p>
-</div>
-</div>
-<div id="package-tidyr" class="section level3">
-<h3>Package: tidyr</h3>
-<hr />
-<div id="function-extract" class="section level4">
-<h4>Function: <code>extract()</code></h4>
-<hr />
-<p><strong>1. Extract all numeric values from
-<code>item1</code></strong></p>
-<p>Review the data (d3)</p>
-<pre><code># A tibble: 4 x 2
-     id item1
-  &lt;dbl&gt; &lt;chr&gt;
-1     1 12cm 
-2     2 4cm  
-3     3 6cm  
-4     4 2.5CM</code></pre>
-<p>Using <code>tidyr::extract()</code> you no longer need to use
-<code>dplyr::mutate()</code> because you have the argument <em>into</em>
-where you name the new extracted variable/s.</p>
-<p>The other thing to note is that in the <em>regex</em> argument, each
-pattern associated with an “into” variable needs to be surrounded by
-parentheses.</p>
-<pre class="r"><code>d3 %&gt;%
-  tidyr::extract(col =item1, into = &quot;item1&quot;, regex = &quot;(^\\d*\\.?\\d*)&quot;)</code></pre>
-<pre><code># A tibble: 4 x 2
-     id item1
-  &lt;dbl&gt; &lt;chr&gt;
-1     1 12   
-2     2 4    
-3     3 6    
-4     4 2.5  </code></pre>
-<p>Note again that the variable is still character and would need to be
-converted to numeric as a next step.</p>
-<p><br></p>
-</div>
-</div>
 <div id="package-readr" class="section level3">
 <h3>Package: readr</h3>
 <hr />
@@ -463,9 +383,9 @@ converted to numeric as a next step.</p>
 2     2 4cm  
 3     3 6cm  
 4     4 2.5CM</code></pre>
-<p>There is another function <code>readr::parse_number()</code> that
-pulls out all numeric values from a string variable and converts the
-variable to numeric for us, which is pretty cool.</p>
+<p><code>readr::parse_number()</code> pulls out all numeric values from
+a string variable and also converts the variable to numeric for us,
+which is pretty cool.</p>
 <pre class="r"><code>d3 %&gt;%
   dplyr::mutate(item1 = readr::parse_number(item1))</code></pre>
 <pre><code># A tibble: 4 x 2

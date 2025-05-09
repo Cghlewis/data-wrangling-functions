@@ -1,0 +1,49 @@
+---
+title: "Remove everything non-numeric"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: readr
+
+---
+
+#### Function: `parse_number()`
+
+---
+
+**1\. Extract all numeric values from `item1`**
+
+Review the data (d3)
+
+```{r, echo=FALSE}
+
+source("data.R")
+
+d3
+
+```
+
+`readr::parse_number()` pulls out all numeric values from a string variable and also converts the variable to numeric for us, which is pretty cool.
+
+
+```{r}
+
+d3 %>%
+  dplyr::mutate(item1 = readr::parse_number(item1))
+
+```
+
+
+
+Return to [Strings](https://github.com/Cghlewis/data-wrangling-functions/wiki/Strings)

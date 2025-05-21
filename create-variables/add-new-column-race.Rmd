@@ -73,4 +73,6 @@ d11 %>%
 
 ```
 
+**Note: You could of course use this same logic for other variables, not just race. For example, dummy coded grade levels that teachers work with (assigning a new value when teachers work with multiple grade levels).
+
 Return to [Create New Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Create New Variables)

@@ -77,3 +77,10 @@ d10 <- tibble::tribble(~tch_id, ~ date_observed, ~rater,
                       2, "2025-01-07", 4,
                       3, "2025-01-08", 4) %>%
   mutate(date_observed = as.Date(date_observed))
+
+d11 <- tibble::tribble(~stu_id,
+                       ~race1, ~race2, ~race3, ~race4,
+                       ~race5, ~race6,
+                       100, 0, 0, 0, 0, 0, 1,
+                       101, 1, 0, 0, 0, 0, 0,
+                       102, 0, 0, 1, 0, 0, 1)

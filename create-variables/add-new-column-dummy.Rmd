@@ -83,6 +83,54 @@ d2 %>%
 
 ```
 
+
+**2\. Create new dummy coded race variables from a race variable with multiple items selected per cell**
+
+Review the data (d12)
+
+```{r, echo = FALSE}
+
+source("data.R")
+d12
+
+```
+
+Here we want to create one dummy variable per race option BUT when "99" is selected (prefer not to answer), all values for race dummy variables should be 99.
+
+While I could write out logic to create all 6 variables, I could instead create a function which would remove some of the repetitiveness.
+
+```{r}
+
+# Create function
+
+race_vars <- function(Var, Num) {
+  x <- case_when(
+    is.na(Var) ~ NA,
+    Var == 99 ~ 99,
+    str_detect(Var, Num) ~ 1, 
+    .default = 0
+  )
+}
+
+# Use function to create race variables
+
+d12 %>% 
+  mutate(race1 = 
+           race_vars(race, "1"),
+         race2 =
+           race_vars(race, "2"),
+         race3 = 
+           race_vars(race, "3"),
+         race4 =
+           race_vars(race, "4"),
+         race5 =
+           race_vars(race, "5"),
+         race6 = 
+           race_vars(race, "6"))
+
+
+```
+
 <br>
 
 ### Package: tidyr
@@ -242,8 +290,6 @@ d2 %>%
   dplyr::select(-catNA)
 
 ```
-
-
 
 
 Return to [Create New Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Create New Variables)

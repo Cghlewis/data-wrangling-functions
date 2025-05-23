@@ -448,6 +448,55 @@ recode NA values back to NA, otherwise they will be coded to 0.</li>
 3    12 5, 2, 11     0
 4    13 5, 1         1
 5    14 &lt;NA&gt;        NA</code></pre>
+<p><strong>2. Create new dummy coded race variables from a race variable
+with multiple items selected per cell</strong></p>
+<p>Review the data (d12)</p>
+<pre><code># A tibble: 4 x 2
+  stu_id race 
+   &lt;dbl&gt; &lt;chr&gt;
+1    100 6    
+2    101 1, 3 
+3    102 99   
+4    103 &lt;NA&gt; </code></pre>
+<p>Here we want to create one dummy variable per race option BUT when
+“99” is selected (prefer not to answer), all values for race dummy
+variables should be 99.</p>
+<p>While I could write out logic to create all 6 variables, I could
+instead create a function which would remove some of the
+repetitiveness.</p>
+<pre class="r"><code># Create function
+
+race_vars &lt;- function(Var, Num) {
+  x &lt;- case_when(
+    is.na(Var) ~ NA,
+    Var == 99 ~ 99,
+    str_detect(Var, Num) ~ 1, 
+    .default = 0
+  )
+}
+
+# Use function to create race variables
+
+d12 %&gt;% 
+  mutate(race1 = 
+           race_vars(race, &quot;1&quot;),
+         race2 =
+           race_vars(race, &quot;2&quot;),
+         race3 = 
+           race_vars(race, &quot;3&quot;),
+         race4 =
+           race_vars(race, &quot;4&quot;),
+         race5 =
+           race_vars(race, &quot;5&quot;),
+         race6 = 
+           race_vars(race, &quot;6&quot;))</code></pre>
+<pre><code># A tibble: 4 x 8
+  stu_id race  race1 race2 race3 race4 race5 race6
+   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1    100 6         0     0     0     0     0     1
+2    101 1, 3      1     0     1     0     0     0
+3    102 99       99    99    99    99    99    99
+4    103 &lt;NA&gt;     NA    NA    NA    NA    NA    NA</code></pre>
 <p><br></p>
 </div>
 </div>

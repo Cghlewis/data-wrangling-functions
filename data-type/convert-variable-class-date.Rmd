@@ -101,7 +101,43 @@ d7 %>%
 ```
 
 
-<br>
+**2\. Convert a month-day variable from Excel into the numeric values**
+
+Review the data (d9)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d9
+
+```
+
+In this case, age is supposed to be a variable that represents the age of the participant, denoted as years-months old. However, Excel has converted this in to a date. We want to convert this back to the numeric values, stored as a character variable.
+
+We can use lubridate::parse_date_time() to identify that age is currently a date, structured as month-day (denoted by %m%d), and then we can use lubridate::month() and lubridate::day() to pull out the numeric values of each. Last we can paste the pieces together, with a delimiter ("-") to get our final desired outcome.
+
+```{r}
+
+d9 %>%
+  dplyr::mutate(age = paste0(
+    lubridate::month(lubridate::parse_date_time(age, "%m%d")), 
+    "-", 
+    lubridate::day(lubridate::parse_date_time(age, "%m%d"))))
+
+```
+
+
+We could also replace %m%d with "bd" (b = abbreviated or full month) to refer to the month and day format.
+
+```{r}
+
+d9 %>%
+  dplyr::mutate(age = paste0(
+    lubridate::month(lubridate::parse_date_time(age, "bd")), 
+    "-", 
+    lubridate::day(lubridate::parse_date_time(age, "bd"))))
+
+```
 
 
 ---
@@ -145,7 +181,7 @@ Convert `created_timestamp` to a datetime
 ```{r}
 
 d5_new <- d5 %>% 
-  mutate(created_timestamp = 
+  dplyr::mutate(created_timestamp = 
            lubridate::as_datetime(as.numeric(created_timestamp)/1000))
 
 d5_new$created_timestamp
@@ -161,7 +197,7 @@ If I no longer cared about the time portion of this variable and only wanted the
 ```{r}
 
 d5_new <- d5_new %>% 
-  mutate(created_timestamp_date =
+  dplyr::mutate(created_timestamp_date =
            lubridate::as_date(created_timestamp))
 
 d5_new$created_timestamp_date

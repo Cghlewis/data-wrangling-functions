@@ -457,7 +457,48 @@ never know for sure, what date someone intended to input (for example
 5    50 Feb 3 2023  2023-02-03    
 6    60 30 Jan 2012 2012-01-30    
 7    70 02282022    2022-02-28    </code></pre>
-<p><br></p>
+<p><strong>2. Convert a month-day variable from Excel into the numeric
+values</strong></p>
+<p>Review the data (d9)</p>
+<pre><code># A tibble: 3 x 2
+     id age    
+  &lt;dbl&gt; &lt;chr&gt;  
+1   100 July-11
+2   102 May-03 
+3   103 Oct-14 </code></pre>
+<p>In this case, age is supposed to be a variable that represents the
+age of the participant, denoted as years-months old. However, Excel has
+converted this in to a date. We want to convert this back to the numeric
+values, stored as a character variable.</p>
+<p>We can use lubridate::parse_date_time() to identify that age is
+currently a date, structured as month-day (denoted by %m%d), and then we
+can use lubridate::month() and lubridate::day() to pull out the numeric
+values of each. Last we can paste the pieces together, with a delimiter
+(“-”) to get our final desired outcome.</p>
+<pre class="r"><code>d9 %&gt;%
+  dplyr::mutate(age = paste0(
+    lubridate::month(lubridate::parse_date_time(age, &quot;%m%d&quot;)), 
+    &quot;-&quot;, 
+    lubridate::day(lubridate::parse_date_time(age, &quot;%m%d&quot;))))</code></pre>
+<pre><code># A tibble: 3 x 2
+     id age  
+  &lt;dbl&gt; &lt;chr&gt;
+1   100 7-11 
+2   102 5-3  
+3   103 10-14</code></pre>
+<p>We could also replace %m%d with “bd” (b = abbreviated or full month)
+to refer to the month and day format.</p>
+<pre class="r"><code>d9 %&gt;%
+  dplyr::mutate(age = paste0(
+    lubridate::month(lubridate::parse_date_time(age, &quot;bd&quot;)), 
+    &quot;-&quot;, 
+    lubridate::day(lubridate::parse_date_time(age, &quot;bd&quot;))))</code></pre>
+<pre><code># A tibble: 3 x 2
+     id age  
+  &lt;dbl&gt; &lt;chr&gt;
+1   100 7-11 
+2   102 5-3  
+3   103 10-14</code></pre>
 <hr />
 </div>
 <div id="function-as_date-as_datetime" class="section level4">
@@ -507,7 +548,7 @@ naming the new variable the same name as the original.</p></li>
 your console.</p></li>
 </ul>
 <pre class="r"><code>d5_new &lt;- d5 %&gt;% 
-  mutate(created_timestamp = 
+  dplyr::mutate(created_timestamp = 
            lubridate::as_datetime(as.numeric(created_timestamp)/1000))
 
 d5_new$created_timestamp</code></pre>
@@ -522,7 +563,7 @@ wanted the date, I could further modify the variable using
 <code>dplyr::mutate()</code> and saving into a new variable.</li>
 </ul>
 <pre class="r"><code>d5_new &lt;- d5_new %&gt;% 
-  mutate(created_timestamp_date =
+  dplyr::mutate(created_timestamp_date =
            lubridate::as_date(created_timestamp))
 
 d5_new$created_timestamp_date</code></pre>

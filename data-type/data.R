@@ -58,3 +58,9 @@ dict <- tibble::tribble(~var_name, ~type, ~label,
                         "tch_id", "character", "teacher study ID",
                         "sch_id", "character", "school study ID",
                         "grade", "numeric", "student grade level")
+
+d9 <-
+  tibble::tribble(~id, ~age,
+                  100, "July-11",
+                  102, "May-03",
+                  103, "Oct-14")

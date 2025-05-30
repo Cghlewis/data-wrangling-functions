@@ -19,7 +19,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-#### Function: `compare_df_cols`
+#### Function: `compare_df_cols()`
 
 ---
 
@@ -53,6 +53,8 @@ Review entry3
 source("data.R")
 head(entry3)
 
+library(janitor)
+
 ```
 
 Now check if there are any differences in the column classes between the two data frames.
@@ -60,7 +62,7 @@ The function `janitor::compare_df_cols()` will indicate if data frames will succ
 
 ```{r}
 
-janitor::compare_df_cols(entry1, entry3)
+compare_df_cols(entry1, entry3)
 
 ```
 
@@ -68,7 +70,7 @@ If we only wanted to see the differences, we could add the argument *return = "m
 
 ```{r}
 
-janitor::compare_df_cols(entry1, entry3, return = "mismatch")
+compare_df_cols(entry1, entry3, return = "mismatch")
 
 ```
 

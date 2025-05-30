@@ -387,15 +387,20 @@ each teacher/pair of raters</strong></p>
 6    102        8     1     1     1</code></pre>
 <p>First get an agreement score for each variable. 0 = no agreement, 1 =
 agreement</p>
-<p>We can do this using <code>base::diff()</code> and then recoding
-values to 0 or 1.</p>
+<p>We can do this by<br />
+1. First grouping by <code>tch_id</code> using
+<code>dplyr::group_by()</code><br />
+2. Then summarizing the differences between raters across all variables
+using <code>dplyr::across()</code> and <code>base::diff()</code><br />
+3. Then using <code>dplyr::mutate()</code> to recode the items to values
+of 0 (no agreement) or 1 (agreement)</p>
 <pre class="r"><code>rater_summary &lt;- rater_data %&gt;% 
   group_by(tch_id) %&gt;%
-  dplyr::summarise(dplyr::across(item1:item3, diff)) %&gt;%
-  dplyr::mutate(dplyr::across(item1:item3,
-                       ~ dplyr::case_when(
+  summarise(across(item1:item3, diff)) %&gt;%
+  mutate(across(item1:item3,
+                       ~ case_when(
                          . == 0 ~ 1,
-                         TRUE ~ 0
+                         .default = 0
                        )))
 
 rater_summary</code></pre>
@@ -409,8 +414,8 @@ rater_summary</code></pre>
 <code>base::rowMeans()</code>) to get a percent agreement per
 teacher/rater pair.</p>
 <pre class="r"><code>rater_summary %&gt;%
-  dplyr::mutate(percent_agree =
-           round(rowMeans(dplyr::across(item1:item3), na.rm = TRUE),
+  mutate(percent_agree =
+           round(rowMeans(across(item1:item3), na.rm = TRUE),
                        digits = 2))</code></pre>
 <pre><code># A tibble: 3 x 5
   tch_id item1 item2 item3 percent_agree
@@ -418,8 +423,8 @@ teacher/rater pair.</p>
 1    100     1     0     1          0.67
 2    101     1     0     1          0.67
 3    102     1     1     1          1   </code></pre>
-<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate-Values">Calculate
-Values</a></p>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate-Sums-and-Means">Calculate
+Sums and Means</a></p>
 </div>
 </div>
 

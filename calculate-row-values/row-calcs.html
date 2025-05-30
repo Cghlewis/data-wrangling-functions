@@ -387,13 +387,19 @@ pre code {
 <p>Calculate a sum score across <code>item1</code>, <code>item2</code>
 and <code>item</code></p>
 <ul>
-<li>Note: The default for <code>rowSums()</code> is to
+<li><p>Note: We are calculating a new variable using
+<code>dplyr::mutate()</code></p></li>
+<li><p>Note: Adding <code>dplyr::across()</code> allows you to select
+the specific columns you want to calculate the <code>rowSums()</code>
+for. Otherwise <code>rowSums</code> will be applied across all
+columns.</p></li>
+<li><p>Note: The default for <code>base::rowSums()</code> is to
 <strong>not</strong> calculate a sum if any NA value exists. If you want
 to still calculate a sum despite missing values, you can add the
-argument <em>na.rm = TRUE</em>.</li>
+argument <em>na.rm = TRUE</em>.</p></li>
 </ul>
 <pre class="r"><code>d2 %&gt;% 
-  dplyr::mutate(measure_sum = rowSums(dplyr::across(c(item1, item2, item3))))</code></pre>
+  mutate(measure_sum = rowSums(across(c(item1, item2, item3))))</code></pre>
 <pre><code># A tibble: 5 x 5
   stu_id item1 item2 item3 measure_sum
    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;
@@ -416,7 +422,7 @@ argument <em>na.rm = TRUE</em>.</li>
 <p>Calculate a sum score across <code>item1</code>, <code>item2</code>
 and <code>item</code> even if values are missing</p>
 <pre class="r"><code>d10 %&gt;% 
-  dplyr::mutate(measure_sum = rowSums(dplyr::across(c(item1, item2, item3)), na.rm = TRUE))</code></pre>
+  mutate(measure_sum = rowSums(across(c(item1, item2, item3)), na.rm = TRUE))</code></pre>
 <pre><code># A tibble: 5 x 5
   stu_id item1 item2 item3 measure_sum
    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;
@@ -430,10 +436,10 @@ have missing values. Most likely this is not what you want. So in order
 to return of value of NA when all columns have missing values, you need
 to add in logic.</p>
 <pre class="r"><code>d10 %&gt;%
-  dplyr::mutate(measure_sum =
-           dplyr::case_when(
-             dplyr::if_all(item1:item3, ~ is.na(.)) ~ NA,
-             .default = base::rowSums(dplyr::across(item1:item3), na.rm = TRUE)))</code></pre>
+  mutate(measure_sum =
+           case_when(
+             if_all(item1:item3, ~ is.na(.)) ~ NA,
+             .default = rowSums(across(item1:item3), na.rm = TRUE)))</code></pre>
 <pre><code># A tibble: 5 x 5
   stu_id item1 item2 item3 measure_sum
    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;
@@ -476,7 +482,7 @@ function will still run, but the <em>na.rm = TRUE</em> argument will not
 be evaluated!</p></li>
 </ul>
 <pre class="r"><code>d2 %&gt;% 
-  dplyr::mutate(measure_mean = rowMeans(dplyr::across(item1:item3), na.rm = TRUE))</code></pre>
+  mutate(measure_mean = rowMeans(across(item1:item3), na.rm = TRUE))</code></pre>
 <pre><code># A tibble: 5 x 5
   stu_id item1 item2 item3 measure_mean
    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt;
@@ -495,7 +501,7 @@ does rounding. See <a href="https://github.com/Cghlewis/data-wrangling-functions
 for more information.</li>
 </ul>
 <pre class="r"><code>d2 %&gt;% 
-  dplyr::mutate(measure_mean = round(rowMeans(dplyr::across(item1:item3), na.rm=TRUE), digits= 1))</code></pre>
+  mutate(measure_mean = round(rowMeans(across(item1:item3), na.rm=TRUE), digits= 1))</code></pre>
 <pre><code># A tibble: 5 x 5
   stu_id item1 item2 item3 measure_mean
    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt;
@@ -518,9 +524,9 @@ data</strong></p>
 5   5678     1     3     2     2</code></pre>
 <p>Calculate the mean toca score</p>
 <pre class="r"><code>d5 %&gt;% 
-  dplyr::mutate(
+  mutate(
     toca_mean = rowMeans(
-      dplyr::across(tidyselect::starts_with(&quot;toca&quot;)), na.rm=TRUE))</code></pre>
+      across(starts_with(&quot;toca&quot;)), na.rm=TRUE))</code></pre>
 <pre><code># A tibble: 5 x 6
   stu_id toca1 toca2 toca3 toca4 toca_mean
    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
@@ -533,9 +539,9 @@ data</strong></p>
 <code>toca2</code>), you could exclude them this way, by wrapping your
 selected and excluded variables in <code>c()</code>.</p>
 <pre class="r"><code>d5 %&gt;% 
-  dplyr::mutate(
+  mutate(
     toca_mean = rowMeans(
-      dplyr::across(c(tidyselect::starts_with(&quot;toca&quot;), -toca2)), na.rm=TRUE))</code></pre>
+      across(c(starts_with(&quot;toca&quot;), -toca2)), na.rm=TRUE))</code></pre>
 <pre><code># A tibble: 5 x 6
   stu_id toca1 toca2 toca3 toca4 toca_mean
    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
@@ -558,12 +564,12 @@ missing one or less values for an item</strong></p>
 5   5678     1     3     2     2</code></pre>
 <p>Calculate the mean toca score</p>
 <pre class="r"><code>d5 %&gt;% 
-  dplyr::mutate(
+  mutate(
     toca_mean = 
-      dplyr::case_when(
+      case_when(
         rowSums(is.na(across(starts_with(&quot;toca&quot;)))) &lt;= 1 ~ 
-          rowMeans(dplyr::across(tidyselect::starts_with(&quot;toca&quot;)), na.rm=TRUE),
-    TRUE ~ NA_real_))</code></pre>
+          rowMeans(across(starts_with(&quot;toca&quot;)), na.rm=TRUE),
+    .default = NA_real_))</code></pre>
 <pre><code># A tibble: 5 x 6
   stu_id toca1 toca2 toca3 toca4 toca_mean
    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
@@ -629,13 +635,11 @@ do not want to alter our original toca variables.</p></li>
 <li><p>Last we drop our temporary toca variables using
 <code>dplyr::select()</code>. We don’t need them anymore.</p></li>
 </ol>
-<pre class="r"><code>d6 %&gt;% 
-  dplyr::mutate(dplyr::across(contains(&quot;toca&quot;), 
-                ~ ifelse(.== -99 , NA, .),
-                .names = &quot;{col}_temp&quot;),
-                toca_mean = rowMeans(
-           dplyr::across(tidyselect::contains(&quot;temp&quot;)), 
-           na.rm = TRUE)) %&gt;%
+<pre class="r"><code>d6 %&gt;%
+  mutate(across(contains(&quot;toca&quot;),
+                ~ ifelse(. == -99 , NA, .), .names = &quot;{col}_temp&quot;),
+         toca_mean = rowMeans(across(contains(&quot;temp&quot;)),
+                              na.rm = TRUE)) %&gt;%
   select(-contains(&quot;temp&quot;))</code></pre>
 <pre><code># A tibble: 5 x 7
   stu_id toca1     toca2     toca3     item1 item2 toca_mean
@@ -647,13 +651,11 @@ do not want to alter our original toca variables.</p></li>
 5   5678 -99 (NA)  3           2           2     6      2.5 </code></pre>
 <p>We could also use <code>haven::zap_missing()</code> rather than
 <code>base::ifelse()</code></p>
-<pre class="r"><code>d6 %&gt;% 
-  dplyr::mutate(dplyr::across(contains(&quot;toca&quot;), 
-               haven::zap_missing,
-                .names = &quot;{col}_temp&quot;),
-                toca_mean = rowMeans(
-           dplyr::across(tidyselect::contains(&quot;temp&quot;)), 
-           na.rm = TRUE)) %&gt;%
+<pre class="r"><code>d6 %&gt;%
+  mutate(
+    across(contains(&quot;toca&quot;), haven::zap_missing, .names = &quot;{col}_temp&quot;),
+    toca_mean = rowMeans(across(contains(&quot;temp&quot;)),
+                         na.rm = TRUE)) %&gt;%
   select(-contains(&quot;temp&quot;))</code></pre>
 <pre><code># A tibble: 5 x 7
   stu_id toca1     toca2     toca3     item1 item2 toca_mean
@@ -695,8 +697,8 @@ calculate a sum despite missing values, you can add the argument
 <em>na.rm = TRUE</em>.</li>
 </ul>
 <pre class="r"><code>d2 %&gt;%
-  dplyr::rowwise() %&gt;%
-  dplyr::mutate(measure_sum = sum(c(item1, item2, item3)))</code></pre>
+  rowwise() %&gt;%
+  mutate(measure_sum = sum(c(item1, item2, item3)))</code></pre>
 <pre><code># A tibble: 5 x 5
 # Rowwise: 
   stu_id item1 item2 item3 measure_sum
@@ -719,8 +721,8 @@ those functions take a different type of input compared to
 <code>dplyr::rowwise()</code></li>
 </ul>
 <pre class="r"><code>d2 %&gt;%
-  dplyr::rowwise() %&gt;%
-  dplyr::mutate(measure_sum = sum(dplyr::c_across(item1:item3)))</code></pre>
+  rowwise() %&gt;%
+  mutate(measure_sum = sum(c_across(item1:item3)))</code></pre>
 <pre><code># A tibble: 5 x 5
 # Rowwise: 
   stu_id item1 item2 item3 measure_sum
@@ -749,8 +751,8 @@ saw in the above <code>rowSums</code> example, where you specifically
 code those values to NA).</li>
 </ul>
 <pre class="r"><code>d2 %&gt;%
-  dplyr::rowwise() %&gt;%
-  dplyr::mutate(measure_mean = mean(dplyr::c_across(item1:item3), na.rm=TRUE))</code></pre>
+  rowwise() %&gt;%
+  mutate(measure_mean = mean(c_across(item1:item3), na.rm=TRUE))</code></pre>
 <pre><code># A tibble: 5 x 5
 # Rowwise: 
   stu_id item1 item2 item3 measure_mean
@@ -765,8 +767,9 @@ have by wrapping the calculation in the function
 <code>base::round()</code> and setting the digits equal to the number
 you want.</p>
 <pre class="r"><code>d2 %&gt;%
-  dplyr::rowwise() %&gt;%
-  dplyr::mutate(measure_mean = round(mean(c_across(item1:item3), na.rm=TRUE), digits=2))</code></pre>
+  rowwise() %&gt;%
+  mutate(measure_mean = 
+           round(mean(c_across(item1:item3), na.rm=TRUE), digits=2))</code></pre>
 <pre><code># A tibble: 5 x 5
 # Rowwise: 
   stu_id item1 item2 item3 measure_mean
@@ -790,8 +793,9 @@ missing data</strong></p>
 5   5678     1     3     2     2     6</code></pre>
 <p>Calculate the mean toca score</p>
 <pre class="r"><code>d4 %&gt;%
-  dplyr::rowwise() %&gt;%
-  dplyr::mutate(toca_mean = mean(dplyr::c_across(tidyselect::contains(&quot;toca&quot;)), na.rm=TRUE))</code></pre>
+  rowwise() %&gt;%
+  mutate(toca_mean = 
+           mean(c_across(contains(&quot;toca&quot;)), na.rm=TRUE))</code></pre>
 <pre><code># A tibble: 5 x 7
 # Rowwise: 
   stu_id toca1 toca2 toca3 toca4 item1 toca_mean
@@ -806,10 +810,10 @@ missing data</strong></p>
 them this way, by wrapping your selected and excluded variables in
 <code>c()</code>.</p>
 <pre class="r"><code>d4 %&gt;%
-  dplyr::rowwise() %&gt;%
-  dplyr::mutate(toca_mean = mean(dplyr::c_across(c(
-    tidyselect::contains(&quot;toca&quot;),-toca2,-toca4
-  )), na.rm = TRUE))</code></pre>
+  rowwise() %&gt;%
+  mutate(toca_mean = 
+           mean(c_across(c(contains(&quot;toca&quot;),-toca2,-toca4)), 
+                na.rm = TRUE))</code></pre>
 <pre><code># A tibble: 5 x 7
 # Rowwise: 
   stu_id toca1 toca2 toca3 toca4 item1 toca_mean
@@ -852,15 +856,15 @@ TRUE</em> so in this case, if we don’t want a sum when there is missing
 data, we need to change it to FALSE.</p></li>
 </ul>
 <pre class="r"><code>d2 %&gt;% 
-  janitor::adorn_totals(where = &quot;col&quot;, name = &quot;measure_sum&quot;, na.rm = FALSE)</code></pre>
+  adorn_totals(where = &quot;col&quot;, name = &quot;measure_sum&quot;, na.rm = FALSE)</code></pre>
 <pre><code> stu_id item1 item2 item3 measure_sum
    1234     3     2     4           9
    2345     4     3     1           8
    3456    NA     1     1          NA
    4567     4     5     1          10
    5678     1     3     2           6</code></pre>
-<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate-Values">Calculate
-Values</a></p>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate-Sums-and-Means">Calculate
+Sums and Means</a></p>
 </div>
 </div>
 

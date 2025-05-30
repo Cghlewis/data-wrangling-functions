@@ -18,7 +18,7 @@ knitr::opts_chunk$set(comment = NA,
 
 ---
 
-#### Function: `diffdf`
+#### Function: `diffdf()`
 
 ---
 
@@ -29,8 +29,10 @@ Read in the data
 * Note: Here we read in csv files but of course you can read in any type of data (.xlsx, .sav, etc)
 
 ```{r, eval=FALSE}
+
 entry1 <- readr::read_csv("project-a_forms_entry1.csv")
 entry2 <- readr::read_csv("project-a_forms_entry2.csv")
+
 ```
 
 
@@ -39,6 +41,7 @@ Review entry1
 ```{r, echo=FALSE}
 source("data.R")
 head(entry1)
+
 ```
 
 Review entry2
@@ -46,6 +49,8 @@ Review entry2
 ```{r, echo=FALSE}
 source("data.R")
 head(entry2)
+
+library(diffdf)
 ```
 
 Now check if there are any differences in the two data frames.  
@@ -55,7 +60,9 @@ Now check if there are any differences in the two data frames.
 * Note: I've included the base arguments you need for the function to run. Run *?diffdf* in the console to see additional arguments that can be added.
 
 ```{r}
-diffdf::diffdf(entry1,entry2, keys="stu_id")
+
+diffdf(entry1,entry2, keys="stu_id")
+
 ```
 
 You can see our output tells us that **there are differences** between the two data frames. 
@@ -69,10 +76,9 @@ You could use this information to return to your original forms to see what the 
 If all errors have been corrected, you will see this message.
 
 ```{r, echo=FALSE}
-diffdf::diffdf(entry1,entry1, keys="stu_id")
+diffdf(entry1,entry1, keys="stu_id")
+
 ```
-
-
 
 <br>
 
@@ -80,7 +86,7 @@ diffdf::diffdf(entry1,entry1, keys="stu_id")
 
 ---
 
-#### Function: `all_equal`
+#### Function: `all_equal()`
 
 ---
 
@@ -93,30 +99,36 @@ Read in the data
 * Note: Here we read in csv files but of course you can read in any type of data (.xlsx, .sav, etc)
 
 ```{r, eval=FALSE}
+
 file1 <- readr::read_csv("project-a_forms_file1.csv")
 file1_copy <- readr::read_csv("project-a_forms_file1_copy.csv")
+
 ```
 
 
 Review entry1
 
 ```{r, echo=FALSE}
+
 source("data.R")
 head(file1)
+
 ```
 
 Review entry2
 
 ```{r, echo=FALSE}
+
 source("data.R")
 head(file1_copy)
+
 ```
 
 Now check if there are any differences in the two data frames.  
 
 ```{r}
 
-dplyr::all_equal(file1, file1_copy)
+all_equal(file1, file1_copy)
 
 ```
 
@@ -127,15 +139,17 @@ But, what would the output look like if they were not identical?
 Let's read in another copy, file1_copy2. 
 
 ```{r, echo=FALSE}
+
 source("data.R")
 head(file1_copy2)
+
 ```
 
 It looks like the same data? Let's check.
 
 ```{r}
 
-dplyr::all_equal(file1, file1_copy2)
+all_equal(file1, file1_copy2)
 
 ```
 
@@ -144,15 +158,17 @@ We find out that the files are **not** identical! `stu_id` is now a character va
 Let's read in yet another copy to see what differences might exist, file1_copy3.
 
 ```{r, echo=FALSE}
+
 source("data.R")
 head(file1_copy3)
+
 ```
 
 It looks like some of the rows and columns are out of order, which is okay, but is the data the same?
 
 ```{r}
 
-dplyr::all_equal(file1, file1_copy3)
+all_equal(file1, file1_copy3)
 
 ```
 
@@ -161,13 +177,15 @@ It is! So again, we can choose which copy to work with and archive the other.
 Let's look at one last copy to see what the differences are, file1_copy4.
 
 ```{r, echo=FALSE}
+
 source("data.R")
 head(file1_copy4)
+
 ```
 
 ```{r}
 
-dplyr::all_equal(file1, file1_copy4)
+all_equal(file1, file1_copy4)
 
 ```
 

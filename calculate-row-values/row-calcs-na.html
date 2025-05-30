@@ -390,8 +390,8 @@ pre code {
 <code>dplyr::mutate()</code></p></li>
 <li><p>Note: Adding <code>dplyr::across()</code> allows you to select
 the specific columns you want to calculate the
-<code>base::rowSums()</code> for. Otherwise rowSums will be applied
-across all columns.</p></li>
+<code>base::rowSums()</code> for. Otherwise <code>rowSums</code> will be
+applied across all columns.</p></li>
 <li><p>Note: We use the <code>tidyselect</code> selection helper
 <code>contains()</code> to refer to all variables that contain with the
 word “toca”.</p></li>
@@ -399,7 +399,7 @@ word “toca”.</p></li>
 which can be counted/summed.</p></li>
 </ul>
 <pre class="r"><code>d5 %&gt;% 
-  dplyr::mutate(toca_na_sum = rowSums(is.na(dplyr::across(tidyselect::contains(&quot;toca&quot;)))))</code></pre>
+  mutate(toca_na_sum = rowSums(is.na(across(contains(&quot;toca&quot;)))))</code></pre>
 <pre><code># A tibble: 5 x 6
   stu_id toca1 toca2 toca3 toca4 toca_na_sum
    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;
@@ -411,7 +411,7 @@ which can be counted/summed.</p></li>
 <p>We could also select the variables in other ways and it would work
 just as well.</p>
 <pre class="r"><code>d5 %&gt;% 
-  dplyr::mutate(toca_na_sum = rowSums(is.na(dplyr::across(toca1:toca4))))</code></pre>
+  mutate(toca_na_sum = rowSums(is.na(across(toca1:toca4))))</code></pre>
 <pre><code># A tibble: 5 x 6
   stu_id toca1 toca2 toca3 toca4 toca_na_sum
    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;
@@ -425,7 +425,7 @@ just as well.</p>
 function, we call our variables first and then add <code>is.na()</code>
 in an anonymous function.</p>
 <pre class="r"><code>d5 %&gt;%
-  dplyr::mutate(toca_na_sum = rowSums(dplyr::across(toca1:toca4, ~ is.na(.))))</code></pre>
+  mutate(toca_na_sum = rowSums(across(toca1:toca4, ~ is.na(.))))</code></pre>
 <pre><code># A tibble: 5 x 6
   stu_id toca1 toca2 toca3 toca4 toca_na_sum
    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;
@@ -434,8 +434,8 @@ in an anonymous function.</p>
 3   3456     2    NA     1    NA           2
 4   4567     4     5     1     6           0
 5   5678     1     3     2     2           0</code></pre>
-<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate-Values">Calculate
-Values</a></p>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate-Sums-and-Means">Calculate
+Sums and Means</a></p>
 </div>
 </div>
 

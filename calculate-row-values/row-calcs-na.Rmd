@@ -37,7 +37,7 @@ Calculate the sum of NAs
 
 * Note: We are calculating a new variable using `dplyr::mutate()`
 
-* Note: Adding `dplyr::across()` allows you to select the specific columns you want to calculate the `base::rowSums()` for. Otherwise rowSums will be applied across all columns.
+* Note: Adding `dplyr::across()` allows you to select the specific columns you want to calculate the `base::rowSums()` for. Otherwise `rowSums` will be applied across all columns.
 
 * Note: We use the `tidyselect` selection helper `contains()` to refer to all variables that contain with the word "toca".
 
@@ -46,7 +46,7 @@ Calculate the sum of NAs
 ```{r}
 
 d5 %>% 
-  dplyr::mutate(toca_na_sum = rowSums(is.na(dplyr::across(tidyselect::contains("toca")))))
+  mutate(toca_na_sum = rowSums(is.na(across(contains("toca")))))
 
 ```
 
@@ -55,7 +55,7 @@ We could also select the variables in other ways and it would work just as well.
 ```{r}
 
 d5 %>% 
-  dplyr::mutate(toca_na_sum = rowSums(is.na(dplyr::across(toca1:toca4))))
+  mutate(toca_na_sum = rowSums(is.na(across(toca1:toca4))))
 
 ```
 
@@ -64,9 +64,9 @@ And last, we can also write this where, rather than wrapping the `is.na()` funct
 ```{r}
 
 d5 %>%
-  dplyr::mutate(toca_na_sum = rowSums(dplyr::across(toca1:toca4, ~ is.na(.))))
+  mutate(toca_na_sum = rowSums(across(toca1:toca4, ~ is.na(.))))
 
 ```
 
 
-Return to [Calculate Values](https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate-Values)
+Return to [Calculate Sums and Means](https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate-Sums-and-Means)

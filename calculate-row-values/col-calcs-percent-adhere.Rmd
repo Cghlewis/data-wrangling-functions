@@ -38,12 +38,12 @@ Here we want to know the percentage of teachers that implemented `item1` in time
 1 = implemented  
 0 = did not implement
 
-* Note: The default for `sum()` is to **not** calculate a sum if any NA value exists. If you want to still calculate a sum despite missing values, you can add the argument *na.rm = TRUE*.
+* Note: The default for `base::sum()` is to **not** calculate a sum if any NA value exists. If you want to still calculate a sum despite missing values, you can add the argument *na.rm = TRUE*.
 
 ```{r}
 
 obs_data %>%
-  dplyr::summarise(item1_t1_per = base::sum(item1_t1, na.rm = TRUE)/dplyr::n())
+  summarise(item1_t1_per = sum(item1_t1, na.rm = TRUE)/n())
 
 ```
 
@@ -61,12 +61,12 @@ obs_data
 
 Since our data is in wide format, this is not a simple column calculation. We first need to restructure our wide data into long format so that all item1 values are in the same column.
 
-First restructure
+First restructure using `tidyr::pivot_longer()`
 
 ```{r}
 
 obs_data_long <- obs_data %>%
-  tidyr::pivot_longer(
+  pivot_longer(
     cols = starts_with("item"),
     names_sep = ("_"),
     names_to = c(".value", "time"))
@@ -80,7 +80,7 @@ Then calculate percent adherence
 ```{r}
 
 obs_data_long %>%
-  dplyr::summarise(item1_per = base::sum(item1, na.rm = TRUE)/dplyr::n())
+  summarise(item1_per = sum(item1, na.rm = TRUE)/n())
 
 ```
 
@@ -96,30 +96,33 @@ obs_data2
 
 ```
 
-Similar to above, first we restructure
+Similar to above, first we restructure using `tidyr::pivot_longer()`
 
 ```{r}
 obs_data2_long <- obs_data2 %>%
-  tidyr::pivot_longer(
+  pivot_longer(
     cols = starts_with("item"),
     names_sep = ("_"),
     names_to = c(".value", "time"))
 
 head(obs_data2_long)
+
 ```
 
 Then calculate percent adherence for `item1` and `item2`
 
+* Note: We can use the `dplyr::across()` argument *.names* to rename our new columns.
+
 ```{r}
 
 obs_data2_long %>%
-  dplyr::summarise(across(
+  summarise(across(
     contains("item"),
-    ~ base::sum(., na.rm = TRUE) / dplyr::n(),
+    ~ sum(., na.rm = TRUE)/n(),
     .names = "{.col}_per"
   ))
 
 ```
 
 
-Return to [Calculate Row Values](https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate-Values)
+Return to [Calculate Sums and Means](https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate-Sums-and-Means)

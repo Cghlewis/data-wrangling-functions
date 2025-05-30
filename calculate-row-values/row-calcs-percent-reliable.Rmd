@@ -36,17 +36,20 @@ rater_data
 First get an agreement score for each variable.
 0 = no agreement, 1 = agreement
 
-We can do this using `base::diff()` and then recoding values to 0 or 1.
+We can do this by  
+1. First grouping by `tch_id` using `dplyr::group_by()`  
+2. Then summarizing the differences between raters across all variables using `dplyr::across()` and `base::diff()`   
+3. Then using `dplyr::mutate()` to recode the items to values of 0 (no agreement) or 1 (agreement)  
 
 ```{r}
 
 rater_summary <- rater_data %>% 
   group_by(tch_id) %>%
-  dplyr::summarise(dplyr::across(item1:item3, diff)) %>%
-  dplyr::mutate(dplyr::across(item1:item3,
-                       ~ dplyr::case_when(
+  summarise(across(item1:item3, diff)) %>%
+  mutate(across(item1:item3,
+                       ~ case_when(
                          . == 0 ~ 1,
-                         TRUE ~ 0
+                         .default = 0
                        )))
 
 rater_summary
@@ -58,11 +61,11 @@ Next we can calculate a row mean (using `base::rowMeans()`) to get a percent agr
 ```{r}
 
 rater_summary %>%
-  dplyr::mutate(percent_agree =
-           round(rowMeans(dplyr::across(item1:item3), na.rm = TRUE),
+  mutate(percent_agree =
+           round(rowMeans(across(item1:item3), na.rm = TRUE),
                        digits = 2))
 
 ```
 
 
-Return to [Calculate Values](https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate-Values)
+Return to [Calculate Sums and Means](https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate-Sums-and-Means)

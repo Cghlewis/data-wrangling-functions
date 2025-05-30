@@ -42,8 +42,8 @@ I add the `rowSums()` argument *na.rm* = TRUE to calculate sums despite NA value
 ```{r}
 
 d7 %>%
-  dplyr::mutate(prefer_sum =
-                  rowSums(dplyr::across(q1:q4, ~ stringr::str_detect(., "prefer")), na.rm = TRUE))
+  mutate(prefer_sum =
+                  rowSums(across(q1:q4, ~ str_detect(., "prefer")), na.rm = TRUE))
 
 ```
 
@@ -52,8 +52,8 @@ I could also write this using the exact text.
 ```{r}
 
 d7 %>%
-  dplyr::mutate(prefer_sum =
-                  rowSums(dplyr::across(q1:q4, ~ . == "prefer not to answer"), na.rm = TRUE))
+  mutate(prefer_sum =
+                  rowSums(across(q1:q4, ~ . == "prefer not to answer"), na.rm = TRUE))
 
 ```
 
@@ -73,10 +73,9 @@ Similar to above I can use `stringr::str_detect()` in combination with regex to 
 ```{r}
 
 d8 %>%
-  dplyr::mutate(minor_kids =
-                  rowSums(dplyr::across(
-                    kid1:kid3, ~ stringr::str_detect(., "^[1-9]$|^[1]{1}[0-7]$")
-                  ), na.rm = TRUE))
+  mutate(minor_kids =
+                  rowSums(across(
+                    kid1:kid3, ~ str_detect(., "^[1-9]$|^[1]{1}[0-7]$")), na.rm = TRUE))
 
 ```
 
@@ -86,10 +85,10 @@ But also, since the values are all numeric, I could simplify the code to this.
 
 
 d8 %>%
-  dplyr::mutate(minor_kids =
-                  rowSums(dplyr::across(kid1:kid3, ~ . < 18), na.rm = TRUE))
+  mutate(minor_kids =
+                  rowSums(across(kid1:kid3, ~ . < 18), na.rm = TRUE))
 
 ```
 
 
-Return to [Calculate Values]https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate-Values)
+Return to [Calculate Sums and Means](https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate-Sums-and-Means)

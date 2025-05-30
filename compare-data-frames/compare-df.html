@@ -371,7 +371,7 @@ pre code {
 <h3>Package: diffdf</h3>
 <hr />
 <div id="function-diffdf" class="section level4">
-<h4>Function: <code>diffdf</code></h4>
+<h4>Function: <code>diffdf()</code></h4>
 <hr />
 <p><strong>1. Compare two data frames that should be identical to see if
 there are any differences in their values and output those
@@ -410,7 +410,7 @@ them all using combine. For example, <em>keys = c(“stu_id”,
 to run. Run <em>?diffdf</em> in the console to see additional arguments
 that can be added.</p></li>
 </ul>
-<pre class="r"><code>diffdf::diffdf(entry1,entry2, keys=&quot;stu_id&quot;)</code></pre>
+<pre class="r"><code>diffdf(entry1,entry2, keys=&quot;stu_id&quot;)</code></pre>
 <pre><code>Differences found between the objects!
 
 A summary is given below.
@@ -466,7 +466,7 @@ errors have been corrected.</p>
 <h3>Package: dplyr</h3>
 <hr />
 <div id="function-all_equal" class="section level4">
-<h4>Function: <code>all_equal</code></h4>
+<h4>Function: <code>all_equal()</code></h4>
 <hr />
 <p><strong>1. Compare two data frames to see if they are
 identical</strong></p>
@@ -499,7 +499,7 @@ file1_copy &lt;- readr::read_csv(&quot;project-a_forms_file1_copy.csv&quot;)</co
 3   1236     1    NA     4    12
 4   1237     3     3     4     2</code></pre>
 <p>Now check if there are any differences in the two data frames.</p>
-<pre class="r"><code>dplyr::all_equal(file1, file1_copy)</code></pre>
+<pre class="r"><code>all_equal(file1, file1_copy)</code></pre>
 <pre><code>[1] TRUE</code></pre>
 <p>In this scenario we find that the files are identical. Awesome! We
 can simply choose one to work with and archive the other.</p>
@@ -513,7 +513,7 @@ can simply choose one to work with and archive the other.</p>
 3 1236       1    NA     4    12
 4 1237       3     3     4     2</code></pre>
 <p>It looks like the same data? Let’s check.</p>
-<pre class="r"><code>dplyr::all_equal(file1, file1_copy2)</code></pre>
+<pre class="r"><code>all_equal(file1, file1_copy2)</code></pre>
 <pre><code>Different types for column `stu_id`: double vs character.</code></pre>
 <p>We find out that the files are <strong>not</strong> identical!
 <code>stu_id</code> is now a character variable rather than numeric. We
@@ -529,7 +529,7 @@ file1_copy3.</p>
 4   1236     1    NA     4    12</code></pre>
 <p>It looks like some of the rows and columns are out of order, which is
 okay, but is the data the same?</p>
-<pre class="r"><code>dplyr::all_equal(file1, file1_copy3)</code></pre>
+<pre class="r"><code>all_equal(file1, file1_copy3)</code></pre>
 <pre><code>[1] TRUE</code></pre>
 <p>It is! So again, we can choose which copy to work with and archive
 the other.</p>
@@ -542,7 +542,7 @@ file1_copy4.</p>
 2   1235     2     1     5     6
 3   1236     1    NA    12     4
 4   1238     3     3     2     4</code></pre>
-<pre class="r"><code>dplyr::all_equal(file1, file1_copy4)</code></pre>
+<pre class="r"><code>all_equal(file1, file1_copy4)</code></pre>
 <pre><code>[1] &quot;- Rows in x but not in y: 4\n- Rows in y but not in x: 4\n&quot;</code></pre>
 <p>There are some major differences in this one so I would need to
 really dig into which copy of the file I should be using here.</p>

@@ -390,13 +390,13 @@ pre code {
 <p>1 = implemented<br />
 0 = did not implement</p>
 <ul>
-<li>Note: The default for <code>sum()</code> is to <strong>not</strong>
-calculate a sum if any NA value exists. If you want to still calculate a
-sum despite missing values, you can add the argument <em>na.rm =
-TRUE</em>.</li>
+<li>Note: The default for <code>base::sum()</code> is to
+<strong>not</strong> calculate a sum if any NA value exists. If you want
+to still calculate a sum despite missing values, you can add the
+argument <em>na.rm = TRUE</em>.</li>
 </ul>
 <pre class="r"><code>obs_data %&gt;%
-  dplyr::summarise(item1_t1_per = base::sum(item1_t1, na.rm = TRUE)/dplyr::n())</code></pre>
+  summarise(item1_t1_per = sum(item1_t1, na.rm = TRUE)/n())</code></pre>
 <pre><code># A tibble: 1 x 1
   item1_t1_per
          &lt;dbl&gt;
@@ -416,9 +416,9 @@ all time periods</strong></p>
 <p>Since our data is in wide format, this is not a simple column
 calculation. We first need to restructure our wide data into long format
 so that all item1 values are in the same column.</p>
-<p>First restructure</p>
+<p>First restructure using <code>tidyr::pivot_longer()</code></p>
 <pre class="r"><code>obs_data_long &lt;- obs_data %&gt;%
-  tidyr::pivot_longer(
+  pivot_longer(
     cols = starts_with(&quot;item&quot;),
     names_sep = (&quot;_&quot;),
     names_to = c(&quot;.value&quot;, &quot;time&quot;))
@@ -435,7 +435,7 @@ head(obs_data_long)</code></pre>
 6    101 t3        1</code></pre>
 <p>Then calculate percent adherence</p>
 <pre class="r"><code>obs_data_long %&gt;%
-  dplyr::summarise(item1_per = base::sum(item1, na.rm = TRUE)/dplyr::n())</code></pre>
+  summarise(item1_per = sum(item1, na.rm = TRUE)/n())</code></pre>
 <pre><code># A tibble: 1 x 1
   item1_per
       &lt;dbl&gt;
@@ -452,9 +452,10 @@ time periods</strong></p>
 4    104        1        1        1        0        0        1
 5    107        1        1        0        1        1        0
 6    109        1        1        0        1        1        1</code></pre>
-<p>Similar to above, first we restructure</p>
+<p>Similar to above, first we restructure using
+<code>tidyr::pivot_longer()</code></p>
 <pre class="r"><code>obs_data2_long &lt;- obs_data2 %&gt;%
-  tidyr::pivot_longer(
+  pivot_longer(
     cols = starts_with(&quot;item&quot;),
     names_sep = (&quot;_&quot;),
     names_to = c(&quot;.value&quot;, &quot;time&quot;))
@@ -471,18 +472,22 @@ head(obs_data2_long)</code></pre>
 6    101 t3        1     1</code></pre>
 <p>Then calculate percent adherence for <code>item1</code> and
 <code>item2</code></p>
+<ul>
+<li>Note: We can use the <code>dplyr::across()</code> argument
+<em>.names</em> to rename our new columns.</li>
+</ul>
 <pre class="r"><code>obs_data2_long %&gt;%
-  dplyr::summarise(across(
+  summarise(across(
     contains(&quot;item&quot;),
-    ~ base::sum(., na.rm = TRUE) / dplyr::n(),
+    ~ sum(., na.rm = TRUE)/n(),
     .names = &quot;{.col}_per&quot;
   ))</code></pre>
 <pre><code># A tibble: 1 x 2
   item1_per item2_per
       &lt;dbl&gt;     &lt;dbl&gt;
 1     0.778     0.667</code></pre>
-<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate-Values">Calculate
-Row Values</a></p>
+<p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate-Sums-and-Means">Calculate
+Sums and Means</a></p>
 </div>
 </div>
 

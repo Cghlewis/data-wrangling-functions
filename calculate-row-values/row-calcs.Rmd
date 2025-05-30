@@ -34,13 +34,17 @@ d2
 ```
 
 Calculate a sum score across `item1`, `item2` and `item`
+
+* Note: We are calculating a new variable using `dplyr::mutate()`
+
+* Note: Adding `dplyr::across()` allows you to select the specific columns you want to calculate the `rowSums()` for. Otherwise `rowSums` will be applied across all columns.
  
-* Note: The default for `rowSums()` is to **not** calculate a sum if any NA value exists. If you want to still calculate a sum despite missing values, you can add the argument *na.rm = TRUE*.
+* Note: The default for `base::rowSums()` is to **not** calculate a sum if any NA value exists. If you want to still calculate a sum despite missing values, you can add the argument *na.rm = TRUE*.
 
 ```{r}
 
 d2 %>% 
-  dplyr::mutate(measure_sum = rowSums(dplyr::across(c(item1, item2, item3))))
+  mutate(measure_sum = rowSums(across(c(item1, item2, item3))))
 
 ```
 
@@ -60,7 +64,7 @@ Calculate a sum score across `item1`, `item2` and `item` even if values are miss
 ```{r}
 
 d10 %>% 
-  dplyr::mutate(measure_sum = rowSums(dplyr::across(c(item1, item2, item3)), na.rm = TRUE))
+  mutate(measure_sum = rowSums(across(c(item1, item2, item3)), na.rm = TRUE))
 
 ```
 
@@ -69,10 +73,10 @@ NOTICE that we got a value of **0** when all columns have missing values. Most l
 ```{r}
 
 d10 %>%
-  dplyr::mutate(measure_sum =
-           dplyr::case_when(
-             dplyr::if_all(item1:item3, ~ is.na(.)) ~ NA,
-             .default = base::rowSums(dplyr::across(item1:item3), na.rm = TRUE)))
+  mutate(measure_sum =
+           case_when(
+             if_all(item1:item3, ~ is.na(.)) ~ NA,
+             .default = rowSums(across(item1:item3), na.rm = TRUE)))
 
 ```
 
@@ -104,7 +108,7 @@ Calculate the mean score of `item1`, `item2`, and `item3`
 ```{r}
 
 d2 %>% 
-  dplyr::mutate(measure_mean = rowMeans(dplyr::across(item1:item3), na.rm = TRUE))
+  mutate(measure_mean = rowMeans(across(item1:item3), na.rm = TRUE))
 
 ```
 
@@ -115,7 +119,7 @@ You can set the number of decimal places you want the new variable to have by wr
 ```{r}
 
 d2 %>% 
-  dplyr::mutate(measure_mean = round(rowMeans(dplyr::across(item1:item3), na.rm=TRUE), digits= 1))
+  mutate(measure_mean = round(rowMeans(across(item1:item3), na.rm=TRUE), digits= 1))
 
 ```
 
@@ -136,9 +140,9 @@ Calculate the mean toca score
 ```{r}
 
 d5 %>% 
-  dplyr::mutate(
+  mutate(
     toca_mean = rowMeans(
-      dplyr::across(tidyselect::starts_with("toca")), na.rm=TRUE))
+      across(starts_with("toca")), na.rm=TRUE))
 
 ```
 
@@ -147,9 +151,9 @@ If you wanted to exclude some of the "toca" items (say just `toca2`), you could 
 ```{r}
 
 d5 %>% 
-  dplyr::mutate(
+  mutate(
     toca_mean = rowMeans(
-      dplyr::across(c(tidyselect::starts_with("toca"), -toca2)), na.rm=TRUE))
+      across(c(starts_with("toca"), -toca2)), na.rm=TRUE))
 
 ```
 
@@ -169,12 +173,12 @@ Calculate the mean toca score
 ```{r}
 
 d5 %>% 
-  dplyr::mutate(
+  mutate(
     toca_mean = 
-      dplyr::case_when(
+      case_when(
         rowSums(is.na(across(starts_with("toca")))) <= 1 ~ 
-          rowMeans(dplyr::across(tidyselect::starts_with("toca")), na.rm=TRUE),
-    TRUE ~ NA_real_))
+          rowMeans(across(starts_with("toca")), na.rm=TRUE),
+    .default = NA_real_))
 
 ```
 
@@ -224,15 +228,12 @@ We see that **-99** is labelled as an NA value for the toca variables. However, 
 
 ```{r}
 
-d6 %>% 
-  dplyr::mutate(dplyr::across(contains("toca"), 
-                ~ ifelse(.== -99 , NA, .),
-                .names = "{col}_temp"),
-                toca_mean = rowMeans(
-           dplyr::across(tidyselect::contains("temp")), 
-           na.rm = TRUE)) %>%
+d6 %>%
+  mutate(across(contains("toca"),
+                ~ ifelse(. == -99 , NA, .), .names = "{col}_temp"),
+         toca_mean = rowMeans(across(contains("temp")),
+                              na.rm = TRUE)) %>%
   select(-contains("temp"))
-
 
 ```
 
@@ -240,15 +241,12 @@ We could also use `haven::zap_missing()` rather than `base::ifelse()`
 
 ```{r}
 
-d6 %>% 
-  dplyr::mutate(dplyr::across(contains("toca"), 
-               haven::zap_missing,
-                .names = "{col}_temp"),
-                toca_mean = rowMeans(
-           dplyr::across(tidyselect::contains("temp")), 
-           na.rm = TRUE)) %>%
+d6 %>%
+  mutate(
+    across(contains("toca"), haven::zap_missing, .names = "{col}_temp"),
+    toca_mean = rowMeans(across(contains("temp")),
+                         na.rm = TRUE)) %>%
   select(-contains("temp"))
-
 
 ```
 
@@ -282,8 +280,8 @@ Here we use `dplyr::rowwise()` to calculate values across rows, in conjunction w
 ```{r}
 
 d2 %>%
-  dplyr::rowwise() %>%
-  dplyr::mutate(measure_sum = sum(c(item1, item2, item3)))
+  rowwise() %>%
+  mutate(measure_sum = sum(c(item1, item2, item3)))
 
 ```
 
@@ -294,8 +292,8 @@ If you don't want to list out every single item in a measure, you can use `dplyr
 ```{r}
 
 d2 %>%
-  dplyr::rowwise() %>%
-  dplyr::mutate(measure_sum = sum(dplyr::c_across(item1:item3)))
+  rowwise() %>%
+  mutate(measure_sum = sum(c_across(item1:item3)))
 
 
 ```
@@ -318,8 +316,8 @@ Calculate the mean score
 ```{r}
 
 d2 %>%
-  dplyr::rowwise() %>%
-  dplyr::mutate(measure_mean = mean(dplyr::c_across(item1:item3), na.rm=TRUE))
+  rowwise() %>%
+  mutate(measure_mean = mean(c_across(item1:item3), na.rm=TRUE))
 
 ```
 
@@ -329,8 +327,9 @@ You can set the number of decimal places you want the new variable to have by wr
 ```{r}
 
 d2 %>%
-  dplyr::rowwise() %>%
-  dplyr::mutate(measure_mean = round(mean(c_across(item1:item3), na.rm=TRUE), digits=2))
+  rowwise() %>%
+  mutate(measure_mean = 
+           round(mean(c_across(item1:item3), na.rm=TRUE), digits=2))
 
 ```
 
@@ -351,8 +350,9 @@ Calculate the mean toca score
 ```{r}
 
 d4 %>%
-  dplyr::rowwise() %>%
-  dplyr::mutate(toca_mean = mean(dplyr::c_across(tidyselect::contains("toca")), na.rm=TRUE))
+  rowwise() %>%
+  mutate(toca_mean = 
+           mean(c_across(contains("toca")), na.rm=TRUE))
 
 ```
 
@@ -361,10 +361,10 @@ If you wanted to exclude some of the "toca" items (say `toca2` and `toca4` this 
 ```{r}
 
 d4 %>%
-  dplyr::rowwise() %>%
-  dplyr::mutate(toca_mean = mean(dplyr::c_across(c(
-    tidyselect::contains("toca"),-toca2,-toca4
-  )), na.rm = TRUE))
+  rowwise() %>%
+  mutate(toca_mean = 
+           mean(c_across(c(contains("toca"),-toca2,-toca4)), 
+                na.rm = TRUE))
 
 ```
 
@@ -385,6 +385,8 @@ Review the data (d2)
 
 ```{r, echo=FALSE}
 
+library(janitor)
+
 source("data.R")
 d2
 
@@ -402,8 +404,8 @@ Calculate the sum score across `item1`, `item2` and `item3`
 ```{r}
 
 d2 %>% 
-  janitor::adorn_totals(where = "col", name = "measure_sum", na.rm = FALSE)
+  adorn_totals(where = "col", name = "measure_sum", na.rm = FALSE)
 
 ```
 
-Return to [Calculate Values](https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate-Values)
+Return to [Calculate Sums and Means](https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate-Sums-and-Means)

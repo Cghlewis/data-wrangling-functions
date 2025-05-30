@@ -371,7 +371,7 @@ pre code {
 <h3>Package: janitor</h3>
 <hr />
 <div id="function-compare_df_cols" class="section level4">
-<h4>Function: <code>compare_df_cols</code></h4>
+<h4>Function: <code>compare_df_cols()</code></h4>
 <hr />
 <p><strong>1. Compare two data frames that should have identical column
 types to see if there are any differences</strong></p>
@@ -402,7 +402,7 @@ entry3 &lt;- readr::read_csv(&quot;project-b_forms_entry3.csv&quot;)</code></pre
 the two data frames. The function
 <code>janitor::compare_df_cols()</code> will indicate if data frames
 will successfully bind together by rows.</p>
-<pre class="r"><code>janitor::compare_df_cols(entry1, entry3)</code></pre>
+<pre class="r"><code>compare_df_cols(entry1, entry3)</code></pre>
 <pre><code>  column_name  entry1    entry3
 1       grade numeric character
 2          q1 numeric   numeric
@@ -414,7 +414,7 @@ will successfully bind together by rows.</p>
 <code>grade</code> is a different variable type across files and we will
 need to transform the variable in entry1 or entry3 in if we want to bind
 the two data frames.</p>
-<pre class="r"><code>janitor::compare_df_cols(entry1, entry3, return = &quot;mismatch&quot;)</code></pre>
+<pre class="r"><code>compare_df_cols(entry1, entry3, return = &quot;mismatch&quot;)</code></pre>
 <pre><code>  column_name  entry1    entry3
 1       grade numeric character</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Compare%20data%20frames">Compare

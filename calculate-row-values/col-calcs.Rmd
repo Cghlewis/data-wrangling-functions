@@ -35,12 +35,12 @@ d2
 
 Calculate a mean for `item1`
 
-* Note: The default for `mean()` is to **not** calculate a sum if any NA value exists. If you want to still calculate a sum despite missing values, you can add the argument *na.rm = TRUE*.
+* Note: The default for `base::mean()` is to **not** calculate a sum if any NA value exists. If you want to still calculate a sum despite missing values, you can add the argument *na.rm = TRUE*.
 
 ```{r}
 
 d2 %>%
-  dplyr::summarise(item1_mean = base::mean(item1, na.rm = TRUE))
+  summarise(item1_mean = mean(item1, na.rm = TRUE))
 
 
 ```
@@ -59,14 +59,12 @@ d9
 
 Calculate the total number of students across all schools.
 
-* Note: The default for `sum()` is to **not** calculate a sum if any NA value exists. If you want to still calculate a sum despite missing values, you can add the argument *na.rm = TRUE*.
-
 ```{r}
 
 d9 %>% 
-  dplyr::summarise(total_students = base::sum(n_students, na.rm = TRUE))
+  summarise(total_students = sum(n_students, na.rm = TRUE))
 
 ```
 
 
-Return to [Calculate Row Values](https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate-Values)
+Return to [Calculate Sums and Means](https://github.com/Cghlewis/data-wrangling-functions/wiki/Calculate-Sums-and-Means)

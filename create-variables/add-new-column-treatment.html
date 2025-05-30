@@ -403,7 +403,7 @@ chose to use <code>dplyr::case_when()</code>.</p>
 <pre class="r"><code>treat &lt;- c(10, 12, 13)
 
 d3 %&gt;%
-  dplyr::mutate(int = case_when(
+  mutate(int = case_when(
     id %in% treat ~ 1,
     TRUE ~ 0
   ))</code></pre>

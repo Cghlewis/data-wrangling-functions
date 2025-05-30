@@ -403,12 +403,13 @@ row). We used regular expressions to pull out the values of
 interest.</li>
 </ul>
 <pre class="r"><code>d2 %&gt;%
-  dplyr::mutate(cat1 = stringr::str_count(cat, &quot; 1,|^1,|, 1$&quot;),
-                cat2 = stringr::str_count(cat, &quot;2&quot;),
-                cat4 = stringr::str_count(cat, &quot;4&quot;),
-                cat5 = stringr::str_count(cat, &quot;5&quot;),
-                cat10 = stringr::str_count(cat, &quot;^10| 10,|, 10$&quot;),
-                cat11 = stringr::str_count(cat, &quot;^11| 11,|, 11$&quot;))</code></pre>
+  mutate(
+    cat1 = str_count(cat, &quot; 1,|^1,|, 1$&quot;),
+    cat2 = str_count(cat, &quot;2&quot;),
+    cat4 = str_count(cat, &quot;4&quot;),
+    cat5 = str_count(cat, &quot;5&quot;),
+    cat10 = str_count(cat, &quot;^10| 10,|, 10$&quot;),
+    cat11 = str_count(cat, &quot;^11| 11,|, 11$&quot;))</code></pre>
 <pre><code># A tibble: 5 x 8
      id cat       cat1  cat2  cat4  cat5 cat10 cat11
   &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
@@ -424,11 +425,12 @@ worried a category could duplicate in each row.</p>
 recode NA values back to NA, otherwise they will be coded to 0.</li>
 </ul>
 <pre class="r"><code>d2 %&gt;%
-  dplyr::mutate(cat1 = 
-                  dplyr::case_when(
-                    stringr::str_detect(cat, &quot; 1,|^1,|, 1$&quot;) ~ 1,
-                    is.na(cat) ~ NA_real_,
-                    TRUE ~ 0))</code></pre>
+  mutate(cat1 =
+           case_when(
+             str_detect(cat, &quot; 1,|^1,|, 1$&quot;) ~ 1,
+             is.na(cat) ~ NA_real_,
+             .default = 0
+           ))</code></pre>
 <pre><code># A tibble: 5 x 3
      id cat       cat1
   &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
@@ -439,7 +441,7 @@ recode NA values back to NA, otherwise they will be coded to 0.</li>
 5    14 &lt;NA&gt;        NA</code></pre>
 <p>Or <code>dplyr::if_else()</code></p>
 <pre class="r"><code>d2 %&gt;%
-  dplyr::mutate(cat1 = dplyr::if_else(stringr::str_detect(cat, &quot; 1,|^1,|, 1$&quot;), 1, 0))</code></pre>
+  mutate(cat1 = if_else(str_detect(cat, &quot; 1,|^1,|, 1$&quot;), 1, 0))</code></pre>
 <pre><code># A tibble: 5 x 3
      id cat       cat1
   &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
@@ -532,8 +534,8 @@ any cell where the response option was not selected.</p></li>
 replace the space within variable names with an underscore.</p></li>
 </ul>
 <pre class="r"><code>d3 %&gt;%
-  dplyr::mutate(count = 1) %&gt;%
-  tidyr::pivot_wider(names_from = cert,
+  mutate(count = 1) %&gt;%
+  pivot_wider(names_from = cert,
               values_from = count,
               values_fill = 0) %&gt;%
   janitor::clean_names()</code></pre>
@@ -551,7 +553,7 @@ is an example below. However, I think using
 <code>tidyr::pivot_wider()</code> is a quicker and more efficient
 option.</p>
 <pre class="r"><code>d3 %&gt;%
-  dplyr::mutate(elem_ed = dplyr::if_else(cert == &quot;elem ed&quot;, 1, 0))</code></pre>
+  mutate(elem_ed = if_else(cert == &quot;elem ed&quot;, 1, 0))</code></pre>
 <pre><code># A tibble: 5 x 3
      id cert         elem_ed
   &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;
@@ -573,7 +575,7 @@ with multiple items selected per cell (<code>cert</code>)</strong></p>
 5    14 secondary ed                         29</code></pre>
 <p>Now we have a select all question where multiple responses may exist
 in the cert variable. This is okay, we can still use
-<code>dplyr::pivot_wider()</code> here.</p>
+<code>tidyr::pivot_wider()</code> here.</p>
 <p>First we need to separate our variable into multiple rows. We can do
 this using <code>tidyr::separate_rows()</code> like we did in the <a href="https://cghlewis.github.io/data-wrangling-functions/separate/split-rows.html">separate</a>
 section. When we do the separation, I save the output over the original
@@ -590,9 +592,9 @@ regrouped to one line per case again. No more duplicate rows. And our
 columns such as age are still in our dataset, which is what we
 wanted.</p>
 <pre class="r"><code>d7 %&gt;% 
-  tidyr::separate_rows(cert, sep = &quot;, &quot;) %&gt;%
-  dplyr::mutate(count = 1) %&gt;%
-  tidyr::pivot_wider(
+  separate_rows(cert, sep = &quot;, &quot;) %&gt;%
+  mutate(count = 1) %&gt;%
+  pivot_wider(
     names_from = cert,
     values_from = count,
     values_fill = 0
@@ -610,9 +612,9 @@ wanted.</p>
 could name them in the <em>id_cols</em> argument to make sure they carry
 over.</p>
 <pre class="r"><code>d7 %&gt;% 
-  tidyr::separate_rows(cert, sep = &quot;, &quot;) %&gt;%
-  dplyr::mutate(count = 1) %&gt;%
-  tidyr::pivot_wider(
+  separate_rows(cert, sep = &quot;, &quot;) %&gt;%
+  mutate(count = 1) %&gt;%
+  pivot_wider(
     id_cols = c(id, age),
     names_from = cert,
     values_from = count,
@@ -649,15 +651,15 @@ above, is the <em>names_prefix</em> argument.</p>
 to reorder the variables and drop the “catNA” variable that is created
 due to id 14 having a value of NA for “cat”.</p>
 <pre class="r"><code>d2 %&gt;% 
-  tidyr::separate_rows(cat, sep = &quot;, &quot;) %&gt;%
-  dplyr::mutate(count = 1) %&gt;%
-  tidyr::pivot_wider(
+  separate_rows(cat, sep = &quot;, &quot;) %&gt;%
+  mutate(count = 1) %&gt;%
+  pivot_wider(
     names_from = cat,
     names_prefix = &quot;cat&quot;,
     values_from = count, 
     values_fill = 0
   ) %&gt;%
-  dplyr::select(id, cat1, cat2, cat4, cat5, cat10, cat11)</code></pre>
+  select(id, cat1, cat2, cat4, cat5, cat10, cat11)</code></pre>
 <pre><code># A tibble: 5 x 7
      id  cat1  cat2  cat4  cat5 cat10 cat11
   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -673,22 +675,26 @@ our dummy categories. We want them to have NAs.</p>
 <p>We could fix this by keeping the “catNA” variable and then using this
 variable as an indicator for when to recode our other categorical
 variables back to NA.</p>
+<ul>
+<li>Note: We use <code>dplyr::case_when()</code> and
+<code>dplyr::across()</code> to recode across all of our variables.</li>
+</ul>
 <pre class="r"><code>d2 %&gt;% 
-  tidyr::separate_rows(cat, sep = &quot;, &quot;) %&gt;%
-  dplyr::mutate(count = 1) %&gt;%
-  tidyr::pivot_wider(
+  separate_rows(cat, sep = &quot;, &quot;) %&gt;%
+  mutate(count = 1) %&gt;%
+  pivot_wider(
     names_from = cat,
     names_prefix = &quot;cat&quot;,
     values_from = count, 
     values_fill = 0
   ) %&gt;%
-  dplyr::select(id, catNA, cat1, cat2, cat4, cat5, cat10, cat11) %&gt;%
-  dplyr::mutate(dplyr::across(cat1:cat11,
-                       ~ dplyr::case_when(
+  select(id, catNA, cat1, cat2, cat4, cat5, cat10, cat11) %&gt;%
+  mutate(across(cat1:cat11,
+                       ~ case_when(
                          catNA == 1 ~ NA_real_,
-                         TRUE ~ .
+                         .default = .
                        ))) %&gt;%
-  dplyr::select(-catNA)</code></pre>
+  select(-catNA)</code></pre>
 <pre><code># A tibble: 5 x 7
      id  cat1  cat2  cat4  cat5 cat10 cat11
   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;

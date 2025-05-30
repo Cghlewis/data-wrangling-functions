@@ -48,7 +48,7 @@ Now I can use my vector `treat` and say when an `id` is in my `treat` vector, as
 treat <- c(10, 12, 13)
 
 d3 %>%
-  dplyr::mutate(int = case_when(
+  mutate(int = case_when(
     id %in% treat ~ 1,
     TRUE ~ 0
   ))

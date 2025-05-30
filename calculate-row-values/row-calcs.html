@@ -435,6 +435,10 @@ and <code>item</code> even if values are missing</p>
 have missing values. Most likely this is not what you want. So in order
 to return of value of NA when all columns have missing values, you need
 to add in logic.</p>
+<p>Here I’m using <code>dplyr::case_when()</code> to first recode our
+new variable to <code>NA</code> when all items are <code>NA</code>, and
+then if all items are not <code>NA</code> we calculate
+<code>rowSums</code>.</p>
 <pre class="r"><code>d10 %&gt;%
   mutate(measure_sum =
            case_when(
@@ -467,7 +471,7 @@ each student even with missing data</strong></p>
 <p>Calculate the mean score of <code>item1</code>, <code>item2</code>,
 and <code>item3</code></p>
 <ul>
-<li><p>Note: The default for NA values in your columns is to
+<li><p>Note: The default for <code>base::rowMeans()</code> is to
 <strong>not</strong> calculate a mean if any NA value exists. If you
 want to still calculate a mean despite missing values, you can set the
 argument to <em>na.rm = TRUE</em>.</p></li>
@@ -523,6 +527,10 @@ data</strong></p>
 4   4567     4     5     1     6
 5   5678     1     3     2     2</code></pre>
 <p>Calculate the mean toca score</p>
+<ul>
+<li>Note: Here we are using <code>tidyselect::starts_with()</code> to
+grab all variables that start with “toca”</li>
+</ul>
 <pre class="r"><code>d5 %&gt;% 
   mutate(
     toca_mean = rowMeans(
@@ -567,8 +575,7 @@ missing one or less values for an item</strong></p>
   mutate(
     toca_mean = 
       case_when(
-        rowSums(is.na(across(starts_with(&quot;toca&quot;)))) &lt;= 1 ~ 
-          rowMeans(across(starts_with(&quot;toca&quot;)), na.rm=TRUE),
+        rowSums(is.na(across(starts_with(&quot;toca&quot;)))) &lt;= 1 ~ rowMeans(across(starts_with(&quot;toca&quot;)), na.rm=TRUE),
     .default = NA_real_))</code></pre>
 <pre><code># A tibble: 5 x 6
   stu_id toca1 toca2 toca3 toca4 toca_mean

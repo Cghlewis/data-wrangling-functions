@@ -36,32 +36,33 @@ d10
 
 I want to create a new variable `video_id` that assigns an ID value for each unique date within each `tch_id` group. I also want those numbers to be order chronologically.
 
-In order to do this, I first group by `tch_id`, then order dates chronologically, and then use `dplyr::consecutive_id()` to creat a unique identifier that increments every time a variable changes.
-
-Last I make sure to `ungroup()` our data.
+In order to do this, 
+1. I first group by `tch_id` (using `dplyr::group_by()`)  
+2. Then order dates chronologically (using `dplyr::arrange()`)  
+3. Then create our new variable using `dplyr::mutate()` and use `dplyr::consecutive_id()` to create a unique identifier that increments every time a variable changes  
+4. Last I make sure to `dplyr::ungroup()` our data
 
 ```{r}
 
 d10 %>%
-  dplyr::group_by(tch_id) %>%
-  dplyr::arrange(tch_id, date_observed) %>%
-  dplyr::mutate(video_id = dplyr::consecutive_id(date_observed)) %>%
-  dplyr::ungroup()
+  group_by(tch_id) %>%
+  arrange(tch_id, date_observed) %>%
+  mutate(video_id = consecutive_id(date_observed)) %>%
+  ungroup()
 
 ```
 
-You could also do this without `dplyr::consecutive_id()` by using `base::as.factor() instead.
+You could also do this without `dplyr::consecutive_id()` by using `base::as.factor()` instead.
 
 ```{r eval = FALSE}
 
 d10 %>%
-  dplyr::group_by(tch_id) %>%
-  dplyr::arrange(tch_id, date_observed) %>%
-  dplyr::mutate(video_id = as.numeric(base::as.factor(date_observed))) %>%
-  dplyr::ungroup()
+  group_by(tch_id) %>%
+  arrange(tch_id, date_observed) %>%
+  mutate(video_id = as.numeric(as.factor(date_observed))) %>%
+  ungroup()
 
 ```
-
 
 
 Return to [Create New Variables](https://github.com/Cghlewis/data-wrangling-functions/wiki/Create New Variables)

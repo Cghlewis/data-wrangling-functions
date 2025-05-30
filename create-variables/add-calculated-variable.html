@@ -391,8 +391,8 @@ data before removing <code>dob</code> and <code>test_date</code>.</p>
 variable.</p>
 <p>Then, we can calculate our age variable.</p>
 <pre class="r"><code>d4 %&gt;%
-  dplyr::mutate(age_months = lubridate::interval(start = dob, end = test_date) /
-                  base::months(1))</code></pre>
+  mutate(age_months = lubridate::interval(start = dob, end = test_date) /
+                  months(1))</code></pre>
 <pre><code># A tibble: 4 x 4
      id dob        test_date  age_months
   &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;          &lt;dbl&gt;
@@ -409,7 +409,7 @@ function to create a time span between two dates (as a sequence of
 seconds). We add our starting date to the <em>start</em> argument and
 our ending date to the <em>end</em> argument.</p>
 <pre class="r"><code>d4_new &lt;- d4 %&gt;%
-  dplyr::mutate(age_interval = lubridate::interval(start = dob, end = test_date))
+  mutate(age_interval = lubridate::interval(start = dob, end = test_date))
 
 d4_new</code></pre>
 <pre><code># A tibble: 4 x 4
@@ -422,15 +422,15 @@ d4_new</code></pre>
 <p>If I want to see how many seconds this interval is, I can use the
 function <code>base::as.numeric()</code>.</p>
 <pre class="r"><code>d4_new %&gt;%
-  dplyr::mutate(age_interval_seconds = base::as.numeric(age_interval))</code></pre>
+  mutate(age_interval_seconds = as.numeric(age_interval))</code></pre>
 <pre><code># A tibble: 4 x 5
-     id dob        test_date  age_interval                   age_interval_seco~1
-  &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;     &lt;Interval&gt;                                   &lt;dbl&gt;
-1    10 2010-11-12 2021-10-14 2010-11-12 UTC--2021-10-14 UTC           344649600
-2    11 2011-07-08 2021-10-15 2011-07-08 UTC--2021-10-15 UTC           324172800
-3    12 2012-01-22 2021-10-15 2012-01-22 UTC--2021-10-15 UTC           307065600
-4    13 2011-12-13 2021-10-17 2011-12-13 UTC--2021-10-17 UTC           310694400
-# ... with abbreviated variable name 1: age_interval_seconds</code></pre>
+     id dob        test_date  age_interval                  
+  &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;     &lt;Interval&gt;                    
+1    10 2010-11-12 2021-10-14 2010-11-12 UTC--2021-10-14 UTC
+2    11 2011-07-08 2021-10-15 2011-07-08 UTC--2021-10-15 UTC
+3    12 2012-01-22 2021-10-15 2012-01-22 UTC--2021-10-15 UTC
+4    13 2011-12-13 2021-10-17 2011-12-13 UTC--2021-10-17 UTC
+# i 1 more variable: age_interval_seconds &lt;dbl&gt;</code></pre>
 <p>The next step in the above function is to calculate the number of
 months that occur in that interval. To do that we can use the
 <code>base::months()</code> function. Adding the input of 1 to this
@@ -440,7 +440,7 @@ console. Then we can divide our interval (which is in seconds) by our
 number of seconds in a month to get our total number of months (age) in
 an interval of time.</p>
 <pre class="r"><code>d4_new %&gt;%
-  dplyr::mutate(age_months = age_interval/base::months(1))</code></pre>
+  mutate(age_months = age_interval/months(1))</code></pre>
 <pre><code># A tibble: 4 x 5
      id dob        test_date  age_interval                   age_months
   &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;     &lt;Interval&gt;                          &lt;dbl&gt;
@@ -452,7 +452,7 @@ an interval of time.</p>
 <code>lubridate::time_length()</code> rather than dividing by
 <code>base::months()</code></p>
 <pre class="r"><code>d4_new %&gt;%
-     dplyr::mutate(age_months = lubridate::time_length(age_interval, &quot;months&quot;))</code></pre>
+     mutate(age_months = lubridate::time_length(age_interval, &quot;months&quot;))</code></pre>
 <pre><code># A tibble: 4 x 5
      id dob        test_date  age_interval                   age_months
   &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;     &lt;Interval&gt;                          &lt;dbl&gt;
@@ -462,7 +462,7 @@ an interval of time.</p>
 4    13 2011-12-13 2021-10-17 2011-12-13 UTC--2021-10-17 UTC  118.12903</code></pre>
 <p>You could even do this by year if you wanted to.</p>
 <pre class="r"><code>d4_new %&gt;%
-  dplyr::mutate(age_years = lubridate::time_length(age_interval, &quot;years&quot;))</code></pre>
+  mutate(age_years = lubridate::time_length(age_interval, &quot;years&quot;))</code></pre>
 <pre><code># A tibble: 4 x 5
      id dob        test_date  age_interval                    age_years
   &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;     &lt;Interval&gt;                          &lt;dbl&gt;
@@ -476,7 +476,7 @@ several options. One option is to use the integral division operator
 <code>%/%</code> rather than <code>/</code>. Using this method divides
 two numbers and returns the integer part of the result.</p>
 <pre class="r"><code>d4 %&gt;%
-  dplyr::mutate(age_months = lubridate::interval(start = dob, end = test_date)%/%months(1))</code></pre>
+  mutate(age_months = lubridate::interval(start = dob, end = test_date)%/%months(1))</code></pre>
 <pre><code># A tibble: 4 x 4
      id dob        test_date  age_months
   &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;          &lt;dbl&gt;
@@ -489,7 +489,7 @@ in other parts of this wiki, pay attention to how this function rounds.
 See <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Rounding">Rounding</a>
 for more information.</p>
 <pre class="r"><code>d4 %&gt;%
-  dplyr::mutate(age_months = base::round(lubridate::interval(start = dob, end = test_date)/months(1)))</code></pre>
+  mutate(age_months = round(lubridate::interval(start = dob, end = test_date)/months(1)))</code></pre>
 <pre><code># A tibble: 4 x 4
      id dob        test_date  age_months
   &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;          &lt;dbl&gt;
@@ -500,7 +500,7 @@ for more information.</p>
 <p>You could also use <code>base::ceiling()</code> or
 <code>base::floor()</code> as well.</p>
 <pre class="r"><code>d4 %&gt;%
-  dplyr::mutate(age_months = base::ceiling(lubridate::interval(start = dob, end = test_date)/months(1)))</code></pre>
+  mutate(age_months = ceiling(lubridate::interval(start = dob, end = test_date)/months(1)))</code></pre>
 <pre><code># A tibble: 4 x 4
      id dob        test_date  age_months
   &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;          &lt;dbl&gt;

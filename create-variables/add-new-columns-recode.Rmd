@@ -46,7 +46,7 @@ Since `item1` and `item3` have the same correct answers, and `item2` and `item4`
 
 * Note: We have NA values in our variables, so since `dplyr::case_when()` recodes in order of how statements are provided, we will first want to say we want NA values to stay as NA values (NA_real_).
 
-Note: In the `dplyr::case_when()` function, TRUE means if a value was not evaluated in my arguments above, replace with the value I give. In this case, I am saying replace remaining values with 0.
+Note: In the `dplyr::case_when()` function, *.default* means if a value was not evaluated in my arguments above, replace with the value I give. In this case, I am saying replace remaining values with 0.
 
 * Note: We are adding the `dplyr::across()` argument *.names* to rename our newly created variables with the suffix "_scored".
 
@@ -54,19 +54,16 @@ Note: In the `dplyr::case_when()` function, TRUE means if a value was not evalua
 
 
 d1 %>%
-  dplyr::mutate(
-    dplyr::across(
-      c(item1, item3),
-      ~ dplyr::case_when(is.na(.) ~ NA_real_,
-                         . == 3 ~ 1,
-                         TRUE ~ 0),
+  mutate(across(c(item1, item3),
+      ~ case_when(is.na(.) ~ NA_real_,
+                  . == 3 ~ 1,
+                  .default = 0),
       .names = "{col}_scored"
     ),
-    dplyr::across(
-      c(item2, item4),
-      ~ dplyr::case_when(is.na(.) ~ NA_real_,
-                         . == 5 ~ 1,
-                         TRUE ~ 0),
+    across(c(item2, item4),
+      ~ case_when(is.na(.) ~ NA_real_,
+                  . == 5 ~ 1,
+                  .default = 0),
       .names = "{col}_scored"
     )
   ) %>%
@@ -79,19 +76,14 @@ We could also write the formula this way, with explicitly listing the values to 
 ```{r}
 
 d1 %>%
-  dplyr::mutate(
-    dplyr::across(
-      c(item1, item3),
-      ~ dplyr::case_when(. == 3 ~ 1,
-                         . %in% c(1, 2, 4, 5) ~ 0,
-                         TRUE ~ .),
+  mutate(across(c(item1, item3),
+      ~ case_when(. == 3 ~ 1,
+                  . %in% c(1, 2, 4, 5) ~ 0),
       .names = "{col}_scored"
     ),
-    dplyr::across(
-      c(item2, item4),
-      ~ dplyr::case_when(. == 5 ~ 1,
-                         . %in% c(1, 2, 3, 4) ~ 0,
-                         TRUE ~ .),
+    across(c(item2, item4),
+      ~ case_when(. == 5 ~ 1,
+                  . %in% c(1, 2, 3, 4) ~ 0),
       .names = "{col}_scored"
     )
   ) %>%

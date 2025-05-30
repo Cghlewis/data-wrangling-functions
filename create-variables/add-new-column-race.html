@@ -390,15 +390,15 @@ value is set to 7 (to represent multi-racial).</p>
 with <code>dplyr::if_all()</code> to check values across multiple
 variables.</p>
 <pre class="r"><code>d11 %&gt;%
-  dplyr::mutate(
+  mutate(
     race = 
-      dplyr::case_when(
-        race1 == 1 &amp; dplyr::if_all(race2:race6, ~. == 0) ~ 1,
-        race2 == 1 &amp; dplyr::if_all(c(race1, race3:race6), ~. == 0) ~ 2,
-        race3 == 1 &amp; dplyr::if_all(c(race1:race2, race4:race6), ~. == 0) ~ 3,
-        race4 == 1 &amp; dplyr::if_all(c(race1:race3, race5:race6), ~. == 0) ~ 4,
-        race5 == 1 &amp; dplyr::if_all(c(race1:race4, race6), ~. == 0) ~ 5,
-        race6 == 1 &amp; dplyr::if_all(race1:race5, ~. == 0) ~ 6,
+      case_when(
+        race1 == 1 &amp; if_all(race2:race6, ~. == 0) ~ 1,
+        race2 == 1 &amp; if_all(c(race1, race3:race6), ~. == 0) ~ 2,
+        race3 == 1 &amp; if_all(c(race1:race2, race4:race6), ~. == 0) ~ 3,
+        race4 == 1 &amp; if_all(c(race1:race3, race5:race6), ~. == 0) ~ 4,
+        race5 == 1 &amp; if_all(c(race1:race4, race6), ~. == 0) ~ 5,
+        race6 == 1 &amp; if_all(race1:race5, ~. == 0) ~ 6,
         rowSums(across(race1:race6)) &gt; 1 ~ 7))</code></pre>
 <pre><code># A tibble: 3 x 8
   stu_id race1 race2 race3 race4 race5 race6  race
@@ -412,9 +412,9 @@ the multi-racial value at the top because
 <code>dplyr::case_when()</code> reviews logic in order and does not
 replace previously assigned values.</p>
 <pre class="r"><code>d11 %&gt;%
-  dplyr::mutate(
+  mutate(
     race = 
-      dplyr::case_when(
+      case_when(
         rowSums(across(race1:race6)) &gt; 1 ~ 7,
         race1 == 1 ~ 1,
         race2 == 1 ~ 2,

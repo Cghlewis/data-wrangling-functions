@@ -32,6 +32,8 @@ Review the data (d2)
 source("data.R")
 d2
 
+library(stringr)
+
 ```
 
 We see here that our `cat` variable was a select all that apply question (where options are separated by a comma). We want these options to separated out into their own dummy coded variables that are 1 if the selection was chosen and 0 if the selection was not chosen.
@@ -50,12 +52,13 @@ cat11 = 11
 ```{r}
 
 d2 %>%
-  dplyr::mutate(cat1 = stringr::str_count(cat, " 1,|^1,|, 1$"),
-                cat2 = stringr::str_count(cat, "2"),
-                cat4 = stringr::str_count(cat, "4"),
-                cat5 = stringr::str_count(cat, "5"),
-                cat10 = stringr::str_count(cat, "^10| 10,|, 10$"),
-                cat11 = stringr::str_count(cat, "^11| 11,|, 11$"))
+  mutate(
+    cat1 = str_count(cat, " 1,|^1,|, 1$"),
+    cat2 = str_count(cat, "2"),
+    cat4 = str_count(cat, "4"),
+    cat5 = str_count(cat, "5"),
+    cat10 = str_count(cat, "^10| 10,|, 10$"),
+    cat11 = str_count(cat, "^11| 11,|, 11$"))
 
 ```
 
@@ -66,11 +69,12 @@ We could have also used `stringr::str_detect()` if we were worried a category co
 ```{r}
 
 d2 %>%
-  dplyr::mutate(cat1 = 
-                  dplyr::case_when(
-                    stringr::str_detect(cat, " 1,|^1,|, 1$") ~ 1,
-                    is.na(cat) ~ NA_real_,
-                    TRUE ~ 0))
+  mutate(cat1 =
+           case_when(
+             str_detect(cat, " 1,|^1,|, 1$") ~ 1,
+             is.na(cat) ~ NA_real_,
+             .default = 0
+           ))
 
 ```
 
@@ -79,7 +83,7 @@ Or `dplyr::if_else()`
 ```{r}
 
 d2 %>%
-  dplyr::mutate(cat1 = dplyr::if_else(stringr::str_detect(cat, " 1,|^1,|, 1$"), 1, 0))
+  mutate(cat1 = if_else(str_detect(cat, " 1,|^1,|, 1$"), 1, 0))
 
 ```
 
@@ -165,8 +169,8 @@ Before doing this, we will need to add one new count variable using the `dplyr::
 ```{r}
 
 d3 %>%
-  dplyr::mutate(count = 1) %>%
-  tidyr::pivot_wider(names_from = cert,
+  mutate(count = 1) %>%
+  pivot_wider(names_from = cert,
               values_from = count,
               values_fill = 0) %>%
   janitor::clean_names()
@@ -178,7 +182,7 @@ There are many other ways to do this using `dplyr::if_else()` or `dplyr::case_wh
 ```{r}
 
 d3 %>%
-  dplyr::mutate(elem_ed = dplyr::if_else(cert == "elem ed", 1, 0))
+  mutate(elem_ed = if_else(cert == "elem ed", 1, 0))
 
 ```
 
@@ -193,7 +197,7 @@ d7
 
 ```
 
-Now we have a select all question where multiple responses may exist in the cert variable. This is okay, we can still use `dplyr::pivot_wider()` here.
+Now we have a select all question where multiple responses may exist in the cert variable. This is okay, we can still use `tidyr::pivot_wider()` here.
 
 First we need to separate our variable into multiple rows. We can do this using `tidyr::separate_rows()` like we did in the [separate](https://cghlewis.github.io/data-wrangling-functions/separate/split-rows.html) section. When we do the separation, I save the output over the original "cert" variable. I could have also created a new variable if I wanted to.
 
@@ -206,9 +210,9 @@ Now we can pivot. After we pivot, we notice that our data has been regrouped to 
 ```{r}
 
 d7 %>% 
-  tidyr::separate_rows(cert, sep = ", ") %>%
-  dplyr::mutate(count = 1) %>%
-  tidyr::pivot_wider(
+  separate_rows(cert, sep = ", ") %>%
+  mutate(count = 1) %>%
+  pivot_wider(
     names_from = cert,
     values_from = count,
     values_fill = 0
@@ -222,9 +226,9 @@ If we wanted to more explicitly keep our age and id variables, we could name the
 ```{r}
 
 d7 %>% 
-  tidyr::separate_rows(cert, sep = ", ") %>%
-  dplyr::mutate(count = 1) %>%
-  tidyr::pivot_wider(
+  separate_rows(cert, sep = ", ") %>%
+  mutate(count = 1) %>%
+  pivot_wider(
     id_cols = c(id, age),
     names_from = cert,
     values_from = count,
@@ -254,15 +258,15 @@ I am also adding a `dplyr::select()` statement at the end to reorder the variabl
 ```{r}
 
 d2 %>% 
-  tidyr::separate_rows(cat, sep = ", ") %>%
-  dplyr::mutate(count = 1) %>%
-  tidyr::pivot_wider(
+  separate_rows(cat, sep = ", ") %>%
+  mutate(count = 1) %>%
+  pivot_wider(
     names_from = cat,
     names_prefix = "cat",
     values_from = count, 
     values_fill = 0
   ) %>%
-  dplyr::select(id, cat1, cat2, cat4, cat5, cat10, cat11)
+  select(id, cat1, cat2, cat4, cat5, cat10, cat11)
 
 ```
 
@@ -270,24 +274,26 @@ Last, you'll notice above that id 14 now has zeros for all of the categories. Wh
 
 We could fix this by keeping the "catNA" variable and then using this variable as an indicator for when to recode our other categorical variables back to NA. 
 
+* Note: We use `dplyr::case_when()` and `dplyr::across()` to recode across all of our variables.
+
 ```{r}
 
 d2 %>% 
-  tidyr::separate_rows(cat, sep = ", ") %>%
-  dplyr::mutate(count = 1) %>%
-  tidyr::pivot_wider(
+  separate_rows(cat, sep = ", ") %>%
+  mutate(count = 1) %>%
+  pivot_wider(
     names_from = cat,
     names_prefix = "cat",
     values_from = count, 
     values_fill = 0
   ) %>%
-  dplyr::select(id, catNA, cat1, cat2, cat4, cat5, cat10, cat11) %>%
-  dplyr::mutate(dplyr::across(cat1:cat11,
-                       ~ dplyr::case_when(
+  select(id, catNA, cat1, cat2, cat4, cat5, cat10, cat11) %>%
+  mutate(across(cat1:cat11,
+                       ~ case_when(
                          catNA == 1 ~ NA_real_,
-                         TRUE ~ .
+                         .default = .
                        ))) %>%
-  dplyr::select(-catNA)
+  select(-catNA)
 
 ```
 

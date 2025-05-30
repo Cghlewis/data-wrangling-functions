@@ -43,8 +43,8 @@ Then, we can calculate our age variable.
 ```{r R.options=list(pillar.sigfig = 8)}
 
 d4 %>%
-  dplyr::mutate(age_months = lubridate::interval(start = dob, end = test_date) /
-                  base::months(1))
+  mutate(age_months = lubridate::interval(start = dob, end = test_date) /
+                  months(1))
 
 
 ```
@@ -55,7 +55,7 @@ Let's step through each part of this calculation to understand what is happening
 ```{r}
 
 d4_new <- d4 %>%
-  dplyr::mutate(age_interval = lubridate::interval(start = dob, end = test_date))
+  mutate(age_interval = lubridate::interval(start = dob, end = test_date))
 
 d4_new
 
@@ -66,7 +66,7 @@ If I want to see how many seconds this interval is, I can use the function `base
 ```{r}
 
 d4_new %>%
-  dplyr::mutate(age_interval_seconds = base::as.numeric(age_interval))
+  mutate(age_interval_seconds = as.numeric(age_interval))
 
 ```
 
@@ -76,7 +76,7 @@ The next step in the above function is to calculate the number of months that oc
 ```{r R.options=list(pillar.sigfig = 8)}
 
 d4_new %>%
-  dplyr::mutate(age_months = age_interval/base::months(1))
+  mutate(age_months = age_interval/months(1))
 
 ```
 
@@ -85,7 +85,7 @@ Another option is to wrap our interval in `lubridate::time_length()` rather than
 ```{r R.options=list(pillar.sigfig = 8)}
 
 d4_new %>%
-     dplyr::mutate(age_months = lubridate::time_length(age_interval, "months"))
+     mutate(age_months = lubridate::time_length(age_interval, "months"))
 
 ```
 
@@ -94,7 +94,7 @@ You could even do this by year if you wanted to.
 ```{r R.options=list(pillar.sigfig = 8)}
 
 d4_new %>%
-  dplyr::mutate(age_years = lubridate::time_length(age_interval, "years"))
+  mutate(age_years = lubridate::time_length(age_interval, "years"))
 
 ```
 
@@ -103,7 +103,7 @@ Last if you want a clean round number of months (and you most likely will want t
 ```{r}
 
 d4 %>%
-  dplyr::mutate(age_months = lubridate::interval(start = dob, end = test_date)%/%months(1))
+  mutate(age_months = lubridate::interval(start = dob, end = test_date)%/%months(1))
 
 
 ```
@@ -113,7 +113,7 @@ You could also use `base::round()` but as I've mentioned in other parts of this 
 ```{r}
 
 d4 %>%
-  dplyr::mutate(age_months = base::round(lubridate::interval(start = dob, end = test_date)/months(1)))
+  mutate(age_months = round(lubridate::interval(start = dob, end = test_date)/months(1)))
 
 ```
 
@@ -122,7 +122,7 @@ You could also use `base::ceiling()` or `base::floor()` as well.
 ```{r}
 
 d4 %>%
-  dplyr::mutate(age_months = base::ceiling(lubridate::interval(start = dob, end = test_date)/months(1)))
+  mutate(age_months = ceiling(lubridate::interval(start = dob, end = test_date)/months(1)))
 
 ```
 

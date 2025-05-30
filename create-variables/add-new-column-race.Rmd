@@ -40,15 +40,15 @@ We will use `dplyr::case_when()` to draft the logic, along with `dplyr::if_all()
 ```{r}
 
 d11 %>%
-  dplyr::mutate(
+  mutate(
     race = 
-      dplyr::case_when(
-        race1 == 1 & dplyr::if_all(race2:race6, ~. == 0) ~ 1,
-        race2 == 1 & dplyr::if_all(c(race1, race3:race6), ~. == 0) ~ 2,
-        race3 == 1 & dplyr::if_all(c(race1:race2, race4:race6), ~. == 0) ~ 3,
-        race4 == 1 & dplyr::if_all(c(race1:race3, race5:race6), ~. == 0) ~ 4,
-        race5 == 1 & dplyr::if_all(c(race1:race4, race6), ~. == 0) ~ 5,
-        race6 == 1 & dplyr::if_all(race1:race5, ~. == 0) ~ 6,
+      case_when(
+        race1 == 1 & if_all(race2:race6, ~. == 0) ~ 1,
+        race2 == 1 & if_all(c(race1, race3:race6), ~. == 0) ~ 2,
+        race3 == 1 & if_all(c(race1:race2, race4:race6), ~. == 0) ~ 3,
+        race4 == 1 & if_all(c(race1:race3, race5:race6), ~. == 0) ~ 4,
+        race5 == 1 & if_all(c(race1:race4, race6), ~. == 0) ~ 5,
+        race6 == 1 & if_all(race1:race5, ~. == 0) ~ 6,
         rowSums(across(race1:race6)) > 1 ~ 7))
 
 ```
@@ -59,9 +59,9 @@ While the code above is definitely the more explicit way to assign values, you c
 ```{r}
 
 d11 %>%
-  dplyr::mutate(
+  mutate(
     race = 
-      dplyr::case_when(
+      case_when(
         rowSums(across(race1:race6)) > 1 ~ 7,
         race1 == 1 ~ 1,
         race2 == 1 ~ 2,

@@ -390,16 +390,19 @@ variables</strong></p>
 <p>I want to create a new variable <code>video_id</code> that assigns an
 ID value for each unique date within each <code>tch_id</code> group. I
 also want those numbers to be order chronologically.</p>
-<p>In order to do this, I first group by <code>tch_id</code>, then order
-dates chronologically, and then use <code>dplyr::consecutive_id()</code>
-to creat a unique identifier that increments every time a variable
-changes.</p>
-<p>Last I make sure to <code>ungroup()</code> our data.</p>
+<p>In order to do this, 1. I first group by <code>tch_id</code> (using
+<code>dplyr::group_by()</code>)<br />
+2. Then order dates chronologically (using
+<code>dplyr::arrange()</code>)<br />
+3. Then create our new variable using <code>dplyr::mutate()</code> and
+use <code>dplyr::consecutive_id()</code> to create a unique identifier
+that increments every time a variable changes<br />
+4. Last I make sure to <code>dplyr::ungroup()</code> our data</p>
 <pre class="r"><code>d10 %&gt;%
-  dplyr::group_by(tch_id) %&gt;%
-  dplyr::arrange(tch_id, date_observed) %&gt;%
-  dplyr::mutate(video_id = dplyr::consecutive_id(date_observed)) %&gt;%
-  dplyr::ungroup()</code></pre>
+  group_by(tch_id) %&gt;%
+  arrange(tch_id, date_observed) %&gt;%
+  mutate(video_id = consecutive_id(date_observed)) %&gt;%
+  ungroup()</code></pre>
 <pre><code># A tibble: 8 x 4
   tch_id date_observed rater video_id
    &lt;dbl&gt; &lt;date&gt;        &lt;dbl&gt;    &lt;int&gt;
@@ -412,12 +415,12 @@ changes.</p>
 7      2 2025-01-15       10        3
 8      3 2025-01-08        4        1</code></pre>
 <p>You could also do this without <code>dplyr::consecutive_id()</code>
-by using `base::as.factor() instead.</p>
+by using <code>base::as.factor()</code> instead.</p>
 <pre class="r"><code>d10 %&gt;%
-  dplyr::group_by(tch_id) %&gt;%
-  dplyr::arrange(tch_id, date_observed) %&gt;%
-  dplyr::mutate(video_id = as.numeric(base::as.factor(date_observed))) %&gt;%
-  dplyr::ungroup()</code></pre>
+  group_by(tch_id) %&gt;%
+  arrange(tch_id, date_observed) %&gt;%
+  mutate(video_id = as.numeric(as.factor(date_observed))) %&gt;%
+  ungroup()</code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Create%20New%20Variables">Create
 New Variables</a></p>
 </div>

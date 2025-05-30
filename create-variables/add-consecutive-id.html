@@ -390,14 +390,20 @@ variables</strong></p>
 <p>I want to create a new variable <code>video_id</code> that assigns an
 ID value for each unique date within each <code>tch_id</code> group. I
 also want those numbers to be order chronologically.</p>
-<p>In order to do this, 1. I first group by <code>tch_id</code> (using
+<p>In order to do this,</p>
+<ol style="list-style-type: decimal">
+<li>I first group by <code>tch_id</code> (using
 <code>dplyr::group_by()</code>)<br />
-2. Then order dates chronologically (using
+</li>
+<li>Then order dates chronologically (using
 <code>dplyr::arrange()</code>)<br />
-3. Then create our new variable using <code>dplyr::mutate()</code> and
+</li>
+<li>Then create our new variable using <code>dplyr::mutate()</code> and
 use <code>dplyr::consecutive_id()</code> to create a unique identifier
 that increments every time a variable changes<br />
-4. Last I make sure to <code>dplyr::ungroup()</code> our data</p>
+</li>
+<li>Last I make sure to <code>dplyr::ungroup()</code> our data</li>
+</ol>
 <pre class="r"><code>d10 %&gt;%
   group_by(tch_id) %&gt;%
   arrange(tch_id, date_observed) %&gt;%

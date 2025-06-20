@@ -46,7 +46,7 @@ If we want to **visualize** the options in this select all question, it can be v
 ```{r}
 
 d9 %>%
-  tidyr::pivot_longer(
+  pivot_longer(
     cols = contains("tool"),
     names_to = "tools",
     values_to = "response"
@@ -72,7 +72,7 @@ Except instead of working with the "response" column, you will work with the "to
 ```{r}
 
 d10 %>%
-  tidyr::pivot_longer(
+  pivot_longer(
     cols = google_meet:other,
     names_to = "tools",
     values_to = "response"
@@ -107,7 +107,7 @@ In this example, we want to restructure the data into long format, making a new 
 ```{r}
 
 d1 %>%
-  tidyr::pivot_longer(
+  pivot_longer(
     cols = tidyselect::matches("w[0-9]_"),
                       names_to = c("wave", ".value"),
                       names_sep = "_",
@@ -161,7 +161,7 @@ The wide format above is not conducive for **calculating summary statistics by g
 ```{r}
 
 d5 %>%
-  tidyr::pivot_longer(
+  pivot_longer(
     cols = enroll_6:attend_7,
     names_to = c(".value", "grade"),
     names_sep = "_")
@@ -183,7 +183,7 @@ And we can now just name the column we want the grouping variable to be in, and 
 ```{r}
 
 d6 %>%
-  tidyr::pivot_longer(
+  pivot_longer(
     cols = -school,
     names_to = "grade",
     values_to = "enroll")
@@ -208,8 +208,7 @@ So first we will add "_stuid" to the end of all of the student identifier variab
 ```{r}
 
 d11 <- d11 %>%
-  dplyr::rename_with( ~
-                        stringr::str_c(., "_stuid"), .cols = stu1:stu2)
+  dplyr::rename_with(~stringr::str_c(., "_stuid"), .cols = stu1:stu2)
 
 ```
 
@@ -219,11 +218,61 @@ Now we can pivot using our same arguments from example #2, except now we can cha
 ```{r}
 
 d11 %>%
-  tidyr::pivot_longer(
+  pivot_longer(
     cols = stu1_stuid:stu2_q2,
                       names_to = c(NA, ".value"),
                       names_sep = "_")
 
 ```
+
+**6\. Restructure to one row per organization**
+
+Review the data (d12)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d12
+
+```
+
+In this example, a rater may rate up to 3 organizations in a row of data. We want each of these organizations to be on their own line.
+
+We are unable to use *names_sep* because the underscores in our variable names are used in different places, so we will use *names_pattern* again. We will also use the *values_drop_na* argument to remove any empty row that is created in our pivot process.
+
+```{r}
+
+d12 %>%
+  pivot_longer(
+    cols = -rater,
+    names_to = c("organization", ".value"),
+    names_pattern = "^(org[0-9]{1})_(.*)$",
+    values_drop_na = TRUE)
+
+```
+
+What if our data also contained additional variables to denote that a rater has another organization to rate (1 = yes, 0 = no), as in (d13)?
+
+We can use the same code, but remove the *values_drop_na* argument because now empty rows are not created.
+
+```{r, echo=FALSE}
+
+source("data.R")
+d13
+
+```
+
+```{r}
+
+d13 %>%
+  pivot_longer(
+    cols = -rater,
+    names_to = c("organization", ".value"),
+    names_pattern = "^(org[0-9]{1})_(.*)$")
+
+```
+
+
+
 
 Return to [Restructure](https://github.com/Cghlewis/data-wrangling-functions/wiki/Restructure)

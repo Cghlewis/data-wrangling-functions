@@ -91,3 +91,16 @@ d11 <- tibble::tribble(
   1001, 20, 21, 1, 1, 2, 1,
   1002, 25, 27, 2, 3, 2, 4,
   1004, 30, 23, 4, 3, 1, 2)
+
+d12 <- tribble(
+  ~rater, ~org1, ~org1_item1, ~org1_item2, ~org1_item2_text, ~org2, ~org2_item1, ~org2_item2, ~org2_item2_text, ~org3, ~org3_item1, ~org3_item2, ~org3_item2_text,
+  12, "Org1 Name", 1, 3, "interesting text", "Org2 Name", 2, 4, "other text",
+  "Org3 Name", 2, 1, ""
+)
+
+d13 <- tribble(
+  ~rater, ~org1_rate, ~org1_item1, ~org1_item2, ~org1_item2_text, ~org2_rate, ~org2_item1, ~org2_item2, ~org2_item2_text, ~org3_rate, ~org3_item1, ~org3_item2, ~org3_item2_text,
+  12, 1, 1, 3, "interesting text", 1, 2, 4, "other text",
+  1, 2, 1, ""
+)
+

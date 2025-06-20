@@ -401,7 +401,7 @@ selected.</p>
 all question, it can be very helpful to restructure these items into
 long format.</p>
 <pre class="r"><code>d9 %&gt;%
-  tidyr::pivot_longer(
+  pivot_longer(
     cols = contains(&quot;tool&quot;),
     names_to = &quot;tools&quot;,
     values_to = &quot;response&quot;
@@ -433,7 +433,7 @@ named for the response options and the responses given as 1 or NA.</p>
 with the “tools” column, potentially filtering data based on NA values
 in the “response” column.</p>
 <pre class="r"><code>d10 %&gt;%
-  tidyr::pivot_longer(
+  pivot_longer(
     cols = google_meet:other,
     names_to = &quot;tools&quot;,
     values_to = &quot;response&quot;
@@ -486,7 +486,7 @@ considered character since it contained “w” before we removed it. You
 may choose to convert that column type.</p></li>
 </ul>
 <pre class="r"><code>d1 %&gt;%
-  tidyr::pivot_longer(
+  pivot_longer(
     cols = tidyselect::matches(&quot;w[0-9]_&quot;),
                       names_to = c(&quot;wave&quot;, &quot;.value&quot;),
                       names_sep = &quot;_&quot;,
@@ -555,7 +555,7 @@ the variable name, we want to put that second in the <em>names_to</em>
 argument.</p></li>
 </ul>
 <pre class="r"><code>d5 %&gt;%
-  tidyr::pivot_longer(
+  pivot_longer(
     cols = enroll_6:attend_7,
     names_to = c(&quot;.value&quot;, &quot;grade&quot;),
     names_sep = &quot;_&quot;)</code></pre>
@@ -580,7 +580,7 @@ argument and we would no longer need to use “.value” for the
 be in, and we use the argument <em>values_to</em> rather than
 <em>names_sep</em> to state the name of the values column.</p>
 <pre class="r"><code>d6 %&gt;%
-  tidyr::pivot_longer(
+  pivot_longer(
     cols = -school,
     names_to = &quot;grade&quot;,
     values_to = &quot;enroll&quot;)</code></pre>
@@ -607,14 +607,13 @@ columns), we need to have similar patterns across all items.</p>
 <p>So first we will add “_stuid” to the end of all of the student
 identifier variables so the pattern will match the question items.</p>
 <pre class="r"><code>d11 &lt;- d11 %&gt;%
-  dplyr::rename_with( ~
-                        stringr::str_c(., &quot;_stuid&quot;), .cols = stu1:stu2)</code></pre>
+  dplyr::rename_with(~stringr::str_c(., &quot;_stuid&quot;), .cols = stu1:stu2)</code></pre>
 <p>Now we can pivot using our same arguments from example #2, except now
 we can change our first <em>names_to</em> value to NA (which discards
 the column), because we have no need for a column that tells us if the
 student was #1 or #2.</p>
 <pre class="r"><code>d11 %&gt;%
-  tidyr::pivot_longer(
+  pivot_longer(
     cols = stu1_stuid:stu2_q2,
                       names_to = c(NA, &quot;.value&quot;),
                       names_sep = &quot;_&quot;)</code></pre>
@@ -627,6 +626,55 @@ student was #1 or #2.</p>
 4   1002    27     3     4
 5   1004    30     4     1
 6   1004    23     3     2</code></pre>
+<p><strong>6. Restructure to one row per organization</strong></p>
+<p>Review the data (d12)</p>
+<pre><code># A tibble: 1 x 13
+  rater org1   org1_item1 org1_item2 org1_item2_text org2  org2_item1 org2_item2
+  &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+1    12 Org1 ~          1          3 interesting te~ Org2~          2          4
+# i 5 more variables: org2_item2_text &lt;chr&gt;, org3 &lt;chr&gt;, org3_item1 &lt;dbl&gt;,
+#   org3_item2 &lt;dbl&gt;, org3_item2_text &lt;chr&gt;</code></pre>
+<p>In this example, a rater may rate up to 3 organizations in a row of
+data. We want each of these organizations to be on their own line.</p>
+<p>We are unable to use <em>names_sep</em> because the underscores in
+our variable names are used in different places, so we will use
+<em>names_pattern</em> again. We will also use the
+<em>values_drop_na</em> argument to remove any empty row that is created
+in our pivot process.</p>
+<pre class="r"><code>d12 %&gt;%
+  pivot_longer(
+    cols = -rater,
+    names_to = c(&quot;organization&quot;, &quot;.value&quot;),
+    names_pattern = &quot;^(org[0-9]{1})_(.*)$&quot;,
+    values_drop_na = TRUE)</code></pre>
+<pre><code># A tibble: 3 x 5
+  rater organization item1 item2 item2_text        
+  &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;             
+1    12 org1             1     3 &quot;interesting text&quot;
+2    12 org2             2     4 &quot;other text&quot;      
+3    12 org3             2     1 &quot;&quot;                </code></pre>
+<p>What if our data also contained additional variables to denote that a
+rater has another organization to rate (1 = yes, 0 = no), as in
+(d13)?</p>
+<p>We can use the same code, but remove the <em>values_drop_na</em>
+argument because now empty rows are not created.</p>
+<pre><code># A tibble: 1 x 13
+  rater org1_rate org1_item1 org1_item2 org1_item2_text  org2_rate org2_item1
+  &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                &lt;dbl&gt;      &lt;dbl&gt;
+1    12         1          1          3 interesting text         1          2
+# i 6 more variables: org2_item2 &lt;dbl&gt;, org2_item2_text &lt;chr&gt;, org3_rate &lt;dbl&gt;,
+#   org3_item1 &lt;dbl&gt;, org3_item2 &lt;dbl&gt;, org3_item2_text &lt;chr&gt;</code></pre>
+<pre class="r"><code>d13 %&gt;%
+  pivot_longer(
+    cols = -rater,
+    names_to = c(&quot;organization&quot;, &quot;.value&quot;),
+    names_pattern = &quot;^(org[0-9]{1})_(.*)$&quot;)</code></pre>
+<pre><code># A tibble: 3 x 6
+  rater organization  rate item1 item2 item2_text        
+  &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;             
+1    12 org1             1     1     3 &quot;interesting text&quot;
+2    12 org2             1     2     4 &quot;other text&quot;      
+3    12 org3             1     2     1 &quot;&quot;                </code></pre>
 <p>Return to <a href="https://github.com/Cghlewis/data-wrangling-functions/wiki/Restructure">Restructure</a></p>
 </div>
 </div>

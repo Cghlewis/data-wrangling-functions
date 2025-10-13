@@ -162,4 +162,36 @@ d7 %>%
 
 ```
 
+---
+
+#### Function: `separate_wider_delim`
+
+---
+
+**1\. Split a variable into multiple variables at the commas **
+
+Review the data (d8)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d8
+
+```
+
+In this case, as is seen in Qualtrics exports, when there is a multi-select option item, all responses will export into the same column, with each selected option separated by a comma (with no space between options). If there is a space after a comma, that means it is part of the response selection (and should not be split). So in this example, I only want to split values into a new column if there is no space after the comma. 
+
+To do this, we can use `tidyr::separate_wider_delim`, along with regex, to get the pattern we need. I also don't know how many new columns we will get, so I will use the arguments *names_sep* and *too_few* to not predefine my columns.
+
+```{r}
+
+d8 %>%
+  tidyr::separate_wider_delim(var_a, 
+                              delim = stringr::regex(",(?!\\s)"),
+                              names_sep = "",
+                              too_few = "align_start")
+
+```
+
+
 Return to [Separate](https://github.com/Cghlewis/data-wrangling-functions/wiki/Separate)

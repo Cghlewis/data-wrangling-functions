@@ -85,3 +85,10 @@ d7 <- tibble::tribble(
   "School C", 2011, 660, NA,
   "School D", 2011, 260, 2)
 
+d8 <- tibble::tribble(
+  ~dist_id, ~sch_id, ~cat, ~count,
+  1, 10, "cat1", 20,
+  1, 10, "cat2", 13,
+  1, 11, "cat2", 30,
+  2, 10, "cat1", NA,
+  2, 10, "cat2", 25)

@@ -136,4 +136,35 @@ d2 %>%
 
 ```
 
+**2\. Create rows for any missing categories in the data**
+
+Review the data (d8)
+
+```{r, echo=FALSE}
+
+source("data.R")
+d8
+
+```
+
+In this data there are two situations
+- Categories with counts that are suppressed have a value of NA in the count column
+- Categories that have a count of 0 are not included in the data
+
+We want to make the implicit categories explicit by bringing in those categories with counts of 0
+
+There are a few additional arguments we are going to add in this time.
+
+*nesting* is added to account for the fact that both `dist_id` and `sch_id` make up unique rows
+*explicit* is added with a value of FALSE to denote that we want our existing NA values to remain NA since these are suppressed values
+
+```{r}
+
+d8 %>% 
+  tidyr::complete(nesting(dist_id, sch_id), cat, fill = list(count = 0),
+                  explicit = FALSE)
+
+```
+
+
 Return to [Complete](https://github.com/Cghlewis/data-wrangling-functions/wiki/Complete)

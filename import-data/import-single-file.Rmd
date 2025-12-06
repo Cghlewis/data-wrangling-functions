@@ -77,13 +77,22 @@ d <- readxl::read_excel("name-of-import.xlsx", sheet="Sheet2", skip=3, na="0")
 
 **3\. Read in an Excel file and skip the second row only**
 
-Use indexing *[]* to drop the second row. Indexing is [row,column].
+Here the second row of the file contains metadata that I don't want in my dataframe.
 
-* Note: Notice that I drop row 1 because [-1,] happens after R reads in the Excel file. The first row of the Excel file is read in as the column names (because I left the default *col_names=TRUE*) so the second row of the Excel file will become the first row of the R data frame
+First I am reading the file in and only grabbing the column names.
+
+Then I am reading the file in again, this time skipping the first two rows of data and then reassigning the names back to the dataframe. 
+
+This is the preferred method as opposed to reading the data in first and then dropping the second row because if we read the data in with the metadata, all of our columns will be read in as character columns. Instead, if we remove the 2nd row during import, our columns will be imported with the appropriate class. 
 
 ```{r, eval=FALSE}
 
-d <- readxl::read_excel("name-of-import.xlsx")[-1,]
+
+d_names <- readxl::read_excel("name-of-import.xlsx") %>%
+  names()
+
+d <- readxl::read_excel("name-of-import.xlsx", skip = 2, 
+                        col_names = d_names)
 
 ```
 

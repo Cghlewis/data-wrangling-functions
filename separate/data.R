@@ -59,3 +59,10 @@ d8 <- tibble::tribble(
   123456, "a,b,c, x",
   123678, "d,e",
   123789, "y, z")
+
+dictionary <- tribble(
+  ~var_name, ~var_label, ~var_type, ~var_values,
+  "tch_id", "Teacher study ID", "numeric", "100-200",
+  "t_age", "What is your age?", "numeric", "18-100",
+  "t_stress1", "How often have you felt nervous or stressed?", "numeric", "0 = Never | 1 = Almost Never | 2 = Sometimes | 3 = Fairly Often | 4 = Very Often"
+)

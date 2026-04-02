@@ -1,0 +1,54 @@
+---
+title: "Separate rows and columns"
+output: 
+  html_document:
+    toc: false
+    anchor_sections: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+<br>
+
+### Package: tidyr
+
+---
+
+#### Function: `separate_longer_delim()`, `separate_wider_delim()`
+
+---
+
+<br>
+
+**1\. Restructure a data dictionary into long format**
+
+Review the dictionary
+
+```{r, echo=FALSE}
+
+source("data.R")
+dictionary
+
+```
+
+Here I want to convert my wide formatted data dictionary into long format. I want all of my variables to repeat a row for each response option and I want each row to only show one response option.
+
+I also want the response option to be split out into a value column and a label column.
+
+So here I will use `separate_longer_delim()` to first put each response option on their own row. Then I use `separate_wider_delim()` to split the response option value and label into their own columns. If there are variables that only have one option (like the ID and age variables), I added the argument *too_few* to keep the values in the `value` column
+
+```{r}
+
+dictionary %>%
+  separate_longer_delim(var_values, delim = "| ") %>%
+  separate_wider_delim(var_values, delim = " = ", names = c("value", "value_label"), too_few = "align_start")
+
+```
+
+
+
+Return to [Separate](https://github.com/Cghlewis/data-wrangling-functions/wiki/Separate)

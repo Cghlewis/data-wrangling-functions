@@ -26,18 +26,18 @@ knitr::opts_chunk$set(comment = NA,
 
 ```{r, eval=FALSE}
 
-df <- haven::read_sav("name-of-import.sav")
+df <- haven::read_sav("name-of-import-file.sav")
 
 ```
 
 
-**2\. Read in an SPSS file with NA value labels**
+**2\. Read in an SPSS file with user defined missing values**
 
-* Note: If the file has user labelled missing values that you want to save, add the option *user_na=TRUE*. Otherwise the labelled NA values will be removed and read in as NA.
+* Note: If the file has user labelled missing values (e.g., -99 = not applicable) that you want to retain, add the argument *user_na=TRUE*. Otherwise the labelled missing values will be removed and read in as NA.
 
 ```{r, eval=FALSE}
 
-df <- haven::read_sav("file.sav", user_na=TRUE)
+df <- haven::read_sav("name-of-import-file.sav", user_na = TRUE)
 
 ```
 
@@ -52,7 +52,7 @@ df <- haven::read_sav("file.sav", user_na=TRUE)
 
 ```{r, eval=FALSE}
 
-haven::write_sav(df, "name-of-export.sav")
+haven::write_sav(df, "name-of-export-file.sav")
 
 ```
 
